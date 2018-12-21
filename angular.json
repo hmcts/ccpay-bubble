@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "pay-bubble-web": {
+    "ccpay-bubble": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/pay-bubble-web",
+            "outputPath": "dist/ccpay-bubble",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -61,18 +61,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pay-bubble-web:build"
+            "browserTarget": "ccpay-bubble:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "pay-bubble-web:build:production"
+              "browserTarget": "ccpay-bubble:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pay-bubble-web:build"
+            "browserTarget": "ccpay-bubble:build"
           }
         },
         "test": {
@@ -81,7 +81,7 @@
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "karmaConfig": "./karma.conf.js",
             "styles": [
               "src/styles.scss"
             ],
@@ -106,7 +106,7 @@
         }
       }
     },
-    "pay-bubble-web-e2e": {
+    "ccpay-bubble-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -115,11 +115,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "pay-bubble-web:serve"
+            "devServerTarget": "ccpay-bubble:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "pay-bubble-web:serve:production"
+              "devServerTarget": "ccpay-bubble:serve:production"
             }
           }
         },
@@ -135,5 +135,5 @@
       }
     }
   },
-  "defaultProject": "pay-bubble-web"
+  "defaultProject": "ccpay-bubble"
 }

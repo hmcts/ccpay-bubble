@@ -1,5 +1,5 @@
 {
-  "name": "pay-bubble-web",
+  "name": "ccpay-bubble",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,8 +7,9 @@
     "start:angular-dev": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build --prod",
     "ng:build": "yarn build",
-    "test": "ng test",
+    "test": "ng test --watch=false --code-coverage",
     "lint": "ng lint",
+    "rename": "node ./scripts/rename.js",
     "e2e": "ng e2e"
   },
   "private": true,
@@ -39,9 +40,13 @@
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~3.1.1",
     "karma-chrome-launcher": "~2.2.0",
+    "karma-cli": "1.0.1",
     "karma-coverage-istanbul-reporter": "~2.0.1",
+    "karma-intl-shim": "1.0.3",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-phantomjs-launcher": "1.0.4",
+    "karma-spec-reporter": "^0.0.32",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
