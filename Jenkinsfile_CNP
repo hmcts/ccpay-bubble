@@ -22,7 +22,7 @@ withPipeline("nodejs", product, component) {
     echo 'ccpay-bubble checked out'
   }
   after('build') {
-    sh 'yarn setup'
+    sh 'yarn ng:build'
   }
 
 }
