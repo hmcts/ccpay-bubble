@@ -1,0 +1,28 @@
+#!groovy
+
+properties(
+  [[$class: 'GithubProjectProperty', projectUrlStr: 'https://github.com/hmcts/ccfr-fees-register-admin-web.git'],
+   pipelineTriggers([[$class: 'GitHubPushTrigger']])]
+)
+
+@Library("Infrastructure")
+
+def product = "ccpay-bubble"
+def component = "frontend"
+
+withPipeline("nodejs", product, component) {
+
+  setVaultName('ccpay')
+  // enableDockerBuild()
+  // enableDeployToAKS()
+  enableSlackNotifications('#cc-payments-tech')
+
+  after('checkout') {
+    sh "yarn cache clean"
+    echo 'ccpay-bubble checked out'
+  }
+  after('build') {
+    sh 'yarn setup'
+  }
+
+}
