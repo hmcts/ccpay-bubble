@@ -59,6 +59,7 @@
     "karma-spec-reporter": "^0.0.32",
     "lcov-result-merger": "2.0.0",
     "protractor": "~5.4.0",
+    "sonar-scanner": "^3.0.3",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~3.1.6"
