@@ -11,12 +11,12 @@ locals {
 
   asp_name = "${var.core_product}-${var.env}"
 }
-
+/*
 data "azurerm_key_vault" "ccpaybubble_key_vault" {
   name = "${local.vaultName}"
   resource_group_name = "${local.vaultName}"
 }
-
+*/
 module "ccpay-bubble" {
   source   = "git@github.com:hmcts/moj-module-webapp?ref=master"
   product  = "${var.product}"
