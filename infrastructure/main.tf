@@ -12,6 +12,8 @@ locals {
   nonPreviewVaultName = "${var.product}-${var.env}"
 
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
+
+  asp_name = "${var.env == "prod" ? "payment-api-prod" : "${var.core_product}-${var.env}"}"
 }
 /*
 data "azurerm_key_vault" "ccpaybubble_key_vault" {
@@ -32,6 +34,8 @@ module "ccpay-bubble" {
   https_only = "true"
   capacity = "${var.capacity}"
   common_tags     = "${var.common_tags}"
+  asp_name = "${local.asp_name}"
+  asp_rg = "${local.asp_name}"
 
   app_settings = {
     // Logging vars
