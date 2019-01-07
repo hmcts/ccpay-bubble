@@ -13,7 +13,7 @@ locals {
 
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
 
-  asp_name = "${var.env == "prod" ? "payment-api-prod" : "${var.core_product}-${var.env}"}"
+  asp_name = "${var.env == "prod" ? "payment-api-prod" : "ccpay-aat"
 }
 /*
 data "azurerm_key_vault" "ccpaybubble_key_vault" {
