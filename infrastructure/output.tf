@@ -1,5 +1,5 @@
 output "vaultUri" {
-  value = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
+  value = "${data.azurerm_key_vault.ccpaybubble_key_vault.vault_uri}"
 }
 
 output "vaultName" {
