@@ -8,8 +8,6 @@ locals {
   nonPreviewVaultName = "${var.product}-${var.env}"
 
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
-
-  asp_name = "${var.core_product}-${var.env}"
 }
 /*
 data "azurerm_key_vault" "ccpaybubble_key_vault" {
