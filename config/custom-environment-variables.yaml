@@ -1,0 +1,23 @@
+security:
+  referrerPolicy: SECURITY_REFERRER_POLICY,
+  hpkp:
+    maxAge: SECURITY_HPKP_MAX_AGE,
+    pins: SECURITY_HPKP_PINS
+idam:
+  client_id: ccpay_bubble
+  client_secret: IDAM_CLIENT_SECRET
+  login_url: IDAM_AUTHENTICATION_WEB_URL
+  api_url: IDAM_API_URL
+ccpaybubble:
+  url: CCPAY_BUBBLE_API_URL
+certs:
+  key: CERTS_KEY
+  crt: CERTS_CRT
+session:
+  cookieName: JWT_BAR
+appInsights:
+  instrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
+e2e:
+  frontendUrl: E2E_FRONTEND_URL
+  waitForTimeoutValue: E2E_WAIT_FOR_TIMEOUT_VALUE
+  waitForActionValue: E2E_WAIT_FOR_ACTION_VALUE
