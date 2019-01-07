@@ -28,8 +28,6 @@ module "ccpay-bubble" {
   https_only = "true"
   capacity = "${var.capacity}"
   common_tags     = "${var.common_tags}"
-  asp_name = "${local.asp_name}"
-  asp_rg = "${local.asp_name}"
 
   app_settings = {
     // Logging vars
