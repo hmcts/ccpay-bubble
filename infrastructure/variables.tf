@@ -49,6 +49,6 @@ variable "common_tags" {
 
 variable "core_product" {
   type    = "string"
-  default = "ccpay"
+  default = "ccpay-bubble"
 }
 
