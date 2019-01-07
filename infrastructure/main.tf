@@ -32,7 +32,7 @@ module "ccpay-bubble" {
   env      = "${var.env}"
   ilbIp    = "${var.ilbIp}"
   subscription = "${var.subscription}"
-  is_frontend = "${var.env != "preview" ? 1: 0}"
+  is_frontend = "${var.is_frontend}"
   appinsights_instrumentation_key = "${var.appinsights_instrumentation_key}"
   additional_host_name = "${var.env != "preview" ? var.external_host_name : "null"}"
   https_only = "true"
