@@ -14,6 +14,9 @@ locals {
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
 
   asp_name = "${var.env == "prod" ? "payment-api-prod" : "ccpay-aat"}"
+
+  rgName= "ccpay-${var.env}"
+  vault_rg_name = "${(var.env == "preview" || var.env == "spreview") ? "ccpay-aat" : local.rgName}"
 }
 
 /*
@@ -36,7 +39,7 @@ module "ccpay-bubble" {
   capacity = "${var.capacity}"
   common_tags     = "${var.common_tags}"
   asp_name = "${local.asp_name}"
-  asp_rg = "${local.asp_name}"
+  asp_rg = "${local.rgName}"
 
   app_settings = {
     // Logging vars
