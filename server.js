@@ -72,6 +72,9 @@ module.exports = (security, appInsights) => {
     });
   }
 
+  // enable the dist folder to be accessed statically
+  app.use(express.static('dist'));
+
   app.use(errorHandler);
 
   const duration = Date.now() - startTime;
