@@ -1,5 +1,5 @@
-const config = require('config');
-const appInsights = require('applicationinsights');
+import * as config from 'config';
+import * as appInsights from 'applicationinsights';
 
 module.exports = {
   enable() {
