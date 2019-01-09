@@ -3,7 +3,10 @@ const appInsights = require('applicationinsights');
 
 module.exports = {
   enable() {
+    const dummy = config.get('idam.client_id');
+    console.log('dummy: ' + dummy);
     const ikey = config.get('appInsights.instrumentationKey');
+    console.log('ikey: ' + ikey);
     appInsights.setup(ikey)
       .setAutoDependencyCorrelation(true)
       .setAutoCollectRequests(true)
