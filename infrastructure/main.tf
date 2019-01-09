@@ -42,6 +42,7 @@ module "ccpay-bubble" {
   asp_rg = "${local.rgName}"
 
   app_settings = {
+    E2E_FRONTEND_URL = "${TEST_URL}"
     // Logging vars
     REFORM_TEAM = "${var.product}"
     REFORM_SERVICE_NAME = "${var.microservice}"
