@@ -1,3 +1,5 @@
+const CONF = require('config');
+
 exports.config = {
   name: 'ccpaybubble-smoke-test',
   tests: './test/smoke-test.js',
@@ -5,7 +7,7 @@ exports.config = {
   output: './output',
   helpers: {
     Puppeteer: {
-      url: `${TEST_URL}/health`,
+      url: `${CONF.e2e.frontendUrl}/health`,
       show: false,
       restart: false,
       keepCookies: false,
