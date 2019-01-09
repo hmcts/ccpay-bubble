@@ -17,7 +17,8 @@
     "lint": "ng lint",
     "rename": "node ./scripts/rename.js",
     "e2e": "ng e2e",
-    "test:smoke": "codeceptjs run -c smoke-test/smoke-codecept.conf.js --reporter mochawesome --bail",
+    "test:smoke": "./bin/run-smoke-test.sh",
+    "test:smoketest": "codeceptjs run -c smoke-test/smoke-codecept.conf.js --reporter mochawesome --bail",
     "test:functional": "echo 'TODO: Functional tests'",
     "test:acceptance": "echo 'TODO: Acceptance tests'",
     "sonar-scan": "sonar-scanner"
