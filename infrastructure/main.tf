@@ -13,7 +13,7 @@ locals {
 
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
 
-  asp_name = "${var.env == "prod" ? "payment-api-prod" : "ccpay-aat"}"
+  asp_name = "${var.env == "prod" ? "fees-register-frontend-prod" : "ccpay-aat"}"
 
   rgName= "ccpay-${var.env}"
   vault_rg_name = "${(var.env == "preview" || var.env == "spreview") ? "ccpay-aat" : local.rgName}"
