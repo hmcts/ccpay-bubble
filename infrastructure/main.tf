@@ -46,5 +46,6 @@ module "ccpay-bubble" {
     REFORM_TEAM = "${var.product}"
     REFORM_SERVICE_NAME = "${var.microservice}"
     REFORM_ENVIRONMENT = "${var.env}"
+    dummy = "dummy"
   }
 }
