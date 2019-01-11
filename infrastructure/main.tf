@@ -40,6 +40,7 @@ module "ccpay-bubble" {
   common_tags     = "${var.common_tags}"
   asp_name = "${local.asp_name}"
   asp_rg = "${local.rgName}"
+  dummy = "dummy"
 
   app_settings = {
     // Logging vars
