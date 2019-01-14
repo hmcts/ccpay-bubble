@@ -8,6 +8,9 @@ locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
 
+  local_resource_group_name = "${var.env == "prod" ? "payment-api-prod" : "${var.resource_group_name}"}"
+
+
   previewVaultName = "${var.product}-aat"
   nonPreviewVaultName = "${var.product}-${var.env}"
 
@@ -40,6 +43,7 @@ module "ccpay-bubble" {
   common_tags     = "${var.common_tags}"
   asp_name = "${local.asp_name}"
   asp_rg = "${local.rgName}"
+  resource_group_name = "${local.local_resource_group_name}"
 
   app_settings = {
     // Logging vars
