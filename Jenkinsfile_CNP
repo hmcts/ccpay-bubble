@@ -7,8 +7,8 @@ properties(
 
 @Library("Infrastructure")
 
-def product = "ccpay"
-def component = "bubble"
+def product = "ccpay-bubble"
+def component = "frontend"
 
 withPipeline("nodejs", product, component) {
 
