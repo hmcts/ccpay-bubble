@@ -5,14 +5,9 @@ const cookieParser = require('cookie-parser');
 const HttpStatus = require('http-status-codes');
 const express = require('express');
 const app = express();
+const moment = require('moment');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 const errorFactory = ApiErrorFactory('server.js');
-
-if (process.env.NODE_ENV === 'development') {
-  csrfProtection = (req, res, next) => {
-    next();
-  };
-}
 
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
