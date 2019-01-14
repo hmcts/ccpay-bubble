@@ -8,9 +8,6 @@ locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
 
-  local_resource_group_name = "${var.env == "prod" ? "payment-api-prod" : "${var.resource_group_name}"}"
-
-
   previewVaultName = "${var.product}-aat"
   nonPreviewVaultName = "${var.product}-${var.env}"
 
@@ -21,6 +18,17 @@ locals {
   rgName= "ccpay-${var.env}"
   vault_rg_name = "${(var.env == "preview" || var.env == "spreview") ? "ccpay-aat" : local.rgName}"
 }
+
+# Create a resource group
+resource "azurerm_resource_group" "rg" {
+  name     = "${var.resource_group_name}"
+  location = "${var.location}"
+
+  tags = "${merge(var.common_tags,
+    map("lastUpdated", "${timestamp()}")
+    )}"
+}
+
 
 /*
 data "azurerm_key_vault" "ccpaybubble_key_vault" {
