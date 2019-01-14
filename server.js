@@ -59,7 +59,7 @@ module.exports = (security, appInsights) => {
 
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
   app.use('/health', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
-  app.use('/', (req, res) => res.render('/dist/index.html'));
+  app.use('/', (req, res) => res.render('/dist/ccpay-bubble/index.html'));
 
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"
@@ -75,7 +75,7 @@ module.exports = (security, appInsights) => {
   // fallback to this route (so that Angular will handle all routing)
   app.get('**',
     (req, res) => {
-      res.render('/dist/index.html');
+      res.render('/dist/ccpay-bubble/index.html');
     });
 
   // enable the dist folder to be accessed statically
