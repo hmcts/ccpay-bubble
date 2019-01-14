@@ -9,7 +9,7 @@ idam:
   login_url: IDAM_AUTHENTICATION_WEB_URL
   api_url: IDAM_API_URL
 ccpaybubble:
-  url: CCPAY_BUBBLE_API_URL
+  url: CCPAY_BUBBLE_URL
 certs:
   key: CERTS_KEY
   crt: CERTS_CRT

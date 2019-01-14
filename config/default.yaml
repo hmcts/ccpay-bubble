@@ -8,7 +8,7 @@ idam:
 session:
   cookieName: BAR
 ccpaybubble:
-  url: http://localhost:8080
+  url: http://localhost:4200
   defaultPort: 3000
 appInsights:
   instrumentationKey: some-key
