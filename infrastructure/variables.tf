@@ -56,3 +56,9 @@ variable "core_product" {
   default = "ccpay"
 }
 
+variable "resource_group_name" {
+  type        = "string"
+  default     = ""
+  description = "Resource group name for the web application. If empty, the default will be set"
+}
+
