@@ -8,6 +8,7 @@ const security = appInsights =>
     loginUrl: config.idam.login_url,
     registrationUrl: config.idam.registration_url,
     apiUrl: config.idam.api_url,
+    ccpayBubbleUrl: config.ccpaybubble.url,
     redirectUri: '/oauth2/callback',
     appInsights
   });

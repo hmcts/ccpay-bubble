@@ -122,22 +122,15 @@ function handleCookie(req) {
   return null;
 }
 
-Security.prototype.logout = function logout() {
-  const self = { opts: this.opts };
+
+
+Security.prototype.homeScreen = function homeScreen() {
 
   // eslint-disable-next-line no-unused-vars
-  return function ret(req, res, next) {
-    const token = req.cookies[constants.SECURITY_COOKIE];
-
-    res.clearCookie(constants.SECURITY_COOKIE);
-    res.clearCookie(constants.REDIRECT_COOKIE);
-    res.clearCookie(constants.USER_COOKIE);
-
-    if (token) {
-      res.redirect(`${self.opts.loginUrl}/logout?jwt=${token}`);
-    } else {
-      res.redirect(`${self.opts.loginUrl}/logout`);
-    }
+  return function ret(req, res) {
+    const originalUrl = self.opts.ccpayBubbleUrl;
+    const url = URL.parse(originalUrl, true);
+    return res.redirect(url.format());
   };
 };
 

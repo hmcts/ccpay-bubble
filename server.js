@@ -57,9 +57,9 @@ module.exports = (security, appInsights) => {
   app.set('view engine', 'pug');
   app.set('views', path.join(__dirname, 'express/mvc/views'));
 
-  app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
   app.use('/health', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
+  app.use('/', security.OAuth2CallbackEndpoint());
 
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"
@@ -71,6 +71,12 @@ module.exports = (security, appInsights) => {
       next();
     });
   }
+
+  // fallback to this route (so that Angular will handle all routing)
+  app.get('**',
+    (req, res) => {
+      res.render('/dist/index.html');
+    });
 
   // enable the dist folder to be accessed statically
   app.use(express.static('dist'));
