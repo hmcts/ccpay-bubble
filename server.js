@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const HttpStatus = require('http-status-codes');
 const express = require('express');
 const app = express();
+const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 
 if (process.env.NODE_ENV === 'development') {
   csrfProtection = (req, res, next) => {
