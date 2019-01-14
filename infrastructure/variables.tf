@@ -8,6 +8,11 @@ variable "location" {
   default = "UK South"
 }
 
+variable "microservice" {
+  type = "string"
+  default = "ccpay-bubble"
+}
+
 variable "env" {}
 
 variable "subscription" {}
