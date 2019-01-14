@@ -3,42 +3,12 @@ provider "azurerm" {
 }
 
 locals {
-
-  default_resource_group_name = "${var.product}-${var.env}"
-  resource_group_name         = "${var.resource_group_name != "" ? var.resource_group_name : local.default_resource_group_name}"
   aseName = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
-
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
 
-  previewVaultName = "${var.product}-aat"
-  nonPreviewVaultName = "${var.product}-${var.env}"
-
-  vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
-
-  asp_name = "${var.env == "prod" ? "ccpay-prod" : "ccpay-aat"}"
-
-  rgName= "ccpay-${var.env}"
-  vault_rg_name = "${(var.env == "preview" || var.env == "spreview") ? "ccpay-aat" : local.rgName}"
+  asp_name = "ccpay-${var.env}"
 }
-
-# Create a resource group
-resource "azurerm_resource_group" "rg" {
-  name     = "${var.resource_group_name}"
-  location = "${var.location}"
-
-  tags = "${merge(var.common_tags,
-    map("lastUpdated", "${timestamp()}")
-    )}"
-}
-
-
-/*
-data "azurerm_key_vault" "ccpaybubble_key_vault" {
-  name = "${local.vaultName}"
-  resource_group_name = "${local.vaultName}"
-}
-*/
 module "ccpay-bubble" {
   source   = "git@github.com:hmcts/moj-module-webapp?ref=master"
   product  = "${var.product}"
@@ -53,13 +23,12 @@ module "ccpay-bubble" {
   capacity = "${var.capacity}"
   common_tags     = "${var.common_tags}"
   asp_name = "${local.asp_name}"
-  asp_rg = "${local.rgName}"
+  asp_rg = "${local.asp_name}"
 
   app_settings = {
     // Logging vars
     REFORM_TEAM = "${var.product}"
     REFORM_SERVICE_NAME = "${var.microservice}"
     REFORM_ENVIRONMENT = "${var.env}"
-    dummy = "dummy"
   }
 }

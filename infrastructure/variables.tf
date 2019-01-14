@@ -44,21 +44,10 @@ variable "capacity" {
 }
 
 variable "is_frontend" {
-  default = false
+  default = true
 }
 
 variable "common_tags" {
   type = "map"
-}
-
-variable "core_product" {
-  type    = "string"
-  default = "ccpay"
-}
-
-variable "resource_group_name" {
-  type        = "string"
-  default     = ""
-  description = "Resource group name for the web application. If empty, the default will be set"
 }
 
