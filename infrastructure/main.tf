@@ -11,7 +11,7 @@ locals {
 }
 module "ccpay-bubble" {
   source   = "git@github.com:hmcts/moj-module-webapp?ref=master"
-  product  = "${var.product}"
+  product  = "${var.product}-frontend"
   location = "${var.location}"
   env      = "${var.env}"
   ilbIp    = "${var.ilbIp}"
