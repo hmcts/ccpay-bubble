@@ -3,6 +3,9 @@ provider "azurerm" {
 }
 
 locals {
+
+  default_resource_group_name = "${var.product}-${var.env}"
+  resource_group_name         = "${var.resource_group_name != "" ? var.resource_group_name : local.default_resource_group_name}"
   aseName = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
 
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
