@@ -23,8 +23,6 @@ function errorHandler(err, req, res, next) {
       error = errorFactory.createServerError(err);
     }
     const msg = JSON.stringify({ error: error.toString(), cause: error.remoteError ? error.remoteError.toString() : '' });
-    Logger.getLogger(`CCPAY-BUBBLE: ${error.fileName || 'server.js'} -> error`).info(msg);
-    Logger.getLogger(`CCPAY-BUBBLE: ${error.fileName || 'server.js'} -> error`).info(JSON.stringify(err));
     if (req.xhr) {
       res.status(error.status).send({ error: error.remoteError || error.message });
     } else {
