@@ -24,10 +24,13 @@ module.exports = (security, appInsights) => {
   app.use(helmet.frameguard());
   app.use(helmet.xssFilter());
 
+  app.set('view engine', 'pug');
+  app.set('views', path.join(__dirname, 'express/mvc/views'));
+
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
   app.use('/health', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
-  // app.use('/', (req, res) => res.render('dist/ccpay-bubble/index.html'));
-  app.use('/', (req, res) => res.sendFile(path.join(__dirname + '/express/mvc/views/index.html')));
+  app.use('/', (req, res) => res.render('index'));
+ // app.use('/', (req, res) => res.sendFile(path.join(__dirname + '/express/mvc/views/index.html')));
 
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"
@@ -43,7 +46,7 @@ module.exports = (security, appInsights) => {
   // fallback to this route (so that Angular will handle all routing)
   app.get('**',
     (req, res) => {
-      res.sendFile(path.join(__dirname + '/express/mvc/views/index.html'));
+      res.render('index'));
     });
 
   // enable the dist folder to be accessed statically
