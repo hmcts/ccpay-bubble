@@ -5,31 +5,6 @@ const cookieParser = require('cookie-parser');
 const HttpStatus = require('http-status-codes');
 const express = require('express');
 const app = express();
-const moment = require('moment');
-const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
-const errorFactory = ApiErrorFactory('server.js');
-
-// eslint-disable-next-line no-unused-vars
-function errorHandler(err, req, res, next) {
-    let error = null;
-    if (err instanceof ApiCallError) {
-      error = err;
-    } else {
-      error = errorFactory.createServerError(err);
-    }
-    const msg = JSON.stringify({ error: error.toString(), cause: error.remoteError ? error.remoteError.toString() : '' });
-    if (req.xhr) {
-      res.status(error.status).send({ error: error.remoteError || error.message });
-    } else {
-      res.status(error.status);
-      res.render('error', {
-        title: error.status,
-        message: error.detailedMessage,
-        msg,
-        moment
-      });
-    }
-  }
 
 
 module.exports = (security, appInsights) => {
@@ -75,8 +50,6 @@ module.exports = (security, appInsights) => {
 
   // enable the dist folder to be accessed statically
   app.use(express.static('dist'));
-
-  app.use(errorHandler);
 
   const duration = Date.now() - startTime;
 
