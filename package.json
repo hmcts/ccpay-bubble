@@ -7,7 +7,7 @@
     "start:angular-dev": "ng serve --proxy-config proxy.conf.json",
     "start:express-dev": "cross-env NODE_ENV=development IGNORE_CERTS=true nodemon --inspect start.js",
     "start:express-prod": "cross-env IGNORE_CERTS=true nodemon --inspect start.js",
-    "build": "ng build --prod",
+    "build": "ng build --prod && yarn pugit dist/ccpay-bubble/index.html --output express/mvc/views/index.pug",
     "ng:build": "yarn build",
     "test:coverage": "yarn merge-lcov && yarn copy-lcov",
     "merge-lcov": "cross-env lcov-result-merger './coverage/lcov-*.info' './coverage/lcov.info'",
