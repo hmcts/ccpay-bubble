@@ -24,6 +24,7 @@ module.exports = (security, appInsights) => {
   app.use(helmet.frameguard());
   app.use(helmet.xssFilter());
 
+  app.engine('pug', require('pug').__express)
   app.set('view engine', 'pug');
   app.set('views', path.join(__dirname, 'express/mvc/views'));
 
