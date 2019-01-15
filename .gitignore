@@ -38,6 +38,8 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+Reset
+express/mvc/views/index.pug
 
 # System Files
 .DS_Store
