@@ -24,10 +24,6 @@ module.exports = (security, appInsights) => {
   app.use(helmet.frameguard());
   app.use(helmet.xssFilter());
 
-  app.engine('pug', require('pug').__express)
-  app.set('view engine', 'pug');
-  app.set('views', path.join(__dirname, 'express/mvc/views'));
-
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
   app.use('/health', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
   app.use('/', (req, res) => res.render('dist/ccpay-bubble/index.html'));
