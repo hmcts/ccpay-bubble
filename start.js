@@ -1,4 +1,4 @@
-const security = require('./express/infrastructure/security-factory');
+// const security = require('./express/infrastructure/security-factory');
 const { enable } = require('./app-insights');
 
 const appInsights = enable();
@@ -8,7 +8,7 @@ appInsights.setAuthenticatedUserContext = userId => {
   appInsights.defaultClient.context.tags[key] = validatedId;
 };
 
-const app = require('./server')(security(appInsights), appInsights),
+const app = require('./server')(appInsights),
   config = require('config'),
   fs = require('fs'),
   defaultPort = '3000',
