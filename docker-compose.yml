@@ -1,0 +1,18 @@
+version: '1.0'
+
+services:
+  ccpay-bubble:
+    build:
+      context: .
+      args:
+      - http_proxy
+      - https_proxy
+      - no_proxy
+    image: hmcts.azurecr.io/hmcts/ccpay-bubble
+    container_name: ccpay-bubble
+    environment:
+    - REFORM_TEAM=ccpay-bubble
+    - REFORM_SERVICE_NAME=ccpay-bubble
+    - REFORM_ENVIRONMENT=preview
+    ports:
+    - 8080

@@ -26,7 +26,7 @@ module "ccpay-bubble" {
   asp_rg = "${local.asp_name}"
 
   app_settings = {
-    CCPAY_BUBBLE_URL = "https://ccpay-bubble-frontend-${var.env}.service.core-compute-${var.env}.internal/home"
+    CCPAY_BUBBLE_URL = "https://ccpay-bubble-frontend-${var.env}.service.core-compute-${var.env}.internal/"
 
     // Logging vars
     REFORM_TEAM = "${var.product}"
