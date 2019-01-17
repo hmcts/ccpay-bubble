@@ -1,3 +1,10 @@
-p {
-    border: 0ch;
-}
+.form-group {}
+.form-group__content { max-width: 650px; }
+.form-group__content::after { clear: both; content: ''; display: table; }
+
+.button-grid {}
+.button-grid__button .button { float: left; }
+.button-grid__button .button.button-cancel { background: #BFC1C3; margin-right: 25px; }
+.button-grid__button .button.button-add { background: #2B8CC4; margin-right: 25px; }
+.button-grid__button .button.button-view {  }
+.button-grid__button [disabled] { opacity: .5; }

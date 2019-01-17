@@ -5,7 +5,8 @@ import { AddFeeDetailComponent } from '../components/add-fee-detail/add-fee-deta
 const routes: Routes = [
   { path: 'addFeeDetail',
     component: AddFeeDetailComponent
-  }
+  },
+  { path: '**', redirectTo: 'addFeeDetail' }
 ];
 
 @NgModule({
