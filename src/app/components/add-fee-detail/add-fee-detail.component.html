@@ -1,3 +1,44 @@
-<p>
-  add-fee-detail works!
-</p>
+<div>
+  <h1 class="heading-xlarge">Add fee details</h1>
+
+  <form (submit)="onFormSubmission($event)">
+    <div class="form-group">
+      <fieldset class="inline">
+        <legend>
+          <h1 class="heading-small">
+            Enter CCD Case Reference
+          </h1>
+          <h2>
+            For example: 1111-2222-3333-4444
+          </h2>
+        </legend>
+      </fieldset>
+    </div>
+    <div class="form-group">
+      <input class="form-control" autocomplete="off" id="case-reference" name="case-reference" type="text">
+    </div>
+    <div class="form-group">
+      <fieldset class="inline">
+        <legend>
+          <h1 class="heading-small">
+            Select fee
+          </h1>
+        </legend>
+      </fieldset>
+    </div>
+    <div class="form-group">
+      <fieldset class="inline">
+        <legend>
+          <span><a href="#">Show help with fees</a></span>
+        </legend>
+      </fieldset>
+    </div>
+    <div class="form-group">
+      <div class="button-grid__button">
+        <button class="button button-view" type="submit">
+          Continue
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
