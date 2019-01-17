@@ -27,6 +27,9 @@ module.exports = (appInsights) => {
   app.set('view engine', 'pug');
   app.set('views', path.join(__dirname, 'express/mvc/views'));
 
+  // enable the dist folder to be accessed statically
+  app.use('/assets', express.static('dist'));
+
   // app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
   app.use('/health', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
   app.use('/', (req, res) => res.render('index'));
@@ -47,9 +50,6 @@ module.exports = (appInsights) => {
     (req, res) => {
       res.render('index');
     });
-
-  // enable the dist folder to be accessed statically
-  app.use(express.static(__dirname + 'dist'));
 
   const duration = Date.now() - startTime;
 
