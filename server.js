@@ -28,7 +28,7 @@ module.exports = (appInsights) => {
   app.set('views', path.join(__dirname, 'express/mvc/views'));
 
   // enable the dist folder to be accessed statically
-  app.use('/assets', express.static('dist'));
+  app.use(express.static('dist/ccpay-bubble'));
 
   // app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
   app.use('/health', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
