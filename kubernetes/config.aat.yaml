@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${SERVICE_NAME}-config
+  namespace: ${NAMESPACE}
+data:
+  REFORM_TEAM: "ccpay-bubble"
+  REFORM_SERVICE_NAME: "ccpay-bubble"
+  REFORM_ENVIRONMENT: "preview"
+  IGNORE_CERTS: "true"
+  SKIP_FUNCTIONAL_TEST: "0"
+  SLOT: "PRODUCTION"

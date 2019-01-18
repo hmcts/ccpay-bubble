@@ -1,0 +1,14 @@
+hr { background: linear-gradient(to right, transparent, #bbb, transparent); border: 0; height: 1px; }
+
+.login { font-family: 'arial', sans-serif; margin: auto; width: 100%; }
+
+.text {
+  padding: 5px;
+  &-left { text-align: left; }
+  &-center { text-align: center; }
+  &-right { text-align: right; }
+}
+
+.help-info { margin-top: 50px; }
+
+#footer { display: block; }

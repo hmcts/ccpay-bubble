@@ -1,0 +1,45 @@
+.button-grid {
+  list-style-type: none;
+  margin-bottom: 20px;
+
+  &--center { text-align: center; }
+  &--left { text-align: left; }
+  &--right { text-align: right; }
+
+  &__button {
+    display: inline-block;
+
+    .content {
+      padding: 10px;
+
+      &--ptb { padding: 10px 0; } // padding-top-bottom
+      &--plr { padding: 0 10px; } // padding-left-right
+    }
+
+    &:first-of-type {
+      .content { padding-left: 0; }
+    }
+    &:last-of-type {
+      .content { padding-right: 0; }
+    }
+
+    button {
+      border: 0;
+      color: $page-colour;
+      &:hover { border: 0; color: $page-colour; }
+    }
+  }
+}
+
+.button-action {
+  background: $panel-colour;
+  color: $text-colour;
+  &:hover { background: $border-colour; color: $text-colour; }
+  &[disabled]:hover { background: $panel-colour; color: $text-colour; }
+}
+
+.button-link {
+  background: $highlight-colour;
+  color: $text-colour;
+  &:hover { background: $panel-colour; color: $text-colour; }
+}
