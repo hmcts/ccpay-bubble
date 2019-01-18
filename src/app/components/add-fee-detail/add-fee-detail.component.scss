@@ -1,7 +1,18 @@
-.form-group__content { max-width: 650px; }
+.form-group__content { max-width: 100%; }
 .form-group__content::after { clear: both; content: ''; display: table; }
 
 .button-grid__button .button { float: left; }
 .button-grid__button .button.button-cancel { background: #BFC1C3; margin-right: 25px; }
 .button-grid__button .button.button-add { background: #2B8CC4; margin-right: 25px; }
 .button-grid__button [disabled] { opacity: .5; }
+
+.fee-list {
+    font-size: 16px;
+    background-color: white;
+    width: 900px;
+    overflow-y: scroll;
+}
+
+.help-text {
+    color: gray;
+}

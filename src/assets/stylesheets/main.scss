@@ -98,6 +98,11 @@ footer { display: block; }
     clear: none;
     float: left;
     width: 40%;
+
+    input { 
+      margin-top: 5px;
+      position: static;
+    }
   }
 
   &::after {
