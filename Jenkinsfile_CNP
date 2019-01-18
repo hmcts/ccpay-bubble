@@ -13,8 +13,8 @@ def component = "frontend"
 withPipeline("nodejs", product, component) {
 
   setVaultName('ccpay')
-  // enableDockerBuild()
-  // enableDeployToAKS()
+  enableDockerBuild()
+  enableDeployToAKS()
   enableSlackNotifications('#cc-payments-tech')
 
   after('checkout') {
