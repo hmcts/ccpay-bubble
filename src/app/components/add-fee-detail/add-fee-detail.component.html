@@ -1,0 +1,146 @@
+<div>
+  <h1 class="heading-xlarge">Add fee details</h1>
+
+  <form>
+    <div class="form-group">
+      <fieldset class="inline">
+        <legend>
+          <h1 class="heading-small">
+            Enter CCD Case Reference
+          </h1>
+          <h2 class="help-text">
+            For example: 1111-2222-3333-4444
+          </h2>
+        </legend>
+      </fieldset>
+    </div>
+    <div class="form-group">
+      <input class="form-control" autocomplete="off" id="case-reference" name="case-reference" type="text">
+    </div>
+    <div class="form-group">
+      <fieldset>
+        <legend>
+          <h1 class="heading-small">
+            Select fee
+          </h1>
+        </legend>
+        <div class="fee-list">
+          <table>
+            <thead>
+              <tr>
+                <th>Fee code</th>
+                <th>Fee name</th>
+                <th>Fee description</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="multiple-choice">
+                    <input id="fee" name="fee" type="radio" value="FEE001"/>
+                    <label for="fee">FEE001</label>
+                  </div>
+                </td>
+                <td>Application for Divorce</td>
+                <td>Application for Divorce</td>
+                <td>£550</td>
+              </tr>
+              <tr>
+                  <td>
+                    <div class="multiple-choice">
+                      <input id="fee" name="fee" type="radio" value="FEE0387"/>
+                      <label for="fee">FEE0387</label>
+                    </div>
+                  </td>
+                  <td>Defend Divorce</td>
+                  <td>Originating proceedings where no other fee is specified</td>
+                  <td>£245</td>
+              </tr>
+              <tr>
+                  <td>
+                    <div class="multiple-choice">
+                      <input id="fee" name="fee" type="radio" value="FEE0232"/>
+                      <label for="fee">FEE0232</label>
+                    </div>
+                  </td>
+                  <td>Divorce Amend Petition</td>
+                  <td>Amendment of application for matrimonial/civil partnership order</td>
+                  <td>£95</td>
+              </tr>
+              <tr>
+                  <td>
+                    <div class="multiple-choice">
+                      <input id="fee" name="fee" type="radio" value="FEE0270"/>
+                      <label for="fee">FEE0270</label>
+                    </div>
+                  </td>
+                  <td>Divorce Financial Consent Order</td>
+                  <td>Application for decree nisi conditional order seperation order (no fee if undefended)</td>
+                  <td>£50</td>
+              </tr>
+              <tr>
+                  <td>
+                    <div class="multiple-choice">
+                      <input id="fee" name="fee" type="radio" value="FEE0391"/>
+                      <label for="fee">FEE0391</label>
+                    </div>
+                  </td>
+                  <td>Bailiff Service</td>
+                  <td>Request for a service by a bailiff document (see order for exceptions)</td>
+                  <td>£110</td>
+              </tr>
+              <tr>
+                  <td>
+                    <div class="multiple-choice">
+                      <input id="fee" name="fee" type="radio" value="FEE0229"/>
+                      <label for="fee">FEE0229</label>
+                    </div>
+                  </td>
+                  <td>Divorce Submit Form A</td>
+                  <td>Application for a financial order</td>
+                  <td>£255</td>
+              </tr>
+              <tr>
+                  <td>
+                    <div class="multiple-choice">
+                      <input id="fee" name="fee" type="radio" value="FEE0228"/>
+                      <label for="fee">FEE0228</label>
+                    </div>
+                  </td>
+                  <td>Divorce Use Non-Residential Address</td>
+                  <td>Application (without notice)</td>
+                  <td>£50</td>
+              </tr>
+              <tr>
+                  <td>
+                    <div class="multiple-choice">
+                      <input id="fee" name="fee" type="radio" value="FEE002"/>
+                      <label for="fee">FEE002</label>
+                    </div>
+                  </td>
+                  <td>Copies of Documents</td>
+                  <td>Additional copies of documentation</td>
+                  <td>£0.50</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </fieldset>
+    </div>
+    <div class="form-group">
+      <fieldset class="inline">
+        <legend>
+          <span><a href="#">Show help with fees</a></span>
+        </legend>
+      </fieldset>
+    </div>
+    <div class="form-group">
+      <div class="button-grid__button">
+        <button class="button button-view" type="submit">
+          Continue
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

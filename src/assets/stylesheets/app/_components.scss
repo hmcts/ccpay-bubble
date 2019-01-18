@@ -1,0 +1,86 @@
+.content-wrapper {
+  padding: 20px 0;
+}
+
+.pt-0 {
+  margin: 0;
+  padding: 0;
+}
+
+.payment-count {
+  width: 100%;
+
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+
+  &__card {
+    background: $panel-colour;
+    color: $link-colour;
+    float: left;
+    margin-right: 20px;
+    max-width: 180px;
+    width: 100%;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.6;
+    }
+  }
+
+  .content {
+    padding: 0 10px;
+
+    h3 { 
+      font-size: 45px; 
+      font-weight: bold; 
+      padding: 0; 
+    }
+    
+    p { 
+      font-size: 14pt;
+      font-weight: bold;
+      margin: 0 0 10px;
+      padding: 0; 
+    }
+  }
+}
+
+table.check-and-submit * {
+  font-size: 14px;
+}
+
+table.check-and-submit .multiple-choice {
+  float: none;
+  padding: 0;
+  position: relative;
+  top: 10px;
+  
+  input { 
+    margin-top: 5px;
+    position: static;
+  }
+}
+
+
+.tabular-grid { 
+  display: block;
+
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+
+  &__one-quarter {
+    float: left;
+    width: 25%;
+  }
+  &__three-quarters {
+    float: left;
+    width: 75%;
+  }
+}
+

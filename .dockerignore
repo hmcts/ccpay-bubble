@@ -1,0 +1,16 @@
+# exclude all by default
+
+*
+
+# exceptions from `exclude all` rule
+
+!package.json
+!yarn.lock
+
+!start.js
+!server.js
+!config/**
+!express/**
+!data/**
+!app-insights.js
+!dist/**
