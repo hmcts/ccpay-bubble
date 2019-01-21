@@ -1,0 +1,69 @@
+{
+  "extends": "@hmcts",
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2017
+  },
+  "rules": {
+    "id-blacklist": [
+      "off"
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "no-mixed-requires": [
+      "off"
+    ],
+    "complexity": [
+      "off"
+    ],
+    "no-undef": [
+      "off"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 100,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreComments": true,
+        "ignoreTrailingComments": true,
+        "ignoreRegExpLiterals": true,
+        "ignorePattern": ".*exports.*=.*class.*|.*if \\(.*\\)|.*\\?.*\\:.*|.*\\|\\|.*|.*\\&\\&.*"
+      }
+    ],
+    "no-process-env": "off",
+    "no-magic-numbers": [
+      "error",
+      {
+        "ignoreArrayIndexes": true,
+        "enforceConst" : true,
+        "ignore": [
+          -1, 0, 1
+        ]
+      }
+    ],
+    "max-nested-callbacks": [
+      "error", 4
+    ],
+    "max-depth": [
+      "error", 4
+    ],
+    "new-cap": "off",
+    "no-sync": "off",
+    "max-lines": "off"
+  }
+}
