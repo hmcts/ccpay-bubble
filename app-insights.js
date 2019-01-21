@@ -4,7 +4,6 @@ const appInsights = require('applicationinsights');
 module.exports = {
   enable() {
     const ikey = config.get('appInsights.instrumentationKey');
-    console.log('ikey: ' + ikey);
     appInsights.setup(ikey)
       .setAutoDependencyCorrelation(true)
       .setAutoCollectRequests(true)
