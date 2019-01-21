@@ -1,8 +1,9 @@
 const config = require('config');
+
 const ccpayUrl = config.get('ccpaybubble.url');
 
 class HomeScreenService {
-    /**
+  /**
    * Constructor
    * @param {Function(Object, XMLHttpRequest)} makeHttpRequest
    */
@@ -13,9 +14,9 @@ class HomeScreenService {
 
   getHomeScreen(req) {
     return this.makeHttpRequest({
-        uri: ccpayUrl,
-        method: 'GET'
-      }, req);
+      uri: ccpayUrl,
+      method: 'GET'
+    }, req);
   }
 }
 
