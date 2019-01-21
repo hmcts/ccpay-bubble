@@ -4,10 +4,11 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const HttpStatus = require('http-status-codes');
 const express = require('express');
+
 const app = express();
 
 
-module.exports = (appInsights) => {
+module.exports = appInsights => {
   const client = appInsights.defaultClient;
   const startTime = Date.now();
 

@@ -9,11 +9,8 @@ appInsights.setAuthenticatedUserContext = userId => {
 };
 
 const app = require('./server')(appInsights),
-  config = require('config'),
-  fs = require('fs'),
   defaultPort = '3000',
   port = process.env.PORT || defaultPort,
-  https = require('https'),
   http = require('http');
 
 // Disable cert errors

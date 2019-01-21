@@ -123,9 +123,7 @@ function handleCookie(req) {
 }
 
 
-
 Security.prototype.homeScreen = function homeScreen() {
-
   // eslint-disable-next-line no-unused-vars
   return function ret(req, res) {
     const originalUrl = self.opts.ccpayBubbleUrl;
