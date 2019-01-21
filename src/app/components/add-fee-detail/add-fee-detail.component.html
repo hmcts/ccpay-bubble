@@ -6,7 +6,7 @@
       <h1 class="heading-small">
         Service 
       </h1>
-      <select class="form-control service-select" id="service" name="service">
+      <select class="form-control short-input" id="service" name="service">
         <option value="divorce">Divorce</option>
       </select>
     </div>
@@ -23,7 +23,7 @@
       </fieldset>
     </div>
     <div class="form-group">
-      <input class="form-control service-select" autocomplete="off" id="case-reference" name="case-reference" type="text">
+      <input class="form-control short-input" autocomplete="off" id="caseReference" name="caseReference" type="text">
     </div>
     <div class="form-group">
       <fieldset>
@@ -136,12 +136,37 @@
         </div>
       </fieldset>
     </div>
-    <div class="form-group">
+    <div class="form-group" id="hwfCloseText" (click)="toggleHwfFields()" [hidden]="hwfEntryOn">
       <fieldset class="inline">
         <legend>
-          <span><a href="#">Show help with fees</a></span>
+          <span><a>Show help with fees</a></span>
         </legend>
       </fieldset>
+    </div>
+    <div class="form-group" id="hwfOpenText" [hidden]="!hwfEntryOn">
+      <fieldset class="inline">
+        <legend>
+          <span (click)="toggleHwfFields()"><a>Hide help with fees</a></span>
+        </legend>
+        <legend>
+            <h1 class="heading-small">
+              Enter HWF Code
+            </h1>
+          </legend>
+      </fieldset>
+      <div class="form-group">
+          <input class="form-control short-input" autocomplete="off" id="hwfReference" name="hwfReference" type="text">
+      </div>
+      <fieldset class="inline">
+        <legend>
+            <h1 class="heading-small">
+              Amount left to pay
+            </h1>
+        </legend>
+      </fieldset>
+      <div class="form-group">
+          £ <input class="form-control short-input" autocomplete="off" id="amount" name="amount" type="text">
+      </div>
     </div>
     <div class="form-group">
       <div class="button-grid__button">

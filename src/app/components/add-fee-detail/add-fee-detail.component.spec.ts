@@ -22,4 +22,10 @@ describe('AddFeeDetailComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('toggleHwfFields', () => {
+    component.hwfEntryOn = false;
+    component.toggleHwfFields();
+    expect(component.hwfEntryOn).toBeTruthy();
+  });
 });
