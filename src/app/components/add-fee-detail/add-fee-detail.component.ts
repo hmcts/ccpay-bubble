@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddFeeDetailComponent implements OnInit {
 
+  hwfEntryOn = false;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  toggleHwfFields() {
+    this.hwfEntryOn = !this.hwfEntryOn;
   }
 
 }
