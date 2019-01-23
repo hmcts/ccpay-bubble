@@ -1,0 +1,54 @@
+<div>
+    <h1 class="heading-xlarge">Summary of fees</h1>
+  
+    <form>
+      <div class="form-group">
+          <fieldset>
+            <div class="fee-details">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>CCD Case reference: </td>
+                      <td>{{caseFeeModel.case_reference}}</td>
+                    </tr>
+                    <tr>
+                      <td>Fee code: </td>
+                      <td>{{caseFeeModel.fee_code}}</td>
+                    </tr>
+                    <tr>
+                      <td>Fee description: </td>
+                      <td>{{caseFeeModel.fee_description}}</td>
+                    </tr>
+                    <tr>
+                      <td>Price: </td>
+                      <td>{{caseFeeModel.price}}</td>
+                    </tr>
+                    <tr>
+                      <td>Help with fees (HWF) code: </td>
+                      <td>{{caseFeeModel.hwf_code}}</td>
+                    </tr>
+                    <tr>
+                      <td>Amount left to pay: </td>
+                      <td>{{caseFeeModel.final_amount}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+          </fieldset>
+      </div>
+      <div class="form-group" id="backToPreviousPage">
+        <fieldset class="inline">
+          <legend>
+            <span (click)="onGoBack()"><a>Back to Add fee details page</a></span>
+          </legend>
+        </fieldset>
+      </div>
+      <div class="form-group">
+        <div class="button-grid__button">
+          <button class="button button-view" type="submit">
+            Confirm fees
+          </button>
+        </div>
+      </div>
+    </form>
+</div>
