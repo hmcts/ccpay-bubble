@@ -1,6 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReviewFeeDetailComponent } from './review-fee-detail.component';
+import { Location, LocationStrategy } from '@angular/common';
+import { CaseFeeModel } from 'src/app/models/CaseFeeModel';
+
+const LocationMock = {
+  back() {
+    return 'triggered.';
+  }
+};
 
 describe('ReviewFeeDetailComponent', () => {
   let component: ReviewFeeDetailComponent;
@@ -8,7 +16,10 @@ describe('ReviewFeeDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReviewFeeDetailComponent ]
+      declarations: [ ReviewFeeDetailComponent ],
+      providers: [
+        { provide: Location, useValue: LocationMock }
+      ]
     })
     .compileComponents();
   }));
