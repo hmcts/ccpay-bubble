@@ -6,7 +6,7 @@
       <h1 class="heading-small">
         Service 
       </h1>
-      <select class="form-control short-input" id="service" name="service">
+      <select class="form-control short-input" id="service" name="service" [(ngModel)]="model.service">
         <option value="divorce">Divorce</option>
       </select>
     </div>
@@ -21,9 +21,7 @@
           </h2>
         </legend>
       </fieldset>
-    </div>
-    <div class="form-group">
-      <input class="form-control short-input" autocomplete="off" id="caseReference" name="caseReference" type="text">
+      <input class="form-control short-input" autocomplete="off" id="caseReference" name="caseReference" type="text" [(ngModel)]="model.case_reference">
     </div>
     <div class="form-group">
       <fieldset>
@@ -46,7 +44,7 @@
               <tr>
                 <td>
                   <div class="multiple-choice">
-                    <input id="fee" name="fee" type="radio" value="FEE001"/>
+                    <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE001-Application for Divorce-550"/>
                     <label for="fee">FEE001</label>
                   </div>
                 </td>
@@ -57,7 +55,7 @@
               <tr>
                   <td>
                     <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" value="FEE0387"/>
+                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0387-Defend Divorce-245"/>
                       <label for="fee">FEE0387</label>
                     </div>
                   </td>
@@ -68,7 +66,7 @@
               <tr>
                   <td>
                     <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" value="FEE0232"/>
+                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0232-Divorce Amend Petition-95"/>
                       <label for="fee">FEE0232</label>
                     </div>
                   </td>
@@ -79,7 +77,7 @@
               <tr>
                   <td>
                     <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" value="FEE0270"/>
+                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0270-Divorce Financial Consent Order-50"/>
                       <label for="fee">FEE0270</label>
                     </div>
                   </td>
@@ -90,7 +88,7 @@
               <tr>
                   <td>
                     <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" value="FEE0391"/>
+                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0391-Bailiff Service-110"/>
                       <label for="fee">FEE0391</label>
                     </div>
                   </td>
@@ -101,7 +99,7 @@
               <tr>
                   <td>
                     <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" value="FEE0229"/>
+                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0229-Divorce Submit Form A-255"/>
                       <label for="fee">FEE0229</label>
                     </div>
                   </td>
@@ -112,7 +110,7 @@
               <tr>
                   <td>
                     <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" value="FEE0228"/>
+                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0228-Divorce Use Non Residential Address-50"/>
                       <label for="fee">FEE0228</label>
                     </div>
                   </td>
@@ -123,7 +121,7 @@
               <tr>
                   <td>
                     <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" value="FEE002"/>
+                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE002-Copies of Documents-0.50"/>
                       <label for="fee">FEE002</label>
                     </div>
                   </td>
@@ -149,13 +147,16 @@
           <span (click)="toggleHwfFields()"><a>Hide help with fees</a></span>
         </legend>
         <legend>
-            <h1 class="heading-small">
-              Enter HWF Code
-            </h1>
-          </legend>
+          <h1 class="heading-small">
+            Enter HWF Code
+          </h1>
+          <h2 class="help-text">
+            For example: HWF-A1B-23C
+          </h2>
+        </legend>
       </fieldset>
       <div class="form-group">
-          <input class="form-control short-input" autocomplete="off" id="hwfReference" name="hwfReference" type="text">
+          <input class="form-control short-input" autocomplete="off" id="hwfReference" name="hwfReference" type="text" [(ngModel)]="model.hwf_code">
       </div>
       <fieldset class="inline">
         <legend>
@@ -165,12 +166,12 @@
         </legend>
       </fieldset>
       <div class="form-group">
-          £ <input class="form-control short-input" autocomplete="off" id="amount" name="amount" type="text">
+          £ <input class="form-control short-input" autocomplete="off" id="amountToPay" name="amountToPay" type="text" [(ngModel)]="model.amount_to_pay">
       </div>
     </div>
     <div class="form-group">
       <div class="button-grid__button">
-        <button class="button button-view" type="submit">
+        <button class="button button-view" type="submit" (click)="saveAndContinue()">
           Continue
         </button>
       </div>
