@@ -21,8 +21,6 @@
           </h2>
         </legend>
       </fieldset>
-    </div>
-    <div class="form-group">
       <input class="form-control short-input" autocomplete="off" id="caseReference" name="caseReference" type="text" [(ngModel)]="model.case_reference">
     </div>
     <div class="form-group">
@@ -112,7 +110,7 @@
               <tr>
                   <td>
                     <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0228-Divorce Use Non-Residential Address-50"/>
+                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0228-Divorce Use Non Residential Address-50"/>
                       <label for="fee">FEE0228</label>
                     </div>
                   </td>
@@ -149,10 +147,13 @@
           <span (click)="toggleHwfFields()"><a>Hide help with fees</a></span>
         </legend>
         <legend>
-            <h1 class="heading-small">
-              Enter HWF Code
-            </h1>
-          </legend>
+          <h1 class="heading-small">
+            Enter HWF Code
+          </h1>
+          <h2 class="help-text">
+            For example: HWF-A1B-23C
+          </h2>
+        </legend>
       </fieldset>
       <div class="form-group">
           <input class="form-control short-input" autocomplete="off" id="hwfReference" name="hwfReference" type="text" [(ngModel)]="model.hwf_code">
