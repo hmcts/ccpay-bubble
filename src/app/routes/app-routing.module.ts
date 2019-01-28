@@ -7,6 +7,10 @@ const routes: Routes = [
   { path: 'addFeeDetail',
     component: AddFeeDetailComponent
   },
+  { path: '',
+    pathMatch: 'full',
+    redirectTo: 'addFeeDetail'
+  },
   { path: 'reviewFeeDetail',
     component: ReviewFeeDetailComponent
   }
