@@ -12,11 +12,11 @@
               </tr>
               <tr>
                 <td>Fee code: </td>
-                <td>{{feeModels[0].code}}</td>
+                <td>{{(feeModels) ? feeModels[0].code : ''}}</td>
               </tr>
               <tr>
                 <td>Fee description: </td>
-                <td>{{feeModels[0].description}}</td>
+                <td>{{(feeModels) ? feeModels[0].description : ''}}</td>
               </tr>
               <tr>
                 <td>Price: </td>
