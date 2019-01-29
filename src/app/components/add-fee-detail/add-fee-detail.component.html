@@ -6,7 +6,7 @@
       <h1 class="heading-small">
         Service 
       </h1>
-      <select class="form-control short-input" id="service" name="service" [(ngModel)]="model.service">
+      <select class="form-control short-input" id="service" name="service" [(ngModel)]="service">
         <option value="divorce">Divorce</option>
       </select>
     </div>
@@ -21,7 +21,7 @@
           </h2>
         </legend>
       </fieldset>
-      <input class="form-control short-input" autocomplete="off" id="caseReference" name="caseReference" type="text" [(ngModel)]="model.case_reference">
+      <input class="form-control short-input" autocomplete="off" id="caseReference" name="caseReference" type="text" [(ngModel)]="case_reference">
     </div>
     <div class="form-group">
       <fieldset>
@@ -44,7 +44,7 @@
               <tr *ngFor="let feeModel of feeModels">
                 <td>
                   <div class="multiple-choice">
-                    <input [id]="feeModel.code" [name]="feeModel.code" type="radio" [value]="feeModel.code" (click)="selectPaymentInstruction(feeModel)"/>
+                    <input [id]="feeItem" [name]="feeItem" type="radio" [value]="feeModel.code" (click)="selectPaymentInstruction(feeModel)"/>
                     <label for="fee">{{ feeModel.code }}</label>
                   </div>
                 </td>
@@ -52,83 +52,6 @@
                 <td>{{ feeModel.description }}</td>
                 <td>{{ feeModel.display_amount }}</td>
               </tr>
-              <!--tr>
-                  <td>
-                    <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0387-Defend Divorce-245"/>
-                      <label for="fee">FEE0387</label>
-                    </div>
-                  </td>
-                  <td>Defend Divorce</td>
-                  <td>Originating proceedings where no other fee is specified</td>
-                  <td>£245</td>
-              </tr>
-              <tr>
-                  <td>
-                    <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0232-Divorce Amend Petition-95"/>
-                      <label for="fee">FEE0232</label>
-                    </div>
-                  </td>
-                  <td>Divorce Amend Petition</td>
-                  <td>Amendment of application for matrimonial/civil partnership order</td>
-                  <td>£95</td>
-              </tr>
-              <tr>
-                  <td>
-                    <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0270-Divorce Financial Consent Order-50"/>
-                      <label for="fee">FEE0270</label>
-                    </div>
-                  </td>
-                  <td>Divorce Financial Consent Order</td>
-                  <td>Application for decree nisi conditional order seperation order (no fee if undefended)</td>
-                  <td>£50</td>
-              </tr>
-              <tr>
-                  <td>
-                    <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0391-Bailiff Service-110"/>
-                      <label for="fee">FEE0391</label>
-                    </div>
-                  </td>
-                  <td>Bailiff Service</td>
-                  <td>Request for a service by a bailiff document (see order for exceptions)</td>
-                  <td>£110</td>
-              </tr>
-              <tr>
-                  <td>
-                    <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0229-Divorce Submit Form A-255"/>
-                      <label for="fee">FEE0229</label>
-                    </div>
-                  </td>
-                  <td>Divorce Submit Form A</td>
-                  <td>Application for a financial order</td>
-                  <td>£255</td>
-              </tr>
-              <tr>
-                  <td>
-                    <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0228-Divorce Use Non Residential Address-50"/>
-                      <label for="fee">FEE0228</label>
-                    </div>
-                  </td>
-                  <td>Divorce Use Non-Residential Address</td>
-                  <td>Application (without notice)</td>
-                  <td>£50</td>
-              </tr>
-              <tr>
-                  <td>
-                    <div class="multiple-choice">
-                      <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE002-Copies of Documents-0.50"/>
-                      <label for="fee">FEE002</label>
-                    </div>
-                  </td>
-                  <td>Copies of Documents</td>
-                  <td>Additional copies of documentation</td>
-                  <td>£0.50</td>
-              </tr-->
             </tbody>
           </table>
         </div>

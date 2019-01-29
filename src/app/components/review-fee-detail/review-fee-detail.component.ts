@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CaseFeeModel } from 'src/app/models/CaseFeeModel';
 import { Location } from '@angular/common';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { PaymentModel } from 'src/app/models/PaymentModel';
+import { RemissionModel } from 'src/app/models/RemissionModel';
 
 @Component({
   selector: 'app-review-fee-detail',
@@ -11,13 +11,22 @@ import { PaymentModel } from 'src/app/models/PaymentModel';
 })
 export class ReviewFeeDetailComponent implements OnInit {
 
-  caseFeeModel = CaseFeeModel.model;
   feeModels = FeeModel.models;
   payModel = PaymentModel.model;
+  remissionModel = RemissionModel.model;
+  display_fee_amount: string;
+  display_amount_to_pay: string;
+
 
   constructor(private location: Location) { }
 
   ngOnInit() {
+    this.setDisplayAmounts();
+  }
+
+  private setDisplayAmounts() {
+    this.display_amount_to_pay = '£ ' + parseFloat(this.payModel.amount + '').toFixed(2);
+    this.display_fee_amount = '£ ' + parseFloat(this.feeModels[0].calculated_amount + '').toFixed(2);
   }
 
   onGoBack() {
