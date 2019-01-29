@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
-import { CaseFeeModel } from 'src/app/models/CaseFeeModel';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { PaymentModel } from 'src/app/models/PaymentModel';
+import { RemissionModel } from 'src/app/models/RemissionModel';
 
 @Component({
   selector: 'app-add-fee-detail',
@@ -14,14 +14,14 @@ export class AddFeeDetailComponent implements OnInit {
 
   hwfEntryOn = false;
   allSelected = false;
-  service: string;
+  service = 'divorce';
   case_reference: string;
   hwf_code: string;
   amount_to_pay: number;
-  model = CaseFeeModel.model;
   feeModel: FeeModel;
   feeModels: FeeModel[] = [];
-  payModel = PaymentModel.model;
+  payModel: PaymentModel;
+  remissionModel: RemissionModel;
   feeData = `
   [
   {
@@ -469,8 +469,6 @@ export class AddFeeDetailComponent implements OnInit {
   constructor(private addFeeDetailService: AddFeeDetailService) { }
 
   ngOnInit() {
-    // this.model.service = 'divorce';
-    CaseFeeModel.reset(this.model);
     this.feeModels = [];
     this.buildFeeList();
   }
@@ -482,13 +480,9 @@ export class AddFeeDetailComponent implements OnInit {
   saveAndContinue() {
     const selectedFeeModels = this.feeModels.filter(
       feeModel => feeModel.checked === true
-    ).map((feeModel) => {
-      feeModel.hwf_amount = this.amount_to_pay;
-      feeModel.hwf_code = this.hwf_code;
-      return FeeModel.setCalculatedAmount(feeModel);
-    });
+    );
     FeeModel.models = selectedFeeModels;
-    this.populatePayModel(this.payModel, selectedFeeModels);
+    this.populatePayAndRemissionModel(selectedFeeModels);
     this.addFeeDetailService.saveAndContinue();
   }
 
@@ -496,11 +490,25 @@ export class AddFeeDetailComponent implements OnInit {
     model.checked = !model.checked;
   }
 
-  private populatePayModel(payModel: PaymentModel, selectedFeeModels: FeeModel[]) {
-    payModel.reset();
-    payModel.ccd_case_number = this.case_reference;
-    payModel.fees = selectedFeeModels;
-    payModel.service = this.service;
+  private populatePayAndRemissionModel(selectedFeeModels: FeeModel[]) {
+    PaymentModel.reset(PaymentModel.model);
+    this.payModel = new PaymentModel();
+    this.payModel.ccd_case_number = this.case_reference;
+    this.payModel.fees = selectedFeeModels;
+    this.payModel.service = this.service;
+    this.payModel.amount = (this.amount_to_pay) ? this.amount_to_pay : selectedFeeModels[0].calculated_amount;
+    PaymentModel.model = this.payModel;
+
+    RemissionModel.reset(RemissionModel.model);
+    this.remissionModel = new RemissionModel();
+    this.remissionModel.fee = selectedFeeModels[0];
+    this.remissionModel.hwf_amount = (this.amount_to_pay) ? selectedFeeModels[0].calculated_amount - this.amount_to_pay : null;
+    this.remissionModel.hwf_reference = this.hwf_code;
+    RemissionModel.model = this.remissionModel;
+
+    console.log('PayModel: ' + JSON.stringify(PaymentModel.model));
+    console.log('RemissionModel: ' + JSON.stringify(RemissionModel.model));
+    console.log('FeeModel: ' + JSON.stringify(selectedFeeModels[0]));
   }
 
   buildFeeList() {
@@ -515,8 +523,8 @@ export class AddFeeDetailComponent implements OnInit {
           this.feeModel.code = data.code;
         }
         if (data.hasOwnProperty('fee_versions')) {
-          this.feeModel.amount = data.fee_versions[0].flat_amount.amount;
-          this.feeModel.display_amount = '£ ' + parseFloat(this.feeModel.amount + '').toFixed(2);
+          this.feeModel.calculated_amount = data.fee_versions[0].flat_amount.amount;
+          this.feeModel.display_amount = '£ ' + parseFloat(this.feeModel.calculated_amount + '').toFixed(2);
           this.feeModel.description = data.fee_versions[0].description;
           this.feeModel.version = data.fee_versions.version;
         }
