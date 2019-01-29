@@ -26,7 +26,7 @@ export class ReviewFeeDetailComponent implements OnInit {
 
   private setDisplayAmounts() {
     this.display_amount_to_pay = '£ ' + parseFloat(this.payModel.amount + '').toFixed(2);
-    this.display_fee_amount = '£ ' + parseFloat(this.feeModels[0].calculated_amount + '').toFixed(2);
+    this.display_fee_amount = '£ ' + parseFloat((this.feeModels) ? this.feeModels[0].calculated_amount + '' : '').toFixed(2);
   }
 
   onGoBack() {

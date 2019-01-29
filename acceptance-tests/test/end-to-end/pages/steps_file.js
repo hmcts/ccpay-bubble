@@ -1,7 +1,7 @@
 'use strict';
 const BARATConstants = require('../tests/CCPBAcceptanceTestConstants');
 // in this file you can append custom step methods to 'I' object
-const faker = require('faker');
+// const faker = require('faker');
 
 module.exports = () => actor({
   // done

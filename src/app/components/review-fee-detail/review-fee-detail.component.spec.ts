@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReviewFeeDetailComponent } from './review-fee-detail.component';
 import { Location, LocationStrategy } from '@angular/common';
-import { CaseFeeModel } from 'src/app/models/CaseFeeModel';
 
 const LocationMock = {
   back() {
