@@ -29,7 +29,7 @@
           <h1 class="heading-small">
             Select fee
           </h1>
-        </legend>
+        </legend> 
         <div class="fee-list">
           <table>
             <thead>
@@ -41,18 +41,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr *ngFor="let feeModel of feeModels">
                 <td>
                   <div class="multiple-choice">
-                    <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE001-Application for Divorce-550"/>
-                    <label for="fee">FEE001</label>
+                    <input [id]="feeModel.code" [name]="feeModel.code" type="radio" [value]="feeModel.code" (click)="selectPaymentInstruction(feeModel)"/>
+                    <label for="fee">{{ feeModel.code }}</label>
                   </div>
                 </td>
-                <td>Application for Divorce</td>
-                <td>Application for Divorce</td>
-                <td>£550</td>
+                <td>{{ feeModel.description }}</td>
+                <td>{{ feeModel.description }}</td>
+                <td>{{ feeModel.display_amount }}</td>
               </tr>
-              <tr>
+              <!--tr>
                   <td>
                     <div class="multiple-choice">
                       <input id="fee" name="fee" type="radio" [(ngModel)]="model.fee"  value="FEE0387-Defend Divorce-245"/>
@@ -128,7 +128,7 @@
                   <td>Copies of Documents</td>
                   <td>Additional copies of documentation</td>
                   <td>£0.50</td>
-              </tr>
+              </tr-->
             </tbody>
           </table>
         </div>
@@ -156,7 +156,7 @@
         </legend>
       </fieldset>
       <div class="form-group">
-          <input class="form-control short-input" autocomplete="off" id="hwfReference" name="hwfReference" type="text" [(ngModel)]="model.hwf_code">
+          <input class="form-control short-input" autocomplete="off" id="hwfReference" name="hwfReference" type="text" [(ngModel)]="hwf_code">
       </div>
       <fieldset class="inline">
         <legend>
@@ -166,7 +166,7 @@
         </legend>
       </fieldset>
       <div class="form-group">
-          £ <input class="form-control short-input" autocomplete="off" id="amountToPay" name="amountToPay" type="text" [(ngModel)]="model.amount_to_pay">
+          £ <input class="form-control short-input" autocomplete="off" id="amountToPay" name="amountToPay" type="text" [(ngModel)]="amount_to_pay">
       </div>
     </div>
     <div class="form-group">

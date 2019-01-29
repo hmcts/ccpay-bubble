@@ -8,27 +8,27 @@
             <tbody>
               <tr>
                 <td>CCD Case reference: </td>
-                <td>{{caseFeeModel.case_reference}}</td>
+                <td>{{payModel.ccd_case_number}}</td>
               </tr>
               <tr>
                 <td>Fee code: </td>
-                <td>{{caseFeeModel.fee_code}}</td>
+                <td>{{feeModels[0].code}}</td>
               </tr>
               <tr>
                 <td>Fee description: </td>
-                <td>{{caseFeeModel.fee_description}}</td>
+                <td>{{feeModels[0].description}}</td>
               </tr>
               <tr>
                 <td>Price: </td>
-                <td>{{caseFeeModel.price}}</td>
+                <td>{{feeModels[0].display_amount}}</td>
               </tr>
               <tr>
                 <td>Help with fees (HWF) code: </td>
-                <td>{{caseFeeModel.hwf_code}}</td>
+                <td>{{feeModels[0].hwf_code}}</td>
               </tr>
               <tr>
                 <td>Amount left to pay: </td>
-                <td>{{caseFeeModel.final_amount}}</td>
+                <td>{{feeModels[0].display_amount}}</td>
               </tr>
             </tbody>
           </table>
