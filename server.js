@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const HttpStatus = require('http-status-codes');
 const express = require('express');
+const route = require('./express/app');
 
 const app = express();
 
@@ -45,6 +46,9 @@ module.exports = appInsights => {
       next();
     });
   }
+
+  // make all routes available via this imported module
+  app.use('/api', route(appInsights));
 
   // fallback to this route (so that Angular will handle all routing)
   app.get('**',

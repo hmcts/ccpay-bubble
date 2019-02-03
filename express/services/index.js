@@ -1,5 +1,9 @@
-const HomeScreenService = require('./HomeScreenService');
+const UtilService = require('./UtilService');
+const PayhubService = require('./PayhubService');
 
 const { makeHttpRequest } = UtilService;
 
-module.exports = { homeScreenService: new HomeScreenService(makeHttpRequest) };
+module.exports = {
+  payhubService: new PayhubService(makeHttpRequest),
+  utilService: UtilService
+};
