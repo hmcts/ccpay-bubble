@@ -27,6 +27,7 @@ module "ccpay-bubble" {
 
   app_settings = {
     CCPAY_BUBBLE_URL = "https://ccpay-bubble-frontend-${var.env}.service.core-compute-${var.env}.internal/"
+    PAYHUB_API_URL = "https://payment-api-${var.env}.service.core-compute-${var.env}.internal/"
 
     // Logging vars
     REFORM_TEAM = "${var.product}"

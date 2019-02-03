@@ -1,3 +1,5 @@
-const HomeScreenController = require('./HomeScreenController');
+const PayhubController = require('./PayhubController');
 
-module.exports = { homeScreenController: new HomeScreenController({ response }) };
+const { payhubService } = require('./../../services');
+
+module.exports = { payhubController: new PayhubController({ payhubService }) };

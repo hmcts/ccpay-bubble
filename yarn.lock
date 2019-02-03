@@ -1649,6 +1649,11 @@ cli-width@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.2.0.tgz#ff19ede8a9a5e579324147b0c11f0fbcbabed639"
 
+client-request@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/client-request/-/client-request-2.3.0.tgz#c4604f71f81c94b280659579a17bbc0446fec212"
+  integrity sha1-xGBPcfgclLKAZZV5oXu8BEb+whI=
+
 cliui@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cliui/-/cliui-2.1.0.tgz#4b475760ff80264c762c3a1719032e91c7fea0d1"

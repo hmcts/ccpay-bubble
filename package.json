@@ -43,6 +43,7 @@
     "@hmcts/nodejs-logging": "^3.0.0",
     "applicationinsights": "^1.0.5",
     "applicationinsights-js": "^1.0.20",
+    "client-request": "^2.3.0",
     "config": "^2.0.1",
     "cookie-parser": "^1.4.3",
     "core-js": "^2.5.4",

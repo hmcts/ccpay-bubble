@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { AddFeeDetailComponent } from './components/add-fee-detail/add-fee-detail.component';
 import { PhaseBannerComponent } from './shared/components/phase-banner/phase-banner.component';
 import { ReviewFeeDetailComponent } from './components/review-fee-detail/review-fee-detail.component';
+import { PaybubbleHttpClient } from './services/httpclient/paybubble.http.client';
+import { AddFeeDetailService } from './services/add-fee-detail/add-fee-detail.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,10 @@ import { ReviewFeeDetailComponent } from './components/review-fee-detail/review-
     HttpModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    PaybubbleHttpClient,
+    AddFeeDetailService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
