@@ -10,6 +10,8 @@ session:
 ccpaybubble:
   url: http://localhost:4200
   defaultPort: 3000
+payhub:
+  url: https://payment-api-aat.service.core-compute-aat.internal/
 appInsights:
   instrumentationKey: some-key
 e2e:
