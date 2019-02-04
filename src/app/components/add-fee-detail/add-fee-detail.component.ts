@@ -471,7 +471,7 @@ export class AddFeeDetailComponent implements OnInit {
           this.feeModel.calculated_amount = data.fee_versions[0].flat_amount.amount;
           this.feeModel.display_amount = '£ ' + parseFloat(this.feeModel.calculated_amount + '').toFixed(2);
           this.feeModel.description = data.fee_versions[0].description;
-          this.feeModel.version = data.fee_versions.version;
+          this.feeModel.version = data.fee_versions[0].version;
         }
       }
       this.feeModels.push(this.feeModel);

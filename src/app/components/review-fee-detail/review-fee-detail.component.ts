@@ -43,7 +43,6 @@ export class ReviewFeeDetailComponent implements OnInit {
       if (!response.data && response.success) {
         return this._router.navigateByUrl( '/api/addFeeDetail' );
       }
-      console.log('response data: ' + response.data);
     }, console.log);
   }
 

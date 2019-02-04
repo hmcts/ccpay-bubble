@@ -29,13 +29,18 @@ function setConfig(options, request) {
   }
   options.headers['Content-Type'] = options.headers['Content-Type'] == null ? 'application/json' : options.headers['Content-Type'];
   if (request && request.cookies[constants.SECURITY_COOKIE]) {
-    const bearer = request.cookies[constants.SECURITY_COOKIE];
-    options.headers.Authorization = `Bearer ${bearer}`;
+    // const bearer = request.cookies[constants.SECURITY_COOKIE];
+    options.headers.Authorization = 'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJycnAwMTJhNnJoZTdlYTMzamtmbWFiZTJwMSIsInN1YiI6IjEyNDUxNyIsImlhdCI6MTU0OTI4ODUxMSwiZXhwIjoxNTQ5MzE3MzExLCJkYXRhIjoiY2l0aXplbixjbGFpbWFudCxjaXRpemVuLWxvYTEsY2xhaW1hbnQtbG9hMSIsInR5cGUiOiJBQ0NFU1MiLCJpZCI6IjEyNDUxNyIsImZvcmVuYW1lIjoiY21jcHJlcHJvZCIsInN1cm5hbWUiOiJjbWMiLCJkZWZhdWx0LXNlcnZpY2UiOiJjbWMiLCJsb2EiOjEsImRlZmF1bHQtdXJsIjoiaHR0cHM6Ly93d3cubW9uZXljbGFpbXMuZGVtby5wbGF0Zm9ybS5obWN0cy5uZXQvcmVjZWl2ZXIiLCJncm91cCI6ImNpdGl6ZW5zIn0.mXLkch3Kl1ln2ig3vWaXvLUZ6kAOL4kGqg1s49PbuCY';
+    options.headers.ServiceAuthorization = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbWMiLCJleHAiOjE1NDkzMDMwMjJ9.sAav2XGn1EIm-vsURvVlaY99hv_Bv5WZ36wWmwhvq1bkxedwxwzW9H-qZTBR1kJH8wZT-Ej6KQC8gf7iyueXVw';
   }
 
   if (options.hasOwnProperty('method') && options.method === 'DELETE') {
     options.json = false;
   }
+
+  options.headers.Authorization = 'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJycnAwMTJhNnJoZTdlYTMzamtmbWFiZTJwMSIsInN1YiI6IjEyNDUxNyIsImlhdCI6MTU0OTI4ODUxMSwiZXhwIjoxNTQ5MzE3MzExLCJkYXRhIjoiY2l0aXplbixjbGFpbWFudCxjaXRpemVuLWxvYTEsY2xhaW1hbnQtbG9hMSIsInR5cGUiOiJBQ0NFU1MiLCJpZCI6IjEyNDUxNyIsImZvcmVuYW1lIjoiY21jcHJlcHJvZCIsInN1cm5hbWUiOiJjbWMiLCJkZWZhdWx0LXNlcnZpY2UiOiJjbWMiLCJsb2EiOjEsImRlZmF1bHQtdXJsIjoiaHR0cHM6Ly93d3cubW9uZXljbGFpbXMuZGVtby5wbGF0Zm9ybS5obWN0cy5uZXQvcmVjZWl2ZXIiLCJncm91cCI6ImNpdGl6ZW5zIn0.mXLkch3Kl1ln2ig3vWaXvLUZ6kAOL4kGqg1s49PbuCY';
+  options.headers.ServiceAuthorization = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbWMiLCJleHAiOjE1NDkzMDMwMjJ9.sAav2XGn1EIm-vsURvVlaY99hv_Bv5WZ36wWmwhvq1bkxedwxwzW9H-qZTBR1kJH8wZT-Ej6KQC8gf7iyueXVw';
+  options.headers['return-url'] = 'https://localhost.com';
 
   return options;
 }
