@@ -2,11 +2,6 @@
 const { enable } = require('./app-insights');
 
 const appInsights = enable();
-appInsights.setAuthenticatedUserContext = userId => {
-  const validatedId = userId.replace(/[,;=| ]+/g, '_');
-  const key = appInsights.defaultClient.context.keys.userAuthUserId;
-  appInsights.defaultClient.context.tags[key] = validatedId;
-};
 
 const app = require('./server')(appInsights),
   defaultPort = '3000',

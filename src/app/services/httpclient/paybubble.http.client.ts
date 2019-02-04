@@ -10,7 +10,6 @@ export class PaybubbleHttpClient {
 
     post(url: string, body: any | null, options?: any): Observable<any> {
         const opts = this.addHeaders(options || {});
-        console.log('http: ' + this.http);
         return this.http.post(url, body, opts);
     }
 
@@ -23,6 +22,7 @@ export class PaybubbleHttpClient {
         }
         headers['X-Requested-With'] = 'XMLHttpRequest';
         options.headers = new HttpHeaders(headers);
+        options.responseType = 'text';
         return options;
       }
 }
