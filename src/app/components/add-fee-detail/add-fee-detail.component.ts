@@ -14,7 +14,7 @@ export class AddFeeDetailComponent implements OnInit {
 
   hwfEntryOn = false;
   allSelected = false;
-  service = 'divorce';
+  service = 'DIVORCE';
   case_reference: string;
   hwf_code: string;
   amount_to_pay: number;
