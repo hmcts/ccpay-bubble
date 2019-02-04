@@ -14,7 +14,7 @@ class PayhubService {
 
   sendToPayhub(req) {
     return this.makeHttpRequest({
-      uri: `${payhubUrl}/card-payments`,
+      uri: `${payhubUrl}card-payments`,
       body: req.body,
       method: 'POST'
     }, req);
