@@ -9,6 +9,11 @@ locals {
 
   asp_name = "ccpay-${var.env}"
 }
+
+data "azurerm_key_vault_secret" "s2s_key" {
+  name      = "microservicekey-ccpay-bubble"
+  vault_uri = "https://s2s-${var.env}.vault.azure.net/"
+}
 module "ccpay-bubble" {
   source   = "git@github.com:hmcts/moj-module-webapp?ref=master"
   product  = "${var.product}-frontend"
@@ -28,6 +33,8 @@ module "ccpay-bubble" {
   app_settings = {
     CCPAY_BUBBLE_URL = "https://ccpay-bubble-frontend-${var.env}.service.core-compute-${var.env}.internal/"
     PAYHUB_API_URL = "https://payment-api-${var.env}.service.core-compute-${var.env}.internal/"
+
+    S2S_KEY = "${data.azurerm_key_vault_secret.s2s_key.value}"
 
     // Logging vars
     REFORM_TEAM = "${var.product}"
