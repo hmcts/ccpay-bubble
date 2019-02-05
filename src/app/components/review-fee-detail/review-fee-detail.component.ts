@@ -19,6 +19,8 @@ export class ReviewFeeDetailComponent implements OnInit {
   remissionModel = RemissionModel.model;
   display_fee_amount: string;
   display_amount_to_pay: string;
+  paymentReference = '';
+  redirectUrl = '';
 
 
   constructor(
