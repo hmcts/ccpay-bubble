@@ -10,6 +10,8 @@ idam:
   api_url: IDAM_API_URL
 ccpaybubble:
   url: CCPAY_BUBBLE_URL
+s2s:
+  token: S2S_KEY
 payhub:
   url: PAYHUB_API_URL
 certs:
