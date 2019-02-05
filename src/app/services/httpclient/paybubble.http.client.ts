@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
-import { httpFactory } from '@angular/http/src/http_module';
 
 @Injectable()
 export class PaybubbleHttpClient {
