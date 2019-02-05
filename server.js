@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const HttpStatus = require('http-status-codes');
 const express = require('express');
+const route = require('./express/app');
 
 const app = express();
 
@@ -33,7 +34,7 @@ module.exports = appInsights => {
 
   // app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
   app.use('/health', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
-  app.use('/', (req, res) => res.render('index'));
+  // app.use('/', (req, res) => res.render('index'));
 
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"
@@ -45,6 +46,9 @@ module.exports = appInsights => {
       next();
     });
   }
+
+  // make all routes available via this imported module
+  app.use('/api', route(appInsights));
 
   // fallback to this route (so that Angular will handle all routing)
   app.get('**',
