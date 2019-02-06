@@ -52,12 +52,13 @@ describe('ReviewFeeDetailComponent', () => {
   });
 
   it('Should set amount to pay from the payment model', () => {
-    fixture.detectChanges();
+    component.setDisplayAmounts();
     component.payModel.amount = 550;
     expect(component.display_amount_to_pay).toContain('550');
   });
 
   it('Should set fee amount from the fee model', () => {
+    component.setDisplayAmounts();
     component.feeModels[0].calculated_amount = 500;
     expect(component.display_amount_to_pay).toContain('550');
   });
