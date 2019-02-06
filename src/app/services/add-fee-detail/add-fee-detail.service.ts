@@ -7,16 +7,16 @@ import { PaybubbleHttpClient } from 'src/app/services/httpclient/paybubble.http.
 @Injectable()
 export class AddFeeDetailService {
 
-    constructor(
-        private router: Router,
-        private http: PaybubbleHttpClient
-        ) {}
+  constructor(
+    private router: Router,
+    private http: PaybubbleHttpClient
+  ) {}
 
-    saveAndContinue() {
-        return this.router.navigateByUrl('/reviewFeeDetail');
-    }
+  saveAndContinue() {
+    return this.router.navigateByUrl('/reviewFeeDetail');
+  }
 
-    sendPayDetailsToPayhub(payModel: PaymentModel): Observable<any> {
-        return this.http.post('/api/send-to-payhub', payModel);
-    }
+  sendPayDetailsToPayhub(payModel: PaymentModel): Observable<any> {
+    return this.http.post('/api/send-to-payhub', payModel);
+  }
 }
