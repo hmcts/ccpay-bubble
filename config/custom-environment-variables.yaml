@@ -10,7 +10,7 @@ idam:
   api_url: IDAM_API_URL
 ccpaybubble:
   url: CCPAY_BUBBLE_URL
-  microservice: ccpay_bubble
+  microservice: CCPAY_BUBBLE_MICROSERVICE
 s2s:
   key: S2S_KEY
   url: S2S_URL
