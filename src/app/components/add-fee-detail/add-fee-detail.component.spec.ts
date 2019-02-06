@@ -19,15 +19,13 @@ describe('AddFeeDetailComponent', () => {
   let component: AddFeeDetailComponent;
   let fixture: ComponentFixture<AddFeeDetailComponent>;
   let feeDataCount = 0;
-  let mockAddFeeDetailService: any;
 
   beforeEach(async(() => {
-    mockAddFeeDetailService = jasmine.createSpyObj<AddFeeDetailService>('addFeeDetailService', ['saveAndContinue']);
     TestBed.configureTestingModule({
       declarations: [ AddFeeDetailComponent ],
       providers: [
         PaybubbleHttpClient,
-        { provide: AddFeeDetailService, useValue: mockAddFeeDetailService },
+        AddFeeDetailService,
         { provide: Router, useValue: routerMock }
       ],
       imports: [

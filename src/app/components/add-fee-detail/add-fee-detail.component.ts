@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { PaymentModel } from 'src/app/models/PaymentModel';
 import { RemissionModel } from 'src/app/models/RemissionModel';
 import { feeData as mockFeeData } from '../../../stubs/feeData';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-fee-detail',
   templateUrl: './add-fee-detail.component.html',
-  providers: [AddFeeDetailService],
   styleUrls: ['./add-fee-detail.component.scss']
 })
 export class AddFeeDetailComponent implements OnInit {
@@ -25,7 +24,9 @@ export class AddFeeDetailComponent implements OnInit {
   remissionModel: RemissionModel;
   feeData = mockFeeData;
 
-  constructor(private addFeeDetailService: AddFeeDetailService) { }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     this.buildFeeList(this.feeData);
@@ -38,7 +39,7 @@ export class AddFeeDetailComponent implements OnInit {
   saveAndContinue() {
     FeeModel.models = this.filterSelectedFees();
     this.populatePayAndRemissionModel(FeeModel.models);
-    this.addFeeDetailService.saveAndContinue();
+    this.router.navigateByUrl('/reviewFeeDetail');
   }
 
 	filterSelectedFees(): FeeModel[] {

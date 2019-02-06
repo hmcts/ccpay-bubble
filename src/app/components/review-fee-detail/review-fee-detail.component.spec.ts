@@ -17,12 +17,14 @@ describe('ReviewFeeDetailComponent', () => {
   let component: ReviewFeeDetailComponent;
   let fixture: ComponentFixture<ReviewFeeDetailComponent>;
   let mockAddFeeDetailService: any;
-  const res = {
-    response: {
-      body: true,
-      success: true
-    }
-  };
+
+  const payModel: PaymentModel = new PaymentModel();
+  payModel.amount = 550;
+
+  const feeModel: FeeModel = new FeeModel();
+  const feeModels: FeeModel[] = [];
+  feeModel.calculated_amount = 550;
+  feeModels.push(feeModel);
 
   beforeEach(async(() => {
     mockAddFeeDetailService = jasmine.createSpyObj<AddFeeDetailService>('addFeeDetailService', ['sendPayDetailsToPayhub']);
@@ -33,14 +35,16 @@ describe('ReviewFeeDetailComponent', () => {
         { provide: AddFeeDetailService, useValue: mockAddFeeDetailService },
         { provide: Router, useValue: routerMock }
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReviewFeeDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    component.feeModels = feeModels;
+    component.payModel = payModel;
   });
 
   it('Should create', () => {
@@ -48,11 +52,14 @@ describe('ReviewFeeDetailComponent', () => {
   });
 
   it('Should set amount to pay from the payment model', () => {
-    expect(component.display_amount_to_pay).toContain(`${PaymentModel.model.amount}`);
+    fixture.detectChanges();
+    component.payModel.amount = 550;
+    expect(component.display_amount_to_pay).toContain('550');
   });
 
   it('Should set fee amount from the fee model', () => {
-    expect(component.display_amount_to_pay).toContain(`${FeeModel.models[0].calculated_amount}`);
+    component.feeModels[0].calculated_amount = 500;
+    expect(component.display_amount_to_pay).toContain('550');
   });
 
   it('It should navigate back to the add fee details page', () => {
