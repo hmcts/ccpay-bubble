@@ -19,7 +19,8 @@ class PayhubService {
 
 
   sendToPayhub(req) {
-    const serviceAuthToken = this.createAuthToken();
+    const serviceAuthToken = this.createAuthToken(req);
+    console.log('serviceAuthToken: ' + serviceAuthToken);
 
     return this.makeHttpRequest({
       uri: `${payhubUrl}card-payments`,
@@ -30,16 +31,16 @@ class PayhubService {
     }, req);
   }
 
-  createAuthToken() {
+  createAuthToken(req) {
     const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
     const serviceAuthRequest = {
       microservice: microService,
       oneTimePassword: otpPassword
     };
-    return this.getServiceAuthToken(serviceAuthRequest);
+    return this.getServiceAuthToken(serviceAuthRequest, req);
   }
 
-  getServiceAuthToken(serviceAuthRequest) {
+  getServiceAuthToken(serviceAuthRequest, req) {
     return this.makeHttpRequest({
       uri: `${s2sUrl}/lease`,
       body: serviceAuthRequest,
