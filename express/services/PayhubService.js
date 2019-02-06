@@ -19,15 +19,13 @@ class PayhubService {
 
 
   sendToPayhub(req) {
-    const serviceAuthToken = this.createAuthToken(req);
-
-    return this.makeHttpRequest({
+    return this.createAuthToken(req).then(token => this.makeHttpRequest({
       uri: `${payhubUrl}card-payments`,
       body: req.body,
       method: 'POST',
-      s2sToken: `${serviceAuthToken}`,
+      s2sToken: `${token}`,
       returnUrl: `${ccpayBubbleReturnUrl}`
-    }, req);
+    }, req));
   }
 
   createAuthToken(req) {
