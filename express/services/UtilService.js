@@ -32,7 +32,7 @@ function setConfig(options, request) {
     options.json = false;
   }
 
-  if (!options.hasOwnProperty('s2sToken')) {
+  if (options.hasOwnProperty('s2sToken')) {
     options.headers.ServiceAuthorization = options.s2sToken;
     options.headers['return-url'] = options.returnUrl;
   }
