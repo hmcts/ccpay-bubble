@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { PaymentModel } from 'src/app/models/PaymentModel';
 import { RemissionModel } from 'src/app/models/RemissionModel';
-import { feeData as mockFeeData } from '../../../stubs/feeData';
+import { feeTypes } from '../../../stubs/feeTypes';
 import { Router } from '@angular/router';
+import { IFeeType } from 'src/app/interfaces/IFeeType';
 
 @Component({
   selector: 'app-add-fee-detail',
@@ -22,7 +23,7 @@ export class AddFeeDetailComponent implements OnInit {
   feeModels: FeeModel[] = [];
   payModel: PaymentModel;
   remissionModel: RemissionModel;
-  feeData = mockFeeData;
+  feeData: IFeeType[] = feeTypes;
 
   constructor(
     private router: Router,
@@ -67,10 +68,8 @@ export class AddFeeDetailComponent implements OnInit {
     RemissionModel.model = this.remissionModel;
   }
 
-  buildFeeList(feeData: string) {
-		const feesList = JSON.parse(feeData);
-
-    feesList.forEach(data => {
+  buildFeeList(feeData: IFeeType[]) {
+    feeData.forEach(data => {
       const keys = Object.keys(data);
       for (let i = 0; i < keys.length; i++) {
         this.feeModel = new FeeModel();
@@ -82,11 +81,10 @@ export class AddFeeDetailComponent implements OnInit {
           this.feeModel.calculated_amount = data.fee_versions[0].flat_amount.amount;
           this.feeModel.display_amount = '£ ' + parseFloat(this.feeModel.calculated_amount + '').toFixed(2);
           this.feeModel.description = data.fee_versions[0].description;
-          this.feeModel.version = data.fee_versions[0].version;
+          this.feeModel.version = `${data.fee_versions[0].version}`;
         }
       }
       this.feeModels.push(this.feeModel);
     });
   }
-
 }
