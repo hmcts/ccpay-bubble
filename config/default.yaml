@@ -10,7 +10,7 @@ session:
 ccpaybubble:
   url: http://localhost:4200
   defaultPort: 3000
-  microservice: ccpay-bubble
+  microservice: ccpay_bubble
 s2s:
   key: nothing
   url: nothing
