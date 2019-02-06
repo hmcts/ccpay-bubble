@@ -4,7 +4,8 @@ const otp = require('otp');
 const payhubUrl = config.get('payhub.url');
 const returnUrl = config.get('ccpaybubble.url');
 const s2sUrl = config.get('s2s.url');
-const ccpayBubbleSecret = config.get('s2s.key');
+const ccpayBubbleSecret = '[paybubble-s2s-secret]';
+// config.get('s2s.key');
 const microService = config.get('ccpaybubble.microservice');
 
 class PayhubService {
