@@ -33,6 +33,7 @@ module "ccpay-bubble" {
 
   app_settings = {
     CCPAY_BUBBLE_URL = "https://ccpay-bubble-frontend-${var.env}.service.core-compute-${var.env}.internal/"
+    CCPAY_BUBBLE_MICROSERVICE= "ccpay_bubble"
     PAYHUB_API_URL = "https://payment-api-${var.env}.service.core-compute-${var.env}.internal/"
 
     S2S_KEY = "${data.azurerm_key_vault_secret.s2s_key.value}"
