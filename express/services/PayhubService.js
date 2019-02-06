@@ -2,7 +2,7 @@ const config = require('config');
 const otp = require('otp');
 
 const payhubUrl = config.get('payhub.url');
-const returnUrl = config.get('ccpaybubble.url');
+const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('s2s.key');
 const microService = config.get('ccpaybubble.microservice');
@@ -26,7 +26,7 @@ class PayhubService {
       body: req.body,
       method: 'POST',
       s2sToken: `${serviceAuthToken}`,
-      returnUrl: `${returnUrl}`
+      returnUrl: `${ccpayBubbleReturnUrl}`
     }, req);
   }
 
