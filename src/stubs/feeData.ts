@@ -387,4 +387,3 @@ export const feeData = `[
     "unspecified_claim_amount": false
     }
   ]`;
-  

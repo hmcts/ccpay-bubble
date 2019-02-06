@@ -3,7 +3,7 @@ import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-det
 import { FeeModel } from 'src/app/models/FeeModel';
 import { PaymentModel } from 'src/app/models/PaymentModel';
 import { RemissionModel } from 'src/app/models/RemissionModel';
-import { feeData } from '../../../stubs/feeData';
+import { feeData as mockFeeData } from '../../../stubs/feeData';
 
 @Component({
   selector: 'app-add-fee-detail',
@@ -23,7 +23,7 @@ export class AddFeeDetailComponent implements OnInit {
   feeModels: FeeModel[] = [];
   payModel: PaymentModel;
   remissionModel: RemissionModel;
-  feeData = feeData;
+  feeData = mockFeeData;
 
   constructor(private addFeeDetailService: AddFeeDetailService) { }
 

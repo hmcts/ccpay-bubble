@@ -8,7 +8,7 @@ import { AddFeeDetailComponent } from './add-fee-detail.component';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { PaybubbleHttpClient } from 'src/app/services/httpclient/paybubble.http.client';
 import { FeeModel } from 'src/app/models/FeeModel';
-import { feeData } from '../../../stubs/feeData';
+import { feeData as mockFeeDate } from '../../../stubs/feeData';
 import { Router } from '@angular/router';
 
 const routerMock = {
@@ -43,7 +43,7 @@ describe('AddFeeDetailComponent', () => {
     fixture = TestBed.createComponent(AddFeeDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.buildFeeList(feeData);
+    component.buildFeeList(mockFeeDate);
     feeDataCount = component.feeModels.length;
   });
 

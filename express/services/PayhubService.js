@@ -17,10 +17,8 @@ class PayhubService {
     this.makeHttpRequest = makeHttpRequest;
   }
 
-
   sendToPayhub(req) {
     const serviceAuthToken = this.createAuthToken(req);
-    console.log('serviceAuthToken: ' + serviceAuthToken);
 
     return this.makeHttpRequest({
       uri: `${payhubUrl}card-payments`,
