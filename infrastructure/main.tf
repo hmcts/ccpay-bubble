@@ -7,7 +7,13 @@ locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
 
+  s2sUrl = "http://rpe-service-auth-provider-${local.local_env}.service.${local.local_ase}.internal"
   asp_name = "ccpay-${var.env}"
+}
+
+data "azurerm_key_vault_secret" "s2s_key" {
+  name      = "microservicekey-ccpay-bubble"
+  vault_uri = "https://s2s-${var.env}.vault.azure.net/"
 }
 module "ccpay-bubble" {
   source   = "git@github.com:hmcts/moj-module-webapp?ref=master"
@@ -28,6 +34,9 @@ module "ccpay-bubble" {
   app_settings = {
     CCPAY_BUBBLE_URL = "https://ccpay-bubble-frontend-${var.env}.service.core-compute-${var.env}.internal/"
     PAYHUB_API_URL = "https://payment-api-${var.env}.service.core-compute-${var.env}.internal/"
+
+    S2S_KEY = "${data.azurerm_key_vault_secret.s2s_key.value}"
+    S2S_URL = "${local.s2sUrl}"
 
     // Logging vars
     REFORM_TEAM = "${var.product}"
