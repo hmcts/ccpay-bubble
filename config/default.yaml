@@ -10,8 +10,10 @@ session:
 ccpaybubble:
   url: http://localhost:4200
   defaultPort: 3000
+  microservice: ccpay-bubble
 s2s:
-  token: nothing
+  key: nothing
+  url: nothing
 payhub:
   url: https://payment-api-aat.service.core-compute-aat.internal/
 appInsights:
