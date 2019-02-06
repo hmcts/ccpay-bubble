@@ -1,2 +1,2 @@
 capacity = "2"
-// external_host_name ="https://paybubble.hmcts.net"
+external_host_name ="https://paybubble.platform.hmcts.net"
