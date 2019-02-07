@@ -9,10 +9,10 @@ class PayhubController {
     return this.payhubService.sendToPayhub(req, appInsights)
       .then(result => {
         // console.log(`result is: ${JSON.stringify(result)}`);
-        res.json({ found: true, paymentResult: result, success: true });
+        res.json({ found: true, paymentResult: result.body, success: true });
       })
       .catch(error => {
-        // console.log(`Error is: ${JSON.stringify(err)}`);
+        // console.log(`Error is: ${JSON.stringify(error)}`);
         res.json({ err: error, success: false });
       });
   }
