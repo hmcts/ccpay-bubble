@@ -17,31 +17,19 @@ describe('Add fee detail service', () => {
 
   it('Should call post with correct path', () => {
     const calledWithParams = [];
-    spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => {
-      calledWithParams[0] = param1;
-      return of({});
-    });
-
+    spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => of(param1));
     const paymentModel = new PaymentModel();
     paymentModel.amount = 100;
     addFeeDetailService.sendPayDetailsToPayhub(paymentModel)
-      .subscribe(() => {
-        expect(calledWithParams[0]).toEqual('/api/send-to-payhub');
-      });
+    .subscribe((response) => expect(response).toEqual('/api/send-to-payhub'));
   });
 
   it('Should call post with a paymentModel', () => {
     const calledWithParams = [];
-    spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => {
-      calledWithParams[1] = param2;
-      return of({});
-    });
-
+    spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => of(param2));
     const paymentModel = new PaymentModel();
     paymentModel.amount = 100;
     addFeeDetailService.sendPayDetailsToPayhub(paymentModel)
-      .subscribe(() => {
-        expect(calledWithParams[1].amount).toBe(100);
-      });
+    .subscribe((response) => expect(response.amount).toBe(100));
   });
 });

@@ -66,6 +66,17 @@ describe('AddFeeDetailComponent', () => {
     expect(component.feeModels.length).toBe(feeDataCount);
   });
 
+  it('Should add fee model code when populating fee list', () => {
+    expect(component.feeModels[0].code).toBe('FEE0002');
+  });
+
+  it('Should add fee model versions when populating fee list', () => {
+    expect(component.feeModels[0].calculated_amount).toBe(550.00);
+    expect(component.feeModels[0].display_amount).toBe('£ 550.00');
+    expect(component.feeModels[0].description).toBe('Filing an application for a divorce, nullity or civil partnership dissolution');
+    expect(component.feeModels[0].version).toBe('4');
+  });
+
   it('Should filter an array of fee models for selected fees only', () => {
     component.selectPaymentInstruction(component.feeModels[0]);
     expect(component.filterSelectedFees().length).toBe(1);
@@ -78,11 +89,38 @@ describe('AddFeeDetailComponent', () => {
     expect(component.payModel.fees[0]).toEqual(selectedFee);
   });
 
+  it('Should populate the paymodel amount propertry with a selected fee', () => {
+    const selectedFee = component.feeModels[0];
+    selectedFee.calculated_amount = 10.00;
+    component.selectPaymentInstruction(selectedFee);
+    component.saveAndContinue();
+    expect(component.payModel.amount).toEqual(10.00);
+  });
+
   it('Should update the remission model with a selected fee', () => {
     const selectedFee = component.feeModels[0];
     component.selectPaymentInstruction(selectedFee);
     component.saveAndContinue();
     expect(component.remissionModel.fee).toEqual(selectedFee);
+  });
+
+  it('Should populate the remission hwf amount propertry with a selected fee', () => {
+    const amountToPay = 2.00;
+    const selectedFee = component.feeModels[0];
+    component.amount_to_pay = amountToPay;
+    selectedFee.calculated_amount = 10.00;
+    component.selectPaymentInstruction(selectedFee);
+    component.saveAndContinue();
+    expect(component.remissionModel.hwf_amount).toEqual(8.00);
+  });
+
+  it('Should set remission hwf amount propertry to null if amount to pay is not set', () => {
+    const selectedFee = component.feeModels[0];
+    component.amount_to_pay = null;
+    selectedFee.calculated_amount = 10.00;
+    component.selectPaymentInstruction(selectedFee);
+    component.saveAndContinue();
+    expect(component.remissionModel.hwf_amount).toEqual(null);
   });
 
   it('Saving add fee detail should navigate to review fee detail page', () => {
