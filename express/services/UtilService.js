@@ -36,7 +36,7 @@ function setConfig(options, request) {
     options.headers.ServiceAuthorization = options.s2sToken;
     options.headers['return-url'] = options.returnUrl;
   }
-
+  // console.log(`Options: ${JSON.stringify(options)}`);
   return options;
 }
 
