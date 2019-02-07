@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { PaymentModel } from 'src/app/models/PaymentModel';
 import { RemissionModel } from 'src/app/models/RemissionModel';
@@ -22,10 +21,8 @@ export class ReviewFeeDetailComponent implements OnInit {
   paymentReference = '';
   redirectUrl = '';
 
-
   constructor(
-    private location: Location,
-    private _router: Router,
+    private router: Router,
     private addFeeDetailService: AddFeeDetailService
   ) { }
 
@@ -33,7 +30,7 @@ export class ReviewFeeDetailComponent implements OnInit {
     this.setDisplayAmounts();
   }
 
-  private setDisplayAmounts() {
+  setDisplayAmounts() {
     this.display_amount_to_pay = '£ ' + parseFloat(this.payModel.amount + '').toFixed(2);
     this.display_fee_amount = '£ ' + parseFloat((this.feeModels) ? this.feeModels[0].calculated_amount + '' : '').toFixed(2);
   }
@@ -41,15 +38,11 @@ export class ReviewFeeDetailComponent implements OnInit {
   sendPayDetailsToPayhub() {
     this.addFeeDetailService.sendPayDetailsToPayhub(PaymentModel.cleanModel(this.payModel))
     .subscribe((response: IResponse) => {
-      console.log('response: ' + response);
-      if (!response.data && response.success) {
-        return this._router.navigateByUrl( '/api/addFeeDetail' );
-      }
-    }, console.log);
+      if (!response.data && response.success) { return this.router.navigateByUrl('/api/addFeeDetail'); }
+    });
   }
 
   onGoBack() {
-    return this.location.back();
+    return this.router.navigateByUrl('/addFeeDetail');
   }
-
 }
