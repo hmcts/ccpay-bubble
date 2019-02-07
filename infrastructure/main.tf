@@ -7,7 +7,7 @@ locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
 
-  s2sUrl = "http://rpe-service-auth-provider-${local.local_env}.service.${local.local_ase}.internal"
+  s2sUrl = "https://rpe-service-auth-provider-${local.local_env}.service.${local.local_ase}.internal"
   asp_name = "ccpay-${var.env}"
 }
 

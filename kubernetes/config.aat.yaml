@@ -14,4 +14,4 @@ data:
   CCPAY_BUBBLE_MICROSERVICE: "ccpay_bubble"
   PAYHUB_API_URL: "https://payment-api-aat.service.core-compute-aat.internal/"
   S2S_KEY: "[paybubble-s2s-secret]"
-  S2S_URL: "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
+  S2S_URL: "https://rpe-service-auth-provider-aat.service.core-compute-aat.internal"

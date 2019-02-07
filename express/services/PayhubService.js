@@ -19,7 +19,11 @@ class PayhubService {
 
 
   sendToPayhub(req) {
+    // console.log('s2sUrl: ' + s2sUrl);
+    // console.log('ccpayBubbleSecret: ' + ccpayBubbleSecret);
+    // console.log('microService: ' + microService);
     return this.createAuthToken(req).then(token => {
+      // console.log('token: ' + token);
       return { authToken: token };
     });
     /*
@@ -34,6 +38,7 @@ class PayhubService {
 
   createAuthToken(req) {
     const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
+    // console.log('otpPassword: ' + otpPassword);
     const serviceAuthRequest = {
       microservice: microService,
       oneTimePassword: otpPassword
@@ -45,7 +50,8 @@ class PayhubService {
     return this.makeHttpRequest({
       uri: `${s2sUrl}/lease`,
       body: serviceAuthRequest,
-      method: 'POST'
+      method: 'POST',
+      json: true
     }, req);
   }
 }
