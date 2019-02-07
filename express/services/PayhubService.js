@@ -1,9 +1,13 @@
 const config = require('config');
 const otp = require('otp');
+/* const request = require('request-promise-native').defaults({
+  proxy: 'http://proxyout.reform.hmcts.net:8080',
+  strictSSL: false
+});*/
 const request = require('request-promise-native');
 
-// const payhubUrl = config.get('payhub.url');
-// const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
+const payhubUrl = config.get('payhub.url');
+const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('s2s.key');
 const microService = config.get('ccpaybubble.microservice');
@@ -18,40 +22,26 @@ class PayhubService {
     this.makeHttpRequest = makeHttpRequest;
   }
 
-
   sendToPayhub(req) {
-    // console.log('s2sUrl: ' + s2sUrl);
-    // console.log('ccpayBubbleSecret: ' + ccpayBubbleSecret);
-    // console.log('microService: ' + microService);
-    return this.createAuthToken(req).then(token => {
-      // console.log('token: ' + token);
-      return { authToken: token };
-    })
-      .catch(err => {
-        // console.log('Error in token: ' + JSON.stringify(err));
-        res.json({ err: err.body, success: false });
-      });
-    /*
-    return this.createAuthToken(req).then(token => this.makeHttpRequest({
+    // console.log(`s2sUrl: ${  s2sUrl}`);
+  //  console.log(`ccpayBubbleSecret: ${  ccpayBubbleSecret}`);
+    // console.log(`microService: ${  microService}`);
+    return this.createAuthToken().then(token => this.makeHttpRequest.post({
       uri: `${payhubUrl}card-payments`,
       body: req.body,
-      method: 'POST',
       s2sToken: token,
-      returnUrl: ccpayBubbleReturnUrl
-    }, req));*/
+      'return-url': ccpayBubbleReturnUrl,
+      json: true
+    }));
   }
 
-  createAuthToken(req) {
+  createAuthToken() {
     const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
-    // console.log('otpPassword: ' + otpPassword);
+    // console.log(`otpPassword: ${  otpPassword}`);
     const serviceAuthRequest = {
       microservice: microService,
       oneTimePassword: otpPassword
     };
-    return this.getServiceAuthToken(serviceAuthRequest, req);
-  }
-
-  getServiceAuthToken(serviceAuthRequest) {
     return request.post({
       uri: `${s2sUrl}/lease`,
       body: serviceAuthRequest,
