@@ -1,5 +1,6 @@
 const config = require('config');
 const otp = require('otp');
+const request = require('request-promise-native');
 
 // const payhubUrl = config.get('payhub.url');
 // const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
@@ -25,7 +26,11 @@ class PayhubService {
     return this.createAuthToken(req).then(token => {
       // console.log('token: ' + token);
       return { authToken: token };
-    });
+    })
+      .catch(err => {
+        // console.log('Error in token: ' + JSON.stringify(err));
+        res.json({ err: err.body, success: false });
+      });
     /*
     return this.createAuthToken(req).then(token => this.makeHttpRequest({
       uri: `${payhubUrl}card-payments`,
@@ -46,13 +51,12 @@ class PayhubService {
     return this.getServiceAuthToken(serviceAuthRequest, req);
   }
 
-  getServiceAuthToken(serviceAuthRequest, req) {
-    return this.makeHttpRequest({
+  getServiceAuthToken(serviceAuthRequest) {
+    return request.post({
       uri: `${s2sUrl}/lease`,
       body: serviceAuthRequest,
-      method: 'POST',
       json: true
-    }, req);
+    });
   }
 }
 
