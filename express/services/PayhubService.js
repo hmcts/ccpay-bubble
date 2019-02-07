@@ -23,8 +23,8 @@ class PayhubService {
       uri: `${payhubUrl}card-payments`,
       body: req.body,
       method: 'POST',
-      s2sToken: `${token}`,
-      returnUrl: `${ccpayBubbleReturnUrl}`
+      s2sToken: token,
+      returnUrl: ccpayBubbleReturnUrl
     }, req));
   }
 
