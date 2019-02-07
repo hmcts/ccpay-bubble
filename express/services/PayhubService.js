@@ -1,8 +1,8 @@
 const config = require('config');
 const otp = require('otp');
 
-const payhubUrl = config.get('payhub.url');
-const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
+// const payhubUrl = config.get('payhub.url');
+// const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('s2s.key');
 const microService = config.get('ccpaybubble.microservice');
@@ -19,13 +19,17 @@ class PayhubService {
 
 
   sendToPayhub(req) {
+    return this.createAuthToken(req).then(token => {
+      return { authToken: token };
+    });
+    /*
     return this.createAuthToken(req).then(token => this.makeHttpRequest({
       uri: `${payhubUrl}card-payments`,
       body: req.body,
       method: 'POST',
       s2sToken: token,
       returnUrl: ccpayBubbleReturnUrl
-    }, req));
+    }, req));*/
   }
 
   createAuthToken(req) {
