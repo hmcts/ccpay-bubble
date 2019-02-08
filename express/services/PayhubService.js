@@ -1,10 +1,10 @@
 const config = require('config');
 const otp = require('otp');
-/* const request = require('request-promise-native').defaults({
+const request = require('request-promise-native').defaults({
   proxy: 'http://proxyout.reform.hmcts.net:8080',
   strictSSL: false
-});*/
-const request = require('request-promise-native');
+});
+// const request = require('request-promise-native');
 
 const payhubUrl = config.get('payhub.url');
 const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
@@ -26,11 +26,14 @@ class PayhubService {
     // console.log(`s2sUrl: ${  s2sUrl}`);
   //  console.log(`ccpayBubbleSecret: ${  ccpayBubbleSecret}`);
     // console.log(`microService: ${  microService}`);
-    return this.createAuthToken().then(token => this.makeHttpRequest.post({
+    return this.createAuthToken().then(token => this.makeHttpRequest({
       uri: `${payhubUrl}card-payments`,
       body: req.body,
-      s2sToken: token,
-      'return-url': ccpayBubbleReturnUrl,
+      method: 'POST',
+      headers: {
+        ServiceAuthorization: token,
+        'return-url': ccpayBubbleReturnUrl
+      },
       json: true
     }));
     /* return this.createAuthToken().then(token => request.post({
