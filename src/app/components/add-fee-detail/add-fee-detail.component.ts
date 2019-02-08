@@ -1,90 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FeeModel } from 'src/app/models/FeeModel';
-import { PaymentModel } from 'src/app/models/PaymentModel';
-import { RemissionModel } from 'src/app/models/RemissionModel';
-import { feeTypes } from '../../../stubs/feeTypes';
 import { Router } from '@angular/router';
-import { IFeeType } from 'src/app/interfaces/IFeeType';
+import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 
 @Component({
   selector: 'app-add-fee-detail',
   templateUrl: './add-fee-detail.component.html',
   styleUrls: ['./add-fee-detail.component.scss']
 })
-export class AddFeeDetailComponent implements OnInit {
-
-  hwfEntryOn = false;
-  allSelected = false;
-  service = 'DIVORCE';
-  case_reference: string;
-  hwf_code: string;
-  amount_to_pay: number;
-  feeModel: FeeModel;
-  feeModels: FeeModel[] = [];
-  payModel: PaymentModel;
-  remissionModel: RemissionModel;
-  feeData: IFeeType[] = feeTypes;
+export class AddFeeDetailComponent {
+  helpWithFeesIsVisible = false;
+  fees: FeeModel[] = this.addFeeDetailService.buildFeeList();
 
   constructor(
     private router: Router,
+    private addFeeDetailService: AddFeeDetailService
   ) { }
 
-  ngOnInit() {
-    this.buildFeeList(this.feeData);
+  get serviceType() {
+    return this.addFeeDetailService.serviceType;
   }
 
-  toggleHwfFields() {
-    this.hwfEntryOn = !this.hwfEntryOn;
+  set serviceType(serviceType: string) {
+    this.addFeeDetailService.serviceType = serviceType;
+  }
+
+  set helpWithFeesCode(helpWithFeesCode: string) {
+    this.addFeeDetailService.helpWithFeesCode = helpWithFeesCode;
+  }
+
+  set caseReference(caseRef: string) {
+    this.addFeeDetailService.caseReference = caseRef;
+  }
+
+  set amountToPay(amountToPay: number) {
+    this.addFeeDetailService.amountToPay = amountToPay;
+  }
+
+  toggleHelpWithFees() {
+    this.helpWithFeesIsVisible = !this.helpWithFeesIsVisible;
   }
 
   saveAndContinue() {
-    FeeModel.models = this.filterSelectedFees();
-    this.populatePayAndRemissionModel(FeeModel.models);
+    this.addFeeDetailService.setNewPaymentModel();
+    this.addFeeDetailService.setNewRemissionModel();
     this.router.navigateByUrl('/reviewFeeDetail');
   }
 
-	filterSelectedFees(): FeeModel[] {
-    return this.feeModels.filter(feeModel => feeModel.checked === true);
-  }
-
-  selectPaymentInstruction(model: FeeModel) {
-    model.checked = !model.checked;
-  }
-
-  private populatePayAndRemissionModel(selectedFeeModels: FeeModel[]) {
-    PaymentModel.reset(PaymentModel.model);
-    this.payModel = new PaymentModel();
-    this.payModel.ccd_case_number = this.case_reference;
-    this.payModel.fees = selectedFeeModels;
-    this.payModel.service = this.service;
-    this.payModel.amount = (this.amount_to_pay) ? this.amount_to_pay : selectedFeeModels[0].calculated_amount;
-    PaymentModel.model = this.payModel;
-
-    RemissionModel.reset(RemissionModel.model);
-    this.remissionModel = new RemissionModel();
-    this.remissionModel.fee = selectedFeeModels[0];
-    this.remissionModel.hwf_amount = (this.amount_to_pay) ? selectedFeeModels[0].calculated_amount - this.amount_to_pay : null;
-    this.remissionModel.hwf_reference = this.hwf_code;
-    RemissionModel.model = this.remissionModel;
-  }
-
-  buildFeeList(feeData: IFeeType[]) {
-    feeData.forEach(data => {
-      const keys = Object.keys(data);
-      for (let i = 0; i < keys.length; i++) {
-        this.feeModel = new FeeModel();
-        this.feeModel.checked = false;
-        if (data.hasOwnProperty('code')) {
-          this.feeModel.code = data.code;
-        }
-        if (data.hasOwnProperty('fee_versions')) {
-          this.feeModel.calculated_amount = data.fee_versions[0].flat_amount.amount;
-          this.feeModel.display_amount = '£ ' + parseFloat(this.feeModel.calculated_amount + '').toFixed(2);
-          this.feeModel.description = data.fee_versions[0].description;
-          this.feeModel.version = `${data.fee_versions[0].version}`;
-        }
-      }
-      this.feeModels.push(this.feeModel);
-    });
+  selectFee(fee: FeeModel) {
+    this.addFeeDetailService.selectedFee = fee;
   }
 }
