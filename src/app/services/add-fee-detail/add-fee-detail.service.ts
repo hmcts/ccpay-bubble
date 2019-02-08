@@ -5,6 +5,7 @@ import { PaybubbleHttpClient } from 'src/app/services/httpclient/paybubble.http.
 import { FeeModel } from 'src/app/models/FeeModel';
 import { RemissionModel } from 'src/app/models/RemissionModel';
 import { feeTypes } from '../../../stubs/feeTypes';
+import { IResponse } from 'src/app/interfaces/response';
 
 @Injectable()
 export class AddFeeDetailService {
@@ -81,7 +82,7 @@ export class AddFeeDetailService {
     });
   }
 
-  sendPayDetailsToPayhub(): Observable<any> {
-    return this.http.post('/api/send-to-payhub', PaymentModel.cleanModel(this._paymentModel));
+  sendPayDetailsToPayhub() {
+    return this.http.post('/api/send-to-payhub', PaymentModel.cleanModel(this._paymentModel)).toPromise();
   }
 }

@@ -7,8 +7,12 @@ class PayhubController {
 
   sendToPayhub(req, res, appInsights) {
     return this.payhubService.sendToPayhub(req, appInsights)
-      .then(result => res.json({ found: true, fees: result.body, success: true }))
-      .catch(err => res.json({ err: err.body, success: false }));
+      .then(result => {
+        res.json({ data: result, success: true });
+      })
+      .catch(error => {
+        res.json({ err: error, success: false });
+      });
   }
 }
 

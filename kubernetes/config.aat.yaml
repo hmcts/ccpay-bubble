@@ -10,3 +10,8 @@ data:
   IGNORE_CERTS: "true"
   SKIP_FUNCTIONAL_TEST: "0"
   SLOT: "PRODUCTION"
+  CCPAY_BUBBLE_URL: "https://ccpay-bubble-frontend-aat.service.core-compute-aat.internal/"
+  CCPAY_BUBBLE_MICROSERVICE: "ccpay_bubble"
+  PAYHUB_API_URL: "https://payment-api-aat.service.core-compute-aat.internal/"
+  S2S_KEY: "G5XTFNBUW4P6ZP4F"
+  S2S_URL: "https://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
