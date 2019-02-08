@@ -7,7 +7,7 @@ function asyncTo(promise) {
   return promise.then(data => [null, data]).catch(err => [err]);
 }
 
-function setConfig(options, request) {
+function setConfig(options) {
   if (!options.hasOwnProperty('uri') || !options.hasOwnProperty('method')) {
     throw new Error('"uri" and "method" should contain data.');
   }
@@ -16,7 +16,7 @@ function setConfig(options, request) {
     throw new Error('"uri" and "method" should not be blank');
   }
 
-  if (typeof options !== 'object' || (request && typeof request !== 'object')) {
+  if (typeof options !== 'object') {
     throw new Error(
       'Please ensure "options" and "request" are of type "Object".'
     );
@@ -31,11 +31,6 @@ function setConfig(options, request) {
   if (options.hasOwnProperty('method') && options.method === 'DELETE') {
     options.json = false;
   }
-
-  if (options.hasOwnProperty('s2sToken')) {
-    options.headers.ServiceAuthorization = options.s2sToken;
-    options.headers['return-url'] = options.returnUrl;
-  }
   // console.log(`Options: ${JSON.stringify(options)}`);
   return options;
 }
@@ -45,8 +40,8 @@ function setConfig(options, request) {
  * @param {Object} options
  * @param {XMLHttpRequest} request
  */
-function makeHttpRequest(options, request) {
-  return rq(setConfig(options, request));
+function makeHttpRequest(options) {
+  return rq(setConfig(options));
 }
 
 function response(res, data, status = HttpStatusCodes.OK) {

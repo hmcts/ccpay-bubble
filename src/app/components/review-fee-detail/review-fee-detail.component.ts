@@ -38,6 +38,7 @@ export class ReviewFeeDetailComponent implements OnInit {
   sendPayDetailsToPayhub() {
     this.addFeeDetailService.sendPayDetailsToPayhub(PaymentModel.cleanModel(this.payModel))
     .subscribe((response: IResponse) => {
+      console.log('Response raw data: ' + JSON.stringify(response.rawData));
       console.log('Response received: ' + JSON.stringify(response.data));
       if (!response.data && response.success) { return this.router.navigateByUrl('/api/addFeeDetail'); }
     });
