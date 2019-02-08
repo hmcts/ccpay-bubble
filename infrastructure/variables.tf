@@ -10,7 +10,7 @@ variable "location" {
 
 variable "microservice" {
   type = "string"
-  default = "ccpay-bubble"
+  default = "ccpay_bubble"
 }
 
 variable "env" {}

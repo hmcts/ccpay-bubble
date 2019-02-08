@@ -21,7 +21,7 @@ describe('Add fee detail service', () => {
     const paymentModel = new PaymentModel();
     paymentModel.amount = 100;
     addFeeDetailService.sendPayDetailsToPayhub(paymentModel)
-    .subscribe((response) => expect(response).toEqual('/api/send-to-payhub'));
+    .then((response) => expect(response).toEqual('/api/send-to-payhub'));
   });
 
   it('Should call post with a paymentModel', () => {
@@ -30,6 +30,6 @@ describe('Add fee detail service', () => {
     const paymentModel = new PaymentModel();
     paymentModel.amount = 100;
     addFeeDetailService.sendPayDetailsToPayhub(paymentModel)
-    .subscribe((response) => expect(response.amount).toBe(100));
+    .then((response) => expect(response.amount).toBe(100));
   });
 });
