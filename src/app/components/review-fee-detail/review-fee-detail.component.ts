@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
-import { IResponse } from 'src/app/interfaces/response';
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
 
@@ -14,7 +13,9 @@ export class ReviewFeeDetailComponent {
   display_fee_amount: string;
   display_amount_to_pay: string;
   paymentReference = '';
-  redirectUrl = '';
+  paymentGroupReference = '';
+  error: string;
+  resultData: any;
 
   constructor(
     private router: Router,
@@ -30,8 +31,14 @@ export class ReviewFeeDetailComponent {
   }
 
   sendPayDetailsToPayhub() {
-    this.addFeeDetailService.sendPayDetailsToPayhub().subscribe((response: IResponse) => {
-      if (!response.data && response.success) { return this.router.navigateByUrl('/api/addFeeDetail'); }
+    this.addFeeDetailService.sendPayDetailsToPayhub()
+    .then(sendCardPayments => {
+      this.resultData = JSON.parse(sendCardPayments);
+      this.paymentReference = this.resultData.data.reference;
+      this.paymentGroupReference = this.resultData.data.payment_group_reference;
+    })
+    .catch(err => {
+      this.error = err;
     });
   }
 
