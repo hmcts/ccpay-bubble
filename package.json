@@ -2,6 +2,7 @@
   "name": "ccpay-bubble",
   "version": "0.0.0",
   "scripts": {
+    "debug": "node --inspect --proxy-server=http://proxyout.reform.hmcts.net:8080 start.js",
     "ng": "ng",
     "start": "node start.js",
     "start:angular-dev": "ng serve --proxy-config proxy.conf.json",
@@ -61,6 +62,8 @@
     "moment-timezone": "^0.5.23",
     "otp": "^0.1.3",
     "pug": "2.0.3",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5",
     "rxjs": "~6.4.0",
     "superagent": "4.1.0",
     "supertest": "^3.4.2",
