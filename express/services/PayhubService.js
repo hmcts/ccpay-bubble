@@ -26,14 +26,14 @@ class PayhubService {
     // console.log(`s2sUrl: ${  s2sUrl}`);
   //  console.log(`ccpayBubbleSecret: ${  ccpayBubbleSecret}`);
     // console.log(`microService: ${  microService}`);
-    /* return this.createAuthToken().then(token => this.makeHttpRequest.post({
+    return this.createAuthToken().then(token => this.makeHttpRequest.post({
       uri: `${payhubUrl}card-payments`,
       body: req.body,
       s2sToken: token,
       'return-url': ccpayBubbleReturnUrl,
       json: true
-    }));*/
-    return this.createAuthToken().then(token => request.post({
+    }));
+    /* return this.createAuthToken().then(token => request.post({
       uri: `${payhubUrl}card-payments`,
       body: req.body,
       headers: {
@@ -42,7 +42,7 @@ class PayhubService {
         'Content-Type': 'application/json'
       },
       json: true
-    }));
+    }));*/
   }
 
   createAuthToken() {
