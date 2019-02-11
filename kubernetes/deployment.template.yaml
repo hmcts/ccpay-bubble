@@ -23,7 +23,7 @@ spec:
           - name: NODE_ENV
             value: 'production'
           - name: APPINSIGHTS_INSTRUMENTATIONKEY
-            value: '${APPINSIGHTS_INSTRUMENTATIONKEY}'
+            value: 'DUMMY-APPINSIGHTS_INSTRUMENTATIONKEY'
         envFrom:
         - configMapRef:
             name: ${SERVICE_NAME}-config
