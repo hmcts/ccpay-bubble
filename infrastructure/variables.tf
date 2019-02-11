@@ -1,6 +1,9 @@
 variable "product" {
   type = "string"
-  default = "ccpay-bubble"
+}
+
+variable "component" {
+  type = "string"
 }
 
 variable "location" {
