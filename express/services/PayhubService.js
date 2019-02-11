@@ -1,6 +1,10 @@
 const config = require('config');
 const otp = require('otp');
-const request = require('request-promise-native');
+
+const request = process.env.NODE_ENV === 'development' ? require('request-promise-native').defaults({
+  proxy: 'http://proxyout.reform.hmcts.net:8080',
+  strictSSL: false
+}) : require('request-promise-native');
 
 const payhubUrl = config.get('payhub.url');
 const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
@@ -16,6 +20,18 @@ class PayhubService {
       headers: {
         ServiceAuthorization: `Bearer ${token}`,
         'return-url': `${ccpayBubbleReturnUrl}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
+  postRemission(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}remission`,
+      body: req.body,
+      headers: {
+        ServiceAuthorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       json: true
