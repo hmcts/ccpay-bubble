@@ -6,7 +6,7 @@
       <h1 class="heading-small">
         Service 
       </h1>
-      <select class="form-control short-input" id="service" name="service" [(ngModel)]="service">
+      <select class="form-control short-input" id="service" name="service" [(ngModel)]="serviceType">
         <option value="DIVORCE">Divorce</option>
       </select>
     </div>
@@ -21,51 +21,20 @@
           </h2>
         </legend>
       </fieldset>
-      <input class="form-control short-input" autocomplete="off" id="caseReference" name="caseReference" type="text" [(ngModel)]="case_reference">
+      <input class="form-control short-input" autocomplete="off" id="caseReference" name="caseReference" type="text" [(ngModel)]="caseReference">
     </div>
-    <div class="form-group">
-      <fieldset>
-        <legend>
-          <h1 class="heading-small">
-            Select fee
-          </h1>
-        </legend> 
-        <div class="fee-list">
-          <table>
-            <thead>
-              <tr>
-                <th>Fee code</th>
-                <th>Fee description</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let feeModel of feeModels">
-                <td>
-                  <div class="multiple-choice">
-                    <input [id]="feeItem" [name]="feeItem" type="radio" [value]="feeModel.code" (click)="selectPaymentInstruction(feeModel)"/>
-                    <label for="fee">{{ feeModel.code }}</label>
-                  </div>
-                </td>
-                <td>{{ feeModel.description }}</td>
-                <td>{{ feeModel.display_amount }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </fieldset>
-    </div>
-    <div class="form-group" id="hwfCloseText" (click)="toggleHwfFields()" [hidden]="hwfEntryOn">
+    <app-fee-list-table [fees]=fees (feeChangedEventEmitter)="selectFee($event)"></app-fee-list-table>
+    <div class="form-group" id="hwfCloseText" (click)="toggleHelpWithFees()" [hidden]="helpWithFeesIsVisible">
       <fieldset class="inline">
         <legend>
           <span><a>Show help with fees</a></span>
         </legend>
       </fieldset>
     </div>
-    <div class="form-group" id="hwfOpenText" [hidden]="!hwfEntryOn">
+    <div class="form-group" id="hwfOpenText" [hidden]="!helpWithFeesIsVisible">
       <fieldset class="inline">
         <legend>
-          <span (click)="toggleHwfFields()"><a>Hide help with fees</a></span>
+          <span (click)="toggleHelpWithFees()"><a>Hide help with fees</a></span>
         </legend>
         <legend>
           <h1 class="heading-small">
@@ -77,7 +46,7 @@
         </legend>
       </fieldset>
       <div class="form-group">
-          <input class="form-control short-input" autocomplete="off" id="hwfReference" name="hwfReference" type="text" [(ngModel)]="hwf_code">
+          <input class="form-control short-input" autocomplete="off" id="hwfReference" name="hwfReference" type="text" [(ngModel)]="helpWithFeesCode">
       </div>
       <fieldset class="inline">
         <legend>
@@ -87,7 +56,7 @@
         </legend>
       </fieldset>
       <div class="form-group">
-          £ <input class="form-control short-input" autocomplete="off" id="amountToPay" name="amountToPay" type="text" [(ngModel)]="amount_to_pay">
+          £ <input class="form-control short-input" autocomplete="off" id="amountToPay" name="amountToPay" type="text" [(ngModel)]="amountToPay">
       </div>
     </div>
     <div class="form-group">

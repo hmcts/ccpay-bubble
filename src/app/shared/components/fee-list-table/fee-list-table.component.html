@@ -1,0 +1,30 @@
+<div class="form-group" *ngIf="fees">
+  <fieldset>
+    <legend>
+      <h1 class="heading-small">Select fee</h1>
+    </legend> 
+    <div class="fee-list">
+      <table>
+        <thead>
+          <tr>
+            <th>Fee code</th>
+            <th>Fee description</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let fee of fees">
+            <td>
+              <div class="multiple-choice">
+                <input [id]="fee" [name]="fee" type="radio" [value]="fee.code" (click)="selectFee(fee)"/>
+                <label for="fee">{{ fee.code }}</label>
+              </div>
+            </td>
+            <td>{{ fee.description }}</td>
+            <td>{{ fee.display_amount }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </fieldset>
+</div>
