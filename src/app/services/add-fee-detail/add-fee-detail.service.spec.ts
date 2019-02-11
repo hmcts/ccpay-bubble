@@ -17,6 +17,16 @@ describe('Add fee detail service', () => {
     addFeeDetailService = new AddFeeDetailService(http);
   });
 
+  it('Should reset data', () => {
+    addFeeDetailService.reset();
+    expect(addFeeDetailService.amountToPay).toBe(null);
+    expect(addFeeDetailService.caseReference).toBe('');
+    expect(addFeeDetailService.helpWithFeesCode).toBe('');
+    expect(addFeeDetailService.remissionModel).toEqual(new RemissionModel());
+    expect(addFeeDetailService.paymentModel).toEqual(new PaymentModel());
+    expect(addFeeDetailService.selectedFee).toEqual(new FeeModel());
+  });
+
   it('Should SET and GET private payment model', () => {
     const paymentModel = new PaymentModel();
     paymentModel.amount = 100;
@@ -80,23 +90,43 @@ describe('Add fee detail service', () => {
     expect(feeList[0].code).toBe('FEE0002');
   });
 
-  it('Should call post with correct path', () => {
+  it('Should call post payment with the correct path', () => {
     const calledWithParams = [];
     spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => of(param1));
     const paymentModel = new PaymentModel();
     paymentModel.amount = 100;
     addFeeDetailService.paymentModel = paymentModel;
-    addFeeDetailService.sendPayDetailsToPayhub()
+    addFeeDetailService.postPayment()
     .then((response) => expect(response).toEqual('/api/send-to-payhub'));
   });
 
-  it('Should call post with a paymentModel', () => {
+  it('Should call post payment with a paymentModel', () => {
     const calledWithParams = [];
     spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => of(param2));
     const paymentModel = new PaymentModel();
     paymentModel.amount = 100;
     addFeeDetailService.paymentModel = paymentModel;
-    addFeeDetailService.sendPayDetailsToPayhub()
+    addFeeDetailService.postPayment()
     .then((response) => expect(response.amount).toBe(100));
+  });
+
+  it('Should call post full remission with the correct path', () => {
+    const calledWithParams = [];
+    spyOn(http, 'post').and.callFake((param1: string, param2: RemissionModel) => of(param1));
+    const remissionModel = new RemissionModel();
+    remissionModel.hwf_amount = 100;
+    addFeeDetailService.remissionModel = remissionModel;
+    addFeeDetailService.postFullRemission()
+    .then((response) => expect(response).toEqual('/api/remission'));
+  });
+
+  it('Should call post full remission with a remissionModel', () => {
+    const calledWithParams = [];
+    spyOn(http, 'post').and.callFake((param1: string, param2: RemissionModel) => of(param2));
+    const remissionModel = new RemissionModel();
+    remissionModel.hwf_amount = 100;
+    addFeeDetailService.remissionModel = remissionModel;
+    addFeeDetailService.postFullRemission()
+    .then((response) => expect(response.hwf_amount).toBe(100));
   });
 });
