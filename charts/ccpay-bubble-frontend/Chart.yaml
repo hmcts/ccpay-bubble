@@ -1,5 +1,5 @@
 description: Helm chart for the HMCTS Pay bubble frontend service
-name: ccpay-bubble
+name: ccpay-bubble-frontend
 home: https://github.com/hmcts/ccpay-bubble
 version: 0.0.1
 maintainers:

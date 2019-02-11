@@ -8,7 +8,7 @@ nodejs:
   cpuLimits: 1
   environment:
     REFORM_TEAM: ccpay
-    REFORM_SERVICE_NAME: ccpay-bubble
+    REFORM_SERVICE_NAME: ccpay-bubble-frontend
     REFORM_ENVIRONMENT: preview
     NODE_ENV: production
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
