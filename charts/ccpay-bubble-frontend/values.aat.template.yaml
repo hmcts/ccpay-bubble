@@ -1,0 +1,6 @@
+nodejs:
+  environment:
+    S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+    S2S_KEY: ${PAYBUBBLE_S2S_TOTP_SECRET}
+    PAYHUB_API_URL: http://payment-api-aat.service.core-compute-aat.internal
+    CCPAY_BUBBLE_URL: https://ccpay-bubble-frontend-aat.service.core-compute-aat.internal
