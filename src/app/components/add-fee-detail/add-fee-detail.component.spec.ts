@@ -76,7 +76,6 @@ describe('AddFeeDetailComponent', () => {
 
   it('Should select a fee', () => {
     const fee: FeeModel = new FeeModel;
-    fee.checked = false;
     component.selectFee(fee);
     fixture.detectChanges();
     const service = fixture.debugElement.injector.get(AddFeeDetailService);

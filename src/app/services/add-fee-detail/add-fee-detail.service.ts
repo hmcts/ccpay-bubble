@@ -14,11 +14,20 @@ export class AddFeeDetailService {
   private _remissionModel: RemissionModel;
   caseReference = '';
   serviceType = 'DIVORCE';
-  amountToPay = 0.00;
+  amountToPay: number | null;
   helpWithFeesCode = '';
   constructor(
     private http: PaybubbleHttpClient
   ) {}
+
+  reset() {
+    this.amountToPay = null;
+    this.caseReference = '';
+    this.helpWithFeesCode = '';
+    this.paymentModel = new PaymentModel();
+    this.remissionModel = new RemissionModel();
+    this.selectedFee = new FeeModel();
+  }
 
   get paymentModel(): PaymentModel {
     return this._paymentModel;
@@ -55,10 +64,10 @@ export class AddFeeDetailService {
 
   setNewRemissionModel() {
     const remissionModel = new RemissionModel();
+    remissionModel.ccd_case_number = this.caseReference;
     remissionModel.fee = this.selectedFee;
     remissionModel.hwf_amount = (this.amountToPay) ? this.selectedFee.calculated_amount - this.amountToPay : null;
     remissionModel.hwf_reference = this.helpWithFeesCode;
-    RemissionModel.model = this.remissionModel;
     this.remissionModel = remissionModel;
   }
 
@@ -67,7 +76,6 @@ export class AddFeeDetailService {
       const keys = Object.keys(data);
       for (let i = 0; i < keys.length; i++) {
         const feeModel = new FeeModel();
-        feeModel.checked = false;
         if (data.hasOwnProperty('code')) {
           feeModel.code = data.code;
         }
@@ -82,7 +90,11 @@ export class AddFeeDetailService {
     });
   }
 
-  sendPayDetailsToPayhub() {
+  postFullRemission() {
+    return this.http.post('/api/remission', RemissionModel.cleanModel(this._remissionModel)).toPromise();
+  }
+
+  postPayment() {
     return this.http.post('/api/send-to-payhub', PaymentModel.cleanModel(this._paymentModel)).toPromise();
   }
 }

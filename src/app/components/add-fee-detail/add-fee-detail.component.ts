@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-add-fee-detail',
   templateUrl: './add-fee-detail.component.html',
   styleUrls: ['./add-fee-detail.component.scss']
 })
-export class AddFeeDetailComponent {
+export class AddFeeDetailComponent implements OnInit {
   helpWithFeesIsVisible = false;
   fees: FeeModel[] = this.addFeeDetailService.buildFeeList();
 
@@ -16,6 +17,10 @@ export class AddFeeDetailComponent {
     private router: Router,
     private addFeeDetailService: AddFeeDetailService
   ) { }
+
+  ngOnInit() {
+    this.addFeeDetailService.reset();
+  }
 
   get serviceType() {
     return this.addFeeDetailService.serviceType;
