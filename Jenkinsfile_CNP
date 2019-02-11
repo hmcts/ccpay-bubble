@@ -10,11 +10,25 @@ properties(
 def product = "ccpay-bubble"
 def component = "frontend"
 
+List<LinkedHashMap<String, Object>> secrets = [
+  secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET')
+]
+
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+  [ $class: 'AzureKeyVaultSecret',
+    secretType: 'Secret',
+    name: secretName,
+    version: '',
+    envVariable: envVar
+  ]
+}
+
 withPipeline("nodejs", product, component) {
 
   setVaultName('ccpay')
+  loadVaultSecrets(secrets)
   enableDockerBuild()
-  enableDeployToAKS()
+  installCharts()
   enableSlackNotifications('#cc-payments-tech')
 
   after('checkout') {
