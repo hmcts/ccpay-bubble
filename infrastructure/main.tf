@@ -17,7 +17,7 @@ data "azurerm_key_vault_secret" "s2s_key" {
 }
 module "ccpay-bubble" {
   source   = "git@github.com:hmcts/moj-module-webapp?ref=master"
-  product  = "${var.product}-frontend"
+  product  = "${var.product}-${var.component}"
   location = "${var.location}"
   env      = "${var.env}"
   ilbIp    = "${var.ilbIp}"
