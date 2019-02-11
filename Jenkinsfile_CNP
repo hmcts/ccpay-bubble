@@ -11,7 +11,8 @@ def product = "ccpay-bubble"
 def component = "frontend"
 
 List<LinkedHashMap<String, Object>> secrets = [
-  secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET')
+  secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET'),
+  secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
