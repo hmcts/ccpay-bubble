@@ -8,6 +8,11 @@ import { PaymentModel } from 'src/app/models/PaymentModel';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { PaybubbleHttpClient } from 'src/app/services/httpclient/paybubble.http.client';
+import { HttpClientModule } from '@angular/common/http';
+import { compare } from 'semver';
+import { RemissionModel } from 'src/app/models/RemissionModel';
+import { FormatDisplayCurrencyPipe } from 'src/app/shared/pipes/format-display-currency.pipe';
 
 const routerMock = {
   navigateByUrl: jasmine.createSpy('navigateByUrl')
@@ -16,51 +21,48 @@ const routerMock = {
 describe('ReviewFeeDetailComponent', () => {
   let component: ReviewFeeDetailComponent;
   let fixture: ComponentFixture<ReviewFeeDetailComponent>;
-  let mockAddFeeDetailService: any;
-
-  const payModel: PaymentModel = new PaymentModel();
-  payModel.amount = 550;
-
-  const feeModel: FeeModel = new FeeModel();
-  const feeModels: FeeModel[] = [];
-  feeModel.calculated_amount = 550;
-  feeModels.push(feeModel);
+  const payModel = new PaymentModel();
+  payModel.amount = 10.00;
+  const remissionModel = new RemissionModel();
+  remissionModel.hwf_reference = '123';
 
   beforeEach(async(() => {
-    mockAddFeeDetailService = jasmine.createSpyObj<AddFeeDetailService>('addFeeDetailService', ['sendPayDetailsToPayhub']);
     TestBed.configureTestingModule({
-      imports: [ RouterModule, RouterTestingModule.withRoutes([]) ],
-      declarations: [ ReviewFeeDetailComponent ],
+      declarations: [ ReviewFeeDetailComponent, FormatDisplayCurrencyPipe],
       providers: [
-        { provide: AddFeeDetailService, useValue: mockAddFeeDetailService },
+        PaybubbleHttpClient,
+        AddFeeDetailService,
         { provide: Router, useValue: routerMock }
-      ]
+      ],
+      imports: [
+        HttpClientModule,
+        RouterModule,
+        RouterTestingModule.withRoutes([])],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReviewFeeDetailComponent);
     component = fixture.componentInstance;
+    const selectedFee = new FeeModel();
+    selectedFee.calculated_amount = 100;
+    const service = fixture.debugElement.injector.get(AddFeeDetailService);
+    service.paymentModel = payModel;
+    service.remissionModel = remissionModel;
+    component.fee = selectedFee;
     fixture.detectChanges();
-
-    component.feeModels = feeModels;
-    component.payModel = payModel;
   });
 
   it('Should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Should set amount to pay from the payment model', () => {
-    component.setDisplayAmounts();
-    component.payModel.amount = 550;
-    expect(component.display_amount_to_pay).toContain('550');
+  it('Should GET paymodel', () => {
+    expect(component.payModel).toEqual(payModel);
   });
 
-  it('Should set fee amount from the fee model', () => {
-    component.setDisplayAmounts();
-    component.feeModels[0].calculated_amount = 500;
-    expect(component.display_amount_to_pay).toContain('550');
+  it('Should GET remissionModel', () => {
+    expect(component.remissionModel).toEqual(remissionModel);
   });
 
   it('It should navigate back to the add fee details page', () => {

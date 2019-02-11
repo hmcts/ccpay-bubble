@@ -1,6 +1,5 @@
 <div>
     <h1 class="heading-xlarge">Summary of fees</h1>
-  
     <form>
       <div class="form-group">
         <div class="fee-details">
@@ -12,15 +11,15 @@
               </tr>
               <tr>
                 <td>Fee code: </td>
-                <td>{{(feeModels) ? feeModels[0].code : ''}}</td>
+                <td>{{(fee) ? fee.code : ''}}</td>
               </tr>
               <tr>
                 <td>Fee description: </td>
-                <td>{{(feeModels) ? feeModels[0].description : ''}}</td>
+                <td>{{(fee) ? fee.description : ''}}</td>
               </tr>
               <tr>
                 <td>Price: </td>
-                <td>{{display_fee_amount}}</td>
+                <td>{{this.fee.calculated_amount | formatDisplayCurrency}}</td>
               </tr>
               <tr>
                 <td>Help with fees (HWF) code: </td>
@@ -28,7 +27,7 @@
               </tr>
               <tr>
                 <td>Amount left to pay: </td>
-                <td>{{display_amount_to_pay}}</td>
+                <td>{{this.payModel.amount | formatDisplayCurrency}}</td>
               </tr>
             </tbody>
           </table>
