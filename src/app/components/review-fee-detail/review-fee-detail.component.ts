@@ -32,7 +32,7 @@ export class ReviewFeeDetailComponent {
   }
 
   sendPayDetailsToPayhub() {
-    if (this.payModel.amount == 0 && this.remissionModel.hwf_reference) {
+    if (this.payModel.amount == 0) {
       this.addFeeDetailService.postFullRemission()
       .then(response => { this.remissionID = JSON.parse(response).data; })
       .catch(err => { this.error = err; });
