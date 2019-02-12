@@ -17,16 +17,6 @@ describe('Add fee detail service', () => {
     addFeeDetailService = new AddFeeDetailService(http);
   });
 
-  it('Should reset data', () => {
-    addFeeDetailService.reset();
-    expect(addFeeDetailService.amountToPay).toBe(null);
-    expect(addFeeDetailService.caseReference).toBe('');
-    expect(addFeeDetailService.helpWithFeesCode).toBe('');
-    expect(addFeeDetailService.remissionModel).toEqual(new RemissionModel());
-    expect(addFeeDetailService.paymentModel).toEqual(new PaymentModel());
-    expect(addFeeDetailService.selectedFee).toEqual(new FeeModel());
-  });
-
   it('Should SET and GET private payment model', () => {
     const paymentModel = new PaymentModel();
     paymentModel.amount = 100;
@@ -52,11 +42,14 @@ describe('Add fee detail service', () => {
     const fee = new FeeModel();
     fee.calculated_amount = 100;
     addFeeDetailService.selectedFee = fee;
-    addFeeDetailService.caseReference = '1111-2222-3333-4444';
-    addFeeDetailService.setNewPaymentModel();
+    const props = {
+      caseReference: '1111-2222-3333-4444',
+      serviceType: 'DIVORCE',
+    };
+    addFeeDetailService.setNewPaymentModel(props);
     expect(addFeeDetailService.paymentModel.ccd_case_number).toBe('1111-2222-3333-4444');
     expect(addFeeDetailService.paymentModel.fees[0].calculated_amount).toBe(100);
-    expect(addFeeDetailService.paymentModel.service).toBe(addFeeDetailService.serviceType);
+    expect(addFeeDetailService.paymentModel.service).toBe('DIVORCE');
     expect(addFeeDetailService.paymentModel.amount).toBe(100);
   });
 
@@ -64,9 +57,11 @@ describe('Add fee detail service', () => {
     const fee = new FeeModel();
     fee.calculated_amount = 100;
     addFeeDetailService.selectedFee = fee;
-    addFeeDetailService.amountToPay = 1;
-    addFeeDetailService.helpWithFeesCode = '123';
-    addFeeDetailService.setNewRemissionModel();
+    const props = {
+      amountToPay: 1,
+      helpWithFeesCode: '123'
+    };
+    addFeeDetailService.setNewRemissionModel(props);
     expect(addFeeDetailService.remissionModel.fee.calculated_amount).toBe(100);
     expect(addFeeDetailService.remissionModel.hwf_amount).toBe(99);
     expect(addFeeDetailService.remissionModel.hwf_reference).toBe('123');

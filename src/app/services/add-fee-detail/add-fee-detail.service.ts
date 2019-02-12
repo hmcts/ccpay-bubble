@@ -12,22 +12,9 @@ export class AddFeeDetailService {
   private _selectedFee: FeeModel;
   private _paymentModel: PaymentModel;
   private _remissionModel: RemissionModel;
-  caseReference = '';
-  serviceType = 'DIVORCE';
-  amountToPay: number | null;
-  helpWithFeesCode = '';
   constructor(
     private http: PaybubbleHttpClient
   ) {}
-
-  reset() {
-    this.amountToPay = null;
-    this.caseReference = '';
-    this.helpWithFeesCode = '';
-    this.paymentModel = new PaymentModel();
-    this.remissionModel = new RemissionModel();
-    this.selectedFee = new FeeModel();
-  }
 
   get paymentModel(): PaymentModel {
     return this._paymentModel;
@@ -53,21 +40,21 @@ export class AddFeeDetailService {
     this._selectedFee = fee;
   }
 
-  setNewPaymentModel() {
+  setNewPaymentModel(props) {
     const paymentModel = new PaymentModel();
-    paymentModel.ccd_case_number = this.caseReference;
+    paymentModel.ccd_case_number = props.caseReference;
     paymentModel.fees = [this.selectedFee];
-    paymentModel.service = this.serviceType;
-    paymentModel.amount = (this.amountToPay) ? this.amountToPay : this.selectedFee.calculated_amount;
+    paymentModel.service = props.serviceType;
+    paymentModel.amount = (props.amountToPay) ? props.amountToPay : this.selectedFee.calculated_amount;
     this.paymentModel = paymentModel;
   }
 
-  setNewRemissionModel() {
+  setNewRemissionModel(props) {
     const remissionModel = new RemissionModel();
-    remissionModel.ccd_case_number = this.caseReference;
+    remissionModel.ccd_case_number = props.caseReference;
     remissionModel.fee = this.selectedFee;
-    remissionModel.hwf_amount = (this.amountToPay) ? this.selectedFee.calculated_amount - this.amountToPay : null;
-    remissionModel.hwf_reference = this.helpWithFeesCode;
+    remissionModel.hwf_amount = (props.amountToPay) ? this.selectedFee.calculated_amount - props.amountToPay : null;
+    remissionModel.hwf_reference = props.helpWithFeesCode;
     this.remissionModel = remissionModel;
   }
 
