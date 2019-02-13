@@ -12,10 +12,6 @@ export class AddFeeDetailService {
   private _selectedFee: FeeModel;
   private _paymentModel: PaymentModel;
   private _remissionModel: RemissionModel;
-  caseReference = '';
-  serviceType = 'DIVORCE';
-  amountToPay = 0.00;
-  helpWithFeesCode = '';
   constructor(
     private http: PaybubbleHttpClient
   ) {}
@@ -44,21 +40,21 @@ export class AddFeeDetailService {
     this._selectedFee = fee;
   }
 
-  setNewPaymentModel() {
+  setNewPaymentModel(props) {
     const paymentModel = new PaymentModel();
-    paymentModel.ccd_case_number = this.caseReference;
+    paymentModel.ccd_case_number = props.caseReference;
     paymentModel.fees = [this.selectedFee];
-    paymentModel.service = this.serviceType;
-    paymentModel.amount = (this.amountToPay) ? this.amountToPay : this.selectedFee.calculated_amount;
+    paymentModel.service = props.serviceType;
+    paymentModel.amount = (props.amountToPay) ? props.amountToPay : this.selectedFee.calculated_amount;
     this.paymentModel = paymentModel;
   }
 
-  setNewRemissionModel() {
+  setNewRemissionModel(props) {
     const remissionModel = new RemissionModel();
+    remissionModel.ccd_case_number = props.caseReference;
     remissionModel.fee = this.selectedFee;
-    remissionModel.hwf_amount = (this.amountToPay) ? this.selectedFee.calculated_amount - this.amountToPay : null;
-    remissionModel.hwf_reference = this.helpWithFeesCode;
-    RemissionModel.model = this.remissionModel;
+    remissionModel.hwf_amount = (props.amountToPay) ? this.selectedFee.calculated_amount - props.amountToPay : null;
+    remissionModel.hwf_reference = props.helpWithFeesCode;
     this.remissionModel = remissionModel;
   }
 
@@ -67,7 +63,6 @@ export class AddFeeDetailService {
       const keys = Object.keys(data);
       for (let i = 0; i < keys.length; i++) {
         const feeModel = new FeeModel();
-        feeModel.checked = false;
         if (data.hasOwnProperty('code')) {
           feeModel.code = data.code;
         }
@@ -82,7 +77,11 @@ export class AddFeeDetailService {
     });
   }
 
-  sendPayDetailsToPayhub() {
+  postFullRemission() {
+    return this.http.post('/api/remission', RemissionModel.cleanModel(this._remissionModel)).toPromise();
+  }
+
+  postPayment() {
     return this.http.post('/api/send-to-payhub', PaymentModel.cleanModel(this._paymentModel)).toPromise();
   }
 }
