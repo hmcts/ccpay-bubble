@@ -14,6 +14,7 @@ export class ReviewFeeDetailComponent {
   display_amount_to_pay: string;
   paymentReference = '';
   paymentGroupReference = '';
+  remissionID = '';
   error: string;
   resultData: any;
 
@@ -31,15 +32,20 @@ export class ReviewFeeDetailComponent {
   }
 
   sendPayDetailsToPayhub() {
-    this.addFeeDetailService.sendPayDetailsToPayhub()
-    .then(sendCardPayments => {
-      this.resultData = JSON.parse(sendCardPayments);
-      this.paymentReference = this.resultData.data.reference;
-      this.paymentGroupReference = this.resultData.data.payment_group_reference;
-    })
-    .catch(err => {
-      this.error = err;
-    });
+    // tslint:disable-next-line:triple-equals
+    if (this.payModel.amount == 0) {
+      this.addFeeDetailService.postFullRemission()
+      .then(response => { this.remissionID = JSON.parse(response).data; })
+      .catch(err => { this.error = err; });
+    } else {
+      this.addFeeDetailService.postPayment()
+      .then(sendCardPayments => {
+        this.resultData = JSON.parse(sendCardPayments);
+        this.paymentReference = this.resultData.data.reference;
+        this.paymentGroupReference = this.resultData.data.payment_group_reference;
+      })
+      .catch(err => { this.error = err; });
+    }
   }
 
   onGoBack() {
