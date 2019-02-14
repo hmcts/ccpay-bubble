@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
@@ -8,7 +8,7 @@ import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-det
   templateUrl: './add-fee-detail.component.html',
   styleUrls: ['./add-fee-detail.component.scss']
 })
-export class AddFeeDetailComponent {
+export class AddFeeDetailComponent implements OnInit {
   helpWithFeesIsVisible = false;
   fees: FeeModel[] = this.addFeeDetailService.buildFeeList();
   serviceType = 'DIVORCE';
@@ -20,6 +20,10 @@ export class AddFeeDetailComponent {
     private router: Router,
     private addFeeDetailService: AddFeeDetailService
   ) { }
+
+  ngOnInit() {
+    this.addFeeDetailService.selectedFee = null;
+  }
 
   toggleHelpWithFees() {
     this.helpWithFeesIsVisible = !this.helpWithFeesIsVisible;
