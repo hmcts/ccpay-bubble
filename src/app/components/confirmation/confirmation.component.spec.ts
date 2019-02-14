@@ -35,7 +35,7 @@ describe('ReviewFeeDetailComponent', () => {
     fixture = TestBed.createComponent(ConfirmationComponent);
     component = fixture.componentInstance;
     const service = fixture.debugElement.injector.get(AddFeeDetailService);
-    service.paymentRef = 'HWF-123';
+    service.remissionRef = 'HWF-123';
     fixture.detectChanges();
   });
 
@@ -44,7 +44,7 @@ describe('ReviewFeeDetailComponent', () => {
   });
 
   it('Should GET paymodel', () => {
-    expect(component.paymentRef).toEqual('HWF-123');
+    expect(component.remissionRef).toEqual('HWF-123');
   });
 
   it('It should navigate back to the add fee details page', () => {
