@@ -45,6 +45,11 @@ describe('AddFeeDetailComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('Should reset selected fee on init', () => {
+    const service = fixture.debugElement.injector.get(AddFeeDetailService);
+    expect(service.selectedFee).toBe(null);
+  });
+
   it('Should toggle help with fees', () => {
     component.helpWithFeesIsVisible = false;
     component.toggleHelpWithFees();

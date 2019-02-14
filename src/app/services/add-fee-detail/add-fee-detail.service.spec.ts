@@ -38,9 +38,9 @@ describe('Add fee detail service', () => {
     expect(addFeeDetailService.selectedFee.calculated_amount).toBe(100);
   });
 
-  it('Should SET and GET payment ref', () => {
-    addFeeDetailService.paymentRef = 'HWF-123';
-    expect(addFeeDetailService.paymentRef).toBe('HWF-123');
+  it('Should SET and GET remission ref', () => {
+    addFeeDetailService.remissionRef = 'HWF-123';
+    expect(addFeeDetailService.remissionRef).toBe('HWF-123');
   });
 
   it('Should set a new payment model', () => {

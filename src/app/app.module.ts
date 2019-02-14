@@ -12,6 +12,7 @@ import { PaybubbleHttpClient } from './services/httpclient/paybubble.http.client
 import { AddFeeDetailService } from './services/add-fee-detail/add-fee-detail.service';
 import { FeeListTableComponent } from 'src/app/shared/components/fee-list-table/fee-list-table.component';
 import { FormatDisplayCurrencyPipe } from 'src/app/shared/pipes/format-display-currency.pipe';
+import { ConfirmationComponent } from 'src/app/components/confirmation/confirmation.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { FormatDisplayCurrencyPipe } from 'src/app/shared/pipes/format-display-c
     PhaseBannerComponent,
     ReviewFeeDetailComponent,
     FeeListTableComponent,
+    ConfirmationComponent,
     FormatDisplayCurrencyPipe
   ],
   imports: [

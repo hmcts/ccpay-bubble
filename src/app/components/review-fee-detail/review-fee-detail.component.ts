@@ -14,7 +14,6 @@ export class ReviewFeeDetailComponent {
   display_amount_to_pay: string;
   paymentReference = '';
   paymentGroupReference = '';
-  remissionID = '';
   error: string;
   resultData: any;
 
@@ -35,7 +34,11 @@ export class ReviewFeeDetailComponent {
     // tslint:disable-next-line:triple-equals
     if (this.payModel.amount == 0) {
       this.addFeeDetailService.postFullRemission()
-      .then(response => { this.remissionID = JSON.parse(response).data; })
+      .then(response => {
+        const remissionRef = JSON.parse(response).data;
+        this.addFeeDetailService.remissionRef = remissionRef;
+        this.router.navigate(['/confirmation']);
+      })
       .catch(err => { this.error = err; });
     } else {
       this.addFeeDetailService.postPayment()
@@ -49,6 +52,6 @@ export class ReviewFeeDetailComponent {
   }
 
   onGoBack() {
-    return this.router.navigateByUrl('/addFeeDetail');
+    return this.router.navigate(['/addFeeDetail']);
   }
 }
