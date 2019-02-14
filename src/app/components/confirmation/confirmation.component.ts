@@ -13,8 +13,8 @@ export class ConfirmationComponent {
     private router: Router
   ) {}
 
-  get paymentRef(): string {
-    return this.addFeeDetailService.paymentRef;
+  get remissionRef(): string {
+    return this.addFeeDetailService.remissionRef;
   }
 
   takeNewPayment() {
