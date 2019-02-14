@@ -12,7 +12,7 @@ export class AddFeeDetailService {
   private _selectedFee: FeeModel;
   private _paymentModel: PaymentModel;
   private _remissionModel: RemissionModel;
-  private _paymentRef = '';
+  private _remissionRef = '';
   constructor(
     private http: PaybubbleHttpClient
   ) {}
@@ -41,12 +41,12 @@ export class AddFeeDetailService {
     this._selectedFee = fee;
   }
 
-  get paymentRef(): string {
-    return this._paymentRef;
+  get remissionRef(): string {
+    return this._remissionRef;
   }
 
-  set paymentRef(paymentRef: string) {
-    this._paymentRef = paymentRef;
+  set remissionRef(remissionRef: string) {
+    this._remissionRef = remissionRef;
   }
 
   setNewPaymentModel(props) {

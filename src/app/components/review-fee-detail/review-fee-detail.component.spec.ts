@@ -1,72 +1,62 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReviewFeeDetailComponent } from './review-fee-detail.component';
-import { RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { PaymentModel } from 'src/app/models/PaymentModel';
-import { FeeModel } from 'src/app/models/FeeModel';
-import { Router } from '@angular/router';
-import { of } from 'rxjs';
 import { PaybubbleHttpClient } from 'src/app/services/httpclient/paybubble.http.client';
-import { HttpClientModule } from '@angular/common/http';
-import { compare } from 'semver';
 import { RemissionModel } from 'src/app/models/RemissionModel';
-import { FormatDisplayCurrencyPipe } from 'src/app/shared/pipes/format-display-currency.pipe';
-
-const routerMock = {
-  navigateByUrl: jasmine.createSpy('navigateByUrl')
-};
+import { instance, mock } from 'ts-mockito/lib/ts-mockito';
+import { HttpClient } from '@angular/common/http';
+import { Meta } from '@angular/platform-browser';
+import { of } from 'rxjs';
 
 describe('ReviewFeeDetailComponent', () => {
+  let addFeeDetailService: AddFeeDetailService;
+  let router: any;
+  let http: PaybubbleHttpClient;
   let component: ReviewFeeDetailComponent;
-  let fixture: ComponentFixture<ReviewFeeDetailComponent>;
-  const payModel = new PaymentModel();
-  payModel.amount = 10.00;
-  const remissionModel = new RemissionModel();
-  remissionModel.hwf_reference = '123';
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ReviewFeeDetailComponent, FormatDisplayCurrencyPipe],
-      providers: [
-        PaybubbleHttpClient,
-        AddFeeDetailService,
-        { provide: Router, useValue: routerMock }
-      ],
-      imports: [
-        HttpClientModule,
-        RouterModule,
-        RouterTestingModule.withRoutes([])],
-    }).compileComponents();
-  }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReviewFeeDetailComponent);
-    component = fixture.componentInstance;
-    const selectedFee = new FeeModel();
-    selectedFee.calculated_amount = 100;
-    const service = fixture.debugElement.injector.get(AddFeeDetailService);
-    service.paymentModel = payModel;
-    service.remissionModel = remissionModel;
-    component.fee = selectedFee;
-    fixture.detectChanges();
-  });
-
-  it('Should create', () => {
-    expect(component).toBeTruthy();
+    http = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
+    addFeeDetailService = new AddFeeDetailService(http);
+    router = { navigate: jasmine.createSpy('navigate')};
+    component = new ReviewFeeDetailComponent(router, addFeeDetailService);
   });
 
   it('Should GET paymodel', () => {
-    expect(component.payModel).toEqual(payModel);
+    const paymodel = new PaymentModel();
+    paymodel.amount = 0;
+    spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
+    expect(component.payModel).toEqual(paymodel);
   });
 
   it('Should GET remissionModel', () => {
+    const remissionModel = new RemissionModel();
+    remissionModel.ccd_case_number = '123';
+    spyOnProperty(addFeeDetailService, 'remissionModel').and.returnValue(remissionModel);
     expect(component.remissionModel).toEqual(remissionModel);
   });
 
-  it('It should navigate back to the add fee details page', () => {
+  it('Should call postFullRemission when payment model is 0', () => {
+    const paymodel = new PaymentModel();
+    paymodel.amount = 0;
+    spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
+    spyOn(addFeeDetailService, 'postFullRemission').and.returnValue(of({data: '123', success: true}).toPromise());
+    component.sendPayDetailsToPayhub();
+    expect(addFeeDetailService.postFullRemission).toHaveBeenCalled();
+  });
+
+  it('Should call postpayment when payment model is greater than 0', () => {
+    const paymodel = new PaymentModel();
+    paymodel.amount = 20;
+    spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
+    spyOn(addFeeDetailService, 'postPayment').and.returnValue(of({data: '123', success: true}).toPromise());
+    component.sendPayDetailsToPayhub();
+    expect(addFeeDetailService.postPayment).toHaveBeenCalled();
+  });
+
+  it('Should navigate back to the add fee details page', () => {
     component.onGoBack();
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/addFeeDetail');
+    expect(router.navigate).toHaveBeenCalledWith(['/addFeeDetail']);
   });
 });
