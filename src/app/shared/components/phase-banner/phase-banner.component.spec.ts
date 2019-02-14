@@ -7,21 +7,24 @@ describe('PhaseBannerComponent', () => {
   let component: PhaseBannerComponent;
   let fixture: ComponentFixture<PhaseBannerComponent>;
 
-  // async before each
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PhaseBannerComponent ] // declare the phase banner component
+      declarations: [ PhaseBannerComponent ]
     })
-    .compileComponents(); // then compile all the components
+    .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PhaseBannerComponent); // create the component
-    component = fixture.componentInstance; // get the component instance
-    fixture.detectChanges(); // and detect the changes
+    fixture = TestBed.createComponent(PhaseBannerComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('Should default type property to alpha', () => {
+    expect(component.type).toBe('alpha');
   });
 });
