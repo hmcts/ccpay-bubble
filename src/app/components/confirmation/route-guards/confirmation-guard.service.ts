@@ -10,7 +10,7 @@ export class ConfirmationGuard implements CanActivate {
   ) {}
 
   canActivate(): boolean {
-    if (this.addFeeDetailService.paymentRef !== '') { return true; }
+    if (this.addFeeDetailService.remissionRef !== '') { return true; }
     this.router.navigate(['/addFeeDetail']);
     return false;
   }
