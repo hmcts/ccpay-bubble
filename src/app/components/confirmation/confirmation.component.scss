@@ -1,0 +1,38 @@
+.govuk-panel {
+  color: #fff;
+  text-align: center;
+  margin: 20px 0;
+  padding: 35px;
+  font-size: 19px;
+  line-height: 40px;
+
+  &__title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 30px;
+
+    @media screen and (min-width: 768px) {
+      font-size: 48px;      
+    }
+  }
+
+  &__body {
+    font-size: 24px;
+
+    @media screen and (min-width: 768px) {
+      font-size: 36px;
+    }
+
+    strong {
+      font-weight: 700;
+    }
+  }
+
+  &--confirmation {
+    background-color: #28a097;
+  }
+}
+
+.align-center {
+  text-align: center;
+}
