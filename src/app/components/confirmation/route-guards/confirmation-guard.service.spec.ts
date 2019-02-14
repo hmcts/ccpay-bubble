@@ -17,18 +17,18 @@ describe('Review fee detail route guard', () => {
     confirmationRouteguardComponent = new ConfirmationGuard(router, addFeeDetailService);
   });
 
-  it('Should return true when the user has entered a payment ref', () => {
-    spyOnProperty(addFeeDetailService, 'paymentRef').and.returnValue('HWF-123');
+  it('Should return true when the user has entered a remission ref', () => {
+    spyOnProperty(addFeeDetailService, 'remissionRef').and.returnValue('HWF-123');
     expect(confirmationRouteguardComponent.canActivate()).toBeTruthy();
   });
 
-  it('Should return false when the user has not entered a payment ref', () => {
-    spyOnProperty(addFeeDetailService, 'paymentRef').and.returnValue('');
+  it('Should return false when the user has not entered a remission ref', () => {
+    spyOnProperty(addFeeDetailService, 'remissionRef').and.returnValue('');
     expect(confirmationRouteguardComponent.canActivate()).toBeFalsy();
   });
 
-  it('Should redirect to add fee detail route if user has not entered a payment ref', () => {
-    spyOnProperty(addFeeDetailService, 'paymentRef').and.returnValue('');
+  it('Should redirect to add fee detail route if user has not entered a remission ref', () => {
+    spyOnProperty(addFeeDetailService, 'remissionRef').and.returnValue('');
     expect(confirmationRouteguardComponent.canActivate()).toBeFalsy();
     expect(router.navigate).toHaveBeenCalledWith(['/addFeeDetail']);
   });
