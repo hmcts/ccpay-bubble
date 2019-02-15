@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-phase-banner',
@@ -6,12 +6,6 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./phase-banner.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class PhaseBannerComponent implements OnInit {
+export class PhaseBannerComponent {
   @Input() type = 'alpha';
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
 }

@@ -45,9 +45,9 @@ describe('AddFeeDetailComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Should GET and SET a service type', () => {
-    component.serviceType = 'test';
-    expect(component.serviceType).toBe('test');
+  it('Should reset selected fee on init', () => {
+    const service = fixture.debugElement.injector.get(AddFeeDetailService);
+    expect(service.selectedFee).toBe(null);
   });
 
   it('Should toggle help with fees', () => {
@@ -56,27 +56,8 @@ describe('AddFeeDetailComponent', () => {
     expect(component.helpWithFeesIsVisible).toBeTruthy();
   });
 
-  it('Should SET help with fees code', () => {
-    component.helpWithFeesCode = '123';
-    const service = fixture.debugElement.injector.get(AddFeeDetailService);
-    expect(service.helpWithFeesCode).toBe('123');
-  });
-
-  it('Should SET case reference', () => {
-    component.caseReference = '123';
-    const service = fixture.debugElement.injector.get(AddFeeDetailService);
-    expect(service.caseReference).toBe('123');
-  });
-
-  it('Should SET amount to pay', () => {
-    component.amountToPay = 10.00;
-    const service = fixture.debugElement.injector.get(AddFeeDetailService);
-    expect(service.amountToPay).toBe(10.00);
-  });
-
   it('Should select a fee', () => {
     const fee: FeeModel = new FeeModel;
-    fee.checked = false;
     component.selectFee(fee);
     fixture.detectChanges();
     const service = fixture.debugElement.injector.get(AddFeeDetailService);
