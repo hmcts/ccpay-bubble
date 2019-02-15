@@ -9,17 +9,18 @@ const ccpayBubbleSecret = config.get('s2s.key');
 const microService = config.get('ccpaybubble.microservice');
 
 class PayhubService {
-  sendToPayhub(req) {
-    return this.createAuthToken().then(token => request.post({
+  async sendToPayhub(req) {
+    const serviceAuthToken = await this.createAuthToken();
+    return request.post({
       uri: `${payhubUrl}card-payments`,
       body: req.body,
       headers: {
-        ServiceAuthorization: `Bearer ${token}`,
+        ServiceAuthorization: `Bearer ${serviceAuthToken}`,
         'return-url': `${ccpayBubbleReturnUrl}`,
         'Content-Type': 'application/json'
       },
       json: true
-    }));
+    });
   }
 
   postRemission(req) {
