@@ -29,13 +29,21 @@ export class ReviewFeeDetailComponent {
   }
 
   sendPayDetailsToPayhub() {
-    this.addFeeDetailService.sendPayDetailsToPayhub()
-    .then(sendCardPayments => {
-      this.resultData = JSON.parse(sendCardPayments);
-    })
-    .catch(err => {
-      this.error = err;
-    });
+    if (this.payModel.amount === 0) {
+      this.addFeeDetailService.postFullRemission()
+      .then(response => {
+        const remissionRef = JSON.parse(response).data;
+        this.addFeeDetailService.remissionRef = remissionRef;
+        this.router.navigate(['/confirmation']);
+      })
+      .catch(err => { this.error = err; });
+    } else {
+      this.addFeeDetailService.postPayment()
+      .then(sendCardPayments => {
+        this.resultData = JSON.parse(sendCardPayments);
+      })
+      .catch(err => { this.error = err; });
+    }
   }
 
   onGoBack() {
