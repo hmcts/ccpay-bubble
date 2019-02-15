@@ -23,6 +23,18 @@ class PayhubService {
     });
   }
 
+  postRemission(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}remission`,
+      body: req.body,
+      headers: {
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
   createAuthToken() {
     const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
     const serviceAuthRequest = {

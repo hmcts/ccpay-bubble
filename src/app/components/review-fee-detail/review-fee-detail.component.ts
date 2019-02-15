@@ -39,6 +39,6 @@ export class ReviewFeeDetailComponent {
   }
 
   onGoBack() {
-    return this.router.navigateByUrl('/addFeeDetail');
+    return this.router.navigate(['/addFeeDetail']);
   }
 }

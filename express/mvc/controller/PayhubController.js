@@ -22,6 +22,16 @@ class PayhubController {
         res.json({ err: error, success: false });
       });
   }
+
+  postRemission(req, res, appInsights) {
+    return this.payhubService.postRemission(req, appInsights)
+      .then(result => {
+        res.json({ data: result, success: true });
+      })
+      .catch(error => {
+        res.json({ err: error, success: false });
+      });
+  }
 }
 
 module.exports = PayhubController;
