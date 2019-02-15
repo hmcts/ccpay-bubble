@@ -12,8 +12,6 @@ export class ReviewFeeDetailComponent {
   fee: FeeModel = this.addFeeDetailService.selectedFee;
   display_fee_amount: string;
   display_amount_to_pay: string;
-  paymentReference = '';
-  paymentGroupReference = '';
   error: string;
   resultData: any;
 
@@ -31,8 +29,7 @@ export class ReviewFeeDetailComponent {
   }
 
   sendPayDetailsToPayhub() {
-    // tslint:disable-next-line:triple-equals
-    if (this.payModel.amount == 0) {
+    if (this.payModel.amount === 0) {
       this.addFeeDetailService.postFullRemission()
       .then(response => {
         const remissionRef = JSON.parse(response).data;
@@ -44,8 +41,6 @@ export class ReviewFeeDetailComponent {
       this.addFeeDetailService.postPayment()
       .then(sendCardPayments => {
         this.resultData = JSON.parse(sendCardPayments);
-        this.paymentReference = this.resultData.data.reference;
-        this.paymentGroupReference = this.resultData.data.payment_group_reference;
       })
       .catch(err => { this.error = err; });
     }
