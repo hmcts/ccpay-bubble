@@ -1,70 +1,53 @@
-<div>
-  <h1 class="heading-xlarge">Add fee details</h1>
+<form [formGroup]="feeDetailForm">
+  <legend><h1 class="heading-xlarge">Add fee details</h1></legend>
 
-  <form>
-    <div class="form-group">
-      <h1 class="heading-small">
-        Service 
-      </h1>
-      <select class="form-control short-input" id="service" name="service" [(ngModel)]="serviceType">
-        <option value="DIVORCE">Divorce</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <fieldset class="inline">
-        <legend>
-          <h1 class="heading-small">
-            Enter CCD Case Reference
-          </h1>
-          <h2 class="help-text">
-            For example: 1111-2222-3333-4444
-          </h2>
-        </legend>
-      </fieldset>
-      <input class="form-control short-input" autocomplete="off" id="caseReference" name="caseReference" type="text" [(ngModel)]="caseReference">
-    </div>
-    <app-fee-list-table [fees]=fees (feeChangedEventEmitter)="selectFee($event)"></app-fee-list-table>
-    <div class="form-group" id="hwfCloseText" (click)="toggleHelpWithFees()" [hidden]="helpWithFeesIsVisible">
-      <fieldset class="inline">
-        <legend>
-          <span><a>Show help with fees</a></span>
-        </legend>
-      </fieldset>
-    </div>
-    <div class="form-group" id="hwfOpenText" [hidden]="!helpWithFeesIsVisible">
-      <fieldset class="inline">
-        <legend>
-          <span (click)="toggleHelpWithFees()"><a>Hide help with fees</a></span>
-        </legend>
-        <legend>
-          <h1 class="heading-small">
-            Enter HWF Code
-          </h1>
-          <h2 class="help-text">
-            For example: HWF-A1B-23C
-          </h2>
-        </legend>
-      </fieldset>
+  <div class="form-group" [ngClass]="showErrors && feeDetailForm.get('serviceType').errors ? 'form-group-error': ''">
+    <label class="heading-small" for="service">Service</label>
+    <span class="error-message" *ngIf="showErrors && feeDetailForm.get('serviceType').errors">Select a service</span>
+    <select class="form-control short-input" id="service" formControlName="serviceType">
+      <option value="DIVORCE">Divorce</option>
+    </select>
+  </div>
+
+  <div class="form-group" [ngClass]="showErrors && feeDetailForm.get('caseReference').errors ? 'form-group-error': ''">
+    <label class="heading-small" for="caseReference">
+      Enter a CCD Case Reference
+      <span class="form-hint">For example: 1111-2222-3333-4444</span>
+    </label>
+    <span class="error-message" *ngIf="showErrors && feeDetailForm.get('caseReference').errors">Enter a case reference in the correct format</span>
+    <input class="form-control short-input" autocomplete="off" id="caseReference" type="text" formControlName="caseReference"/>
+  </div>
+
+  <app-fee-list-table
+  [fees]=fees
+  [showErrors]=showErrors
+  [isValid]="feeDetailForm.get('selectedFee').value"
+  (feeChangedEventEmitter)="selectFee($event)"></app-fee-list-table>
+
+  <a (click)="toggleHelpWithFees()">{{helpWithFeesIsVisible ? 'Hide' : 'Show'}} help with fees</a>
+  <div id="hwfOpenText" formGroupName='helpWithFees'>
+    <div class="form-group panel panel-border-narrow" [hidden]="!helpWithFeesIsVisible" [ngClass]="showErrors && (feeDetailForm.get('helpWithFees').errors || feeDetailForm.get('helpWithFees.amount').errors) ? 'form-group-error': ''">
       <div class="form-group">
-          <input class="form-control short-input" autocomplete="off" id="hwfReference" name="hwfReference" type="text" [(ngModel)]="helpWithFeesCode">
+        <label class="heading-small" for="hwfReference">
+          Enter HWF Code
+          <span class="form-hint">For example: HWF-A1B-23C</span>
+        </label>
+        <span class="error-message" *ngIf="showErrors && feeDetailForm.get('helpWithFees').errors?.hwfCodeInvalid">Enter a HWF reference</span>
+        <input class="form-control short-input" autocomplete="off" id="hwfReference" type="text" formControlName="code" (change)="setHelpWithFeesValidation()"/>
       </div>
-      <fieldset class="inline">
-        <legend>
-            <h1 class="heading-small">
-              Amount left to pay
-            </h1>
-        </legend>
-      </fieldset>
       <div class="form-group">
-          £ <input class="form-control short-input" autocomplete="off" id="amountToPay" name="amountToPay" type="text" [(ngModel)]="amountToPay">
+        <label class="heading-small" for="hwfReference">Amount left to pay</label>
+        <span class="error-message" *ngIf="showErrors && feeDetailForm.get('helpWithFees').errors?.hwfAmountInvalid">Enter the amount to left to pay</span>
+        <span class="error-message" *ngIf="showErrors && feeDetailForm.get('helpWithFees').errors?.hwfAmountNegative">Cannot enter a negative amount</span>
+        <span class="error-message" *ngIf="showErrors && feeDetailForm.get('helpWithFees.amount').errors?.amountGreaterThanFee">Amount greater than fee</span>
+        £ <input class="form-control short-input" autocomplete="off" id="amountToPay" type="number" formControlName="amount" (change)="setHelpWithFeesValidation()"/>
       </div>
     </div>
-    <div class="form-group">
-      <div class="button-grid__button">
-        <button class="button button-view" type="submit" (click)="saveAndContinue()">
-          Continue
-        </button>
-      </div>
+  </div>
+
+  <div class="form-group margin-top-30">
+    <div class="button-grid__button">
+      <button class="button button-view" type="submit" (click)="saveAndContinue()">Continue</button>
     </div>
-  </form>
-</div>
+  </div>
+</form>
