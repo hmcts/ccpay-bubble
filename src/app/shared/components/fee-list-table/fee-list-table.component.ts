@@ -8,6 +8,8 @@ import { FeeModel } from 'src/app/models/FeeModel';
 })
 export class FeeListTableComponent {
   @Input() fees: FeeModel[];
+  @Input() isValid: boolean;
+  @Input() showErrors: boolean;
   @Output() feeChangedEventEmitter = new EventEmitter();
 
   selectFee($event: FeeModel) {
