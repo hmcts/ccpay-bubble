@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { stringLengthValidator, helpWithFeesValidator, isLessThanAmountValidator } from 'src/app/shared/validators';
 
 @Component({
