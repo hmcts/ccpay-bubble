@@ -54,7 +54,7 @@ export class AddFeeDetailService {
     paymentModel.ccd_case_number = props.caseReference;
     paymentModel.fees = [this.selectedFee];
     paymentModel.service = props.serviceType;
-    paymentModel.amount = (props.amountToPay) ? props.amountToPay : this.selectedFee.calculated_amount;
+    paymentModel.amount = (props.amountToPay >= 0) ? props.amountToPay : this.selectedFee.calculated_amount;
     this.paymentModel = paymentModel;
   }
 
@@ -62,7 +62,7 @@ export class AddFeeDetailService {
     const remissionModel = new RemissionModel();
     remissionModel.ccd_case_number = props.caseReference;
     remissionModel.fee = this.selectedFee;
-    remissionModel.hwf_amount = (props.amountToPay) ? this.selectedFee.calculated_amount - props.amountToPay : null;
+    remissionModel.hwf_amount = (props.amountToPay >= 0) ? this.selectedFee.calculated_amount - props.amountToPay : null;
     remissionModel.hwf_reference = props.helpWithFeesCode;
     this.remissionModel = remissionModel;
   }
