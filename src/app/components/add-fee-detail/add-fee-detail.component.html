@@ -37,9 +37,11 @@
       </div>
       <div class="form-group">
         <label class="heading-small" for="hwfReference">Amount left to pay</label>
-        <span class="error-message" *ngIf="showErrors && feeDetailForm.get('helpWithFees').errors?.hwfAmountInvalid">Enter the amount to left to pay</span>
-        <span class="error-message" *ngIf="showErrors && feeDetailForm.get('helpWithFees').errors?.hwfAmountNegative">Cannot enter a negative amount</span>
-        <span class="error-message" *ngIf="showErrors && feeDetailForm.get('helpWithFees.amount').errors?.amountGreaterThanFee">Amount greater than fee</span>
+        <span class="error-message" *ngIf="showErrors">
+          <span *ngIf="feeDetailForm.get('helpWithFees').errors?.hwfAmountInvalid">Enter the amount to left to pay</span>
+          <span *ngIf="feeDetailForm.get('helpWithFees').errors?.hwfAmountNegative">Cannot enter a negative amount</span>
+          <span *ngIf="feeDetailForm.get('helpWithFees.amount').errors?.amountGreaterThanFee">Amount greater than fee</span>
+        </span>
         £ <input class="form-control short-input" autocomplete="off" id="amountToPay" type="number" formControlName="amount" (change)="setHelpWithFeesValidation()"/>
       </div>
     </div>
