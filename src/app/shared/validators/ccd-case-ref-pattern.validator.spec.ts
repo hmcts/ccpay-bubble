@@ -1,7 +1,7 @@
-import { stringLengthValidator } from './index';
+import { ccdCaseRefPatternValidator } from './index';
 import { FormControl } from '@angular/forms';
 
-const validator = stringLengthValidator(16);
+const validator = ccdCaseRefPatternValidator();
 
 describe('String length validator', () => {
   it('Should strip dashes and return null on a case ref with dashes', () => {
