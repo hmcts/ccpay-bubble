@@ -24,7 +24,7 @@ const routes: Routes = [
     canActivate: [ConfirmationGuard]
   },
   {
-    path: '500',
+    path: 'service-failure',
     component: ServiceFailureComponent
   },
   {
