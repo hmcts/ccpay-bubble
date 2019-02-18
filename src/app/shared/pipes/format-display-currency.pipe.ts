@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'formatDisplayCurrency'
 })
 export class FormatDisplayCurrencyPipe implements PipeTransform {
-  transform(amount: string): string {
-    return amount ? `£ ${parseFloat(amount).toFixed(2)}` : '';
+  transform(amount: any): string {
+    return (amount === 0 || amount) ? `£ ${parseFloat(amount).toFixed(2)}` : '';
   }
 }
