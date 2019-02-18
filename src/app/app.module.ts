@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './routes/app-routing.module';
@@ -11,8 +11,8 @@ import { ReviewFeeDetailComponent } from './components/review-fee-detail/review-
 import { PaybubbleHttpClient } from './services/httpclient/paybubble.http.client';
 import { AddFeeDetailService } from './services/add-fee-detail/add-fee-detail.service';
 import { FeeListTableComponent } from 'src/app/shared/components/fee-list-table/fee-list-table.component';
-import { FormatDisplayCurrencyPipe } from 'src/app/shared/pipes/format-display-currency.pipe';
 import { ConfirmationComponent } from 'src/app/components/confirmation/confirmation.component';
+import { FormatDisplayCurrencyPipe } from 'src/app/shared/pipes/format-display-currency.pipe';
 
 @NgModule({
   declarations: [
@@ -28,6 +28,7 @@ import { ConfirmationComponent } from 'src/app/components/confirmation/confirmat
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
   ],
   providers: [
