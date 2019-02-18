@@ -31,8 +31,7 @@ export class ReviewFeeDetailComponent {
   }
 
   sendPayDetailsToPayhub() {
-    // tslint:disable-next-line:triple-equals
-    if (this.payModel.amount == 0) {
+    if (this.payModel.amount === 0) {
       this.addFeeDetailService.postFullRemission()
       .then(response => {
         const remissionRef = JSON.parse(response).data;
