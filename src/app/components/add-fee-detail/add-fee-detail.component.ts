@@ -29,7 +29,7 @@ export class AddFeeDetailComponent implements OnInit {
     this.feeDetailForm = this.formBuilder.group({
       serviceType: ['DIVORCE', Validators.required],
       caseReference: ['', Validators.compose([Validators.required, stringLengthValidator(16)])],
-      selectedFee: [false, Validators.required],
+      selectedFee: [null, Validators.required],
       helpWithFees: this.formBuilder.group({
         code: [''],
         amount: [null]
