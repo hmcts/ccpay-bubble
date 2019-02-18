@@ -9,6 +9,7 @@ import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import { Promise } from 'q';
 
 describe('ReviewFeeDetailComponent', () => {
   let addFeeDetailService: AddFeeDetailService;
@@ -53,6 +54,11 @@ describe('ReviewFeeDetailComponent', () => {
     spyOn(addFeeDetailService, 'postPayment').and.returnValue(of({data: '123', success: true}).toPromise());
     component.sendPayDetailsToPayhub();
     expect(addFeeDetailService.postPayment).toHaveBeenCalled();
+  });
+
+  it('Should navigate to service-detail', () => {
+    component.navigateToServiceFailure();
+    expect(router.navigate).toHaveBeenCalledWith(['/service-failure']);
   });
 
   it('Should navigate back to the add fee details page', () => {

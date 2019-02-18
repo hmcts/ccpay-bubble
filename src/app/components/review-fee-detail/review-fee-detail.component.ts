@@ -37,7 +37,7 @@ export class ReviewFeeDetailComponent {
       })
       .catch(err => {
         console.log(err);
-        this.router.navigate(['/500']);
+        this.navigateToServiceFailure();
        });
     } else {
       this.addFeeDetailService.postPayment()
@@ -46,9 +46,13 @@ export class ReviewFeeDetailComponent {
       })
       .catch(err => {
         console.log(err);
-        this.router.navigate(['/500']);
+        this.navigateToServiceFailure();
        });
     }
+  }
+
+  navigateToServiceFailure() {
+    this.router.navigate(['/service-failure']);
   }
 
   onGoBack() {
