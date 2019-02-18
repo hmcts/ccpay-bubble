@@ -1,6 +1,10 @@
 const config = require('config');
 const otp = require('otp');
-const request = require('request-promise-native');
+
+const request = require('request-promise-native').defaults({
+  proxy: 'http://proxyout.reform.hmcts.net:8080',
+  strictSSL: false
+});
 
 const payhubUrl = config.get('payhub.url');
 const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
