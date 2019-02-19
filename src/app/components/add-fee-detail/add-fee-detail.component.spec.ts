@@ -97,15 +97,6 @@ describe('AddFeeDetailComponent', () => {
       expect(component.feeDetailForm.invalid).toBe(true);
     });
 
-    it('Validation errors should exist if an HWF code is entered in the incorrect format', () => {
-      component.feeDetailForm.controls['caseReference'].setValue('1111-1111-1111-1111');
-      component.feeDetailForm.controls['selectedFee'].setValue(true);
-      component.feeDetailForm.get('helpWithFees.code').setValue('HWF-123');
-      component.feeDetailForm.get('helpWithFees.amount').setValue(0);
-      component.setHelpWithFeesGroupValidation();
-      expect(component.feeDetailForm.invalid).toBe(true);
-    });
-
     it('Validation errors should exist if an HWF amount is entered but not an HWF code', () => {
       component.feeDetailForm.controls['caseReference'].setValue('1111-1111-1111-1111');
       component.feeDetailForm.controls['selectedFee'].setValue(true);
