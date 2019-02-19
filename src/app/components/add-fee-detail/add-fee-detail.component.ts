@@ -61,18 +61,18 @@ export class AddFeeDetailComponent implements OnInit {
   selectFee(fee: FeeModel) {
     this.selectedFee = fee;
     this.setHelpWithFeesAmountValidation();
+    this.feeDetailForm.patchValue({selectedFee: true});
   }
 
   setHelpWithFeesAmountValidation() {
-    this.feeDetailForm.patchValue({selectedFee: true});
     const hwfAmountControl = this.feeDetailForm.get('helpWithFees.amount');
     hwfAmountControl.setValidators(isLessThanAmountValidator(this.selectedFee.calculated_amount));
     hwfAmountControl.updateValueAndValidity();
   }
 
-  setHelpWithFeesValidation() {
-    const helpWithFeesGroup = this.feeDetailForm.get('helpWithFees');
-    helpWithFeesGroup.setValidators(helpWithFeesValidator);
-    helpWithFeesGroup.updateValueAndValidity();
+  setHelpWithFeesGroupValidation() {
+    const hwfGroup = this.feeDetailForm.get('helpWithFees');
+    hwfGroup.setValidators(helpWithFeesValidator);
+    hwfGroup.updateValueAndValidity();
   }
 }
