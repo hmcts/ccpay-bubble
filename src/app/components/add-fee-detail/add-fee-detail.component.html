@@ -32,8 +32,8 @@
           Enter HWF Code
           <span class="form-hint">For example: HWF-A1B-23C</span>
         </label>
-        <span class="error-message" *ngIf="showErrors && feeDetailForm.get('helpWithFees').errors?.hwfCodeInvalid">Enter a help with fees reference</span>
-        <input class="form-control short-input" autocomplete="off" id="hwfReference" type="text" formControlName="code" (change)="setHelpWithFeesValidation()"/>
+        <span class="error-message" *ngIf="showErrors && feeDetailForm.get('helpWithFees').errors?.hwfCodeInvalid">Enter a help with fees reference in the correct format</span>
+        <input class="form-control short-input" autocomplete="off" id="hwfReference" type="text" formControlName="code" (change)="setHelpWithFeesGroupValidation()"/>
       </div>
       <div class="form-group">
         <label class="heading-small" for="hwfReference">Amount left to pay</label>
@@ -42,7 +42,7 @@
           <span *ngIf="feeDetailForm.get('helpWithFees').errors?.hwfAmountNegative">Enter a valid amount</span>
           <span *ngIf="feeDetailForm.get('helpWithFees.amount').errors?.amountGreaterThanFee">Enter an amount smaller than the total amount</span>
         </span>
-        £ <input class="form-control short-input" autocomplete="off" id="amountToPay" type="number" formControlName="amount" (change)="setHelpWithFeesValidation()"/>
+        £ <input class="form-control short-input" autocomplete="off" id="amountToPay" type="number" formControlName="amount" (change)="setHelpWithFeesGroupValidation()"/>
       </div>
     </div>
   </div>
