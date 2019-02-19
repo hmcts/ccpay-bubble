@@ -10,6 +10,8 @@ export const helpWithFeesValidator = (control: AbstractControl): { [key: string]
     return { 'hwfAmountInvalid' : true };
   } else if (amountControl.value < 0) {
     return { 'hwfAmountNegative' : true };
+  } else if (!codeControl.value.match(/^HWF\-[A-Z0-9]{3}\-[A-Z0-9]{3}$/i)) {
+    return { 'hwfCodeFormatInvalid': true };
   } else {
     return null;
   }
