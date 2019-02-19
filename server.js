@@ -32,8 +32,8 @@ function errorHandler(err, req, res, next) {
     error = errorFactory.createServerError(err);
   }
   const msg = JSON.stringify({ error: error.toString(), cause: error.remoteError ? error.remoteError.toString() : '' });
-  Logger.getLogger(`PAY-BUBBLE: ${error.fileName || 'server.js'} -> error`).info(msg);
-  Logger.getLogger(`PAY-BUBBLE: ${error.fileName || 'server.js'} -> error`).info(JSON.stringify(err));
+  Logger.getLogger(`PAYBUBBLE: ${error.fileName || 'server.js'} -> error`).info(msg);
+  Logger.getLogger(`PAYBUBBLE: ${error.fileName || 'server.js'} -> error`).info(JSON.stringify(err));
   if (req.xhr) {
     res.status(error.status).send({ error: error.remoteError || error.message });
   } else {
@@ -70,10 +70,9 @@ module.exports = (security, appInsights) => {
   // enable the dist folder to be accessed statically
   app.use(express.static('dist/ccpay-bubble'));
 
-  // app.use('/logout', security.logout());
+  app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
   app.use('/health', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
-  // app.use('/', (req, res) => res.render('index'));
 
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"
@@ -87,7 +86,7 @@ module.exports = (security, appInsights) => {
   }
 
   // make all routes available via this imported module
-  app.use('/api', route(appInsights));
+  app.use('/api', security.protectWithAnyOf(roles.allRoles, ['/**']), csrfProtection, route(appInsights));
 
   app.use(security.protectWithAnyOf(roles.allRoles, ['/assets/'], express.static('dist')));
 
@@ -96,12 +95,6 @@ module.exports = (security, appInsights) => {
     (req, res) => {
       res.render('index', { csrfToken: req.csrfToken() });
     });
-
-  // fallback to this route (so that Angular will handle all routing)
-  // app.get('**',
-  //   (req, res) => {
-  //     res.render('index');
-  //   });
 
   app.use(errorHandler);
 
