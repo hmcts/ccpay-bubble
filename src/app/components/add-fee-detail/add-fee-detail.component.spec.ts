@@ -83,11 +83,26 @@ describe('AddFeeDetailComponent', () => {
       expect(component.feeDetailForm.invalid).toBe(true);
     });
 
+    it('Validation errors should exist if a CCD case reference is in an incorrect format', () => {
+      component.feeDetailForm.controls['caseReference'].setValue('111111111111-2222');
+      component.feeDetailForm.controls['selectedFee'].setValue(true);
+      expect(component.feeDetailForm.invalid).toBe(true);
+    });
+
     it('Validation errors should exist if an HWF code is entered but not an HWF ammount', () => {
       component.feeDetailForm.controls['caseReference'].setValue('1111-1111-1111-1111');
       component.feeDetailForm.controls['selectedFee'].setValue(true);
+      component.feeDetailForm.get('helpWithFees.code').setValue('HWF-123-123');
+      component.setHelpWithFeesGroupValidation();
+      expect(component.feeDetailForm.invalid).toBe(true);
+    });
+
+    it('Validation errors should exist if an HWF code is entered in the incorrect format', () => {
+      component.feeDetailForm.controls['caseReference'].setValue('1111-1111-1111-1111');
+      component.feeDetailForm.controls['selectedFee'].setValue(true);
       component.feeDetailForm.get('helpWithFees.code').setValue('HWF-123');
-      component.setHelpWithFeesValidation();
+      component.feeDetailForm.get('helpWithFees.amount').setValue(0);
+      component.setHelpWithFeesGroupValidation();
       expect(component.feeDetailForm.invalid).toBe(true);
     });
 
@@ -95,7 +110,7 @@ describe('AddFeeDetailComponent', () => {
       component.feeDetailForm.controls['caseReference'].setValue('1111-1111-1111-1111');
       component.feeDetailForm.controls['selectedFee'].setValue(true);
       component.feeDetailForm.get('helpWithFees.amount').setValue(0);
-      component.setHelpWithFeesValidation();
+      component.setHelpWithFeesGroupValidation();
       expect(component.feeDetailForm.invalid).toBe(true);
     });
 
@@ -103,7 +118,7 @@ describe('AddFeeDetailComponent', () => {
       component.feeDetailForm.controls['caseReference'].setValue('1111-1111-1111-1111');
       component.feeDetailForm.controls['selectedFee'].setValue(true);
       component.feeDetailForm.get('helpWithFees.amount').setValue(-10);
-      component.setHelpWithFeesValidation();
+      component.setHelpWithFeesGroupValidation();
       expect(component.feeDetailForm.invalid).toBe(true);
     });
 
@@ -115,7 +130,7 @@ describe('AddFeeDetailComponent', () => {
       component.feeDetailForm.controls['caseReference'].setValue('1111-1111-1111-1111');
       component.feeDetailForm.controls['selectedFee'].setValue(true);
       component.setHelpWithFeesAmountValidation();
-      component.feeDetailForm.get('helpWithFees.code').setValue('HWF-123');
+      component.feeDetailForm.get('helpWithFees.code').setValue('HWF-123-123');
       component.feeDetailForm.get('helpWithFees.amount').setValue(30);
       component.saveAndContinue();
       expect(component.feeDetailForm.invalid).toBe(true);
