@@ -3,7 +3,7 @@ import { FeeModel } from 'src/app/models/FeeModel';
 import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { stringLengthValidator, helpWithFeesValidator, isLessThanAmountValidator } from 'src/app/shared/validators';
+import { ccdCaseRefPatternValidator, helpWithFeesValidator, isLessThanAmountValidator } from 'src/app/shared/validators';
 
 @Component({
   selector: 'app-add-fee-detail',
@@ -28,7 +28,7 @@ export class AddFeeDetailComponent implements OnInit {
 
     this.feeDetailForm = this.formBuilder.group({
       serviceType: ['DIVORCE', Validators.required],
-      caseReference: ['', Validators.compose([Validators.required, stringLengthValidator(16)])],
+      caseReference: ['', Validators.compose([Validators.required, ccdCaseRefPatternValidator()])],
       selectedFee: [null, Validators.required],
       helpWithFees: this.formBuilder.group({
         code: [''],
