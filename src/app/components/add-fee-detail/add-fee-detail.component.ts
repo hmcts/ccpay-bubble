@@ -3,7 +3,7 @@ import { FeeModel } from 'src/app/models/FeeModel';
 import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { stringLengthValidator, helpWithFeesValidator, isLessThanAmountValidator } from 'src/app/shared/validators';
+import { ccdCaseRefPatternValidator, helpWithFeesValidator, isLessThanAmountValidator } from 'src/app/shared/validators';
 
 @Component({
   selector: 'app-add-fee-detail',
@@ -28,7 +28,7 @@ export class AddFeeDetailComponent implements OnInit {
 
     this.feeDetailForm = this.formBuilder.group({
       serviceType: ['DIVORCE', Validators.required],
-      caseReference: ['', Validators.compose([Validators.required, stringLengthValidator(16)])],
+      caseReference: ['', Validators.compose([Validators.required, ccdCaseRefPatternValidator()])],
       selectedFee: [null, Validators.required],
       helpWithFees: this.formBuilder.group({
         code: [''],
@@ -61,18 +61,18 @@ export class AddFeeDetailComponent implements OnInit {
   selectFee(fee: FeeModel) {
     this.selectedFee = fee;
     this.setHelpWithFeesAmountValidation();
+    this.feeDetailForm.patchValue({selectedFee: true});
   }
 
   setHelpWithFeesAmountValidation() {
-    this.feeDetailForm.patchValue({selectedFee: true});
     const hwfAmountControl = this.feeDetailForm.get('helpWithFees.amount');
     hwfAmountControl.setValidators(isLessThanAmountValidator(this.selectedFee.calculated_amount));
     hwfAmountControl.updateValueAndValidity();
   }
 
-  setHelpWithFeesValidation() {
-    const helpWithFeesGroup = this.feeDetailForm.get('helpWithFees');
-    helpWithFeesGroup.setValidators(helpWithFeesValidator);
-    helpWithFeesGroup.updateValueAndValidity();
+  setHelpWithFeesGroupValidation() {
+    const hwfGroup = this.feeDetailForm.get('helpWithFees');
+    hwfGroup.setValidators(helpWithFeesValidator);
+    hwfGroup.updateValueAndValidity();
   }
 }
