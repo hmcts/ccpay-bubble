@@ -5,11 +5,49 @@ const cookieParser = require('cookie-parser');
 const HttpStatus = require('http-status-codes');
 const express = require('express');
 const route = require('./express/app');
+const roles = require('./express/infrastructure/roles');
+const csurf = require('csurf');
+const moment = require('moment');
+const { Logger } = require('@hmcts/nodejs-logging');
+const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 
 const app = express();
 
+const errorFactory = ApiErrorFactory('server.js');
+let csrfProtection = csurf({ cookie: true });
 
-module.exports = appInsights => {
+if (process.env.NODE_ENV === 'development') {
+  csrfProtection = (req, res, next) => {
+    next();
+  };
+}
+
+
+// eslint-disable-next-line no-unused-vars
+function errorHandler(err, req, res, next) {
+  let error = null;
+  if (err instanceof ApiCallError) {
+    error = err;
+  } else {
+    error = errorFactory.createServerError(err);
+  }
+  const msg = JSON.stringify({ error: error.toString(), cause: error.remoteError ? error.remoteError.toString() : '' });
+  Logger.getLogger(`PAY-BUBBLE: ${error.fileName || 'server.js'} -> error`).info(msg);
+  Logger.getLogger(`PAY-BUBBLE: ${error.fileName || 'server.js'} -> error`).info(JSON.stringify(err));
+  if (req.xhr) {
+    res.status(error.status).send({ error: error.remoteError || error.message });
+  } else {
+    res.status(error.status);
+    res.render('error', {
+      title: error.status,
+      message: error.detailedMessage,
+      msg,
+      moment
+    });
+  }
+}
+
+module.exports = (security, appInsights) => {
   const client = appInsights.defaultClient;
   const startTime = Date.now();
 
@@ -32,7 +70,8 @@ module.exports = appInsights => {
   // enable the dist folder to be accessed statically
   app.use(express.static('dist/ccpay-bubble'));
 
-  // app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
+  // app.use('/logout', security.logout());
+  app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
   app.use('/health', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
   // app.use('/', (req, res) => res.render('index'));
 
@@ -50,11 +89,21 @@ module.exports = appInsights => {
   // make all routes available via this imported module
   app.use('/api', route(appInsights));
 
+  app.use(security.protectWithAnyOf(roles.allRoles, ['/assets/'], express.static('dist')));
+
   // fallback to this route (so that Angular will handle all routing)
-  app.get('**',
+  app.get('**', security.protectWithAnyOf(roles.allRoles, ['/assets/']), csrfProtection,
     (req, res) => {
-      res.render('index');
+      res.render('index', { csrfToken: req.csrfToken() });
     });
+
+  // fallback to this route (so that Angular will handle all routing)
+  // app.get('**',
+  //   (req, res) => {
+  //     res.render('index');
+  //   });
+
+  app.use(errorHandler);
 
   const duration = Date.now() - startTime;
 
