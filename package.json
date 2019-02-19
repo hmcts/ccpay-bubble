@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "node start.js",
     "start:angular-dev": "ng serve --proxy-config proxy.conf.json",
-    "start:express-dev": "cross-env NODE_ENV=development IGNORE_CERTS=false nodemon --inspect start.js",
+    "start:express-dev": "cross-env NODE_ENV=development IGNORE_CERTS=true nodemon --inspect start.js",
     "start:express-prod": "cross-env IGNORE_CERTS=true nodemon --inspect start.js",
     "build": "ng build --prod && yarn pugit dist/ccpay-bubble/index.html --output express/mvc/views/index.pug && rm dist/ccpay-bubble/index.html",
     "ng:build": "yarn build",
