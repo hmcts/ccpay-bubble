@@ -1,14 +1,14 @@
 security:
   referrerPolicy: origin
 idam:
-  client_id: ccpay_bubble
-  client_secret: IDAM_CLIENT_SECRET
-  login_url: http://localhost:23443/login
-  api_url: http://localhost:23443
+  client_id: paybubble
+  client_secret: SFQBNO52G4ITHHDJ
+  login_url: https://localhost:8000/login
+  api_url: http://localhost:8001
 session:
-  cookieName: BAR
+  cookieName: SESSION_ID
 ccpaybubble:
-  url: http://localhost.com
+  url: https://localhost
   defaultPort: 3000
   microservice: ccpay_bubble
 s2s:
@@ -22,3 +22,7 @@ e2e:
   frontendUrl: http://localhost:4200/
   waitForTimeoutValue: 2600
   waitForActionValue: 2000
+certs:
+  key: ./localhost-ssl/localhost.key
+  crt: ./localhost-ssl/localhost.crt
+
