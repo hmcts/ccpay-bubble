@@ -19,4 +19,8 @@ describe('String length validator', () => {
   it('Should return an error if ccd case ref is too short', () => {
     expect(validator(new FormControl('111122223333'))).toEqual({ 'ccdRefLength': true });
   });
+
+  it('Should return an error if ccd case ref is incorrectly formatted', () => {
+    expect(validator(new FormControl('1111-2222-33334444'))).toEqual({ 'ccdRefLength': true });
+  });
 });
