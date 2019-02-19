@@ -9,7 +9,6 @@ import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { Promise } from 'q';
 
 describe('ReviewFeeDetailComponent', () => {
   let addFeeDetailService: AddFeeDetailService;
