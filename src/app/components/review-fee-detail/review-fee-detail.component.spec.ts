@@ -55,6 +55,11 @@ describe('ReviewFeeDetailComponent', () => {
     expect(addFeeDetailService.postPayment).toHaveBeenCalled();
   });
 
+  it('Should navigate to service-detail', () => {
+    component.navigateToServiceFailure();
+    expect(router.navigate).toHaveBeenCalledWith(['/service-failure']);
+  });
+
   it('Should navigate back to the add fee details page', () => {
     component.onGoBack();
     expect(router.navigate).toHaveBeenCalledWith(['/addFeeDetail']);

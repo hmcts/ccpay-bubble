@@ -12,7 +12,6 @@ export class ReviewFeeDetailComponent {
   fee: FeeModel = this.addFeeDetailService.selectedFee;
   display_fee_amount: string;
   display_amount_to_pay: string;
-  error: string;
   resultData: any;
 
   constructor(
@@ -36,14 +35,24 @@ export class ReviewFeeDetailComponent {
         this.addFeeDetailService.remissionRef = remissionRef;
         this.router.navigate(['/confirmation']);
       })
-      .catch(err => { this.error = err; });
+      .catch(err => {
+        console.log(err);
+        this.navigateToServiceFailure();
+       });
     } else {
       this.addFeeDetailService.postPayment()
       .then(sendCardPayments => {
         this.resultData = JSON.parse(sendCardPayments);
       })
-      .catch(err => { this.error = err; });
+      .catch(err => {
+        console.log(err);
+        this.navigateToServiceFailure();
+       });
     }
+  }
+
+  navigateToServiceFailure() {
+    this.router.navigate(['/service-failure']);
   }
 
   onGoBack() {
