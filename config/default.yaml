@@ -19,7 +19,7 @@ payhub:
 appInsights:
   instrumentationKey: some-key
 e2e:
-  frontendUrl: http://localhost:4200/
+  frontendUrl: https://localhost:4200/
   waitForTimeoutValue: 2600
   waitForActionValue: 2000
 certs:

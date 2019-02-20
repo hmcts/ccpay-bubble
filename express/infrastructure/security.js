@@ -72,8 +72,6 @@ function login(req, res, roles, self) {
 }
 
 function authorize(req, res, next, self) {
-  console.log('Tarunnnnnnn  Request Roles: ', JSON.stringify(req.roles));
-  console.log('Tarunnnnnnn  Self Roles: ', JSON.stringify(self.roles));
   if (req.roles !== null) {
     for (const role in self.roles) {
       if (req.roles.includes(self.roles[role])) {
