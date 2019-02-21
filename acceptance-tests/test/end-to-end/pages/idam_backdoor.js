@@ -12,7 +12,7 @@ module.exports = () => {
           forename: 'forename',
           surname: 'surname',
           password,
-          roles: ['admin']
+          roles: ['payments']
         }
       });
     }
