@@ -96,7 +96,7 @@ module.exports = (security, appInsights) => {
       res.render('index', { csrfToken: req.csrfToken() });
     });
 
-  // app.use(errorHandler);
+  app.use(errorHandler);
 
   const duration = Date.now() - startTime;
 
