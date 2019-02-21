@@ -8,8 +8,7 @@ BeforeSuite(I => {
 });
 
 Scenario('Should redirect to login page', I => {
-  I.login('email', 'password');
-  I.setCookie({ name: 'auth', value: true });
-  I.click('Advanced');
-  I.click('Proceed to locahost');
+  I.fillField('Email address', 'caseworker@hmcts.net');
+  I.fillField('Password', 'Passw0rd');
+  I.click('Sign in');
 });
