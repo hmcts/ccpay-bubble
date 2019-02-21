@@ -13,6 +13,7 @@ import { AddFeeDetailService } from './services/add-fee-detail/add-fee-detail.se
 import { FeeListTableComponent } from 'src/app/shared/components/fee-list-table/fee-list-table.component';
 import { ConfirmationComponent } from 'src/app/components/confirmation/confirmation.component';
 import { FormatDisplayCurrencyPipe } from 'src/app/shared/pipes/format-display-currency.pipe';
+import { ServiceFailureComponent } from 'src/app/shared/components/service-failure/service-failure.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { NavigationComponent } from './shared/components/navigation/navigation.component';
 
@@ -24,6 +25,7 @@ import { NavigationComponent } from './shared/components/navigation/navigation.c
     ReviewFeeDetailComponent,
     FeeListTableComponent,
     ConfirmationComponent,
+    ServiceFailureComponent,
     FormatDisplayCurrencyPipe,
     HeaderComponent,
     NavigationComponent
