@@ -1,7 +1,7 @@
-import { stringLengthValidator } from './index';
+import { ccdCaseRefPatternValidator } from './index';
 import { FormControl } from '@angular/forms';
 
-const validator = stringLengthValidator(16);
+const validator = ccdCaseRefPatternValidator();
 
 describe('String length validator', () => {
   it('Should strip dashes and return null on a case ref with dashes', () => {
@@ -18,5 +18,9 @@ describe('String length validator', () => {
 
   it('Should return an error if ccd case ref is too short', () => {
     expect(validator(new FormControl('111122223333'))).toEqual({ 'ccdRefLength': true });
+  });
+
+  it('Should return an error if ccd case ref is incorrectly formatted', () => {
+    expect(validator(new FormControl('1111-2222-33334444'))).toEqual({ 'ccdRefLength': true });
   });
 });
