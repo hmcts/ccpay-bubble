@@ -16,14 +16,14 @@ exports.config = {
       waitForAction,
       // waitForNavigation: 'networkidle0',
       waitForNavigation: 'domcontentloaded',
-      show: true,
+      show: false,
       restart: false,
       keepCookies: false,
       keepBrowserState: true,
       networkIdleTimeout: 5000,
       waitUntil: 'networkidle',
       timeout: 3000000,
-      chrome: { ignoreHTTPSErrors: true }
+      chrome: { ignoreHTTPSErrors: 'true' }
     },
     Mochawesome: { uniqueScreenshotNames: 'true' }
   },
