@@ -1,0 +1,60 @@
+.bar-header {
+  a {
+    color: #ffffff;
+  }
+
+  &
+  __list {
+  }
+
+  .title {
+    padding: 0;
+    text-align: left;
+
+    a.content {
+      padding: 0;
+    }
+
+  }
+}
+
+.second-nav__menu {
+}
+
+.second-nav__menu::after {
+  clear: both;
+  content: '';
+  display: table;
+}
+
+.advanced-search {
+  display: inline-flex;
+}
+
+.advanced-search::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.advanced-search input[type=search] {
+  float: left;
+  border: 3px solid black;
+  border-right: 0;
+  height: 30px;
+  padding: 0 2px;
+}
+
+.magnifier {
+  background: black;
+  cursor: pointer;
+  padding: 5px;
+  width: 20px;
+  height: 20px;
+  float: left;
+  border: 3px solid black;
+}
+
+.logout-btn {
+  cursor: pointer;
+}
