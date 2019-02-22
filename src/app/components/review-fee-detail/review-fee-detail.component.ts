@@ -10,9 +10,6 @@ import { FeeModel } from 'src/app/models/FeeModel';
 })
 export class ReviewFeeDetailComponent {
   fee: FeeModel = this.addFeeDetailService.selectedFee;
-  display_fee_amount: string;
-  display_amount_to_pay: string;
-  url: string;
 
   constructor(
     private router: Router,
