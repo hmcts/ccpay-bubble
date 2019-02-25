@@ -172,12 +172,12 @@ function protectImpl(req, res, next, self) {
         }
 
         switch (err.status) {
-          case UNAUTHORIZED:
-            return login(req, res, self.roles, self);
-          case FORBIDDEN:
-            return next(errorFactory.createForbiddenError(err, 'getUserDetails() call was forbidden'));
-          default:
-            return next(errorFactory.createServerError(err, 'getUserDetails() call failed'));
+        case UNAUTHORIZED:
+          return login(req, res, self.roles, self);
+        case FORBIDDEN:
+          return next(errorFactory.createForbiddenError(err, 'getUserDetails() call was forbidden'));
+        default:
+          return next(errorFactory.createServerError(err, 'getUserDetails() call failed'));
         }
       }
 
