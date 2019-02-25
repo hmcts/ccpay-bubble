@@ -12,7 +12,7 @@ class PayhubService {
   async sendToPayhub(req) {
     const serviceAuthToken = await this.createAuthToken();
     return request.post({
-      uri: `${payhubUrl}card-payments`,
+      uri: `${payhubUrl}/card-payments`,
       body: req.body,
       headers: {
         ServiceAuthorization: `Bearer ${serviceAuthToken}`,
@@ -25,7 +25,7 @@ class PayhubService {
 
   postRemission(req) {
     return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}remission`,
+      uri: `${payhubUrl}/remission`,
       body: req.body,
       headers: {
         ServiceAuthorization: `Bearer ${token}`,
