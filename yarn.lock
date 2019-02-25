@@ -4565,6 +4565,11 @@ govuk-elements-sass@^3.1.3:
   dependencies:
     govuk_frontend_toolkit "^7.1.0"
 
+govuk-frontend@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-2.7.0.tgz#6a12baf514426653220dd3cdef55b1e1d97f52a6"
+  integrity sha512-IZvho72ExUAOmMOZHbE7s//HdtpSoO1aLn3fcXTnuIUi20UTsz6j+5i1Ztyqr4KUEb8OB/jNMYt4kuYyJnEMRQ==
+
 govuk_frontend_toolkit@^7.1.0:
   version "7.6.0"
   resolved "https://registry.yarnpkg.com/govuk_frontend_toolkit/-/govuk_frontend_toolkit-7.6.0.tgz#b09a60631afbba4bfac76a8b7c02e72419c29cf5"
@@ -4574,6 +4579,11 @@ govuk_frontend_toolkit@^8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/govuk_frontend_toolkit/-/govuk_frontend_toolkit-8.1.0.tgz#b09e4bc9c1abe494dc37284b0e96b11210f56e0e"
   integrity sha512-KzuMy+xhH/QKJHYJYS4p6ZiPg1CWSd4TKJFBFzngpVnk2tbvEvfAw/yLoRmzgukd/9V4d9oDSA4dIXRFb7XvDA==
+
+govuk_template_jinja@^0.24.1:
+  version "0.24.1"
+  resolved "https://registry.yarnpkg.com/govuk_template_jinja/-/govuk_template_jinja-0.24.1.tgz#6f624d2a820679debbb61d2e01f2ceca669ec69f"
+  integrity sha1-b2JNKoIGed67th0uAfLOymaexp8=
 
 graceful-fs@^4.0.0, graceful-fs@^4.1.0, graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.15"
@@ -7067,6 +7077,11 @@ next-tick@1:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
+ngx-cookie-service@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-2.1.0.tgz#8023f9edfcd8bd4f0b299b1f0c263112dbb0e261"
+  integrity sha512-7g7NEo7dYp6ap0j5qZ4Nf6nrU4WVdx8ycRQbWyLPps6mrR/+5vKU73ie0CMuKzl625bDTBjjJ60AmqTsp4l+AQ==
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
@@ -7091,6 +7106,11 @@ nock@^10.0.6:
     propagate "^1.0.0"
     qs "^6.5.1"
     semver "^5.5.0"
+
+node-bin-setup@^1.0.0:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/node-bin-setup/-/node-bin-setup-1.0.6.tgz#4b5c9bb937ece702d7069b36ca78af4684677528"
+  integrity sha512-uPIxXNis1CRbv1DwqAxkgBk5NFV3s7cMN/Gf556jSw6jBvV7ca4F9lRL/8cALcZecRibeqU+5dFYqFFmzv5a0Q==
 
 node-fetch-npm@^2.0.2:
   version "2.0.2"
@@ -7200,6 +7220,13 @@ node-sass@4.11.0, node-sass@^4.8.3:
     sass-graph "^2.2.4"
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
+
+node@^9.10.0:
+  version "9.11.2"
+  resolved "https://registry.yarnpkg.com/node/-/node-9.11.2.tgz#8d07d22f1fb75dce11572f864f45f901f06d5d92"
+  integrity sha512-K140s07Yd6pnfb4GppcqbPlVdFzCt5mxfie6RJfKGae77HnRnYJLRbF/vEnNZDKe1CHSOSOhQlePVrf2q04/5A==
+  dependencies:
+    node-bin-setup "^1.0.0"
 
 nodemon@^1.18.9:
   version "1.18.9"
