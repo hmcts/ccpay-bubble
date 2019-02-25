@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 module.exports = () => {
   const idamUrl = process.env.IDAM_URL || 'http://localhost:8001';
