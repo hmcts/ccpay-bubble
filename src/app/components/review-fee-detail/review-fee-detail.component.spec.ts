@@ -46,15 +46,6 @@ describe('ReviewFeeDetailComponent', () => {
     expect(addFeeDetailService.postFullRemission).toHaveBeenCalled();
   });
 
-  it('Should call postpayment when payment model is greater than 0', () => {
-    const paymodel = new PaymentModel();
-    paymodel.amount = 20;
-    spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
-    spyOn(addFeeDetailService, 'postPayment').and.returnValue(of({data: '123', success: true}).toPromise());
-    component.sendPayDetailsToPayhub();
-    expect(addFeeDetailService.postPayment).toHaveBeenCalled();
-  });
-
   it('Should navigate to service-detail', () => {
     component.navigateToServiceFailure();
     expect(router.navigate).toHaveBeenCalledWith(['/service-failure']);
