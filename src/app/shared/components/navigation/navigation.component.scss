@@ -3,10 +3,6 @@
     color: #ffffff;
   }
 
-  &
-  __list {
-  }
-
   .title {
     padding: 0;
     text-align: left;
@@ -18,14 +14,6 @@
   }
 }
 
-.second-nav__menu {
-}
-
-.second-nav__menu::after {
-  clear: both;
-  content: '';
-  display: table;
-}
 
 .advanced-search {
   display: inline-flex;
