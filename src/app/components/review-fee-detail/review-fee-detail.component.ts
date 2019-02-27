@@ -10,9 +10,6 @@ import { FeeModel } from 'src/app/models/FeeModel';
 })
 export class ReviewFeeDetailComponent {
   fee: FeeModel = this.addFeeDetailService.selectedFee;
-  display_fee_amount: string;
-  display_amount_to_pay: string;
-  resultData: any;
 
   constructor(
     private router: Router,
@@ -36,16 +33,14 @@ export class ReviewFeeDetailComponent {
         this.router.navigate(['/confirmation']);
       })
       .catch(err => {
-        console.log(err);
         this.navigateToServiceFailure();
        });
     } else {
       this.addFeeDetailService.postPayment()
-      .then(sendCardPayments => {
-        this.resultData = JSON.parse(sendCardPayments);
+      .then(redirectUrl => {
+        window.location.href = redirectUrl;
       })
       .catch(err => {
-        console.log(err);
         this.navigateToServiceFailure();
        });
     }
