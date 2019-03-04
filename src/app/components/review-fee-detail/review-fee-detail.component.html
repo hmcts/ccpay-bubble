@@ -4,27 +4,27 @@
   <table>
     <tbody>
     <tr class="section">
-      <td class="heading-small" width="330px">CCD Case reference:</td>
+      <td class="heading-small">CCD Case reference:</td>
       <td>{{payModel.ccd_case_number}}</td>
     </tr>
     <tr class="section">
-      <td class="heading-small" width="330px">Fee code:</td>
+      <td class="heading-small">Fee code:</td>
       <td>{{(fee) ? fee.code : ''}}</td>
     </tr>
     <tr class="section">
-      <td class="heading-small" width="330px">Fee description:</td>
+      <td class="heading-small">Fee description:</td>
       <td>{{(fee) ? fee.description : ''}}</td>
     </tr>
     <tr class="section">
-      <td class="heading-small" width="330px">Price:</td>
+      <td class="heading-small">Price:</td>
       <td>{{this.fee.calculated_amount | formatDisplayCurrency}}</td>
     </tr>
     <tr class="section">
-      <td class="heading-small" width="330px">Help with fees (HWF) code:</td>
+      <td class="heading-small">Help with fees (HWF) code:</td>
       <td>{{remissionModel.hwf_reference}}</td>
     </tr>
     <tr class="section">
-      <td class="heading-small" width="330px">Amount left to pay:</td>
+      <td class="heading-small">Amount left to pay:</td>
       <td>{{this.payModel.amount | formatDisplayCurrency}}</td>
     </tr>
     </tbody>
