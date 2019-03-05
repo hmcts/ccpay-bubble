@@ -1,6 +1,6 @@
 dependencies:
   - name: payment-api
-    version: 0.0.1
+    version: 0.0.2
     repository: '@hmcts'
   - name: nodejs
     version: 0.0.11
