@@ -23,3 +23,5 @@ nodejs:
     REFORM_ENVIRONMENT: preview
     NODE_ENV: production
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
+    CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
+    PAYHUB_API_URL: http://${SERVICE_NAME}-payment-api
