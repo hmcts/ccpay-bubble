@@ -1,3 +1,14 @@
+payment-api:
+  releaseNameOverride: ${SERVICE_NAME}-payment-api
+  java:
+    releaseNameOverride: ${SERVICE_NAME}-payment-api
+    image: hmcts.azurecr.io/hmcts/payment-api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-payment-db:5432/payment
+      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+      AUTH_IDAM_CLIENT_BASEURL: https://preprod-idamapi.reform.hmcts.net:3511
+  postgresql:
+
 nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
@@ -12,3 +23,5 @@ nodejs:
     REFORM_ENVIRONMENT: preview
     NODE_ENV: production
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
+    CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
+    PAYHUB_API_URL: http://${SERVICE_NAME}-payment-api
