@@ -122,13 +122,22 @@ function handleCookie(req) {
   return null;
 }
 
+Security.prototype.logout = function logout() {
+  const self = { opts: this.opts };
 
-Security.prototype.homeScreen = function homeScreen() {
   // eslint-disable-next-line no-unused-vars
-  return function ret(req, res) {
-    const originalUrl = self.opts.ccpayBubbleUrl;
-    const url = URL.parse(originalUrl, true);
-    return res.redirect(url.format());
+  return function ret(req, res, next) {
+    const token = req.cookies[constants.SECURITY_COOKIE];
+
+    res.clearCookie(constants.SECURITY_COOKIE);
+    res.clearCookie(constants.REDIRECT_COOKIE);
+    res.clearCookie(constants.USER_COOKIE);
+
+    if (token) {
+      res.redirect(`${self.opts.loginUrl}/logout?jwt=${token}`);
+    } else {
+      res.redirect(`${self.opts.loginUrl}/logout`);
+    }
   };
 };
 
@@ -153,10 +162,10 @@ function protectImpl(req, res, next, self) {
     return login(req, res, self.roles, self);
   }
 
-  Logger.getLogger('BAR-WEB: server.js -> error').info('About to call user details endpoint');
+  Logger.getLogger('PAYBUBBLE: server.js -> error').info('About to call user details endpoint');
   return getUserDetails(self, securityCookie).end(
     (err, response) => {
-      Logger.getLogger('BAR-WEB: server.js -> error').info(`Get user details called with the result: err: ${err}, resp: ${JSON.stringify(response)}`);
+      Logger.getLogger('PAYBUBBLE: server.js -> error').info(`Get user details called with the result: err: ${err}, resp: ${JSON.stringify(response)}`);
       if (err) {
         if (!err.status) {
           err.status = 500;

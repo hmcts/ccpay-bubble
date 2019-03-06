@@ -1,44 +1,43 @@
-<h1 class="heading-xlarge">Summary of fees</h1>
-<form>
-  <div class="form-group">
-    <div class="fee-details">
-      <table>
-        <tbody>
-          <tr>
-            <td>CCD Case reference: </td>
-            <td>{{payModel.ccd_case_number}}</td>
-          </tr>
-          <tr>
-            <td>Fee code: </td>
-            <td>{{(fee) ? fee.code : ''}}</td>
-          </tr>
-          <tr>
-            <td>Fee description: </td>
-            <td>{{(fee) ? fee.description : ''}}</td>
-          </tr>
-          <tr>
-            <td>Price: </td>
-            <td>{{this.fee.calculated_amount | formatDisplayCurrency}}</td>
-          </tr>
-          <tr>
-            <td>Help with fees (HWF) code: </td>
-            <td>{{remissionModel.hwf_reference}}</td>
-          </tr>
-          <tr>
-            <td>Amount left to pay: </td>
-            <td>{{this.payModel.amount | formatDisplayCurrency}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<div class="govuk-width-container">
+  <h2 class="heading-large">Payment details</h2>
+
+  <table>
+    <tbody>
+    <tr class="section">
+      <td class="heading-small">CCD Case reference:</td>
+      <td>{{payModel.ccd_case_number}}</td>
+    </tr>
+    <tr class="section">
+      <td class="heading-small">Fee code:</td>
+      <td>{{(fee) ? fee.code : ''}}</td>
+    </tr>
+    <tr class="section">
+      <td class="heading-small">Fee description:</td>
+      <td>{{(fee) ? fee.description : ''}}</td>
+    </tr>
+    <tr class="section">
+      <td class="heading-small">Price:</td>
+      <td>{{this.fee.calculated_amount | formatDisplayCurrency}}</td>
+    </tr>
+    <tr class="section">
+      <td class="heading-small">Help with fees (HWF) code:</td>
+      <td>{{remissionModel.hwf_reference}}</td>
+    </tr>
+    <tr class="section">
+      <td class="heading-small">Amount left to pay:</td>
+      <td>{{this.payModel.amount | formatDisplayCurrency}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <a href="javascript:void(0)" (click)="onGoBack()" class="govuk-back-link govuk-label">Back to Add fee details page</a>
+      </li>
+    </ol>
   </div>
-  <div class="form-group" id="backToPreviousPage">
-    <fieldset class="inline">
-      <legend>
-        <span (click)="onGoBack()"><a>Back to Add fee details page</a></span>
-      </legend>
-    </fieldset>
-  </div>
+
   <div class="form-group">
     <div class="button-grid__button">
       <button class="button button-view" type="submit" (click)="sendPayDetailsToPayhub()">
@@ -46,4 +45,4 @@
       </button>
     </div>
   </div>
-</form>
+</div>
