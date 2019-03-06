@@ -2,7 +2,7 @@
   "name": "ccpay-bubble",
   "version": "0.0.0",
   "engines": {
-    "node": ">=8.9.4 <10.15.0"
+    "node": ">=8.11.1"
   },
   "scripts": {
     "debug": "node --inspect --proxy-server=http://proxyout.reform.hmcts.net:8080 start.js",
