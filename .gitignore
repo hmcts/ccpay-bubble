@@ -40,6 +40,7 @@ testem.log
 /typings
 Reset
 express/mvc/views/index.pug
+package-lock.json
 
 # System Files
 .DS_Store

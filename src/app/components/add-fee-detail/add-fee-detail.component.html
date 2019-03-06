@@ -1,55 +1,58 @@
-<form [formGroup]="feeDetailForm">
-  <legend><h1 class="heading-xlarge">Add fee details</h1></legend>
+<div class="govuk-width-container">
+  <form [formGroup]="feeDetailForm">
+    <legend><h1 class="heading-xlarge">Add fee details</h1></legend>
 
-  <div class="form-group" [ngClass]="showErrors && feeDetailForm.get('serviceType').errors ? 'form-group-error': ''">
-    <label class="heading-small" for="service">Service</label>
-    <span class="error-message" *ngIf="showErrors && feeDetailForm.get('serviceType').errors">Select a service</span>
-    <select class="form-control short-input" id="service" formControlName="serviceType">
-      <option value="DIVORCE">Divorce</option>
-    </select>
-  </div>
+    <div class="form-group" [ngClass]="showErrors && feeDetailForm.get('serviceType').errors ? 'form-group-error': ''">
+      <label class="form-label-bold" for="service">Service</label>
+      <span class="error-message" *ngIf="showErrors && feeDetailForm.get('serviceType').errors">Select a service</span>
+      <select class="form-control short-input" id="service" formControlName="serviceType">
+        <option value="DIVORCE">Divorce</option>
+      </select>
+    </div>
 
-  <div class="form-group" [ngClass]="showErrors && feeDetailForm.get('caseReference').errors ? 'form-group-error': ''">
-    <label class="heading-small" for="caseReference">
-      Enter a CCD Case Reference
-      <span class="form-hint">For example: 1111-2222-3333-4444</span>
-    </label>
-    <span class="error-message" *ngIf="showErrors && feeDetailForm.get('caseReference').errors">Enter a case reference in the correct format</span>
-    <input class="form-control short-input" autocomplete="off" id="caseReference" type="text" formControlName="caseReference"/>
-  </div>
+    <div class="form-group" [ngClass]="showErrors && feeDetailForm.get('caseReference').errors ? 'form-group-error': ''">
+      <label class="heading-small" for="caseReference">
+        Enter a CCD Case Reference
+        <span class="form-hint">For example: 1111-2222-3333-4444</span>
+      </label>
+      <span class="error-message" *ngIf="showErrors && feeDetailForm.get('caseReference').errors">Enter a case reference in the correct format</span>
+      <input class="form-control short-input" autocomplete="off" id="caseReference" type="text" formControlName="caseReference"/>
+    </div>
 
-  <app-fee-list-table
-  [fees]=fees
-  [showErrors]=showErrors
-  [isValid]="feeDetailForm.get('selectedFee').value"
-  (feeChangedEventEmitter)="selectFee($event)"></app-fee-list-table>
+    <app-fee-list-table
+      [fees]=fees
+      [showErrors]=showErrors
+      [isValid]="feeDetailForm.get('selectedFee').value"
+      (feeChangedEventEmitter)="selectFee($event)"></app-fee-list-table>
 
-  <a (click)="toggleHelpWithFees()">{{helpWithFeesIsVisible ? 'Hide' : 'Show'}} help with fees</a>
-  <div id="hwfOpenText" formGroupName='helpWithFees'>
-    <div class="form-group panel panel-border-narrow" [hidden]="!helpWithFeesIsVisible" [ngClass]="showErrors && (feeDetailForm.get('helpWithFees').errors || feeDetailForm.get('helpWithFees.amount').errors) ? 'form-group-error': ''">
-      <div class="form-group">
-        <label class="heading-small" for="hwfReference">
-          Enter HWF Code
-          <span class="form-hint">For example: HWF-A1B-23C</span>
-        </label>
-        <span class="error-message" *ngIf="showErrors && feeDetailForm.get('helpWithFees').errors?.hwfCodeInvalid">Enter a help with fees reference</span>
-        <input class="form-control short-input" autocomplete="off" id="hwfReference" type="text" formControlName="code" (change)="setHelpWithFeesGroupValidation()"/>
-      </div>
-      <div class="form-group">
-        <label class="heading-small" for="hwfReference">Amount left to pay</label>
-        <span class="error-message" *ngIf="showErrors">
+    <a (click)="toggleHelpWithFees()">{{helpWithFeesIsVisible ? 'Hide' : 'Show'}} help with fees</a>
+
+    <div id="hwfOpenText" formGroupName='helpWithFees'>
+      <div class="form-group panel panel-border-narrow" [hidden]="!helpWithFeesIsVisible" [ngClass]="showErrors && (feeDetailForm.get('helpWithFees').errors || feeDetailForm.get('helpWithFees.amount').errors) ? 'form-group-error': ''">
+        <div class="form-group">
+          <label class="heading-small" for="hwfReference">
+            Enter HWF Code
+            <span class="form-hint">For example: HWF-A1B-23C</span>
+          </label>
+          <span class="error-message" *ngIf="showErrors && feeDetailForm.get('helpWithFees').errors?.hwfCodeInvalid">Enter a help with fees reference</span>
+          <input class="form-control short-input" autocomplete="off" id="hwfReference" type="text" formControlName="code" (change)="setHelpWithFeesGroupValidation()"/>
+        </div>
+        <div class="form-group">
+          <label class="heading-small" for="hwfReference">Amount left to pay</label>
+          <span class="error-message" *ngIf="showErrors">
           <span *ngIf="feeDetailForm.get('helpWithFees').errors?.hwfAmountInvalid">Enter the amount to left to pay</span>
           <span *ngIf="feeDetailForm.get('helpWithFees').errors?.hwfAmountNegative">Enter a valid amount</span>
           <span *ngIf="feeDetailForm.get('helpWithFees.amount').errors?.amountGreaterThanFee">Enter an amount smaller than the total amount</span>
         </span>
-        £ <input class="form-control short-input" autocomplete="off" id="amountToPay" type="number" formControlName="amount" (change)="setHelpWithFeesGroupValidation()"/>
+          £ <input class="form-control short-input" autocomplete="off" id="amountToPay" type="number" formControlName="amount" (change)="setHelpWithFeesGroupValidation()"/>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="form-group margin-top-30">
-    <div class="button-grid__button">
-      <button class="button button-view" type="submit" (click)="saveAndContinue()">Continue</button>
+    <div class="form-group margin-top-30">
+      <div class="button-grid__button">
+        <button class="button button-view" type="submit" (click)="saveAndContinue()">Continue</button>
+      </div>
     </div>
-  </div>
-</form>
+  </form>
+</div>
