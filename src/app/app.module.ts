@@ -14,6 +14,8 @@ import { FeeListTableComponent } from 'src/app/shared/components/fee-list-table/
 import { ConfirmationComponent } from 'src/app/components/confirmation/confirmation.component';
 import { FormatDisplayCurrencyPipe } from 'src/app/shared/pipes/format-display-currency.pipe';
 import { ServiceFailureComponent } from 'src/app/shared/components/service-failure/service-failure.component';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { NavigationComponent } from './shared/components/navigation/navigation.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { ServiceFailureComponent } from 'src/app/shared/components/service-failu
     FeeListTableComponent,
     ConfirmationComponent,
     ServiceFailureComponent,
-    FormatDisplayCurrencyPipe
+    FormatDisplayCurrencyPipe,
+    HeaderComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,

@@ -27,6 +27,12 @@ function setConfig(options) {
     options.headers = {};
   }
   options.headers['Content-Type'] = options.headers['Content-Type'] == null ? 'application/json' : options.headers['Content-Type'];
+  if (request && request.cookies[constants.SECURITY_COOKIE]) {
+    const bearer = request.cookies[constants.SECURITY_COOKIE];
+    options.headers.Authorization = `Bearer ${bearer}`;
+    const siteId = request.cookies[constants.SITEID_COOKIE];
+    options.headers.SiteId = siteId ? siteId : '';
+  }
 
   if (options.hasOwnProperty('method') && options.method === 'DELETE') {
     options.json = false;
