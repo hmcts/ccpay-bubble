@@ -7248,6 +7248,11 @@ node-sass@4.11.0, node-sass@^4.8.3:
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
 
+node-win-x86@^11.11.0:
+  version "11.11.0"
+  resolved "https://registry.yarnpkg.com/node-win-x86/-/node-win-x86-11.11.0.tgz#0b93cfc4ba460ded54596ae7051f7bc2dd590c41"
+  integrity sha512-gvNHO+9iZWAfdWsRwwvUlJLuZI//J2PS/gp7SizgdZA3V/1Hf9gLlm0mAinTLyuzED+68Q2V9dgZqXg6I3QZkQ==
+
 node@^9.10.0:
   version "9.11.2"
   resolved "https://registry.yarnpkg.com/node/-/node-9.11.2.tgz#8d07d22f1fb75dce11572f864f45f901f06d5d92"
