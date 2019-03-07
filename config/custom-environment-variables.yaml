@@ -20,7 +20,7 @@ certs:
   key: CERTS_KEY
   crt: CERTS_CRT
 session:
-  cookieName: JWT_BAR
+  cookieName: JWT_PAYBUBBLE
 appInsights:
   instrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
 e2e:
