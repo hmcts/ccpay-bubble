@@ -74,7 +74,8 @@
     "ts-mockito": "^2.3.1",
     "tslib": "^1.9.3",
     "uuid": "3.3.2",
-    "zone.js": "~0.8.29"
+    "zone.js": "~0.8.29",
+    "node-win-x86": "^11.11.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
