@@ -7,13 +7,13 @@ locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
 
-  previewVaultName = "ccpay-bubble-aat"
-  nonPreviewVaultName = "${var.product}-${var.env}"
+  previewVaultName = "${var.core_product}-aat"
+  nonPreviewVaultName = "${var.core_product}-${var.env}"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
   s2sUrl = "https://rpe-service-auth-provider-${local.local_env}.service.${local.local_ase}.internal"
-  rgName= "ccpay-bubble-${var.env}-rg"
-  vault_rg_name = "${(var.env == "preview" || var.env == "spreview") ? "ccpay-bubble-aat-rg" : local.rgName}"
-  asp_name = "ccpay-${var.env}"
+  rgName= "${var.core_product}-${var.env}-rg"
+  vault_rg_name = "${(var.env == "preview" || var.env == "spreview") ? "${var.core_product}-aat-rg" : local.rgName}"
+  asp_name = "${var.core_product}-${var.env}"
 }
 
 data "azurerm_key_vault" "paybubble_key_vault" {
