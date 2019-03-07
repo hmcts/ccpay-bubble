@@ -1,5 +1,6 @@
 variable "product" {
   type = "string"
+  default = "ccpay-bubble"
 }
 
 variable "component" {
@@ -64,5 +65,10 @@ variable "authentication_web_url" {
 
 variable "vault_section" {
   default = "dev"
+}
+
+variable "core_product" {
+  type    = "string"
+  default = "ccpay"
 }
 
