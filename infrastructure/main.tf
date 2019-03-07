@@ -10,15 +10,15 @@ locals {
   previewVaultName = "${var.core_product}-aat"
   nonPreviewVaultName = "${var.core_product}-${var.env}"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
+
   s2sUrl = "https://rpe-service-auth-provider-${local.local_env}.service.${local.local_ase}.internal"
-  rgName= "${var.core_product}-${var.env}-rg"
-  vault_rg_name = "${(var.env == "preview" || var.env == "spreview") ? "${var.core_product}-aat-rg" : local.rgName}"
+
   asp_name = "${var.env == "prod" ? "ccpay-bubble-frontend-prod" : "${var.core_product}-${var.env}"}"
 }
 
 data "azurerm_key_vault" "paybubble_key_vault" {
   name = "${local.vaultName}"
-  resource_group_name = "${var.core_product}-${local.vault_rg_name}"
+  resource_group_name = "${var.core_product}-${local.local_env}"
 }
 
 data "azurerm_key_vault_secret" "paybubble_idam_client_secret" {
