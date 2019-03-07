@@ -1,17 +1,14 @@
 #!groovy
 
-properties(
-  [[$class: 'GithubProjectProperty', projectUrlStr: 'https://github.com/hmcts/ccfr-fees-register-admin-web.git'],
-   pipelineTriggers([[$class: 'GitHubPushTrigger']])]
-)
-
 @Library("Infrastructure")
 
 def product = "ccpay"
 def component = "bubble-frontend"
 
 List<LinkedHashMap<String, Object>> secrets = [
-  secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET')
+  secret('paybubble-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET'),
+  secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET'),
+  secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -28,12 +25,12 @@ withPipeline("nodejs", product, component) {
   setVaultName('ccpay')
   loadVaultSecrets(secrets)
   enableDockerBuild()
-  installCharts()
+  enableDeployToAKS()
   enableSlackNotifications('#cc-payments-tech')
 
   after('checkout') {
     sh "yarn cache clean"
-    echo 'ccpay-bubble checked out'
+    echo 'bar-web checked out'
   }
   after('build') {
     sh 'yarn ng:build'
