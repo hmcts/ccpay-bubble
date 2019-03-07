@@ -25,12 +25,12 @@ withPipeline("nodejs", product, component) {
   setVaultName('ccpay')
   loadVaultSecrets(secrets)
   enableDockerBuild()
-  enableDeployToAKS()
+  installCharts()
   enableSlackNotifications('#cc-payments-tech')
 
   after('checkout') {
     sh "yarn cache clean"
-    echo 'bar-web checked out'
+    echo 'ccpay-bubble checked out'
   }
   after('build') {
     sh 'yarn ng:build'
