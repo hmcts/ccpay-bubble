@@ -1,1 +1,5 @@
-external_host_name ="ccpay-bubble.demo.platform.hmcts.net"
+#external_host_name ="paybubble.demo.platform.hmcts.net"
+idam_api_url = "https://preprod-idamapi.reform.hmcts.net:3511"
+authentication_web_url = "https://idam.preprod.ccidam.reform.hmcts.net/login"
+capacity = "1"
+vault_section = "preprod"
