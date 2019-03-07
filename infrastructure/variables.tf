@@ -54,3 +54,15 @@ variable "common_tags" {
   type = "map"
 }
 
+variable "idam_api_url" {
+  default = "http://betaDevAccidamAppLB.reform.hmcts.net"
+}
+
+variable "authentication_web_url" {
+  default = "https://idam.dev.ccidam.reform.hmcts.net/login"
+}
+
+variable "vault_section" {
+  default = "dev"
+}
+

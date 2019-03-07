@@ -60,7 +60,7 @@ function response(res, data, status = HttpStatusCodes.OK) {
 }
 
 function errorHandler(res, error, fileName) {
-  Logger.getLogger(`BAR-WEB: ${fileName}`).error(error.body || error.message);
+  Logger.getLogger(`PAYBUBBLE-WEB: ${fileName}`).error(error.body || error.message);
   res.status(error.response ? error.response.statusCode || HttpStatusCodes.INTERNAL_SERVER_ERROR : HttpStatusCodes.INTERNAL_SERVER_ERROR);
   res.send(error.body || error.message);
 }
