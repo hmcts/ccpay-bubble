@@ -74,8 +74,7 @@
     "ts-mockito": "^2.3.1",
     "tslib": "^1.9.3",
     "uuid": "3.3.2",
-    "zone.js": "~0.8.29",
-    "node-win-x86": "^11.11.0"
+    "zone.js": "~0.8.29"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
@@ -122,5 +121,8 @@
     "tslint": "~5.12.1",
     "typescript": "~3.1.6",
     "nodemon": "^1.18.10"
+  },
+  "optionalDependencies": {
+    "fsevents": "*"
   }
 }
