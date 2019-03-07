@@ -18,7 +18,7 @@ locals {
 
 data "azurerm_key_vault" "paybubble_key_vault" {
   name = "${local.vaultName}"
-  resource_group_name = "${local.vault_rg_name}"
+  resource_group_name = "${var.core_product}-${local.vault_rg_name}"
 }
 
 data "azurerm_key_vault_secret" "paybubble_idam_client_secret" {
