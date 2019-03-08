@@ -6,7 +6,6 @@ def product = "ccpay"
 def component = "bubble-frontend"
 
 List<LinkedHashMap<String, Object>> secrets = [
-  secret('paybubble-IDAM-CLIENT-SECRET', 'IDAM_CLIENT_SECRET'),
   secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET'),
   secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
 ]
