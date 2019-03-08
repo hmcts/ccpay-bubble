@@ -14,8 +14,7 @@ locals {
 
   s2sUrl = "https://rpe-service-auth-provider-${local.local_env}.service.${local.local_ase}.internal"
 
-  #asp_name = "${var.env == "prod" ? "ccpay-bubble-frontend-prod" : "${var.core_product}-${var.env}"}"
-  asp_name = "ccpay-${var.env}"
+  asp_name = "${var.env == "prod" ? "ccpay-bubble-frontend-prod" : "${var.core_product}-${var.env}"}"
 }
 
 data "azurerm_key_vault" "paybubble_key_vault" {
@@ -59,6 +58,10 @@ module "ccpay-bubble" {
 
     S2S_KEY = "${data.azurerm_key_vault_secret.s2s_key.value}"
     S2S_URL = "${local.s2sUrl}"
+
+    NODE_ENV = "production"
+    # temporary variable to ignore certs loading in start.js as it's handled at IIS server level
+    IGNORE_CERTS = "true"
 
     // Logging vars
     REFORM_TEAM = "${var.product}"
