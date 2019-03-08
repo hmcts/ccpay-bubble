@@ -22,10 +22,10 @@ data "azurerm_key_vault" "paybubble_key_vault" {
   resource_group_name = "${var.core_product}-${local.local_env}"
 }
 
-//data "azurerm_key_vault_secret" "paybubble_idam_client_secret" {
-//  name = "paybubble-IDAM-CLIENT-SECRET"
-//  vault_uri = "${data.azurerm_key_vault.paybubble_key_vault.vault_uri}"
-//}
+data "azurerm_key_vault_secret" "paybubble_idam_client_secret" {
+  name = "paybubble-idam-client-secret"
+  vault_uri = "${data.azurerm_key_vault.paybubble_key_vault.vault_uri}"
+}
 
 data "azurerm_key_vault_secret" "s2s_key" {
   name      = "microservicekey-ccpay-bubble"
@@ -50,8 +50,7 @@ module "ccpay-bubble" {
   app_settings = {
     IDAM_API_URL = "${var.idam_api_url}"
     IDAM_AUTHENTICATION_WEB_URL = "${var.authentication_web_url}"
-    #IDAM_CLIENT_SECRET = "${data.azurerm_key_vault_secret.paybubble_idam_client_secret.value}"
-    IDAM_CLIENT_SECRET = "NVYEC2X7XFSRENTU"
+    IDAM_CLIENT_SECRET = "${data.azurerm_key_vault_secret.paybubble_idam_client_secret.value}"
     CCPAY_BUBBLE_URL = "https://ccpay-bubble-frontend-${var.env}.service.core-compute-${var.env}.internal/"
     CCPAY_BUBBLE_MICROSERVICE = "ccpay_bubble"
     PAYHUB_API_URL = "https://payment-api-${var.env}.service.core-compute-${var.env}.internal/"
