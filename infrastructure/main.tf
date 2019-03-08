@@ -14,7 +14,8 @@ locals {
 
   s2sUrl = "https://rpe-service-auth-provider-${local.local_env}.service.${local.local_ase}.internal"
 
-  asp_name = "${var.env == "prod" ? "ccpay-bubble-frontend-prod" : "${var.core_product}-${var.env}"}"
+  #asp_name = "${var.env == "prod" ? "ccpay-bubble-frontend-prod" : "${var.core_product}-${var.env}"}"
+  asp_name = "ccpay-${var.env}"
 }
 
 data "azurerm_key_vault" "paybubble_key_vault" {
