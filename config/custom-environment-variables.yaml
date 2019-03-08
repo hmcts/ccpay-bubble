@@ -4,7 +4,7 @@ security:
     maxAge: SECURITY_HPKP_MAX_AGE,
     pins: SECURITY_HPKP_PINS
 idam:
-  client_id: ccpay_bubble
+  client_id: paybubble
   client_secret: IDAM_CLIENT_SECRET
   login_url: IDAM_AUTHENTICATION_WEB_URL
   api_url: IDAM_API_URL
