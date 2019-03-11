@@ -16,6 +16,7 @@ export class PaybubbleHttpClient {
   }
 
   addHeaders(options: any): any {
+    const csrfToken = this.meta.getTag('name=csrf-token');
     const headers = {};
     if (options.headers) {
       options.headers.forEach(element => {
@@ -23,6 +24,7 @@ export class PaybubbleHttpClient {
       });
     }
     headers['X-Requested-With'] = 'XMLHttpRequest';
+    headers['CSRF-Token'] = csrfToken.content;
     options.headers = new HttpHeaders(headers);
     options.responseType = 'text';
     return options;
