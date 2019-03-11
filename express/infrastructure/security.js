@@ -14,7 +14,8 @@ const errorFactory = ApiErrorFactory('security.js');
 const constants = Object.freeze({
   SECURITY_COOKIE: '__auth-token',
   REDIRECT_COOKIE: '__redirect',
-  USER_COOKIE: '__user-info'
+  USER_COOKIE: '__user-info',
+  CSRF_TOKEN: '_csrf'
 });
 
 const ACCESS_TOKEN_OAUTH2 = 'access_token';
