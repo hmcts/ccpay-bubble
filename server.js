@@ -86,7 +86,7 @@ module.exports = (security, appInsights) => {
   }
 
   // make all routes available via this imported module
-  app.use('/api', security.protectWithAnyOf(roles.allRoles, ['/**']), csrfProtection, route(appInsights));
+  app.use('/api', security.protectWithAnyOf(roles.allRoles, ['/**']), route(appInsights));
 
   app.use(security.protectWithAnyOf(roles.allRoles, ['/assets/'], express.static('dist')));
 
