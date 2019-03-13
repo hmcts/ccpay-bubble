@@ -15,6 +15,7 @@ class PayhubService {
       uri: `${payhubUrl}/card-payments`,
       body: req.body,
       headers: {
+        Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${serviceAuthToken}`,
         'return-url': `${ccpayBubbleReturnUrl}`,
         'Content-Type': 'application/json'
@@ -28,6 +29,7 @@ class PayhubService {
       uri: `${payhubUrl}/remission`,
       body: req.body,
       headers: {
+        Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
