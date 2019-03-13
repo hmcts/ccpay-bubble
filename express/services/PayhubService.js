@@ -11,11 +11,12 @@ const microService = config.get('ccpaybubble.microservice');
 class PayhubService {
   async sendToPayhub(req) {
     const serviceAuthToken = await this.createAuthToken();
+    const authToken = req.authToken;
     return request.post({
       uri: `${payhubUrl}/card-payments`,
       body: req.body,
       headers: {
-        Authorization: `Bearer ${req.cookies[constants.SECURITY_COOKIE]}`,
+        Authorization: `Bearer ${authToken}`,
         ServiceAuthorization: `Bearer ${serviceAuthToken}`,
         'return-url': `${ccpayBubbleReturnUrl}`,
         'Content-Type': 'application/json'
@@ -29,7 +30,7 @@ class PayhubService {
       uri: `${payhubUrl}/remission`,
       body: req.body,
       headers: {
-        Authorization: `Bearer ${req.cookies[constants.SECURITY_COOKIE]}`,
+        Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
