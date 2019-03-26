@@ -11,6 +11,10 @@ export class FeeModel {
     description: string;
     checked: boolean;
     display_amount: string;
+    memo_line: string;
+    natural_account_code: string;
+    jurisdiction1: string;
+    jurisdiction2: string;
 
     assign(model: any) {
         const properties = Object.keys(model);
