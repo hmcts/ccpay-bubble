@@ -3,8 +3,8 @@ security:
 idam:
   client_id: paybubble
   client_secret: SFQBNO52G4ITHHDJ
-  login_url: https://idam.dev.ccidam.reform.hmcts.net/login
-  api_url: https://idam.dev.ccidam.reform.hmcts.net
+  login_url: https://localhost:8000/login
+  api_url: http://localhost:8001
 session:
   cookieName: SESSION_ID
 ccpaybubble:
