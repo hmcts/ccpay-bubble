@@ -20,8 +20,7 @@ class PayhubService {
         'return-url': `${ccpayBubbleReturnUrl}`,
         'Content-Type': 'application/json'
       },
-      json: true,
-      proxy: 'http://proxyout.reform.hmcts.net:8080'
+      json: true
     });
   }
 
@@ -34,8 +33,7 @@ class PayhubService {
         ServiceAuthorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      json: true,
-      proxy: 'http://proxyout.reform.hmcts.net:8080'
+      json: true
     }));
   }
 
@@ -48,8 +46,7 @@ class PayhubService {
     return request.post({
       uri: `${s2sUrl}/lease`,
       body: serviceAuthRequest,
-      json: true,
-      proxy: 'http://proxyout.reform.hmcts.net:8080'
+      json: true
     });
   }
 }
