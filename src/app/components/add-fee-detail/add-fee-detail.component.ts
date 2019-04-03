@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
@@ -16,6 +16,7 @@ export class AddFeeDetailComponent implements OnInit {
   fees: FeeModel[] = this.addFeeDetailService.buildFeeList();
   feeDetailForm: FormGroup;
   selectedFee: FeeModel;
+  @Input() savedFee: FeeModel;
 
   constructor(
     private router: Router,
@@ -24,17 +25,35 @@ export class AddFeeDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.addFeeDetailService.selectedFee = null;
+    this.selectedFee = this.addFeeDetailService.selectedFee;
 
-    this.feeDetailForm = this.formBuilder.group({
-      serviceType: ['DIVORCE', Validators.required],
-      caseReference: ['', Validators.compose([Validators.required, ccdCaseRefPatternValidator()])],
-      selectedFee: [null, Validators.required],
-      helpWithFees: this.formBuilder.group({
-        code: [''],
-        amount: [null]
-      })
-    });
+    if (this.selectedFee) {
+      this.savedFee = this.selectedFee;
+      const caseReference = this.addFeeDetailService.paymentModel.ccd_case_number;
+      const service = this.addFeeDetailService.paymentModel.service;
+
+      this.feeDetailForm = this.formBuilder.group({
+        serviceType: [service, Validators.required],
+        caseReference: [caseReference, Validators.compose([Validators.required, ccdCaseRefPatternValidator()])],
+        selectedFee: [this.selectedFee, Validators.required],
+        helpWithFees: this.formBuilder.group({
+          code: [''],
+          amount: [null]
+        })
+      });
+    } else {
+      this.addFeeDetailService.selectedFee = null;
+
+      this.feeDetailForm = this.formBuilder.group({
+        serviceType: ['DIVORCE', Validators.required],
+        caseReference: ['', Validators.compose([Validators.required, ccdCaseRefPatternValidator()])],
+        selectedFee: [null, Validators.required],
+        helpWithFees: this.formBuilder.group({
+          code: [''],
+          amount: [null]
+        })
+      });
+    }
   }
 
   toggleHelpWithFees() {
