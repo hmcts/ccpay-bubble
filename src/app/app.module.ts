@@ -15,6 +15,8 @@ import { ConfirmationComponent } from 'src/app/components/confirmation/confirmat
 import { FormatDisplayCurrencyPipe } from 'src/app/shared/pipes/format-display-currency.pipe';
 import { ServiceFailureComponent } from 'src/app/shared/components/service-failure/service-failure.component';
 import { SanitizeURLPipe } from 'src/app/shared/pipes/sanitize-url.pipe';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { NavigationComponent } from './shared/components/navigation/navigation.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { SanitizeURLPipe } from 'src/app/shared/pipes/sanitize-url.pipe';
     ConfirmationComponent,
     ServiceFailureComponent,
     FormatDisplayCurrencyPipe,
-    SanitizeURLPipe
+    SanitizeURLPipe,
+    HeaderComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,

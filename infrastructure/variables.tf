@@ -1,5 +1,6 @@
 variable "product" {
   type = "string"
+  default = "ccpay-bubble"
 }
 
 variable "component" {
@@ -52,5 +53,22 @@ variable "is_frontend" {
 
 variable "common_tags" {
   type = "map"
+}
+
+variable "idam_api_url" {
+  default = "http://betaDevAccidamAppLB.reform.hmcts.net"
+}
+
+variable "authentication_web_url" {
+  default = "https://idam.dev.ccidam.reform.hmcts.net/login"
+}
+
+variable "vault_section" {
+  default = "dev"
+}
+
+variable "core_product" {
+  type    = "string"
+  default = "ccpay"
 }
 

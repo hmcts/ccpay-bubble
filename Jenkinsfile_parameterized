@@ -1,16 +1,38 @@
 #!groovy
 @Library("Infrastructure") _
 
+def product = "ccpay"
+def component = "bubble-frontend"
+
+List<LinkedHashMap<String, Object>> secrets = [
+  secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET'),
+  secret('paybubble-idam-client-secret', 'IDAM_CLIENT_SECRET')
+]
+
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+  [ $class: 'AzureKeyVaultSecret',
+    secretType: 'Secret',
+    name: secretName,
+    version: '',
+    envVariable: envVar
+  ]
+}
+
 properties([
   parameters([
-    choice(name: 'ENVIRONMENT', choices: 'saat\nsprod\nsandbox', description: 'Environment where code should be build and deployed')
+    string(name: 'PRODUCT_NAME', defaultValue: 'bubble-frontend', description: ''),
+    string(name: 'APP', defaultValue: 'web', description: ''),
+    string(name: 'TYPE', defaultValue: 'nodejs', description: ''),
+    choice(name: 'ENVIRONMENT', choices: 'saat\nsprod\nsandbox', description: 'Environment where code should be build and deployed'),
+    choice(name: 'SUBSCRIPTION', choices: 'sandbox', description: 'Azure subscriptions available to build in')
   ]),
-    [$class: 'GithubProjectProperty', projectUrlStr: 'github.com/hmcts/ccfr-fees-register-admin-web'],
+    [$class: 'GithubProjectProperty', projectUrlStr: 'github.com/hmcts/ccpay-bubble'],
     pipelineTriggers([[$class: 'GitHubPushTrigger']])
 ])
 
-withParameterizedPipeline('nodejs', 'ccpay', 'bubble-frontend', params.ENVIRONMENT, 'sandbox') {
+withParameterizedPipeline(params.TYPE, params.PRODUCT_NAME, params.APP, params.ENVIRONMENT, params.SUBSCRIPTION) {
   after('build') {
-    sh 'yarn setup'
+    sh 'yarn ng:build'
   }
+  loadVaultSecrets(secrets)
 }

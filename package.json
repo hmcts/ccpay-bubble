@@ -1,6 +1,6 @@
 {
   "name": "ccpay-bubble",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "debug": "node --inspect --proxy-server=http://proxyout.reform.hmcts.net:8080 start.js",
     "ng": "ng",
@@ -28,16 +28,19 @@
     "test:smoketest": "codeceptjs run -c smoke-test/smoke-codecept.conf.js --reporter mochawesome --bail",
     "test:functional": "echo 'TODO: Functional tests'",
     "test:acceptance": "echo 'TODO: Acceptance tests'",
+    "test:acceptance-local": "cross-env LOG_LEVEL=OFF NODE_PATH=. ./node_modules/.bin/codeceptjs run -c acceptance-tests/codecept-local.conf.js --reporter mochawesome --bail",
     "sonar-scan": "sonar-scanner"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~7.2.4",
+    "@angular/cdk": "6",
     "@angular/common": "~7.2.4",
     "@angular/compiler": "~7.2.4",
     "@angular/core": "~7.2.4",
     "@angular/forms": "~7.2.4",
     "@angular/http": "^7.2.4",
+    "@angular/material": "6",
     "@angular/platform-browser": "~7.2.4",
     "@angular/platform-browser-dynamic": "~7.2.4",
     "@angular/router": "~7.2.4",
@@ -48,7 +51,7 @@
     "config": "^3.0.1",
     "cookie-parser": "^1.4.3",
     "core-js": "^2.6.3",
-    "cors": "^2.8.5",
+    "csurf": "^1.9.0",
     "ejs": "2.6.1",
     "express": "^4.16.4",
     "helmet": "^3.15.0",
@@ -61,6 +64,7 @@
     "mochawesome": "^3.1.1",
     "moment": "2.24.0",
     "moment-timezone": "^0.5.23",
+    "ngx-cookie-service": "^2.1.0",
     "otp": "^0.1.3",
     "pug": "2.0.3",
     "request": "^2.88.0",
@@ -90,6 +94,8 @@
     "eslint-plugin-node": "^8.0.1",
     "govuk-elements-sass": "^3.1.3",
     "govuk_frontend_toolkit": "^8.1.0",
+    "govuk_template_jinja": "^0.24.1",
+    "govuk-frontend": "^2.7.0",
     "gulp": "^4.0.0",
     "gulp-plumber": "^1.2.1",
     "gulp-sass": "^4.0.2",
@@ -107,7 +113,6 @@
     "lcov-result-merger": "3.1.0",
     "mocha": "^5.2.0",
     "nock": "^10.0.6",
-    "nodemon": "^1.18.9",
     "nyc": "^13.2.0",
     "protractor": "~5.4.2",
     "pugit": "6.1.1",
@@ -115,6 +120,10 @@
     "sonar-scanner": "^3.1.0",
     "ts-node": "~8.0.2",
     "tslint": "~5.12.1",
-    "typescript": "~3.1.6"
+    "typescript": "~3.1.6",
+    "nodemon": "^1.18.10"
+  },
+  "optionalDependencies": {
+    "fsevents": "*"
   }
 }

@@ -27,6 +27,12 @@ function setConfig(options) {
     options.headers = {};
   }
   options.headers['Content-Type'] = options.headers['Content-Type'] == null ? 'application/json' : options.headers['Content-Type'];
+  if (request && request.cookies[constants.SECURITY_COOKIE]) {
+    const bearer = request.cookies[constants.SECURITY_COOKIE];
+    options.headers.Authorization = `Bearer ${bearer}`;
+    const siteId = request.cookies[constants.SITEID_COOKIE];
+    options.headers.SiteId = siteId ? siteId : '';
+  }
 
   if (options.hasOwnProperty('method') && options.method === 'DELETE') {
     options.json = false;
@@ -54,7 +60,7 @@ function response(res, data, status = HttpStatusCodes.OK) {
 }
 
 function errorHandler(res, error, fileName) {
-  Logger.getLogger(`BAR-WEB: ${fileName}`).error(error.body || error.message);
+  Logger.getLogger(`PAYBUBBLE-WEB: ${fileName}`).error(error.body || error.message);
   res.status(error.response ? error.response.statusCode || HttpStatusCodes.INTERNAL_SERVER_ERROR : HttpStatusCodes.INTERNAL_SERVER_ERROR);
   res.send(error.body || error.message);
 }
