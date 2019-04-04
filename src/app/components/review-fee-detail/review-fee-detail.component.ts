@@ -12,7 +12,7 @@ import { SafeResourceUrl } from '@angular/platform-browser/src/security/dom_sani
 })
 export class ReviewFeeDetailComponent {
   fee: FeeModel = this.addFeeDetailService.selectedFee;
-  redirectURL?: SafeResourceUrl;
+  response?: any;
 
   constructor(
     private router: Router,
