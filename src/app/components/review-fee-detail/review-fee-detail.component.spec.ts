@@ -46,6 +46,20 @@ describe('ReviewFeeDetailComponent', () => {
     expect(addFeeDetailService.postFullRemission).toHaveBeenCalled();
   });
 
+  it('Should call postPayment when payment model is not 0', () => {
+    const paymodel = new PaymentModel();
+    paymodel.amount = 10;
+    spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
+    spyOn(addFeeDetailService, 'postPayment').and.returnValue(of('<p>test</p>').toPromise());
+    component.sendPayDetailsToPayhub();
+    expect(addFeeDetailService.postPayment).toHaveBeenCalled();
+  });
+
+  it('Should navigate to confirmation', () => {
+    component.navigateToConfirmation();
+    expect(router.navigate).toHaveBeenCalledWith(['/confirmation']);
+  });
+
   it('Should navigate to service-detail', () => {
     component.navigateToServiceFailure();
     expect(router.navigate).toHaveBeenCalledWith(['/service-failure']);

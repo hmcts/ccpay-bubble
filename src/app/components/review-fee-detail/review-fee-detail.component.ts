@@ -32,7 +32,7 @@ export class ReviewFeeDetailComponent {
         .then(response => {
           const remissionRef = JSON.parse(response).data;
           this.addFeeDetailService.remissionRef = remissionRef;
-          this.router.navigate(['/confirmation']);
+          this.navigateToConfirmation();
         })
         .catch(err => {
           this.navigateToServiceFailure();
@@ -50,6 +50,10 @@ export class ReviewFeeDetailComponent {
 
   navigateToServiceFailure() {
     this.router.navigate(['/service-failure']);
+  }
+
+  navigateToConfirmation() {
+    this.router.navigate(['/confirmation']);
   }
 
   onGoBack() {
