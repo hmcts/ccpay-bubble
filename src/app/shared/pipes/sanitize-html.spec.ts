@@ -17,4 +17,9 @@ describe('Sanitize Html Pipe', () => {
     const pipe = new SanitizeHtmlPipe(domSanitizer);
     expect(pipe).toBeTruthy();
   }));
+
+  it('Should transform', inject([DomSanitizer], (domSanitizer: DomSanitizer) => {
+    const pipe = new SanitizeHtmlPipe(domSanitizer);
+    expect(pipe.transform('<p>test</p>')).toBeTruthy();
+  }));
 });
