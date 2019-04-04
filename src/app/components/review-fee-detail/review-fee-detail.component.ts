@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser/src/security/dom_sanitization_service';
 
 @Component({
   selector: 'app-review-fee-detail',
@@ -10,10 +12,12 @@ import { FeeModel } from 'src/app/models/FeeModel';
 })
 export class ReviewFeeDetailComponent {
   fee: FeeModel = this.addFeeDetailService.selectedFee;
+  redirectURL?: SafeResourceUrl;
 
   constructor(
     private router: Router,
-    private addFeeDetailService: AddFeeDetailService
+    private addFeeDetailService: AddFeeDetailService,
+    private sanitizer: DomSanitizer
   ) { }
 
   get payModel() {
@@ -37,8 +41,10 @@ export class ReviewFeeDetailComponent {
        });
     } else {
       this.addFeeDetailService.postPayment()
-      .then(redirectUrl => {
-        window.location.href = redirectUrl;
+      .then(response => {
+        console.log('here');
+        console.log(response);
+        this.redirectURL = response;
       })
       .catch(err => {
         this.navigateToServiceFailure();

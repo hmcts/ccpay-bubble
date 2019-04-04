@@ -8,7 +8,6 @@ const route = require('./express/app');
 
 const app = express();
 
-
 module.exports = appInsights => {
   const client = appInsights.defaultClient;
   const startTime = Date.now();
