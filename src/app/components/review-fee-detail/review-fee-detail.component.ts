@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
-import { SafeResourceUrl } from '@angular/platform-browser/src/security/dom_sanitization_service';
 
 @Component({
   selector: 'app-review-fee-detail',
@@ -11,7 +10,7 @@ import { SafeResourceUrl } from '@angular/platform-browser/src/security/dom_sani
 })
 export class ReviewFeeDetailComponent {
   fee: FeeModel = this.addFeeDetailService.selectedFee;
-  response?: any;
+  payBubbleView?: string;
 
   constructor(
     private router: Router,
@@ -29,23 +28,22 @@ export class ReviewFeeDetailComponent {
   sendPayDetailsToPayhub() {
     if (this.payModel.amount === 0) {
       this.addFeeDetailService.postFullRemission()
-      .then(response => {
-        const remissionRef = JSON.parse(response).data;
-        this.addFeeDetailService.remissionRef = remissionRef;
-        this.router.navigate(['/confirmation']);
-      })
-      .catch(err => {
-        this.navigateToServiceFailure();
-       });
+        .then(response => {
+          const remissionRef = JSON.parse(response).data;
+          this.addFeeDetailService.remissionRef = remissionRef;
+          this.router.navigate(['/confirmation']);
+        })
+        .catch(err => {
+          this.navigateToServiceFailure();
+        });
     } else {
       this.addFeeDetailService.postPayment()
-      .then(body => {
-        console.log(body);
-        this.response = body;
-      })
-      .catch(err => {
-        this.navigateToServiceFailure();
-       });
+        .then(response => {
+          this.payBubbleView = response;
+        })
+        .catch(err => {
+          this.navigateToServiceFailure();
+        });
     }
   }
 

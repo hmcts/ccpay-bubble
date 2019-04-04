@@ -1,5 +1,5 @@
 const { payhubService } = require('../../services');
-const request = require('request');
+const request = require('request-promise-native');
 
 class PayhubController {
   constructor() {
