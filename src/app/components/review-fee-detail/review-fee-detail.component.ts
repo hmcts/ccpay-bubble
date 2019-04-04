@@ -41,10 +41,9 @@ export class ReviewFeeDetailComponent {
        });
     } else {
       this.addFeeDetailService.postPayment()
-      .then(response => {
-        console.log('here');
-        console.log(response);
-        this.redirectURL = response;
+      .then(body => {
+        console.log(body);
+        this.response = body;
       })
       .catch(err => {
         this.navigateToServiceFailure();
