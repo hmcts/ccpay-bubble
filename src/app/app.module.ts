@@ -14,9 +14,9 @@ import { FeeListTableComponent } from 'src/app/shared/components/fee-list-table/
 import { ConfirmationComponent } from 'src/app/components/confirmation/confirmation.component';
 import { FormatDisplayCurrencyPipe } from 'src/app/shared/pipes/format-display-currency.pipe';
 import { ServiceFailureComponent } from 'src/app/shared/components/service-failure/service-failure.component';
-import { SanitizeURLPipe } from 'src/app/shared/pipes/sanitize-url.pipe';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { NavigationComponent } from './shared/components/navigation/navigation.component';
+import { SafeHTMLPipe } from 'src/app/shared/pipes/safe-html.pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { NavigationComponent } from './shared/components/navigation/navigation.c
     ConfirmationComponent,
     ServiceFailureComponent,
     FormatDisplayCurrencyPipe,
-    SanitizeURLPipe,
+    SafeHTMLPipe,
     HeaderComponent,
     NavigationComponent
   ],
