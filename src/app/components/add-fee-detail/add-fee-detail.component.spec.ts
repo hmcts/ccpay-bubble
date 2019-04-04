@@ -2,20 +2,25 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { AddFeeDetailComponent } from './add-fee-detail.component';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { PaybubbleHttpClient } from 'src/app/services/httpclient/paybubble.http.client';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {PaymentModel} from '../../models/PaymentModel';
+import {instance, mock} from 'ts-mockito';
+import {Meta} from '@angular/platform-browser';
 
 const routerMock = {
   navigateByUrl: jasmine.createSpy('navigateByUrl')
 };
 
 describe('AddFeeDetailComponent', () => {
+  let addFeeDetailsService: AddFeeDetailService;
   let component: AddFeeDetailComponent;
+  let http: PaybubbleHttpClient;
   let fixture: ComponentFixture<AddFeeDetailComponent>;
 
   beforeEach(async(() => {
@@ -169,5 +174,22 @@ describe('AddFeeDetailComponent', () => {
     fixture.detectChanges();
     component.saveAndContinue();
     expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/reviewFeeDetail');
+  });
+
+  it('Restore the add fee details page values',  () => {
+    http = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
+    addFeeDetailsService = new AddFeeDetailService(http);
+
+    const paymentModel: PaymentModel = new PaymentModel();
+    paymentModel.ccd_case_number = '1111-1111-1111-1111';
+    paymentModel.service = 'DIVROCE';
+
+    const feeModel: FeeModel = new FeeModel();
+    feeModel.code = 'FEE0123';
+    feeModel.volume = 1;
+
+    spyOnProperty(addFeeDetailsService, 'paymentModel').and.returnValue(paymentModel);
+    spyOnProperty(addFeeDetailsService, 'selectedFee').and.returnValue(feeModel);
+    expect(component.selectedFee).toEqual(feeModel);
   });
 });
