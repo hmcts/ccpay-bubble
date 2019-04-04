@@ -10,7 +10,7 @@ import { FeeModel } from 'src/app/models/FeeModel';
 import { Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {PaymentModel} from '../../models/PaymentModel';
-import {instance, mock} from 'ts-mockito';
+import {instance, mock, spy} from 'ts-mockito';
 import {Meta} from '@angular/platform-browser';
 
 const routerMock = {
@@ -190,6 +190,8 @@ describe('AddFeeDetailComponent', () => {
 
     spyOnProperty(addFeeDetailsService, 'paymentModel').and.returnValue(paymentModel);
     spyOnProperty(addFeeDetailsService, 'selectedFee').and.returnValue(feeModel);
-    expect(component.selectedFee).toEqual(feeModel);
+
+    component.ngOnInit();
+    expect(addFeeDetailsService.selectedFee).toHaveBeenCalled();
   });
 });
