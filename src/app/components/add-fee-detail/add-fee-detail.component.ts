@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ccdCaseRefPatternValidator, helpWithFeesValidator, isLessThanAmountValidator } from 'src/app/shared/validators';
-import {PaymentModel} from "../../models/PaymentModel";
+import { PaymentModel } from '../../models/PaymentModel';
 
 @Component({
   selector: 'app-add-fee-detail',
