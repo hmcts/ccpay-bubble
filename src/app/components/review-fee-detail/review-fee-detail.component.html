@@ -47,4 +47,4 @@
   </div>
 </div>
 
-<div *ngIf="payBubbleView" [innerHTML]="payBubbleView | safeHTML"></div>
+<div *ngIf="payBubbleView" [innerHTML]="payBubbleView | sanitizeHtml"></div>

@@ -16,7 +16,7 @@ import { FormatDisplayCurrencyPipe } from 'src/app/shared/pipes/format-display-c
 import { ServiceFailureComponent } from 'src/app/shared/components/service-failure/service-failure.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { NavigationComponent } from './shared/components/navigation/navigation.component';
-import { SafeHTMLPipe } from 'src/app/shared/pipes/safe-html.pipe';
+import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitize-html.pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { SafeHTMLPipe } from 'src/app/shared/pipes/safe-html.pipe';
     ConfirmationComponent,
     ServiceFailureComponent,
     FormatDisplayCurrencyPipe,
-    SafeHTMLPipe,
+    SanitizeHtmlPipe,
     HeaderComponent,
     NavigationComponent
   ],

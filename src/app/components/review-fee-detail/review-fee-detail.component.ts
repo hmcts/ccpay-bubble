@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
+import { SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-review-fee-detail',
@@ -10,7 +11,7 @@ import { FeeModel } from 'src/app/models/FeeModel';
 })
 export class ReviewFeeDetailComponent {
   fee: FeeModel = this.addFeeDetailService.selectedFee;
-  payBubbleView?: string;
+  payBubbleView?: SafeHtml;
 
   constructor(
     private router: Router,
