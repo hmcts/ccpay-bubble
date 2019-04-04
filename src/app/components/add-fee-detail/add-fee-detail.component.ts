@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ccdCaseRefPatternValidator, helpWithFeesValidator, isLessThanAmountValidator } from 'src/app/shared/validators';
+import {PaymentModel} from "../../models/PaymentModel";
 
 @Component({
   selector: 'app-add-fee-detail',
@@ -26,11 +27,12 @@ export class AddFeeDetailComponent implements OnInit {
 
   ngOnInit() {
     this.selectedFee = this.addFeeDetailService.selectedFee;
+    const payment: PaymentModel = this.addFeeDetailService.paymentModel;
 
     if (this.selectedFee) {
       this.savedFee = this.selectedFee;
-      const caseReference = this.addFeeDetailService.paymentModel.ccd_case_number;
-      const service = this.addFeeDetailService.paymentModel.service;
+      const caseReference = payment.ccd_case_number;
+      const service = payment.service;
 
       this.feeDetailForm = this.formBuilder.group({
         serviceType: [service, Validators.required],
