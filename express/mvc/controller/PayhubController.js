@@ -1,4 +1,5 @@
 const { payhubService } = require('../../services');
+const request = require('request-promise-native');
 
 class PayhubController {
   constructor() {
@@ -9,7 +10,8 @@ class PayhubController {
     return this.payhubService.sendToPayhub(req, res, appInsights)
       .then(result => {
         if (result._links.next_url) {
-          return res.status(200).send(result._links.next_url.href);
+          request({ uri: result._links.next_url },
+            (error, response, body) => res.status(200).send(body));
         }
         const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
         return res.status(500).json({ err: `${error}`, success: false });
