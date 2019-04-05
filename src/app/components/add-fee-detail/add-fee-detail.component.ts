@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
@@ -17,7 +17,7 @@ export class AddFeeDetailComponent implements OnInit {
   fees: FeeModel[] = this.addFeeDetailService.buildFeeList();
   feeDetailForm: FormGroup;
   selectedFee: FeeModel;
-  @Input() savedFee: FeeModel;
+  savedFee?: FeeModel;
 
   constructor(
     private router: Router,
@@ -31,12 +31,10 @@ export class AddFeeDetailComponent implements OnInit {
 
     if (this.selectedFee) {
       this.savedFee = this.selectedFee;
-      const caseReference = payment.ccd_case_number;
-      const service = payment.service;
 
       this.feeDetailForm = this.formBuilder.group({
-        serviceType: [service, Validators.required],
-        caseReference: [caseReference, Validators.compose([Validators.required, ccdCaseRefPatternValidator()])],
+        serviceType: [payment.service, Validators.required],
+        caseReference: [payment.ccd_case_number, Validators.compose([Validators.required, ccdCaseRefPatternValidator()])],
         selectedFee: [this.selectedFee, Validators.required],
         helpWithFees: this.formBuilder.group({
           code: [''],
