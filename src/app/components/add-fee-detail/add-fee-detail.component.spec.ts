@@ -2,16 +2,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AddFeeDetailComponent } from './add-fee-detail.component';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { PaybubbleHttpClient } from 'src/app/services/httpclient/paybubble.http.client';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {PaymentModel} from '../../models/PaymentModel';
-import {instance, mock, spy} from 'ts-mockito';
-import {Meta} from '@angular/platform-browser';
+import { PaymentModel } from '../../models/PaymentModel';
+import { instance, mock, spy } from 'ts-mockito';
+import { Meta } from '@angular/platform-browser';
 
 const routerMock = {
   navigateByUrl: jasmine.createSpy('navigateByUrl')
@@ -55,6 +55,40 @@ describe('AddFeeDetailComponent', () => {
   it('Should reset selected fee on init', () => {
     const service = fixture.debugElement.injector.get(AddFeeDetailService);
     expect(service.selectedFee).toBe(null);
+  });
+
+  it('Should set savedFee if a selected fee exists', () => {
+    const paymentModel = new PaymentModel(),
+    feeModel = new FeeModel(),
+    service = fixture.debugElement.injector.get(AddFeeDetailService);
+    addFeeDetailsService = new AddFeeDetailService(http);
+    paymentModel.ccd_case_number = '1111-1111-1111-1111';
+    paymentModel.service = 'DIVROCE';
+    feeModel.code = 'FEE0123';
+    feeModel.volume = 1;
+    service.selectedFee = feeModel;
+    service.paymentModel = paymentModel;
+    fixture.detectChanges();
+    component.ngOnInit();
+    expect(component.savedFee).toBe(feeModel);
+  });
+
+  it('Should pre populate form values if a fee has been pre selected', () => {
+    const paymentModel = new PaymentModel(),
+    feeModel = new FeeModel(),
+    service = fixture.debugElement.injector.get(AddFeeDetailService);
+    addFeeDetailsService = new AddFeeDetailService(http);
+    paymentModel.ccd_case_number = '1111-1111-1111-1111';
+    paymentModel.service = 'Divorce';
+    feeModel.code = 'FEE0123';
+    feeModel.volume = 1;
+    service.selectedFee = feeModel;
+    service.paymentModel = paymentModel;
+    fixture.detectChanges();
+    component.ngOnInit();
+    expect(component.feeDetailForm.controls['serviceType'].value).toBe(paymentModel.service);
+    expect(component.feeDetailForm.controls['caseReference'].value).toBe(paymentModel.ccd_case_number);
+    expect(component.feeDetailForm.controls['selectedFee'].value).toBe(feeModel);
   });
 
   it('Should toggle help with fees', () => {
@@ -177,20 +211,20 @@ describe('AddFeeDetailComponent', () => {
   });
 
   it('Restore the add fee details page values',  () => {
+    const paymentModel = new PaymentModel(),
+      feeModel = new FeeModel(),
+      service = fixture.debugElement.injector.get(AddFeeDetailService);
+
     http = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     addFeeDetailsService = new AddFeeDetailService(http);
-
-    const paymentModel = new PaymentModel();
     paymentModel.ccd_case_number = '1111-1111-1111-1111';
     paymentModel.service = 'DIVROCE';
-
-    const feeModel = new FeeModel();
     feeModel.code = 'FEE0123';
     feeModel.volume = 1;
-
-    spyOnProperty(addFeeDetailsService, 'paymentModel').and.returnValue(paymentModel);
-    spyOnProperty(addFeeDetailsService, 'selectedFee').and.returnValue(feeModel);
-
+    service.selectedFee = feeModel;
+    service.paymentModel = paymentModel;
+    fixture.detectChanges();
     component.ngOnInit();
+    expect(component.selectedFee).toBe(feeModel);
   });
 });
