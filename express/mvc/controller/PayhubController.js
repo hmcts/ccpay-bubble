@@ -11,7 +11,12 @@ class PayhubController {
       .then(result => {
         if (result._links.next_url) {
           request({ uri: result._links.next_url },
-            (error, response, body) => res.status(200).send(body));
+            (error, response, body) => {
+              if (error) {
+                return res.status(500).json({ err: `${error}`, success: false });
+              }
+              return res.status(200).send(body);
+            });
         }
         const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
         return res.status(500).json({ err: `${error}`, success: false });
