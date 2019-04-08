@@ -14,6 +14,7 @@ import { FeeListTableComponent } from 'src/app/shared/components/fee-list-table/
 import { ConfirmationComponent } from 'src/app/components/confirmation/confirmation.component';
 import { FormatDisplayCurrencyPipe } from 'src/app/shared/pipes/format-display-currency.pipe';
 import { ServiceFailureComponent } from 'src/app/shared/components/service-failure/service-failure.component';
+import { ViewPaymentComponent } from 'src/app/components/view-payment/view-payment.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { NavigationComponent } from './shared/components/navigation/navigation.component';
 import { ViewPaymentModule } from 'view-payment';
@@ -27,6 +28,7 @@ import { ViewPaymentModule } from 'view-payment';
     FeeListTableComponent,
     ConfirmationComponent,
     ServiceFailureComponent,
+    ViewPaymentComponent,
     FormatDisplayCurrencyPipe,
     HeaderComponent,
     NavigationComponent
