@@ -13,7 +13,7 @@ class PayhubController {
           request({ uri: result._links.next_url },
             (error, response, body) => {
               if (error) {
-                return res.status(500).json({ err: `${error}`, success: false });
+                return res.status(500).json({ err: `${error}`, success: false, requestedUrl: result._links.next_url });
               }
               return res.status(200).send(body);
             });
