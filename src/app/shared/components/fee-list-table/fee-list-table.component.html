@@ -16,7 +16,7 @@
         <tr *ngFor="let fee of fees">
           <td>
             <div class="multiple-choice">
-              <input [id]="fee" [name]="fee" type="radio" [value]="fee.code" (click)="selectFee(fee)"/>
+              <input [id]="fee" [name]="fee" type="radio" [value]="fee.code" (click)="selectFee(fee)" [checked]="savedFee && savedFee.code === fee.code ? true : false"/>
               <label for="fee">{{ fee.code }}</label>
             </div>
           </td>

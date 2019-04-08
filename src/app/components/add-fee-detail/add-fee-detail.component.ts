@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ccdCaseRefPatternValidator, helpWithFeesValidator, isLessThanAmountValidator } from 'src/app/shared/validators';
+import { PaymentModel } from '../../models/PaymentModel';
 
 @Component({
   selector: 'app-add-fee-detail',
@@ -16,6 +17,7 @@ export class AddFeeDetailComponent implements OnInit {
   fees: FeeModel[] = this.addFeeDetailService.buildFeeList();
   feeDetailForm: FormGroup;
   selectedFee: FeeModel;
+  savedFee?: FeeModel;
 
   constructor(
     private router: Router,
@@ -24,17 +26,34 @@ export class AddFeeDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.addFeeDetailService.selectedFee = null;
+    this.selectedFee = this.addFeeDetailService.selectedFee;
+    const payment: PaymentModel = this.addFeeDetailService.paymentModel;
 
-    this.feeDetailForm = this.formBuilder.group({
-      serviceType: ['DIVORCE', Validators.required],
-      caseReference: ['', Validators.compose([Validators.required, ccdCaseRefPatternValidator()])],
-      selectedFee: [null, Validators.required],
-      helpWithFees: this.formBuilder.group({
-        code: [''],
-        amount: [null]
-      })
-    });
+    if (this.selectedFee) {
+      this.savedFee = this.selectedFee;
+
+      this.feeDetailForm = this.formBuilder.group({
+        serviceType: [payment.service, Validators.required],
+        caseReference: [payment.ccd_case_number, Validators.compose([Validators.required, ccdCaseRefPatternValidator()])],
+        selectedFee: [this.selectedFee, Validators.required],
+        helpWithFees: this.formBuilder.group({
+          code: [''],
+          amount: [null]
+        })
+      });
+    } else {
+      this.addFeeDetailService.selectedFee = null;
+
+      this.feeDetailForm = this.formBuilder.group({
+        serviceType: ['DIVORCE', Validators.required],
+        caseReference: ['', Validators.compose([Validators.required, ccdCaseRefPatternValidator()])],
+        selectedFee: [null, Validators.required],
+        helpWithFees: this.formBuilder.group({
+          code: [''],
+          amount: [null]
+        })
+      });
+    }
   }
 
   toggleHelpWithFees() {
