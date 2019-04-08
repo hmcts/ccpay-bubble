@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
+import { SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-review-fee-detail',
@@ -10,6 +11,7 @@ import { FeeModel } from 'src/app/models/FeeModel';
 })
 export class ReviewFeeDetailComponent {
   fee: FeeModel = this.addFeeDetailService.selectedFee;
+  payBubbleView?: SafeHtml;
 
   constructor(
     private router: Router,
@@ -37,8 +39,8 @@ export class ReviewFeeDetailComponent {
        });
     } else {
       this.addFeeDetailService.postPayment()
-      .then(redirectUrl => {
-        window.location.href = redirectUrl;
+      .then(response => {
+        this.payBubbleView = response;
       })
       .catch(err => {
         this.navigateToServiceFailure();
