@@ -2,7 +2,7 @@ security:
   referrerPolicy: origin
 idam:
   client_id: paybubble
-  client_secret: SFQBNO52G4ITHHDJ
+  client_secret: [paybubble-idam-client-secret]
   login_url: https://idam-web-public.aat.platform.hmcts.net
   api_url: https://idam-api.aat.platform.hmcts.net
 session:
