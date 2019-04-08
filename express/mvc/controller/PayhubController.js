@@ -10,7 +10,7 @@ class PayhubController {
     return this.payhubService.sendToPayhub(req, res, appInsights)
       .then(result => {
         if (result._links.next_url) {
-          request({ uri: result._links.next_url },
+          request({ uri: result._links.next_url.href },
             (error, response, body) => {
               if (error) {
                 return res.status(500).json({ err: `${error}`, success: false, requestedUrl: result._links.next_url });
