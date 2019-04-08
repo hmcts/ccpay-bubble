@@ -17,9 +17,10 @@ class PayhubController {
               }
               return res.status(200).send(body);
             });
+        } else {
+          const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
+          return res.status(500).json({ err: `${error}`, success: false });
         }
-        const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
-        return res.status(500).json({ err: `${error}`, success: false });
       })
       .catch(error => {
         res.status(500).json({ err: error, success: false });
