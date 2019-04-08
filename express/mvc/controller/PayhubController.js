@@ -8,6 +8,7 @@ class PayhubController {
 
   sendToPayhub(req, res, appInsights) {
     return this.payhubService.sendToPayhub(req, res, appInsights)
+      // eslint-disable-next-line
       .then(result => {
         if (result._links.next_url) {
           request({ uri: result._links.next_url.href },
