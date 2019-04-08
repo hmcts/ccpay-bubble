@@ -82,6 +82,10 @@ export class AddFeeDetailService {
           feeModel.display_amount = '£ ' + parseFloat(feeModel.calculated_amount + '').toFixed(2);
           feeModel.description = data.fee_versions[0].description;
           feeModel.version = `${data.fee_versions[0].version}`;
+          feeModel.memo_line = `${data.fee_versions[0].memo_line}`;
+          feeModel.natural_account_code = `${data.fee_versions[0].natural_account_code}`;
+          feeModel.jurisdiction1 = data.jurisdiction1.name;
+          feeModel.jurisdiction2 = data.jurisdiction2.name;
         }
         return feeModel;
       }
