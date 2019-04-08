@@ -18,6 +18,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "view-payment": [
+        "dist/view-payment"
+      ],
+      "view-payment/*": [
+        "dist/view-payment/*"
+      ]
+    }
   }
 }
