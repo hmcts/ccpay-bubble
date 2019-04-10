@@ -110,7 +110,7 @@
       "root": "projects/view-payment",
       "sourceRoot": "projects/view-payment/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "ccpay",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
