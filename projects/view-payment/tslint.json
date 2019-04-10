@@ -4,13 +4,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "lib",
+      "ccpay",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "lib",
+      "ccpay",
       "kebab-case"
     ]
   }
