@@ -1,0 +1,85 @@
+<h1 class="heading-xlarge">
+  <span class="govuk-caption">{{payment.payment_reference}}</span>
+  View Payment
+</h1>
+
+<h2 class="heading-medium">Payment details</h2>
+
+<table class="table">
+  <tbody>
+    <tr *ngIf="payment.amount">
+      <td class="bold" width="330px">Amount</td>
+      <td>£{{ payment.amount | number:'.2' }}</td>
+    </tr>
+    <tr *ngIf="payment.date_created">
+      <td class="bold" width="330px">Date created</td>
+      <td>{{ payment.date_created | date:'dd MMM yyyy hh:mm:ss' }}</td>
+    </tr>
+    <tr *ngIf="payment.date_updated">
+      <td class="bold" width="330px">Date updated</td>
+      <td>{{ payment.date_updated | date:'dd MMM yyyy hh:mm:ss' }}</td>
+    </tr>
+    <tr *ngIf="payment.currency">
+      <td class="bold" width="330px">Currency</td>
+      <td>{{ payment.currency }}</td>
+    </tr>
+    <tr *ngIf="payment.ccd_case_number">
+      <td class="bold" width="330px">CCD case number</td>
+      <td>{{ payment.ccd_case_number }}</td>
+    </tr>
+    <tr *ngIf="payment.payment_reference">
+      <td class="bold" width="330px">Payment reference</td>
+      <td>{{ payment.payment_reference }}</td>
+    </tr>
+    <tr *ngIf="payment.channel">
+      <td class="bold" width="330px">Channel</td>
+      <td>{{ payment.channel }}</td>
+    </tr>
+    <tr *ngIf="payment.method">
+      <td class="bold" width="330px">Method</td>
+      <td>{{ payment.method }}</td>
+    </tr>
+    <tr *ngIf="payment.site_id">
+      <td class="bold" width="330px">Site ID</td>
+      <td>{{ payment.site_id }}</td>
+    </tr>
+    <tr *ngIf="payment.status">
+      <td class="bold" width="330px">Status</td>
+      <td>{{ payment.status }}</td>
+    </tr>
+    <tr *ngIf="payment.service_name">
+      <td class="bold" width="330px">Service name</td>
+      <td>{{ payment.service_name }}</td>
+    </tr>
+    <tr *ngIf="payment.customer_reference">
+      <td class="bold" width="330px">Customer feference</td>
+      <td>{{ payment.customer_reference }}</td>
+    </tr>
+    <tr *ngIf="payment.account_number">
+      <td class="bold" width="330px">Account number</td>
+      <td>{{ payment.account_number }}</td>
+    </tr>
+    <tr *ngIf="payment.organisation_name">
+      <td class="bold" width="330px">Organisation name</td>
+      <td>{{ payment.organisation_name }}</td>
+    </tr>
+    <tr *ngIf="payment.payment_group_reference">
+      <td class="bold" width="330px">Payment group reference</td>
+      <td>{{ payment.payment_group_reference }}</td>
+    </tr>
+    <tr *ngIf="payment.description">
+      <td class="bold" width="330px">Description</td>
+      <td>{{ payment.description }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="payment.fees?.length">
+  <h2 class="heading-medium">Fee details</h2>
+  <ccpay-fee *ngFor="let fee of payment.fees" [fee]="fee"></ccpay-fee>
+</div>
+
+<div *ngIf="payment.status_histories?.length">
+  <h2 class="heading-medium">Payment status history</h2>
+  <ccpay-status-history *ngFor="let status of payment.status_histories" [statusHistory]="status"></ccpay-status-history>
+</div>

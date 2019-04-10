@@ -1,0 +1,6 @@
+<main class="govuk-width-container" id="main-content" role="main">
+  <h1 class="heading-xlarge" *ngIf="errorMessage">{{ errorMessage }}</h1>
+  <ccpay-single-payment-view
+    *ngIf="!errorMessage && payment"
+    [payment]="payment"></ccpay-single-payment-view>
+</main>
