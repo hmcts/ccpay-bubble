@@ -1,0 +1,28 @@
+<table class="table" style="margin-bottom: 20px">
+  <tbody>
+    <tr *ngIf="fee.code">
+      <td class="bold" width="330px">Fee code</td>
+      <td>{{ fee.code }}</td>
+    </tr>
+    <tr *ngIf="fee.version">
+      <td class="bold" width="330px">Fee version</td>
+      <td>{{ fee.version }}</td>
+    </tr>
+    <tr *ngIf="fee.volume_amount">
+      <td class="bold" width="330px">Volume amount</td>
+      <td>£{{ fee.volume_amount | number:'.2' }}</td>
+    </tr>
+    <tr *ngIf="fee.calculated_amount">
+      <td class="bold" width="330px">Calculated amount</td>
+      <td>£{{ fee.calculated_amount | number:'.2' }}</td>
+    </tr>
+    <tr *ngIf="fee.memo_line">
+      <td class="bold" width="330px">Memo line</td>
+      <td>{{ fee.memo_line }}</td>
+    </tr>
+    <tr *ngIf="fee.natural_account_code">
+      <td class="bold" width="330px">Natural account code</td>
+      <td>{{ fee.natural_account_code }}</td>
+    </tr>
+  </tbody>
+</table>
