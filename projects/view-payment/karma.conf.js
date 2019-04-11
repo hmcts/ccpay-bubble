@@ -16,6 +16,13 @@ module.exports = function (config) {
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
+    customLaunchers: {
+      ChromeDebug: {
+        base: 'Chrome',
+        flags: [ '--remote-debugging-port=9333', '--headless'],
+        debug: true
+      }
+    },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage/view-payment'),
       reports: ['html', 'lcovonly'],
@@ -25,8 +32,9 @@ module.exports = function (config) {
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: true,
-    browsers: ['Chrome'],
-    singleRun: false
+    autoWatch: false,
+    browsers: ['ChromeDebug'],
+    singleRun: true,
+    watch: false
   });
 };
