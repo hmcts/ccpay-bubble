@@ -47,7 +47,7 @@ describe('PaymentLibService', () => {
     service.getPaymentDetail('123').subscribe(
       () => { },
       (error) => {
-        expect(error).toBe('Sorry, there was a problem with the service');
+        expect(error).toBe('Sorry there is a problem with the service');
       });
   }));
 });
