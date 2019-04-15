@@ -18,6 +18,7 @@ payhub:
   url: https://payment-api-aat.service.core-compute-aat.internal
 appInsights:
   instrumentationKey: some-key
+  roleName: fees-register-admin
 e2e:
   frontendUrl: https://localhost:4200/
   waitForTimeoutValue: 2600
