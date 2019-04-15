@@ -18,6 +18,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "fee-register-search": [
+        "dist/fee-register-search"
+      ],
+      "fee-register-search/*": [
+        "dist/fee-register-search/*"
+      ]
+    }
   }
 }

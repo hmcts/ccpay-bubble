@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Amount</th>
+      <th class="hide">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let fee of fees">
+      <td>{{ fee.current_version?.description }}</td>
+      <td>{{ fee.current_version?.flat_amount?.amount | number:'.2' }}</td>
+      <td>
+        <a (click)="selectFee(fee)">Select</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
