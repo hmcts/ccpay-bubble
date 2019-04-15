@@ -1,0 +1,5 @@
+<pay-fee-search (searchFeesEventEmitter)="showFees($event)"></pay-fee-search>
+<pay-fee-list *ngIf="!error && fees && displayFees"
+  [fees]="fees"
+  (selectedFeeEvent)="selectFee($event)"></pay-fee-list>
+<p>{{ error }}</p>
