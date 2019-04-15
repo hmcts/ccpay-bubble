@@ -49,6 +49,10 @@ class PayhubService {
       json: true
     });
   }
+
+  getFees() {
+    return request.get({ uri: 'https://fees-register-api.platform.hmcts.net/fees-register/fees' });
+  }
 }
 
 module.exports = PayhubService;
