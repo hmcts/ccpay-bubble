@@ -10,7 +10,8 @@ payment-api:
   postgresql:
 
 nodejs:
-  image: 'https://hmcts.azurecr.io/hmcts/ccpay-bubble:latest'
+  # Don't modify below here
+  image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   applicationPort: 3000
   environment:
