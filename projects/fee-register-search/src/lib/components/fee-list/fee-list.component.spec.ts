@@ -1,6 +1,8 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FeeListComponent } from './fee-list.component';
+import { FilterFeesPipe } from '../../pipes/filter-fees.pipe';
 import { mockFee } from '../../mock-fee';
 
 describe('Fee list component', () => {
@@ -9,8 +11,12 @@ describe('Fee list component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FeeListComponent],
-      imports: [CommonModule]
+      declarations: [
+        FeeListComponent,
+        FilterFeesPipe
+      ],
+      imports: [CommonModule],
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
     fixture = TestBed.createComponent(FeeListComponent);

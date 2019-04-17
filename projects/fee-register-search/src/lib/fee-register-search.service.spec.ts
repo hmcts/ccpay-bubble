@@ -17,32 +17,4 @@ describe('FeeRegisterSearchService', () => {
   it('should be created', inject([FeeRegisterSearchService], (service: FeeRegisterSearchService) => {
     expect(service).toBeTruthy();
   }));
-
-  it('Should return a fee observable', inject([FeeRegisterSearchService, XHRBackend], (service: FeeRegisterSearchService, mockBackend) => {
-     mockBackend.connections.subscribe((connection) => {
-      connection.mockRespond(new Response(new ResponseOptions({
-        body: JSON.stringify(mockFee)
-      })));
-    });
-
-     service.getFees().subscribe(fee => {
-      expect(fee).toEqual(mockFee);
-    });
-  }));
-
-  it('Should return an error observable',
-    inject([FeeRegisterSearchService, XHRBackend], (service: FeeRegisterSearchService, mockBackend) => {
-    mockBackend.connections.subscribe((connection) => {
-      connection.mockError(new Response(new ResponseOptions({
-        status: 404,
-        statusText: 'URL not Found',
-      })));
-    });
-
-     service.getFees().subscribe(
-      () => { },
-      (error) => {
-        expect(error).toEqual('Sorry, there was a problem getting fees');
-      });
-  }));
 });
