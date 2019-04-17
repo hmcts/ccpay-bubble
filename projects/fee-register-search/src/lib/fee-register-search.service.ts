@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
+import { Observable, throwError } from 'rxjs';
 import { IFee } from './interfaces';
 
 @Injectable({
@@ -20,7 +19,7 @@ export class FeeRegisterSearchService {
   }
 
   getFees(): Observable<any> {
-    return this.http.get<IFee>(this._API_URL)
+    return this.http.get<IFee[]>(this._API_URL)
       .pipe(
         timeout(5000),
         catchError(error => {

@@ -13,18 +13,21 @@ export class FeeRegisterSearchComponent implements OnInit {
   @Output() selectedFeeEvent: EventEmitter<IFee> = new EventEmitter();
   fees: IFee[];
   error: string;
-  displayFees: boolean;
+  searchFilter: string;
+  isResultsDisplayed: boolean;
 
   constructor(
     private feeRegisterSearchService: FeeRegisterSearchService
   ) { }
 
   ngOnInit() {
-    this.displayFees = false;
+    this.isResultsDisplayed = false;
     this.feeRegisterSearchService.setURL(this.APIRoot);
-    this.feeRegisterSearchService.getFees().subscribe(
-      (fees: IFee[]) => this.fees = fees,
-      (error: string) => this.error = error
+
+    this.feeRegisterSearchService.getFees()
+      .subscribe(
+        (fees: IFee[]) => this.fees = fees,
+        (error: string) => this.error = error
     );
   }
 
@@ -32,7 +35,8 @@ export class FeeRegisterSearchComponent implements OnInit {
     this.selectedFeeEvent.emit(fee);
   }
 
-  showFees(isFeesDisplayed: boolean) {
-    this.displayFees = isFeesDisplayed;
+  setFilters(filter: string) {
+    this.isResultsDisplayed = true;
+    this.searchFilter = filter;
   }
 }
