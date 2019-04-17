@@ -3,7 +3,7 @@ provider "azurerm" {
 }
 
 locals {
-  aseName = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
+  aseName = "core-compute-${var.env}"
 
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
@@ -14,7 +14,7 @@ locals {
 
   s2sUrl = "https://rpe-service-auth-provider-${local.local_env}.service.${local.local_ase}.internal"
 
-  asp_name = "${var.env == "prod" ? "ccpay-bubble-frontend-prod" : "${var.core_product}-${var.env}"}"
+  asp_name = "${var.core_product}-${var.env}"
 }
 
 data "azurerm_key_vault" "paybubble_key_vault" {
@@ -49,7 +49,7 @@ module "ccpay-bubble" {
 
   app_settings = {
     IDAM_API_URL = "${var.idam_api_url}"
-    IDAM_AUTHENTICATION_WEB_URL = "${var.authentication_web_url}"
+    IDAM_AUTHENTICATION_WEB_URL = "${var.authentication_web_url}/login"
     IDAM_CLIENT_SECRET = "${data.azurerm_key_vault_secret.paybubble_idam_client_secret.value}"
     CCPAY_BUBBLE_URL = "https://ccpay-bubble-frontend-${var.env}.service.core-compute-${var.env}.internal/"
     CCPAY_BUBBLE_MICROSERVICE = "ccpay_bubble"
