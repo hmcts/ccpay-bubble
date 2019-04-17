@@ -1,9 +1,9 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { FeeListComponent } from './fee-list.component';
 import { FilterFeesPipe } from '../../pipes/filter-fees.pipe';
-import { mockFee } from '../../mock-fee';
+import { mockFees } from '../../mock-fees';
 
 describe('Fee list component', () => {
   let component: FeeListComponent,
@@ -28,11 +28,11 @@ describe('Fee list component', () => {
   });
 
   it('Should emit a fee', () => {
-    component.selectFee(mockFee[0]);
+    component.selectFee(mockFees[0]);
     fixture.detectChanges();
 
     component.selectedFeeEvent.subscribe(emittedFee => {
-      expect(emittedFee).toEqual(mockFee[0]);
+      expect(emittedFee).toEqual(mockFees[0]);
     });
   });
 });
