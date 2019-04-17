@@ -19,9 +19,11 @@ export class FilterFeesPipe implements PipeTransform {
 
   filterByDescription(fees, filter): IFee[] {
     return fees.filter((fee: IFee) => {
-      return fee.current_version.description
-        .toLowerCase()
-        .includes(filter);
+      if (fee.current_version.description) {
+        return fee.current_version.description
+          .toLowerCase()
+          .includes(filter);
+      }
     });
   }
 
@@ -29,8 +31,7 @@ export class FilterFeesPipe implements PipeTransform {
     return fees.filter((fee: IFee) => {
       if (fee.current_version.flat_amount
       && fee.current_version.flat_amount.amount) {
-        // @ts-ignore
-        return fee.current_version.flat_amount.amount == filter;
+        return (fee.current_version.flat_amount.amount === Number(filter));
       }
     });
   }
