@@ -1,12 +1,14 @@
-<pay-fee-search 
-  (feeSearchEventEmitter)="setFilters($event)">
-</pay-fee-search>
+<div *ngIf="!error">
+  <pay-fee-search 
+    (feeSearchEventEmitter)="setFilters($event)">
+  </pay-fee-search>
 
-<pay-fee-list 
-  *ngIf="!error && fees && isResultsDisplayed"
-  [fees]="fees"
-  [filterBy]="searchFilter"
-  (selectedFeeEvent)="selectFee($event)">
-</pay-fee-list>
+  <pay-fee-list 
+    *ngIf="fees && isResultsDisplayed"
+    [fees]="fees"
+    [filterBy]="searchFilter"
+    (selectedFeeEvent)="selectFee($event)">
+  </pay-fee-list>
+</div>
 
 <p>{{ error }}</p>
