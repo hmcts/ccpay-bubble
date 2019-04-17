@@ -4,7 +4,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 import { FeeRegisterSearchComponent } from './fee-register-search.component';
 import { FeeRegisterSearchService } from './fee-register-search.service';
-import { mockFee } from './mock-fee';
+import { mockFees } from './mock-fees';
 
 describe('FeeRegisterSearchComponent', () => {
   let component: FeeRegisterSearchComponent,
@@ -33,20 +33,20 @@ describe('FeeRegisterSearchComponent', () => {
   });
 
   it('Should emit a fee', () => {
-    component.selectFee(mockFee[0]);
+    component.selectFee(mockFees[0]);
     fixture.detectChanges();
 
     component.selectedFeeEvent.subscribe(emittedFee => {
-      expect(emittedFee).toEqual(mockFee);
+      expect(emittedFee).toEqual(mockFees);
     });
   });
 
   it('Should set property fees on a successful http call', () => {
-    spyOn(feeRegisterSearchService, 'getFees').and.returnValue(of(mockFee));
+    spyOn(feeRegisterSearchService, 'getFees').and.returnValue(of(mockFees));
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(component.fees).toEqual(mockFee);
+    expect(component.fees).toEqual(mockFees);
   });
 
   it('Should set property error on an unsuccessful http call', () => {
