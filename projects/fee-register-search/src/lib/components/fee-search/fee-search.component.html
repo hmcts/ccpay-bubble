@@ -1,8 +1,9 @@
-<div class="form-group">
-  <label class="heading-small" for="full-name-f1">
-  Search for a fee
-  <span class="form-hint">For example: Application or £10.00. You don't need to use the whole description or amount.</span>
+<form [formGroup]="searchForm" [className]="hasErrors ? 'form-group form-group-error': 'form-group'">
+  <label class="heading-small" for="fee-search">
+    Search for a fee
+    <span class="form-hint">For example: Application or £10.00. You don't need to use the whole description or amount.</span>
+    <span *ngIf="hasErrors" class="error-message">You must provide a search value</span>
   </label>
-  <input class="form-control" id="full-name-f1" type="text" name="full-name-f1">
-  <button class="button button-search" type="submit" (click)="showFees()">Search</button>
-</div>
+  <input #searchInput [className]="hasErrors? 'form-control form-control-error': 'form-control'" id="fee-search" type="text" name="fee-search" formControlName="searchInput">
+  <button class="button button-search" (click)="searchFees()">Search</button>
+</form>

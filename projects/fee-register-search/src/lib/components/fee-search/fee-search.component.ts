@@ -1,14 +1,29 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, ViewChild, EventEmitter, ElementRef, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'pay-fee-search',
   templateUrl: './fee-search.component.html',
   styleUrls: ['./fee-search.component.scss']
 })
-export class FeeSearchComponent {
-  @Output() searchFeesEventEmitter: EventEmitter<boolean> = new EventEmitter();
+export class FeeSearchComponent implements OnInit {
+  @Output() feeSearchEventEmitter: EventEmitter<string> = new EventEmitter();
+  searchForm: FormGroup;
+  hasErrors = false;
 
-  showFees() {
-    this.searchFeesEventEmitter.emit(true);
+  constructor(
+    private formBuilder: FormBuilder
+  ) {}
+
+  ngOnInit() {
+    this.searchForm = this.formBuilder.group({
+      searchInput: ['', [Validators.required, Validators.min(1)]]
+    });
+  }
+
+  searchFees() {
+    if (this.searchForm.invalid) { return this.hasErrors = true; }
+    this.hasErrors = false;
+    this.feeSearchEventEmitter.emit(this.searchForm.get('searchInput').value);
   }
 }
