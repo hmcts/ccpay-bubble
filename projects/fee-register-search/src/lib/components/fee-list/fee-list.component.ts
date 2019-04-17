@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class FeeListComponent {
   @Input() fees?: IFee[];
+  @Input() filterBy?: string;
   @Output() selectedFeeEvent: EventEmitter<IFee> = new EventEmitter();
 
   selectFee(fee: IFee) {
