@@ -17,7 +17,7 @@ export class FeeSearchComponent implements OnInit {
 
   ngOnInit() {
     this.searchForm = this.formBuilder.group({
-      searchInput: ['', [Validators.required, Validators.min(1)]]
+      searchInput: ['', [Validators.required]]
     });
   }
 
