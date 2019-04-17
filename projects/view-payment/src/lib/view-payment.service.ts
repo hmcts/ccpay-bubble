@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
-import { catchError } from 'rxjs/internal/operators/catchError';
-import { timeout } from 'rxjs/internal/operators/timeout';
+import { Observable, throwError } from 'rxjs';
+import { map, timeout, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +13,9 @@ export class ViewPaymentService {
   ) { }
 
   getPaymentDetail(paymentRef: string): Observable<any> {
-    return this.http.get(`http://localhost:3000/api/payments/${paymentRef}`).pipe(
+    return this.http.get(`api/payments/${paymentRef}`).pipe(
       timeout(2500),
+      map((res: any) => res.data),
       catchError(error => {
         return throwError('Sorry there is a problem with the service');
       })
