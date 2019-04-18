@@ -17,7 +17,7 @@ class PayhubController {
             uri: result._links.next_url.href,
             headers: {
               Authorization: `Bearer ${req.authToken}`,
-              ServiceAuthorization: `Bearer ${serviceAuthToken}`,
+              ServiceAuthorization: `Bearer ${serviceAuthToken}`
             }
           },
           (error, response, body) => {
