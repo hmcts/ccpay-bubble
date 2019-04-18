@@ -25,6 +25,12 @@
       ],
       "view-payment/*": [
         "dist/view-payment/*"
+      ],
+      "fee-register-search": [
+        "dist/fee-register-search"
+      ],
+      "fee-register-search/*": [
+        "dist/fee-register-search/*"
       ]
     }
   }
