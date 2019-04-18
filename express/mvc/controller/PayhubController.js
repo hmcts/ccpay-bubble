@@ -6,18 +6,26 @@ class PayhubController {
     this.payhubService = payhubService;
   }
 
-  sendToPayhub(req, res, appInsights) {
+  async sendToPayhub(req, res, appInsights) {
+    const serviceAuthToken = await this.payhubService.createAuthToken();
     return this.payhubService.sendToPayhub(req, res, appInsights)
       // eslint-disable-next-line
       .then(result => {
         if (result._links.next_url) {
-          request({ uri: result._links.next_url.href },
-            (error, response, body) => {
-              if (error) {
-                return res.status(500).json({ err: `${error}`, success: false });
-              }
-              return res.status(200).send(body);
-            });
+          request({
+            method: 'GET',
+            uri: result._links.next_url.href,
+            headers: {
+              Authorization: `Bearer ${req.authToken}`,
+              ServiceAuthorization: `Bearer ${serviceAuthToken}`,
+            }
+          },
+          (error, response, body) => {
+            if (error) {
+              return res.status(500).json({ err: `${error}`, success: false });
+            }
+            return res.status(200).send(body);
+          });
         } else {
           const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
           return res.status(500).json({ err: `${error}`, success: false });
