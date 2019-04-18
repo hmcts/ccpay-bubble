@@ -38,7 +38,7 @@ class PayhubService {
   }
 
   getPayment(req) {
-    return this.createAuthToken().then(token => request.post({
+    return this.createAuthToken().then(token => request.get({
       uri: `${payhubUrl}/payments/${req.params.id}`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
