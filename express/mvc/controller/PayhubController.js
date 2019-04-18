@@ -28,6 +28,16 @@ class PayhubController {
         res.status(500).json({ err: error, success: false });
       });
   }
+
+  getFees(req, res) {
+    return this.payhubService.getFees()
+      .then(result => {
+        res.status(200).send(result);
+      })
+      .catch(error => {
+        res.status(500).json({ err: error, success: false });
+      });
+  }
 }
 
 module.exports = PayhubController;
