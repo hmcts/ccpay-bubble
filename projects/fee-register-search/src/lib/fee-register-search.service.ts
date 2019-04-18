@@ -21,7 +21,7 @@ export class FeeRegisterSearchService {
   getFees(): Observable<any> {
     return this.http.get<IFee[]>(this._API_URL)
       .pipe(
-        timeout(5000),
+        timeout(30000),
         catchError(error => {
           return throwError('Sorry, there was a problem getting fees');
         })
