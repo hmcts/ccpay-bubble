@@ -14,7 +14,7 @@ export class ViewPaymentService {
 
   getPaymentDetail(paymentRef: string): Observable<any> {
     return this.http.get(`api/payments/${paymentRef}`).pipe(
-      timeout(2500),
+      timeout(30000),
       map((res: any) => res.data),
       catchError(error => {
         return throwError('Sorry there is a problem with the service');
