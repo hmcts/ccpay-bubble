@@ -1,5 +1,5 @@
 const { payhubService } = require('../../services');
-const request = require('request');
+const rq = require('request-promise');
 
 class PayhubController {
   constructor() {
@@ -12,20 +12,20 @@ class PayhubController {
       // eslint-disable-next-line
       .then(result => {
         if (result._links.next_url) {
-          request({
+          rq({
             method: 'GET',
             uri: result._links.next_url.href,
             headers: {
               Authorization: `Bearer ${req.authToken}`,
               ServiceAuthorization: `Bearer ${serviceAuthToken}`
             }
-          },
-          (error, response, body) => {
-            if (error) {
-              return res.status(500).json({ err: `${error}`, success: false });
-            }
-            return res.status(200).send(body);
-          });
+          }
+          .then(function (htmlString) {
+            return res.status(200).send(htmlString);
+          })
+          .catch(function (err) {
+            return res.status(500).json({ err: `${err}`, success: false });
+          }))
         } else {
           const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
           return res.status(500).json({ err: `${error}`, success: false });
