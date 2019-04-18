@@ -17,4 +17,8 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.getPayment(req, res);
   })
 
+  .get('/fees', (req, res) => {
+    controllers.payhubController.getFees(req, res);
+  })
+
   .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }));
