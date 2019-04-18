@@ -2,9 +2,9 @@ security:
   referrerPolicy: origin
 idam:
   client_id: paybubble
-  client_secret: SFQBNO52G4ITHHDJ
-  login_url: https://idam.dev.ccidam.reform.hmcts.net/login
-  api_url: https://idam.dev.ccidam.reform.hmcts.net
+  client_secret: NVYEC2X7XFSRENTU
+  login_url: https://idam-web-public.aat.platform.hmcts.net
+  api_url: https://idam-api.aat.platform.hmcts.net
 session:
   cookieName: SESSION_ID
 ccpaybubble:
@@ -26,4 +26,3 @@ e2e:
 certs:
   key: ./localhost-ssl/localhost.key
   crt: ./localhost-ssl/localhost.crt
-
