@@ -20,6 +20,7 @@
     </div>
 
     <app-fee-list-table
+      [savedFee]="savedFee"
       [fees]=fees
       [showErrors]=showErrors
       [isValid]="feeDetailForm.get('selectedFee').value"
