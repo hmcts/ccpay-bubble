@@ -18,36 +18,4 @@ describe('PaymentLibService', () => {
   it('should be created', inject([ViewPaymentService], (service: ViewPaymentService) => {
     expect(service).toBeTruthy();
   }));
-
-  it('Should return a payment observable', inject([ViewPaymentService, XHRBackend], (service: ViewPaymentService, mockBackend) => {
-    const mockResponse = {
-      'amount': 5000,
-      'currency': 'GBP'
-    };
-
-    mockBackend.connections.subscribe((connection) => {
-      connection.mockRespond(new Response(new ResponseOptions({
-        body: JSON.stringify(mockResponse)
-      })));
-    });
-
-    service.getPaymentDetail('123').subscribe(payment => {
-      expect(payment).toEqual(mockResponse);
-    });
-  }));
-
-  it('Should return an error observable', inject([ViewPaymentService, XHRBackend], (service: ViewPaymentService, mockBackend) => {
-    mockBackend.connections.subscribe((connection) => {
-      connection.mockError(new Response(new ResponseOptions({
-        status: 404,
-        statusText: 'URL not Found',
-      })));
-    });
-
-    service.getPaymentDetail('123').subscribe(
-      () => { },
-      (error) => {
-        expect(error).toBe('Sorry there is a problem with the service');
-      });
-  }));
 });
