@@ -19,7 +19,7 @@ export class FilterFeesPipe implements PipeTransform {
 
   filterByDescription(fees, filter): IFee[] {
     return fees.filter((fee: IFee) => {
-      if (fee.current_version.description) {
+      if (fee.current_version.description !== undefined) {
         return fee.current_version.description
           .toLowerCase()
           .includes(filter);
@@ -29,8 +29,8 @@ export class FilterFeesPipe implements PipeTransform {
 
   filterByAmount(fees, filter): IFee[] {
     return fees.filter((fee: IFee) => {
-      if (fee.current_version.flat_amount
-      && fee.current_version.flat_amount.amount) {
+      if (fee.current_version.flat_amount !== undefined
+      && fee.current_version.flat_amount.amount !== undefined) {
         return (fee.current_version.flat_amount.amount === Number(filter));
       }
     });
