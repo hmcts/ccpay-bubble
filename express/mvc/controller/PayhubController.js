@@ -19,13 +19,9 @@ class PayhubController {
               Authorization: `Bearer ${req.authToken}`,
               ServiceAuthorization: `Bearer ${serviceAuthToken}`
             }
-          }
-          .then(function (htmlString) {
-            return res.status(200).send(htmlString);
           })
-          .catch(function (err) {
-            return res.status(500).json({ err: `${err}`, success: false });
-          }))
+            .then(htmlString => res.status(200).send(htmlString))
+            .catch(err => res.status(500).json({ err: `${err}`, success: false }));
         } else {
           const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
           return res.status(500).json({ err: `${error}`, success: false });
