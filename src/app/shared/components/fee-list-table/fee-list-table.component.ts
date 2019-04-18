@@ -10,6 +10,7 @@ export class FeeListTableComponent {
   @Input() fees: FeeModel[];
   @Input() isValid: boolean;
   @Input() showErrors: boolean;
+  @Input() savedFee: FeeModel;
   @Output() feeChangedEventEmitter = new EventEmitter();
 
   selectFee($event: FeeModel) {
