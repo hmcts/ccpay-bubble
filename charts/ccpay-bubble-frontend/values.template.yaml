@@ -6,7 +6,7 @@ payment-api:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-payment-db:5432/payment
       AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-      AUTH_IDAM_CLIENT_BASEURL: https://preprod-idamapi.reform.hmcts.net:3511
+      AUTH_IDAM_CLIENT_BASEURL: https://idam-api.aat.platform.hmcts.net
   postgresql:
 
 nodejs:
