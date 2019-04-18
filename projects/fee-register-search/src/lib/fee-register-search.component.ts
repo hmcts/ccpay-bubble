@@ -9,7 +9,7 @@ import { IFee } from './interfaces';
   templateUrl: './fee-register-search.component.html'
 })
 export class FeeRegisterSearchComponent implements OnInit {
-  @Input() APIRoot = 'https://fees-register-api.platform.hmcts.net/fees-register/fees';
+  @Input() APIRoot;
   @Output() selectedFeeEvent: EventEmitter<IFee> = new EventEmitter();
   fees: IFee[];
   error: string;
