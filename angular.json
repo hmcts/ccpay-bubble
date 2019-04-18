@@ -105,6 +105,41 @@
           }
         }
       }
+    },
+    "fee-register-search": {
+      "root": "projects/fee-register-search",
+      "sourceRoot": "projects/fee-register-search/src",
+      "projectType": "library",
+      "prefix": "pay",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/fee-register-search/tsconfig.lib.json",
+            "project": "projects/fee-register-search/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/fee-register-search/src/test.ts",
+            "tsConfig": "projects/fee-register-search/tsconfig.spec.json",
+            "karmaConfig": "projects/fee-register-search/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/fee-register-search/tsconfig.lib.json",
+              "projects/fee-register-search/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ccpay-bubble"
