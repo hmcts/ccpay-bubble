@@ -8,18 +8,20 @@ class PayhubController {
 
   sendToPayhub(req, res, appInsights) {
     return this.payhubService.sendToPayhub(req, res, appInsights)
+      // eslint-disable-next-line
       .then(result => {
         if (result._links.next_url) {
-          request({ uri: result._links.next_url },
+          request({ uri: result._links.next_url.href },
             (error, response, body) => {
               if (error) {
                 return res.status(500).json({ err: `${error}`, success: false });
               }
               return res.status(200).send(body);
             });
+        } else {
+          const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
+          return res.status(500).json({ err: `${error}`, success: false });
         }
-        const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
-        return res.status(500).json({ err: `${error}`, success: false });
       })
       .catch(error => {
         res.status(500).json({ err: error, success: false });
