@@ -1,0 +1,21 @@
+<table *ngIf="(fees | filterFees: filterBy).length >= 1">
+  <thead>
+    <tr>
+      <th>Feecode</th>
+      <th>Description</th>
+      <th>Amount</th>
+      <th class="hide">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let fee of fees | filterFees: filterBy">
+      <td>{{ fee.code }}</td>
+      <td>{{ fee.current_version?.description }}</td>
+      <td>{{ fee.current_version?.flat_amount?.amount | number:'.2' }}</td>
+      <td>
+        <a (click)="selectFee(fee)">Select</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p *ngIf="(fees | filterFees: filterBy).length === 0">No Results</p>

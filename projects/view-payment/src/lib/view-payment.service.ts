@@ -17,7 +17,7 @@ export class ViewPaymentService {
       timeout(30000),
       map((res: any) => res.data),
       catchError(error => {
-        return throwError(`Sorry, we could not find payment ${paymentRef}`);
+        return throwError(`Sorry, we could not find payment [${paymentRef}]`);
       })
     );
   }
