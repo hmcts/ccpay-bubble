@@ -13,6 +13,10 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postRemission(req, res, appInsights);
   })
 
+  .get('/payments/:id', (req, res) => {
+    controllers.payhubController.getPayment(req, res);
+  })
+
   .get('/fees', (req, res) => {
     controllers.payhubController.getFees(req, res);
   })
