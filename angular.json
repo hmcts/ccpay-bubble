@@ -140,6 +140,41 @@
           }
         }
       }
+    },
+    "view-payment": {
+      "root": "projects/view-payment",
+      "sourceRoot": "projects/view-payment/src",
+      "projectType": "library",
+      "prefix": "ccpay",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/view-payment/tsconfig.lib.json",
+            "project": "projects/view-payment/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/view-payment/src/test.ts",
+            "tsConfig": "projects/view-payment/tsconfig.spec.json",
+            "karmaConfig": "projects/view-payment/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/view-payment/tsconfig.lib.json",
+              "projects/view-payment/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ccpay-bubble"

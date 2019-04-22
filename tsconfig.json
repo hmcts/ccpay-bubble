@@ -20,6 +20,12 @@
       "dom"
     ],
     "paths": {
+      "view-payment": [
+        "dist/view-payment"
+      ],
+      "view-payment/*": [
+        "dist/view-payment/*"
+      ],
       "fee-register-search": [
         "dist/fee-register-search"
       ],
