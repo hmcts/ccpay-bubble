@@ -21,9 +21,12 @@ class PayhubController {
             if (error) {
               return res.status(500).json({ err: `${error}`, success: false });
             }
-            console.log('pci-pal-response status:' + response.statusCode);
-            console.log('pci-pal-response body:' + body);
-            console.log('pci-pal-response:' + response);
+            // eslint-disable-next-line
+            console.log('pci-pal-response status:', response.statusCode);
+            // eslint-disable-next-line
+            console.log('pci-pal-response body:', body);
+            // eslint-disable-next-line
+            console.log('pci-pal-response:', response);
             return res.status(200).send(body);
           });
         } else {
