@@ -1,4 +1,3 @@
-/* eslint-disable */
 const { payhubService } = require('../../services');
 const request = require('request-promise-native');
 
@@ -7,27 +6,21 @@ class PayhubController {
     this.payhubService = payhubService;
   }
 
-  async sendToPayhub(req, res, appInsights) {
-    const serviceAuthToken = await this.payhubService.createAuthToken();
+  sendToPayhub(req, res, appInsights) {
     return this.payhubService.sendToPayhub(req, res, appInsights)
-      // eslint-disable-next-line
-      .then(result => {
+    // eslint-disable-next-line
+    .then(result => {
+        // eslint-disable-next-line
+        console.log(result._links.next_url.href);
         if (result._links.next_url) {
-          console.log('result links href - ', result._links.next_url.href);
           request({
             method: 'GET',
-            uri: result._links.next_url.href,
-            headers: {
-              Authorization: `Bearer ${req.authToken}`,
-              ServiceAuthorization: `Bearer ${serviceAuthToken}`
-            }
+            uri: result._links.next_url.href
           },
           (error, response, body) => {
             if (error) {
               return res.status(500).json({ err: `${error}`, success: false });
             }
-            console.log('response body - ', body);
-            console.log('response code - ', code);
             return res.status(200).send(body);
           });
         } else {
