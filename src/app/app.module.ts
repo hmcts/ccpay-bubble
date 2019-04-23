@@ -14,10 +14,12 @@ import { FeeListTableComponent } from './shared/components/fee-list-table/fee-li
 import { ServiceFailureComponent } from './shared/components/service-failure/service-failure.component';
 import { PaybubbleHttpClient } from './services/httpclient/paybubble.http.client';
 import { AddFeeDetailService } from './services/add-fee-detail/add-fee-detail.service';
+import { ViewPaymentComponent } from 'src/app/components/view-payment/view-payment.component';
+import { NavigationComponent } from './shared/components/navigation/navigation.component';
 import { FormatDisplayCurrencyPipe } from './shared/pipes/format-display-currency.pipe';
 import { HeaderComponent } from './shared/components/header/header.component';
-import { NavigationComponent } from './shared/components/navigation/navigation.component';
 import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitize-html.pipe';
+import { ViewPaymentModule } from 'view-payment';
 import { FeeRegisterSearchModule } from 'fee-register-search';
 
 @NgModule({
@@ -29,6 +31,7 @@ import { FeeRegisterSearchModule } from 'fee-register-search';
     FeeListTableComponent,
     ConfirmationComponent,
     ServiceFailureComponent,
+    ViewPaymentComponent,
     FormatDisplayCurrencyPipe,
     SanitizeHtmlPipe,
     HeaderComponent,
@@ -41,6 +44,7 @@ import { FeeRegisterSearchModule } from 'fee-register-search';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ViewPaymentModule,
     FeeRegisterSearchModule
   ],
   providers: [
