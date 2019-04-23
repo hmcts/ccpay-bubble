@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { payhubService } = require('../../services');
 const request = require('request-promise-native');
 
@@ -12,6 +13,7 @@ class PayhubController {
       // eslint-disable-next-line
       .then(result => {
         if (result._links.next_url) {
+          console.log('result links href - ', result._links.next_url.href);
           request({
             method: 'GET',
             uri: result._links.next_url.href,
@@ -24,6 +26,8 @@ class PayhubController {
             if (error) {
               return res.status(500).json({ err: `${error}`, success: false });
             }
+            console.log('response body - ', body);
+            console.log('response code - ', code);
             return res.status(200).send(body);
           });
         } else {
