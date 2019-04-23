@@ -9,7 +9,7 @@
     "start:express-dev": "cross-env NODE_ENV=development IGNORE_CERTS=true nodemon --inspect start.js",
     "start:express-prod": "cross-env IGNORE_CERTS=true nodemon --inspect start.js",
     "build": "ng build --prod && yarn pugit dist/ccpay-bubble/index.html --output express/mvc/views/index.pug && rm dist/ccpay-bubble/index.html",
-    "ng:build": "yarn build",
+    "ng:build": "ng build view-payment && ng build fee-register-search && yarn build",
     "test:coverage": "yarn merge-lcov && yarn copy-lcov",
     "merge-lcov": "cross-env lcov-result-merger './coverage/lcov-*.info' './coverage/lcov.info'",
     "copy-lcov": "node ./scripts/copy-lcov.js",
@@ -79,6 +79,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
+    "@angular-devkit/build-ng-packagr": "~0.13.0",
     "@angular/cli": "~7.3.0",
     "@angular/compiler-cli": "~7.2.4",
     "@angular/language-service": "~7.2.4",
@@ -112,6 +113,7 @@
     "karma-spec-reporter": "^0.0.32",
     "lcov-result-merger": "3.1.0",
     "mocha": "^5.2.0",
+    "ng-packagr": "^4.2.0",
     "nock": "^10.0.6",
     "nyc": "^13.2.0",
     "protractor": "~5.4.2",
@@ -119,6 +121,7 @@
     "puppeteer": "^1.12.2",
     "sonar-scanner": "^3.1.0",
     "ts-node": "~8.0.2",
+    "tsickle": ">=0.34.0",
     "tslint": "~5.12.1",
     "typescript": "~3.1.6",
     "nodemon": "^1.18.10"

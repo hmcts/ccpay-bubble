@@ -37,6 +37,18 @@ class PayhubService {
     }));
   }
 
+  getPayment(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${payhubUrl}/payments/${req.params.id}`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
   createAuthToken() {
     const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
     const serviceAuthRequest = {
@@ -48,6 +60,10 @@ class PayhubService {
       body: serviceAuthRequest,
       json: true
     });
+  }
+
+  getFees() {
+    return request.get({ uri: 'https://fees-register-api.platform.hmcts.net/fees-register/fees' });
   }
 }
 
