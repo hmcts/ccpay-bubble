@@ -11,6 +11,7 @@ export class FeeListComponent {
   @Input() fees?: IFee[];
   @Input() filterBy?: string;
   @Output() selectedFeeEvent: EventEmitter<IFee> = new EventEmitter();
+  paginationPage = 1;
 
   selectFee(fee: IFee) {
     this.selectedFeeEvent.emit(fee);

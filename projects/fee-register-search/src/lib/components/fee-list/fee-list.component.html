@@ -8,14 +8,20 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let fee of fees | filterFees: filterBy">
+    <tr *ngFor="let fee of fees | filterFees: filterBy | paginate: { itemsPerPage: 10, currentPage: paginationPage }">
       <td>{{ fee.code }}</td>
       <td>{{ fee.current_version?.description }}</td>
-      <td>{{ fee.current_version?.flat_amount?.amount | number:'.2' }}</td>
+      <td>£ {{ fee.current_version?.flat_amount?.amount | number:'.2' }}</td>
       <td>
         <a (click)="selectFee(fee)">Select</a>
       </td>
     </tr>
   </tbody>
 </table>
+
+<pagination-controls 
+  class="govuk-pagination"
+  *ngIf="paginationPage > 1"
+  (pageChange)="paginationPage = $event"></pagination-controls>
+
 <p *ngIf="(fees | filterFees: filterBy).length === 0">No Results</p>
