@@ -10,8 +10,6 @@ class PayhubController {
     return this.payhubService.sendToPayhub(req, res, appInsights)
     // eslint-disable-next-line
     .then(result => {
-        // eslint-disable-next-line
-        console.log(result._links.next_url.href);
         if (result._links.next_url) {
           request({
             method: 'GET',
@@ -21,12 +19,6 @@ class PayhubController {
             if (error) {
               return res.status(500).json({ err: `${error}`, success: false });
             }
-            // eslint-disable-next-line
-            console.log('pci-pal-response status:', response.statusCode);
-            // eslint-disable-next-line
-            console.log('pci-pal-response body:', body);
-            // eslint-disable-next-line
-            console.log('pci-pal-response:', response);
             return res.status(200).send(body);
           });
         } else {
