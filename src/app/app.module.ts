@@ -19,7 +19,6 @@ import { NavigationComponent } from './shared/components/navigation/navigation.c
 import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitize-html.pipe';
 import { FormatDisplayCurrencyPipe } from './shared/pipes/format-display-currency.pipe';
 import { HeaderComponent } from './shared/components/header/header.component';
-import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitize-html.pipe';
 import { ViewPaymentModule } from 'view-payment';
 import { FeeRegisterSearchModule } from 'fee-register-search';
 
