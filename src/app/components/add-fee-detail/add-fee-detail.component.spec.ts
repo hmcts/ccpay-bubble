@@ -210,6 +210,20 @@ describe('AddFeeDetailComponent', () => {
     expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/reviewFeeDetail');
   });
 
+  it('On partial remission, net_amount should be set', () => {
+    const fee: FeeModel = new FeeModel,
+    service = fixture.debugElement.injector.get(AddFeeDetailService);
+  fee.calculated_amount = 20.00;
+  component.selectedFee = fee;
+  component.feeDetailForm.controls['caseReference'].setValue('1111-1111-1111-1111');
+  component.feeDetailForm.controls['selectedFee'].setValue(true);
+  component.feeDetailForm.get('helpWithFees.amount').setValue(30);
+  fixture.detectChanges();
+  component.saveAndContinue();
+  fixture.detectChanges();
+  expect(component.selectedFee.net_amount).toBe(30);
+  });
+
   it('Restore the add fee details page values',  () => {
     const paymentModel = new PaymentModel(),
       feeModel = new FeeModel(),
