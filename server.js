@@ -82,15 +82,15 @@ module.exports = (security, appInsights) => {
       res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Auth-Dev, CSRF-Token');
       next();
     });
-  }
+  }  
 
   // make all routes available via this imported module
-  app.use('/api', security.protectWithAnyOf(roles.allRoles, ['/**']), route(appInsights));
+  app.use('/api', route(appInsights));
 
   app.use(security.protectWithAnyOf(roles.allRoles, ['/assets/'], express.static('dist')));
 
   // fallback to this route (so that Angular will handle all routing)
-  app.get('**', security.protectWithAnyOf(roles.allRoles, ['/assets/']), csrfProtection,
+  app.get('**',
     (req, res) => {
       res.render('index', { csrfToken: req.csrfToken() });
     });
