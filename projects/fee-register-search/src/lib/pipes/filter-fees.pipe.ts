@@ -52,6 +52,6 @@ export class FilterFeesPipe implements PipeTransform {
   }
 
   isFeeCode(value: string): boolean {
-    return value.match('^[a-zA-Z]{3}\d{4}$');
+    return (new RegExp(/^[a-zA-Z]{3}\d{4}$/)).test(value);
   }
 }
