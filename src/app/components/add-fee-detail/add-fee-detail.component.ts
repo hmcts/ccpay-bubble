@@ -71,6 +71,12 @@ export class AddFeeDetailComponent implements OnInit {
       amountToPay: this.feeDetailForm.get('helpWithFees.amount').value
     };
 
+    if (feeDetailProps.amountToPay &&
+      feeDetailProps.amountToPay !== 0
+      && feeDetailProps.amountToPay !== this.selectedFee.calculated_amount) {
+        this.selectedFee.net_amount = feeDetailProps.amountToPay;
+    } else { delete this.selectedFee.net_amount; }
+
     this.addFeeDetailService.selectedFee = this.selectedFee;
     this.addFeeDetailService.setNewPaymentModel(feeDetailProps);
     this.addFeeDetailService.setNewRemissionModel(feeDetailProps);
