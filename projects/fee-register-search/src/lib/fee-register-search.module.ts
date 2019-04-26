@@ -7,12 +7,14 @@ import { FeeRegisterSearchService } from './fee-register-search.service';
 import { FeeListComponent } from './components/fee-list/fee-list.component';
 import { FeeSearchComponent } from './components/fee-search/fee-search.component';
 import { FilterFeesPipe } from './pipes/filter-fees.pipe';
+import { FeeFilterComponent } from './components/fee-filter/fee-filter.component';
 
 @NgModule({
   declarations: [
     FeeRegisterSearchComponent,
     FeeListComponent,
     FeeSearchComponent,
+    FeeFilterComponent,
     FilterFeesPipe
   ],
   imports: [
