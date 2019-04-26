@@ -36,4 +36,3 @@ To get more help on thee Angular CLI use `ng help` or go check out the [Angular 
 
 # Preview Environment
 We get a fully functional environment in Azure Kubernetes (AKS) per pull request. For more info see: https://tools.hmcts.net/confluence/display/ROC/AKS+-+Azure+Managed+Kubernetes
-
