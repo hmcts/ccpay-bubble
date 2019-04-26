@@ -1,6 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { FeeListComponent } from './fee-list.component';
 import { FilterFeesPipe } from '../../pipes/filter-fees.pipe';
 import { mockFees } from '../../mock-fees';
@@ -15,7 +16,10 @@ describe('Fee list component', () => {
         FeeListComponent,
         FilterFeesPipe
       ],
-      imports: [CommonModule],
+      imports: [
+        CommonModule,
+        NgxPaginationModule
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     });
 

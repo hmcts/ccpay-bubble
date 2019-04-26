@@ -15,6 +15,7 @@ export class FeeModel {
     natural_account_code: string;
     jurisdiction1: string;
     jurisdiction2: string;
+    net_amount?: number;
 
     assign(model: any) {
         const properties = Object.keys(model);
