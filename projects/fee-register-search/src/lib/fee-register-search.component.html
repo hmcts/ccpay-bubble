@@ -3,12 +3,20 @@
     (feeSearchEventEmitter)="setFilters($event)">
   </pay-fee-search>
 
-  <pay-fee-list 
-    *ngIf="fees && isResultsDisplayed"
-    [fees]="fees"
-    [filterBy]="searchFilter"
-    (selectedFeeEvent)="selectFee($event)">
-  </pay-fee-list>
+  <div class="grid-row">
+    <div class="column-one-third">
+      <p>Filter</p>
+    </div>
+  
+    <div class="column-two-thirds">
+      <pay-fee-list 
+        *ngIf="fees && isResultsDisplayed"
+        [fees]="fees"
+        [filterBy]="searchFilter"
+        (selectedFeeEvent)="selectFee($event)">
+      </pay-fee-list>
+    </div>
+  </div>
 </div>
 
 <p>{{ error }}</p>
