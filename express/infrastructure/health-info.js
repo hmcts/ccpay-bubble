@@ -10,7 +10,7 @@ function url(serviceName) {
   if (config.has(healthCheckUrlLocation)) {
     return config.get(healthCheckUrlLocation);
   }
-  return config.get(`${serviceName}`) + '/health';
+  return `${config.get(`${serviceName}`)}/health`;
 }
 
 function basicHealthCheck(serviceName) {
@@ -25,6 +25,6 @@ const healthCheckConfig = {
   }
 };
 
-router.get('/', healthcheck.addTo(router, healthCheckConfig));
+router.get('/', healthcheck.configure(healthCheckConfig));
 
 module.exports = router;
