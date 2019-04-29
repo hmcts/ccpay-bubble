@@ -5,16 +5,22 @@ import { IFee } from '../interfaces';
   name: 'filterFees'
 })
 export class FilterFeesPipe implements PipeTransform {
-  transform(fees: IFee[], filter: string): IFee[] {
+  transform(fees: IFee[], filter: string, jurisdiction?: string[]): IFee[] {
     if (!fees) { return []; }
     if (!filter) { return fees; }
 
-    if (this.isNumeric(filter)) {
-      return this.filterByAmount(fees, filter);
-    }
+    let filteredList: IFee[] = [];
 
-    filter = filter.toLowerCase();
-    return this.filterByDescription(fees, filter);
+    if (this.isNumeric(filter)) {
+      filteredList = this.filterByAmount(fees, filter);
+    } else {
+      filter = filter.toLowerCase();
+      filteredList = this.filterByDescription(fees, filter);
+    }
+    if (filteredList && jurisdiction && jurisdiction.length > 0) {
+      filteredList = this.filterByJurisdiction(filteredList, jurisdiction);
+    }
+    return filteredList;
   }
 
   filterByDescription(fees, filter): IFee[] {
@@ -33,6 +39,17 @@ export class FilterFeesPipe implements PipeTransform {
       && fee.current_version.flat_amount.amount !== undefined) {
         return (fee.current_version.flat_amount.amount === Number(filter));
       }
+    });
+  }
+
+  filterByJurisdiction(fees: IFee[], jurisdiction: string[]): IFee[] {
+    return fees.filter((fee) => {
+      for (let i = 0; i < jurisdiction.length; i++) {
+        if (fee.jurisdiction1.name === jurisdiction[i]) {
+          return true;
+        }
+      }
+      return false;
     });
   }
 
