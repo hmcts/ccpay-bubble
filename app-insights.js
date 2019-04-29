@@ -1,19 +1,13 @@
-const config = require('config');
+const config = require('config')
 const appInsights = require('applicationinsights');
 
 module.exports = {
   enable() {
-    const ikey = config.get('appInsights.instrumentationKey');
-    appInsights.setup(ikey)
+    appInsights.setup(config.get('appInsights.instrumentationKey'))
       .setAutoDependencyCorrelation(true)
-      .setAutoCollectRequests(true)
-      .setAutoCollectPerformance(true)
-      .setAutoCollectExceptions(true)
-      .setAutoCollectDependencies(true)
-      .setAutoCollectConsole(true)
-      .setUseDiskRetryCaching(true)
-      .setInternalLogging(true, true)
-      .start();
+      .setAutoCollectConsole(true, true);
+    appInsights.defaultClient.context.tags[appInsights.defaultClient.context.keys.cloudRole] = config.get('appInsights.roleName');
+    appInsights.start();
     return appInsights;
   }
 };
