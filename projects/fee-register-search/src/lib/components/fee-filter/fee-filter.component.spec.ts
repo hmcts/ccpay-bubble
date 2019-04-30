@@ -1,42 +1,42 @@
-// import { NO_ERRORS_SCHEMA } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { TestBed, ComponentFixture } from '@angular/core/testing';
-// import { NgxPaginationModule } from 'ngx-pagination';
-// import { FeeListComponent } from './fee-list.component';
-// import { FilterFeesPipe } from '../../pipes/filter-fees.pipe';
-// import { mockFees } from '../../mock-fees';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TestBed, ComponentFixture} from '@angular/core/testing';
+import { FeeFilterComponent } from './fee-filter.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-// describe('Fee list component', () => {
-//   let component: FeeListComponent,
-//     fixture: ComponentFixture<FeeListComponent>;
+describe('Fee Filter component', () => {
+  let component: FeeFilterComponent,
+    fixture: ComponentFixture<FeeFilterComponent>;
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [
-//         FeeListComponent,
-//         FilterFeesPipe
-//       ],
-//       imports: [
-//         CommonModule,
-//         NgxPaginationModule
-//       ],
-//       schemas: [NO_ERRORS_SCHEMA],
-//     });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        FeeFilterComponent
+      ],
+      imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    });
 
-//     fixture = TestBed.createComponent(FeeListComponent);
-//     component = fixture.componentInstance;
-//   });
+    fixture = TestBed.createComponent(FeeFilterComponent);
+    component = fixture.componentInstance;
+  });
 
-//   it('Should create', () => {
-//     expect(component).toBeTruthy();
-//   });
+  it('Should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-//   it('Should emit a fee', () => {
-//     component.selectFee(mockFees[0]);
-//     fixture.detectChanges();
+  it('Should emit correct jurisdiction array', () => {
+    component.ngOnInit();
+    component.filterForm.get('civil').setValue(true);
+    component.applyFilter();
 
-//     component.selectedFeeEvent.subscribe(emittedFee => {
-//       expect(emittedFee).toEqual(mockFees[0]);
-//     });
-//   });
-// });
+    fixture.detectChanges();
+    component.jurisdictionFilterEvent.subscribe(jurisdiction => {
+      expect(jurisdiction).toEqual(['civil']);
+    });
+  });
+});
