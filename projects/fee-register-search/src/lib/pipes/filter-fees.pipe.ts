@@ -5,25 +5,25 @@ import { IFee } from '../interfaces';
   name: 'filterFees'
 })
 export class FilterFeesPipe implements PipeTransform {
-  transform(fees: IFee[], filter: string, jurisdiction?: string[]): IFee[] {
+  transform(fees: IFee[], searchFilter: string, jurisdictionsFilter?: string[]): IFee[] {
     if (!fees) { return []; }
-    if (!filter) { return fees; }
+    if (!searchFilter) { return fees; }
 
     let filteredList: IFee[] = [];
 
-    if (this.isNumeric(filter)) {
-      filteredList = this.filterByAmount(fees, filter);
+    if (this.isNumeric(searchFilter)) {
+      filteredList = this.filterByAmount(fees, searchFilter);
     } else {
-      filter = filter.toLowerCase();
+      searchFilter = searchFilter.toLowerCase();
 
-      if (this.isFeeCode(filter)) { 
-        filteredList = this.filterByFeeCode(fees, filter); 
+      if (this.isFeeCode(searchFilter)) { 
+        filteredList = this.filterByFeeCode(fees, searchFilter); 
       } else {
-        filteredList = this.filterByDescription(fees, filter);
+        filteredList = this.filterByDescription(fees, searchFilter);
       }
     }
-    if (filteredList && jurisdiction && jurisdiction.length > 0) {
-      filteredList = this.filterByJurisdiction(filteredList, jurisdiction);
+    if (filteredList && jurisdictionsFilter && jurisdictionsFilter.length > 0) {
+      filteredList = this.filterByJurisdictions(filteredList, jurisdictionsFilter);
     }
     return filteredList;
   }
@@ -57,7 +57,7 @@ export class FilterFeesPipe implements PipeTransform {
     });
   }
 
-  filterByJurisdiction(fees: IFee[], jurisdiction: string[]): IFee[] {
+  filterByJurisdictions(fees: IFee[], jurisdiction: string[]): IFee[] {
     return fees.filter((fee) => {
       for (let i = 0; i < jurisdiction.length; i++) {
         if (fee.jurisdiction1.name === jurisdiction[i]) {
