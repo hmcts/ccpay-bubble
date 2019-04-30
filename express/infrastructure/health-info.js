@@ -20,8 +20,8 @@ function basicHealthCheck(serviceName) {
 const healthCheckConfig = {
   checks: {
     payhub: basicHealthCheck('payhub.url'),
-    idamapi: basicHealthCheck('idam.api_url'),
-    idamauthenticationweb: basicHealthCheck('idam.login_url')
+    idamapi: basicHealthCheck('idam.api_url')
+    // idamauthenticationweb: basicHealthCheck('idam.login_url')
   }
 };
 
