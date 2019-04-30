@@ -2,6 +2,12 @@
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.0.
 
+# Module usage
+
+To use the view payment module, firstly build the view-payment module (see below) and include the `ViewPaymentModule` in the consuming module's declartions and imports array. The `ccpay-view-payment` will be available to the consuming module's components which can rendered in a template like so `<ccpay-view-payment [paymentReference]=""></ccpay-view-payment>`.
+
+@Input - `[paymentReference]`: String - Accepts a payment reference to retrive and display data on a single payment object.
+
 ## Code scaffolding
 
 Run `ng generate component component-name --project view-payment` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project view-payment`.
