@@ -1,4 +1,4 @@
-<div class="govuk-width-container">
+<div class="govuk-width-container" *ngIf="!payBubbleView">
   <h2 class="heading-large">Payment details</h2>
 
   <table>
@@ -45,4 +45,7 @@
       </button>
     </div>
   </div>
+
 </div>
+
+<div *ngIf="payBubbleView" [innerHTML]="payBubbleView | sanitizeHtml"></div>
