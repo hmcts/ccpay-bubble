@@ -5,14 +5,14 @@
 
   <div class="grid-row" *ngIf="fees && isResultsDisplayed">
     <div class="column-one-third">
-      <pay-fee-filter (jurisdictionFilterEvent)="setJurisdictionFilter($event)">
+      <pay-fee-filter (jurisdictionsFilterEvent)="setJurisdictionFilter($event)">
       </pay-fee-filter>
     </div>
     <div class="column-two-thirds">
       <pay-fee-list 
         [fees]="fees"
-        [filterBy]="searchFilter"
-        [filterJurisdiction]="filterJurisdiction"
+        [searchFilter]="searchFilter"
+        [jurisdictionsFilter]="jurisdictionsFilter"
         (selectedFeeEvent)="selectFee($event)">
       </pay-fee-list>
     </div>

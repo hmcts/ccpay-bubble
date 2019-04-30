@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class FeeFilterComponent implements OnInit {
 
-  @Output() jurisdictionFilterEvent: EventEmitter<string[]> = new EventEmitter();
+  @Output() jurisdictionsFilterEvent: EventEmitter<string[]> = new EventEmitter();
   filterForm: FormGroup;
 
   constructor(
@@ -34,6 +34,6 @@ export class FeeFilterComponent implements OnInit {
     if ( this.filterForm.get('tribunal').value) {
       emitValue.push('tribunal');
     }
-    this.jurisdictionFilterEvent.emit(emitValue);
+    this.jurisdictionsFilterEvent.emit(emitValue);
   }
 }
