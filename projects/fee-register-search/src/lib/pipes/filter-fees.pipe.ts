@@ -15,7 +15,12 @@ export class FilterFeesPipe implements PipeTransform {
       filteredList = this.filterByAmount(fees, filter);
     } else {
       filter = filter.toLowerCase();
-      filteredList = this.filterByDescription(fees, filter);
+
+      if (this.isFeeCode(filter)) { 
+        filteredList = this.filterByFeeCode(fees, filter); 
+      } else {
+        filteredList = this.filterByDescription(fees, filter);
+      }
     }
     if (filteredList && jurisdiction && jurisdiction.length > 0) {
       filteredList = this.filterByJurisdiction(filteredList, jurisdiction);
@@ -42,6 +47,16 @@ export class FilterFeesPipe implements PipeTransform {
     });
   }
 
+  filterByFeeCode(fees, filter): IFee[] {
+    return fees.filter((fee: IFee) => {
+      if (fee.code !== undefined) {
+        return fee.code
+          .toLowerCase()
+          .includes(filter);
+      }
+    });
+  }
+
   filterByJurisdiction(fees: IFee[], jurisdiction: string[]): IFee[] {
     return fees.filter((fee) => {
       for (let i = 0; i < jurisdiction.length; i++) {
@@ -55,5 +70,9 @@ export class FilterFeesPipe implements PipeTransform {
 
   isNumeric(value: any): boolean {
     return !isNaN(parseFloat(value)) && isFinite(value);
+  }
+
+  isFeeCode(value: string): boolean {
+    return (new RegExp(/^[a-zA-Z]{3}\d{4}$/)).test(value);
   }
 }
