@@ -8,6 +8,7 @@ const route = require('./express/app');
 const roles = require('./express/infrastructure/roles');
 const csurf = require('csurf');
 const moment = require('moment');
+const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 
@@ -71,7 +72,8 @@ module.exports = (security, appInsights) => {
 
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
-  app.use('/health', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
+  app.use('/health/liveness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
+  app.use('/health', healthcheck);
 
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"
