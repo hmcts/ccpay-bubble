@@ -15,7 +15,7 @@ s2s:
   key: G5XTFNBUW4P6ZP4F
   url: https://rpe-service-auth-provider-aat.service.core-compute-aat.internal
 payhub:
-  url: https://payment-api-aat.service.core-compute-aat.internal
+  url: http://payment-api-aat.service.core-compute-aat.internal
 appInsights:
   instrumentationKey: some-key
   roleName: fees-register-admin
