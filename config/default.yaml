@@ -18,7 +18,7 @@ payhub:
   url: http://payment-api-aat.service.core-compute-aat.internal
 appInsights:
   instrumentationKey: some-key
-  roleName: fees-register-admin
+  roleName: paybubble
 e2e:
   frontendUrl: https://localhost:4200/
   waitForTimeoutValue: 2600
