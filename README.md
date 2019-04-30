@@ -14,8 +14,6 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-### Building library modules
-
 Important - The project's build dependens on library projects located in the projects folder. Run `ng build fee-register-search` and `ng build view payment` before compiling the main project.
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
@@ -24,9 +22,18 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+## View payment - Web Component
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+The view payment web component can be accessed via /view-payment/ref
+ref route parameter references a valid payment reference.
+
+Please see (https://github.com/hmcts/ccpay-bubble/tree/master/projects/view-payment) for more detail.
+
+## Fee register search - Web Component
+
+The fee register search component can be accessed via /fee-search
+
+Please see (https://github.com/hmcts/ccpay-bubble/tree/master/projects/fee-register-search) for more detail.
 
 ## Further help - dummy
 
