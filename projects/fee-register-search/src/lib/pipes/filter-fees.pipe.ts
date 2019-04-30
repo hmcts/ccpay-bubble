@@ -16,8 +16,8 @@ export class FilterFeesPipe implements PipeTransform {
     } else {
       searchFilter = searchFilter.toLowerCase();
 
-      if (this.isFeeCode(searchFilter)) { 
-        filteredList = this.filterByFeeCode(fees, searchFilter); 
+      if (this.isFeeCode(searchFilter)) {
+        filteredList = this.filterByFeeCode(fees, searchFilter);
       } else {
         filteredList = this.filterByDescription(fees, searchFilter);
       }
