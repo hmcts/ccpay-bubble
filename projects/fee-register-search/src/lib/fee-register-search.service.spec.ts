@@ -1,7 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { XHRBackend, Response, ResponseOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
+import { Response, ResponseOptions } from '@angular/http';
 import { FeeRegisterSearchService } from './fee-register-search.service';
 
 describe('FeeRegisterSearchService', () => {
@@ -9,7 +8,6 @@ describe('FeeRegisterSearchService', () => {
     imports: [HttpClientModule],
     providers: [
       FeeRegisterSearchService,
-      { provide: XHRBackend, useClass: MockBackend },
     ]
   }));
 
