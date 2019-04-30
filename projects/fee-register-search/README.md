@@ -2,6 +2,13 @@
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.0.
 
+# Module usage
+
+To use the view payment module, firstly build the fee-register-search module (see below) and include the `FeeRegisterSearchModule` in the consuming module's declartions and imports array. The `pay-fee-register-search` will be available to the consuming module's components which can rendered in a template like so `<pay-fee-register-search [APIRoot]="" (selectedFeeEvent)=""></pay-fee-register-search>`.
+
+@Input - `[APIRoot]`: String - The API address used to conduct a GET request to retrive fees.
+@Output - `(selectedFeeEvent)`: Fee Object - Emits a fee object on selection of a paticular fee.
+
 ## Code scaffolding
 
 Run `ng generate component component-name --project fee-register-search` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project fee-register-search`.
