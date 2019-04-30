@@ -52,5 +52,4 @@ describe('Filter fees pipe', () => {
     expect(results.length).toBe(1);
     expect(results[0]).toEqual(mockFees[0]);
   });
-
 });
