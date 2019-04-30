@@ -1,6 +1,7 @@
 const security = require('./express/infrastructure/security-factory');
 const { enable } = require('./app-insights');
 
+// App Insights needs to be enabled as early as possible as it monitors other libraries as well
 const appInsights = enable();
 appInsights.setAuthenticatedUserContext = userId => {
   const validatedId = userId.replace(/[,;=| ]+/g, '_');
