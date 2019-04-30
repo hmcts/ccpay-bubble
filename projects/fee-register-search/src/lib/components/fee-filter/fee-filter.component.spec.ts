@@ -33,9 +33,8 @@ describe('Fee Filter component', () => {
     component.ngOnInit();
     component.filterForm.get('civil').setValue(true);
     component.applyFilter();
-
     fixture.detectChanges();
-    component.jurisdictionFilterEvent.subscribe(jurisdiction => {
+    component.jurisdictionsFilterEvent.subscribe(jurisdiction => {
       expect(jurisdiction).toEqual(['civil']);
     });
   });

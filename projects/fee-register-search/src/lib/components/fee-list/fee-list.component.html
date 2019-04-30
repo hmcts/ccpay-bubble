@@ -1,4 +1,4 @@
-<table *ngIf="(fees | filterFees: filterBy: filterJurisdiction).length >= 1">
+<table *ngIf="(fees | filterFees: searchFilter: jurisdictionsFilter).length >= 1">
   <thead>
     <tr>
       <th>Fee Code</th>
@@ -8,7 +8,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let fee of fees | filterFees: filterBy: filterJurisdiction | paginate: { itemsPerPage: 15, currentPage: p }">
+    <tr *ngFor="let fee of fees | filterFees: searchFilter: jurisdictionsFilter | paginate: { itemsPerPage: 15, currentPage: p }">
       <td>{{ fee.code }}</td>
       <td>{{ fee.current_version?.description }}</td>
       <td>
@@ -23,9 +23,9 @@
 </table>
 
 <pagination-controls
-  *ngIf="(fees | filterFees: filterBy: filterJurisdiction).length !== 0"
+  *ngIf="(fees | filterFees: searchFilter: jurisdictionsFilter).length !== 0"
   class="govuk-pagination"
   autoHide="true"
   (pageChange)="p = $event"></pagination-controls>
 
-<p *ngIf="(fees | filterFees: filterBy).length === 0">No Results</p>
+<p *ngIf="(fees | filterFees: searchFilter: jurisdictionsFilter).length === 0">No Results</p>

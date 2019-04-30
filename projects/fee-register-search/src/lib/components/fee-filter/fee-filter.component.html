@@ -1,42 +1,42 @@
 <div class="hmcts-filter">
   <div class="hmcts-filter__header">
     <div class="hmcts-filter__header-title">
-        <h2 class="govuk-heading-l">Filter</h2>
+      <h2 class="govuk-heading-l">Filter</h2>
     </div>
   </div>
 
   <form [formGroup]="filterForm" class="form-group">
-      <div class="hmcts-filter__options">
-          <div class="govuk-form-group">
-            <fieldset class="govuk-fieldset">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              Jurisdiction
-            </legend>
-            <div class="govuk-checkboxes govuk-checkboxes--small">
-              <div class="govuk-checkboxes__item">
-              <input #civil class="govuk-checkboxes__input" id="civil" formControlName="civil" type="checkbox">
-              <label class="govuk-label govuk-checkboxes__label" for="civil">
-                  Civil
-              </label>
-              </div>
-              <div class="govuk-checkboxes__item">
-              <input class="govuk-checkboxes__input" id="family" formControlName="family" type="checkbox">
-              <label class="govuk-label govuk-checkboxes__label" for="family">
-                  Family
-              </label>
-              </div>
-              <div class="govuk-checkboxes__item">
-              <input class="govuk-checkboxes__input" id="tribunal" formControlName="tribunal" type="checkbox">
-              <label class="govuk-label govuk-checkboxes__label" for="tribunal">
-                Tribunal
-              </label>
-              </div>
-            </div>
-            </fieldset>
+    <div class="hmcts-filter__options">
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+          Jurisdiction
+        </legend>
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <div class="govuk-checkboxes__item">
+          <input #civil class="govuk-checkboxes__input" id="civil" formControlName="civil" type="checkbox">
+          <label class="govuk-label govuk-checkboxes__label" for="civil">
+            Civil
+          </label>
           </div>
-          <button type="submit" class="govuk-button" (click)="applyFilter()">
-            Apply filters
-          </button>
+          <div class="govuk-checkboxes__item">
+          <input class="govuk-checkboxes__input" id="family" formControlName="family" type="checkbox">
+          <label class="govuk-label govuk-checkboxes__label" for="family">
+            Family
+          </label>
+          </div>
+          <div class="govuk-checkboxes__item">
+          <input class="govuk-checkboxes__input" id="tribunal" formControlName="tribunal" type="checkbox">
+          <label class="govuk-label govuk-checkboxes__label" for="tribunal">
+            Tribunal
+          </label>
+          </div>
         </div>
+        </fieldset>
+      </div>
+      <button type="submit" class="govuk-button" (click)="applyFilter()">
+        Apply filters
+      </button>
+      </div>
   </form>
 </div>

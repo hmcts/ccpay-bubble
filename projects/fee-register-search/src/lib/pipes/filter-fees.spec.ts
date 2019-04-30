@@ -25,12 +25,12 @@ describe('Filter fees pipe', () => {
   });
 
   it('Should filter an array of fees on jurisdiction tribunal to be empty', () => {
-    const results = filterFeesPipe.filterByJurisdiction(mockFees, ['tribunal']);
+    const results = filterFeesPipe.filterByJurisdictions(mockFees, ['tribunal']);
     expect(results.length).toBe(0);
   });
 
   it('Should filter an array of fees on jurisdiction civil', () => {
-    const results = filterFeesPipe.filterByJurisdiction(mockFees, ['civil']);
+    const results = filterFeesPipe.filterByJurisdictions(mockFees, ['civil']);
     expect(results.length).toBe(2);
     expect(results[0]).toEqual(mockFees[0]);
   });
