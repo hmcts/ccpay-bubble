@@ -1,0 +1,31 @@
+<table *ngIf="(fees | filterFees: filterBy).length >= 1">
+  <thead>
+    <tr>
+      <th>Fee Code</th>
+      <th>Description</th>
+      <th>Amount</th>
+      <th class="hide">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let fee of fees | filterFees: filterBy | paginate: { itemsPerPage: 15, currentPage: p }">
+      <td>{{ fee.code }}</td>
+      <td>{{ fee.current_version?.description }}</td>
+      <td>
+        <span *ngIf="fee.current_version?.flat_amount?.amount">
+          £{{ fee.current_version?.flat_amount?.amount | number:'.2' }}
+        </span>
+        <span *ngIf="!fee.current_version?.flat_amount?.amount">-</span>
+      </td>
+      <td><a (click)="selectFee(fee)">Select</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<pagination-controls
+  *ngIf="(fees | filterFees: filterBy).length !== 0"
+  class="govuk-pagination"
+  autoHide="true"
+  (pageChange)="p = $event"></pagination-controls>
+
+<p *ngIf="(fees | filterFees: filterBy).length === 0">No Results</p>
