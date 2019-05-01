@@ -32,7 +32,7 @@
       <div class="form-group panel panel-border-narrow" [hidden]="!helpWithFeesIsVisible" [ngClass]="showErrors && (feeDetailForm.get('helpWithFees').errors || feeDetailForm.get('helpWithFees.amount').errors) ? 'form-group-error': ''">
         <div class="form-group">
           <label class="heading-small" for="hwfReference">
-            Enter HWF Code
+            Enter remission code
             <span class="form-hint">For example: HWF-A1B-23C</span>
           </label>
           <span class="error-message" *ngIf="showErrors && feeDetailForm.get('helpWithFees').errors?.hwfCodeInvalid">Enter a help with fees reference</span>
