@@ -127,6 +127,9 @@ describe('Add fee detail service', () => {
     remissionModel.hwf_amount = 100;
     addFeeDetailService.remissionModel = remissionModel;
     addFeeDetailService.postFullRemission()
-    .then((response) => expect(response.hwf_amount).toBe(100));
+    .then((response) => {
+      expect(response.hwf_amount).toBe(100);
+      expect(response.site_id).toBe('AA02');
+    });
   });
 });

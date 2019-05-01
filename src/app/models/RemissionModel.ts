@@ -11,6 +11,7 @@ export class RemissionModel {
     hwf_amount: number;
     hwf_reference: string;
     payment_group_reference: string;
+    site_id = 'AA02';
 
     static reset(model: RemissionModel) {
         model.beneficiary_name = '';
