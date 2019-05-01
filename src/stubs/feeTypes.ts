@@ -81,7 +81,7 @@ export const feeTypes: IFeeType[] = [
       {
         'description': 'Originating proceedings where no other fee is specified',
         'status': 'approved',
-        'version': 4,
+        'version': 1,
         'valid_from': '2016-03-21T00:00:00.000+0000',
         'flat_amount': {
           'amount': 245.00
@@ -97,7 +97,7 @@ export const feeTypes: IFeeType[] = [
     'current_version': {
       'description': 'Originating proceedings where no other fee is specified',
       'status': 'approved',
-      'version': 4,
+      'version': 1,
       'valid_from': '2016-03-21T00:00:00.000+0000',
       'flat_amount': {
         'amount': 245.00
@@ -136,7 +136,7 @@ export const feeTypes: IFeeType[] = [
       {
         'description': 'Amendment of application for matrimonial/civil partnership order',
         'status': 'approved',
-        'version': 4,
+        'version': 1,
         'valid_from': '2016-03-21T00:00:00.000+0000',
         'flat_amount': {
           'amount': 95.00
@@ -152,7 +152,7 @@ export const feeTypes: IFeeType[] = [
     'current_version': {
       'description': 'Amendment of application for matrimonial/civil partnership order',
       'status': 'approved',
-      'version': 4,
+      'version': 1,
       'valid_from': '2016-03-21T00:00:00.000+0000',
       'flat_amount': {
         'amount': 95.00
@@ -191,7 +191,7 @@ export const feeTypes: IFeeType[] = [
       {
         'description': 'Application for decree nisi, conditional order, separation order (no fee if undefended)',
         'status': 'approved',
-        'version': 4,
+        'version': 1,
         'valid_from': '2016-03-21T00:00:00.000+0000',
         'flat_amount': {
           'amount': 50.00
@@ -207,7 +207,7 @@ export const feeTypes: IFeeType[] = [
     'current_version': {
       'description': 'Application for decree nisi, conditional order, separation order (no fee if undefended)',
       'status': 'approved',
-      'version': 4,
+      'version': 1,
       'valid_from': '2016-03-21T00:00:00.000+0000',
       'flat_amount': {
         'amount': 50.00
@@ -246,7 +246,7 @@ export const feeTypes: IFeeType[] = [
       {
         'description': 'Request for service by a bailiff of document (see order for exceptions)',
         'status': 'approved',
-        'version': 4,
+        'version': 1,
         'valid_from': '2016-03-21T00:00:00.000+0000',
         'flat_amount': {
           'amount': 110.00
@@ -262,7 +262,7 @@ export const feeTypes: IFeeType[] = [
     'current_version': {
       'description': 'Request for service by a bailiff of document (see order for exceptions)',
       'status': 'approved',
-      'version': 4,
+      'version': 1,
       'valid_from': '2016-03-21T00:00:00.000+0000',
       'flat_amount': {
         'amount': 110.00
@@ -301,7 +301,7 @@ export const feeTypes: IFeeType[] = [
       {
         'description': 'Application for a financial order',
         'status': 'approved',
-        'version': 4,
+        'version': 1,
         'valid_from': '2016-03-21T00:00:00.000+0000',
         'flat_amount': {
           'amount': 255.00
@@ -317,7 +317,7 @@ export const feeTypes: IFeeType[] = [
     'current_version': {
       'description': 'Application for a financial order',
       'status': 'approved',
-      'version': 4,
+      'version': 1,
       'valid_from': '2016-03-21T00:00:00.000+0000',
       'flat_amount': {
         'amount': 255.00
@@ -356,7 +356,7 @@ export const feeTypes: IFeeType[] = [
       {
         'description': 'Application (without notice)',
         'status': 'approved',
-        'version': 4,
+        'version': 1,
         'valid_from': '2016-03-21T00:00:00.000+0000',
         'flat_amount': {
           'amount': 50.00
@@ -372,7 +372,7 @@ export const feeTypes: IFeeType[] = [
     'current_version': {
       'description': 'Application (without notice)',
       'status': 'approved',
-      'version': 4,
+      'version': 1,
       'valid_from': '2016-03-21T00:00:00.000+0000',
       'flat_amount': {
         'amount': 50.00
