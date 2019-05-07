@@ -21,6 +21,7 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitize-html.pipe';
 import { ViewPaymentModule } from 'view-payment';
 import { FeeRegisterSearchModule } from 'fee-register-search';
+import { WindowUtil } from './services/window-util/window-util';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { FeeRegisterSearchModule } from 'fee-register-search';
   ],
   providers: [
     PaybubbleHttpClient,
-    AddFeeDetailService
+    AddFeeDetailService,
+    WindowUtil
   ],
   bootstrap: [AppComponent]
 })
