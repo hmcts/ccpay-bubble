@@ -15,6 +15,7 @@ export class FeeRegisterSearchComponent implements OnInit {
   error: string;
   searchFilter: string;
   isResultsDisplayed: boolean;
+  jurisdictionsFilter: string[];
 
   constructor(
     private feeRegisterSearchService: FeeRegisterSearchService
@@ -38,5 +39,9 @@ export class FeeRegisterSearchComponent implements OnInit {
   setFilters(filter: string) {
     this.isResultsDisplayed = true;
     this.searchFilter = filter;
+  }
+
+  setJurisdictionFilter(jurisdictions: string[]) {
+    this.jurisdictionsFilter = jurisdictions;
   }
 }
