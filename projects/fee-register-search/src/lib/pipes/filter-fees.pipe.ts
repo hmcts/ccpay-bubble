@@ -5,17 +5,27 @@ import { IFee } from '../interfaces';
   name: 'filterFees'
 })
 export class FilterFeesPipe implements PipeTransform {
-  transform(fees: IFee[], filter: string): IFee[] {
+  transform(fees: IFee[], searchFilter: string, jurisdictionsFilter?: string[]): IFee[] {
     if (!fees) { return []; }
-    if (!filter) { return fees; }
+    if (!searchFilter) { return fees; }
 
-    if (this.isNumeric(filter)) { return this.filterByAmount(fees, filter); }
+    let filteredList: IFee[] = [];
 
-    filter = filter.toLowerCase();
+    if (this.isNumeric(searchFilter)) {
+      filteredList = this.filterByAmount(fees, searchFilter);
+    } else {
+      searchFilter = searchFilter.toLowerCase();
 
-    if (this.isFeeCode(filter)) { return this.filterByFeeCode(fees, filter); }
-
-    return this.filterByDescription(fees, filter);
+      if (this.isFeeCode(searchFilter)) {
+        filteredList = this.filterByFeeCode(fees, searchFilter);
+      } else {
+        filteredList = this.filterByDescription(fees, searchFilter);
+      }
+    }
+    if (filteredList && jurisdictionsFilter && jurisdictionsFilter.length > 0) {
+      filteredList = this.filterByJurisdictions(filteredList, jurisdictionsFilter);
+    }
+    return filteredList;
   }
 
   filterByDescription(fees, filter): IFee[] {
@@ -44,6 +54,17 @@ export class FilterFeesPipe implements PipeTransform {
           .toLowerCase()
           .includes(filter);
       }
+    });
+  }
+
+  filterByJurisdictions(fees: IFee[], jurisdiction: string[]): IFee[] {
+    return fees.filter((fee) => {
+      for (let i = 0; i < jurisdiction.length; i++) {
+        if (fee.jurisdiction1.name === jurisdiction[i]) {
+          return true;
+        }
+      }
+      return false;
     });
   }
 
