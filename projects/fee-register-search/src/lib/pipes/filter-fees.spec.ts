@@ -24,6 +24,17 @@ describe('Filter fees pipe', () => {
     expect(results[0]).toEqual(mockFees[0]);
   });
 
+  it('Should filter an array of fees on jurisdiction tribunal to be empty', () => {
+    const results = filterFeesPipe.filterByJurisdictions(mockFees, ['tribunal']);
+    expect(results.length).toBe(0);
+  });
+
+  it('Should filter an array of fees on jurisdiction civil', () => {
+    const results = filterFeesPipe.filterByJurisdictions(mockFees, ['civil']);
+    expect(results.length).toBe(2);
+    expect(results[0]).toEqual(mockFees[0]);
+  });
+
   it('Should detect when a value is of a feecode', () => {
     expect(filterFeesPipe.isFeeCode('FEE0002')).toBeTruthy();
   });
