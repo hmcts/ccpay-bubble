@@ -9,8 +9,16 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.sendToPayhub(req, res, appInsights);
   })
 
-  .post('/remissions', (req, res) => {
+ .post('/remissions', (req, res) => {
     controllers.payhubController.postRemission(req, res, appInsights);
+  })
+
+  .post('/card-payments', (req, res) => {
+    controllers.payhubController.postCardPayment(req, res, appInsights);
+  })
+
+  .post('/payment-groups/:paymentGroup/fees/:feeId/remissions', (req, res) => {
+    controllers.payhubController.postPartialRemission(req, res, appInsights);
   })
 
   .get('/payments/:id', (req, res) => {
