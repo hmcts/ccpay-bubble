@@ -3,6 +3,7 @@ import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-det
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { SafeHtml } from '@angular/platform-browser';
+import { reference } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-review-fee-detail',
@@ -27,12 +28,32 @@ export class ReviewFeeDetailComponent {
   }
 
   sendPayDetailsToPayhub() {
+    console.log(this.payModel);
     if (this.payModel.amount === 0) {
       this.addFeeDetailService.postFullRemission()
       .then(response => {
-        const remissionRef = JSON.parse(response).data;
-        this.addFeeDetailService.remissionRef = remissionRef;
+        console.log('FULL REMISSION RESPONSE');
+        console.log(response);
+       // const remissionRef = JSON.parse(response).data;
+        this.addFeeDetailService.remissionRef = response.case_reference;
         this.router.navigate(['/confirmation']);
+      })
+      .catch(err => {
+        this.navigateToServiceFailure();
+       });
+    } else if (this.fee.calculated_amount > this.payModel.amount) {
+      this.addFeeDetailService.postPartialPayment()
+      .then(response => {
+        console.log('PARTIAL REMISSION PAYMENT RESPONSE');
+        console.log(response);
+        this.addFeeDetailService.postPartialRemission(response.payment_group_reference, response.fees[0].id)
+        .then(remissionResponse => {
+          this.addFeeDetailService.remissionRef = remissionResponse.case_reference;
+          this.router.navigate(['/confirmation']);
+        })
+        .catch(err => {
+          this.navigateToServiceFailure();
+        });
       })
       .catch(err => {
         this.navigateToServiceFailure();

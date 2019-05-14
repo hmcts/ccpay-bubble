@@ -97,8 +97,12 @@ export class AddFeeDetailService {
   }
 
   postPartialRemission(paymentGroupRef: string, feeId: string) {
-    return this.http.post(`/api/payment-groups/${paymentGroupRef}/fees/${feeId}`,
+    return this.http.post(`/api/payment-groups/${paymentGroupRef}/fees/${feeId}/remissions`,
     RemissionModel.cleanModel(this._remissionModel)).toPromise();
+  }
+
+  postPartialPayment() {
+    return this.http.post('/api/card-payments', PaymentModel.cleanModel(this._paymentModel)).toPromise();
   }
 
   postPayment() {

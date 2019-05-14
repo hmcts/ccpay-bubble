@@ -26,7 +26,20 @@ class PayhubService {
 
   postRemission(req) {
     return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/remission`,
+      uri: `${payhubUrl}/remissions`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
+  postPartialRemission(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/fees/${req.params.feeId}/remissions`,
       body: req.body,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
