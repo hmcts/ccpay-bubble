@@ -117,7 +117,7 @@ describe('Add fee detail service', () => {
     remissionModel.hwf_amount = 100;
     addFeeDetailService.remissionModel = remissionModel;
     addFeeDetailService.postFullRemission()
-    .then((response) => expect(response).toEqual('/api/remission'));
+    .then((response) => expect(response).toEqual('/api/remissions'));
   });
 
   it('Should call post full remission with a remissionModel', () => {

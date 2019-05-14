@@ -93,7 +93,7 @@ export class AddFeeDetailService {
   }
 
   postFullRemission() {
-    return this.http.post('/api/remission', RemissionModel.cleanModel(this._remissionModel)).toPromise();
+    return this.http.post('/api/remissions', RemissionModel.cleanModel(this._remissionModel)).toPromise();
   }
 
   postPayment() {

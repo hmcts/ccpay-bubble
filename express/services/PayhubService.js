@@ -26,7 +26,7 @@ class PayhubService {
 
   postRemission(req) {
     return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/remission`,
+      uri: `${payhubUrl}/remissions`,
       body: req.body,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
