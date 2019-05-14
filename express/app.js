@@ -9,7 +9,7 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.sendToPayhub(req, res, appInsights);
   })
 
- .post('/remissions', (req, res) => {
+  .post('/remissions', (req, res) => {
     controllers.payhubController.postRemission(req, res, appInsights);
   })
 
