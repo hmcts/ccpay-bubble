@@ -9,6 +9,7 @@ import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import { FeeModel } from 'src/app/models/FeeModel';
 
 describe('ReviewFeeDetailComponent', () => {
   let addFeeDetailService: AddFeeDetailService;
@@ -44,6 +45,39 @@ describe('ReviewFeeDetailComponent', () => {
     spyOn(addFeeDetailService, 'postFullRemission').and.returnValue(of({data: '123', success: true}).toPromise());
     component.sendPayDetailsToPayhub();
     expect(addFeeDetailService.postFullRemission).toHaveBeenCalled();
+  });
+
+  it('Should call postPartialRemission when payment model > 0 and smaller than calculated amount', () => {
+    const paymodel = new PaymentModel();
+    paymodel.amount = 100;
+    component.fee = new FeeModel();
+    component.fee.calculated_amount = 500;
+    spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
+    spyOn(addFeeDetailService, 'postPartialPayment').and.returnValue(of({data: '123', success: true}).toPromise());
+    component.sendPayDetailsToPayhub();
+    expect(addFeeDetailService.postPartialPayment).toHaveBeenCalled();
+  });
+
+  it('Should call postPartialPayment when payment model > 0 and smaller than calculated amount', () => {
+    const paymodel = new PaymentModel();
+    paymodel.amount = 100;
+    component.fee = new FeeModel();
+    component.fee.calculated_amount = 500;
+    spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
+    spyOn(addFeeDetailService, 'postPartialPayment').and.returnValue(of({data: '123', success: true}).toPromise());
+    component.sendPayDetailsToPayhub();
+    expect(addFeeDetailService.postPartialPayment).toHaveBeenCalled();
+  });
+
+  it('Should call postPayment when there is no remission', () => {
+    const paymodel = new PaymentModel();
+    paymodel.amount = 500;
+    component.fee = new FeeModel();
+    component.fee.calculated_amount = 500;
+    spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
+    spyOn(addFeeDetailService, 'postPayment').and.returnValue(of({data: '123', success: true}).toPromise());
+    component.sendPayDetailsToPayhub();
+    expect(addFeeDetailService.postPayment).toHaveBeenCalled();
   });
 
   it('Should navigate to service-detail', () => {
