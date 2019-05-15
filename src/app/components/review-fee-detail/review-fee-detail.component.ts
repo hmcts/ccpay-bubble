@@ -35,7 +35,7 @@ export class ReviewFeeDetailComponent {
         console.log('FULL REMISSION RESPONSE');
         console.log(response);
        // const remissionRef = JSON.parse(response).data;
-        this.addFeeDetailService.remissionRef = response.case_reference;
+        this.addFeeDetailService.remissionRef = response.data.remission_reference;
         this.router.navigate(['/confirmation']);
       })
       .catch(err => {
@@ -46,7 +46,7 @@ export class ReviewFeeDetailComponent {
       .then(response => {
         console.log('PARTIAL REMISSION PAYMENT RESPONSE');
         console.log(response);
-        this.addFeeDetailService.postPartialRemission(response.payment_group_reference, response.fees[0].id)
+        this.addFeeDetailService.postPartialRemission(response.data.payment_group_reference, response.data.fees[0].id)
         .then(remissionResponse => {
           console.log('PARTIAL REMISSION RESPONSE');
           console.log(remissionResponse);
