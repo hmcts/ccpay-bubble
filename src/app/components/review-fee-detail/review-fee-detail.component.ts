@@ -48,6 +48,8 @@ export class ReviewFeeDetailComponent {
         console.log(response);
         this.addFeeDetailService.postPartialRemission(response.payment_group_reference, response.fees[0].id)
         .then(remissionResponse => {
+          console.log('PARTIAL REMISSION RESPONSE');
+          console.log(remissionResponse);
           this.addFeeDetailService.remissionRef = remissionResponse.case_reference;
           this.router.navigate(['/confirmation']);
         })
@@ -61,6 +63,8 @@ export class ReviewFeeDetailComponent {
     } else {
       this.addFeeDetailService.postPayment()
       .then(response => {
+        console.log('FULL POST PAYMENT RESPONSE');
+        console.log(response);
         this.payBubbleView = response;
       })
       .catch(err => {
