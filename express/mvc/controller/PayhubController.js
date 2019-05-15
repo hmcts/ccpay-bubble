@@ -32,7 +32,7 @@ class PayhubController {
   }
 
   sendToPayhubWithUrl(req, res) {
-    if(req.params.url){
+    if (req.params.url) {
       request({
         method: 'GET',
         uri: req.params.url
