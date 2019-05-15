@@ -3,8 +3,6 @@ import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-det
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { SafeHtml } from '@angular/platform-browser';
-import { reference } from '@angular/core/src/render3';
-import { RemissionResponseModel } from 'src/app/models/ResponseModel';
 
 @Component({
   selector: 'app-review-fee-detail',
@@ -35,7 +33,7 @@ export class ReviewFeeDetailComponent {
       .then(response => {
         console.log('FULL REMISSION RESPONSE');
         console.log(response);
-        const remissionData: RemissionResponseModel = response.data;
+        const remissionData = JSON.parse(response).data;
         this.addFeeDetailService.remissionRef = remissionData.remission_reference;
         this.router.navigate(['/confirmation']);
       })
@@ -52,7 +50,7 @@ export class ReviewFeeDetailComponent {
         .then(remissionResponse => {
           console.log('PARTIAL REMISSION RESPONSE');
           console.log(remissionResponse);
-          this.addFeeDetailService.remissionRef = remissionResponse.case_reference;
+          this.addFeeDetailService.remissionRef = JSON.parse(remissionResponse).data.remission_reference;
           this.router.navigate(['/confirmation']);
         })
         .catch(err => {
