@@ -38,13 +38,17 @@ describe('ReviewFeeDetailComponent', () => {
     expect(component.remissionModel).toEqual(remissionModel);
   });
 
-  it('Should call postFullRemission when payment model is 0', () => {
+  it('Should call postFullRemission when payment model is 0', (done) => {
     const paymodel = new PaymentModel();
     paymodel.amount = 0;
     spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
-    spyOn(addFeeDetailService, 'postFullRemission').and.returnValue(of({data: '123', success: true}).toPromise());
+    const spy = spyOn(addFeeDetailService, 'postFullRemission').and.returnValue(of({data: '123', success: true}).toPromise());
     component.sendPayDetailsToPayhub();
     expect(addFeeDetailService.postFullRemission).toHaveBeenCalled();
+    spy.calls.mostRecent().returnValue.then(() => {
+      expect(router.navigate).toHaveBeenCalledWith(['/confirmation']);
+      done();
+    });
   });
 
   it('Should call postPartialRemission from postPartialPayment when payment model > 0 and smaller than calculated amount', (done) => {
@@ -54,7 +58,7 @@ describe('ReviewFeeDetailComponent', () => {
     component.fee.calculated_amount = 500;
     spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
     spyOn(addFeeDetailService, 'postPartialRemission').and.returnValue(of({data: '123', success: true}).toPromise());
-    let paymentSpy = spyOn(addFeeDetailService, 'postPartialPayment').and
+    const paymentSpy = spyOn(addFeeDetailService, 'postPartialPayment').and
     .returnValue(of({data: {payment_group_reference: '', fees: [{id: '1'}]}, success: true}).toPromise());
 
     component.sendPayDetailsToPayhub();
