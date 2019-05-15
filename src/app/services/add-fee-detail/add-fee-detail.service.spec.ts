@@ -120,6 +120,16 @@ describe('Add fee detail service', () => {
     .then((response) => expect(response).toEqual('/api/remission'));
   });
 
+  it('Should call post partial payment with the correct path', () => {
+    const calledWithParams = [];
+    spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => of(param2));
+    const paymentModel = new PaymentModel();
+    paymentModel.amount = 100;
+    addFeeDetailService.paymentModel = paymentModel;
+    addFeeDetailService.postPartialPayment()
+    .then((response) => expect(response.amount).toBe(100));
+  });
+
   it('Should call post full remission with a remissionModel', () => {
     const calledWithParams = [];
     spyOn(http, 'post').and.callFake((param1: string, param2: RemissionModel) => of(param2));
