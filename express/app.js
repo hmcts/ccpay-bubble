@@ -9,6 +9,10 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.sendToPayhub(req, res, appInsights);
   })
 
+  .post('/send-to-payhub-url/:url', (req, res) => {
+    controllers.payhubController.sendToPayhubWithUrl(req, res, appInsights);
+  })
+
   .post('/remissions', (req, res) => {
     controllers.payhubController.postRemission(req, res, appInsights);
   })

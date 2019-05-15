@@ -31,6 +31,21 @@ class PayhubController {
       });
   }
 
+  sendToPayhubWithUrl(req, res) {
+    if (req.params.url) {
+      request({
+        method: 'GET',
+        uri: result._links.next_url.href
+      },
+      (error, response, body) => {
+        if (error) {
+          return res.status(500).json({ err: `${error}`, success: false });
+        }
+        return res.status(200).send(body);
+      });
+    }
+  }
+
   postCardPayment(req, res, appInsights) {
     return this.payhubService.sendToPayhub(req, res, appInsights)
       .then(result => {

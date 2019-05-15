@@ -31,8 +31,6 @@ export class ReviewFeeDetailComponent {
     if (this.payModel.amount === 0) {
       this.addFeeDetailService.postFullRemission()
       .then(response => {
-        console.log('FULL REMISSION RESPONSE');
-        console.log(response);
         const remissionData = JSON.parse(response).data;
         this.addFeeDetailService.remissionRef = remissionData.remission_reference;
         this.router.navigate(['/confirmation']);
@@ -43,15 +41,23 @@ export class ReviewFeeDetailComponent {
     } else if (this.fee.calculated_amount > this.payModel.amount) {
       this.addFeeDetailService.postPartialPayment()
       .then(response => {
-        console.log('PARTIAL REMISSION PAYMENT RESPONSE');
-        console.log(response);
         const respData = JSON.parse(response).data;
+        console.log('PARTIAL POST card payment');
+        console.log(respData);
         this.addFeeDetailService.postPartialRemission(respData.payment_group_reference, respData.fees[0].id)
         .then(remissionResponse => {
-          console.log('PARTIAL REMISSION RESPONSE');
-          console.log(remissionResponse);
-          this.addFeeDetailService.remissionRef = JSON.parse(remissionResponse).data.remission_reference;
-          this.router.navigate(['/confirmation']);
+          if (respData._links.next_url.href) {
+            this.addFeeDetailService.postPaymentUrl(respData._links.next_url.href)
+            .then( urlResp => {
+              this.payBubbleView = urlResp;
+            })
+            .catch(err => {
+              this.navigateToServiceFailure();
+             });
+          } else {
+            console.log('unable TO FIND respData._links.next_url.href');
+            this.navigateToServiceFailure();
+          }
         })
         .catch(err => {
           this.navigateToServiceFailure();
@@ -63,8 +69,6 @@ export class ReviewFeeDetailComponent {
     } else {
       this.addFeeDetailService.postPayment()
       .then(response => {
-        console.log('FULL POST PAYMENT RESPONSE');
-        console.log(response);
         this.payBubbleView = response;
       })
       .catch(err => {
