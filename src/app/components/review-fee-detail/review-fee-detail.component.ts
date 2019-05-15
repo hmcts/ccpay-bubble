@@ -3,6 +3,7 @@ import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-det
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { SafeHtml } from '@angular/platform-browser';
+import { reject } from 'q';
 
 @Component({
   selector: 'app-review-fee-detail',
@@ -27,6 +28,7 @@ export class ReviewFeeDetailComponent {
   }
 
   sendPayDetailsToPayhub() {
+    let paymentResp;
     console.log(this.payModel);
     if (this.payModel.amount === 0) {
       this.addFeeDetailService.postFullRemission()
@@ -41,27 +43,19 @@ export class ReviewFeeDetailComponent {
     } else if (this.fee.calculated_amount > this.payModel.amount) {
       this.addFeeDetailService.postPartialPayment()
       .then(response => {
-        const respData = JSON.parse(response).data;
+        paymentResp = JSON.parse(response).data;
         console.log('PARTIAL POST card payment');
-        console.log(respData);
-        this.addFeeDetailService.postPartialRemission(respData.payment_group_reference, respData.fees[0].id)
-        .then(remissionResponse => {
-          if (respData._links.next_url.href) {
-            this.addFeeDetailService.postPaymentUrl(respData._links.next_url.href)
-            .then( urlResp => {
-              this.payBubbleView = urlResp;
-            })
-            .catch(err => {
-              this.navigateToServiceFailure();
-             });
+        console.log(paymentResp);
+        return this.addFeeDetailService.postPartialRemission(paymentResp.payment_group_reference, paymentResp.fees[0].id);
+      }).then(() => {
+          if (paymentResp._links.next_url.href) {
+            return this.addFeeDetailService.postPaymentUrl(paymentResp._links.next_url.href);
           } else {
-            console.log('unable TO FIND respData._links.next_url.href');
-            this.navigateToServiceFailure();
+            throw new Error();
           }
-        })
-        .catch(err => {
-          this.navigateToServiceFailure();
-        });
+      })
+      .then( urlResp => {
+        this.payBubbleView = urlResp;
       })
       .catch(err => {
         this.navigateToServiceFailure();
