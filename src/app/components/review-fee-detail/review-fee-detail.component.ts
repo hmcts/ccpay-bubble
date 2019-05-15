@@ -42,10 +42,22 @@ export class ReviewFeeDetailComponent {
       this.addFeeDetailService.postPartialPayment()
       .then(response => {
         const respData = JSON.parse(response).data;
+        console.log('PARTIAL POST card payment');
+        console.log(respData);
         this.addFeeDetailService.postPartialRemission(respData.payment_group_reference, respData.fees[0].id)
         .then(remissionResponse => {
-          this.addFeeDetailService.remissionRef = JSON.parse(remissionResponse).data.remission_reference;
-          this.router.navigate(['/confirmation']);
+          if (respData._links.next_url.href) {
+            this.addFeeDetailService.postPaymentUrl(respData._links.next_url.href)
+            .then( urlResp => {
+              this.payBubbleView = urlResp;
+            })
+            .catch(err => {
+              this.navigateToServiceFailure();
+             });
+          } else {
+            console.log('unable TO FIND respData._links.next_url.href');
+            this.navigateToServiceFailure();
+          }
         })
         .catch(err => {
           this.navigateToServiceFailure();
