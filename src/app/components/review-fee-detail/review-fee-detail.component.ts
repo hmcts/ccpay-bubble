@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { SafeHtml } from '@angular/platform-browser';
 import { reference } from '@angular/core/src/render3';
+import { RemissionResponseModel } from 'src/app/models/ResponseModel';
 
 @Component({
   selector: 'app-review-fee-detail',
@@ -34,8 +35,8 @@ export class ReviewFeeDetailComponent {
       .then(response => {
         console.log('FULL REMISSION RESPONSE');
         console.log(response);
-       // const remissionRef = JSON.parse(response).data;
-        this.addFeeDetailService.remissionRef = response.data.remission_reference;
+        const remissionData: RemissionResponseModel = response.data;
+        this.addFeeDetailService.remissionRef = remissionData.remission_reference;
         this.router.navigate(['/confirmation']);
       })
       .catch(err => {
@@ -46,7 +47,8 @@ export class ReviewFeeDetailComponent {
       .then(response => {
         console.log('PARTIAL REMISSION PAYMENT RESPONSE');
         console.log(response);
-        this.addFeeDetailService.postPartialRemission(response.data.payment_group_reference, response.data.fees[0].id)
+        const respData = JSON.parse(response).data;
+        this.addFeeDetailService.postPartialRemission(respData.payment_group_reference, respData.fees[0].id)
         .then(remissionResponse => {
           console.log('PARTIAL REMISSION RESPONSE');
           console.log(remissionResponse);
