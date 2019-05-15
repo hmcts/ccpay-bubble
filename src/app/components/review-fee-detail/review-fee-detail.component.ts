@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { SafeHtml } from '@angular/platform-browser';
 import { reference } from '@angular/core/src/render3';
+import { RemissionResponseModel } from 'src/app/models/ResponseModel';
 
 @Component({
   selector: 'app-review-fee-detail',
@@ -34,7 +35,8 @@ export class ReviewFeeDetailComponent {
       .then(response => {
         console.log('FULL REMISSION RESPONSE');
         console.log(response);
-        this.addFeeDetailService.remissionRef = JSON.parse(response).data.remission_reference;
+        const remissionData: RemissionResponseModel = response.data;
+        this.addFeeDetailService.remissionRef = remissionData.remission_reference;
         this.router.navigate(['/confirmation']);
       })
       .catch(err => {
