@@ -58,13 +58,15 @@ describe('ReviewFeeDetailComponent', () => {
     expect(addFeeDetailService.postPartialPayment).toHaveBeenCalled();
   });
 
-  it('Should call postPartialPayment when payment model > 0 and smaller than calculated amount', () => {
+  it('Should call postPartialRemission and postPartialPayment when payment model > 0 and smaller than calculated amount', () => {
     const paymodel = new PaymentModel();
     paymodel.amount = 100;
     component.fee = new FeeModel();
     component.fee.calculated_amount = 500;
     spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
-    spyOn(addFeeDetailService, 'postPartialPayment').and.returnValue(of({data: '123', success: true}).toPromise());
+    spyOn(addFeeDetailService, 'postPartialRemission').and.returnValue(of({data: '123', success: true}).toPromise());
+    spyOn(addFeeDetailService, 'postPartialPayment').and
+    .returnValue(of({data: {payment_group_reference: '', fees: [{id: '1'}]}, success: true}).toPromise());
     component.sendPayDetailsToPayhub();
     expect(addFeeDetailService.postPartialPayment).toHaveBeenCalled();
   });
