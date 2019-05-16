@@ -28,7 +28,6 @@ export class ReviewFeeDetailComponent {
   }
 
   sendPayDetailsToPayhub() {
-    let paymentResp;
     console.log(this.payModel);
     if (this.payModel.amount === 0) {
       this.addFeeDetailService.postFullRemission()
@@ -41,6 +40,7 @@ export class ReviewFeeDetailComponent {
         this.navigateToServiceFailure();
        });
     } else if (this.fee.calculated_amount > this.payModel.amount) {
+      let paymentResp;
       this.addFeeDetailService.postPartialPayment()
       .then(response => {
         paymentResp = JSON.parse(response).data;
@@ -48,14 +48,11 @@ export class ReviewFeeDetailComponent {
         console.log(paymentResp);
         return this.addFeeDetailService.postPartialRemission(paymentResp.payment_group_reference, paymentResp.fees[0].id);
       }).then(() => {
-          if (paymentResp._links.next_url.href) {
-            console.log(paymentResp._links.next_url.href);
-            return this.addFeeDetailService.getPaymentHubByUrl(paymentResp._links.next_url.href);
-          } else {
-            throw new Error();
-          }
-      })
-      .then( urlResp => {
+        const url = encodeURIComponent(paymentResp._links.next_url.href);
+        console.log('encoded url: ');
+        console.log(url);
+        return this.addFeeDetailService.postPaymentUrl(url);
+      }).then( urlResp => {
         console.log('then finally set pay bubble view');
         console.log(urlResp);
         this.payBubbleView = urlResp;
