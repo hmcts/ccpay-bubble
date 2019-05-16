@@ -38,18 +38,18 @@ describe('ReviewFeeDetailComponent', () => {
     expect(component.remissionModel).toEqual(remissionModel);
   });
 
-  it('Should call postFullRemission when payment model is 0', (done) => {
-    const paymodel = new PaymentModel();
-    paymodel.amount = 0;
-    spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
-    const spy = spyOn(addFeeDetailService, 'postFullRemission').and.returnValue(of({data: '123', success: true}).toPromise());
-    component.sendPayDetailsToPayhub();
-    expect(addFeeDetailService.postFullRemission).toHaveBeenCalled();
-    spy.calls.mostRecent().returnValue.then(() => {
-      expect(router.navigate).toHaveBeenCalledWith(['/confirmation']);
-      done();
-    });
-  });
+  // it('Should call postFullRemission when payment model is 0', (done) => {
+  //   const paymodel = new PaymentModel();
+  //   paymodel.amount = 0;
+  //   spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
+  //   const spy = spyOn(addFeeDetailService, 'postFullRemission').and.returnValue(of({data: '123', success: true}).toPromise());
+  //   component.sendPayDetailsToPayhub();
+  //   expect(addFeeDetailService.postFullRemission).toHaveBeenCalled();
+  //   spy.calls.mostRecent().returnValue.then(() => {
+  //     expect(router.navigate).toHaveBeenCalledWith(['/confirmation']);
+  //     done();
+  //   });
+  // });
 
   it('Should call postPartialRemission from postPartialPayment when payment model > 0 and smaller than calculated amount', (done) => {
     const paymodel = new PaymentModel();
