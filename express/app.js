@@ -5,16 +5,12 @@ const HttpStatus = require('http-status-codes');
 
 module.exports = appInsights => express.Router()
 
-  .post('/send-to-payhub', (req, res) => {
-    controllers.payhubController.sendToPayhub(req, res, appInsights);
-  })
-
   .post('/send-to-payhub-url/:url', (req, res) => {
     controllers.payhubController.sendToPayhubWithUrl(req, res, appInsights);
   })
 
-  .post('/remissions', (req, res) => {
-    controllers.payhubController.postRemission(req, res, appInsights);
+  .post('/send-to-payhub', (req, res) => {
+    controllers.payhubController.sendToPayhub(req, res, appInsights);
   })
 
   .post('/card-payments', (req, res) => {
@@ -23,10 +19,6 @@ module.exports = appInsights => express.Router()
 
   .post('/payment-groups/:paymentGroup/fees/:feeId/remissions', (req, res) => {
     controllers.payhubController.postPartialRemission(req, res, appInsights);
-  })
-
-  .post('/payment-groups-with-url/:paymentGroup/fees/:feeId/remissions/:url', (req, res) => {
-    controllers.payhubController.postPartialRemissionWithUrl(req, res, appInsights);
   })
 
   .get('/payments/:id', (req, res) => {
