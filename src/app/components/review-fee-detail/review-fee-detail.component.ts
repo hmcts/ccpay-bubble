@@ -50,7 +50,9 @@ export class ReviewFeeDetailComponent {
       }).then(() => {
           if (paymentResp._links.next_url.href) {
             console.log(paymentResp._links.next_url.href);
-            return this.addFeeDetailService.postPaymentUrl(encodeURI(paymentResp._links.next_url.href));
+            console.log('URI COMPONENT');
+            console.log(encodeURIComponent(paymentResp._links.next_url.href));
+            return this.addFeeDetailService.postPaymentUrl(encodeURIComponent(paymentResp._links.next_url.href));
           } else {
             throw new Error();
           }
