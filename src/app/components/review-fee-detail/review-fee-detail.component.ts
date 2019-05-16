@@ -51,7 +51,7 @@ export class ReviewFeeDetailComponent {
         const url = encodeURIComponent(paymentResp._links.next_url.href);
         console.log('encoded url: ');
         console.log(url);
-        return this.addFeeDetailService.postPaymentUrl(url);
+        return this.addFeeDetailService.getPayhubWithUrl(url);
       }).then( urlResp => {
         console.log('then finally set pay bubble view');
         console.log(urlResp);

@@ -31,7 +31,7 @@ class PayhubController {
       });
   }
 
-  sendToPayhubWithUrl(req, res) {
+  getPayhubWithUrl(req, res) {
     if (req.params.url) {
       request({
         method: 'GET',
