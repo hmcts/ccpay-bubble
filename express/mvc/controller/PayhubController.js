@@ -33,9 +33,11 @@ class PayhubController {
 
   sendToPayhubWithUrl(req, res) {
     if (req.params.url) {
+      console.log('express req.params.url=>');
+      console.log(req.params.url);
       request({
         method: 'GET',
-        uri: req.params.url
+        uri: decodeURI(req.params.url)
       },
       (error, response, body) => {
         if (error) {
