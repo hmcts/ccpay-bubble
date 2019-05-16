@@ -105,7 +105,7 @@ export class AddFeeDetailService {
     return this.http.post('/api/card-payments', PaymentModel.cleanModel(this._paymentModel)).toPromise();
   }
 
-  getPaymentUrl(url: string) {
+  getPayhubWithUrl(url: string) {
     return this.http.get(`/api/get-payhub-with-url/${url}`).toPromise();
   }
 
