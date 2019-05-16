@@ -101,21 +101,12 @@ export class AddFeeDetailService {
     RemissionModel.cleanModel(this._remissionModel)).toPromise();
   }
 
-  postPartialRemissionWithUrl(paymentGroupRef: string, feeId: string, url: string) {
-    return this.http.post(`/api/payment-groups-with-url/${paymentGroupRef}/fees/${feeId}/remissions/${url}`,
-    RemissionModel.cleanModel(this._remissionModel)).toPromise();
-  }
-
   postPartialPayment() {
     return this.http.post('/api/card-payments', PaymentModel.cleanModel(this._paymentModel)).toPromise();
   }
 
   postPaymentUrl(url: string) {
     return this.http.post(`/api/send-to-payhub-url/${url}`, PaymentModel.cleanModel(this._paymentModel)).toPromise();
-  }
-
-  getPaymentHubByUrl(url: string) {
-    return this.http.get(url).toPromise();
   }
 
   postPayment() {

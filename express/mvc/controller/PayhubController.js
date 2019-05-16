@@ -76,30 +76,6 @@ class PayhubController {
       });
   }
 
-  postPartialRemissionWithUrl(req, res, appInsights) {
-    return this.payhubService.postPartialRemission(req, appInsights)
-      .then(() => {
-        if (req.params.url) {
-          request({
-            method: 'GET',
-            uri: decodeURIComponent(req.params.url)
-          },
-          (error, response, body) => {
-            if (error) {
-              res.status(500).json({ err: `${error}`, success: false });
-            }
-            res.status(200).send(body);
-          });
-        } else {
-          const error = `Invalid url received from Payment Hub: ${req.params.url}`;
-          res.status(500).json({ err: `${error}`, success: false });
-        }
-      })
-      .catch(error => {
-        res.status(500).json({ err: error, success: false });
-      });
-  }
-
   getFees(req, res) {
     return this.payhubService.getFees()
       .then(result => {
