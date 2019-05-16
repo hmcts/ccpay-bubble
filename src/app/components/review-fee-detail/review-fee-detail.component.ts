@@ -49,12 +49,14 @@ export class ReviewFeeDetailComponent {
         return this.addFeeDetailService.postPartialRemission(paymentResp.payment_group_reference, paymentResp.fees[0].id);
       }).then(() => {
           if (paymentResp._links.next_url.href) {
-            return this.addFeeDetailService.postPaymentUrl(paymentResp._links.next_url.href);
+            console.log(paymentResp._links.next_url.href);
+            return this.addFeeDetailService.postPaymentUrl(encodeURI(paymentResp._links.next_url.href));
           } else {
             throw new Error();
           }
       })
       .then( urlResp => {
+        console.log('then finally set pay bubble view');
         this.payBubbleView = urlResp;
       })
       .catch(err => {
