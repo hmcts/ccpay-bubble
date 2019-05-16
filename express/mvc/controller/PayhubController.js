@@ -35,7 +35,7 @@ class PayhubController {
     if (req.params.url) {
       request({
         method: 'GET',
-        uri: decodeURI(req.params.url)
+        uri: decodeURIComponent(req.params.url)
       },
       (error, response, body) => {
         if (error) {
