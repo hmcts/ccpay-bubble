@@ -50,15 +50,14 @@ export class ReviewFeeDetailComponent {
       }).then(() => {
           if (paymentResp._links.next_url.href) {
             console.log(paymentResp._links.next_url.href);
-            console.log('URI COMPONENT');
-            console.log(encodeURIComponent(paymentResp._links.next_url.href));
-            return this.addFeeDetailService.postPaymentUrl(encodeURIComponent(paymentResp._links.next_url.href));
+            return this.addFeeDetailService.getPaymentHubByUrl(paymentResp._links.next_url.href);
           } else {
             throw new Error();
           }
       })
       .then( urlResp => {
         console.log('then finally set pay bubble view');
+        console.log(urlResp);
         this.payBubbleView = urlResp;
       })
       .catch(err => {
