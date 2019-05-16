@@ -57,6 +57,7 @@ export class ReviewFeeDetailComponent {
       })
       .then( urlResp => {
         console.log('then finally set pay bubble view');
+        console.log(urlResp);
         this.payBubbleView = urlResp;
       })
       .catch(err => {
