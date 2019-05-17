@@ -58,6 +58,8 @@ export class ReviewFeeDetailComponent {
         this.payBubbleView = urlResp;
       })
       .catch(err => {
+        // eslint-disable-next-line no-console
+        console.log(err);
         this.navigateToServiceFailure();
        });
     } else {
