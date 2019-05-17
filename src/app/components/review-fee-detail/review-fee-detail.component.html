@@ -1,4 +1,4 @@
-<div class="govuk-width-container" *ngIf="!payBubbleView">
+<div class="govuk-width-container" *ngIf="!(payBubbleView || payhubUrl)">
   <h2 class="heading-large">Payment details</h2>
 
   <table>
@@ -50,4 +50,7 @@
 
 <div *ngIf="payBubbleView" [innerHTML]="payBubbleView | sanitizeHtml" id="payment-bubble-view-id"></div>
 
-<iframe *ngIf="payhubUrl" title="Payhub" [src]="payhubUrl | sanitizeUrl"></iframe>
+<div *ngIf="payhubUrl" class="centered">
+  <iframe *ngIf="payhubUrl" title="Payhub" [src]="payhubUrl | sanitizeUrl"></iframe>
+</div>
+
