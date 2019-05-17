@@ -49,9 +49,9 @@ export class ReviewFeeDetailComponent {
         console.log(paymentResp);
         return this.addFeeDetailService.postPartialRemission(paymentResp.payment_group_reference, paymentResp.fees[0].id);
       }).then(() => {
-        const url = encodeURIComponent(paymentResp._links.next_url.href);
-        console.log('encoded url: ');
-        console.log(url);
+        // const url = encodeURIComponent(paymentResp._links.next_url.href);
+        // console.log('encoded url: ');
+        // console.log(url);
         this.payhubUrl = paymentResp._links.next_url.href;
         // return this.addFeeDetailService.getPayhubWithUrl(url);
       // }).then( urlResp => {
