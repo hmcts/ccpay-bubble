@@ -5,7 +5,7 @@ const HttpStatus = require('http-status-codes');
 
 module.exports = appInsights => express.Router()
 
-  .get('/get-payhub-with-url/:url', (req, res) => {
+  .post('/send-to-payhub-url', (req, res) => {
     controllers.payhubController.sendToPayhubWithUrl(req, res, appInsights);
   })
 

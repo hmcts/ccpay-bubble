@@ -1,5 +1,6 @@
 const { payhubService } = require('../../services');
 const request = require('request-promise-native');
+const HttpStatusCodes = require('http-status-codes');
 
 class PayhubController {
   constructor() {
@@ -31,19 +32,22 @@ class PayhubController {
       });
   }
 
-  getPayhubWithUrl(req, res) {
-    if (req.params.url) {
-      request({
+  sendToPayhubWithUrl(req, res) {
+    if (req.body.url) {
+      return request({
         method: 'GET',
-        uri: decodeURIComponent(req.params.url)
-      },
-      (error, response, body) => {
-        if (error) {
-          return res.status(500).json({ err: `${error}`, success: false });
-        }
-        return res.status(200).send(body);
-      });
+        uri: req.body.url
+      })
+        .then(resp => {
+          res.status(200).send(resp);
+        })
+        .catch(err => {
+          res.status(500).json({ err, success: false });
+        });
     }
+    return Promise.reject(new Error('Missing url parameter')).catch(err => {
+      res.status(HttpStatusCodes.BAD_REQUEST).json({ err, success: false });
+    });
   }
 
   postCardPayment(req, res, appInsights) {
