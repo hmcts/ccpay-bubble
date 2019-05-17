@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
-import { SafeHtml } from '@angular/platform-browser';
+import { SafeHtml, SafeUrl } from '@angular/platform-browser';
 import { reject } from 'q';
 
 @Component({
@@ -13,6 +13,7 @@ import { reject } from 'q';
 export class ReviewFeeDetailComponent {
   fee: FeeModel = this.addFeeDetailService.selectedFee;
   payBubbleView?: SafeHtml;
+  payhubUrl?: SafeUrl;
 
   constructor(
     private router: Router,
@@ -48,14 +49,15 @@ export class ReviewFeeDetailComponent {
         console.log(paymentResp);
         return this.addFeeDetailService.postPartialRemission(paymentResp.payment_group_reference, paymentResp.fees[0].id);
       }).then(() => {
-        const url = encodeURIComponent(paymentResp._links.next_url.href);
-        console.log('encoded url: ');
-        console.log(url);
-        return this.addFeeDetailService.getPayhubWithUrl(url);
-      }).then( urlResp => {
-        console.log('then finally set pay bubble view');
-        console.log(urlResp);
-        this.payBubbleView = urlResp;
+        // const url = encodeURIComponent(paymentResp._links.next_url.href);
+        // console.log('encoded url: ');
+        // console.log(url);
+        this.payhubUrl = paymentResp._links.next_url.href;
+        // return this.addFeeDetailService.getPayhubWithUrl(url);
+      // }).then( urlResp => {
+      //   console.log('then finally set pay bubble view');
+      //   console.log(urlResp);
+      //   this.payBubbleView = urlResp;
       })
       .catch(err => {
         this.navigateToServiceFailure();

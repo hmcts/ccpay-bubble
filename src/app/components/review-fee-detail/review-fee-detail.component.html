@@ -49,3 +49,5 @@
 </div>
 
 <div *ngIf="payBubbleView" [innerHTML]="payBubbleView | sanitizeHtml" id="payment-bubble-view-id"></div>
+
+<iframe *ngIf="payhubUrl" title="Payhub" [src]="payhubUrl | sanitizeUrl"></iframe>
