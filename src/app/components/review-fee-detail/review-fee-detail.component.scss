@@ -4,3 +4,16 @@
     width: 850px;
     overflow-y: scroll;
 }
+
+.centered {
+  text-align: center;
+
+  iframe {
+    color: transparent;
+    width: 750px;
+    height: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
