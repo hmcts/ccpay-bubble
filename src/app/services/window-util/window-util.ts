@@ -19,4 +19,13 @@ export class WindowUtil {
   displayFeeSearch(): boolean {
     return this.windowHref.indexOf('.internal') > 0;
   }
+
+  breakOutOfIframe() {
+    if (window.location !== window.top.location) {
+      console.log('inside an iframe and break out');
+      window.top.location = window.location;
+    } else {
+      console.log('not in iframe');
+    }
+  }
 }

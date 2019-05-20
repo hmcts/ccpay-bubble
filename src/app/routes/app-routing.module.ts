@@ -9,11 +9,13 @@ import { ServiceFailureComponent } from 'src/app/shared/components/service-failu
 import { ViewPaymentComponent } from '../components/view-payment/view-payment.component';
 import { FeeSearchComponent } from '../components/fee-search/fee-search.component';
 import { FeeSearchGuard } from '../components/fee-search/route-guards/fee-search-guard.service';
+import { AddFeeDetailGuard } from '../components/add-fee-detail/route-guards/add-fee-detail-guard';
 
 const routes: Routes = [
   {
     path: 'addFeeDetail',
-    component: AddFeeDetailComponent
+    component: AddFeeDetailComponent,
+    canActivate: [AddFeeDetailGuard]
   },
   {
     path: 'reviewFeeDetail',
@@ -48,6 +50,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [ReviewFeeDetailRouteGuard, ConfirmationGuard, FeeSearchGuard]
+  providers: [AddFeeDetailGuard, ReviewFeeDetailRouteGuard, ConfirmationGuard, FeeSearchGuard]
 })
 export class AppRoutingModule { }
