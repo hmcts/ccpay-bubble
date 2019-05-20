@@ -54,7 +54,8 @@ export class ReviewFeeDetailComponent {
     } else {
       this.addFeeDetailService.postCardPayment()
       .then(response => {
-        this.payhubUrl = response._links.next_url.href;
+        const respData = JSON.parse(response).data;
+        this.payhubUrl = respData._links.next_url.href;
       })
       .catch(err => {
         this.navigateToServiceFailure();

@@ -18,7 +18,6 @@ import { ViewPaymentComponent } from 'src/app/components/view-payment/view-payme
 import { NavigationComponent } from './shared/components/navigation/navigation.component';
 import { FormatDisplayCurrencyPipe } from './shared/pipes/format-display-currency.pipe';
 import { HeaderComponent } from './shared/components/header/header.component';
-import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitize-html.pipe';
 import { SanitizeUrlPipe } from 'src/app/shared/pipes/sanitize-url.pipe';
 import { ViewPaymentModule } from 'view-payment';
 import { FeeRegisterSearchModule } from 'fee-register-search';
@@ -35,7 +34,6 @@ import { WindowUtil } from './services/window-util/window-util';
     ServiceFailureComponent,
     ViewPaymentComponent,
     FormatDisplayCurrencyPipe,
-    SanitizeHtmlPipe,
     SanitizeUrlPipe,
     HeaderComponent,
     NavigationComponent,
