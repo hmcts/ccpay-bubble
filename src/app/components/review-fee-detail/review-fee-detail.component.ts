@@ -46,7 +46,8 @@ export class ReviewFeeDetailComponent {
         paymentResp = JSON.parse(response).data;
         return this.addFeeDetailService.postPartialRemission(paymentResp.payment_group_reference, paymentResp.fees[0].id);
       }).then(() => {
-        this.payhubUrl = paymentResp._links.next_url.href;
+        window.location.href = paymentResp._links.next_url.href;
+       // this.payhubUrl = paymentResp._links.next_url.href;
       })
       .catch(err => {
         this.navigateToServiceFailure();
@@ -55,7 +56,8 @@ export class ReviewFeeDetailComponent {
       this.addFeeDetailService.postCardPayment()
       .then(response => {
         const respData = JSON.parse(response).data;
-        this.payhubUrl = respData._links.next_url.href;
+        window.location.href = respData._links.next_url.href;
+       // this.payhubUrl = respData._links.next_url.href;
       })
       .catch(err => {
         this.navigateToServiceFailure();
