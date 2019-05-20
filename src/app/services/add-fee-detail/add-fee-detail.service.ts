@@ -101,11 +101,11 @@ export class AddFeeDetailService {
     RemissionModel.cleanModel(this._remissionModel)).toPromise();
   }
 
-  postPartialPayment() {
+  postCardPayment() {
     return this.http.post('/api/card-payments', PaymentModel.cleanModel(this._paymentModel)).toPromise();
   }
 
-  postPayment() {
-    return this.http.post('/api/send-to-payhub', PaymentModel.cleanModel(this._paymentModel)).toPromise();
-  }
+  // postPayment() {
+  //   return this.http.post('/api/send-to-payhub', PaymentModel.cleanModel(this._paymentModel)).toPromise();
+  // }
 }

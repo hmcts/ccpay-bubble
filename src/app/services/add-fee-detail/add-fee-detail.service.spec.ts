@@ -96,8 +96,8 @@ describe('Add fee detail service', () => {
     const paymentModel = new PaymentModel();
     paymentModel.amount = 100;
     addFeeDetailService.paymentModel = paymentModel;
-    addFeeDetailService.postPayment()
-    .then((response) => expect(response).toEqual('/api/send-to-payhub'));
+    addFeeDetailService.postCardPayment()
+    .then((response) => expect(response).toEqual('/api/card-payments'));
   });
 
   it('Should call post payment with a paymentModel', () => {
@@ -106,7 +106,7 @@ describe('Add fee detail service', () => {
     const paymentModel = new PaymentModel();
     paymentModel.amount = 100;
     addFeeDetailService.paymentModel = paymentModel;
-    addFeeDetailService.postPayment()
+    addFeeDetailService.postCardPayment()
     .then((response) => expect(response.amount).toBe(100));
   });
 
@@ -136,7 +136,7 @@ describe('Add fee detail service', () => {
     const paymentModel = new PaymentModel();
     paymentModel.amount = 100;
     addFeeDetailService.paymentModel = paymentModel;
-    addFeeDetailService.postPartialPayment()
+    addFeeDetailService.postCardPayment()
     .then((response) => expect(response.amount).toBe(100));
   });
 

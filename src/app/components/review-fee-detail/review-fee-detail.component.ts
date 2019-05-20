@@ -12,7 +12,6 @@ import { reject } from 'q';
 })
 export class ReviewFeeDetailComponent {
   fee: FeeModel = this.addFeeDetailService.selectedFee;
-  payBubbleView?: SafeHtml;
   payhubUrl?: SafeUrl;
 
   constructor(
@@ -42,7 +41,7 @@ export class ReviewFeeDetailComponent {
        });
     } else if (this.fee.calculated_amount > this.payModel.amount) {
       let paymentResp;
-      this.addFeeDetailService.postPartialPayment()
+      this.addFeeDetailService.postCardPayment()
       .then(response => {
         paymentResp = JSON.parse(response).data;
         return this.addFeeDetailService.postPartialRemission(paymentResp.payment_group_reference, paymentResp.fees[0].id);
@@ -53,9 +52,9 @@ export class ReviewFeeDetailComponent {
         this.navigateToServiceFailure();
        });
     } else {
-      this.addFeeDetailService.postPayment()
+      this.addFeeDetailService.postCardPayment()
       .then(response => {
-        this.payBubbleView = response;
+        this.payhubUrl = response._links.next_url.href;
       })
       .catch(err => {
         this.navigateToServiceFailure();
