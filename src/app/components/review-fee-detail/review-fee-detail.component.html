@@ -1,4 +1,4 @@
-<div class="govuk-width-container" *ngIf="!payhubUrl">
+<div class="govuk-width-container">
   <h2 class="heading-large">Payment details</h2>
 
   <table>
@@ -48,7 +48,4 @@
 
 </div>
 
-<div *ngIf="payhubUrl" class="centered">
-  <iframe *ngIf="payhubUrl" title="Payhub" [src]="payhubUrl | sanitizeUrl"></iframe>
-</div>
 
