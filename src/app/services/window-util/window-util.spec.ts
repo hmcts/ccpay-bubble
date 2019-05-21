@@ -17,4 +17,9 @@ describe('Fee Search route guard', () => {
     expect(windowUtil.displayFeeSearch()).toBeFalsy();
   });
 
+  it('should get the updated windowhref after set', () => {
+    windowUtil.setWindowHref('www.testwith.com');
+    expect(windowUtil.getWindowHref()).toEqual('www.testwith.com');
+  });
+
 });
