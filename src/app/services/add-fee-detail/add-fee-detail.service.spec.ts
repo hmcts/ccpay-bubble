@@ -110,16 +110,6 @@ describe('Add fee detail service', () => {
     .then((response) => expect(response.amount).toBe(100));
   });
 
-  it('Should call post payment url with a paymentModel', () => {
-    const calledWithParams = [];
-    spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => of(param2));
-    const paymentModel = new PaymentModel();
-    paymentModel.amount = 100;
-    addFeeDetailService.paymentModel = paymentModel;
-    // addFeeDetailService.getPayhubWithUrl('url')
-    // .then((response) => expect(response.amount).toBe(100));
-  });
-
   it('Should call post full remission with the correct path', () => {
     const calledWithParams = [];
     spyOn(http, 'post').and.callFake((param1: string, param2: RemissionModel) => of(param1));

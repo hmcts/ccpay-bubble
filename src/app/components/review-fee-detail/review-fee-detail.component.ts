@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
-import { SafeHtml, SafeUrl } from '@angular/platform-browser';
-import { reject } from 'q';
 
 @Component({
   selector: 'app-review-fee-detail',

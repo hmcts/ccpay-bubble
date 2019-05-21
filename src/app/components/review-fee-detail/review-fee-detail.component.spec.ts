@@ -1,5 +1,3 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ReviewFeeDetailComponent } from './review-fee-detail.component';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { PaymentModel } from 'src/app/models/PaymentModel';
@@ -38,34 +36,27 @@ describe('ReviewFeeDetailComponent', () => {
     expect(component.remissionModel).toEqual(remissionModel);
   });
 
-  it('Should call postFullRemission when payment model is 0', (done) => {
+  it('Should call postFullRemission when payment model is 0', () => {
     const paymodel = new PaymentModel();
     paymodel.amount = 0;
     spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
+    expect(component.payModel).toEqual(paymodel);
+    const remissionModel = new RemissionModel();
+    remissionModel.ccd_case_number = '123';
+    spyOnProperty(addFeeDetailService, 'remissionModel').and.returnValue(remissionModel);
+    expect(component.remissionModel).toEqual(remissionModel);
+    spyOn(addFeeDetailService, 'postFullRemission').and.returnValue(of({data: '123', success: true}).toPromise());
     component.sendPayDetailsToPayhub();
     expect(addFeeDetailService.postFullRemission).toHaveBeenCalled();
   });
 
-  it('Should call postPartialRemission from postPartialPayment when payment model > 0 and smaller than calculated amount', (done) => {
+  it('Should call postCardPayment for partial remission when payment model > 0 and smaller than calculated amount', () => {
     const paymodel = new PaymentModel();
     paymodel.amount = 100;
     component.fee = new FeeModel();
     component.fee.calculated_amount = 500;
     spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
-    spyOn(addFeeDetailService, 'postPartialRemission').and.returnValue(of({data: '123', success: true}).toPromise());
-    component.sendPayDetailsToPayhub();
-    expect(addFeeDetailService.postCardPayment).toHaveBeenCalled();
-  });
-
-  it('Should call postPartialRemission and postPartialPayment when payment model > 0 and smaller than calculated amount', () => {
-    const paymodel = new PaymentModel();
-    paymodel.amount = 100;
-    component.fee = new FeeModel();
-    component.fee.calculated_amount = 500;
-    spyOnProperty(addFeeDetailService, 'paymentModel').and.returnValue(paymodel);
-    spyOn(addFeeDetailService, 'postPartialRemission').and.returnValue(of({data: '123', success: true}).toPromise());
-    spyOn(addFeeDetailService, 'postCardPayment').and
-    .returnValue(of({data: {payment_group_reference: '', fees: [{id: '1'}]}, success: true}).toPromise());
+    spyOn(addFeeDetailService, 'postCardPayment').and.returnValue(of({data: '123', success: true}).toPromise());
     component.sendPayDetailsToPayhub();
     expect(addFeeDetailService.postCardPayment).toHaveBeenCalled();
   });
