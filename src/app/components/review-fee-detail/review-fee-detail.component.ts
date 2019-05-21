@@ -12,7 +12,6 @@ import { reject } from 'q';
 })
 export class ReviewFeeDetailComponent {
   fee: FeeModel = this.addFeeDetailService.selectedFee;
-  payhubUrl?: SafeUrl;
 
   constructor(
     private router: Router,
@@ -47,7 +46,6 @@ export class ReviewFeeDetailComponent {
         return this.addFeeDetailService.postPartialRemission(paymentResp.payment_group_reference, paymentResp.fees[0].id);
       }).then(() => {
         window.location.href = paymentResp._links.next_url.href;
-       // this.payhubUrl = paymentResp._links.next_url.href;
       })
       .catch(err => {
         this.navigateToServiceFailure();
@@ -57,7 +55,6 @@ export class ReviewFeeDetailComponent {
       .then(response => {
         const respData = JSON.parse(response).data;
         window.location.href = respData._links.next_url.href;
-       // this.payhubUrl = respData._links.next_url.href;
       })
       .catch(err => {
         this.navigateToServiceFailure();
