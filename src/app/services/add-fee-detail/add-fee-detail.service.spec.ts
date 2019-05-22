@@ -120,14 +120,14 @@ describe('Add fee detail service', () => {
     .then((response) => expect(response).toEqual('/api/remissions'));
   });
 
-  it('Should call post partial payment with the correct path', () => {
+  it('Should call post partial remission with the correct path', () => {
     const calledWithParams = [];
-    spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => of(param2));
-    const paymentModel = new PaymentModel();
-    paymentModel.amount = 100;
-    addFeeDetailService.paymentModel = paymentModel;
-    addFeeDetailService.postCardPayment()
-    .then((response) => expect(response.amount).toBe(100));
+    spyOn(http, 'post').and.callFake((param1: string, param2: RemissionModel) => of(param1));
+    const remissionModel = new RemissionModel();
+    remissionModel.hwf_amount = 100;
+    addFeeDetailService.remissionModel = remissionModel;
+    addFeeDetailService.postPartialRemission('paymentgroup', 'feeId')
+    .then((response) => expect(response).toEqual('/api/payment-groups/paymentgroup/fees/feeId/remissions'));
   });
 
   it('Should call post full remission with a remissionModel', () => {
