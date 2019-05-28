@@ -20,6 +20,10 @@ describe('Filter fees pipe', () => {
     const results2 = filterFeesPipe.filterByDescription(mockFees, 'civil money');
     expect(results2.length).toBe(1);
     expect(results2[0]).toEqual(mockFees[0]);
+
+    const results3 = filterFeesPipe.filterByDescription(mockFees, 'test civil money');
+    expect(results3.length).toBe(2);
+    expect(results3[0]).toEqual(mockFees[0]);
   });
 
   it('Should filter an array of fees on amount', () => {
