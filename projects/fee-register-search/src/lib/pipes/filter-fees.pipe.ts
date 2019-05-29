@@ -39,7 +39,7 @@ export class FilterFeesPipe implements PipeTransform {
   }
 
   filterByNumber(fees, filter): IFee[] {
-    const regExactWord = new RegExp('\\b' + filter + '\\b');
+    const regExactWord = new RegExp(`\\b${filter}\\b`);
     return fees.filter((fee: IFee) => {
       if (fee.current_version.flat_amount !== undefined
       && fee.current_version.flat_amount.amount !== undefined) {
