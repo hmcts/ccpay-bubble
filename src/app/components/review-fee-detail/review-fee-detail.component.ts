@@ -30,9 +30,24 @@ export class ReviewFeeDetailComponent {
     if (this.payModel.amount === 0) {
       this.addFeeDetailService.postFullRemission()
       .then(response => {
-        const remissionRef = JSON.parse(response).data;
-        this.addFeeDetailService.remissionRef = remissionRef;
+        const remissionData = JSON.parse(response).data;
+        this.addFeeDetailService.remissionRef = remissionData.remission_reference;
         this.router.navigate(['/confirmation']);
+      })
+      .catch(err => {
+        this.navigateToServiceFailure();
+       });
+    } else if (this.fee.calculated_amount > this.payModel.amount) {
+      let paymentResp;
+      this.addFeeDetailService.postPartialPayment()
+      .then(response => {
+        paymentResp = JSON.parse(response).data;
+        return this.addFeeDetailService.postPartialRemission(paymentResp.payment_group_reference, paymentResp.fees[0].id);
+      }).then(() => {
+        const url = paymentResp._links.next_url.href;
+        return this.addFeeDetailService.postPaymentUrl(url);
+      }).then( urlResp => {
+        this.payBubbleView = urlResp;
       })
       .catch(err => {
         this.navigateToServiceFailure();
