@@ -29,7 +29,7 @@
     <a (click)="toggleHelpWithFees()">{{helpWithFeesIsVisible ? 'Hide' : 'Show'}} help with fees</a>
 
     <div id="hwfOpenText" formGroupName='helpWithFees'>
-      <div class="form-group panel panel-border-narrow" [hidden]="!helpWithFeesIsVisible" [ngClass]="showErrors && (feeDetailForm.get('helpWithFees').errors || feeDetailForm.get('helpWithFees.amount').errors) ? 'form-group-error': ''">
+      <div class="form-group panel panel-border-narrow" *ngIf="helpWithFeesIsVisible" [ngClass]="showErrors && (feeDetailForm.get('helpWithFees').errors || feeDetailForm.get('helpWithFees.amount').errors) ? 'form-group-error': ''">
         <div class="form-group">
           <label class="heading-small" for="hwfReference">
             Enter remission code
