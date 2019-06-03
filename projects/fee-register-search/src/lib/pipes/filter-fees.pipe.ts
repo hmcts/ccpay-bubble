@@ -12,7 +12,7 @@ export class FilterFeesPipe implements PipeTransform {
     let filteredList: IFee[] = [];
 
     if (this.isNumeric(searchFilter)) {
-      filteredList = this.filterByAmount(fees, searchFilter);
+      filteredList = this.filterByNumber(fees, searchFilter);
     } else {
       searchFilter = searchFilter.toLowerCase();
 
@@ -36,6 +36,26 @@ export class FilterFeesPipe implements PipeTransform {
           .includes(filter);
       }
     });
+  }
+
+  filterByNumber(fees, filter): IFee[] {
+    const regExactWord = new RegExp(`\\b${filter}\\b`);
+    return fees.filter((fee: IFee) => {
+      if (fee.current_version.flat_amount !== undefined
+      && fee.current_version.flat_amount.amount !== undefined) {
+        if (fee.current_version.flat_amount.amount === Number(filter)) {
+          fee.sort_value = 1;
+          return true;
+        }
+      }
+      if (fee.current_version.description !== undefined) {
+        if (regExactWord.test(fee.current_version.description)) {
+          fee.sort_value = 0;
+          return true;
+        }
+      }
+      return false;
+    }).sort((a, b) => b.sort_value - a.sort_value);
   }
 
   filterByAmount(fees, filter): IFee[] {
