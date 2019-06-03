@@ -3,7 +3,6 @@ import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-det
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { SafeHtml } from '@angular/platform-browser';
-import { reject } from 'q';
 
 @Component({
   selector: 'app-review-fee-detail',
@@ -28,7 +27,6 @@ export class ReviewFeeDetailComponent {
   }
 
   sendPayDetailsToPayhub() {
-    console.log(this.payModel);
     if (this.payModel.amount === 0) {
       this.addFeeDetailService.postFullRemission()
       .then(response => {
@@ -44,22 +42,14 @@ export class ReviewFeeDetailComponent {
       this.addFeeDetailService.postPartialPayment()
       .then(response => {
         paymentResp = JSON.parse(response).data;
-        console.log('PARTIAL POST card payment');
-        console.log(paymentResp);
         return this.addFeeDetailService.postPartialRemission(paymentResp.payment_group_reference, paymentResp.fees[0].id);
       }).then(() => {
         const url = paymentResp._links.next_url.href;
-        console.log('encoded url: ');
-        console.log(url);
         return this.addFeeDetailService.postPaymentUrl(url);
       }).then( urlResp => {
-        console.log('then finally set pay bubble view');
-        console.log(urlResp);
         this.payBubbleView = urlResp;
       })
       .catch(err => {
-        // eslint-disable-next-line no-console
-        console.log(err);
         this.navigateToServiceFailure();
        });
     } else {
