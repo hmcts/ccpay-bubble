@@ -49,8 +49,6 @@ export class FeeFilterComponent implements OnInit {
     const emitValue: Jurisdictions = new Jurisdictions();
     emitValue.jurisdiction1 = this.filterForm.get('jurisdiction1').value;
     emitValue.jurisdiction2 = this.filterForm.get('jurisdiction2').value;
-    console.log('jurisdictionf ilter :');
-    console.log(emitValue);
     this.jurisdictionsFilterEvent.emit(emitValue);
   }
 
