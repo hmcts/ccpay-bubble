@@ -8,9 +8,6 @@ const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('s2s.key');
 const microService = config.get('ccpaybubble.microservice');
 
-const feeRegistrationUrl = config.get('fee.feeRegistrationUrl');
-
-
 class PayhubService {
   async sendToPayhub(req) {
     const serviceAuthToken = await this.createAuthToken();
@@ -76,10 +73,6 @@ class PayhubService {
       body: serviceAuthRequest,
       json: true
     });
-  }
-
-  getFees() {
-    return request.get({ uri: feeRegistrationUrl});
   }
 }
 
