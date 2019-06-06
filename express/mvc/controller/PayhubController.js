@@ -80,16 +80,6 @@ class PayhubController {
       });
   }
 
-  getFees(req, res) {
-    return this.payhubService.getFees()
-      .then(result => {
-        res.status(200).send(result);
-      })
-      .catch(error => {
-        res.status(500).json({ err: error, success: false });
-      });
-  }
-
   getPayment(req, res) {
     return this.payhubService.getPayment(req)
       .then(result => {

@@ -36,5 +36,5 @@ module.exports = appInsights => express.Router()
   .get('/fees', (req, res) => {
     controllers.feeController.getFees(req, res);
   })
-  
+
   .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }));
