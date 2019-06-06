@@ -1,11 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { IFee } from '../interfaces';
+import { Jurisdictions } from '../models/Jurisdictions';
 
 @Pipe({
   name: 'filterFees'
 })
 export class FilterFeesPipe implements PipeTransform {
-  transform(fees: IFee[], searchFilter: string, jurisdictionsFilter?: string[]): IFee[] {
+  transform(fees: IFee[], searchFilter: string, jurisdictionsFilter?: Jurisdictions): IFee[] {
     if (!fees) { return []; }
     if (!searchFilter) { return fees; }
 
@@ -22,7 +23,7 @@ export class FilterFeesPipe implements PipeTransform {
         filteredList = this.filterByDescription(fees, searchFilter);
       }
     }
-    if (filteredList && jurisdictionsFilter && jurisdictionsFilter.length > 0) {
+    if (filteredList && jurisdictionsFilter) {
       filteredList = this.filterByJurisdictions(filteredList, jurisdictionsFilter);
     }
     return filteredList;
@@ -57,14 +58,10 @@ export class FilterFeesPipe implements PipeTransform {
     });
   }
 
-  filterByJurisdictions(fees: IFee[], jurisdiction: string[]): IFee[] {
+  filterByJurisdictions(fees: IFee[], jurisdiction: Jurisdictions): IFee[] {
     return fees.filter((fee) => {
-      for (let i = 0; i < jurisdiction.length; i++) {
-        if (fee.jurisdiction1.name === jurisdiction[i]) {
-          return true;
-        }
-      }
-      return false;
+      return (jurisdiction.jurisdiction1 === '' || fee.jurisdiction1.name === jurisdiction.jurisdiction1)
+      && (jurisdiction.jurisdiction2 === '' || fee.jurisdiction2.name === jurisdiction.jurisdiction2);
     });
   }
 
