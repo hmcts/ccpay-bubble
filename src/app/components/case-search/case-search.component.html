@@ -1,0 +1,11 @@
+<div class="govuk-panel govuk-panel--confirmation govuk-panel--margin-top-30">
+  <form #caseSearchForm="ngForm" class="form-caseSearch" (ngSubmit)="caseSearch(caseSearchForm.value)">
+    <h1 class="govuk-panel__title">
+      Case search
+    </h1>
+    <label for="ccdCaseNumber">CCD case number</label>
+    <input type="text" id="ccdCaseNumber" class="form-control short-input" autocomplete="off" name="ccdCaseNumber" ngModel/>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
+  </form>
+</div>
