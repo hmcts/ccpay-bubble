@@ -29,12 +29,14 @@ export class FilterFeesPipe implements PipeTransform {
   }
 
   filterByDescription(fees, filter): IFee[] {
+    const filterArray = filter.split(' ');
     return fees.filter((fee: IFee) => {
-      if (fee.current_version.description !== undefined) {
-        return fee.current_version.description
-          .toLowerCase()
-          .includes(filter);
+      for (let i = 0; i < filterArray.length; i++) {
+        if (fee.current_version.description.toLowerCase().includes(filterArray[i])) {
+          return true;
+        }
       }
+      return false;
     });
   }
 
