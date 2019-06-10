@@ -45,7 +45,7 @@ const routes: Routes = [
     redirectTo: 'addFeeDetail'
   },
   {
-    path: 'cases/:caseNumber/payments',
+    path: 'payment-details',
     component: PaymentDetailsComponent
   },
   {
