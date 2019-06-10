@@ -75,6 +75,18 @@ class PayhubService {
     });
   }
 
+  getPaymentByCcdCaseNumber(req) {
+    console.log('PayhubService getPaymentByCcdCaseNumber...');
+    return request.get({
+      uri: `${payhubUrl}/cases/${req.params.ccdCaseNumber}/payments`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    });
+  }
+
   getFees() {
     return request.get({ uri: 'https://fees-register-api.platform.hmcts.net/fees-register/fees' });
   }

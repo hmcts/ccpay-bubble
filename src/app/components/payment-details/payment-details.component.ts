@@ -14,7 +14,7 @@ export class PaymentDetailsComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.paymentApiRoot = 'http://localhost:8080';
+    this.paymentApiRoot = 'api';
     this.ccdCaseNumber = '1111-2222-3333-4444';
   }
 }

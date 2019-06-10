@@ -8,7 +8,6 @@ const route = require('./express/app');
 const roles = require('./express/infrastructure/roles');
 const csurf = require('csurf');
 const moment = require('moment');
-const cors = require('cors');
 const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
@@ -70,16 +69,6 @@ module.exports = (security, appInsights) => {
 
   // enable the dist folder to be accessed statically
   app.use(express.static('dist/ccpay-bubble'));
-
-  app.use((req, res, next) => {
-    //console.log('Tarun1: ', req.cookies['__auth-token']);
-    if (!req.headers.cookie) {
-      return res.status(403).json({ error: 'No credentials sent!' });
-    }
-    res.cookie('__auth-token', req.cookies['__auth-token']);
-    req.header('Authorization', req.cookies['__auth-token']);
-    next();
-  });
 
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
