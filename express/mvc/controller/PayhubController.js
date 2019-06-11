@@ -99,6 +99,16 @@ class PayhubController {
         res.status(500).json({ err: error, success: false });
       });
   }
+
+  ccpayWebComponentIntegration(req, res) {
+    return this.payhubService.ccpayWebComponentIntegration(req)
+      .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(error => {
+        res.status(500).json(error);
+      });
+  }
 }
 
 module.exports = PayhubController;
