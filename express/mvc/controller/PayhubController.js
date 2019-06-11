@@ -106,7 +106,11 @@ class PayhubController {
         res.status(200).json(result);
       })
       .catch(error => {
-        isNaN(error.statusCode) ? res.status(500).json(error) : res.status(error.statusCode).json(error.message);
+        if (isNaN(error.statusCode)) {
+          res.status(error.statusCode).json(error.message);
+        } else {
+          res.status(500).json(error);
+        }
       });
   }
 }
