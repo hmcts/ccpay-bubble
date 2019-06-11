@@ -39,12 +39,20 @@ describe('Fee search component', () => {
     expect(component.hasErrors).toBeTruthy();
   });
 
-  it('Search form should be valid if a non empty string has been entered', () => {
+  it('Search form should be invalid if a wrong format string has been entered', () => {
     component.ngOnInit();
     component.searchForm.controls['searchInput'].setValue('test');
     component.searchFees();
     fixture.detectChanges();
+    expect(component.hasErrors).toBeTruthy();
+  });
+
+  it('Search form should be valid if a correct format string has been entered', () => {
+    component.ngOnInit();
+    component.searchForm.controls['searchInput'].setValue('1111-2222-3333-4444');
+    component.searchFees();
+    fixture.detectChanges();
     expect(component.hasErrors).toBeFalsy();
   });
-  
+
 });
