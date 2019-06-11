@@ -33,8 +33,8 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.getFees(req, res);
   })
 
-  .get('/cases/:ccdCaseNumber/payments', (req, res) => {
-    console.log('Appjs getPaymentsByCcdCaseNumber...');
+  .get('/payments-history/*', (req, res) => {
+    console.log('Appjs getPaymentsByCcdCaseNumber...', JSON.stringify(req.params[0]));
     controllers.payhubController.getPaymentsByCcdCaseNumber(req, res);
   })
   .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }));

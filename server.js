@@ -8,6 +8,7 @@ const route = require('./express/app');
 const roles = require('./express/infrastructure/roles');
 const csurf = require('csurf');
 const moment = require('moment');
+const proxy = require('http-proxy-middleware');
 const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');

@@ -75,9 +75,9 @@ class PayhubService {
   }
 
   getPaymentByCcdCaseNumber(req) {
-    console.log('PayhubService getPaymentByCcdCaseNumber...');
+    console.log('PayhubService getPaymentByCcdCaseNumber...', JSON.stringify(req.params[0]));
     return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/cases/${req.params.ccdCaseNumber}/payments`,
+      uri: `${payhubUrl}/${req.params[0]}`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
