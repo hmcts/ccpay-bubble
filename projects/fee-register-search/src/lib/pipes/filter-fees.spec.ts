@@ -60,4 +60,12 @@ describe('Filter fees pipe', () => {
     expect(results.length).toBe(1);
     expect(results[0]).toEqual(mockFees[0]);
   });
+
+  it('Should check if certain word is conjunction or not', () => {
+    expect(filterFeesPipe.isConjunction('application')).toBeFalsy();
+    expect(filterFeesPipe.isConjunction('divorce')).toBeFalsy();
+    expect(filterFeesPipe.isConjunction('or')).toBeTruthy();
+    expect(filterFeesPipe.isConjunction('and')).toBeTruthy();
+
+  });
 });
