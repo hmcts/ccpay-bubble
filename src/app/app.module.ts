@@ -22,7 +22,7 @@ import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitize-html.pipe';
 import { ViewPaymentModule } from 'view-payment';
 import { FeeRegisterSearchModule } from 'fee-register-search';
 import { PaymentHistoryComponent } from './components/payment-history/payment-history.component';
-import {PaymentLibModule} from "@hmcts/ccpay-web-component";
+import { PaymentLibModule } from '@hmcts/ccpay-web-component';
 
 @NgModule({
   declarations: [
