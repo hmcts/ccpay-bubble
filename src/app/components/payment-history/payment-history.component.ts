@@ -7,13 +7,14 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./payment-history.component.scss']
 })
 export class PaymentHistoryComponent implements OnInit {
-  apiRoot: string = 'api/payment-history';
+  apiRoot: string;
   ccdCaseNumber: string;
 
   constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
+      this.apiRoot = 'api/payment-history';
       this.ccdCaseNumber = params['ccdCaseNumber'];
     });
   }
