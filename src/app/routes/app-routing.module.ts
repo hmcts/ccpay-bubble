@@ -9,6 +9,7 @@ import { CanActivate } from '@angular/router/src/utils/preactivation';
 import { ServiceFailureComponent } from 'src/app/shared/components/service-failure/service-failure.component';
 import { ViewPaymentComponent } from '../components/view-payment/view-payment.component';
 import { FeeSearchComponent } from '../components/fee-search/fee-search.component';
+import { CcdSearchComponent } from '../components/ccd-search/ccd-search.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
   {
     path: 'fee-search',
     component: FeeSearchComponent
+  },
+  {
+    path: 'ccd-search',
+    component: CcdSearchComponent
   },
   {
     path: '',
