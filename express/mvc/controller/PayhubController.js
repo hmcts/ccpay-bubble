@@ -104,7 +104,7 @@ class PayhubController {
     console.log('PayhubController getPaymentByCcdCaseNumber...');
     return this.payhubService.getPaymentByCcdCaseNumber(req)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         res.status(500).json({ err: error, success: false });
