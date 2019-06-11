@@ -69,7 +69,8 @@ class PayhubService {
       oneTimePassword: otpPassword
     };
     return request.post({
-      uri: `${s2sUrl}/lease?oneTimePassword=${otpPassword}&microservice=${microService}`,
+      uri: `${s2sUrl}/lease`,
+      body: serviceAuthRequest,
       json: true
     });
   }
