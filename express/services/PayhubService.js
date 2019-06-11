@@ -69,10 +69,21 @@ class PayhubService {
       oneTimePassword: otpPassword
     };
     return request.post({
-      uri: `${s2sUrl}/lease`,
-      body: serviceAuthRequest,
+      uri: `${s2sUrl}/lease?oneTimePassword=${otpPassword}&microservice=${microService}`,
       json: true
     });
+  }
+
+  ccpayWebComponentIntegration(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${payhubUrl}/${req.params[0]}`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
   }
 
   getFees() {
