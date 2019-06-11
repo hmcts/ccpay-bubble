@@ -81,7 +81,7 @@ export class FilterFeesPipe implements PipeTransform {
   }
 
   isConjunction(word: string) {
-    const conjuctions = ['and', 'nor', 'but', 'or', 'yet', 'so', 'of'];
+    const conjuctions = ['for', 'and', 'nor', 'but', 'or', 'yet', 'so', 'of'];
     return conjuctions.find((str) => str === word);
   }
 }
