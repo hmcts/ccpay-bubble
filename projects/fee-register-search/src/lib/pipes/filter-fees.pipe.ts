@@ -32,8 +32,10 @@ export class FilterFeesPipe implements PipeTransform {
     const filterArray = filter.split(' ');
     return fees.filter((fee: IFee) => {
       for (let i = 0; i < filterArray.length; i++) {
-        if (fee.current_version.description.toLowerCase().includes(filterArray[i])) {
-          return true;
+        if (!this.isConjunction(filterArray[i])) {
+          if (fee.current_version.description.toLowerCase().includes(filterArray[i])) {
+            return true;
+          }
         }
       }
       return false;
@@ -76,5 +78,10 @@ export class FilterFeesPipe implements PipeTransform {
 
   isFeeCode(value: string): boolean {
     return (new RegExp(/^[a-zA-Z]{3}\d{4}$/)).test(value);
+  }
+
+  isConjunction(word: string) {
+    const conjuctions = ['and', 'nor', 'but', 'or', 'yet', 'so', 'of'];
+    return conjuctions.find((str) => str === word);
   }
 }
