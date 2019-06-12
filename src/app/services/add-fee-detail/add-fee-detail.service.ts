@@ -93,7 +93,7 @@ export class AddFeeDetailService {
   }
 
   postFullRemission() {
-    return this.http.post('/api/remissions', RemissionModel.cleanModel(this._remissionModel)).toPromise();
+    return this.http.post('/api/remission', RemissionModel.cleanModel(this._remissionModel)).toPromise();
   }
 
   postPartialRemission(paymentGroupRef: string, feeId: string) {
@@ -101,11 +101,15 @@ export class AddFeeDetailService {
     RemissionModel.cleanModel(this._remissionModel)).toPromise();
   }
 
-  postCardPayment() {
+  postPartialPayment() {
     return this.http.post('/api/card-payments', PaymentModel.cleanModel(this._paymentModel)).toPromise();
   }
 
-  // postPayment() {
-  //   return this.http.post('/api/send-to-payhub', PaymentModel.cleanModel(this._paymentModel)).toPromise();
-  // }
+  postPaymentUrl(url: string) {
+    return this.http.post('/api/send-to-payhub-url', {url}).toPromise();
+  }
+
+  postPayment() {
+    return this.http.post('/api/send-to-payhub', PaymentModel.cleanModel(this._paymentModel)).toPromise();
+  }
 }

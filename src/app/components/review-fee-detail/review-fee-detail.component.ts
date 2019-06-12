@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
-import { SafeHtml, SafeUrl } from '@angular/platform-browser';
-import { reject } from 'q';
+import { SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-review-fee-detail',
@@ -12,7 +11,7 @@ import { reject } from 'q';
 })
 export class ReviewFeeDetailComponent {
   fee: FeeModel = this.addFeeDetailService.selectedFee;
-  payhubUrl?: SafeUrl;
+  payBubbleView?: SafeHtml;
 
   constructor(
     private router: Router,
@@ -28,7 +27,6 @@ export class ReviewFeeDetailComponent {
   }
 
   sendPayDetailsToPayhub() {
-    console.log(this.payModel);
     if (this.payModel.amount === 0) {
       this.addFeeDetailService.postFullRemission()
       .then(response => {
@@ -41,23 +39,23 @@ export class ReviewFeeDetailComponent {
        });
     } else if (this.fee.calculated_amount > this.payModel.amount) {
       let paymentResp;
-      this.addFeeDetailService.postCardPayment()
+      this.addFeeDetailService.postPartialPayment()
       .then(response => {
         paymentResp = JSON.parse(response).data;
         return this.addFeeDetailService.postPartialRemission(paymentResp.payment_group_reference, paymentResp.fees[0].id);
       }).then(() => {
-        window.location.href = paymentResp._links.next_url.href;
-       // this.payhubUrl = paymentResp._links.next_url.href;
+        const url = paymentResp._links.next_url.href;
+        return this.addFeeDetailService.postPaymentUrl(url);
+      }).then( urlResp => {
+        this.payBubbleView = urlResp;
       })
       .catch(err => {
         this.navigateToServiceFailure();
        });
     } else {
-      this.addFeeDetailService.postCardPayment()
+      this.addFeeDetailService.postPayment()
       .then(response => {
-        const respData = JSON.parse(response).data;
-        window.location.href = respData._links.next_url.href;
-       // this.payhubUrl = respData._links.next_url.href;
+        this.payBubbleView = response;
       })
       .catch(err => {
         this.navigateToServiceFailure();

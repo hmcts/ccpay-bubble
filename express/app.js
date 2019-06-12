@@ -5,11 +5,19 @@ const HttpStatus = require('http-status-codes');
 
 module.exports = appInsights => express.Router()
 
+  .post('/send-to-payhub-url', (req, res) => {
+    controllers.payhubController.sendToPayhubWithUrl(req, res, appInsights);
+  })
+
+  .post('/send-to-payhub', (req, res) => {
+    controllers.payhubController.sendToPayhub(req, res, appInsights);
+  })
+
   .post('/card-payments', (req, res) => {
     controllers.payhubController.postCardPayment(req, res, appInsights);
   })
 
-  .post('/remissions', (req, res) => {
+  .post('/remission', (req, res) => {
     controllers.payhubController.postRemission(req, res, appInsights);
   })
 

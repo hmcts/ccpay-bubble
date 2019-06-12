@@ -112,12 +112,9 @@ describe('Add fee detail service', () => {
 
   it('Should call post payment url with a paymentModel', () => {
     const calledWithParams = [];
-    spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => of(param2));
-    const paymentModel = new PaymentModel();
-    paymentModel.amount = 100;
-    addFeeDetailService.paymentModel = paymentModel;
-    // addFeeDetailService.getPayhubWithUrl('url')
-    // .then((response) => expect(response.amount).toBe(100));
+    spyOn(http, 'post').and.callFake((param1: string, param2: any) => of(param2));
+    addFeeDetailService.postPaymentUrl('url')
+    .then((response) => expect(response.url).toBe('url'));
   });
 
   it('Should call post full remission with the correct path', () => {
@@ -128,6 +125,16 @@ describe('Add fee detail service', () => {
     addFeeDetailService.remissionModel = remissionModel;
     addFeeDetailService.postFullRemission()
     .then((response) => expect(response).toEqual('/api/remissions'));
+  });
+
+  it('Should call post full remission with the correct path', () => {
+    const calledWithParams = [];
+    spyOn(http, 'post').and.callFake((param1: string, param2: RemissionModel) => of(param1));
+    const remissionModel = new RemissionModel();
+    remissionModel.hwf_amount = 100;
+    addFeeDetailService.remissionModel = remissionModel;
+    addFeeDetailService.postPartialRemission('paymentGroupRef', 'feeId')
+    .then((response) => expect(response).toEqual('/api/payment-groups/paymentGroupRef/fees/feeId/remissions'));
   });
 
   it('Should call post partial payment with the correct path', () => {
