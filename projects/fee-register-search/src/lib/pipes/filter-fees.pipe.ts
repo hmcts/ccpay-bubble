@@ -12,7 +12,7 @@ export class FilterFeesPipe implements PipeTransform {
     let filteredList: IFee[] = [];
 
     if (this.isNumeric(searchFilter)) {
-      filteredList = this.filterByAmount(fees, searchFilter);
+      filteredList = this.filterByNumber(fees, searchFilter);
     } else {
       searchFilter = searchFilter.toLowerCase();
 
@@ -29,13 +29,37 @@ export class FilterFeesPipe implements PipeTransform {
   }
 
   filterByDescription(fees, filter): IFee[] {
+    const filterArray = filter.split(' ');
     return fees.filter((fee: IFee) => {
-      if (fee.current_version.description !== undefined) {
-        return fee.current_version.description
-          .toLowerCase()
-          .includes(filter);
+      for (let i = 0; i < filterArray.length; i++) {
+        if (!this.isConjunction(filterArray[i])) {
+          if (fee.current_version.description.toLowerCase().includes(filterArray[i])) {
+            return true;
+          }
+        }
       }
+      return false;
     });
+  }
+
+  filterByNumber(fees, filter): IFee[] {
+    const regExactWord = new RegExp(`\\b${filter}\\b`);
+    return fees.filter((fee: IFee) => {
+      if (fee.current_version.flat_amount !== undefined
+      && fee.current_version.flat_amount.amount !== undefined) {
+        if (fee.current_version.flat_amount.amount === Number(filter)) {
+          fee.sort_value = 1;
+          return true;
+        }
+      }
+      if (fee.current_version.description !== undefined) {
+        if (regExactWord.test(fee.current_version.description)) {
+          fee.sort_value = 0;
+          return true;
+        }
+      }
+      return false;
+    }).sort((a, b) => b.sort_value - a.sort_value);
   }
 
   filterByAmount(fees, filter): IFee[] {
@@ -74,5 +98,10 @@ export class FilterFeesPipe implements PipeTransform {
 
   isFeeCode(value: string): boolean {
     return (new RegExp(/^[a-zA-Z]{3}\d{4}$/)).test(value);
+  }
+
+  isConjunction(word: string) {
+    const conjuctions = ['for', 'and', 'nor', 'but', 'or', 'yet', 'so', 'of'];
+    return conjuctions.find((str) => str === word);
   }
 }
