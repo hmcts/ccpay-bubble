@@ -13,7 +13,7 @@
     "test:coverage": "yarn merge-lcov && yarn copy-lcov",
     "merge-lcov": "cross-env lcov-result-merger './coverage/lcov-*.info' './coverage/lcov.info'",
     "copy-lcov": "node ./scripts/copy-lcov.js",
-    "test": "yarn lint && yarn test:angular && yarn test:coverage",
+    "test": "yarn test:angular && yarn test:coverage",
     "test:a11y": "echo 'TODO: Accessibility tests'",
     "gulp": "gulp",
     "lint": "yarn ng-lint && yarn eslint",
@@ -46,6 +46,7 @@
     "@angular/router": "~7.2.4",
     "@hmcts/nodejs-healthcheck": "^1.5.1",
     "@hmcts/nodejs-logging": "^3.0.0",
+    "@hmcts/ccpay-web-component": "~1.8.5",
     "applicationinsights": "^1.1.0",
     "applicationinsights-js": "^1.0.20",
     "client-request": "^2.3.0",
@@ -77,7 +78,8 @@
     "ts-mockito": "^2.3.1",
     "tslib": "^1.9.3",
     "uuid": "3.3.2",
-    "zone.js": "~0.8.29"
+    "zone.js": "~0.8.29",
+    "rxjs-compat": "^6.5.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",

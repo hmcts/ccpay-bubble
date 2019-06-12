@@ -75,6 +75,18 @@ class PayhubService {
     });
   }
 
+  ccpayWebComponentIntegration(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${payhubUrl}/${req.params[0]}`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
   getFees() {
     return request.get({ uri: 'https://fees-register-api.platform.hmcts.net/fees-register/fees' });
   }

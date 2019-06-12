@@ -21,6 +21,8 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { SanitizeUrlPipe } from 'src/app/shared/pipes/sanitize-url.pipe';
 import { ViewPaymentModule } from 'view-payment';
 import { FeeRegisterSearchModule } from 'fee-register-search';
+import { PaymentHistoryComponent } from './components/payment-history/payment-history.component';
+import { PaymentLibModule } from '@hmcts/ccpay-web-component';
 import { WindowUtil } from './services/window-util/window-util';
 
 @NgModule({
@@ -37,7 +39,8 @@ import { WindowUtil } from './services/window-util/window-util';
     SanitizeUrlPipe,
     HeaderComponent,
     NavigationComponent,
-    FeeSearchComponent
+    FeeSearchComponent,
+    PaymentHistoryComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,8 @@ import { WindowUtil } from './services/window-util/window-util';
     ReactiveFormsModule,
     HttpClientModule,
     ViewPaymentModule,
-    FeeRegisterSearchModule
+    FeeRegisterSearchModule,
+    PaymentLibModule
   ],
   providers: [
     PaybubbleHttpClient,

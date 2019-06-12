@@ -33,4 +33,9 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.getFees(req, res);
   })
 
+  // @hmcts/ccpay-web-component integration point
+  .get('/payment-history/*', (req, res) => {
+    controllers.payhubController.ccpayWebComponentIntegration(req, res);
+  })
+
   .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }));
