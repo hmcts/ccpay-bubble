@@ -1,9 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import { PaymentHistoryComponent } from './payment-history.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import {Subject} from "rxjs";
+import { Subject } from 'rxjs';
 
 describe('PaymentHistoryComponent', () => {
   let component: PaymentHistoryComponent;
@@ -31,10 +31,13 @@ describe('PaymentHistoryComponent', () => {
   });
 
   it('should create', () => {
-    component.ccdCaseNumber = '1111-2222-3333-4444';
-    component.apiRoot = 'api/payment-history';
-    fixture.detectChanges();
-    expect(component.apiRoot).toBe('api/payment-history');
-    expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
+    params.next({'ccdCaseNumber': '1111-2222-3333-4444'});
+    activatedRoute.params.subscribe((p) => {
+      component.ccdCaseNumber = p['ccdCaseNumber'];
+      component.apiRoot = 'api/payment-history';
+      fixture.detectChanges();
+      expect(component.apiRoot).toBe('api/payment-history');
+      expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
+    });
   });
 });
