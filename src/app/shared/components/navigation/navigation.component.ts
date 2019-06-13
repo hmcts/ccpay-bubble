@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { WindowUtil } from 'src/app/services/window-util/window-util';
 
 @Component({
   selector: 'app-navigation',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationComponent implements OnInit {
   todaysDate = Date.now();
+  showFeeSearch = true;
 
-  constructor() { }
+  constructor(private windowUtil: WindowUtil) { }
 
   ngOnInit() {
+    this.showFeeSearch = this.windowUtil.displayFeeSearch();
   }
 }
