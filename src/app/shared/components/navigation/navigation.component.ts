@@ -9,11 +9,11 @@ import { WindowUtil } from 'src/app/services/window-util/window-util';
 })
 export class NavigationComponent implements OnInit {
   todaysDate = Date.now();
-  showFeeSearch = true;
+  showMVP = true;
 
   constructor(private windowUtil: WindowUtil) { }
 
   ngOnInit() {
-    this.showFeeSearch = this.windowUtil.displayFeeSearch();
+    this.showMVP = this.windowUtil.displayMVP();
   }
 }
