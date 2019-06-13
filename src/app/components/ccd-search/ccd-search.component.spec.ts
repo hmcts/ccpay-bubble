@@ -2,6 +2,11 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CcdSearchComponent } from './ccd-search.component';
+import { Router, RouterModule } from '@angular/router';
+
+const routerMock = {
+  navigateByUrl: jasmine.createSpy('navigateByUrl')
+};
 
 describe('Fee search component', () => {
   let component: CcdSearchComponent,
@@ -13,8 +18,12 @@ describe('Fee search component', () => {
       imports: [
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        RouterModule
       ],
+      providers: [
+        { provide: Router, useValue: routerMock }
+      ]
     });
 
     fixture = TestBed.createComponent(CcdSearchComponent);
@@ -53,6 +62,7 @@ describe('Fee search component', () => {
     component.searchFees();
     fixture.detectChanges();
     expect(component.hasErrors).toBeFalsy();
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111-2222-3333-4444');
   });
 
 });
