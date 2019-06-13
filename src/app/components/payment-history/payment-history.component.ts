@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import { PlatformLocation } from '@angular/common';
 
 @Component({
   selector: 'app-payment-history',
@@ -10,7 +11,14 @@ export class PaymentHistoryComponent implements OnInit {
   apiRoot: string;
   ccdCaseNumber: string;
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor(private activatedRoute: ActivatedRoute,
+              private location: PlatformLocation,
+              private router: Router) {
+    location.onPopState(() => {
+      console.log('Browser back button clicked');
+      console.log('Url params: ', router.parseUrl(router.url));
+    });
+  }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {

@@ -40,7 +40,7 @@ import { CcdSearchComponent } from './components/ccd-search/ccd-search.component
     HeaderComponent,
     NavigationComponent,
     FeeSearchComponent,
-    CcdSearchComponent
+    CcdSearchComponent,
     FeeSearchComponent,
     PaymentHistoryComponent
   ],

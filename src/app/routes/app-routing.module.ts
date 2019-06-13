@@ -5,6 +5,7 @@ import { ReviewFeeDetailComponent } from '../components/review-fee-detail/review
 import { ReviewFeeDetailRouteGuard } from 'src/app/components/review-fee-detail/route-guards/review-fee-detail.service';
 import { ConfirmationComponent } from 'src/app/components/confirmation/confirmation.component';
 import { ConfirmationGuard } from 'src/app/components/confirmation/route-guards/confirmation-guard.service';
+import { CanActivate } from '@angular/router/src/utils/preactivation';
 import { ServiceFailureComponent } from 'src/app/shared/components/service-failure/service-failure.component';
 import { ViewPaymentComponent } from '../components/view-payment/view-payment.component';
 import { FeeSearchComponent } from '../components/fee-search/fee-search.component';
