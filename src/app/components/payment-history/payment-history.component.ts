@@ -11,14 +11,7 @@ export class PaymentHistoryComponent implements OnInit {
   apiRoot: string;
   ccdCaseNumber: string;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private location: PlatformLocation,
-              private router: Router) {
-    location.onPopState(() => {
-      console.log('Browser back button clicked');
-      console.log('Url params: ', router.parseUrl(router.url));
-    });
-  }
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
