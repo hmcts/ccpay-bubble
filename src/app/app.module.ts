@@ -23,6 +23,7 @@ import { ViewPaymentModule } from 'view-payment';
 import { FeeRegisterSearchModule } from 'fee-register-search';
 import { PaymentHistoryComponent } from './components/payment-history/payment-history.component';
 import { PaymentLibModule } from '@hmcts/ccpay-web-component';
+import { CcdSearchComponent } from './components/ccd-search/ccd-search.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,9 @@ import { PaymentLibModule } from '@hmcts/ccpay-web-component';
     HeaderComponent,
     NavigationComponent,
     FeeSearchComponent,
-    PaymentHistoryComponent
+    PaymentHistoryComponent,
+    FeeSearchComponent,
+    CcdSearchComponent
   ],
   imports: [
     BrowserModule,
