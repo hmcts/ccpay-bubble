@@ -31,6 +31,12 @@ data "azurerm_key_vault_secret" "s2s_key" {
   name      = "microservicekey-ccpay-bubble"
   vault_uri = "https://s2s-${var.env}.vault.azure.net/"
 }
+
+data "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
+  name = "AppInsightsInstrumentationKey"
+  vault_uri = "${data.azurerm_key_vault.paybubble_key_vault.vault_uri}"
+}
+
 module "ccpay-bubble" {
   source   = "git@github.com:hmcts/moj-module-webapp?ref=master"
   product  = "${var.product}-${var.component}"
@@ -39,7 +45,7 @@ module "ccpay-bubble" {
   ilbIp    = "${var.ilbIp}"
   subscription = "${var.subscription}"
   is_frontend = "${var.is_frontend}"
-  appinsights_instrumentation_key = "${var.appinsights_instrumentation_key}"
+  appinsights_instrumentation_key = "${data.azurerm_key_vault_secret.appinsights_instrumentation_key.value}"
   additional_host_name = "${var.env != "preview" ? var.external_host_name : "null"}"
   https_only = "true"
   capacity = "${var.capacity}"
