@@ -26,3 +26,6 @@ e2e:
 certs:
   key: ./localhost-ssl/localhost.key
   crt: ./localhost-ssl/localhost.crt
+fee:
+  feeRegistrationUrl: https://fees-register-api.platform.hmcts.net/fees-register/fees
+  feeJurisdictionUrl: https://fees-register-api.platform.hmcts.net/jurisdictions
