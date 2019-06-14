@@ -1,5 +1,6 @@
 import { FilterFeesPipe } from './filter-fees.pipe';
 import { mockFees } from '../mock-fees';
+import { Jurisdictions } from '../models/Jurisdictions';
 
 describe('Filter fees pipe', () => {
   const filterFeesPipe = new FilterFeesPipe();
@@ -33,12 +34,18 @@ describe('Filter fees pipe', () => {
   });
 
   it('Should filter an array of fees on jurisdiction tribunal to be empty', () => {
-    const results = filterFeesPipe.filterByJurisdictions(mockFees, ['tribunal']);
+    const jurisdiction = new Jurisdictions();
+    jurisdiction.jurisdiction1 = 'tribunal';
+    jurisdiction.jurisdiction2 = 'test';
+    const results = filterFeesPipe.filterByJurisdictions(mockFees, jurisdiction);
     expect(results.length).toBe(0);
   });
 
   it('Should filter an array of fees on jurisdiction civil', () => {
-    const results = filterFeesPipe.filterByJurisdictions(mockFees, ['civil']);
+    const jurisdiction = new Jurisdictions();
+    jurisdiction.jurisdiction1 = 'civil';
+    jurisdiction.jurisdiction2 = '';
+    const results = filterFeesPipe.filterByJurisdictions(mockFees, jurisdiction);
     expect(results.length).toBe(2);
     expect(results[0]).toEqual(mockFees[0]);
   });
