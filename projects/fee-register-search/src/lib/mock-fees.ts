@@ -2,6 +2,7 @@ export const mockFees = [
   {
     code: 'FEE0001',
     fee_type: 'fixed',
+    sort_value: 0,
     channel_type: {
       name: 'default'
     },
@@ -53,7 +54,7 @@ export const mockFees = [
       }
     ],
     current_version: {
-      description: 'Money Claims - Claim Amount - Unspecified',
+      description: 'Money Claims - Claim Amount 500 - Unspecified',
       status: 'approved',
       author: '124756',
       approvedBy: '39907',
@@ -74,6 +75,7 @@ export const mockFees = [
   {
     code: 'FEE0002',
     fee_type: 'fixed',
+    sort_value: 0,
     channel_type: {
       name: 'default'
     },
