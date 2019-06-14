@@ -16,6 +16,14 @@ describe('Filter fees pipe', () => {
     const results = filterFeesPipe.filterByDescription(mockFees, 'test');
     expect(results.length).toBe(1);
     expect(results[0]).toEqual(mockFees[1]);
+
+    const results2 = filterFeesPipe.filterByDescription(mockFees, 'civil money');
+    expect(results2.length).toBe(1);
+    expect(results2[0]).toEqual(mockFees[0]);
+
+    const results3 = filterFeesPipe.filterByDescription(mockFees, 'test civil money');
+    expect(results3.length).toBe(2);
+    expect(results3[0]).toEqual(mockFees[0]);
   });
 
   it('Should filter an array of fees on amount', () => {
@@ -51,5 +59,13 @@ describe('Filter fees pipe', () => {
     const results = filterFeesPipe.filterByFeeCode(mockFees, 'fee0001');
     expect(results.length).toBe(1);
     expect(results[0]).toEqual(mockFees[0]);
+  });
+
+  it('Should check if certain word is conjunction or not', () => {
+    expect(filterFeesPipe.isConjunction('application')).toBeFalsy();
+    expect(filterFeesPipe.isConjunction('divorce')).toBeFalsy();
+    expect(filterFeesPipe.isConjunction('or')).toBeTruthy();
+    expect(filterFeesPipe.isConjunction('and')).toBeTruthy();
+
   });
 });
