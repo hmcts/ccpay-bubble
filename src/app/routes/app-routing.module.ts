@@ -9,6 +9,7 @@ import { ServiceFailureComponent } from 'src/app/shared/components/service-failu
 import { ViewPaymentComponent } from '../components/view-payment/view-payment.component';
 import { FeeSearchComponent } from '../components/fee-search/fee-search.component';
 import { FeeSearchGuard } from '../components/fee-search/route-guards/fee-search-guard.service';
+import { CcdSearchComponent } from '../components/ccd-search/ccd-search.component';
 
 const routes: Routes = [
   {
@@ -39,10 +40,14 @@ const routes: Routes = [
     canActivate: [FeeSearchGuard]
   },
   {
+    path: 'ccd-search',
+    component: CcdSearchComponent
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'addFeeDetail'
-  },
+  }
 ];
 
 @NgModule({

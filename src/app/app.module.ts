@@ -22,6 +22,7 @@ import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitize-html.pipe';
 import { ViewPaymentModule } from 'view-payment';
 import { FeeRegisterSearchModule } from 'fee-register-search';
 import { WindowUtil } from './services/window-util/window-util';
+import { CcdSearchComponent } from './components/ccd-search/ccd-search.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { WindowUtil } from './services/window-util/window-util';
     SanitizeHtmlPipe,
     HeaderComponent,
     NavigationComponent,
-    FeeSearchComponent
+    FeeSearchComponent,
+    CcdSearchComponent
   ],
   imports: [
     BrowserModule,
