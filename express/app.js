@@ -29,8 +29,12 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.getPayment(req, res);
   })
 
+  .get('/fees-jurisdictions/:id', (req, res) => {
+    controllers.feeController.getJurisdictions(req, res);
+  })
+
   .get('/fees', (req, res) => {
-    controllers.payhubController.getFees(req, res);
+    controllers.feeController.getFees(req, res);
   })
 
   // @hmcts/ccpay-web-component integration point
