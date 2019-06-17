@@ -1,5 +1,6 @@
 import { FilterFeesPipe } from './filter-fees.pipe';
 import { mockFees } from '../mock-fees';
+import { Jurisdictions } from '../models/Jurisdictions';
 
 describe('Filter fees pipe', () => {
   const filterFeesPipe = new FilterFeesPipe();
@@ -16,6 +17,14 @@ describe('Filter fees pipe', () => {
     const results = filterFeesPipe.filterByDescription(mockFees, 'test');
     expect(results.length).toBe(1);
     expect(results[0]).toEqual(mockFees[1]);
+
+    const results2 = filterFeesPipe.filterByDescription(mockFees, 'civil money');
+    expect(results2.length).toBe(1);
+    expect(results2[0]).toEqual(mockFees[0]);
+
+    const results3 = filterFeesPipe.filterByDescription(mockFees, 'test civil money');
+    expect(results3.length).toBe(2);
+    expect(results3[0]).toEqual(mockFees[0]);
   });
 
   it('Should filter an array of fees on amount', () => {
@@ -24,13 +33,25 @@ describe('Filter fees pipe', () => {
     expect(results[0]).toEqual(mockFees[0]);
   });
 
+  it('Should filter an array of fees on amount and description when it is a number also sort by amount first', () => {
+    const results = filterFeesPipe.filterByNumber(mockFees, '500');
+    expect(results.length).toBe(2);
+    expect(results[0]).toEqual(mockFees[1]);
+  });
+
   it('Should filter an array of fees on jurisdiction tribunal to be empty', () => {
-    const results = filterFeesPipe.filterByJurisdictions(mockFees, ['tribunal']);
+    const jurisdiction = new Jurisdictions();
+    jurisdiction.jurisdiction1 = 'tribunal';
+    jurisdiction.jurisdiction2 = 'test';
+    const results = filterFeesPipe.filterByJurisdictions(mockFees, jurisdiction);
     expect(results.length).toBe(0);
   });
 
   it('Should filter an array of fees on jurisdiction civil', () => {
-    const results = filterFeesPipe.filterByJurisdictions(mockFees, ['civil']);
+    const jurisdiction = new Jurisdictions();
+    jurisdiction.jurisdiction1 = 'civil';
+    jurisdiction.jurisdiction2 = '';
+    const results = filterFeesPipe.filterByJurisdictions(mockFees, jurisdiction);
     expect(results.length).toBe(2);
     expect(results[0]).toEqual(mockFees[0]);
   });
@@ -51,5 +72,13 @@ describe('Filter fees pipe', () => {
     const results = filterFeesPipe.filterByFeeCode(mockFees, 'fee0001');
     expect(results.length).toBe(1);
     expect(results[0]).toEqual(mockFees[0]);
+  });
+
+  it('Should check if certain word is conjunction or not', () => {
+    expect(filterFeesPipe.isConjunction('application')).toBeFalsy();
+    expect(filterFeesPipe.isConjunction('divorce')).toBeFalsy();
+    expect(filterFeesPipe.isConjunction('or')).toBeTruthy();
+    expect(filterFeesPipe.isConjunction('and')).toBeTruthy();
+
   });
 });

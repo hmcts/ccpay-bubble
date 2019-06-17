@@ -1,5 +1,7 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Jurisdictions } from '../../models/Jurisdictions';
+import { FeeRegisterSearchService } from '../../fee-register-search.service';
 
 @Component({
   selector: 'pay-fee-filter',
@@ -8,32 +10,53 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class FeeFilterComponent implements OnInit {
 
-  @Output() jurisdictionsFilterEvent: EventEmitter<string[]> = new EventEmitter();
+  jurisdictionData = {
+    jurisdiction1 : {
+      show: false,
+      data: null
+    },
+    jurisdiction2 : {
+      show: false,
+      data: null
+    }
+  };
+
+  @Output() jurisdictionsFilterEvent: EventEmitter<Jurisdictions> = new EventEmitter();
   filterForm: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private feeRegisterSearchService: FeeRegisterSearchService
   ) {}
 
   ngOnInit() {
     this.filterForm = this.formBuilder.group({
-      civil: ['', []],
-      family: ['', []],
-      tribunal: ['', []]
+      jurisdiction1: ['', []],
+      jurisdiction2: ['', []],
+
+    });
+
+    this.feeRegisterSearchService.getJurisdiction(1).subscribe(result => {
+      this.jurisdictionData.jurisdiction1.data = result;
+    });
+
+    this.feeRegisterSearchService.getJurisdiction(2).subscribe(result => {
+      this.jurisdictionData.jurisdiction2.data = result;
     });
   }
 
   applyFilter() {
-    const emitValue: string[] = [];
-    if ( this.filterForm.get('civil').value) {
-      emitValue.push('civil');
-    }
-    if ( this.filterForm.get('family').value) {
-      emitValue.push('family');
-    }
-    if ( this.filterForm.get('tribunal').value) {
-      emitValue.push('tribunal');
-    }
+    const emitValue: Jurisdictions = new Jurisdictions();
+    emitValue.jurisdiction1 = this.filterForm.get('jurisdiction1').value;
+    emitValue.jurisdiction2 = this.filterForm.get('jurisdiction2').value;
     this.jurisdictionsFilterEvent.emit(emitValue);
+  }
+
+  toggleJurisdiction(jurisdiction) {
+    jurisdiction.show = !jurisdiction.show;
+  }
+
+  formatJurisdictionId(jurisdiction: string) {
+    return jurisdiction.split(' ').join('_');
   }
 }

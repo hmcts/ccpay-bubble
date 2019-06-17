@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, timeout } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { IFee } from './interfaces';
+import { JurisdictionData } from './models/Jurisdictions';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,17 @@ export class FeeRegisterSearchService {
       .pipe(
         timeout(30000),
         catchError(error => {
+          return throwError('Sorry, there was a problem getting fees');
+        })
+      );
+  }
+
+  getJurisdiction(jurisdictionNo: number): Observable<any> {
+    return this.http.get<any>(`/api/fees-jurisdictions/${jurisdictionNo}`)
+      .pipe(
+        timeout(30000),
+        catchError(error => {
+          console.log(error);
           return throwError('Sorry, there was a problem getting fees');
         })
       );

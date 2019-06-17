@@ -23,6 +23,7 @@ import { ViewPaymentModule } from 'view-payment';
 import { FeeRegisterSearchModule } from 'fee-register-search';
 import { PaymentHistoryComponent } from './components/payment-history/payment-history.component';
 import { PaymentLibModule } from '@hmcts/ccpay-web-component';
+import { WindowUtil } from './services/window-util/window-util';
 import { CcdSearchComponent } from './components/ccd-search/ccd-search.component';
 
 @NgModule({
@@ -56,7 +57,8 @@ import { CcdSearchComponent } from './components/ccd-search/ccd-search.component
   ],
   providers: [
     PaybubbleHttpClient,
-    AddFeeDetailService
+    AddFeeDetailService,
+    WindowUtil
   ],
   bootstrap: [AppComponent]
 })

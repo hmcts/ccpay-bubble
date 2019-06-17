@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs';
 import { FeeRegisterSearchService } from './fee-register-search.service';
 import { IFee } from './interfaces';
+import { Jurisdictions } from './models/Jurisdictions';
 
 @Component({
   selector: 'pay-fee-register-search',
@@ -15,7 +16,7 @@ export class FeeRegisterSearchComponent implements OnInit {
   error: string;
   searchFilter: string;
   isResultsDisplayed: boolean;
-  jurisdictionsFilter: string[];
+  jurisdictionsFilter: Jurisdictions;
 
   constructor(
     private feeRegisterSearchService: FeeRegisterSearchService
@@ -41,7 +42,7 @@ export class FeeRegisterSearchComponent implements OnInit {
     this.searchFilter = filter;
   }
 
-  setJurisdictionFilter(jurisdictions: string[]) {
+  setJurisdictionFilter(jurisdictions: Jurisdictions) {
     this.jurisdictionsFilter = jurisdictions;
   }
 }
