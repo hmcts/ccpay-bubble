@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { IFee } from '../../interfaces';
 import { Observable } from 'rxjs';
+import { Jurisdictions } from '../../models/Jurisdictions';
 
 @Component({
   selector: 'pay-fee-list',
@@ -10,7 +11,7 @@ import { Observable } from 'rxjs';
 export class FeeListComponent {
   @Input() fees?: IFee[];
   @Input() searchFilter?: string;
-  @Input() jurisdictionsFilter?: string[];
+  @Input() jurisdictionsFilter?: Jurisdictions;
   @Output() selectedFeeEvent: EventEmitter<IFee> = new EventEmitter();
   p = 1;
 

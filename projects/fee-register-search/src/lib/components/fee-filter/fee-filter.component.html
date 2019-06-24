@@ -1,42 +1,38 @@
-<div class="hmcts-filter">
-  <div class="hmcts-filter__header">
-    <div class="hmcts-filter__header-title">
-      <h2 class="govuk-heading-l">Filter</h2>
-    </div>
-  </div>
+<p>Filter Results</p>
 
-  <form [formGroup]="filterForm" class="form-group">
-    <div class="hmcts-filter__options">
-      <div class="govuk-form-group">
-        <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-          Jurisdiction
-        </legend>
-        <div class="govuk-checkboxes govuk-checkboxes--small">
-          <div class="govuk-checkboxes__item">
-          <input #civil class="govuk-checkboxes__input" id="civil" formControlName="civil" type="checkbox">
-          <label class="govuk-label govuk-checkboxes__label" for="civil">
-            Civil
-          </label>
-          </div>
-          <div class="govuk-checkboxes__item">
-          <input class="govuk-checkboxes__input" id="family" formControlName="family" type="checkbox">
-          <label class="govuk-label govuk-checkboxes__label" for="family">
-            Family
-          </label>
-          </div>
-          <div class="govuk-checkboxes__item">
-          <input class="govuk-checkboxes__input" id="tribunal" formControlName="tribunal" type="checkbox">
-          <label class="govuk-label govuk-checkboxes__label" for="tribunal">
-            Tribunal
-          </label>
+<button type="submit" class="govuk-button" (click)="applyFilter()">
+  Apply filters
+</button>
+
+<form [formGroup]="filterForm" class="form-group">
+    <div id="selectJurisdiction1" class="form-group">
+      <label class="form-label">
+          <p id="jurisdiction1Select" class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictionData.jurisdiction1)"><span [ngClass]="{ 'arrow-rotate': jurisdictionData.jurisdiction1.show }">&#9658;</span> Jurisdiction 1</p>
+      </label>
+      <div [hidden]="!jurisdictionData.jurisdiction1.show">
+        <div class="multiple-choice" *ngFor="let jurisdiction of jurisdictionData.jurisdiction1.data; let i = index">
+          <input [id]="formatJurisdictionId(jurisdiction.name)"
+              formControlName="jurisdiction1"
+              name="jurisdiction1"
+              type="radio"
+              [value]="jurisdiction.name" />
+            <label for="radio-inline-1">{{jurisdiction.name}}</label>
+        </div>
+      </div>
+    </div>
+    <div id="selectJurisdiction2" class="form-group">
+        <label class="form-label">
+            <p id="jurisdiction2Select" class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictionData.jurisdiction2)"><span [ngClass]="{ 'arrow-rotate': jurisdictionData.jurisdiction2.show }">&#9658;</span> Jurisdiction 2</p>
+        </label>
+        <div [hidden]="!jurisdictionData.jurisdiction2.show">
+          <div class="multiple-choice" *ngFor="let jurisdiction of jurisdictionData.jurisdiction2.data; let i = index">
+            <input [id]="formatJurisdictionId(jurisdiction.name)"
+                formControlName="jurisdiction2"
+                name="jurisdiction2"
+                type="radio"
+                [value]="jurisdiction.name" />
+              <label for="radio-inline-1">{{jurisdiction.name}}</label>
           </div>
         </div>
-        </fieldset>
       </div>
-      <button type="submit" class="govuk-button" (click)="applyFilter()">
-        Apply filters
-      </button>
-      </div>
-  </form>
-</div>
+</form>
