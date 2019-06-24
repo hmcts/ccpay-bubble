@@ -1,20 +1,20 @@
 import { WindowUtil } from 'src/app/services/window-util/window-util';
 
-describe('Fee Search route guard', () => {
+describe('window util', () => {
   let windowUtil: WindowUtil;
 
   beforeEach(() => {
     windowUtil = new WindowUtil();
   });
 
-  it('should return displayFeeSearch to true when the link has .internal', () => {
+  it('should return displayMVP to true when the link has .internal', () => {
     windowUtil.setWindowHref('www.testwith.internal');
-    expect(windowUtil.displayFeeSearch()).toBeTruthy();
+    expect(windowUtil.displayMVP()).toBeTruthy();
   });
 
-  it('should not activate fee search page with window href without .internal', () => {
+  it('should not activate MVP page with window href without .internal', () => {
     windowUtil.setWindowHref('www.testwith.com');
-    expect(windowUtil.displayFeeSearch()).toBeFalsy();
+    expect(windowUtil.displayMVP()).toBeFalsy();
   });
 
 });

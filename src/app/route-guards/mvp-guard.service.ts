@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 import { WindowUtil } from 'src/app/services/window-util/window-util';
 
 @Injectable()
-export class FeeSearchGuard implements CanActivate {
+export class MVPGuard implements CanActivate {
 
   constructor(private windowUtils: WindowUtil) {}
 
   canActivate(): boolean {
-    return this.windowUtils.displayFeeSearch();
+    return this.windowUtils.displayMVP();
   }
 }
