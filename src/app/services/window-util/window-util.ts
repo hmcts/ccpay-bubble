@@ -16,7 +16,7 @@ export class WindowUtil {
     this.windowHref = href;
   }
 
-  displayFeeSearch(): boolean {
-    return this.windowHref.indexOf('.internal') > 0;
+  displayMVP(): boolean {
+   return this.windowHref.indexOf('.internal') > 0;
   }
 }
