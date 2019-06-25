@@ -304,6 +304,13 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@hmcts/ccpay-web-component@~1.8.6":
+  version "1.8.6"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-1.8.6.tgz#61953dc6d80af6dbc3a54503880ba8737a998555"
+  integrity sha512-a0rcpTlZm2+hzehYng2+cAwSC3XOHEUVo5nbIfiXwWen18kCBIAp8XFxDGK9TY6h6J5K5+yBn/lPQzoIpmG90A==
+  dependencies:
+    tslib "^1.9.0"
+
 "@hmcts/eslint-config@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@hmcts/eslint-config/-/eslint-config-1.4.0.tgz#e713457cee3758a43394c2974913885aaae8a41b"
@@ -7694,6 +7701,11 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   resolved "https://registry.yarnpkg.com/run-queue/-/run-queue-1.0.3.tgz#e848396f057d223f24386924618e25694161ec47"
   dependencies:
     aproba "^1.1.1"
+
+rxjs-compat@^6.5.2:
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/rxjs-compat/-/rxjs-compat-6.5.2.tgz#e469070adf6260bdad195e9d4a39f444ae28b458"
+  integrity sha512-TRMkTp4FgSxE2HtGvxmgRukh3JqdFM7ejAj1Ti/VdodbPGfWvZR5+KdLKRV9jVDFyu2SknM8RD+PR54KGnoLjg==
 
 rxjs@6.3.3:
   version "6.3.3"
