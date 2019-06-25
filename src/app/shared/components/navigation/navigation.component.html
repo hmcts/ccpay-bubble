@@ -16,9 +16,12 @@
       </ul>
 
       <ul class="bar-header__list bar-header-right" aria-label="Top Level Navigation">
-        <li *ngIf="showFeeSearch">
+        <li *ngIf="showMVP">
             <a id="fee-search-link" class="logout-btn" href="/fee-search">{{ 'Fee Search' }}</a>
         </li>
+        <li *ngIf="showMVP">
+          <a id="ccd-search-link" class="logout-btn" href="/ccd-search">{{ 'CCD Search' }}</a>
+      </li>
         <li>{{ todaysDate | date:'dd MMM yyyy' }}</li>
         <li>
           <a class="logout-btn" href="/logout">{{ 'Logout' }}</a>
