@@ -11,6 +11,7 @@ import { FeeSearchComponent } from '../components/fee-search/fee-search.componen
 import { PaymentHistoryComponent } from '../components/payment-history/payment-history.component';
 import { FeeSearchGuard } from '../components/fee-search/route-guards/fee-search-guard.service';
 import { CcdSearchComponent } from '../components/ccd-search/ccd-search.component';
+import { MVPGuard } from '../route-guards/mvp-guard.service';
 
 const routes: Routes = [
   {
@@ -38,11 +39,12 @@ const routes: Routes = [
   {
     path: 'fee-search',
     component: FeeSearchComponent,
-    canActivate: [FeeSearchGuard]
+    canActivate: [MVPGuard]
   },
   {
     path: 'ccd-search',
-    component: CcdSearchComponent
+    component: CcdSearchComponent,
+    canActivate: [MVPGuard]
   },
   {
     path: '',
@@ -58,6 +60,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [ReviewFeeDetailRouteGuard, ConfirmationGuard, FeeSearchGuard]
+  providers: [ReviewFeeDetailRouteGuard, ConfirmationGuard, MVPGuard]
 })
 export class AppRoutingModule { }
