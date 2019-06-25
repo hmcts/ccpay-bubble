@@ -89,6 +89,18 @@ class PayhubController {
         res.status(500).json({ err: error, success: false });
       });
   }
+
+  getPaymentGroup(req, res) {
+    return this.payhubService.getPaymentGroup(req)
+      .then(result => {
+        console.log('get payment group =====> ', result);
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        console.log('get payment group =====> ', error);
+        res.status(500).json({ err: error, success: false });
+      });
+  }
 }
 
 module.exports = PayhubController;

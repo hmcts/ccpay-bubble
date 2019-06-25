@@ -23,6 +23,8 @@ import { ViewPaymentModule } from 'view-payment';
 import { FeeRegisterSearchModule } from 'fee-register-search';
 import { CcdSearchComponent } from './components/ccd-search/ccd-search.component';
 import { WindowUtil } from './services/window-util/window-util';
+import { FeesSummaryComponent } from './components/fees-summary/fees-summary.component';
+import { PaymentGroupService } from './services/payment-group/payment-group.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { WindowUtil } from './services/window-util/window-util';
     HeaderComponent,
     NavigationComponent,
     FeeSearchComponent,
-    CcdSearchComponent
+    CcdSearchComponent,
+    FeesSummaryComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,7 @@ import { WindowUtil } from './services/window-util/window-util';
   providers: [
     PaybubbleHttpClient,
     AddFeeDetailService,
+    PaymentGroupService,
     WindowUtil
   ],
   bootstrap: [AppComponent]

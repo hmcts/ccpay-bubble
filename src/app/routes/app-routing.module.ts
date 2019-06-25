@@ -10,6 +10,7 @@ import { ViewPaymentComponent } from '../components/view-payment/view-payment.co
 import { FeeSearchComponent } from '../components/fee-search/fee-search.component';
 import { CcdSearchComponent } from '../components/ccd-search/ccd-search.component';
 import { MVPGuard } from '../route-guards/mvp-guard.service';
+import { FeesSummaryComponent } from '../components/fees-summary/fees-summary.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,10 @@ const routes: Routes = [
     path: 'ccd-search',
     component: CcdSearchComponent,
     canActivate: [MVPGuard]
+  },
+  {
+    path: 'fees-summary',
+    component: FeesSummaryComponent
   },
   {
     path: '',
