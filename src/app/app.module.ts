@@ -21,8 +21,10 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitize-html.pipe';
 import { ViewPaymentModule } from 'view-payment';
 import { FeeRegisterSearchModule } from 'fee-register-search';
-import { CcdSearchComponent } from './components/ccd-search/ccd-search.component';
+import { PaymentHistoryComponent } from './components/payment-history/payment-history.component';
+import { PaymentLibModule } from '@hmcts/ccpay-web-component';
 import { WindowUtil } from './services/window-util/window-util';
+import { CcdSearchComponent } from './components/ccd-search/ccd-search.component';
 import { FeesSummaryComponent } from './components/fees-summary/fees-summary.component';
 import { PaymentGroupService } from './services/payment-group/payment-group.service';
 
@@ -40,9 +42,10 @@ import { PaymentGroupService } from './services/payment-group/payment-group.serv
     SanitizeHtmlPipe,
     HeaderComponent,
     NavigationComponent,
+    FeesSummaryComponent,
+    PaymentHistoryComponent,
     FeeSearchComponent,
-    CcdSearchComponent,
-    FeesSummaryComponent
+    CcdSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,8 @@ import { PaymentGroupService } from './services/payment-group/payment-group.serv
     ReactiveFormsModule,
     HttpClientModule,
     ViewPaymentModule,
-    FeeRegisterSearchModule
+    FeeRegisterSearchModule,
+    PaymentLibModule
   ],
   providers: [
     PaybubbleHttpClient,
