@@ -6,5 +6,5 @@
     <span *ngIf="hasErrors" class="error-message">Enter a case reference in the correct format</span>
   </label>
   <input #searchInput [className]="hasErrors? 'form-control form-control-error': 'form-control'" id="ccd-search" type="text" name="ccd-search" formControlName="searchInput">
-  <button class="button button-search" (click)="searchFees()">Search</button>
+  <button class="button button-search" type="submit" (click)="searchFees()">Search</button>
 </form>
