@@ -24,9 +24,7 @@ export class FeeSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
     this.feeRegisterSearchService.setURL(this.feeAPIRoot);
-
     this.feeRegisterSearchService.getFees()
       .subscribe(
         (fees: IFee[]) => this.fees = fees
@@ -40,7 +38,7 @@ export class FeeSummaryComponent implements OnInit {
   }
 
   getRemissionByFeeCode(feeCode: string): IRemissionModel {
-    if (this.paymentGroup && this.paymentGroup.remissions && this.paymentGroup.remissions.length > 0){
+    if (this.paymentGroup && this.paymentGroup.remissions && this.paymentGroup.remissions.length > 0) {
       for (const remission of this.paymentGroup.remissions) {
         if (remission.fee_code === feeCode) {
           return remission;
