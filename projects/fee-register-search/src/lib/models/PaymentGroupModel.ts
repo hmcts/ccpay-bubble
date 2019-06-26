@@ -21,6 +21,10 @@ export interface IFeeModel {
 }
 
 export interface IRemissionModel {
+  ccd_case_number: string;
+  fee_code: string;
+  hwf_amount: number;
+  hwf_reference: string;
   remission_reference: string;
 }
 
