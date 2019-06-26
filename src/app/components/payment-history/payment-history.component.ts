@@ -18,7 +18,7 @@ export class PaymentHistoryComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       this.apiRoot = 'api/payment-history';
       this.ccdCaseNumber = params['ccdCaseNumber'];
-      this.view = 'case-transactions';
+      this.view = this.activatedRoute.snapshot.queryParams['view'];
     });
   }
 
