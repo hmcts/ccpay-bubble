@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 import { FeeRegisterSearchComponent } from './fee-register-search.component';
-import { FeeRegisterSearchService } from './fee-register-search.service';
+import { FeeRegisterSearchService } from './services/fee-register-search/fee-register-search.service';
 import { mockFees } from './mock-fees';
 
 describe('FeeRegisterSearchComponent', () => {

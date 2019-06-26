@@ -1,0 +1,32 @@
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header grey-text" scope="col">Fee Code</th>
+      <th class="govuk-table__header grey-text" scope="col">Fee description</th>
+      <th class="govuk-table__header grey-text" scope="col">Remission code</th>
+      <th class="govuk-table__header grey-text" scope="col"></th>
+      <th class="govuk-table__header grey-text" scope="col"></th>
+      <th class="govuk-table__header grey-text" scope="col"></th>
+      <th class="govuk-table__header grey-text" scope="col"></th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body" *ngIf="paymentGroup && paymentGroup.fees">
+    <tr class="govuk-table__row" *ngFor="let fee of paymentGroup.fees">
+      <td class="govuk-table__cell">{{ fee.code }}</td>
+      <td class="govuk-table__cell">Application for divorce</td>
+      <td class="govuk-table__cell">HWF123344</td>
+      <td class="govuk-table__cell grey-text">Fee amount<br/>
+      Volume<br/>
+      Fee total<br/>
+      Remission amount<br/>
+      Total after remission</td>
+      <td class="govuk-table__cell">{{ fee.calculated_amount | currency:'GBP':'symbol-narrow':'1.2-2' }}<br/>
+      {{ fee.volume }}<br/>
+      {{ fee.calculated_amount  | currency:'GBP':'symbol-narrow':'1.2-2' }}<br/>
+      0.00 <br/>
+      {{ fee.net_amount  | currency:'GBP':'symbol-narrow':'1.2-2' }}</td>
+      <td class="govuk-table__cell"><a href="">edit remission</a></td>
+      <td class="govuk-table__cell"><a href="">remove fee</a></td>
+    </tr>
+  </tbody>
+</table>
