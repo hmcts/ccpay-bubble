@@ -26,7 +26,6 @@ import { PaymentLibModule } from '@hmcts/ccpay-web-component';
 import { WindowUtil } from './services/window-util/window-util';
 import { CcdSearchComponent } from './components/ccd-search/ccd-search.component';
 import { FeesSummaryComponent } from './components/fees-summary/fees-summary.component';
-import { PaymentGroupService } from './services/payment-group/payment-group.service';
 
 @NgModule({
   declarations: [
@@ -60,7 +59,6 @@ import { PaymentGroupService } from './services/payment-group/payment-group.serv
   providers: [
     PaybubbleHttpClient,
     AddFeeDetailService,
-    PaymentGroupService,
     WindowUtil
   ],
   bootstrap: [AppComponent]

@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Jurisdictions } from '../../models/Jurisdictions';
-import { FeeRegisterSearchService } from '../../fee-register-search.service';
+import { FeeRegisterSearchService } from '../../services/fee-register-search/fee-register-search.service';
 
 @Component({
   selector: 'pay-fee-filter',

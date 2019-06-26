@@ -8,25 +8,7 @@
 
 <h1 class="heading-large">New fees added</h1>
 
-<table class="govuk-table">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th class="govuk-table__header grey-text" scope="col">Fee Code</th>
-      <th class="govuk-table__header grey-text" scope="col">Fee description</th>
-      <th class="govuk-table__header grey-text" scope="col">Remission code</th>
-      <th class="govuk-table__header grey-text" scope="col"></th>
-      <th class="govuk-table__header grey-text" scope="col"></th>
-      <th class="govuk-table__header grey-text" scope="col"></th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    <tr class="govuk-table__row">
-      <td class="govuk-table__cell">FEE0001</td>
-      <td class="govuk-table__cell">Application for divorce</td>
-      <td class="govuk-table__cell">HWF123344</td>
-      <td class="govuk-table__cell">HWF123344</td>
-      <td class="govuk-table__cell">edit remission</td>
-      <td class="govuk-table__cell">remove fee</td>
-    </tr>
-  </tbody>
-</table>
+<pay-fee-summary 
+[feeAPIRoot]="'api/fees'"
+[paymentGroupAPIRoot]="'/api/payment-groups'"
+[paymentGroupRef]="'2019-15579250481'"></pay-fee-summary>

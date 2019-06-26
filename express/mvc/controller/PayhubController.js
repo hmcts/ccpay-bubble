@@ -90,6 +90,16 @@ class PayhubController {
       });
   }
 
+  getPaymentGroup(req, res) {
+    return this.payhubService.getPaymentGroup(req)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        res.status(500).json({ err: error, success: false });
+      });
+  }
+
   ccpayWebComponentIntegration(req, res) {
     return this.payhubService.ccpayWebComponentIntegration(req)
       .then(result => {
