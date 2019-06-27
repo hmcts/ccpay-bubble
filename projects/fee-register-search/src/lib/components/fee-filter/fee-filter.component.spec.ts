@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule, CheckboxRequiredValidator } from '@an
 import { FeeRegisterSearchService } from '../../services/fee-register-search/fee-register-search.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Jurisdictions } from '../../models/Jurisdictions';
-import { MockFeeRegisterSearchService } from '../../mock-fee-register-search.service';
+import { MockFeeRegisterSearchService } from '../../mocks/mock-fee-register-search.service';
 
 describe('Fee Filter component', () => {
   let component: FeeFilterComponent,

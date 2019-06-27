@@ -4,7 +4,7 @@ import { FeesSummaryComponent } from './fees-summary.component';
 import { Router } from '@angular/router';
 
 const routerMock = {
-  navigateByUrl: jasmine.createSpy('navigateByUrl')
+  navigate: jasmine.createSpy('navigate')
 };
 
 describe('Fees Summary component', () => {
@@ -24,6 +24,11 @@ describe('Fees Summary component', () => {
 
   it('Should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('It should navigate back to the fee-search page', () => {
+    component.onGoBack();
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/fee-search']);
   });
 
 });
