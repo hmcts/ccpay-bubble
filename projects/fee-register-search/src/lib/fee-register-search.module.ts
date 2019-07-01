@@ -8,8 +8,6 @@ import { FeeListComponent } from './components/fee-list/fee-list.component';
 import { FeeSearchComponent } from './components/fee-search/fee-search.component';
 import { FilterFeesPipe } from './pipes/filter-fees.pipe';
 import { FeeFilterComponent } from './components/fee-filter/fee-filter.component';
-import { FeeSummaryComponent } from './components/fee-summary/fee-summary.component';
-import { PaymentGroupService } from './services/payment-group/payment-group.service';
 
 @NgModule({
   declarations: [
@@ -17,8 +15,7 @@ import { PaymentGroupService } from './services/payment-group/payment-group.serv
     FeeListComponent,
     FeeSearchComponent,
     FeeFilterComponent,
-    FilterFeesPipe,
-    FeeSummaryComponent
+    FilterFeesPipe
   ],
   imports: [
     CommonModule,
@@ -26,7 +23,7 @@ import { PaymentGroupService } from './services/payment-group/payment-group.serv
     ReactiveFormsModule,
     NgxPaginationModule
   ],
-  providers: [FeeRegisterSearchService, PaymentGroupService],
-  exports: [FeeRegisterSearchComponent, FeeSummaryComponent]
+  providers: [FeeRegisterSearchService],
+  exports: [FeeRegisterSearchComponent]
 })
 export class FeeRegisterSearchModule { }
