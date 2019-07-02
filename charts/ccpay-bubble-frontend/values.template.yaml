@@ -33,8 +33,8 @@ nodejs:
     
     APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
     
-    FEE_REGISTRATION_URL: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register/fees
-    FEE_JURISDICTION_URL: http://fees-register-api-aat.service.core-compute-aat.internal/jurisdictions
+    FEE_REGISTRATION_URL: https://fees-register-api.platform.hmcts.net/fees-register/fees
+    FEE_JURISDICTION_URL: https://fees-register-api.platform.hmcts.net/jurisdictions
 
 tags:
   - idam-pr
