@@ -14,9 +14,13 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Important - The project's build dependens on library projects located in the projects folder. Run `ng build fee-register-search` and `ng build view payment` before compiling the main project.
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Important - The project's build dependens on library projects located in the projects folder. 
+Run 
+  1. `ng build fee-register-search` and 
+  2. `ng build view payment` 
+  3. Run `ng build` 
+  4. yarn build
+  to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ## Running unit tests
 
