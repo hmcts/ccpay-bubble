@@ -95,6 +95,8 @@ describe('Add fee detail service', () => {
     spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => of(param1));
     const paymentModel = new PaymentModel();
     paymentModel.amount = 100;
+    paymentModel.ccd_case_number = '1111-2222-3333-4444';
+    addFeeDetailService.removeHyphenFromString(paymentModel.ccd_case_number);
     addFeeDetailService.paymentModel = paymentModel;
     addFeeDetailService.postPayment()
     .then((response) => expect(response).toEqual('/api/send-to-payhub'));
@@ -105,9 +107,18 @@ describe('Add fee detail service', () => {
     spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => of(param2));
     const paymentModel = new PaymentModel();
     paymentModel.amount = 100;
+    paymentModel.ccd_case_number = '1111-2222-3333-4444';
+    addFeeDetailService.removeHyphenFromString(paymentModel.ccd_case_number);
     addFeeDetailService.paymentModel = paymentModel;
     addFeeDetailService.postPayment()
     .then((response) => expect(response.amount).toBe(100));
+  });
+
+  it('Should remove hyphems from ccd_case_number', () => {
+    const paymentModel = new PaymentModel;
+    paymentModel.ccd_case_number = '1111-2222-3333-4444';
+    paymentModel.ccd_case_number = addFeeDetailService.removeHyphenFromString(paymentModel.ccd_case_number);
+    expect(paymentModel.ccd_case_number).toBe('1111222233334444');
   });
 
   it('Should call post payment url with a paymentModel', () => {
