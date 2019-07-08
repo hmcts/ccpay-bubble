@@ -110,6 +110,13 @@ export class AddFeeDetailService {
   }
 
   postPayment() {
-    return this.http.post('/api/send-to-payhub', PaymentModel.cleanModel(this._paymentModel)).toPromise();
+    const paymentModelTemp = Object.assign({}, PaymentModel.cleanModel(this._paymentModel));
+    paymentModelTemp.ccd_case_number = this.removeHyphenFromString(paymentModelTemp.ccd_case_number);
+    return this.http.post('/api/send-to-payhub', paymentModelTemp).toPromise();
+  }
+
+  removeHyphenFromString(input: string) {
+    const pattern = /\-/gi;
+    return input.replace(pattern, '');
   }
 }
