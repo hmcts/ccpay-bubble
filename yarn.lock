@@ -304,10 +304,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@hmcts/ccpay-web-component@~1.8.6":
-  version "1.8.6"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-1.8.6.tgz#61953dc6d80af6dbc3a54503880ba8737a998555"
-  integrity sha512-a0rcpTlZm2+hzehYng2+cAwSC3XOHEUVo5nbIfiXwWen18kCBIAp8XFxDGK9TY6h6J5K5+yBn/lPQzoIpmG90A==
+"@hmcts/ccpay-web-component@^1.8.8":
+  version "1.8.8"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-1.8.8.tgz#719fd740cfeb3e934fd52ab4270ddbbed9fad06d"
+  integrity sha512-j8LNquXFEQJzuzxJNJRaTBXQuNRkS08PBC+/PXE+aq+6oKGmESUkaoD3Mv6YX5YGkwtf1+jMesJ9ogV12WwDHg==
   dependencies:
     tslib "^1.9.0"
 
