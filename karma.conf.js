@@ -29,10 +29,9 @@ module.exports = config => {
     // leave Jasmine Spec Runner output visible in browser
     client: { clearContext: false },
     customLaunchers: {
-      ChromeDebug: {
-        base: 'Chrome',
-        flags: [ '--remote-debugging-port=9333', '--headless'],
-        debug: true
+      HeadlessChrome: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox']
       }
     },
     coverageReporter: {
@@ -45,7 +44,7 @@ module.exports = config => {
     colors: true,
     logLevel: config.LOG_DEBUG,
     autoWatch: false,
-    browsers: [ 'ChromeDebug' ],
+    browsers: [ 'ChromeHeadless' ],
     singleRun: true,
     watch: false
   });
