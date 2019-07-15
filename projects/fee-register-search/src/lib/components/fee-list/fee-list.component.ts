@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { IFee } from '../../interfaces';
-import { Observable } from 'rxjs';
 import { Jurisdictions } from '../../models/Jurisdictions';
 
 @Component({
