@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-fees-summary',
@@ -8,14 +8,17 @@ import { Router } from '@angular/router';
 })
 export class FeesSummaryComponent implements OnInit {
 
-  constructor(
-    private router: Router,
-  ) {}
+  paymentGroupRef = '2019-15578304238';
+
+  constructor(private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.params.subscribe( params => {
+      if (params['reference']) {
+        this.paymentGroupRef = params['reference'];
+      }
+    });
+  }
 
   ngOnInit() {
   }
 
-  onGoBack() {
-    return this.router.navigate(['/fee-search']);
-  }
 }

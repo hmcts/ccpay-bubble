@@ -1,7 +1,8 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FeesSummaryComponent } from './fees-summary.component';
-import { Router } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 const routerMock = {
   navigate: jasmine.createSpy('navigate')
@@ -14,7 +15,12 @@ describe('Fees Summary component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [FeesSummaryComponent],
-      providers: [{ provide: Router, useValue: routerMock }],
+      providers: [{
+        provide: ActivatedRoute,
+        useValue: {
+          params: of({reference: '2019-15578475904'})
+        }
+      }],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -25,10 +31,4 @@ describe('Fees Summary component', () => {
   it('Should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('It should navigate back to the fee-search page', () => {
-    component.onGoBack();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/fee-search']);
-  });
-
 });
