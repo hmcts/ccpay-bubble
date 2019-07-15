@@ -1,5 +1,5 @@
 import { FilterFeesPipe } from './filter-fees.pipe';
-import { mockFees } from '../mock-fees';
+import { mockFees } from '../mocks/mock-fees';
 import { Jurisdictions } from '../models/Jurisdictions';
 
 describe('Filter fees pipe', () => {
