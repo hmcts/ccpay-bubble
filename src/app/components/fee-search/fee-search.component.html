@@ -1,9 +1,9 @@
 <legend><h1 class="heading-xlarge">Add fee details</h1></legend>
 
 <pay-fee-register-search
-  [APIRoot]='"http://localhost:9999"'
+  [APIRoot]='"api"'
   *ngIf="!(ccdNo && paymentGroupRef)"
   (selectedFeeEvent)="logFee($event)"></pay-fee-register-search>
 
-<ccpay-payment-lib *ngIf="ccdNo && paymentGroupRef" [API_ROOT]="'http://localhost:9999/api'" [CCD_CASE_NUMBER]="ccdNo"
+<ccpay-payment-lib *ngIf="ccdNo && paymentGroupRef" [API_ROOT]="'api'" [CCD_CASE_NUMBER]="ccdNo"
                    [VIEW]="'fee-summary'" [PAYMENT_GROUP_REF]="paymentGroupRef"></ccpay-payment-lib>
