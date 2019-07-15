@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { TestBed, ComponentFixture} from '@angular/core/testing';
 import { FeeFilterComponent } from './fee-filter.component';
 import { FormsModule, ReactiveFormsModule, CheckboxRequiredValidator } from '@angular/forms';
-import { FeeRegisterSearchService } from '../../fee-register-search.service';
+import { FeeRegisterSearchService } from '../../services/fee-register-search/fee-register-search.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Jurisdictions } from '../../models/Jurisdictions';
-import { MockFeeRegisterSearchService } from '../../mock-fee-register-search.service';
+import { MockFeeRegisterSearchService } from '../../mocks/mock-fee-register-search.service';
 
 describe('Fee Filter component', () => {
   let component: FeeFilterComponent,
