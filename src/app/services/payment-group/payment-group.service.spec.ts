@@ -9,155 +9,31 @@ import {RemissionModel} from 'src/app/models/RemissionModel';
 import {FeeModel} from 'src/app/models/FeeModel';
 import {feeTypes} from 'src/stubs/feeTypes';
 import {PaymentGroupService} from './payment-group.service';
+import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 
-// describe('Add fee detail service', () => {
-//   let paymentGroupService: PaymentGroupService;
-//   let http: PaybubbleHttpClient;
-//   beforeEach(() => {
-//     http = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
-//     addFeeDetailService = new AddFeeDetailService(http);
-//   });
-//
-//   it('Should SET and GET private payment model', () => {
-//     const paymentModel = new PaymentModel();
-//     paymentModel.amount = 100;
-//     addFeeDetailService.paymentModel = paymentModel;
-//     expect(addFeeDetailService.paymentModel.amount).toBe(100);
-//   });
-//
-//   it('Should SET and GET private payment model', () => {
-//     const remissionModel = new RemissionModel();
-//     remissionModel.hwf_amount = 100;
-//     addFeeDetailService.remissionModel = remissionModel;
-//     expect(addFeeDetailService.remissionModel.hwf_amount).toBe(100);
-//   });
-//
-//   it('Should SET and GET selected fee', () => {
-//     const fee = new FeeModel();
-//     fee.calculated_amount = 100;
-//     addFeeDetailService.selectedFee = fee;
-//     expect(addFeeDetailService.selectedFee.calculated_amount).toBe(100);
-//   });
-//
-//   it('Should SET and GET remission ref', () => {
-//     addFeeDetailService.remissionRef = 'HWF-123';
-//     expect(addFeeDetailService.remissionRef).toBe('HWF-123');
-//   });
-//
-//   it('Should set a new payment model', () => {
-//     const fee = new FeeModel();
-//     fee.calculated_amount = 100;
-//     addFeeDetailService.selectedFee = fee;
-//     const props = {
-//       caseReference: '1111-2222-3333-4444',
-//       serviceType: 'DIVORCE',
-//     };
-//     addFeeDetailService.setNewPaymentModel(props);
-//     expect(addFeeDetailService.paymentModel.ccd_case_number).toBe('1111-2222-3333-4444');
-//     expect(addFeeDetailService.paymentModel.fees[0].calculated_amount).toBe(100);
-//     expect(addFeeDetailService.paymentModel.service).toBe('DIVORCE');
-//     expect(addFeeDetailService.paymentModel.amount).toBe(100);
-//   });
-//
-//   it('Should set a new remission model', () => {
-//     const fee = new FeeModel();
-//     fee.calculated_amount = 100;
-//     addFeeDetailService.selectedFee = fee;
-//     const props = {
-//       amountToPay: 1,
-//       helpWithFeesCode: '123'
-//     };
-//     addFeeDetailService.setNewRemissionModel(props);
-//     expect(addFeeDetailService.remissionModel.fee.calculated_amount).toBe(100);
-//     expect(addFeeDetailService.remissionModel.hwf_amount).toBe(99);
-//     expect(addFeeDetailService.remissionModel.hwf_reference).toBe('123');
-//   });
-//
-//   it('Should populate the fee list with fee data', () => {
-//     const feeList = addFeeDetailService.buildFeeList();
-//     expect(feeList.length).toBe(feeTypes.length);
-//   });
-//
-//   it('Should add fee model versions when populating fee list', () => {
-//     const feeList = addFeeDetailService.buildFeeList();
-//     expect(feeList[0].calculated_amount).toBe(550.00);
-//     expect(feeList[0].display_amount).toBe('£ 550.00');
-//     expect(feeList[0].description).toBe('Filing an application for a divorce, nullity or civil partnership dissolution');
-//     expect(feeList[0].version).toBe('4');
-//   });
-//
-//   it('Should add fee model code when populating fee list', () => {
-//     const feeList = addFeeDetailService.buildFeeList();
-//     expect(feeList[0].code).toBe('FEE0002');
-//   });
-//
-//   it('Should call post payment with the correct path', () => {
-//     const calledWithParams = [];
-//     spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => of(param1));
-//     const paymentModel = new PaymentModel();
-//     paymentModel.amount = 100;
-//     addFeeDetailService.paymentModel = paymentModel;
-//     addFeeDetailService.postPayment()
-//       .then((response) => expect(response).toEqual('/api/send-to-payhub'));
-//   });
-//
-//   it('Should call post payment with a paymentModel', () => {
-//     const calledWithParams = [];
-//     spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => of(param2));
-//     const paymentModel = new PaymentModel();
-//     paymentModel.amount = 100;
-//     addFeeDetailService.paymentModel = paymentModel;
-//     addFeeDetailService.postPayment()
-//       .then((response) => expect(response.amount).toBe(100));
-//   });
-//
-//   it('Should call post payment url with a paymentModel', () => {
-//     const calledWithParams = [];
-//     spyOn(http, 'post').and.callFake((param1: string, param2: any) => of(param2));
-//     addFeeDetailService.postPaymentUrl('url')
-//       .then((response) => expect(response.url).toBe('url'));
-//   });
-//
-//   it('Should call post full remission with the correct path', () => {
-//     const calledWithParams = [];
-//     spyOn(http, 'post').and.callFake((param1: string, param2: RemissionModel) => of(param1));
-//     const remissionModel = new RemissionModel();
-//     remissionModel.hwf_amount = 100;
-//     addFeeDetailService.remissionModel = remissionModel;
-//     addFeeDetailService.postFullRemission()
-//       .then((response) => expect(response).toEqual('/api/remission'));
-//   });
-//
-//   it('Should call post full remission with the correct path', () => {
-//     const calledWithParams = [];
-//     spyOn(http, 'post').and.callFake((param1: string, param2: RemissionModel) => of(param1));
-//     const remissionModel = new RemissionModel();
-//     remissionModel.hwf_amount = 100;
-//     addFeeDetailService.remissionModel = remissionModel;
-//     addFeeDetailService.postPartialRemission('paymentGroupRef', 'feeId')
-//       .then((response) => expect(response).toEqual('/api/payment-groups/paymentGroupRef/fees/feeId/remissions'));
-//   });
-//
-//   it('Should call post partial payment with the correct path', () => {
-//     const calledWithParams = [];
-//     spyOn(http, 'post').and.callFake((param1: string, param2: PaymentModel) => of(param2));
-//     const paymentModel = new PaymentModel();
-//     paymentModel.amount = 100;
-//     addFeeDetailService.paymentModel = paymentModel;
-//     addFeeDetailService.postPartialPayment()
-//       .then((response) => expect(response.amount).toBe(100));
-//   });
-//
-//   it('Should call post full remission with a remissionModel', () => {
-//     const calledWithParams = [];
-//     spyOn(http, 'post').and.callFake((param1: string, param2: RemissionModel) => of(param2));
-//     const remissionModel = new RemissionModel();
-//     remissionModel.hwf_amount = 100;
-//     addFeeDetailService.remissionModel = remissionModel;
-//     addFeeDetailService.postFullRemission()
-//       .then((response) => {
-//         expect(response.hwf_amount).toBe(100);
-//         expect(response.site_id).toBe('AA02');
-//       });
-//   });
-// });
+describe('Payment group service', () => {
+  let paymentGroupService: PaymentGroupService;
+  let http: PaybubbleHttpClient;
+  beforeEach(() => {
+    http = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
+    paymentGroupService = new PaymentGroupService(http);
+  });
+
+  fit('Should call post full remission with a remissionModel', () => {
+    const paymentGroup = <IPaymentGroup>{
+      payment_group_reference: '1234',
+      fees: [{code: 'FEE0001'}],
+      payments: null,
+      remissions: null
+    };
+    spyOn(http, 'post').and.callFake((param1: string, param2: FeeModel) => of(paymentGroup));
+    const feeModel = new FeeModel();
+    feeModel.ccd_case_number = '1234';
+    feeModel.code = 'FEE0001';
+    paymentGroupService.postPaymentGroup(feeModel)
+      .then((response) => {
+        expect(response.fees[0].code).toBe(paymentGroup.fees[0].code);
+        expect(response.payment_group_reference).toBe(paymentGroup.payment_group_reference);
+      });
+  });
+});
