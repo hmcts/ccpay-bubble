@@ -25,6 +25,7 @@ import { PaymentHistoryComponent } from './components/payment-history/payment-hi
 import { PaymentLibModule } from '@hmcts/ccpay-web-component';
 import { WindowUtil } from './services/window-util/window-util';
 import { CcdSearchComponent } from './components/ccd-search/ccd-search.component';
+import { FeesSummaryComponent } from './components/fees-summary/fees-summary.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { CcdSearchComponent } from './components/ccd-search/ccd-search.component
     SanitizeHtmlPipe,
     HeaderComponent,
     NavigationComponent,
-    FeeSearchComponent,
+    FeesSummaryComponent,
     PaymentHistoryComponent,
     FeeSearchComponent,
     CcdSearchComponent

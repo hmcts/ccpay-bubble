@@ -4,7 +4,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FeeListComponent } from './fee-list.component';
 import { FilterFeesPipe } from '../../pipes/filter-fees.pipe';
-import { mockFees } from '../../mock-fees';
+import { mockFees } from '../../mocks/mock-fees';
 
 describe('Fee list component', () => {
   let component: FeeListComponent,
