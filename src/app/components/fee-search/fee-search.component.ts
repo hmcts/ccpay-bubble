@@ -1,8 +1,5 @@
 import {Component} from '@angular/core';
-import {AddFeeDetailService} from '../../services/add-fee-detail/add-fee-detail.service';
-import {Router} from '@angular/router';
 import {PaymentGroupService} from '../../services/payment-group/payment-group.service';
-import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 
 @Component({
   selector: 'app-fee-search',
