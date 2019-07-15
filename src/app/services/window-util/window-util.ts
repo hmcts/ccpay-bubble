@@ -17,6 +17,6 @@ export class WindowUtil {
   }
 
   displayMVP(): boolean {
-   return this.windowHref.indexOf('.internal') > 0 || this.windowHref.indexOf('localhost') > 0;
+   return true;
   }
 }

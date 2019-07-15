@@ -14,6 +14,7 @@ import { FeeListTableComponent } from './shared/components/fee-list-table/fee-li
 import { ServiceFailureComponent } from './shared/components/service-failure/service-failure.component';
 import { PaybubbleHttpClient } from './services/httpclient/paybubble.http.client';
 import { AddFeeDetailService } from './services/add-fee-detail/add-fee-detail.service';
+import { PaymentGroupService } from './services/payment-group/payment-group.service';
 import { ViewPaymentComponent } from 'src/app/components/view-payment/view-payment.component';
 import { NavigationComponent } from './shared/components/navigation/navigation.component';
 import { FormatDisplayCurrencyPipe } from './shared/pipes/format-display-currency.pipe';
@@ -59,6 +60,7 @@ import { FeesSummaryComponent } from './components/fees-summary/fees-summary.com
   providers: [
     PaybubbleHttpClient,
     AddFeeDetailService,
+    PaymentGroupService,
     WindowUtil
   ],
   bootstrap: [AppComponent]
