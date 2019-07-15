@@ -2,9 +2,9 @@ security:
   referrerPolicy: origin
 idam:
   client_id: paybubble
-  client_secret: NVYEC2X7XFSRENTU
-  login_url: https://idam-web-public.aat.platform.hmcts.net
-  api_url: https://idam-api.aat.platform.hmcts.net
+  client_secret: SFQBNO52G4ITHHDJ
+  login_url: https://localhost:8000/login
+  api_url: http://localhost:8001
 session:
   cookieName: SESSION_ID
 ccpaybubble:
@@ -13,9 +13,9 @@ ccpaybubble:
   microservice: ccpay_bubble
 s2s:
   key: G5XTFNBUW4P6ZP4F
-  url: https://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+  url: http://localhost:8002
 payhub:
-  url: http://payment-api-aat.service.core-compute-aat.internal
+  url: http://localhost:8080
 appInsights:
   instrumentationKey: some-key
   roleName: paybubble
