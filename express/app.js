@@ -25,6 +25,10 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postPartialRemission(req, res, appInsights);
   })
 
+  .get('/payment-groups/:paymentGroup', (req, res) => {
+    controllers.payhubController.getPaymentGroup(req, res, appInsights);
+  })
+
   .get('/payments/:id', (req, res) => {
     controllers.payhubController.getPayment(req, res);
   })
