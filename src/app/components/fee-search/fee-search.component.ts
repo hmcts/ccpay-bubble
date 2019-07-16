@@ -16,7 +16,7 @@ export class FeeSearchComponent {
   ) {
   }
 
-  logFee(fee: any) {
+  selectFee(fee: any) {
     this.paymentGroupService.postPaymentGroup(fee).then(paymentGroup => {
       this.paymentGroupRef = paymentGroup.payment_group_reference;
     });

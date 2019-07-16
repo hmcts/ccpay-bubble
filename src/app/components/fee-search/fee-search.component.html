@@ -3,7 +3,7 @@
 <pay-fee-register-search
   [APIRoot]='"api"'
   *ngIf="!(ccdNo && paymentGroupRef)"
-  (selectedFeeEvent)="logFee($event)"></pay-fee-register-search>
+  (selectedFeeEvent)="selectFee($event)"></pay-fee-register-search>
 
 <ccpay-payment-lib *ngIf="ccdNo && paymentGroupRef" [API_ROOT]="'api'" [CCD_CASE_NUMBER]="ccdNo"
                    [VIEW]="'fee-summary'" [PAYMENT_GROUP_REF]="paymentGroupRef"></ccpay-payment-lib>
