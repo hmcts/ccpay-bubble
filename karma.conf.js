@@ -36,7 +36,7 @@ module.exports = config => {
       ChromeDebug: {
         base: 'Chrome',
         flags: [ '--remote-debugging-port=9333', '--headless', '--no-sandbox', '--no-proxy-server'],
-        debug: true
+        debug: false
       }
     },
     coverageReporter: {
