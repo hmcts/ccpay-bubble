@@ -29,10 +29,14 @@ module.exports = config => {
     // leave Jasmine Spec Runner output visible in browser
     client: { clearContext: false },
     customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--headless', '--disable-gpu', '--remote-debugging-port=9333', '--no-sandbox', '--no-proxy-server', '--disable-dev-shm-usage']
+      },
       ChromeDebug: {
         base: 'Chrome',
-        flags: [ '--remote-debugging-port=9333', '--headless'],
-        debug: true
+        flags: [ '--remote-debugging-port=9333', '--headless', '--no-sandbox', '--no-proxy-server'],
+        debug: false
       }
     },
     coverageReporter: {
