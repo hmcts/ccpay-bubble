@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './routes/app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +26,14 @@ import { PaymentLibModule } from '@hmcts/ccpay-web-component';
 import { WindowUtil } from './services/window-util/window-util';
 import { CcdSearchComponent } from './components/ccd-search/ccd-search.component';
 import { FeesSummaryComponent } from './components/fees-summary/fees-summary.component';
+import { AuthDevInterceptor } from './shared/interceptors/auth.dev.interceptor';
+import { environment } from '../environments/environment';
+
+const nonProductionProviders = [{
+  provide: HTTP_INTERCEPTORS,
+  useClass: AuthDevInterceptor,
+  multi: true
+}];
 
 @NgModule({
   declarations: [
@@ -59,7 +67,8 @@ import { FeesSummaryComponent } from './components/fees-summary/fees-summary.com
   providers: [
     PaybubbleHttpClient,
     AddFeeDetailService,
-    WindowUtil
+    WindowUtil,
+    !environment.production ? nonProductionProviders : [],
   ],
   bootstrap: [AppComponent]
 })
