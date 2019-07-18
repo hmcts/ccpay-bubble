@@ -1,7 +1,7 @@
 payment-api:
-  releaseNameOverride: ${SERVICE_NAME}-payment-api
+  releaseNameOverride: ${SERVICE_NAME}payment_api
   java:
-    releaseNameOverride: ${SERVICE_NAME}-payment-api
+    releaseNameOverride: ${SERVICE_NAME}payment_api
     image: hmcts.azurecr.io/hmcts/payment-api
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-payment-db:5432/payment
