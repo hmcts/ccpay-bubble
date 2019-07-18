@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed, tick} from '@angular/core/testing';
 import {FeeSearchComponent} from './fee-search.component';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {PaymentGroupService} from '../../services/payment-group/payment-group.service';
@@ -32,10 +32,11 @@ describe('Fee search component', () => {
     expect(component.selectedFee).toBe('test');
   });
 
-  it('Should post request to payhub API and assign a payment group reference', () => {
-    component.selectFee('dummy');
+  fit('Should post request to payhub API and assign a payment group reference', async(async() => {
     component.ccdNo = '1234-1234-1234-1234';
+    component.selectFee('dummy');
+    await fixture.whenStable();
     fixture.detectChanges();
     expect(component.paymentGroupRef).toBe(mockPaymentGroup.payment_group_reference);
-  });
+  }));
 });
