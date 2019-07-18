@@ -20,7 +20,7 @@ export class PaymentHistoryComponent implements OnInit {
       this.apiRoot = 'api/payment-history';
       this.ccdCaseNumber = params['ccdCaseNumber'];
       this.view = this.activatedRoute.snapshot.queryParams['view'];
-      this.enableButton = this.activatedRoute.snapshot.queryParams['readOnly'];
+      this.enableButton = this.activatedRoute.snapshot.queryParams['enableButton'];
     });
   }
 }
