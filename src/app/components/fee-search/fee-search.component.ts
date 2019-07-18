@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {PaymentGroupService} from '../../services/payment-group/payment-group.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-fee-search',
@@ -9,13 +9,20 @@ import {Router} from '@angular/router';
 })
 export class FeeSearchComponent {
   selectedFee: any;
-  ccdNo = '1234';
+  ccdNo: string = null;
   paymentGroupRef: string = null;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private paymentGroupService: PaymentGroupService
   ) {
+  }
+
+  ngOnInit() {
+    this.activatedRoute.params.subscribe((params) => {
+      this.ccdNo = this.activatedRoute.snapshot.queryParams['ccdCaseNumber'];
+    });
   }
 
   selectFee(fee: any) {
