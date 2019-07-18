@@ -27,7 +27,7 @@ export class FeeSearchComponent {
 
   selectFee(fee: any) {
     this.paymentGroupService.postPaymentGroup(fee).then(paymentGroup => {
-      this.router.navigateByUrl(`/payment-history/${this.ccdNo}?view=fee-summary&paymentGroupRef=${this.paymentGroupRef}`);
+      this.router.navigateByUrl(`/payment-history/${this.ccdNo}?view=fee-summary&paymentGroupRef=${paymentGroup.payment_group_reference}`);
     });
   }
 }
