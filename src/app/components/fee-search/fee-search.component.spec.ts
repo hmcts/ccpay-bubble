@@ -39,12 +39,10 @@ describe('Fee search component', () => {
   });
 
   it('Should set ccd number from URL', async(async () => {
-    component.ngOnInit();
     expect(component.ccdNo).toBe('1234-1234-1234-1234');
   }));
 
   it('Should set ccd number from URL', async(async () => {
-    component.ngOnInit();
     spyOn(router, 'navigateByUrl');
     component.selectFee({});
     await fixture.whenStable();
