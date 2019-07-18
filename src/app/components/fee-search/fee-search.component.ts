@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PaymentGroupService} from '../../services/payment-group/payment-group.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
@@ -7,7 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
   templateUrl: './fee-search.component.html',
   styleUrls: ['./fee-search.component.scss']
 })
-export class FeeSearchComponent {
+export class FeeSearchComponent implements OnInit {
   selectedFee: any;
   ccdNo: string = null;
   paymentGroupRef: string = null;
