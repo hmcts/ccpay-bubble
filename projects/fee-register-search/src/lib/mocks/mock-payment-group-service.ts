@@ -1,6 +1,4 @@
-import {defer} from 'rxjs';
 import {FeeModel} from '../../../../../src/app/models/FeeModel';
-import {mockPaymentGroup} from './mock-payment-group';
 
 
 export class MockPaymentGroupService {
