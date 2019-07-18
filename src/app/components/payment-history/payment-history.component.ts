@@ -10,7 +10,7 @@ import { PlatformLocation } from '@angular/common';
 export class PaymentHistoryComponent implements OnInit {
   apiRoot: string;
   view: string;
-  readOnly: string;
+  enableButton: boolean;
   ccdCaseNumber: string;
 
   constructor(private activatedRoute: ActivatedRoute) { }
@@ -20,7 +20,7 @@ export class PaymentHistoryComponent implements OnInit {
       this.apiRoot = 'api/payment-history';
       this.ccdCaseNumber = params['ccdCaseNumber'];
       this.view = this.activatedRoute.snapshot.queryParams['view'];
-      this.readOnly = this.activatedRoute.snapshot.queryParams['readOnly'];
+      this.enableButton = this.activatedRoute.snapshot.queryParams['readOnly'];
     });
   }
 }
