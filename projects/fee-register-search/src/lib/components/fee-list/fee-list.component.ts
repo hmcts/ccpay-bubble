@@ -15,8 +15,6 @@ export class FeeListComponent {
   p = 1;
 
   selectFee(fee: IFee) {
-    //call payhub
-    //
     this.selectedFeeEvent.emit(fee);
   }
 }
