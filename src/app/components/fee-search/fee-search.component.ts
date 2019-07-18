@@ -10,7 +10,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class FeeSearchComponent implements OnInit {
   selectedFee: any;
   ccdNo: string = null;
-  paymentGroupRef: string = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
