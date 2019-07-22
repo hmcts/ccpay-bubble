@@ -10,6 +10,7 @@ export class FilterFeesPipe implements PipeTransform {
     if (!fees) { return []; }
     if (!searchFilter) { return fees; }
 
+    fees = this.filterValidFee(fees);
     let filteredList: IFee[] = [];
 
     if (this.isNumeric(searchFilter)) {
@@ -100,5 +101,12 @@ export class FilterFeesPipe implements PipeTransform {
   isConjunction(word: string) {
     const conjuctions = ['for', 'and', 'nor', 'but', 'or', 'yet', 'so', 'of'];
     return conjuctions.find((str) => str === word);
+  }
+
+  filterValidFee(fees: IFee[]) {
+    const currentDate = new Date();
+    return fees.filter(fee => fee.current_version && fee.current_version.status === 'approved'
+    && new Date(fee.current_version.valid_from) <= currentDate
+    && (!fee.current_version.valid_to || new Date(fee.current_version.valid_to) >= currentDate));
   }
 }

@@ -81,4 +81,10 @@ describe('Filter fees pipe', () => {
     expect(filterFeesPipe.isConjunction('and')).toBeTruthy();
 
   });
+
+  it('Should check if fees is valid only', () => {
+    const results = filterFeesPipe.filterValidFee(mockFees);
+    expect(results.length).toBe(2);
+    expect(results[0]).toEqual(mockFees[0]);
+  });
 });
