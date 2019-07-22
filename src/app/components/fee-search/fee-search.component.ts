@@ -34,7 +34,10 @@ export class FeeSearchComponent implements OnInit {
       payment_group_reference: null
     };
     this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
-      this.router.navigateByUrl(`/payment-history/${this.ccdNo}?view=fee-summary&paymentGroupRef=${paymentGroupReceived.payment_group_reference}`);
+      this
+        .router
+        .navigateByUrl(`/payment-history/${this.ccdNo}`
+          + `?view=fee-summary&paymentGroupRef=${paymentGroupReceived.payment_group_reference}`);
     });
   }
 }
