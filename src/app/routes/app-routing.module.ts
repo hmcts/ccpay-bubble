@@ -46,6 +46,11 @@ const routes: Routes = [
     component: CcdSearchComponent,
     canActivate: [MVPGuard]
   },
+    {
+    path: 'payment-history',
+    component: CcdSearchComponent,
+    canActivate: [MVPGuard]
+  },
   {
     path: 'fees-summary',
     component: FeesSummaryComponent
