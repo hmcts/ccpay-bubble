@@ -40,6 +40,7 @@ describe('Payment History component', () => {
     expect(component.apiRoot).toBe('api/payment-history');
     expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
     expect(component.view).toBe('fee-summary');
-   // expect(component.paymentGroupRef).toBe('123');
+    expect(component.paymentGroupRef).toBe('123');
   });
+
 });

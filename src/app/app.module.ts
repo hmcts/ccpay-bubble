@@ -26,7 +26,6 @@ import {PaymentHistoryComponent} from './components/payment-history/payment-hist
 import {PaymentLibModule} from '@hmcts/ccpay-web-component';
 import {WindowUtil} from './services/window-util/window-util';
 import {CcdSearchComponent} from './components/ccd-search/ccd-search.component';
-import {FeesSummaryComponent} from './components/fees-summary/fees-summary.component';
 import {AuthDevInterceptor} from './shared/interceptors/auth.dev.interceptor';
 import {environment} from '../environments/environment';
 
@@ -50,7 +49,6 @@ const nonProductionProviders = [{
     SanitizeHtmlPipe,
     HeaderComponent,
     NavigationComponent,
-    FeesSummaryComponent,
     PaymentHistoryComponent,
     FeeSearchComponent,
     CcdSearchComponent
