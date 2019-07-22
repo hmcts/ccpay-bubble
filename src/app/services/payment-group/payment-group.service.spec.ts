@@ -19,7 +19,7 @@ describe('Payment group service', () => {
     paymentGroupService = new PaymentGroupService(http);
   });
 
-  fit('Should call post full remission with a remissionModel', () => {
+  it('Should call post full remission with a remissionModel', () => {
     const paymentGroup = <IPaymentGroup>{
       payment_group_reference: '1234',
       fees: [{code: 'FEE0001'}],
@@ -27,10 +27,13 @@ describe('Payment group service', () => {
       remissions: null
     };
     spyOn(http, 'post').and.callFake((param1: string, param2: FeeModel) => of(paymentGroup));
-    const feeModel = new FeeModel();
-    feeModel.ccd_case_number = '1234';
-    feeModel.code = 'FEE0001';
-    paymentGroupService.postPaymentGroup(feeModel)
+    const inputPaymentGroup = <IPaymentGroup>{
+      payment_group_reference: null,
+      fees: [{ccd_case_number: '1234', code: 'FEE0001'}],
+      payments: null,
+      remissions: null
+    };
+    paymentGroupService.postPaymentGroup(inputPaymentGroup)
       .then((response) => {
         expect(response.fees[0].code).toBe(paymentGroup.fees[0].code);
         expect(response.payment_group_reference).toBe(paymentGroup.payment_group_reference);

@@ -7,8 +7,10 @@ import {PaybubbleHttpClient} from '../../services/httpclient/paybubble.http.clie
 import {instance, mock} from 'ts-mockito';
 import {HttpClient} from '@angular/common/http';
 import {Meta} from '@angular/platform-browser';
+import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
+import {IFee} from '@hmcts/ccpay-web-component/lib/interfaces/IFee';
 
-fdescribe('Fee search component', () => {
+describe('Fee search component', () => {
   let component: FeeSearchComponent,
     fixture: ComponentFixture<FeeSearchComponent>,
     paymentGroupService: PaymentGroupService,
@@ -56,9 +58,18 @@ fdescribe('Fee search component', () => {
   });
 
   it('Should pass selected fee into POST call for backend', () => {
-    component.selectFee('test');
+    const fee = <IFee>{
+      code: 'test-code-fee'
+    };
+    fee.code = 'test';
+    component.selectFee(fee);
     fixture.detectChanges();
-    expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith('test');
+    expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith(<IPaymentGroup>{
+      fees: [fee],
+      payment_group_reference: null,
+      payments: null,
+      remissions: null
+    });
   });
 
   it('Should set ccd number from URL', async(async () => {
@@ -67,7 +78,7 @@ fdescribe('Fee search component', () => {
 
   it('Should navigate to fee-summary page using correct CCD case number and payment group reference', async(async () => {
     spyOn(router, 'navigateByUrl');
-    component.selectFee({});
+    component.selectFee(<IFee>{code: 'test-fee-code'});
     await fixture.whenStable();
     fixture.detectChanges();
 
