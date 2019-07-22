@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {PaymentGroupService} from '../../services/payment-group/payment-group.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
+import {IFee} from '@hmcts/ccpay-web-component/lib/interfaces/IFee';
 
 @Component({
   selector: 'app-fee-search',
@@ -24,9 +26,15 @@ export class FeeSearchComponent implements OnInit {
     });
   }
 
-  selectFee(fee: any) {
-    this.paymentGroupService.postPaymentGroup(fee).then(paymentGroup => {
-      this.router.navigateByUrl(`/payment-history/${this.ccdNo}?view=fee-summary&paymentGroupRef=${paymentGroup.payment_group_reference}`);
+  selectFee(fee: IFee) {
+    const paymentGroup = <IPaymentGroup>{
+      fees: [fee],
+      remissions: null,
+      payments: null,
+      payment_group_reference: null
+    };
+    this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
+      this.router.navigateByUrl(`/payment-history/${this.ccdNo}?view=fee-summary&paymentGroupRef=${paymentGroupReceived.payment_group_reference}`);
     });
   }
 }
