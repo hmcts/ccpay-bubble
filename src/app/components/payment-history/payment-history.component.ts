@@ -12,6 +12,7 @@ export class PaymentHistoryComponent implements OnInit {
   ccdCaseNumber: string;
   view: string;
   paymentGroupRef: string;
+  enableButton: boolean;
 
   constructor(private activatedRoute: ActivatedRoute) { }
 
@@ -20,6 +21,7 @@ export class PaymentHistoryComponent implements OnInit {
       this.apiRoot = 'api/payment-history';
       this.ccdCaseNumber = params['ccdCaseNumber'];
       this.view = this.activatedRoute.snapshot.queryParams['view'];
+      this.enableButton = this.activatedRoute.snapshot.queryParams['enableButton'];
       this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
     });
   }
