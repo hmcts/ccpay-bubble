@@ -62,7 +62,12 @@ describe('Fee search component', () => {
     component.searchFees();
     fixture.detectChanges();
     expect(component.hasErrors).toBeFalsy();
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111-2222-3333-4444?view=case-transactions');
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?view=case-transactions');
   });
 
+  it('Should remove hyphems from ccd_case_number', () => {
+    let ccd_case_number = '1111-2222-3333-4444';
+    ccd_case_number = component.removeHyphenFromString(ccd_case_number);
+    expect(ccd_case_number).toBe('1111222233334444');
+  });
 });
