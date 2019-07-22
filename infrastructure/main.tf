@@ -60,6 +60,8 @@ module "ccpay-bubble" {
     CCPAY_BUBBLE_URL = "https://ccpay-bubble-frontend-${var.env}.service.core-compute-${var.env}.internal/"
     CCPAY_BUBBLE_MICROSERVICE = "ccpay_bubble"
     PAYHUB_API_URL = "https://payment-api-${var.env}.service.core-compute-${var.env}.internal/"
+    FEE_REGISTRATION_URL = "http://fees-register-api-${local.local_env}.service.${local.local_ase}.internal/fees-register/fees"
+    FEE_JURISDICTION_URL = "http://fees-register-api-${local.local_env}.service.${local.local_ase}.internal/jurisdictions"
 
     S2S_KEY = "${data.azurerm_key_vault_secret.s2s_key.value}"
     S2S_URL = "${local.s2sUrl}"
