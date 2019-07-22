@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ccdCaseRefPatternValidator } from 'src/app/shared/validators/ccd-case-ref-pattern.validator';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-ccd-search',
@@ -12,8 +12,10 @@ export class CcdSearchComponent implements OnInit {
   searchForm: FormGroup;
   hasErrors = false;
   ccdCaseNumber: string;
-
+  takePayment: boolean;
+  
   constructor(
+    private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private router: Router
   ) {}
@@ -22,12 +24,17 @@ export class CcdSearchComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       searchInput: ['', [Validators.required, ccdCaseRefPatternValidator()]]
     });
+     this.activatedRoute.params.subscribe(() => {
+      this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
+    });
   }
+
 
   searchFees() {
     if (this.searchForm.invalid) { return this.hasErrors = true; }
     this.hasErrors = false;
     this.ccdCaseNumber = this.searchForm.get('searchInput').value;
-    this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}?view=case-transactions`);
+    const url = this.takePayment ? `?view=case-transactions&takePayment=${this.takePayment}` : `?view=case-transactions`
+    this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
   }
 }

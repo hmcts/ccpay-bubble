@@ -20,7 +20,10 @@
             <a id="fee-search-link" class="logout-btn" href="/fee-search">{{ 'Fee Search' }}</a>
         </li>
         <li *ngIf="showMVP">
-          <a id="ccd-search-link" class="logout-btn" href="/ccd-search">{{ 'CCD Search' }}</a>
+          <a id="ccd-search-link" class="logout-btn" href="/ccd-search?takePayment=true">{{ 'CCD Search' }}</a>
+      </li>
+           <li *ngIf="showMVP">
+          <a id="ccd-search-link" class="logout-btn" href="/payment-history">{{ 'Paymeny history' }}</a>
       </li>
         <li>{{ todaysDate | date:'dd MMM yyyy' }}</li>
         <li>
