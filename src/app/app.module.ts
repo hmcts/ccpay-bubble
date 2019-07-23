@@ -27,6 +27,7 @@ import { WindowUtil } from './services/window-util/window-util';
 import { CcdSearchComponent } from './components/ccd-search/ccd-search.component';
 import { AuthDevInterceptor } from './shared/interceptors/auth.dev.interceptor';
 import { environment } from '../environments/environment';
+import { CaseRefService } from './services/caseref/caseref.service';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -65,6 +66,7 @@ const nonProductionProviders = [{
   providers: [
     PaybubbleHttpClient,
     AddFeeDetailService,
+    CaseRefService,
     WindowUtil,
     !environment.production ? nonProductionProviders : [],
   ],
