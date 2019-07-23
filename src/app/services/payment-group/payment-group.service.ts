@@ -10,7 +10,7 @@ export class PaymentGroupService {
   ) {
   }
 
-  postPaymentGroup(paymentGroup: IPaymentGroup): Promise<IPaymentGroup> {
+  postPaymentGroup(paymentGroup: any): Promise<IPaymentGroup> {
     return this.http.post('api/payment-groups', paymentGroup).toPromise().then(paymentGroupJson => {
       return <IPaymentGroup>paymentGroupJson;
     });
