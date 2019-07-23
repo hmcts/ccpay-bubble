@@ -11,12 +11,17 @@ describe('Payment History component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PaymentHistoryComponent],
-      providers: [{
-        provide: ActivatedRoute,
-        useValue: {
-          params: of({ccdCaseNumber: '1111-2222-3333-4444'})
-        }
-      }],
+      providers: [{ provide: ActivatedRoute,
+          useValue: {
+            params: of({ccdCaseNumber: '1111-2222-3333-4444'}),
+            snapshot: {
+              queryParams: {
+                takePayment: true,
+                view: 'case-transations'
+              }
+            }
+          }
+        }],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -26,5 +31,14 @@ describe('Payment History component', () => {
 
   it('Should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('Component variable should get correct value based on parameter', () => {
+    component.ngOnInit();
+
+    expect(component.apiRoot).toBe('api/payment-history');
+    expect(component.view).toBe('case-transations');
+    expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
+    expect(component.takePayment).toBe(true);
   });
 });
