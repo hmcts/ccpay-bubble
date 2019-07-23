@@ -5,9 +5,8 @@ import {PaymentGroupService} from '../../services/payment-group/payment-group.se
 import {ActivatedRoute, Router} from '@angular/router';
 import {PaybubbleHttpClient} from '../../services/httpclient/paybubble.http.client';
 import {instance, mock} from 'ts-mockito';
-import {HttpClient, HttpHandler} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Meta} from '@angular/platform-browser';
-import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 import {IFee} from '@hmcts/ccpay-web-component/lib/interfaces/IFee';
 
 describe('Fee search component', () => {
@@ -16,9 +15,26 @@ describe('Fee search component', () => {
     paymentGroupService: PaymentGroupService,
     routerService: any,
     activatedRoute: any,
-    router: Router;
+    router: Router,
+    testFee: any;
 
   beforeEach(() => {
+    testFee = {
+      code: 'test-code',
+      'current_version': {
+        version: 'test-version',
+        calculatedAmount: 1234,
+        memo_line: 'test-memoline',
+        natural_account_code: '1234-1234-1234-1234',
+        flat_amount: {
+          amount: 1234
+        }
+      },
+      ccdCaseNumber: '1111-2222-3333-4444',
+      jurisdiction1: 'test-jurisdiction1',
+      jurisdiction2: 'test-jurisdiction2',
+      description: 'test-description'
+    };
     activatedRoute = {
       params: {
         subscribe: (fun) => fun()
@@ -58,17 +74,21 @@ describe('Fee search component', () => {
   });
 
   it('Should pass selected fee into POST call for backend', () => {
-    const fee = <IFee>{
-      code: 'test-code-fee'
-    };
-    fee.code = 'test';
-    component.selectFee(fee);
+    component.selectFee(testFee);
     fixture.detectChanges();
-    expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith(<IPaymentGroup>{
-      fees: [fee],
-      payment_group_reference: null,
-      payments: null,
-      remissions: null
+    expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
+      fees: [{
+        code: testFee.code,
+        version: testFee['current_version'].version,
+        calculatedAmount: testFee['current_version'].flat_amount.amount,
+        memoLine: testFee['current_version'].memo_line,
+        naturalAccountCode: testFee['current_version'].natural_account_code,
+        ccdCaseNumber: component.ccdNo,
+        netAmount: testFee['current_version'].flat_amount.amount,
+        jurisdiction1: testFee.jurisdiction1,
+        jurisdiction2: testFee.jurisdiction2,
+        description: testFee.description
+      }]
     });
   });
 
@@ -78,7 +98,7 @@ describe('Fee search component', () => {
 
   it('Should navigate to fee-summary page using correct CCD case number and payment group reference', async(async () => {
     spyOn(router, 'navigateByUrl');
-    component.selectFee(<IFee>{code: 'test-fee-code'});
+    component.selectFee(testFee);
     await fixture.whenStable();
     fixture.detectChanges();
 
