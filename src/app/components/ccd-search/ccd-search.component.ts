@@ -13,7 +13,7 @@ export class CcdSearchComponent implements OnInit {
   hasErrors = false;
   ccdCaseNumber: string;
   takePayment: boolean;
-  
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -34,7 +34,7 @@ export class CcdSearchComponent implements OnInit {
     if (this.searchForm.invalid) { return this.hasErrors = true; }
     this.hasErrors = false;
     this.ccdCaseNumber = this.searchForm.get('searchInput').value;
-    const url = this.takePayment ? `?view=case-transactions&takePayment=${this.takePayment}` : `?view=case-transactions`
+    const url = this.takePayment ? `?view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
     this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
   }
 }
