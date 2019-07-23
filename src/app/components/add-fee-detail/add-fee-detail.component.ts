@@ -5,6 +5,7 @@ import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-det
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ccdCaseRefPatternValidator, helpWithFeesValidator, isLessThanAmountValidator } from 'src/app/shared/validators';
 import { PaymentModel } from '../../models/PaymentModel';
+import { CaseRefService } from '../../services/caseref/caseref.service';
 
 @Component({
   selector: 'app-add-fee-detail',
@@ -18,11 +19,13 @@ export class AddFeeDetailComponent implements OnInit {
   feeDetailForm: FormGroup;
   selectedFee: FeeModel;
   savedFee?: FeeModel;
+  noCaseFound = false;
 
   constructor(
     private router: Router,
     private addFeeDetailService: AddFeeDetailService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private caseRef: CaseRefService
   ) { }
 
   ngOnInit() {
@@ -60,7 +63,7 @@ export class AddFeeDetailComponent implements OnInit {
     this.helpWithFeesIsVisible = !this.helpWithFeesIsVisible;
   }
 
-  saveAndContinue() {
+  async saveAndContinue() {
     if (this.feeDetailForm.invalid) { return this.showErrors = true; }
     this.showErrors = false;
 
@@ -71,16 +74,24 @@ export class AddFeeDetailComponent implements OnInit {
       amountToPay: this.feeDetailForm.get('helpWithFees.amount').value
     };
 
-    if (feeDetailProps.amountToPay &&
-      feeDetailProps.amountToPay !== 0
-      && feeDetailProps.amountToPay !== this.selectedFee.calculated_amount) {
-        this.selectedFee.net_amount = feeDetailProps.amountToPay;
-    } else { delete this.selectedFee.net_amount; }
+    try {
+      await this.caseRef.validateCaseRef(feeDetailProps.caseReference).toPromise();
+      this.noCaseFound = false;
+      if (feeDetailProps.amountToPay &&
+        feeDetailProps.amountToPay !== 0
+        && feeDetailProps.amountToPay !== this.selectedFee.calculated_amount) {
+          this.selectedFee.net_amount = feeDetailProps.amountToPay;
+      } else { delete this.selectedFee.net_amount; }
 
-    this.addFeeDetailService.selectedFee = this.selectedFee;
-    this.addFeeDetailService.setNewPaymentModel(feeDetailProps);
-    this.addFeeDetailService.setNewRemissionModel(feeDetailProps);
-    this.router.navigateByUrl('/reviewFeeDetail');
+      this.addFeeDetailService.selectedFee = this.selectedFee;
+      this.addFeeDetailService.setNewPaymentModel(feeDetailProps);
+      this.addFeeDetailService.setNewRemissionModel(feeDetailProps);
+      this.router.navigateByUrl('/reviewFeeDetail');
+    } catch (e) {
+      this.noCaseFound = true;
+    }
+
+
   }
 
   selectFee(fee: FeeModel) {

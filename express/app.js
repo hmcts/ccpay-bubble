@@ -54,4 +54,6 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.ccpayWebComponentIntegration(req, res);
   })
 
-  .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }));
+  .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }))
+
+  .get('/cases/:caseref', (req, res) => controllers.payhubController.validateCaseReference(req, res));

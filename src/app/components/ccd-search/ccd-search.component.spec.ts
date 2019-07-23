@@ -3,14 +3,23 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CcdSearchComponent } from './ccd-search.component';
 import { Router, RouterModule } from '@angular/router';
+import { CaseRefService } from '../../services/caseref/caseref.service';
+import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
+import { instance, mock } from 'ts-mockito';
+import { HttpClient } from '@angular/common/http';
+import { Meta } from '@angular/platform-browser';
+import { of } from 'rxjs';
 
 const routerMock = {
   navigateByUrl: jasmine.createSpy('navigateByUrl')
 };
 
+const paybubbleHttpClientMock = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
+
 describe('Fee search component', () => {
   let component: CcdSearchComponent,
   fixture: ComponentFixture<CcdSearchComponent>;
+  let caseRefService: CaseRefService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,12 +31,15 @@ describe('Fee search component', () => {
         RouterModule
       ],
       providers: [
+        CaseRefService,
+        { provide: PaybubbleHttpClient, useValue: paybubbleHttpClientMock },
         { provide: Router, useValue: routerMock }
       ]
     });
 
     fixture = TestBed.createComponent(CcdSearchComponent);
     component = fixture.componentInstance;
+    caseRefService = fixture.debugElement.injector.get(CaseRefService);
   });
 
   it('Should create', () => {
@@ -57,6 +69,7 @@ describe('Fee search component', () => {
   });
 
   it('Search form should be valid if a correct format string has been entered', () => {
+    spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
     component.ngOnInit();
     component.searchForm.controls['searchInput'].setValue('1111-2222-3333-4444');
     component.searchFees();

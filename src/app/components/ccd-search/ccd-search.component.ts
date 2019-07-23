@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ccdCaseRefPatternValidator } from 'src/app/shared/validators/ccd-case-ref-pattern.validator';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
+import { CaseRefService } from '../../services/caseref/caseref.service';
 
 @Component({
   selector: 'app-ccd-search',
@@ -12,10 +15,13 @@ export class CcdSearchComponent implements OnInit {
   searchForm: FormGroup;
   hasErrors = false;
   ccdCaseNumber: string;
+  noCaseFound = false;
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private http: PaybubbleHttpClient,
+    private caseRefService: CaseRefService
   ) {}
 
   ngOnInit() {
@@ -28,6 +34,11 @@ export class CcdSearchComponent implements OnInit {
     if (this.searchForm.invalid) { return this.hasErrors = true; }
     this.hasErrors = false;
     this.ccdCaseNumber = this.searchForm.get('searchInput').value;
-    this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}?view=case-transactions`);
+    this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
+      this.noCaseFound = false;
+      this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}?view=case-transactions`);
+    }, err => {
+      this.noCaseFound = true;
+    });
   }
 }
