@@ -39,7 +39,7 @@ describe('Fee search component', () => {
         {provide: Router, useValue: routerService},
         {
           provide: PaymentGroupService,
-          useValue: new PaymentGroupService(new HttpClient(instance(mock(HttpHandler))))
+          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]
