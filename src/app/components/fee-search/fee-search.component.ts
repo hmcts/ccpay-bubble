@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PaymentGroupService} from '../../services/payment-group/payment-group.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 import {IFee} from '@hmcts/ccpay-web-component/lib/interfaces/IFee';
 
 @Component({
@@ -27,11 +26,19 @@ export class FeeSearchComponent implements OnInit {
   }
 
   selectFee(fee: IFee) {
-    const paymentGroup = <IPaymentGroup>{
-      fees: [fee],
-      remissions: null,
-      payments: null,
-      payment_group_reference: null
+    const paymentGroup = {
+      fees: [{
+        code: fee.code,
+        version: fee['current_version'].version,
+        calculatedAmount: fee['current_version'].flat_amount.amount,
+        memoLine: fee['current_version'].memo_line,
+        naturalAccountCode: fee['current_version'].natural_account_code,
+        ccdCaseNumber: this.ccdNo,
+        netAmount: fee['current_version'].flat_amount.amount,
+        jurisdiction1: fee.jurisdiction1,
+        jurisdiction2: fee.jurisdiction2,
+        description: fee.description
+      }]
     };
     this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
       this
