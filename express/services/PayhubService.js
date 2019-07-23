@@ -7,6 +7,7 @@ const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('s2s.key');
 const microService = config.get('ccpaybubble.microservice');
+const ccdUrl = config.get('ccd.url');
 
 class PayhubService {
   async sendToPayhub(req) {
@@ -112,8 +113,20 @@ class PayhubService {
     }));
   }
 
+  validateCaseReference(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${ccdUrl}/cases/${req.params.caseref.replace(/-/g, '')}`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
   getFees() {
-    return request.get({ uri: 'https://fees-register-api.platform.hmcts.net/fees-register/fees' });
+    return request.get({ uri: config.get('fee.feeRegistrationUrl') });
   }
 }
 
