@@ -5,7 +5,7 @@ import {PaymentGroupService} from '../../services/payment-group/payment-group.se
 import {ActivatedRoute, Router} from '@angular/router';
 import {PaybubbleHttpClient} from '../../services/httpclient/paybubble.http.client';
 import {instance, mock} from 'ts-mockito';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHandler} from '@angular/common/http';
 import {Meta} from '@angular/platform-browser';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 import {IFee} from '@hmcts/ccpay-web-component/lib/interfaces/IFee';
@@ -39,7 +39,7 @@ describe('Fee search component', () => {
         {provide: Router, useValue: routerService},
         {
           provide: PaymentGroupService,
-          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+          useValue: new PaymentGroupService(new HttpClient(instance(mock(HttpHandler))))
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]

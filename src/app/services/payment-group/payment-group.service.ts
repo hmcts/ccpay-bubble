@@ -1,18 +1,18 @@
 import {Injectable} from '@angular/core';
-import {PaybubbleHttpClient} from 'src/app/services/httpclient/paybubble.http.client';
-import {FeeModel} from 'src/app/models/FeeModel';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class PaymentGroupService {
+
   constructor(
-    private http: PaybubbleHttpClient
+    private http: HttpClient
   ) {
   }
 
-  postPaymentGroup(fee: IPaymentGroup): Promise<IPaymentGroup> {
-    return this.http.post('api/payment-groups', fee).toPromise().then(paymentGroupJson => {
-      return JSON.parse(paymentGroupJson);
+  postPaymentGroup(paymentGroup: IPaymentGroup): Promise<IPaymentGroup> {
+    return this.http.post('api/payment-groups', paymentGroup).toPromise().then(paymentGroupJson => {
+      return <IPaymentGroup> paymentGroupJson;
     });
   }
 }
