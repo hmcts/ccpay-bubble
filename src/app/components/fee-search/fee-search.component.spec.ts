@@ -63,8 +63,7 @@ describe('Fee search component', () => {
 
     fixture = TestBed.createComponent(FeeSearchComponent);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
-    const sampleResponse = JSON.stringify({data: {payment_group_reference: '2019-12341234'}});
-    spyOn(paymentGroupService, 'postPaymentGroup').and.returnValue({then: (fun) => fun(sampleResponse)});
+    spyOn(paymentGroupService, 'postPaymentGroup').and.returnValue({then: (fun) => fun({data: {payment_group_reference: '2019-12341234'}})});
     router = TestBed.get(Router);
     component = fixture.componentInstance;
     component.ngOnInit();
