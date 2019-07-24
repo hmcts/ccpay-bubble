@@ -63,7 +63,8 @@ describe('Fee search component', () => {
 
     fixture = TestBed.createComponent(FeeSearchComponent);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
-    spyOn(paymentGroupService, 'postPaymentGroup').and.returnValue({then: (fun) => fun({payment_group_reference: '2019-12341234'})});
+    const sampleResponse = JSON.stringify({data: {payment_group_reference: '2019-12341234'}});
+    spyOn(paymentGroupService, 'postPaymentGroup').and.returnValue({then: (fun) => fun(sampleResponse)});
     router = TestBed.get(Router);
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -80,11 +81,11 @@ describe('Fee search component', () => {
       fees: [{
         code: testFee.code,
         version: testFee['current_version'].version.toString(),
-        calculatedAmount: testFee['current_version'].flat_amount.amount.toString(),
-        memoLine: testFee['current_version'].memo_line,
-        naturalAccountCode: testFee['current_version'].natural_account_code,
-        ccdCaseNumber: component.ccdNo,
-        netAmount: testFee['current_version'].flat_amount.amount.toString(),
+        'calculated_amount': testFee['current_version'].flat_amount.amount.toString(),
+        'memo_line': testFee['current_version'].memo_line,
+        'natural_account_code': testFee['current_version'].natural_account_code,
+        'ccd_case_number': component.ccdNo,
+        'net_amount': testFee['current_version'].flat_amount.amount.toString(),
         jurisdiction1: testFee.jurisdiction1.name,
         jurisdiction2: testFee.jurisdiction2.name,
         description: testFee.description
