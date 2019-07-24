@@ -30,11 +30,11 @@ export class FeeSearchComponent implements OnInit {
       fees: [{
         code: fee.code,
         version: fee['current_version'].version.toString(),
-        calculatedAmount: <string> fee['current_version'].flat_amount.amount.toString(),
+        calculatedAmount: fee['current_version'].flat_amount.amount.toString(),
         memoLine: fee['current_version'].memo_line,
         naturalAccountCode: fee['current_version'].natural_account_code,
         ccdCaseNumber: this.ccdNo,
-        netAmount: <string> fee['current_version'].flat_amount.amount.toString(),
+        netAmount: fee['current_version'].flat_amount.amount.toString(),
         jurisdiction1: fee.jurisdiction1['name'],
         jurisdiction2: fee.jurisdiction2['name'],
         description: fee.description
