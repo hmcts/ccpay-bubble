@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 import {PaybubbleHttpClient} from '../httpclient/paybubble.http.client';
+import { IResponse } from 'src/app/interfaces/response';
 
 @Injectable()
 export class PaymentGroupService {
@@ -10,9 +10,9 @@ export class PaymentGroupService {
   ) {
   }
 
-  postPaymentGroup(paymentGroup: any): Promise<IPaymentGroup> {
+  postPaymentGroup(paymentGroup: any): Promise<IResponse> {
     return this.http.post('api/payment-groups', paymentGroup).toPromise().then(paymentGroupJson => {
-      return <IPaymentGroup>paymentGroupJson;
+      return <IResponse>paymentGroupJson;
     });
   }
 }
