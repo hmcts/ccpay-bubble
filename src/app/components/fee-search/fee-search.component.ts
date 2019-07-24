@@ -41,7 +41,6 @@ export class FeeSearchComponent implements OnInit {
       }]
     };
     this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
-      const response: any = paymentGroupReceived;
       this
         .router
         .navigateByUrl(`/payment-history/${this.ccdNo}`
