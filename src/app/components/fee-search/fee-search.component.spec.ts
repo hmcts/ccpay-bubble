@@ -31,8 +31,8 @@ describe('Fee search component', () => {
         }
       },
       ccdCaseNumber: '1111-2222-3333-4444',
-      jurisdiction1: 'test-jurisdiction1',
-      jurisdiction2: 'test-jurisdiction2',
+      jurisdiction1: {name: 'test-jurisdiction1'},
+      jurisdiction2: {name: 'test-jurisdiction2'},
       description: 'test-description'
     };
     activatedRoute = {
@@ -85,8 +85,8 @@ describe('Fee search component', () => {
         naturalAccountCode: testFee['current_version'].natural_account_code,
         ccdCaseNumber: component.ccdNo,
         netAmount: testFee['current_version'].flat_amount.amount,
-        jurisdiction1: testFee.jurisdiction1,
-        jurisdiction2: testFee.jurisdiction2,
+        jurisdiction1: testFee.jurisdiction1.name,
+        jurisdiction2: testFee.jurisdiction2.name,
         description: testFee.description
       }]
     });
