@@ -22,7 +22,7 @@ describe('Fee search component', () => {
     testFee = {
       code: 'test-code',
       'current_version': {
-        version: 'test-version',
+        version: 1,
         calculatedAmount: 1234,
         memo_line: 'test-memoline',
         natural_account_code: '1234-1234-1234-1234',
@@ -79,12 +79,12 @@ describe('Fee search component', () => {
     expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
       fees: [{
         code: testFee.code,
-        version: testFee['current_version'].version,
-        calculatedAmount: testFee['current_version'].flat_amount.amount,
+        version: testFee['current_version'].version.toString(),
+        calculatedAmount: testFee['current_version'].flat_amount.amount.toString(),
         memoLine: testFee['current_version'].memo_line,
         naturalAccountCode: testFee['current_version'].natural_account_code,
         ccdCaseNumber: component.ccdNo,
-        netAmount: testFee['current_version'].flat_amount.amount,
+        netAmount: testFee['current_version'].flat_amount.amount.toString(),
         jurisdiction1: testFee.jurisdiction1.name,
         jurisdiction2: testFee.jurisdiction2.name,
         description: testFee.description
