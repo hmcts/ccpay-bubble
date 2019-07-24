@@ -1,9 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
 import { PaymentHistoryComponent } from './payment-history.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 
 describe('PaymentHistoryComponent', () => {
   let component: PaymentHistoryComponent;
@@ -16,7 +15,16 @@ describe('PaymentHistoryComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ PaymentHistoryComponent ],
       providers: [
-        { provide: ActivatedRoute, useValue: { params: params } }
+        { provide: ActivatedRoute, useValue: {
+          params: of({ccdCaseNumber: '1111-2222-3333-4444'}),
+            snapshot: {
+              queryParams: {
+                takePayment: true,
+                view: 'case-transations'
+              }
+          }
+        }
+        }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -39,5 +47,14 @@ describe('PaymentHistoryComponent', () => {
       expect(component.apiRoot).toBe('api/payment-history');
       expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
     });
+  });
+
+   it('Component variable should get correct value based on parameter', () => {
+    component.ngOnInit();
+
+    expect(component.apiRoot).toBe('api/payment-history');
+    expect(component.view).toBe('case-transations');
+    expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
+    expect(component.takePayment).toBe(true);
   });
 });

@@ -30,11 +30,11 @@ export class FeeSearchComponent implements OnInit {
       fees: [{
         code: fee.code,
         version: fee['current_version'].version.toString(),
-        calculatedAmount: fee['current_version'].flat_amount.amount.toString(),
-        memoLine: fee['current_version'].memo_line,
-        naturalAccountCode: fee['current_version'].natural_account_code,
-        ccdCaseNumber: this.ccdNo,
-        netAmount: fee['current_version'].flat_amount.amount.toString(),
+        'calculated_amount': fee['current_version'].flat_amount.amount.toString(),
+        'memo_line': fee['current_version'].memo_line,
+        'natural_account_code': fee['current_version'].natural_account_code,
+        'ccd_case_number': this.ccdNo,
+        'net_amount': fee['current_version'].flat_amount.amount.toString(),
         jurisdiction1: fee.jurisdiction1['name'],
         jurisdiction2: fee.jurisdiction2['name'],
         description: fee.description
@@ -44,7 +44,7 @@ export class FeeSearchComponent implements OnInit {
       this
         .router
         .navigateByUrl(`/payment-history/${this.ccdNo}`
-          + `?view=fee-summary&paymentGroupRef=${paymentGroupReceived.payment_group_reference}`);
+          + `?view=fee-summary&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}`);
     });
   }
 }
