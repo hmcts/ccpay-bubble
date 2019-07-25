@@ -28,12 +28,12 @@ describe('Fee search component', () => {
         natural_account_code: '1234-1234-1234-1234',
         flat_amount: {
           amount: 1234
-        }
+        },
+        description: 'test-description'
       },
       ccdCaseNumber: '1111-2222-3333-4444',
       jurisdiction1: {name: 'test-jurisdiction1'},
       jurisdiction2: {name: 'test-jurisdiction2'},
-      description: 'test-description'
     };
     activatedRoute = {
       params: {
@@ -87,7 +87,7 @@ describe('Fee search component', () => {
         'net_amount': testFee['current_version'].flat_amount.amount.toString(),
         jurisdiction1: testFee.jurisdiction1.name,
         jurisdiction2: testFee.jurisdiction2.name,
-        description: testFee.description
+        description: testFee.current_version.description
       }]
     });
   });
