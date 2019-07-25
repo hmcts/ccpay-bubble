@@ -10,7 +10,6 @@ import {FeeModel} from 'src/app/models/FeeModel';
 import {feeTypes} from 'src/stubs/feeTypes';
 import {PaymentGroupService} from './payment-group.service';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
-import { IResponse } from 'src/app/interfaces/response';
 
 describe('Payment group service', () => {
   let paymentGroupService: PaymentGroupService;
@@ -21,14 +20,11 @@ describe('Payment group service', () => {
   });
 
   it('Should call post full remission with a remissionModel', () => {
-    const paymentGroup = <IResponse>{
-      data: {
+    const paymentGroup = <IPaymentGroup>{
         payment_group_reference: '1234',
         fees: [{code: 'FEE0001'}],
         payments: null,
         remissions: null
-      },
-      success: true
     };
     spyOn(http, 'post').and.callFake((param1: string, param2: IPaymentGroup) => of(JSON.stringify(paymentGroup)));
     const inputPaymentGroup = <IPaymentGroup>{
@@ -39,8 +35,8 @@ describe('Payment group service', () => {
     };
     paymentGroupService.postPaymentGroup(inputPaymentGroup)
       .then((response) => {
-        expect(response['data'].fees[0].code).toBe(paymentGroup['data'].fees[0].code);
-        expect(response['data'].payment_group_reference).toBe(paymentGroup['data'].payment_group_reference);
+        expect(response.fees[0].code).toBe(paymentGroup.fees[0].code);
+        expect(response.payment_group_reference).toBe(paymentGroup.payment_group_reference);
       });
   });
 });
