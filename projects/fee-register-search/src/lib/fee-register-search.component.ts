@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs';
-import { FeeRegisterSearchService } from './fee-register-search.service';
+import { FeeRegisterSearchService } from './services/fee-register-search/fee-register-search.service';
 import { IFee } from './interfaces';
 import { Jurisdictions } from './models/Jurisdictions';
 

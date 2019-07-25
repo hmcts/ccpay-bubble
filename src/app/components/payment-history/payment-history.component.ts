@@ -10,6 +10,8 @@ import { PlatformLocation } from '@angular/common';
 export class PaymentHistoryComponent implements OnInit {
   apiRoot: string;
   ccdCaseNumber: string;
+  view: string;
+  paymentGroupRef: string;
 
   constructor(private activatedRoute: ActivatedRoute) { }
 
@@ -17,6 +19,8 @@ export class PaymentHistoryComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       this.apiRoot = 'api/payment-history';
       this.ccdCaseNumber = params['ccdCaseNumber'];
+      this.view = this.activatedRoute.snapshot.queryParams['view'];
+      this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
     });
   }
 
