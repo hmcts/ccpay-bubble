@@ -5,7 +5,15 @@ $path: '/public/images/';
 @import '../../../node_modules/govuk-frontend/all.scss';
 @import '../../../node_modules/govuk_template_jinja/assets/stylesheets/govuk-template.css';
 @import '../../../node_modules/govuk_template_jinja/assets/stylesheets/fonts.css';
+@import '../../../node_modules/@hmcts/frontend/all';
+@import '../../../node_modules/govuk-frontend/all';
+
 
 body {
   background: white !important;
+}
+
+.govuk-grid-row {
+  margin-left: 0;
+  margin-right: 0;
 }
