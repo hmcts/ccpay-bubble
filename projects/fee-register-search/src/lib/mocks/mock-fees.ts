@@ -29,7 +29,7 @@ export const mockFees = [
         valid_from: '2014-04-22T00:00:00.000+0000',
         valid_to: '2014-04-22T00:00:00.000+0000',
         flat_amount: {
-          amount: 10000
+          amount: 9999
         },
         memo_line: 'GOV - Paper fees - Money claim >£200,000',
         natural_account_code: '4481102133',
