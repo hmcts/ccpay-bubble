@@ -11,7 +11,6 @@ import { FeeSearchComponent } from '../components/fee-search/fee-search.componen
 import { PaymentHistoryComponent } from '../components/payment-history/payment-history.component';
 import { CcdSearchComponent } from '../components/ccd-search/ccd-search.component';
 import { MVPGuard } from '../route-guards/mvp-guard.service';
-import { FeesSummaryComponent } from '../components/fees-summary/fees-summary.component';
 
 const routes: Routes = [
   {
@@ -50,10 +49,6 @@ const routes: Routes = [
     path: 'payment-history',
     component: CcdSearchComponent,
     canActivate: [MVPGuard]
-  },
-  {
-    path: 'fees-summary',
-    component: FeesSummaryComponent
   },
   {
     path: '',
