@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PaymentGroupService} from '../../services/payment-group/payment-group.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {IFee} from '@hmcts/ccpay-web-component/lib/interfaces/IFee';
+import {IFee} from '../../../../projects/fee-register-search/src/lib/interfaces';
 
 @Component({
   selector: 'app-fee-search',
@@ -26,6 +26,12 @@ export class FeeSearchComponent implements OnInit {
   }
 
   selectFee(fee: IFee) {
+    // TODO: check if fee is fixed and volume
+    if (fee.fee_type === 'fixed' && fee.current_version['volume_amount']) {
+
+    }
+    // else: apply the existing solution
+
     const paymentGroup = {
       fees: [{
         code: fee.code,
@@ -37,7 +43,7 @@ export class FeeSearchComponent implements OnInit {
         'net_amount': fee['current_version'].flat_amount.amount.toString(),
         jurisdiction1: fee.jurisdiction1['name'],
         jurisdiction2: fee.jurisdiction2['name'],
-        description: fee.description
+        description: fee.current_version.description
       }]
     };
     this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
