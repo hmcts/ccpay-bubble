@@ -14,7 +14,6 @@ import {FeeListTableComponent} from './shared/components/fee-list-table/fee-list
 import {ServiceFailureComponent} from './shared/components/service-failure/service-failure.component';
 import {PaybubbleHttpClient} from './services/httpclient/paybubble.http.client';
 import {AddFeeDetailService} from './services/add-fee-detail/add-fee-detail.service';
-import {PaymentGroupService} from './services/payment-group/payment-group.service';
 import {ViewPaymentComponent} from 'src/app/components/view-payment/view-payment.component';
 import {NavigationComponent} from './shared/components/navigation/navigation.component';
 import {FormatDisplayCurrencyPipe} from './shared/pipes/format-display-currency.pipe';
@@ -29,7 +28,8 @@ import {CcdSearchComponent} from './components/ccd-search/ccd-search.component';
 import {FeesSummaryComponent} from './components/fees-summary/fees-summary.component';
 import {AuthDevInterceptor} from './shared/interceptors/auth.dev.interceptor';
 import {environment} from '../environments/environment';
-import { FeeDetailsComponent } from './components/fee-details/fee-details.component';
+import {PaymentGroupService} from './services/payment-group/payment-group.service';
+import {FeeDetailsComponent} from './components/fee-details/fee-details.component';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,

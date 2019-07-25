@@ -1,8 +1,12 @@
 <app-header></app-header>
 
-<main id="content" role="main">
-  <router-outlet></router-outlet>
-</main>
+<div class="govuk-width-container">
+  <app-phase-banner></app-phase-banner>
+
+    <div class="govuk-grid-row">
+      <router-outlet></router-outlet>
+    </div>
+</div>
 
 <footer class="group js-footer" id="footer" role="contentinfo">
   <div class="footer-wrapper">
