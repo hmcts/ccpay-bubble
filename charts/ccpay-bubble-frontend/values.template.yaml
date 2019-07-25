@@ -7,7 +7,9 @@ payment-api:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-payment-db:5432/payment
       AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
       AUTH_IDAM_CLIENT_BASEURL: https://idam-api.aat.platform.hmcts.net
+      CORE_CASE_DATA_API_URL: http://ccd-data-store-api-aat.service.core-compute-aat.internal
   postgresql:
+    enabled: true
 
 nodejs:
   # Don't modify below here
