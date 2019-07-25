@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, timeout } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
-import { IFee } from './interfaces';
-import { JurisdictionData } from './models/Jurisdictions';
+import { IFee } from '../../interfaces';
 
 @Injectable({
   providedIn: 'root'
