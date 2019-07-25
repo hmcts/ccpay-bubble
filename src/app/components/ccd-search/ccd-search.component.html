@@ -3,7 +3,7 @@
   <label class="heading-small" for="ccd-search">
     Search using a CCD reference number
     <span class="form-hint">For example: 1111-2222-3333-4444</span>
-    <span *ngIf="hasErrors" class="error-message">Enter a case reference in the correct format</span>
+    <span *ngIf="hasErrors" class="error-message">Enter a CCD case reference number in the correct format</span>
   </label>
   <input #searchInput [className]="hasErrors? 'form-control form-control-error': 'form-control'" id="ccd-search" type="text" name="ccd-search" formControlName="searchInput">
   <button class="button button-search" type="submit" (click)="searchFees()">Search</button>
