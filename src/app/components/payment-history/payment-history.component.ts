@@ -12,6 +12,7 @@ export class PaymentHistoryComponent implements OnInit {
   view: string;
   takePayment: boolean;
   ccdCaseNumber: string;
+  paymentGroupRef: string;
 
   constructor(private activatedRoute: ActivatedRoute) { }
 
@@ -21,6 +22,7 @@ export class PaymentHistoryComponent implements OnInit {
       this.ccdCaseNumber = params['ccdCaseNumber'];
       this.view = this.activatedRoute.snapshot.queryParams['view'];
       this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
+      this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
     });
   }
 }
