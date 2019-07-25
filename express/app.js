@@ -25,6 +25,14 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postPartialRemission(req, res, appInsights);
   })
 
+  .post('/payment-history/payment-groups/:paymentGroup/fees/:feeId/remissions', (req, res) => {
+    controllers.payhubController.postPartialRemission(req, res, appInsights);
+  })
+
+  .get('/payment-history/payment-groups/:paymentGroup', (req, res) => {
+    controllers.payhubController.getPaymentGroup(req, res, appInsights);
+  })
+
   .get('/payment-groups/:paymentGroup', (req, res) => {
     controllers.payhubController.getPaymentGroup(req, res, appInsights);
   })
