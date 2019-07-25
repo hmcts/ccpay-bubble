@@ -29,3 +29,5 @@ certs:
 fee:
   feeRegistrationUrl: https://fees-register-api.platform.hmcts.net/fees-register/fees
   feeJurisdictionUrl: https://fees-register-api.platform.hmcts.net/jurisdictions
+ccd:
+  url: http://localhost:23443
