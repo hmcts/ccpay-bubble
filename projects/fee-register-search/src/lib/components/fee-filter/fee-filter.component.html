@@ -18,6 +18,7 @@
               [value]="jurisdiction.name" />
             <label for="radio-inline-1">{{jurisdiction.name}}</label>
         </div>
+        <div class="multiple-choice"><a (click)="clearFilter('jurisdiction1')">Clear filter</a></div>
       </div>
     </div>
     <div id="selectJurisdiction2" class="form-group">
@@ -33,6 +34,7 @@
                 [value]="jurisdiction.name" />
               <label for="radio-inline-1">{{jurisdiction.name}}</label>
           </div>
+          <div class="multiple-choice"><a (click)="clearFilter('jurisdiction2')">Clear filter</a></div>
         </div>
       </div>
 </form>

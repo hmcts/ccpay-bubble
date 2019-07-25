@@ -57,4 +57,17 @@ describe('Fee Filter component', () => {
     component.toggleJurisdiction(component.jurisdictionData.jurisdiction1);
     expect(component.jurisdictionData.jurisdiction1.show).toBeFalsy();
   });
+
+  it('Should clear jurisdiction filter ', () => {
+    component.ngOnInit();
+    component.filterForm.get('jurisdiction1').setValue('civil');
+    component.filterForm.get('jurisdiction2').setValue('family court');
+
+    component.clearFilter('jurisdiction1');
+    component.clearFilter('jurisdiction2');
+
+    expect(component.filterForm.get('jurisdiction1').value).toBeNull();
+    expect(component.filterForm.get('jurisdiction2').value).toBeNull();
+  });
+
 });
