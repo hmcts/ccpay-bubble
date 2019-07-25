@@ -199,23 +199,6 @@ export const mockFees = [
         direction: 'enhanced'
       }
     ],
-    current_version: {
-      description: 'invalid fee description',
-      status: 'not approved',
-      author: '124756',
-      approvedBy: '39907',
-      version: 2,
-      valid_from: '2014-04-22T00:00:00.000+0000',
-      flat_amount: {
-        amount: 0
-      },
-      memo_line: 'RECEIPT OF FEES - Civil issue money',
-      statutory_instrument: '2015 No 576',
-      si_ref_id: '1.1i',
-      natural_account_code: '4481102133',
-      fee_order_name: 'Civil Proceedings',
-      direction: 'enhanced'
-    },
     unspecified_claim_amount: true
   }
 
