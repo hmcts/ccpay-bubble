@@ -38,6 +38,8 @@ nodejs:
     FEE_REGISTRATION_URL: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register/fees
     FEE_JURISDICTION_URL: http://fees-register-api-aat.service.core-compute-aat.internal/jurisdictions
 
+    CCD_URL: http://ccd-data-store-api-aat.service.core-compute-aat.internal
+
 tags:
   - idam-pr
 idam-pr:
