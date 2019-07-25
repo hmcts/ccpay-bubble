@@ -104,9 +104,6 @@ export class FilterFeesPipe implements PipeTransform {
   }
 
   filterValidFee(fees: IFee[]) {
-    const currentDate = new Date();
-    return fees.filter(fee => fee.current_version && fee.current_version.status === 'approved'
-    && new Date(fee.current_version.valid_from) <= currentDate
-    && (!fee.current_version.valid_to || new Date(fee.current_version.valid_to) >= currentDate));
+    return fees.filter(fee => fee.current_version);
   }
 }
