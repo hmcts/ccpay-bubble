@@ -41,11 +41,10 @@ export class FeeSearchComponent implements OnInit {
       }]
     };
     this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
-      const response: any = paymentGroupReceived;
       this
         .router
         .navigateByUrl(`/payment-history/${this.ccdNo}`
-          + `?view=fee-summary&paymentGroupRef=${JSON.parse(response)['data'].payment_group_reference}`);
+          + `?view=fee-summary&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}`);
     });
   }
 }
