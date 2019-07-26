@@ -1,13 +1,15 @@
-<legend><h1 class="heading-xlarge">Add fee details</h1></legend>
+<legend *ngIf="!showFeeDetails">
+  <h1 class="heading-xlarge">Add fee details</h1>
+</legend>
 
 <pay-fee-register-search
-  *ngIf="!showFixedVolumeFeeSelection"
-
+  *ngIf="!showFeeDetails"
   [APIRoot]='"api"'
   (selectedFeeEvent)="selectFee($event)"></pay-fee-register-search>
 
 
 <app-fee-details
-  *ngIf="showFixedVolumeFeeSelection"
+  *ngIf="showFeeDetails"
   [fee]="preselectedFee"
-  (submitFeeEvent)="selectPreselectedFee($event)"></app-fee-details>
+  (restartSearchEvent)="onGoBack()"
+  (submitFeeVolumeEvent)="selectPreselectedFeeWithVolume($event)"></app-fee-details>

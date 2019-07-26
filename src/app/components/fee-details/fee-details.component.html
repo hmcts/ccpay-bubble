@@ -1,3 +1,46 @@
-<p>
-  fee-details works!
-</p>
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a href="javascript:void(0)" (click)="goBack()" class="govuk-back-link govuk-label">
+        Back
+      </a>
+    </li>
+  </ol>
+</div>
+
+<legend>
+  <h1 class="heading-xlarge">Fee details</h1>
+</legend>
+
+<table *ngIf="fee" class="table" style="margin-bottom: 20px">
+  <tbody>
+  <tr>
+    <th class="bold" width="80px">Fee code</th>
+    <th class="bold" width="620px">Description</th>
+    <th class="bold" width="80px">Amount</th>
+  </tr>
+  <tr>
+    <td>{{ fee.code }}</td>
+    <td>{{ fee.current_version.description }}</td>
+    <td>£{{ fee.current_version['volume_amount'].amount }}</td>
+  </tr>
+  </tbody>
+</table>
+<form [formGroup]="feeDetailForm">
+  <div class="form-group">
+    <label class="heading-small" for="volumeAmount">
+      How many copies do you want?
+    </label>
+    <input class="form-control short-input" autocomplete="off" id="volumeAmount" type="number" min="1"
+           formControlName="volumeAmount"/>
+  </div>
+
+  <div class="form-group">
+    <div class="button-grid__button">
+      <div class="button button-view" type="submit" (click)="submitVolume()">
+        Submit
+      </div>
+    </div>
+  </div>
+</form>
+
