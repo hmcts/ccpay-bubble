@@ -50,10 +50,10 @@ const nonProductionProviders = [{
     SanitizeHtmlPipe,
     HeaderComponent,
     NavigationComponent,
-    FeesSummaryComponent,
     PaymentHistoryComponent,
     FeeSearchComponent,
-    CcdSearchComponent
+    CcdSearchComponent,
+    FeesSummaryComponent
   ],
   imports: [
     BrowserModule,
