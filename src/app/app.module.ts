@@ -68,6 +68,8 @@ const nonProductionProviders = [{
   providers: [
     PaybubbleHttpClient,
     AddFeeDetailService,
+    FeeSearchComponent,
+    PaymentHistoryComponent,
     WindowUtil,
     !environment.production ? nonProductionProviders : [],
     PaymentGroupService,
