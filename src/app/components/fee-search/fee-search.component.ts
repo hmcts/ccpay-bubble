@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PaymentHistoryComponent} from '../payment-history/payment-history.component';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-fee-search',
@@ -8,12 +9,14 @@ import {PaymentHistoryComponent} from '../payment-history/payment-history.compon
 })
 export class FeeSearchComponent implements OnInit {
   selectedFee: any;
-  ccdCaseNumber: string;
+  ccdNo: string;
 
-  constructor(private paymentHistoryComponent: PaymentHistoryComponent) { }
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.ccdCaseNumber = this.paymentHistoryComponent.ccdCaseNumber;
+    this.activatedRoute.params.subscribe((params) => {
+      this.ccdNo = this.activatedRoute.snapshot.queryParams['ccdCaseNumber'];
+    });
   }
 
   logFee(fee: any) {
