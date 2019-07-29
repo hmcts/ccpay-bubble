@@ -1,6 +1,5 @@
 import { Component, Output, ViewChild, EventEmitter, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {FeeRegisterSearchComponent} from '../../fee-register-search.component';
 
 @Component({
   selector: 'pay-fee-search',
@@ -11,15 +10,12 @@ export class FeeSearchComponent implements OnInit {
   @Output() feeSearchEventEmitter: EventEmitter<string> = new EventEmitter();
   searchForm: FormGroup;
   hasErrors = false;
-  ccdCaseNumber: string;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private feeRegisterSearchComponent: FeeRegisterSearchComponent
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
-    this.ccdCaseNumber = this.feeRegisterSearchComponent.CCD_CASE_NUMBER;
     this.searchForm = this.formBuilder.group({
       searchInput: ['', [Validators.required]]
     });

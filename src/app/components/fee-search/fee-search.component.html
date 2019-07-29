@@ -1,6 +1,13 @@
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a [href]="'/payment-history/' + ccdCaseNumber"   class="govuk-back-link">Back to payments</a>
+    </li>
+  </ol>
+</div>
+
 <legend><h1 class="heading-xlarge">Add fee details</h1></legend>
 
 <pay-fee-register-search 
 [APIRoot]='"api/fees"'
-[CCD_CASE_NUMBER] = 'ccdCaseNumber'
 (selectedFeeEvent)="logFee($event)"></pay-fee-register-search>
