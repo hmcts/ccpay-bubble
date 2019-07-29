@@ -31,8 +31,7 @@
     <label class="heading-small" for="volumeAmount">
       How many copies do you want?
     </label>
-    <input style="width: 100px; display: block" class="form-control short-input" autocomplete="off" id="volumeAmount" type="number" min="1"
-           formControlName="volumeAmount"/>
+    <input [formControl]="feeVolumeControl" style="width: 100px; display: block" class="form-control short-input" autocomplete="off" id="volumeAmount" type="number" min="1"/>
   </div>
 
   <div class="form-group">
