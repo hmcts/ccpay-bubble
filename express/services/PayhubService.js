@@ -37,6 +37,19 @@ class PayhubService {
     }));
   }
 
+  putPaymentGroup(req) {
+    return this.createAuthToken().then(token => request.put({
+      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
   postRemission(req) {
     return this.createAuthToken().then(token => request.post({
       uri: `${payhubUrl}/remissions`,
