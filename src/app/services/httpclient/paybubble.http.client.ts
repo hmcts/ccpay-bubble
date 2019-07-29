@@ -27,7 +27,6 @@ export class PaybubbleHttpClient {
     headers['CSRF-Token'] = csrfToken.content;
     options.headers = new HttpHeaders(headers);
     options.responseType = 'text';
-    console.log(options);
     return options;
   }
 }
