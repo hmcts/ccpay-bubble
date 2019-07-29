@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IFee} from '../../../../projects/fee-register-search/src/lib/interfaces';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-fee-details',
@@ -12,14 +12,15 @@ export class FeeDetailsComponent implements OnInit {
   @Output() submitFeeVolumeEvent: EventEmitter<IFee> = new EventEmitter();
   @Output() restartSearchEvent: EventEmitter<IFee> = new EventEmitter();
 
-  feeDetailForm: FormGroup;
+  feeVolumeControl: FormControl;
 
-  constructor() { }
+  constructor(
+    private formBuilder: FormBuilder
+  ) {
+  }
 
   ngOnInit() {
-    this.feeDetailForm = new FormGroup({
-      volumeAmount: new FormControl()
-    });
+    this.feeVolumeControl = this.formBuilder.control({value: 1, disabled: false});
   }
 
   goBack() {
@@ -27,6 +28,6 @@ export class FeeDetailsComponent implements OnInit {
   }
 
   submitVolume() {
-    this.submitFeeVolumeEvent.emit(this.feeDetailForm.get('volumeAmount').value);
+    this.submitFeeVolumeEvent.emit(this.feeVolumeControl.value);
   }
 }
