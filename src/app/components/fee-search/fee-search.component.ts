@@ -6,7 +6,7 @@ import {PaymentHistoryComponent} from '../payment-history/payment-history.compon
   templateUrl: './fee-search.component.html',
   styleUrls: ['./fee-search.component.scss']
 })
-export class FeeSearchComponent implements OnInit{
+export class FeeSearchComponent implements OnInit {
   selectedFee: any;
   ccdCaseNumber: string;
 
