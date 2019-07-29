@@ -26,7 +26,7 @@ export class FeeDetailsComponent implements OnInit {
     this.restartSearchEvent.emit();
   }
 
-  submitVolume(fee: IFee) {
+  submitVolume() {
     this.submitFeeVolumeEvent.emit(this.feeDetailForm.get('volumeAmount').value);
   }
 }
