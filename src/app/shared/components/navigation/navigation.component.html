@@ -16,14 +16,14 @@
       </ul>
 
       <ul class="bar-header__list bar-header-right" aria-label="Top Level Navigation">
-        <li *ngIf="showMVP">
+        <!-- <li *ngIf="showMVP">
             <a id="fee-search-link" class="logout-btn" href="/fee-search">{{ 'Fee Search' }}</a>
-        </li>
+        </li> -->
         <li *ngIf="showMVP">
           <a id="ccd-search-link" class="logout-btn" href="/ccd-search?takePayment=true">{{ 'CCD Search' }}</a>
       </li>
-           <li *ngIf="showMVP">
-          <a id="ccd-search-link" class="logout-btn" href="/payment-history">{{ 'Paymeny history' }}</a>
+      <li *ngIf="showMVP">
+          <a id="ccd-search-link" class="logout-btn" href="/payment-history">{{ 'Payment history' }}</a>
       </li>
         <li>{{ todaysDate | date:'dd MMM yyyy' }}</li>
         <li>
