@@ -103,7 +103,7 @@ export class FeeSearchComponent implements OnInit {
   }
 
   navigateToServiceFailure() {
-    this.router.navigate(['/service-failure']);
+    this.router.navigateByUrl('/service-failure');
   }
 
 }
