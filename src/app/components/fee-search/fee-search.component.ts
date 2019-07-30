@@ -80,19 +80,19 @@ export class FeeSearchComponent implements OnInit {
 
   sendPaymentGroup(paymentGroup: any) {
     if (this.paymentGroupRef) {
-      this.paymentGroupService.putPaymentGroup(this.paymentGroupRef, paymentGroup).then(response => {
-        this
-          .router
-          .navigateByUrl(`/payment-history/${this.ccdNo}`
+      this.paymentGroupService.putPaymentGroup(this.paymentGroupRef, paymentGroup)
+      .then(response => {
+        this.router
+        .navigateByUrl(`/payment-history/${this.ccdNo}`
             + `?view=fee-summary&paymentGroupRef=${this.paymentGroupRef}`);
       })
       .catch(err => {
         this.navigateToServiceFailure();
        });
     } else {
-      this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
-        this
-          .router
+      this.paymentGroupService.postPaymentGroup(paymentGroup)
+      .then(paymentGroupReceived => {
+        this.router
           .navigateByUrl(`/payment-history/${this.ccdNo}`
             + `?view=fee-summary&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}`);
       })
