@@ -145,9 +145,13 @@ describe('Fee search component', () => {
     expect(router.navigateByUrl).toHaveBeenCalledWith('/service-failure');
   });
 
+  it('Should reset preselected fee and show fee details ongoback', () => {
+    component.onGoBack();
+    expect(component.preselectedFee).toBeNull();
+    expect(component.showFeeDetails).toBeFalsy();
+  });
+
   it('should navigate to service failure when postPayment return error', fakeAsync(() => {
-    // spyOn(paymentGroupService, 'postPaymentGroup').and
-    // .returnValue(Promise.reject(new Error('Promise should not be resolved')));
     spyOn(paymentGroupService, 'postPaymentGroup').and.returnValue(Promise.reject('Promise should not be resolved'));
     spyOn(component, 'navigateToServiceFailure');
     component.paymentGroupRef = null;
@@ -157,8 +161,6 @@ describe('Fee search component', () => {
   }));
 
   it('should navigate to service failure when putPayment return error', fakeAsync(() => {
-    // spyOn(paymentGroupService, 'postPaymentGroup').and
-    // .returnValue(Promise.reject(new Error('Promise should not be resolved')));
     spyOn(paymentGroupService, 'putPaymentGroup').and.returnValue(Promise.reject('Promise should not be resolved'));
     spyOn(component, 'navigateToServiceFailure');
     component.paymentGroupRef = 'test';
@@ -166,11 +168,5 @@ describe('Fee search component', () => {
     tick();
     expect(component.navigateToServiceFailure).toHaveBeenCalled();
   }));
-
-  it('Should reset preselected fee and show fee details ongoback', () => {
-    component.onGoBack();
-    expect(component.preselectedFee).toBeNull();
-    expect(component.showFeeDetails).toBeFalsy();
-  });
 
 });
