@@ -1,7 +1,7 @@
 {
   "request": {
-    "method": "GET",
-    "url": "/api/fees"
+    "method": "OPTIONS",
+    "url": "/api/payment-groups"
   },
   "response": {
     "status": 200,
@@ -9,12 +9,11 @@
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin" : "*",
       "Access-Control-Allow-Methods" : "*",
-      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Headers": "auth-dev, *",
       "X-Content-Type-Options" : "nosniff",
       "x-frame-options" : "DENY",
       "x-xss-protection" : "1; mode=block",
       "Access-Control-Allow-Credentials": "true"
-    },
-    "bodyFileName": "fees/fees-prod.json"
+    }
   }
 }

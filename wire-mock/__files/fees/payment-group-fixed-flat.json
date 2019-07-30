@@ -1,0 +1,31 @@
+{
+  "payment_group_reference": "2018-15381321219",
+  "payments": [
+    {
+      "amount": 1250,
+      "description": "New passport application",
+      "reference": "RC-1538-1321-2165-7795",
+      "date_created": "2018-10-15T16:34:08.872+0000",
+      "currency": "GBP",
+      "ccd_case_number": "1517833758870511",
+      "case_reference": "aCaseReference",
+      "channel": "online",
+      "method": "payment by account",
+      "status": "Pending",
+      "site_id": "Y689",
+      "service_name": "Civil Money Claims",
+      "customer_reference": "FT/SW/98002M",
+      "account_number": "PBA0086235",
+      "organisation_name": "3G Law and Associates"
+    }
+  ],
+  "fees": [
+    {
+      "code": "FEE0002",
+      "version": "1",
+      "volume": 1,
+      "calculated_amount": 550
+    }
+  ]
+}
+
