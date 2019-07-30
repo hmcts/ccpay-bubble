@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
 import {FeeSearchComponent} from './fee-search.component';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {PaymentGroupService} from '../../services/payment-group/payment-group.service';
@@ -45,7 +45,7 @@ describe('Fee search component', () => {
       }
     };
     routerService = {
-      navigateByUrl: () => true
+      navigateByUrl: jasmine.createSpy('navigateByUrl')
     };
     TestBed.configureTestingModule({
       declarations: [FeeSearchComponent],
@@ -62,10 +62,6 @@ describe('Fee search component', () => {
 
     fixture = TestBed.createComponent(FeeSearchComponent);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
-    spyOn(paymentGroupService, 'postPaymentGroup').and
-    .returnValue(Promise.resolve('{"data": {"payment_group_reference": "2019-12341234"}, "success": true}'));
-    spyOn(paymentGroupService, 'putPaymentGroup').and
-    .returnValue(Promise.resolve('{"data": {"payment_group_reference": "2019-12341234"}, "success": true}'));
     router = TestBed.get(Router);
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -76,6 +72,10 @@ describe('Fee search component', () => {
   });
 
   it('Should pass selected fee into POST call for backend', () => {
+    spyOn(paymentGroupService, 'postPaymentGroup').and
+    .returnValue(Promise.resolve('{"data": {"payment_group_reference": "2019-12341234"}, "success": true}'));
+    spyOn(paymentGroupService, 'putPaymentGroup').and
+    .returnValue(Promise.resolve('{"data": {"payment_group_reference": "2019-12341234"}, "success": true}'));
     component.selectFee(testFee);
     fixture.detectChanges();
     expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
@@ -94,11 +94,18 @@ describe('Fee search component', () => {
   });
 
   it('Should set ccd number from URL', async(async () => {
+    spyOn(paymentGroupService, 'postPaymentGroup').and
+    .returnValue(Promise.resolve('{"data": {"payment_group_reference": "2019-12341234"}, "success": true}'));
+    spyOn(paymentGroupService, 'putPaymentGroup').and
+    .returnValue(Promise.resolve('{"data": {"payment_group_reference": "2019-12341234"}, "success": true}'));
     expect(component.ccdNo).toBe('1234-1234-1234-1234');
   }));
 
   it('Should navigate to fee-summary page using correct CCD case number and payment group reference', async(async () => {
-    spyOn(router, 'navigateByUrl');
+    spyOn(paymentGroupService, 'postPaymentGroup').and
+    .returnValue(Promise.resolve('{"data": {"payment_group_reference": "2019-12341234"}, "success": true}'));
+    spyOn(paymentGroupService, 'putPaymentGroup').and
+    .returnValue(Promise.resolve('{"data": {"payment_group_reference": "2019-12341234"}, "success": true}'));
     component.selectFee(testFee);
     await fixture.whenStable();
     fixture.detectChanges();
@@ -109,7 +116,10 @@ describe('Fee search component', () => {
   }));
 
   it('Should call postPaymentGroup payment group ref is undefined', async(async () => {
-    spyOn(router, 'navigateByUrl');
+    spyOn(paymentGroupService, 'postPaymentGroup').and
+    .returnValue(Promise.resolve('{"data": {"payment_group_reference": "2019-12341234"}, "success": true}'));
+    spyOn(paymentGroupService, 'putPaymentGroup').and
+    .returnValue(Promise.resolve('{"data": {"payment_group_reference": "2019-12341234"}, "success": true}'));
     component.selectFee(testFee);
     await fixture.whenStable();
     fixture.detectChanges();
@@ -119,13 +129,48 @@ describe('Fee search component', () => {
   }));
 
   it('Should call putPaymentGroup payment group ref is existed', async(async () => {
+    spyOn(paymentGroupService, 'postPaymentGroup').and
+    .returnValue(Promise.resolve('{"data": {"payment_group_reference": "2019-12341234"}, "success": true}'));
+    spyOn(paymentGroupService, 'putPaymentGroup').and
+    .returnValue(Promise.resolve('{"data": {"payment_group_reference": "2019-12341234"}, "success": true}'));
     component.paymentGroupRef = 'paymentgroup';
-    spyOn(router, 'navigateByUrl');
     component.selectFee(testFee);
     await fixture.whenStable();
     fixture.detectChanges();
     expect(paymentGroupService.putPaymentGroup).toHaveBeenCalled();
   }));
 
+  it('Should navigate to service-detail', () => {
+    component.navigateToServiceFailure();
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/service-failure');
+  });
+
+  it('should navigate to service failure when postPayment return error', fakeAsync(() => {
+    // spyOn(paymentGroupService, 'postPaymentGroup').and
+    // .returnValue(Promise.reject(new Error('Promise should not be resolved')));
+    spyOn(paymentGroupService, 'postPaymentGroup').and.returnValue(Promise.reject('Promise should not be resolved'));
+    spyOn(component, 'navigateToServiceFailure');
+    component.paymentGroupRef = null;
+    component.sendPaymentGroup(null);
+    tick();
+    expect(component.navigateToServiceFailure).toHaveBeenCalled();
+  }));
+
+  it('should navigate to service failure when putPayment return error', fakeAsync(() => {
+    // spyOn(paymentGroupService, 'postPaymentGroup').and
+    // .returnValue(Promise.reject(new Error('Promise should not be resolved')));
+    spyOn(paymentGroupService, 'putPaymentGroup').and.returnValue(Promise.reject('Promise should not be resolved'));
+    spyOn(component, 'navigateToServiceFailure');
+    component.paymentGroupRef = 'test';
+    component.sendPaymentGroup('test');
+    tick();
+    expect(component.navigateToServiceFailure).toHaveBeenCalled();
+  }));
+
+  it('Should reset preselected fee and show fee details ongoback', () => {
+    component.onGoBack();
+    expect(component.preselectedFee).toBeNull();
+    expect(component.showFeeDetails).toBeFalsy();
+  });
 
 });
