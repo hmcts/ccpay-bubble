@@ -7,7 +7,6 @@ import {PaybubbleHttpClient} from '../../services/httpclient/paybubble.http.clie
 import {instance, mock} from 'ts-mockito';
 import {HttpClient} from '@angular/common/http';
 import {Meta} from '@angular/platform-browser';
-import {IFee} from '@hmcts/ccpay-web-component/lib/interfaces/IFee';
 
 describe('Fee search component', () => {
   let component: FeeSearchComponent,
@@ -63,8 +62,10 @@ describe('Fee search component', () => {
 
     fixture = TestBed.createComponent(FeeSearchComponent);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
-    const sampleResponse = JSON.stringify({data: {payment_group_reference: '2019-12341234'}});
-    spyOn(paymentGroupService, 'postPaymentGroup').and.returnValue({then: (fun) => fun(sampleResponse)});
+    spyOn(paymentGroupService, 'postPaymentGroup').and
+    .returnValue(Promise.resolve('{"data": {"payment_group_reference": "2019-12341234"}, "success": true}'));
+    spyOn(paymentGroupService, 'putPaymentGroup').and
+    .returnValue(Promise.resolve('{"data": {"payment_group_reference": "2019-12341234"}, "success": true}'));
     router = TestBed.get(Router);
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -106,4 +107,5 @@ describe('Fee search component', () => {
     expect(router.navigateByUrl)
       .toHaveBeenCalledWith('/payment-history/1234-1234-1234-1234?view=fee-summary&paymentGroupRef=2019-12341234');
   }));
+
 });
