@@ -108,4 +108,24 @@ describe('Fee search component', () => {
       .toHaveBeenCalledWith('/payment-history/1234-1234-1234-1234?view=fee-summary&paymentGroupRef=2019-12341234');
   }));
 
+  it('Should call postPaymentGroup payment group ref is undefined', async(async () => {
+    spyOn(router, 'navigateByUrl');
+    component.selectFee(testFee);
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(component.paymentGroupRef).toBeUndefined();
+    expect(paymentGroupService.postPaymentGroup).toHaveBeenCalled();
+  }));
+
+  it('Should call putPaymentGroup payment group ref is existed', async(async () => {
+    component.paymentGroupRef = 'paymentgroup';
+    spyOn(router, 'navigateByUrl');
+    component.selectFee(testFee);
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(paymentGroupService.putPaymentGroup).toHaveBeenCalled();
+  }));
+
+
 });
