@@ -85,7 +85,6 @@ describe('Fee search component', () => {
         'memo_line': testFee['current_version'].memo_line,
         'natural_account_code': testFee['current_version'].natural_account_code,
         'ccd_case_number': component.ccdNo,
-        'net_amount': testFee['current_version'].flat_amount.amount.toString(),
         jurisdiction1: testFee.jurisdiction1.name,
         jurisdiction2: testFee.jurisdiction2.name,
         description: testFee.current_version.description
