@@ -16,7 +16,7 @@ describe('Fee search component', () => {
     routerService: any,
     activatedRoute: any,
     router: Router,
-    testFee: any;
+    testFee: any,
     mockResponse: IPaymentGroup;
 
   beforeEach(() => {
