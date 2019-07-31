@@ -19,7 +19,7 @@ export class FeeRegisterSearchService {
   }
 
   getFees(): Observable<any> {
-    return this.http.get<IFee[]>(this._API_URL)
+    return this.http.get<IFee[]>(`${this._API_URL}/fees`)
       .pipe(
         timeout(30000),
         catchError(error => {
@@ -29,7 +29,7 @@ export class FeeRegisterSearchService {
   }
 
   getJurisdiction(jurisdictionNo: number): Observable<any> {
-    return this.http.get<any>(`/api/fees-jurisdictions/${jurisdictionNo}`)
+    return this.http.get<any>(`${this._API_URL}/jurisdictions${jurisdictionNo}`)
       .pipe(
         timeout(30000),
         catchError(error => {
