@@ -17,3 +17,14 @@ body {
   margin-left: 0;
   margin-right: 0;
 }
+
+.grey-button.button {
+  color: black;
+  background-color: #dee0e2;
+  &:active {
+    box-shadow: 0 0 0 #9aa0a2;
+  }
+  &:hover {
+    background-color: #c0c2c4;
+  }
+}

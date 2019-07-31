@@ -28,7 +28,7 @@ export class CcdSearchComponent implements OnInit {
     if (this.searchForm.invalid) { return this.hasErrors = true; }
     this.hasErrors = false;
     this.ccdCaseNumber = this.removeHyphenFromString(this.searchForm.get('searchInput').value);
-    this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}?view=case-transactions`);
+    this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}?view=case-transactions&takePayment=true`);
   }
 
   removeHyphenFromString(input: string) {
