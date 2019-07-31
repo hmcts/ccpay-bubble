@@ -72,8 +72,7 @@ const nonProductionProviders = [{
     PaymentHistoryComponent,
     WindowUtil,
     !environment.production ? nonProductionProviders : [],
-    PaymentGroupService,
-    WindowUtil
+    PaymentGroupService
   ],
   bootstrap: [AppComponent]
 })
