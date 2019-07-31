@@ -74,7 +74,9 @@ export class FeeSearchComponent implements OnInit {
         'ccd_case_number': this.ccdNo,
         jurisdiction1: fee.jurisdiction1['name'],
         jurisdiction2: fee.jurisdiction2['name'],
-        description: fee.current_version.description
+        description: fee.current_version.description,
+        volume: volume,
+        volume_amount: fee['current_version']['volume_amount'].amount
       }]
     };
 
