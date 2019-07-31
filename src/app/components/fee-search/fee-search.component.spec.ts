@@ -7,9 +7,26 @@ import {PaybubbleHttpClient} from '../../services/httpclient/paybubble.http.clie
 import {instance, mock} from 'ts-mockito';
 import {HttpClient} from '@angular/common/http';
 import {Meta} from '@angular/platform-browser';
+import { IPaymentGroup } from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 
 // tslint:disable-next-line: max-line-length
-const mockResponse = '{"payment_group_reference":"2019-12341234","fees":[{"id":808,"code":"FEE0490","version":"1","calculated_amount":44,"memo_line":"RECEIPT OF FEES - Civil enforcement other","natural_account_code":"4481102147","ccd_case_number":"1111-2222-3333-4444","net_amount":44,"description":"Application for enforcement of an award of a sum of money or any other decision made by any court, tribunal, body or person"}]}';
+const mockResponse: IPaymentGroup = {
+  payment_group_reference : '2019-12341234',
+  fees: [{id: 808,
+    code: 'FEE0490',
+    version: '1',
+    calculated_amount: 44,
+    memo_line: 'RECEIPT OF FEES',
+    ccd_case_number: '1111-2222-3333-4444',
+    net_amount: 44,
+    description: 'description',
+    volume: 1,
+    jurisdiction1: 'civil',
+    jurisdiction2: 'civil',
+    reference: 'test'}],
+  payments: [],
+  remissions: []
+  };
 
 describe('Fee search component', () => {
   let component: FeeSearchComponent,
