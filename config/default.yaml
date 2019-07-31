@@ -27,5 +27,5 @@ certs:
   key: ./localhost-ssl/localhost.key
   crt: ./localhost-ssl/localhost.crt
 fee:
-  feeRegistrationUrl: http://localhost:9999/fees
-  feeJurisdictionUrl: http://localhost:9999/jurisdictions
+  feeRegistrationUrl: https://fees-register-api.platform.hmcts.net/fees-register/fees
+  feeJurisdictionUrl: https://fees-register-api.platform.hmcts.net/jurisdictions
