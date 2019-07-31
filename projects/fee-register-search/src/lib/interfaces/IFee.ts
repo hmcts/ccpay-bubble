@@ -23,6 +23,6 @@ export interface IFee {
     name: string;
   };
   fee_versions?: IVersion[];
-  current_version: IVersion;
+  current_version?: IVersion;
   unspecified_claim_amount?: boolean;
 }
