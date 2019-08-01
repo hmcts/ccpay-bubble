@@ -17,6 +17,7 @@ describe('Paybubble client', () => {
     http = instance(mock(HttpClient));
     httpClient = new PaybubbleHttpClient(http, meta);
     spyOn(http, 'post').and.callFake(mockPost);
+    spyOn(http, 'put').and.callFake(mockPost);
     spyOn(meta, 'getTag').and.returnValue(<any>{ content: 'this-is-a-token' });
   });
 
@@ -39,6 +40,12 @@ describe('Paybubble client', () => {
 
   it('Should add headers to a post request', () => {
     httpClient.post('www.mock.com', { 'test-prop': 'value'}, {}).subscribe(response => {
+      expect(response['headers'].get('X-Requested-With')).toBe('XMLHttpRequest');
+    });
+  });
+
+  it('Should add headers to a put request', () => {
+    httpClient.put('www.mock.com', { 'test-prop': 'value'}, {}).subscribe(response => {
       expect(response['headers'].get('X-Requested-With')).toBe('XMLHttpRequest');
     });
   });

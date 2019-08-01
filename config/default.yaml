@@ -27,7 +27,7 @@ certs:
   key: ./localhost-ssl/localhost.key
   crt: ./localhost-ssl/localhost.crt
 fee:
-  feeRegistrationUrl: https://fees-register-api.platform.hmcts.net/fees-register/fees
-  feeJurisdictionUrl: https://fees-register-api.platform.hmcts.net/jurisdictions
+  feeRegistrationUrl: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register/fees
+  feeJurisdictionUrl: http://fees-register-api-aat.service.core-compute-aat.internal/jurisdictions
 ccd:
   url: http://localhost:23443

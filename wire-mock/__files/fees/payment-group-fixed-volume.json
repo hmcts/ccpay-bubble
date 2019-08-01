@@ -21,10 +21,10 @@
   ],
   "fees": [
     {
-      "code": "FEE0209",
+      "code": "FEE0003",
       "version": "1",
       "volume": 1,
-      "calculated_amount": 1250
+      "calculated_amount": 0.5
     }
   ]
 }
