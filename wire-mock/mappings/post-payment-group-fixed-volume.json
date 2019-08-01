@@ -1,0 +1,25 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/payment-groups",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.fees[0][?(@.code == 'FEE0003')]"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "*",
+      "Access-Control-Allow-Headers": "*",
+      "X-Content-Type-Options": "nosniff",
+      "x-frame-options": "DENY",
+      "x-xss-protection": "1; mode=block",
+      "Access-Control-Allow-Credentials": "true"
+    },
+    "bodyFileName": "fees/payment-groups-post-fixed-volume.json"
+  }
+}

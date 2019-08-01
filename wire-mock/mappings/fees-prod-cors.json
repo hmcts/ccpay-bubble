@@ -1,6 +1,6 @@
 {
   "request": {
-    "method": "GET",
+    "method": "OPTIONS",
     "url": "/api/fees"
   },
   "response": {
@@ -9,12 +9,11 @@
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin" : "*",
       "Access-Control-Allow-Methods" : "*",
-      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Headers": "auth-dev, *",
       "X-Content-Type-Options" : "nosniff",
       "x-frame-options" : "DENY",
       "x-xss-protection" : "1; mode=block",
       "Access-Control-Allow-Credentials": "true"
-    },
-    "bodyFileName": "fees/fees-prod.json"
+    }
   }
 }

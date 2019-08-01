@@ -37,4 +37,9 @@ export class CcdSearchComponent implements OnInit {
     const url = this.takePayment ? `?view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
     this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
   }
+
+  removeHyphenFromString(input: string) {
+    const pattern = /\-/gi;
+    return input.replace(pattern, '');
+  }
 }
