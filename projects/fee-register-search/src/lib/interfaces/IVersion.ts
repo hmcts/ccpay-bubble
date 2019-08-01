@@ -6,7 +6,7 @@ export interface IVersion {
   version: number;
   valid_from: string;
   valid_to?: string;
-  flat_amount: {
+  flat_amount?: {
     amount: number;
   };
   memo_line: string;
@@ -15,4 +15,7 @@ export interface IVersion {
   natural_account_code: string;
   fee_order_name?: string;
   direction: string;
+  volume_amount?: {
+    amount: number;
+  };
 }
