@@ -26,7 +26,7 @@ describe('Payment group service', () => {
         payments: null,
         remissions: null
     };
-    spyOn(http, 'post').and.callFake((param1: string, param2: IPaymentGroup) => of(JSON.stringify(paymentGroup)));
+    spyOn(http, 'post').and.callFake((param1: string, param2: IPaymentGroup) => of(paymentGroup));
     const inputPaymentGroup = <IPaymentGroup>{
       payment_group_reference: null,
       fees: [{ccd_case_number: '1234', code: 'FEE0001'}],
