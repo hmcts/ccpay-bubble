@@ -48,13 +48,17 @@ export class FeeSearchComponent implements OnInit {
         }]
       };
 
-      this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
-        this
-          .router
-          .navigateByUrl(`/payment-history/${this.ccdNo}`
-            + `?view=fee-summary&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}`);
-      });
+      this.postPaymentGroup(paymentGroup);
     }
+  }
+
+  postPaymentGroup(paymentGroup: any) {
+    this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
+      this
+        .router
+        .navigateByUrl(`/payment-history/${this.ccdNo}`
+          + `?view=fee-summary&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}`);
+    });
   }
 
   onGoBack() {
@@ -80,11 +84,6 @@ export class FeeSearchComponent implements OnInit {
       }]
     };
 
-    this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
-      this
-        .router
-        .navigateByUrl(`/payment-history/${this.ccdNo}`
-          + `?view=fee-summary&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}`);
-    });
+    this.postPaymentGroup(paymentGroup);
   }
 }
