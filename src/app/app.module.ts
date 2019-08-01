@@ -29,6 +29,7 @@ import {WindowUtil} from './services/window-util/window-util';
 import {CcdSearchComponent} from './components/ccd-search/ccd-search.component';
 import {AuthDevInterceptor} from './shared/interceptors/auth.dev.interceptor';
 import {environment} from '../environments/environment';
+import {FeeDetailsComponent} from './components/fee-details/fee-details.component';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -72,8 +73,7 @@ const nonProductionProviders = [{
     PaymentHistoryComponent,
     WindowUtil,
     !environment.production ? nonProductionProviders : [],
-    PaymentGroupService,
-    WindowUtil
+    PaymentGroupService
   ],
   bootstrap: [AppComponent]
 })
