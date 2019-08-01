@@ -15,4 +15,10 @@ export class PaymentGroupService {
       return <IPaymentGroup>paymentGroupJson;
     });
   }
+
+  putPaymentGroup(paymentGroupRef: string, paymentGroup: any): Promise<IPaymentGroup> {
+    return this.http.put(`api/payment-groups/${paymentGroupRef}`, paymentGroup).toPromise().then(paymentGroupJson => {
+      return <IPaymentGroup>paymentGroupJson;
+    });
+  }
 }
