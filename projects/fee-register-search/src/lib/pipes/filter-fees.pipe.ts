@@ -12,6 +12,8 @@ export class FilterFeesPipe implements PipeTransform {
 
     let filteredList: IFee[] = [];
 
+    fees = this.filterValidFee(fees);
+
     if (this.isNumeric(searchFilter)) {
       filteredList = this.filterByNumber(fees, searchFilter);
     } else {
@@ -27,6 +29,10 @@ export class FilterFeesPipe implements PipeTransform {
       filteredList = this.filterByJurisdictions(filteredList, jurisdictionsFilter);
     }
     return filteredList;
+  }
+
+  filterValidFee(fees: IFee[]) {
+    return fees.filter(fee => fee.current_version);
   }
 
   filterByDescription(fees, filter): IFee[] {

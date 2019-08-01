@@ -14,36 +14,46 @@ describe('Filter fees pipe', () => {
   });
 
   it('Should filter an array of fees on description', () => {
-    const results = filterFeesPipe.filterByDescription(mockFees, 'test');
+    const validFees = filterFeesPipe.filterValidFee(mockFees);
+    const results = filterFeesPipe.filterByDescription(validFees, 'test');
     expect(results.length).toBe(1);
-    expect(results[0]).toEqual(mockFees[1]);
+    expect(results[0]).toEqual(validFees[1]);
 
-    const results2 = filterFeesPipe.filterByDescription(mockFees, 'civil money');
+    const results2 = filterFeesPipe.filterByDescription(validFees, 'civil money');
     expect(results2.length).toBe(1);
-    expect(results2[0]).toEqual(mockFees[0]);
+    expect(results2[0]).toEqual(validFees[0]);
 
-    const results3 = filterFeesPipe.filterByDescription(mockFees, 'test civil money');
+    const results3 = filterFeesPipe.filterByDescription(validFees, 'test civil money');
     expect(results3.length).toBe(2);
-    expect(results3[0]).toEqual(mockFees[0]);
+    expect(results3[0]).toEqual(validFees[0]);
+  });
+
+  it('Should filter an array of valid fees', () => {
+    const validFees = filterFeesPipe.filterValidFee(mockFees);
+    expect(mockFees.length).toBe(3);
+    expect(validFees.length).toBe(2);
   });
 
   it('Should filter an array of fees on amount', () => {
-    const results = filterFeesPipe.filterByAmount(mockFees, '10000');
+    const validFees = filterFeesPipe.filterValidFee(mockFees);
+    const results = filterFeesPipe.filterByAmount(validFees, '10000');
     expect(results.length).toBe(1);
     expect(results[0]).toEqual(mockFees[0]);
   });
 
   it('Should filter an array of fees on amount and description when it is a number also sort by amount first', () => {
-    const results = filterFeesPipe.filterByNumber(mockFees, '500');
+    const validFees = filterFeesPipe.filterValidFee(mockFees);
+    const results = filterFeesPipe.filterByNumber(validFees, '500');
     expect(results.length).toBe(2);
     expect(results[0]).toEqual(mockFees[1]);
   });
 
   it('Should filter an array of fees on jurisdiction tribunal to be empty', () => {
+    const validFees = filterFeesPipe.filterValidFee(mockFees);
     const jurisdiction = new Jurisdictions();
     jurisdiction.jurisdiction1 = 'tribunal';
     jurisdiction.jurisdiction2 = 'test';
-    const results = filterFeesPipe.filterByJurisdictions(mockFees, jurisdiction);
+    const results = filterFeesPipe.filterByJurisdictions(validFees, jurisdiction);
     expect(results.length).toBe(0);
   });
 
@@ -69,7 +79,8 @@ describe('Filter fees pipe', () => {
   });
 
   it('Should filter an array of fees on fee code', () => {
-    const results = filterFeesPipe.filterByFeeCode(mockFees, 'fee0001');
+    const validFees = filterFeesPipe.filterValidFee(mockFees);
+    const results = filterFeesPipe.filterByFeeCode(validFees, 'fee0001');
     expect(results.length).toBe(1);
     expect(results[0]).toEqual(mockFees[0]);
   });
