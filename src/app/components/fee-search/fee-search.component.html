@@ -1,5 +1,23 @@
-<legend><h1 class="heading-xlarge">Add fee details</h1></legend>
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a [href]="'/payment-history/' + ccdNo + '?view=case-transactions&takePayment=true'"   class="govuk-back-link">Back</a>
+    </li>
+  </ol>
+</div>
 
-<pay-fee-register-search 
-[APIRoot]='"api/fees"'
-(selectedFeeEvent)="logFee($event)"></pay-fee-register-search>
+<legend *ngIf="!showFeeDetails">
+  <h1 class="heading-xlarge">Add fee details</h1>
+</legend>
+
+<pay-fee-register-search
+  *ngIf="!showFeeDetails"
+  [APIRoot]='"api"'
+  (selectedFeeEvent)="selectFee($event)"></pay-fee-register-search>
+
+
+<app-fee-details
+  *ngIf="showFeeDetails"
+  [fee]="preselectedFee"
+  (restartSearchEvent)="onGoBack()"
+  (submitFeeVolumeEvent)="selectPreselectedFeeWithVolume($event)"></app-fee-details>

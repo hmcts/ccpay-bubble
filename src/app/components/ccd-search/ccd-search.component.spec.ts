@@ -2,7 +2,8 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CcdSearchComponent } from './ccd-search.component';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 const routerMock = {
   navigateByUrl: jasmine.createSpy('navigateByUrl')
@@ -22,7 +23,17 @@ describe('Fee search component', () => {
         RouterModule
       ],
       providers: [
-        { provide: Router, useValue: routerMock }
+        { provide: Router, useValue: routerMock },
+        { provide: ActivatedRoute,
+          useValue: {
+            params: of({ccdCaseNumber: '1111-2222-3333-4444'}),
+            snapshot: {
+              queryParams: {
+                takePayment: true
+              }
+            }
+          }
+        }
       ]
     });
 
@@ -62,7 +73,12 @@ describe('Fee search component', () => {
     component.searchFees();
     fixture.detectChanges();
     expect(component.hasErrors).toBeFalsy();
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111-2222-3333-4444');
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111-2222-3333-4444?view=case-transactions&takePayment=true');
   });
 
+  it('Should remove hyphems from ccd_case_number', () => {
+    let ccd_case_number = '1111-2222-3333-4444';
+    ccd_case_number = component.removeHyphenFromString(ccd_case_number);
+    expect(ccd_case_number).toBe('1111222233334444');
+  });
 });
