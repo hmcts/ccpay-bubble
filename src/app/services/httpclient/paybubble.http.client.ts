@@ -15,6 +15,11 @@ export class PaybubbleHttpClient {
     return this.http.post(url, body, opts);
   }
 
+  put(url: string, body: any | null, options?: any): Observable<any> {
+    const opts = this.addHeaders(options || {});
+    return this.http.put(url, body, opts);
+  }
+
   get(url: string, options?: any): Observable<any> {
     const opts = this.addHeaders(options || {});
     return this.http.get(url, opts);

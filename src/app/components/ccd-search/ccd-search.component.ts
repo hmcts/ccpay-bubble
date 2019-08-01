@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ccdCaseRefPatternValidator } from 'src/app/shared/validators/ccd-case-ref-pattern.validator';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
 import { CaseRefService } from '../../services/caseref/caseref.service';
@@ -15,9 +15,11 @@ export class CcdSearchComponent implements OnInit {
   searchForm: FormGroup;
   hasErrors = false;
   ccdCaseNumber: string;
+  takePayment: boolean;
   noCaseFound = false;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private router: Router,
     private http: PaybubbleHttpClient,
@@ -28,7 +30,11 @@ export class CcdSearchComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       searchInput: ['', [Validators.required, ccdCaseRefPatternValidator()]]
     });
+     this.activatedRoute.params.subscribe(() => {
+      this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
+    });
   }
+
 
   searchFees() {
     if (this.searchForm.invalid) { return this.hasErrors = true; }
@@ -36,9 +42,15 @@ export class CcdSearchComponent implements OnInit {
     this.ccdCaseNumber = this.searchForm.get('searchInput').value;
     this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
       this.noCaseFound = false;
-      this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}?view=case-transactions&takePayment=true`);
+      const url = this.takePayment ? `?view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
+      this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
     }, err => {
       this.noCaseFound = true;
     });
+  }
+
+  removeHyphenFromString(input: string) {
+    const pattern = /\-/gi;
+    return input.replace(pattern, '');
   }
 }
