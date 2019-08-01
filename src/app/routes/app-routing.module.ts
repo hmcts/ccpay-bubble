@@ -45,6 +45,11 @@ const routes: Routes = [
     component: CcdSearchComponent,
     canActivate: [MVPGuard]
   },
+    {
+    path: 'payment-history',
+    component: CcdSearchComponent,
+    canActivate: [MVPGuard]
+  },
   {
     path: '',
     pathMatch: 'full',
