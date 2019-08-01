@@ -9,9 +9,9 @@ import { PlatformLocation } from '@angular/common';
 })
 export class PaymentHistoryComponent implements OnInit {
   apiRoot: string;
-  ccdCaseNumber: string;
   view: string;
   takePayment: boolean;
+  ccdCaseNumber: string;
   paymentGroupRef: string;
 
   constructor(private activatedRoute: ActivatedRoute) { }
@@ -25,5 +25,4 @@ export class PaymentHistoryComponent implements OnInit {
       this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
     });
   }
-
 }
