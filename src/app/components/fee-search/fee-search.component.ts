@@ -76,7 +76,7 @@ export class FeeSearchComponent implements OnInit {
         jurisdiction2: fee.jurisdiction2['name'],
         description: fee.current_version.description,
         volume: volume,
-        volume_amount: fee['current_version']['volume_amount'].amount
+        volume_amount: fee.current_version.volume_amount.amount
       }]
     };
 
