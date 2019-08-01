@@ -48,13 +48,17 @@ export class FeeSearchComponent implements OnInit {
         }]
       };
 
-      this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
-        this
-          .router
-          .navigateByUrl(`/payment-history/${this.ccdNo}`
-            + `?view=fee-summary&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}`);
-      });
+      this.postPaymentGroup(paymentGroup);
     }
+  }
+
+  postPaymentGroup(paymentGroup: any) {
+    this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
+      this
+        .router
+        .navigateByUrl(`/payment-history/${this.ccdNo}`
+          + `?view=fee-summary&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}`);
+    });
   }
 
   onGoBack() {
@@ -74,15 +78,12 @@ export class FeeSearchComponent implements OnInit {
         'ccd_case_number': this.ccdNo,
         jurisdiction1: fee.jurisdiction1['name'],
         jurisdiction2: fee.jurisdiction2['name'],
-        description: fee.current_version.description
+        description: fee.current_version.description,
+        volume: volume,
+        volume_amount: fee.current_version.volume_amount.amount
       }]
     };
 
-    this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
-      this
-        .router
-        .navigateByUrl(`/payment-history/${this.ccdNo}`
-          + `?view=fee-summary&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}`);
-    });
+    this.postPaymentGroup(paymentGroup);
   }
 }

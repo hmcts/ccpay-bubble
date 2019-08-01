@@ -76,4 +76,9 @@ describe('Fee search component', () => {
     expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111-2222-3333-4444?view=case-transactions&takePayment=true');
   });
 
+  it('Should remove hyphems from ccd_case_number', () => {
+    let ccd_case_number = '1111-2222-3333-4444';
+    ccd_case_number = component.removeHyphenFromString(ccd_case_number);
+    expect(ccd_case_number).toBe('1111222233334444');
+  });
 });
