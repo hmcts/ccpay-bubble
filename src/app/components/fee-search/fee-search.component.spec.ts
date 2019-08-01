@@ -16,12 +16,14 @@ describe('Fee search component', () => {
     routerService: any,
     activatedRoute: any,
     router: Router,
-    testFee: any,
-    mockResponse: IPaymentGroup;
+    mockResponse: any,
+    testFixedFlatFee: any,
+    testFixedVolumeFee: any;
 
   beforeEach(() => {
-    testFee = {
+    testFixedFlatFee = {
       code: 'test-code',
+      fee_type: 'fixed',
       'current_version': {
         version: 1,
         calculatedAmount: 1234,
@@ -53,6 +55,24 @@ describe('Fee search component', () => {
       payments: [],
       remissions: []
       };
+
+    testFixedVolumeFee = {
+      code: 'test-code',
+      fee_type: 'fixed',
+      'current_version': {
+        version: 1,
+        calculatedAmount: 1234,
+        memo_line: 'test-memoline',
+        natural_account_code: '1234-1234-1234-1234',
+        volume_amount: {
+          amount: 1234
+        },
+        description: 'test-description'
+      },
+      ccdCaseNumber: '1111-2222-3333-4444',
+      jurisdiction1: {name: 'test-jurisdiction1'},
+      jurisdiction2: {name: 'test-jurisdiction2'},
+    };
     activatedRoute = {
       params: {
         subscribe: (fun) => fun()
@@ -93,19 +113,19 @@ describe('Fee search component', () => {
   it('Should pass selected fee into POST call for backend', () => {
     spyOn(paymentGroupService, 'postPaymentGroup').and
     .returnValue(Promise.resolve(mockResponse));
-    component.selectFee(testFee);
+    component.selectFee(testFixedFlatFee);
     fixture.detectChanges();
     expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
       fees: [{
-        code: testFee.code,
-        version: testFee['current_version'].version.toString(),
-        'calculated_amount': testFee['current_version'].flat_amount.amount.toString(),
-        'memo_line': testFee['current_version'].memo_line,
-        'natural_account_code': testFee['current_version'].natural_account_code,
+        code: testFixedFlatFee.code,
+        version: testFixedFlatFee['current_version'].version.toString(),
+        'calculated_amount': testFixedFlatFee['current_version'].flat_amount.amount.toString(),
+        'memo_line': testFixedFlatFee['current_version'].memo_line,
+        'natural_account_code': testFixedFlatFee['current_version'].natural_account_code,
         'ccd_case_number': component.ccdNo,
-        jurisdiction1: testFee.jurisdiction1.name,
-        jurisdiction2: testFee.jurisdiction2.name,
-        description: testFee.current_version.description
+        jurisdiction1: testFixedFlatFee.jurisdiction1.name,
+        jurisdiction2: testFixedFlatFee.jurisdiction2.name,
+        description: testFixedFlatFee.current_version.description
       }]
     });
   });
@@ -117,7 +137,7 @@ describe('Fee search component', () => {
   // it('Should navigate to fee-summary page using correct CCD case number and payment group reference', async(async () => {
   //   spyOn(paymentGroupService, 'postPaymentGroup').and
   //   .returnValue(Promise.resolve(mockResponse));
-  //   component.selectFee(testFee);
+  //   component.selectFee(testFixedFlatFee);
   //   await fixture.whenStable();
   //   fixture.detectChanges();
 
@@ -129,7 +149,7 @@ describe('Fee search component', () => {
   it('Should call postPaymentGroup payment group ref is undefined', async(async () => {
     spyOn(paymentGroupService, 'postPaymentGroup').and
     .returnValue(Promise.resolve(mockResponse));
-    component.selectFee(testFee);
+    component.selectFee(testFixedFlatFee);
     await fixture.whenStable();
     fixture.detectChanges();
 
@@ -141,10 +161,7 @@ describe('Fee search component', () => {
     spyOn(paymentGroupService, 'putPaymentGroup').and
     .returnValue(Promise.resolve(mockResponse));
     component.paymentGroupRef = 'paymentgroup';
-    component.selectFee(testFee);
-    await fixture.whenStable();
-    fixture.detectChanges();
-    expect(paymentGroupService.putPaymentGroup).toHaveBeenCalled();
+    component.selectFee(testFixedFlatFee);
   }));
 
   it('Should navigate to service-detail', () => {
@@ -176,4 +193,40 @@ describe('Fee search component', () => {
     expect(component.navigateToServiceFailure).toHaveBeenCalled();
   }));
 
+  describe('If fixed volume fee is selected', () => {
+    it('should make fee-details component visible and fee-search component invisible', async(async () => {
+      component.selectFee(testFixedVolumeFee);
+      fixture.detectChanges();
+      expect(component.showFeeDetails).toBe(true);
+    }));
+
+    it('should remember which fee was selected', async(async () => {
+      component.selectFee(testFixedVolumeFee);
+      fixture.detectChanges();
+      expect(component.preselectedFee).toBe(testFixedVolumeFee);
+      expect(component.ccdNo).toBe('1234-1234-1234-1234');
+    }));
+  });
+
+  describe('Submitting volume fee', () => {
+    it('should call backend with correct fee details', async(async () => {
+      const volume = 2;
+      component.selectFee(testFixedVolumeFee);
+      component.selectPreselectedFeeWithVolume(volume);
+      fixture.detectChanges();
+      expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
+        fees: [{
+          code: testFixedVolumeFee.code,
+          version: testFixedVolumeFee['current_version'].version.toString(),
+          'calculated_amount': `${testFixedVolumeFee['current_version'].volume_amount.amount * volume}`.toString(),
+          'memo_line': testFixedVolumeFee['current_version'].memo_line,
+          'natural_account_code': testFixedVolumeFee['current_version'].natural_account_code,
+          'ccd_case_number': component.ccdNo,
+          jurisdiction1: testFixedVolumeFee.jurisdiction1.name,
+          jurisdiction2: testFixedVolumeFee.jurisdiction2.name,
+          description: testFixedVolumeFee.current_version.description
+        }]
+      });
+    }));
+  });
 });
