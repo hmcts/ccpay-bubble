@@ -52,6 +52,10 @@ export class FeeFilterComponent implements OnInit {
     this.jurisdictionsFilterEvent.emit(emitValue);
   }
 
+  clearFilter(jurisdiction: string) {
+    this.filterForm.get(jurisdiction).reset();
+  }
+
   toggleJurisdiction(jurisdiction) {
     jurisdiction.show = !jurisdiction.show;
   }
