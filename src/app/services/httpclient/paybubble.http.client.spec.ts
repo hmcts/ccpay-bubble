@@ -17,7 +17,7 @@ describe('Paybubble client', () => {
     http = instance(mock(HttpClient));
     httpClient = new PaybubbleHttpClient(http, meta);
     spyOn(http, 'post').and.callFake(mockPost);
-    spyOn(meta, 'getTag').and.returnValue({ content: 'this-is-a-token' });
+    spyOn(meta, 'getTag').and.returnValue(<any>{ content: 'this-is-a-token' });
   });
 
   it('Should add headers to an object', () => {
