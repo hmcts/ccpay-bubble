@@ -26,7 +26,7 @@ describe('Payment group service', () => {
         payments: null,
         remissions: null
     };
-    spyOn(http, 'post').and.callFake((param1: string, param2: IPaymentGroup) => of(JSON.stringify(paymentGroup)));
+    spyOn(http, 'post').and.callFake((param1: string, param2: IPaymentGroup) => of(paymentGroup));
     const inputPaymentGroup = <IPaymentGroup>{
       payment_group_reference: null,
       fees: [{ccd_case_number: '1234', code: 'FEE0001'}],
@@ -34,6 +34,27 @@ describe('Payment group service', () => {
       remissions: null
     };
     paymentGroupService.postPaymentGroup(inputPaymentGroup)
+      .then((response) => {
+        expect(response.fees[0].code).toBe(paymentGroup.fees[0].code);
+        expect(response.payment_group_reference).toBe(paymentGroup.payment_group_reference);
+      });
+  });
+
+  it('Should call put Payment Group', () => {
+    const paymentGroup = <IPaymentGroup>{
+        payment_group_reference: '1234',
+        fees: [{code: 'FEE0001'}],
+        payments: null,
+        remissions: null
+    };
+    spyOn(http, 'put').and.callFake((param1: string, param2: IPaymentGroup) => of(paymentGroup));
+    const inputPaymentGroup = <IPaymentGroup>{
+      payment_group_reference: null,
+      fees: [{ccd_case_number: '1234', code: 'FEE0001'}],
+      payments: null,
+      remissions: null
+    };
+    paymentGroupService.putPaymentGroup('1234', inputPaymentGroup)
       .then((response) => {
         expect(response.fees[0].code).toBe(paymentGroup.fees[0].code);
         expect(response.payment_group_reference).toBe(paymentGroup.payment_group_reference);
