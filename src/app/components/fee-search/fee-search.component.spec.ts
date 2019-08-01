@@ -4,7 +4,7 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {PaymentGroupService} from '../../services/payment-group/payment-group.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PaybubbleHttpClient} from '../../services/httpclient/paybubble.http.client';
-import {instance, mock, anyFunction} from 'ts-mockito';
+import {instance, mock} from 'ts-mockito';
 import {HttpClient} from '@angular/common/http';
 import {Meta} from '@angular/platform-browser';
 
