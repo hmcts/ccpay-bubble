@@ -4,10 +4,9 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {PaymentGroupService} from '../../services/payment-group/payment-group.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PaybubbleHttpClient} from '../../services/httpclient/paybubble.http.client';
-import {instance, mock} from 'ts-mockito';
+import {instance, mock, anyFunction} from 'ts-mockito';
 import {HttpClient} from '@angular/common/http';
 import {Meta} from '@angular/platform-browser';
-import { IPaymentGroup } from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 
 describe('Fee search component', () => {
   let component: FeeSearchComponent,
@@ -16,9 +15,9 @@ describe('Fee search component', () => {
     routerService: any,
     activatedRoute: any,
     router: Router,
-    mockResponse: any,
     testFixedFlatFee: any,
-    testFixedVolumeFee: any;
+    testFixedVolumeFee: any,
+    mockResponse: any;
 
   beforeEach(() => {
     testFixedFlatFee = {
@@ -30,6 +29,24 @@ describe('Fee search component', () => {
         memo_line: 'test-memoline',
         natural_account_code: '1234-1234-1234-1234',
         flat_amount: {
+          amount: 1234
+        },
+        description: 'test-description'
+      },
+      ccdCaseNumber: '1111-2222-3333-4444',
+      jurisdiction1: {name: 'test-jurisdiction1'},
+      jurisdiction2: {name: 'test-jurisdiction2'},
+    };
+
+    testFixedVolumeFee = {
+      code: 'test-code',
+      fee_type: 'fixed',
+      'current_version': {
+        version: 1,
+        calculatedAmount: 1234,
+        memo_line: 'test-memoline',
+        natural_account_code: '1234-1234-1234-1234',
+        volume_amount: {
           amount: 1234
         },
         description: 'test-description'
@@ -56,23 +73,6 @@ describe('Fee search component', () => {
       remissions: []
       };
 
-    testFixedVolumeFee = {
-      code: 'test-code',
-      fee_type: 'fixed',
-      'current_version': {
-        version: 1,
-        calculatedAmount: 1234,
-        memo_line: 'test-memoline',
-        natural_account_code: '1234-1234-1234-1234',
-        volume_amount: {
-          amount: 1234
-        },
-        description: 'test-description'
-      },
-      ccdCaseNumber: '1111-2222-3333-4444',
-      jurisdiction1: {name: 'test-jurisdiction1'},
-      jurisdiction2: {name: 'test-jurisdiction2'},
-    };
     activatedRoute = {
       params: {
         subscribe: (fun) => fun()
@@ -84,7 +84,8 @@ describe('Fee search component', () => {
       }
     };
     routerService = {
-      navigateByUrl: jasmine.createSpy('navigateByUrl')
+      navigateByUrl: jasmine.createSpy('navigate'),
+      navigate: jasmine.createSpy('navigate')
     };
     TestBed.configureTestingModule({
       declarations: [FeeSearchComponent],
@@ -111,8 +112,8 @@ describe('Fee search component', () => {
   });
 
   it('Should pass selected fee into POST call for backend', () => {
-    spyOn(paymentGroupService, 'postPaymentGroup').and
-    .returnValue(Promise.resolve(mockResponse));
+    spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
     component.selectFee(testFixedFlatFee);
     fixture.detectChanges();
     expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
@@ -134,45 +135,79 @@ describe('Fee search component', () => {
     expect(component.ccdNo).toBe('1234-1234-1234-1234');
   }));
 
-  // it('Should navigate to fee-summary page using correct CCD case number and payment group reference', async(async () => {
-  //   spyOn(paymentGroupService, 'postPaymentGroup').and
-  //   .returnValue(Promise.resolve(mockResponse));
-  //   component.selectFee(testFixedFlatFee);
-  //   await fixture.whenStable();
-  //   fixture.detectChanges();
-
-  //   expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
-  //   expect(router.navigateByUrl)
-  //     .toHaveBeenCalledWith('/payment-history/1234-1234-1234-1234?view=fee-summary&paymentGroupRef=2019-12341234');
-  // }));
-
-  it('Should call postPaymentGroup payment group ref is undefined', async(async () => {
-    spyOn(paymentGroupService, 'postPaymentGroup').and
-    .returnValue(Promise.resolve(mockResponse));
-    component.selectFee(testFixedFlatFee);
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    expect(component.paymentGroupRef).toBeUndefined();
-    expect(paymentGroupService.postPaymentGroup).toHaveBeenCalled();
-  }));
-
-  it('Should call putPaymentGroup payment group ref is existed', async(async () => {
-    spyOn(paymentGroupService, 'putPaymentGroup').and
-    .returnValue(Promise.resolve(mockResponse));
-    component.paymentGroupRef = 'paymentgroup';
-    component.selectFee(testFixedFlatFee);
-  }));
-
-  it('Should navigate to service-detail', () => {
-    component.navigateToServiceFailure();
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/service-failure');
-  });
-
   it('Should reset preselected fee and show fee details ongoback', () => {
     component.onGoBack();
     expect(component.preselectedFee).toBeNull();
     expect(component.showFeeDetails).toBeFalsy();
+  });
+
+  it('Should navigate to fee-summary page using correct CCD case number and payment group reference', async() => {
+    spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    component.paymentGroupRef = 'paymentgroup';
+    component.selectFee(testFixedFlatFee);
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
+    expect(router.navigateByUrl)
+      .toHaveBeenCalledWith('/payment-history/1234-1234-1234-1234?view=fee-summary&paymentGroupRef=paymentgroup');
+  });
+
+
+  it('Should call putPaymentGroup payment group ref is existed', async(async () => {
+    spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    component.paymentGroupRef = 'paymentgroup';
+    component.selectFee(testFixedFlatFee);
+    expect(paymentGroupService.putPaymentGroup).toHaveBeenCalled();
+
+  }));
+
+  describe('If fixed volume fee is selected', () => {
+    it('should make fee-details component visible and fee-search component invisible', async(async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      component.selectFee(testFixedVolumeFee);
+      fixture.detectChanges();
+      expect(component.showFeeDetails).toBe(true);
+    }));
+
+    it('should remember which fee was selected', async(async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      component.selectFee(testFixedVolumeFee);
+      fixture.detectChanges();
+      expect(component.preselectedFee).toBe(testFixedVolumeFee);
+      expect(component.ccdNo).toBe('1234-1234-1234-1234');
+    }));
+  });
+
+  describe('Submitting volume fee', () => {
+    it('should call backend with correct fee details', async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      const volume = 2;
+      component.selectFee(testFixedVolumeFee);
+      component.selectPreselectedFeeWithVolume(volume);
+      await fixture.whenStable();
+      expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
+        fees: [{
+          code: testFixedVolumeFee.code,
+          version: testFixedVolumeFee['current_version'].version.toString(),
+          'calculated_amount': `${testFixedVolumeFee['current_version'].volume_amount.amount * volume}`.toString(),
+          'memo_line': testFixedVolumeFee['current_version'].memo_line,
+          'natural_account_code': testFixedVolumeFee['current_version'].natural_account_code,
+          'ccd_case_number': component.ccdNo,
+          jurisdiction1: testFixedVolumeFee.jurisdiction1.name,
+          jurisdiction2: testFixedVolumeFee.jurisdiction2.name,
+          description: testFixedVolumeFee.current_version.description
+        }]
+      });
+    });
+  });
+
+  it('Should navigate to service-failure', () => {
+    component.navigateToServiceFailure();
+    expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/service-failure');
   });
 
   it('should navigate to service failure when postPayment return error', fakeAsync(() => {
@@ -193,40 +228,4 @@ describe('Fee search component', () => {
     expect(component.navigateToServiceFailure).toHaveBeenCalled();
   }));
 
-  describe('If fixed volume fee is selected', () => {
-    it('should make fee-details component visible and fee-search component invisible', async(async () => {
-      component.selectFee(testFixedVolumeFee);
-      fixture.detectChanges();
-      expect(component.showFeeDetails).toBe(true);
-    }));
-
-    it('should remember which fee was selected', async(async () => {
-      component.selectFee(testFixedVolumeFee);
-      fixture.detectChanges();
-      expect(component.preselectedFee).toBe(testFixedVolumeFee);
-      expect(component.ccdNo).toBe('1234-1234-1234-1234');
-    }));
-  });
-
-  describe('Submitting volume fee', () => {
-    it('should call backend with correct fee details', async(async () => {
-      const volume = 2;
-      component.selectFee(testFixedVolumeFee);
-      component.selectPreselectedFeeWithVolume(volume);
-      fixture.detectChanges();
-      expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
-        fees: [{
-          code: testFixedVolumeFee.code,
-          version: testFixedVolumeFee['current_version'].version.toString(),
-          'calculated_amount': `${testFixedVolumeFee['current_version'].volume_amount.amount * volume}`.toString(),
-          'memo_line': testFixedVolumeFee['current_version'].memo_line,
-          'natural_account_code': testFixedVolumeFee['current_version'].natural_account_code,
-          'ccd_case_number': component.ccdNo,
-          jurisdiction1: testFixedVolumeFee.jurisdiction1.name,
-          jurisdiction2: testFixedVolumeFee.jurisdiction2.name,
-          description: testFixedVolumeFee.current_version.description
-        }]
-      });
-    }));
-  });
 });
