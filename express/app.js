@@ -13,6 +13,10 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.sendToPayhub(req, res, appInsights);
   })
 
+  .post('/payment-history/send-to-payhub', (req, res) => {
+    controllers.payhubController.sendToPayhub(req, res, appInsights);
+  })
+
   .post('/card-payments', (req, res) => {
     controllers.payhubController.postCardPayment(req, res, appInsights);
   })
