@@ -1,13 +1,13 @@
 {
   "request": {
     "method": "GET",
-    "url": "/api/payment-groups/2019-15578304238"
+    "url": "/api/payment-history/payment-groups/2019-15578304238"
   },
   "response": {
     "status": 200,
     "headers": {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin" : "http://localhost:4200",
+      "Access-Control-Allow-Origin" : "*",
       "Access-Control-Allow-Methods" : "*",
       "Access-Control-Allow-Headers": "Accept, Content-Type, Content-Encoding, Server, Transfer-Encoding, X-Requested-With, X-Authorization",
       "X-Content-Type-Options" : "nosniff",
@@ -15,6 +15,6 @@
       "x-xss-protection" : "1; mode=block",
       "Access-Control-Allow-Credentials": "true"
     },
-    "bodyFileName": "fees/payment-group.json"
+    "bodyFileName": "fees/payment-group-fixed-volume.json"
   }
 }
