@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
 import {FeeSearchComponent} from './fee-search.component';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {PaymentGroupService} from '../../services/payment-group/payment-group.service';
@@ -16,7 +16,8 @@ describe('Fee search component', () => {
     activatedRoute: any,
     router: Router,
     testFixedFlatFee: any,
-    testFixedVolumeFee: any;
+    testFixedVolumeFee: any,
+    mockResponse: any;
 
   beforeEach(() => {
     testFixedFlatFee = {
@@ -54,6 +55,24 @@ describe('Fee search component', () => {
       jurisdiction1: {name: 'test-jurisdiction1'},
       jurisdiction2: {name: 'test-jurisdiction2'},
     };
+    mockResponse = {
+      payment_group_reference : '2019-12341234',
+      fees: [{id: 808,
+        code: 'FEE0490',
+        version: '1',
+        calculated_amount: 44,
+        memo_line: 'RECEIPT OF FEES',
+        ccd_case_number: '1111-2222-3333-4444',
+        net_amount: 44,
+        description: 'description',
+        volume: 1,
+        jurisdiction1: 'civil',
+        jurisdiction2: 'civil',
+        reference: 'test'}],
+      payments: [],
+      remissions: []
+      };
+
     activatedRoute = {
       params: {
         subscribe: (fun) => fun()
@@ -65,7 +84,8 @@ describe('Fee search component', () => {
       }
     };
     routerService = {
-      navigateByUrl: () => true
+      navigateByUrl: jasmine.createSpy('navigate'),
+      navigate: jasmine.createSpy('navigate')
     };
     TestBed.configureTestingModule({
       declarations: [FeeSearchComponent],
@@ -82,8 +102,6 @@ describe('Fee search component', () => {
 
     fixture = TestBed.createComponent(FeeSearchComponent);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
-    const sampleResponse = JSON.stringify({data: {payment_group_reference: '2019-12341234'}});
-    spyOn(paymentGroupService, 'postPaymentGroup').and.returnValue(<any>{then: (fun) => fun(sampleResponse)});
     router = TestBed.get(Router);
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -94,6 +112,8 @@ describe('Fee search component', () => {
   });
 
   it('Should pass selected fee into POST call for backend', () => {
+    spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
     component.selectFee(testFixedFlatFee);
     fixture.detectChanges();
     expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
@@ -115,25 +135,44 @@ describe('Fee search component', () => {
     expect(component.ccdNo).toBe('1234-1234-1234-1234');
   }));
 
-  it('Should navigate to fee-summary page using correct CCD case number and payment group reference', async(async () => {
-    spyOn(router, 'navigateByUrl');
+  it('Should reset preselected fee and show fee details ongoback', () => {
+    component.onGoBack();
+    expect(component.preselectedFee).toBeNull();
+    expect(component.showFeeDetails).toBeFalsy();
+  });
+
+  it('Should navigate to fee-summary page using correct CCD case number and payment group reference', async() => {
+    spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    component.paymentGroupRef = 'paymentgroup';
     component.selectFee(testFixedFlatFee);
     await fixture.whenStable();
     fixture.detectChanges();
-
     expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
     expect(router.navigateByUrl)
-      .toHaveBeenCalledWith('/payment-history/1234-1234-1234-1234?view=fee-summary&paymentGroupRef=2019-12341234');
+      .toHaveBeenCalledWith('/payment-history/1234-1234-1234-1234?view=fee-summary&paymentGroupRef=paymentgroup');
+  });
+
+
+  it('Should call putPaymentGroup payment group ref is existed', async(async () => {
+    spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    component.paymentGroupRef = 'paymentgroup';
+    component.selectFee(testFixedFlatFee);
+    expect(paymentGroupService.putPaymentGroup).toHaveBeenCalled();
+
   }));
 
   describe('If fixed volume fee is selected', () => {
     it('should make fee-details component visible and fee-search component invisible', async(async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
       component.selectFee(testFixedVolumeFee);
       fixture.detectChanges();
       expect(component.showFeeDetails).toBe(true);
     }));
 
     it('should remember which fee was selected', async(async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
       component.selectFee(testFixedVolumeFee);
       fixture.detectChanges();
       expect(component.preselectedFee).toBe(testFixedVolumeFee);
@@ -142,11 +181,13 @@ describe('Fee search component', () => {
   });
 
   describe('Submitting volume fee', () => {
-    it('should call backend with correct fee details', async(async () => {
+    it('should call backend with correct fee details', async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
       const volume = 2;
       component.selectFee(testFixedVolumeFee);
       component.selectPreselectedFeeWithVolume(volume);
-      fixture.detectChanges();
+      await fixture.whenStable();
       expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
         fees: [{
           code: testFixedVolumeFee.code,
@@ -162,6 +203,31 @@ describe('Fee search component', () => {
           volume_amount: testFixedVolumeFee.current_version.volume_amount.amount
         }]
       });
-    }));
+    });
   });
+
+  it('Should navigate to service-failure', () => {
+    component.navigateToServiceFailure();
+    expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/service-failure');
+  });
+
+  it('should navigate to service failure when postPayment return error', fakeAsync(() => {
+    spyOn(paymentGroupService, 'postPaymentGroup').and.returnValue(Promise.reject('Promise should not be resolved'));
+    spyOn(component, 'navigateToServiceFailure');
+    component.paymentGroupRef = null;
+    component.sendPaymentGroup(null);
+    tick();
+    expect(component.navigateToServiceFailure).toHaveBeenCalled();
+  }));
+
+  it('should navigate to service failure when putPayment return error', fakeAsync(() => {
+    spyOn(paymentGroupService, 'putPaymentGroup').and.returnValue(Promise.reject('Promise should not be resolved'));
+    spyOn(component, 'navigateToServiceFailure');
+    component.paymentGroupRef = 'test';
+    component.sendPaymentGroup('test');
+    tick();
+    expect(component.navigateToServiceFailure).toHaveBeenCalled();
+  }));
+
 });

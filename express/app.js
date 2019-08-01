@@ -21,6 +21,10 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postPaymentGroup(req, res, appInsights);
   })
 
+  .put('/payment-groups/:paymentGroup', (req, res) => {
+    controllers.payhubController.putPaymentGroup(req, res, appInsights);
+  })
+
   .post('/remission', (req, res) => {
     controllers.payhubController.postRemission(req, res, appInsights);
   })

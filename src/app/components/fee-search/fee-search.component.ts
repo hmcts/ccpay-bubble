@@ -13,6 +13,7 @@ export class FeeSearchComponent implements OnInit {
   ccdNo: string = null;
   preselectedFee: IFee;
   showFeeDetails = false;
+  paymentGroupRef: string = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -24,12 +25,12 @@ export class FeeSearchComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
       this.ccdNo = this.activatedRoute.snapshot.queryParams['ccdCaseNumber'];
+      this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
     });
   }
 
   selectFee(fee: IFee) {
     let paymentGroup;
-
     if (fee.fee_type === 'fixed' && fee.current_version['volume_amount']) {
       this.preselectedFee = fee;
       this.showFeeDetails = true;
@@ -47,18 +48,8 @@ export class FeeSearchComponent implements OnInit {
           description: fee.current_version.description
         }]
       };
-
-      this.postPaymentGroup(paymentGroup);
+      this.sendPaymentGroup(paymentGroup);
     }
-  }
-
-  postPaymentGroup(paymentGroup: any) {
-    this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
-      this
-        .router
-        .navigateByUrl(`/payment-history/${this.ccdNo}`
-          + `?view=fee-summary&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}`);
-    });
   }
 
   onGoBack() {
@@ -84,6 +75,35 @@ export class FeeSearchComponent implements OnInit {
       }]
     };
 
-    this.postPaymentGroup(paymentGroup);
+    this.sendPaymentGroup(paymentGroup);
   }
+
+  sendPaymentGroup(paymentGroup: any) {
+    if (this.paymentGroupRef) {
+      this.paymentGroupService.putPaymentGroup(this.paymentGroupRef, paymentGroup)
+      .then(response => {
+        this.router
+        .navigateByUrl(`/payment-history/${this.ccdNo}`
+            + `?view=fee-summary&paymentGroupRef=${this.paymentGroupRef}`);
+      })
+      .catch(err => {
+        this.navigateToServiceFailure();
+       });
+    } else {
+      this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
+        this
+          .router
+          .navigateByUrl(`/payment-history/${this.ccdNo}`
+            + `?view=fee-summary&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}`);
+      })
+      .catch(err => {
+        this.navigateToServiceFailure();
+       });
+    }
+  }
+
+  navigateToServiceFailure() {
+    this.router.navigateByUrl('/service-failure');
+  }
+
 }
