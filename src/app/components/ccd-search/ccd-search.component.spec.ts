@@ -2,7 +2,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CcdSearchComponent } from './ccd-search.component';
-import { Router, RouterModule , ActivatedRoute} from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 const routerMock = {
@@ -73,7 +73,7 @@ describe('Fee search component', () => {
     component.searchFees();
     fixture.detectChanges();
     expect(component.hasErrors).toBeFalsy();
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?view=case-transactions&takePayment=true');
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111-2222-3333-4444?view=case-transactions&takePayment=true');
   });
 
   it('Should remove hyphems from ccd_case_number', () => {
