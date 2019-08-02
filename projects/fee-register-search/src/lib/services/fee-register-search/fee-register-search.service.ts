@@ -29,7 +29,7 @@ export class FeeRegisterSearchService {
   }
 
   getJurisdiction(jurisdictionNo: number): Observable<any> {
-    return this.http.get<any>(`${this._API_URL}/jurisdictions${jurisdictionNo}`)
+    return this.http.get<any>(`${this._API_URL}/fees-jurisdictions/${jurisdictionNo}`)
       .pipe(
         timeout(30000),
         catchError(error => {
