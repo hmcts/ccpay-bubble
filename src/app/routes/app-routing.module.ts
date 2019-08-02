@@ -53,7 +53,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'addFeeDetail'
+    redirectTo: 'ccd-search'
   },
   {
     path: 'payment-history/:ccdCaseNumber',
