@@ -136,11 +136,23 @@ class PayhubController {
   }
 
   deleteFeesFromPaymentGroup(req, res, appInsights) {
+    console.log('<=====deleteFeesFromPaymentGroup start======>');// eslint-disable-line no-console
+    console.log('deleteFeesFromPaymentGroup', req);// eslint-disable-line no-console
+    console.log('<=====deleteFeesFromPaymentGroup end======>');// eslint-disable-line no-console
+
     return this.payhubService.deleteFees(req, appInsights)
       .then(result => {
+        console.log('<=====result start======>');// eslint-disable-line no-console
+        console.log('result', result);// eslint-disable-line no-console
+        console.log('<=====result end======>');// eslint-disable-line no-console
+
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
+        console.log('<=====error start======>');// eslint-disable-line no-console
+        console.log('error', error);// eslint-disable-line no-console
+        console.log('<=====error end======>');// eslint-disable-line no-console
+
         res.status(500).json({ err: error, success: false });
       });
   }
