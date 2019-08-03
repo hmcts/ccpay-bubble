@@ -64,7 +64,7 @@ module.exports = appInsights => express.Router()
   .get('/fees', (req, res) => {
     controllers.feeController.getFees(req, res);
   })
-  .delete('/fees/:id', (req, res) => {
+  .delete('/payment-history/fees/:id', (req, res) => {
     console.log('<=====express start======>'); // eslint-disable-line no-console
     console.log('/fees/:id', req);// eslint-disable-line no-console
     console.log('<=====express end======>');// eslint-disable-line no-console
