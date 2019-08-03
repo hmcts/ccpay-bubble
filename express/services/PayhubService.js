@@ -77,12 +77,7 @@ class PayhubService {
       json: true
     }));
   }
-
   deleteFees(req) {
-    console.log('<=====deleteFees start======>');// eslint-disable-line no-console
-    console.log('deleteFees', req);// eslint-disable-line no-console
-    console.log('<=====deleteFees end======>');// eslint-disable-line no-console
-
     return this.createAuthToken().then(token => request.delete({
       uri: `${payhubUrl}/fees/${req.params.id}`,
       headers: {
