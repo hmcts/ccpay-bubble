@@ -64,6 +64,9 @@ module.exports = appInsights => express.Router()
   .get('/fees', (req, res) => {
     controllers.feeController.getFees(req, res);
   })
+  .delete('/payment-history/fees/:id', (req, res) => {
+    controllers.payhubController.deleteFeesFromPaymentGroup(req, res, appInsights);
+  })
 
   // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {
