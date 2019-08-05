@@ -89,10 +89,9 @@ export class FilterFeesPipe implements PipeTransform {
   }
 
   filterByJurisdictions(fees: IFee[], jurisdiction: Jurisdictions): IFee[] {
-    return fees.filter((fee) => {
-      return (jurisdiction.jurisdiction1 === '' || fee.jurisdiction1.name === jurisdiction.jurisdiction1)
-      && (jurisdiction.jurisdiction2 === '' || fee.jurisdiction2.name === jurisdiction.jurisdiction2);
-    });
+    return fees.filter(fee => (jurisdiction.jurisdiction1 === '' || fee.jurisdiction1.name === jurisdiction.jurisdiction1)
+      && (jurisdiction.jurisdiction2 === '' || fee.jurisdiction2.name === jurisdiction.jurisdiction2)
+      );
   }
 
   isNumeric(value: any): boolean {
