@@ -31,7 +31,7 @@ export class CcdSearchComponent implements OnInit {
   searchFees() {
     if (this.searchForm.invalid) { return this.hasErrors = true; }
     this.hasErrors = false;
-    this.ccdCaseNumber = this.searchForm.get('searchInput').value;
+    this.ccdCaseNumber = this.removeHyphenFromString(this.searchForm.get('searchInput').value);
     const url = this.takePayment ? `?view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
     this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
   }
