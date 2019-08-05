@@ -135,6 +135,16 @@ class PayhubController {
       });
   }
 
+  deleteFeesFromPaymentGroup(req, res, appInsights) {
+    return this.payhubService.deleteFees(req, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        res.status(500).json({ err: error, success: false });
+      });
+  }
+
   getPaymentGroup(req, res) {
     return this.payhubService.getPaymentGroup(req)
       .then(result => {
