@@ -66,8 +66,8 @@ describe('Fee Filter component', () => {
     component.clearFilter('jurisdiction1');
     component.clearFilter('jurisdiction2');
 
-    expect(component.filterForm.get('jurisdiction1').value).toBeNull();
-    expect(component.filterForm.get('jurisdiction2').value).toBeNull();
+    expect(component.filterForm.get('jurisdiction1').value).toBe('');
+    expect(component.filterForm.get('jurisdiction2').value).toBe('');
   });
 
 });
