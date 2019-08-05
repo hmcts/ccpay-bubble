@@ -54,6 +54,7 @@ export class FeeFilterComponent implements OnInit {
 
   clearFilter(jurisdiction: string) {
     this.filterForm.get(jurisdiction).reset();
+    this.filterForm.get(jurisdiction).setValue('');
   }
 
   toggleJurisdiction(jurisdiction) {
