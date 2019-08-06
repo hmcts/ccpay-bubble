@@ -24,8 +24,10 @@ export class CcdSearchComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       searchInput: ['', [Validators.required, ccdCaseRefPatternValidator()]]
     });
-    this.takePayment = true;
-  }
+    this.activatedRoute.params.subscribe(() => {
+      this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
+    });
+}
 
 
   searchFees() {
