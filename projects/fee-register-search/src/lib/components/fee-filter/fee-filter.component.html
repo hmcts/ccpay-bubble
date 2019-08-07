@@ -16,7 +16,7 @@
               name="jurisdiction1"
               type="radio"
               [value]="jurisdiction.name" />
-            <label for="radio-inline-1">{{jurisdiction.name}}</label>
+            <label for="radio-inline-1">{{jurisdiction.name | titlecase}}</label>
         </div>
         <div class="multiple-choice"><a (click)="clearFilter('jurisdiction1')">Clear filter</a></div>
       </div>
@@ -32,7 +32,7 @@
                 name="jurisdiction2"
                 type="radio"
                 [value]="jurisdiction.name" />
-              <label for="radio-inline-1">{{jurisdiction.name}}</label>
+              <label for="radio-inline-1">{{jurisdiction.name | titlecase}}</label>
           </div>
           <div class="multiple-choice"><a (click)="clearFilter('jurisdiction2')">Clear filter</a></div>
         </div>
