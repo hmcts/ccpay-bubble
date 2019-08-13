@@ -22,7 +22,7 @@
   <tr>
     <td>{{ fee.code }}</td>
     <td>{{ fee.current_version.description }}</td>
-    <td>£{{ fee.current_version['volume_amount'].amount }}</td>
+    <td>£{{ fee.current_version['volume_amount']?fee.current_version['volume_amount'].amount : fee.current_version['flat_amount'].amount }}</td>
   </tr>
   </tbody>
 </table>
