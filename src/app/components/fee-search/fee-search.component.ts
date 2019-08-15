@@ -59,12 +59,12 @@ export class FeeSearchComponent implements OnInit {
 
   selectPreselectedFeeWithVolume(volume: number) {
     const fee = this.preselectedFee;
-    const amt = fee['current_version']['volume_amount']?fee['current_version']['volume_amount'].amount:fee['current_version']['flat_amount'].amount;
+    const fee_amount = fee['current_version']['volume_amount']?fee['current_version']['volume_amount'].amount:fee['current_version']['flat_amount'].amount;
     const paymentGroup = {
       fees: [{
         code: fee.code,
         version: fee['current_version'].version.toString(),
-        'calculated_amount': (amt * volume).toString(),
+        'calculated_amount': (fee_amount * volume).toString(),
         'memo_line': fee['current_version'].memo_line,
         'natural_account_code': fee['current_version'].natural_account_code,
         'ccd_case_number': this.ccdNo,
@@ -72,7 +72,7 @@ export class FeeSearchComponent implements OnInit {
         jurisdiction2: fee.jurisdiction2['name'],
         description: fee.current_version.description,
         volume: volume,
-        volume_amount: (fee.current_version['volume_amount'])?fee.current_version.volume_amount.amount:fee.current_version.flat_amount.amount
+        volume_amount: fee_amount
       }]
     };
 
