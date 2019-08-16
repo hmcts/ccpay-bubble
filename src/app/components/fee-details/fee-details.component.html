@@ -13,14 +13,19 @@
   <tr>
     <td>{{ fee.code }}</td>
     <td>{{ fee.current_version.description }}</td>
-    <td>£{{ fee.current_version['volume_amount'].amount }}</td>
+    <td>£{{ fee.current_version['volume_amount']? fee.current_version['volume_amount'].amount : fee.current_version['flat_amount'].amount}}</td>
   </tr>
   </tbody>
 </table>
 <form>
   <div class="form-group">
-    <label class="heading-small" for="volumeAmount">
+    <label *ngIf="fee.current_version['volume_amount']" class="heading-small" for="volumeAmount">
       How many copies do you want?
+    </label>
+    <label *ngIf="fee.current_version['flat_amount']" class="heading-small" for="volumeAmount">
+      <span class="form-hint">You can select a maximum of 10 pages against this fee.</span>
+      <span class="form-hint">If the document has more than 10 pages, you must also choose and additional fee.</span>
+      How many copies of the document are required?
     </label>
     <input [formControl]="feeVolumeControl"  class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
   </div>
