@@ -126,7 +126,8 @@ describe('Fee search component', () => {
         'ccd_case_number': component.ccdNo,
         jurisdiction1: testFixedFlatFee.jurisdiction1.name,
         jurisdiction2: testFixedFlatFee.jurisdiction2.name,
-        description: testFixedFlatFee.current_version.description
+        description: testFixedFlatFee.current_version.description,
+        volume: 1
       }]
     });
   });
