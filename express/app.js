@@ -45,6 +45,10 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postPaymentGroupToPayHub(req, res, appInsights);
   })
 
+  .post('/payment-history/payment-groups/:paymentGroup/bulk-scan-payments', (req, res) => {
+    controllers.payhubController.postAllocatePayment(req, res, appInsights);
+  })
+
   .get('/payment-history/payment-groups/:paymentGroup', (req, res) => {
     controllers.payhubController.getPaymentGroup(req, res, appInsights);
   })
