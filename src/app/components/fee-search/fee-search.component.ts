@@ -30,8 +30,11 @@ export class FeeSearchComponent implements OnInit {
   }
 
   selectFee(fee: IFee) {
+    const feeType = fee.fee_type;
+    const volAmt = fee.current_version['volume_amount'];
+    const flatAmt = fee.current_version['flat_amount'];
     let paymentGroup;
-    if ((fee.fee_type === 'fixed' && fee.current_version['volume_amount'] ) || (fee.fee_type === 'banded' && fee.current_version['flat_amount'])) {
+    if ((feeType === 'fixed' && volAmt) || (feeType === 'banded' && flatAmt)) {
       this.preselectedFee = fee;
       this.showFeeDetails = true;
     } else {
@@ -60,7 +63,9 @@ export class FeeSearchComponent implements OnInit {
 
   selectPreselectedFeeWithVolume(volume: number) {
     const fee = this.preselectedFee;
-    const fee_amount = fee['current_version']['volume_amount']?fee['current_version']['volume_amount'].amount:fee['current_version']['flat_amount'].amount;
+    const volAmt = fee['current_version']['volume_amount'];
+    const flatAmt = fee['current_version']['flat_amount'];
+    const fee_amount = volAmt ? volAmt.amount : flatAmt.amount;
     const paymentGroup = {
       fees: [{
         code: fee.code,
