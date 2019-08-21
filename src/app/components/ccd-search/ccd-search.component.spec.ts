@@ -27,6 +27,9 @@ describe('Fee search component', () => {
         { provide: ActivatedRoute,
           useValue: {
             params: of({ccdCaseNumber: '1111-2222-3333-4444'}),
+            routeConfig: {
+              path: 'ccd-search'
+            },
             snapshot: {
               queryParams: {
                 takePayment: true
