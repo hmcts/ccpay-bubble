@@ -8,7 +8,20 @@ import {FormBuilder, FormControl} from '@angular/forms';
   styleUrls: ['./fee-details.component.scss']
 })
 export class FeeDetailsComponent implements OnInit {
-  @Input() fee: IFee;
+  @Input() fee = {
+        code: 'test-code',
+        fee_type: 'banded',
+        'current_version': {
+          version: 1,
+          calculatedAmount: 1234,
+          memo_line: 'test-memoline',
+          natural_account_code: '1234-1234-1234-1234',
+          flat_amount: {
+            amount: 1234
+          },
+          description: 'test-description'
+        }
+     };
   @Output() submitFeeVolumeEvent: EventEmitter<IFee> = new EventEmitter();
   @Output() restartSearchEvent: EventEmitter<IFee> = new EventEmitter();
 
