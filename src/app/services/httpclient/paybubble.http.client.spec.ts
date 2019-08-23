@@ -62,4 +62,16 @@ describe('Paybubble client', () => {
     });
   });
 
+  it('Should add headers with null body to a post request', () => {
+    httpClient.post('www.mock.com', null, {responseType: 'text'}).subscribe(response => {
+      expect(response['headers'].get('X-Requested-With')).toBe('XMLHttpRequest');
+    });
+  });
+
+  it('Should add headers with null body to a put request', () => {
+    httpClient.put('www.mock.com', null, {responseType: 'text'}).subscribe(response => {
+      expect(response['headers'].get('X-Requested-With')).toBe('XMLHttpRequest');
+    });
+  });
+
 });
