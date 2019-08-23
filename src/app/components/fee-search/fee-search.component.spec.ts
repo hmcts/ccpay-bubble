@@ -17,6 +17,7 @@ describe('Fee search component', () => {
     router: Router,
     testFixedFlatFee: any,
     testFixedVolumeFee: any,
+    testBandedFlatFee: any,
     mockResponse: any;
 
   beforeEach(() => {
@@ -55,6 +56,25 @@ describe('Fee search component', () => {
       jurisdiction1: {name: 'test-jurisdiction1'},
       jurisdiction2: {name: 'test-jurisdiction2'},
     };
+
+    testBandedFlatFee = {
+      code: 'test-code',
+      fee_type: 'banded',
+      'current_version': {
+        version: 1,
+        calculatedAmount: 1234,
+        memo_line: 'test-memoline',
+        natural_account_code: '1234-1234-1234-1234',
+        flat_amount: {
+          amount: 1234
+        },
+        description: 'test-description'
+      },
+      ccdCaseNumber: '1111-2222-3333-4444',
+      jurisdiction1: {name: 'test-jurisdiction1'},
+      jurisdiction2: {name: 'test-jurisdiction2'},
+    };
+
     mockResponse = {
       payment_group_reference : '2019-12341234',
       fees: [{id: 808,
@@ -177,6 +197,23 @@ describe('Fee search component', () => {
       component.selectFee(testFixedVolumeFee);
       fixture.detectChanges();
       expect(component.preselectedFee).toBe(testFixedVolumeFee);
+      expect(component.ccdNo).toBe('1234-1234-1234-1234');
+    }));
+  });
+
+  describe('If banded flat fee is selected', () => {
+    it('should make fee-details component visible and fee-search component invisible', async(async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      component.selectFee(testFixedVolumeFee);
+      fixture.detectChanges();
+      expect(component.showFeeDetails).toBe(true);
+    }));
+
+    it('should remember which fee was selected', async(async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      component.selectFee(testBandedFlatFee);
+      fixture.detectChanges();
+      expect(component.preselectedFee).toBe(testBandedFlatFee);
       expect(component.ccdNo).toBe('1234-1234-1234-1234');
     }));
   });
