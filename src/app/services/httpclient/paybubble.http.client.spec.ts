@@ -49,4 +49,17 @@ describe('Paybubble client', () => {
       expect(response['headers'].get('X-Requested-With')).toBe('XMLHttpRequest');
     });
   });
+
+  it('Should add headers and option to a post request', () => {
+    httpClient.post('www.mock.com', { 'test-prop': 'value'}, {responseType: 'text'}).subscribe(response => {
+      expect(response['headers'].get('X-Requested-With')).toBe('XMLHttpRequest');
+    });
+  });
+
+  it('Should add headers and option to a put request', () => {
+    httpClient.put('www.mock.com', { 'test-prop': 'value'}, {responseType: 'text'}).subscribe(response => {
+      expect(response['headers'].get('X-Requested-With')).toBe('XMLHttpRequest');
+    });
+  });
+
 });
