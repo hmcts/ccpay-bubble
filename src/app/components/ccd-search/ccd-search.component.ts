@@ -22,7 +22,7 @@ export class CcdSearchComponent implements OnInit {
 
   ngOnInit() {
     this.searchForm = this.formBuilder.group({
-      searchInput: ['', [Validators.required]]
+      searchInput: ['', [Validators.required], ccdCaseRefPatternValidator()]]
     });
     this.activatedRoute.params.subscribe(() => {
       const isccdSearchPage = this.activatedRoute.routeConfig.path === 'ccd-search',
