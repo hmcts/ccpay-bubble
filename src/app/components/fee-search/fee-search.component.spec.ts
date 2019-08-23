@@ -244,6 +244,32 @@ describe('Fee search component', () => {
     });
   });
 
+  describe('Submitting volume for banded fee', () => {
+    it('should call backend with correct fee details', async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      const volume = 2;
+      component.selectFee(testBandedFlatFee);
+      component.selectPreselectedFeeWithVolume(volume);
+      await fixture.whenStable();
+      expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
+        fees: [{
+          code: testFixedVolumeFee.code,
+          version: testFixedVolumeFee['current_version'].version.toString(),
+          'calculated_amount': `${testBandedFlatFee['current_version'].flat_amount.amount * volume}`.toString(),
+          'memo_line': testBandedFlatFee['current_version'].memo_line,
+          'natural_account_code': testBandedFlatFee['current_version'].natural_account_code,
+          'ccd_case_number': component.ccdNo,
+          jurisdiction1: testBandedFlatFee.jurisdiction1.name,
+          jurisdiction2: testBandedFlatFee.jurisdiction2.name,
+          description: testBandedFlatFee.current_version.description,
+          volume: volume,
+          volume_amount: testBandedFlatFee.current_version.flat_amount.amount
+        }]
+      });
+    });
+  });
+
   it('Should navigate to service-failure', () => {
     component.navigateToServiceFailure();
     expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
