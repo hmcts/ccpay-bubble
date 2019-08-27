@@ -4,11 +4,12 @@
 </legend>
 
 <table *ngIf="fee" class="table" style="margin-bottom: 20px">
+  <caption>Fee Details</caption>
   <tbody>
   <tr>
-    <th class="bold" width="80px">Fee code</th>
-    <th class="bold" width="620px">Description</th>
-    <th class="bold" width="80px">Amount</th>
+    <th class="bold" width="80px" scope="col">Fee code</th>
+    <th class="bold" width="620px" scope="col">Description</th>
+    <th class="bold" width="80px" scope="col">Amount</th>
   </tr>
   <tr>
     <td>{{ fee.code }}</td>
