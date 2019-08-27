@@ -22,7 +22,6 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withPipeline("nodejs", product, component) {
 
-  setVaultName('ccpay')
   loadVaultSecrets(secrets)
   enableDockerBuild()
   installCharts()
