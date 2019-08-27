@@ -5,11 +5,27 @@
 def product = "ccpay"
 def component = "bubble-frontend"
 
-List<LinkedHashMap<String, Object>> secrets = [
+def vaultOverrides = [
+  'preview': 'aat',
+  'hmctsdemo': 'aat',
+
+]
+List<LinkedHashMap<String, Object>> secrets1 = [
   secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET'),
   secret('paybubble-idam-client-secret', 'IDAM_CLIENT_SECRET'),
   secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
 ]
+
+
+
+def secrets = [
+  'ccpay-${env}': [
+    secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET'),
+    secret('paybubble-idam-client-secret', 'IDAM_CLIENT_SECRET'),
+    secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
+  ]
+]
+
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
   [ $class: 'AzureKeyVaultSecret',
@@ -21,6 +37,8 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withPipeline("nodejs", product, component) {
+
+  overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
   enableDockerBuild()
   installCharts()
