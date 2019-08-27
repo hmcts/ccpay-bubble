@@ -65,7 +65,7 @@ export class FeeSearchComponent implements OnInit {
     const fee = this.preselectedFee;
     const volAmt = fee['current_version']['volume_amount'];
     const flatAmt = fee['current_version']['flat_amount'];
-    const fee_amount = volAmt?volAmt.amount : flatAmt.amount;
+    const fee_amount = volAmt ? volAmt.amount : flatAmt.amount;
     const paymentGroup = {
       fees: [{
         code: fee.code,
