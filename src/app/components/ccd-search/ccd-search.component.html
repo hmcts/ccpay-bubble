@@ -7,4 +7,5 @@
   </label>
   <input #searchInput [className]="hasErrors? 'form-control form-control-error': 'form-control'" id="ccd-search" type="text" name="ccd-search" formControlName="searchInput">
   <button class="button button-search" type="submit" (click)="searchFees()">Search</button>
+  <div class="nocase-message" *ngIf="noCaseFound">No matching cases found</div>
 </form>
