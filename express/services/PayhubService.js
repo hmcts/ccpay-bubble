@@ -1,14 +1,20 @@
 const config = require('config');
 const otp = require('otp');
 const request = require('request-promise-native');
+const FeatureService = require('./FeatureService');
 
 const payhubUrl = config.get('payhub.url');
 const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('s2s.key');
 const microService = config.get('ccpaybubble.microservice');
+const ccdUrl = config.get('ccd.url');
+const CASE_REF_VALIDATION_ENABLED = 'caseref-validation';
 
 class PayhubService {
+  constructor() {
+    this.featureService = new FeatureService();
+  }
   async sendToPayhub(req) {
     const serviceAuthToken = await this.createAuthToken();
     return request.post({
@@ -152,8 +158,37 @@ class PayhubService {
     }));
   }
 
+  validateCaseReference(req) {
+    let serviceToken = '';
+    return this.createAuthToken()
+      .then(token => {
+        serviceToken = token;
+        return this.featureService.getFeatures(req, token);
+      })
+      .then(data => this.isCaseRefValidationEnabled(data))
+      .then(isValidationEnabled => {
+        if (isValidationEnabled) {
+          return request.get({
+            uri: `${ccdUrl}/cases/${req.params.caseref.replace(/-/g, '')}`,
+            headers: {
+              Authorization: `Bearer ${req.authToken}`,
+              ServiceAuthorization: `Bearer ${serviceToken}`,
+              'Content-Type': 'application/json'
+            },
+            json: true
+          });
+        }
+        return 'OK';
+      });
+  }
+
   getFees() {
-    return request.get({ uri: 'https://fees-register-api.platform.hmcts.net/fees-register/fees' });
+    return request.get({ uri: config.get('fee.feeRegistrationUrl') });
+  }
+
+  isCaseRefValidationEnabled(features) {
+    const regFeature = features.find(feature => feature.uid === CASE_REF_VALIDATION_ENABLED);
+    return regFeature ? regFeature.enable : false;
   }
 }
 

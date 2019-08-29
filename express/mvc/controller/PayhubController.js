@@ -172,6 +172,20 @@ class PayhubController {
         }
       });
   }
+
+  validateCaseReference(req, res) {
+    return this.payhubService.validateCaseReference(req)
+      .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json(error.message);
+        } else {
+          res.status(500).json(error);
+        }
+      });
+  }
 }
 
 module.exports = PayhubController;

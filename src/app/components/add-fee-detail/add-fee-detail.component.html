@@ -17,6 +17,7 @@
       </label>
       <span class="error-message" *ngIf="showErrors && feeDetailForm.get('caseReference').errors">Enter a case reference in the correct format</span>
       <input class="form-control short-input" autocomplete="off" id="caseReference" type="text" formControlName="caseReference"/>
+      <div class="nocase-message" *ngIf="noCaseFound">No matching cases found</div>
     </div>
 
     <app-fee-list-table
