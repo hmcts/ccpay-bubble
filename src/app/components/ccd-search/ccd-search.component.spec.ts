@@ -37,6 +37,9 @@ describe('Fee search component', () => {
         { provide: ActivatedRoute,
           useValue: {
             params: of({ccdCaseNumber: '1111-2222-3333-4444'}),
+            routeConfig: {
+              path: 'ccd-search'
+            },
             snapshot: {
               queryParams: {
                 takePayment: true
@@ -85,7 +88,7 @@ describe('Fee search component', () => {
     component.searchFees();
     fixture.detectChanges();
     expect(component.hasErrors).toBeFalsy();
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111-2222-3333-4444?view=case-transactions&takePayment=true');
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?view=case-transactions&takePayment=true');
   });
 
   it('Should remove hyphems from ccd_case_number', () => {
