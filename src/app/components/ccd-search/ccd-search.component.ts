@@ -30,16 +30,18 @@ export class CcdSearchComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       searchInput: ['', [Validators.required, ccdCaseRefPatternValidator()]]
     });
-     this.activatedRoute.params.subscribe(() => {
-      this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
+    this.activatedRoute.params.subscribe(() => {
+      const isccdSearchPage = this.activatedRoute.routeConfig.path === 'ccd-search',
+        queryParams = this.activatedRoute.snapshot.queryParams['takePayment'];
+
+      this.takePayment = isccdSearchPage ? isccdSearchPage : queryParams;
     });
   }
-
 
   searchFees() {
     if (this.searchForm.invalid) { return this.hasErrors = true; }
     this.hasErrors = false;
-    this.ccdCaseNumber = this.searchForm.get('searchInput').value;
+    this.ccdCaseNumber = this.removeHyphenFromString(this.searchForm.get('searchInput').value);
     this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
       this.noCaseFound = false;
       const url = this.takePayment ? `?view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
