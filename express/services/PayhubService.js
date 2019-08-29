@@ -30,6 +30,21 @@ class PayhubService {
     });
   }
 
+  async postPaymentGroupToPayhub(req) {
+    const serviceAuthToken = await this.createAuthToken();
+    return request.post({
+      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/card-payments`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${serviceAuthToken}`,
+        'return-url': `${ccpayBubbleReturnUrl}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    });
+  }
+
   postPaymentGroup(req) {
     return this.createAuthToken().then(token => request.post({
       uri: `${payhubUrl}/payment-groups`,
@@ -60,6 +75,18 @@ class PayhubService {
     return this.createAuthToken().then(token => request.post({
       uri: `${payhubUrl}/remissions`,
       body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
+  deleteFees(req) {
+    return this.createAuthToken().then(token => request.delete({
+      uri: `${payhubUrl}/fees/${req.params.id}`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,

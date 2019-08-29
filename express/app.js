@@ -41,6 +41,10 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postPartialRemission(req, res, appInsights);
   })
 
+  .post('/payment-history/payment-groups/:paymentGroup/card-payments', (req, res) => {
+    controllers.payhubController.postPaymentGroupToPayHub(req, res, appInsights);
+  })
+
   .get('/payment-history/payment-groups/:paymentGroup', (req, res) => {
     controllers.payhubController.getPaymentGroup(req, res, appInsights);
   })
@@ -59,6 +63,9 @@ module.exports = appInsights => express.Router()
 
   .get('/fees', (req, res) => {
     controllers.feeController.getFees(req, res);
+  })
+  .delete('/payment-history/fees/:id', (req, res) => {
+    controllers.payhubController.deleteFeesFromPaymentGroup(req, res, appInsights);
   })
 
   // @hmcts/ccpay-web-component integration point
