@@ -63,6 +63,10 @@ variable "authentication_web_url" {
   default = "https://idam.dev.ccidam.reform.hmcts.net/login"
 }
 
+variable "ccd_api_url" {
+  default = "https://gateway-ccd.aat.platform.hmcts.net/aggregated"
+}
+
 variable "vault_section" {
   default = "dev"
 }
