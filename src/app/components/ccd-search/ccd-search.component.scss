@@ -2,3 +2,44 @@
   margin-left: 15px;
   line-height: 1.15;
 }
+
+.govuk-input:focus {
+  outline: 3px solid rgb(255, 175, 0);
+  outline-offset: 0;
+  -webkit-box-shadow: inset 0 0 0 2px;
+  box-shadow: inset 0 0 0 2px
+}
+
+.govuk-radios__input:focus+.govuk-radios__label::before {
+  border-width: 4px;
+  -webkit-box-shadow: 0 0 0 4px rgb(255, 175, 0);
+  box-shadow: 0 0 0 4px rgb(255, 175, 0)
+}
+
+.govuk-radios__conditional {
+  margin-bottom: 15px;
+  margin-left: 18px;
+  padding-left: 33px;
+  border-left: 4px solid #b1b4b6
+}
+
+.govuk-radios__conditional--hidden {
+  display: none
+}
+
+.govuk-label:not(.govuk-label--m):not(.govuk-label--l):not(.govuk-label--xl) + .govuk-hint {
+  margin-bottom: 10px;
+}
+
+.govuk-fieldset__heading{
+  font-weight: 700;
+  font-size: 48px;
+}
+
+.form-hint{
+ margin-top: 5px; 
+}
+
+.govuk-label--m{
+  font-size: large;
+}
