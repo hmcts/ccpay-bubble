@@ -8,7 +8,7 @@ const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('s2s.key');
 const microService = config.get('ccpaybubble.microservice');
 
-class BulkScanService {
+class PayhubService {
   async sendToPayhub(req) {
     const serviceAuthToken = await this.createAuthToken();
     return request.post({
@@ -170,4 +170,4 @@ class BulkScanService {
   }
 }
 
-module.exports = BulkScanService;
+module.exports = PayhubService;
