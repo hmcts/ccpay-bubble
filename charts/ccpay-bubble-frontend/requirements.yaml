@@ -7,3 +7,6 @@ dependencies:
     repository: '@hmctspublic'
     tags:
     - idam-pr
+  - name: bulkscan-api
+    version: latest
+    repository: '@hmctspublic'
