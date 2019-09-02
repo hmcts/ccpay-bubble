@@ -1,20 +1,4 @@
-payment-api:
-  releaseNameOverride: ${SERVICE_NAME}-payment-api
-  java:
-    releaseNameOverride: ${SERVICE_NAME}-payment-api
-    image: hmcts.azurecr.io/hmcts/payment-api
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-payment-db:5432/payment
-      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-      AUTH_IDAM_CLIENT_BASEURL: https://idam-api.aat.platform.hmcts.net
-      CORE_CASE_DATA_API_URL: http://ccd-data-store-api-aat.service.core-compute-aat.internal
-  postgresql:
-    enabled: true
-
 nodejs:
-  # Don't modify below here
-  image: ${IMAGE_NAME}
-  ingressHost: ${SERVICE_FQDN}
   applicationPort: 3000
   environment:
     REFORM_TEAM: ccpay
@@ -24,7 +8,7 @@ nodejs:
 
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
-    PAYHUB_API_URL: http://${SERVICE_NAME}-payment-api
+    PAYHUB_API_URL: https://payment-api-aat.service.core-compute-aat.internal/
 
     S2S_KEY: ${PAYBUBBLE_S2S_TOTP_SECRET}
     IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
@@ -32,9 +16,9 @@ nodejs:
     S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
     IDAM_API_URL: https://idam-api.aat.platform.hmcts.net
     IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.aat.platform.hmcts.net/login
-    
+
     APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
-    
+
     FEE_REGISTRATION_URL: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register/fees
     FEE_JURISDICTION_URL: http://fees-register-api-aat.service.core-compute-aat.internal/jurisdictions
 
