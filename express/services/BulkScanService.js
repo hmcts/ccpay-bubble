@@ -10,7 +10,7 @@ const microService = config.get('ccpaybubble.microservice');
 
 class BulkScanService {
   getPaymentDetailsForDcn(req) {
-    return this.createAuthToken().then(token => request.get({
+  return this.createAuthToken().then(token => request.get({
       uri: `${bulkScanUrl}/cases?document_control_number=${req.query.document_control_number}`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
@@ -31,7 +31,7 @@ class BulkScanService {
       json: true
     }));
   }
-    createAuthToken() {
+  createAuthToken() {
     const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
     const serviceAuthRequest = {
       microservice: microService,

@@ -71,17 +71,18 @@ module.exports = appInsights => express.Router()
   .delete('/payment-history/fees/:id', (req, res) => {
     controllers.payhubController.deleteFeesFromPaymentGroup(req, res, appInsights);
   })
-  //Bulk scanning services
-   .get('/payment-history/cases/:id', (req, res) => {
-     controllers.bulkScanController.getPaymentDetailsForCcd(req, res);
-  })
-  .get('/payment-history/cases?*', (req, res) => {
-    controllers.bulkScanController.getPaymentDetailsForDcn(req, res);
-  })
-
+ 
   // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {
     controllers.payhubController.ccpayWebComponentIntegration(req, res);
   })
+
+   //Bulk scanning services
+   .get('/bulk-scan/cases/:id', (req, res) => {
+    controllers.bulkScanController.getPaymentDetailsForCcd(req, res);
+ })
+ .get('/bulk-scan/cases?*', (req, res) => {
+   controllers.bulkScanController.getPaymentDetailsForDcn(req, res);
+ })
 
   .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }));
