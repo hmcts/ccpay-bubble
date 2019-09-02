@@ -174,6 +174,7 @@ class PayhubService {
               Authorization: `Bearer ${req.authToken}`,
               ServiceAuthorization: `Bearer ${serviceToken}`,
               experimental: 'true',
+              accept: 'application/vnd.uk.gov.hmcts.ccd-data-store-api.case.v2+json;charset=UTF-8',
               'Content-Type': 'application/json'
             },
             json: true
