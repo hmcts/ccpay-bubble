@@ -8,5 +8,5 @@ dependencies:
     tags:
     - idam-pr
   - name: bulkscan-api
-    version: latest
+    version: 1.0.0
     repository: '@hmctspublic'
