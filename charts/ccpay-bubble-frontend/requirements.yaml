@@ -7,6 +7,6 @@ dependencies:
     repository: '@hmctspublic'
     tags:
     - idam-pr
-  - name: bulkscan-api
-    version: 1.0.0
+  - name: ccpay-bulkscanning-api
+    version: 0.0.4
     repository: '@hmctspublic'
