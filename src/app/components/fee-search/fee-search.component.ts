@@ -15,6 +15,7 @@ export class FeeSearchComponent implements OnInit {
   preselectedFee: IFee;
   showFeeDetails = false;
   paymentGroupRef: string = null;
+  selectedOption: string = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,6 +29,7 @@ export class FeeSearchComponent implements OnInit {
       this.ccdNo = this.activatedRoute.snapshot.queryParams['ccdCaseNumber'];
       this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
       this.dcnNo = this.activatedRoute.snapshot.queryParams['dcn'];
+      this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
     });
   }
 
@@ -90,7 +92,7 @@ export class FeeSearchComponent implements OnInit {
      
         this.router
         .navigateByUrl(`/payment-history/${this.ccdNo}`
-            + `?view=fee-summary&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}`);
+            + `?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}`);
       })
       .catch(err => {
         this.navigateToServiceFailure();
@@ -100,7 +102,7 @@ export class FeeSearchComponent implements OnInit {
         this
           .router
           .navigateByUrl(`/payment-history/${this.ccdNo}`
-            + `?view=fee-summary&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}`);
+            + `?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}`);
       })
       .catch(err => {
         this.navigateToServiceFailure();
