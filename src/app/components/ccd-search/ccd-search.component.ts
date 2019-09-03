@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { getTypeNameForDebugging } from '@angular/core/src/change_detection/differs/iterable_differs';
+import { Observable } from 'rxjs';
+import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
+import { CaseRefService } from '../../services/caseref/caseref.service';
 
 @Component({
   selector: 'app-ccd-search',
@@ -17,10 +20,14 @@ export class CcdSearchComponent implements OnInit {
   selectedValue = 'CCDorException';
   ccdPattern =  /^[0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4}$/i;
   dcnPattern = /^[0-9]{17}$/i;
+  noCaseFound = false;
+  
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private http: PaybubbleHttpClient,
+    private caseRefService: CaseRefService
   ) {}
 
   ngOnInit() {

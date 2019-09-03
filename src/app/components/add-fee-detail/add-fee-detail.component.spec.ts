@@ -12,6 +12,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { PaymentModel } from '../../models/PaymentModel';
 import { instance, mock, spy } from 'ts-mockito';
 import { Meta } from '@angular/platform-browser';
+import { CaseRefService } from '../../services/caseref/caseref.service';
+import { of } from 'rxjs';
 
 const routerMock = {
   navigateByUrl: jasmine.createSpy('navigateByUrl')
@@ -22,6 +24,7 @@ describe('AddFeeDetailComponent', () => {
   let component: AddFeeDetailComponent;
   let http: PaybubbleHttpClient;
   let fixture: ComponentFixture<AddFeeDetailComponent>;
+  let caseRefService: CaseRefService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,6 +32,7 @@ describe('AddFeeDetailComponent', () => {
       providers: [
         PaybubbleHttpClient,
         AddFeeDetailService,
+        CaseRefService,
         FormBuilder,
         { provide: Router, useValue: routerMock }
       ],
@@ -45,6 +49,7 @@ describe('AddFeeDetailComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddFeeDetailComponent);
     component = fixture.componentInstance;
+    caseRefService = fixture.debugElement.injector.get(CaseRefService);
     fixture.detectChanges();
   });
 
@@ -187,39 +192,46 @@ describe('AddFeeDetailComponent', () => {
     });
   });
 
-  it('Saving and continuing should commit a selected fee to the service', () => {
+  it('Saving and continuing should commit a selected fee to the service', async() => {
     const fee: FeeModel = new FeeModel,
       service = fixture.debugElement.injector.get(AddFeeDetailService);
+    spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
     fee.calculated_amount = 20.00;
     component.selectedFee = fee;
     component.feeDetailForm.controls['caseReference'].setValue('1111-1111-1111-1111');
     component.feeDetailForm.controls['selectedFee'].setValue(true);
     fixture.detectChanges();
-    component.saveAndContinue();
+    await component.saveAndContinue();
+    await fixture.whenStable();
     expect(service.selectedFee).toBe(fee);
   });
 
-  it('Saving add fee detail should navigate to review fee detail page', () => {
+  it('Saving add fee detail should navigate to review fee detail page', async() => {
     const fee: FeeModel = new FeeModel;
     fee.calculated_amount = 20.00;
+    spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
     component.feeDetailForm.controls['caseReference'].setValue('1111-1111-1111-1111');
     component.feeDetailForm.controls['selectedFee'].setValue(true);
     component.selectFee(fee);
     fixture.detectChanges();
-    component.saveAndContinue();
+    await component.saveAndContinue();
+    await fixture.whenStable();
+    fixture.detectChanges();
     expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/reviewFeeDetail');
   });
 
-  it('On partial remission, net_amount should be set', () => {
+  it('On partial remission, net_amount should be set', async() => {
     const fee: FeeModel = new FeeModel,
     service = fixture.debugElement.injector.get(AddFeeDetailService);
+  spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
   fee.calculated_amount = 20.00;
   component.selectedFee = fee;
   component.feeDetailForm.controls['caseReference'].setValue('1111-1111-1111-1111');
   component.feeDetailForm.controls['selectedFee'].setValue(true);
   component.feeDetailForm.get('helpWithFees.amount').setValue(30);
   fixture.detectChanges();
-  component.saveAndContinue();
+  await component.saveAndContinue();
+  await fixture.whenStable();
   fixture.detectChanges();
   expect(component.selectedFee.net_amount).toBe(30);
   });
