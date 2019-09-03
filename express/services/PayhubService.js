@@ -115,6 +115,30 @@ class PayhubService {
       json: true
     }));
   }
+  postBSPayments(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/payment-groups/bulk-scan-payments`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+    postPaymentAllocations(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/payment-allocations`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
 
   getPayment(req) {
     return this.createAuthToken().then(token => request.get({
