@@ -1,6 +1,6 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CcdSearchComponent } from './ccd-search.component';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
@@ -20,13 +20,12 @@ describe('Fee search component', () => {
   let component: CcdSearchComponent,
   fixture: ComponentFixture<CcdSearchComponent>;
   let caseRefService: CaseRefService;
-
+  const formBuilder: FormBuilder = new FormBuilder();
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CcdSearchComponent],
       imports: [
         CommonModule,
-        FormsModule,
         ReactiveFormsModule,
         RouterModule
       ],
@@ -34,6 +33,7 @@ describe('Fee search component', () => {
         CaseRefService,
         { provide: PaybubbleHttpClient, useValue: paybubbleHttpClientMock },
         { provide: Router, useValue: routerMock },
+        { provide: FormBuilder, useValue: formBuilder },
         { provide: ActivatedRoute,
           useValue: {
             params: of({ccdCaseNumber: '1111-2222-3333-4444'}),
@@ -52,6 +52,9 @@ describe('Fee search component', () => {
 
     fixture = TestBed.createComponent(CcdSearchComponent);
     component = fixture.componentInstance;
+        component.searchForm = formBuilder.group({
+            CCDorException: null
+        });
     caseRefService = fixture.debugElement.injector.get(CaseRefService);
   });
 
@@ -96,5 +99,14 @@ describe('Fee search component', () => {
     let ccd_case_number = '1111-2222-3333-4444';
     ccd_case_number = component.removeHyphenFromString(ccd_case_number);
     expect(ccd_case_number).toBe('1111222233334444');
+  });
+
+
+  it('Should set selected radio button category', () => {
+    const selectedValue = 'DCN';
+
+    component.onSelectionChange(selectedValue);
+    expect(component.selectedValue).toBe('DCN');
+    expect(component.searchForm.get('CCDorException').value).toBe('DCN');
   });
 });
