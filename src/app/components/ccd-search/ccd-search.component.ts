@@ -21,7 +21,7 @@ export class CcdSearchComponent implements OnInit {
   ccdPattern =  /^[0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4}$/i;
   dcnPattern = /^[0-9]{17}$/i;
   noCaseFound = false;
-  
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
