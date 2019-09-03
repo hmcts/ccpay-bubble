@@ -127,7 +127,7 @@ class PayhubService {
       json: true
     }));
   }
-    postPaymentAllocations(req) {
+  postPaymentAllocations(req) {
     return this.createAuthToken().then(token => request.post({
       uri: `${payhubUrl}/payment-allocations`,
       body: req.body,

@@ -76,7 +76,8 @@ describe('Fee search component', () => {
     component.searchFees();
     fixture.detectChanges();
     expect(component.hasErrors).toBeFalsy();
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?view=case-transactions&takePayment=true');
+    // tslint:disable-next-line:max-line-length
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true');
   });
 
   it('Should remove hyphems from ccd_case_number', () => {
