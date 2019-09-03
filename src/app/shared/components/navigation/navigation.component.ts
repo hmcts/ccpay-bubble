@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { WindowUtil } from 'src/app/services/window-util/window-util';
 
 @Component({
