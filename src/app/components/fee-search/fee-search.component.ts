@@ -89,7 +89,6 @@ export class FeeSearchComponent implements OnInit {
 
       this.paymentGroupService.putPaymentGroup(this.paymentGroupRef, paymentGroup)
       .then(response => {
-     
         this.router
         .navigateByUrl(`/payment-history/${this.ccdNo}`
             + `?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}`);
@@ -102,7 +101,8 @@ export class FeeSearchComponent implements OnInit {
         this
           .router
           .navigateByUrl(`/payment-history/${this.ccdNo}`
-            + `?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}`);
+            + `?view=fee-summary&selectedOption=${this.selectedOption}
+            &paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}`);
       })
       .catch(err => {
         this.navigateToServiceFailure();

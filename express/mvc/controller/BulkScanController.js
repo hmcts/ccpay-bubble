@@ -1,6 +1,4 @@
 const { bulkScanService } = require('../../services');
-const request = require('request-promise-native');
-const HttpStatusCodes = require('http-status-codes');
 
 class BulkScanController {
   constructor() {
@@ -10,8 +8,8 @@ class BulkScanController {
   getPaymentDetailsForDcn(req, res) {
     return this.bulkScanService.getPaymentDetailsForDcn(req)
       .then(result => {
-       res.status(200).json({ data: result, success: true });
-         })
+        res.status(200).json({ data: result, success: true });
+      })
       .catch(error => {
         res.status(500).json({ err: error, success: false });
       });
@@ -26,7 +24,6 @@ class BulkScanController {
         res.status(500).json({ err: error, success: false });
       });
   }
- 
 }
 
 module.exports = BulkScanController;

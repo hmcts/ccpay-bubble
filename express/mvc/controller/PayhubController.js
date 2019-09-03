@@ -143,7 +143,7 @@ class PayhubController {
         res.status(500).json({ err: error, success: false });
       });
   }
-    postPaymentAllocations(req, res, appInsights) {
+  postPaymentAllocations(req, res, appInsights) {
     return this.payhubService.postPaymentAllocations(req, appInsights)
       .then(result => {
         res.status(200).json({ data: result, success: true });
