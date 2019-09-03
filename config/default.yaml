@@ -17,7 +17,7 @@ s2s:
 payhub:
   url: http://payment-api-aat.service.core-compute-aat.internal
 bulkscan:
-  url: http://payment-api-aat.service.core-compute-aat.internal
+  url: https://ccpay-bulkscanning-api-aat.service.core-compute-aat.internal
 appInsights:
   instrumentationKey: some-key
   roleName: paybubble
