@@ -49,10 +49,11 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postAllocatePayment(req, res, appInsights);
   })
 
- .post('/payment-history/payment-groups/bulk-scan-payments', (req, res) => {
+  .post('/payment-history/payment-groups/bulk-scan-payments', (req, res) => {
     controllers.payhubController.postBSPayments(req, res, appInsights);
   })
- .post('/payment-history/payment-allocations', (req, res) => {
+
+  .post('/payment-history/payment-allocations', (req, res) => {
     controllers.payhubController.postPaymentAllocations(req, res, appInsights);
   })
 
@@ -75,21 +76,22 @@ module.exports = appInsights => express.Router()
   .get('/fees', (req, res) => {
     controllers.feeController.getFees(req, res);
   })
+
   .delete('/payment-history/fees/:id', (req, res) => {
     controllers.payhubController.deleteFeesFromPaymentGroup(req, res, appInsights);
   })
- 
+
   // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {
     controllers.payhubController.ccpayWebComponentIntegration(req, res);
   })
 
-   //Bulk scanning services
-   .get('/bulk-scan/cases/:id', (req, res) => {
+  // Bulk scanning services
+  .get('/bulk-scan/cases/:id', (req, res) => {
     controllers.bulkScanController.getPaymentDetailsForCcd(req, res);
- })
- .get('/bulk-scan/cases?*', (req, res) => {
-   controllers.bulkScanController.getPaymentDetailsForDcn(req, res);
- })
+  })
+  .get('/bulk-scan/cases?*', (req, res) => {
+    controllers.bulkScanController.getPaymentDetailsForDcn(req, res);
+  })
 
   .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }));
