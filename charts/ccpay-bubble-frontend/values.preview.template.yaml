@@ -1,14 +1,3 @@
-bulkscan-payment-api:
-  releaseNameOverride: ${SERVICE_NAME}-bulkscan-payment-api
-  java:
-    releaseNameOverride: ${SERVICE_NAME}-bulkscan-payment-api
-    image: hmctspublic.azurecr.io/payment/ccpay-bulkscanning-api
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-payment-db:5432/bspayment
-      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-      AUTH_IDAM_CLIENT_BASEURL: https://idam-api.aat.platform.hmcts.net
-  postgresql:
-    enabled: true
 nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
