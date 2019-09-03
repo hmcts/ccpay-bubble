@@ -32,3 +32,5 @@ e2e:
 fee:
   feeRegistrationUrl: FEE_REGISTRATION_URL
   feeJurisdictionUrl: FEE_JURISDICTION_URL
+ccd:
+  url: CCD_URL
