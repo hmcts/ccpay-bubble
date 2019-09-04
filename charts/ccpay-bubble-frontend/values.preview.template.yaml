@@ -19,3 +19,4 @@ keyVaults:
     secrets:
       - paybubble-idam-client-secret
       - paybubble-s2s-secret
+      - AppInsightsInstrumentationKey
