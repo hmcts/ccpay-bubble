@@ -3,6 +3,8 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   environment:
     S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+    IDAM_API_URL: https://idam-api.aat.platform.hmcts.net
+    IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.aat.platform.hmcts.net/login
 tags:
   - idam-pr
 idam-pr:
