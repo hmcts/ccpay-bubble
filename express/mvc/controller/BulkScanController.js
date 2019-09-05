@@ -24,6 +24,15 @@ class BulkScanController {
         res.status(500).json({ err: error, success: false });
       });
   }
+  patchBSChangeStatus(req, res, appInsights) {
+    return this.bulkScanService.patchBSChangeStatus(req, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        res.status(500).json({ err: error, success: false });
+      });
+  }
 }
 
 module.exports = BulkScanController;

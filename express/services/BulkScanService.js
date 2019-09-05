@@ -19,6 +19,17 @@ class BulkScanService {
       json: true
     }));
   }
+  patchBSChangeStatus(req) {
+    return this.createAuthToken().then(token => request.patch({
+      uri: `${bulkScanUrl}/bulk-scan-payments/${req.params.id}/PROCESS`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
   getPaymentDetailsForCcd(req) {
     return this.createAuthToken().then(token => request.get({
       uri: `${bulkScanUrl}/cases/${req.params.id}`,
