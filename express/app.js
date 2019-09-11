@@ -86,7 +86,7 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.ccpayWebComponentIntegration(req, res);
   })
 
-  .patch('/payment-history/bulk-scan-payments/:id/PROCESS', (req, res) => {
+  .patch('/payment-history/bulk-scan-payments/:id/status/PROCESSED', (req, res) => {
     controllers.bulkScanController.patchBSChangeStatus(req, res, appInsights);
   })
   // Bulk scanning services
