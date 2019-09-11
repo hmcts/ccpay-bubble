@@ -21,7 +21,7 @@ class BulkScanService {
   }
   patchBSChangeStatus(req) {
     return this.createAuthToken().then(token => request.patch({
-      uri: `${bulkScanUrl}/bulk-scan-payments/${req.params.id}/PROCESS`,
+      uri: `${bulkScanUrl}/bulk-scan-payments/${req.params.id}/status/PROCESSED`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
