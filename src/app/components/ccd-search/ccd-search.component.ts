@@ -5,6 +5,7 @@ import { getTypeNameForDebugging } from '@angular/core/src/change_detection/diff
 import { Observable } from 'rxjs';
 import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
 import { CaseRefService } from '../../services/caseref/caseref.service';
+import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 
 @Component({
   selector: 'app-ccd-search',
@@ -22,8 +23,10 @@ export class CcdSearchComponent implements OnInit {
   dcnPattern = /^[0-9]{17}$/i;
   noCaseFound = false;
 
+
   constructor(
     private activatedRoute: ActivatedRoute,
+    private paymentGroupService: PaymentGroupService,
     private formBuilder: FormBuilder,
     private router: Router,
     private http: PaybubbleHttpClient,
@@ -55,16 +58,24 @@ export class CcdSearchComponent implements OnInit {
       this.hasErrors = false;
       const searchValue = this.searchForm.get('searchInput').value;
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
-        this.dcnNumber = searchValue;
-        this.ccdCaseNumber = null;
+        this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((res) => {
+          this.dcnNumber = searchValue;
+          this.ccdCaseNumber = res['data'].ccd_reference ? res['data'].ccd_reference : res['data'].exception_record_reference;
+          // tslint:disable-next-line:max-line-length
+          const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
+          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
+        }).catch(() => {
+          this.noCaseFound = true;
+        });
+
       } else {
         this.ccdCaseNumber = this.removeHyphenFromString(searchValue);
         this.dcnNumber = null;
-      }
-       // tslint:disable-next-line:max-line-length
+        // tslint:disable-next-line:max-line-length
         const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
-      // const url = this.takePayment ? `?view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
-      this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
+        this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
+      }
+
     } else {
       return this.hasErrors = true;
     }

@@ -67,6 +67,8 @@
              name="ccd-search" 
              formControlName="searchInput">
             <span *ngIf="hasErrors && selectedValue === 'DCN'" class="error-message">Enter DCN number in the correct format</span>
+            <span *ngIf="noCaseFound" class="error-message">No record found for this DCN</span>
+
           </div>
       </div>
   </fieldset>
