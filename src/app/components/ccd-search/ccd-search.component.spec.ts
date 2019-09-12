@@ -5,6 +5,7 @@ import { CcdSearchComponent } from './ccd-search.component';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
 import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
+import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { instance, mock } from 'ts-mockito';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
@@ -19,7 +20,8 @@ const paybubbleHttpClientMock = new PaybubbleHttpClient(instance(mock(HttpClient
 describe('Fee search component', () => {
   let component: CcdSearchComponent,
   fixture: ComponentFixture<CcdSearchComponent>;
-  let caseRefService: CaseRefService;
+  let caseRefService: CaseRefService,
+      paymentGroupService: PaymentGroupService;
   const formBuilder: FormBuilder = new FormBuilder();
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,6 +33,7 @@ describe('Fee search component', () => {
       ],
       providers: [
         CaseRefService,
+        PaymentGroupService,
         { provide: PaybubbleHttpClient, useValue: paybubbleHttpClientMock },
         { provide: Router, useValue: routerMock },
         { provide: FormBuilder, useValue: formBuilder },
@@ -56,6 +59,7 @@ describe('Fee search component', () => {
             CCDorException: null
         });
     caseRefService = fixture.debugElement.injector.get(CaseRefService);
+    paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
   });
 
   it('Should create', () => {
