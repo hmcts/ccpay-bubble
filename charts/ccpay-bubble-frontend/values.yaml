@@ -8,8 +8,10 @@ nodejs:
 
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
-    PAYHUB_API_URL: https://payment-api-aat.service.core-compute-aat.internal/
+    #PAYHUB_API_URL: https://payment-api-aat.service.core-compute-aat.internal/
 
+    #CCPAY_BULKSCAN_API_URL: https://ccpay-bulkscanning-api-aat.service.core-compute-aat.internal/
+    PAYHUB_API_URL: https://payment-api-aat.service.core-compute-aat.internal/
     CCPAY_BULKSCAN_API_URL: https://ccpay-bulkscanning-api-aat.service.core-compute-aat.internal/
 
     S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal

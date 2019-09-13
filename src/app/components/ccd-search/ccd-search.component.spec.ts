@@ -19,9 +19,10 @@ const paybubbleHttpClientMock = new PaybubbleHttpClient(instance(mock(HttpClient
 
 describe('Fee search component', () => {
   let component: CcdSearchComponent,
-  fixture: ComponentFixture<CcdSearchComponent>;
-  let caseRefService: CaseRefService,
-      paymentGroupService: PaymentGroupService;
+    fixture: ComponentFixture<CcdSearchComponent>,
+    caseRefService: CaseRefService,
+    paymentGroupService: PaymentGroupService,
+    mockResponse: any;
   const formBuilder: FormBuilder = new FormBuilder();
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,7 +34,10 @@ describe('Fee search component', () => {
       ],
       providers: [
         CaseRefService,
-        PaymentGroupService,
+        {
+          provide: PaymentGroupService,
+          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        },
         { provide: PaybubbleHttpClient, useValue: paybubbleHttpClientMock },
         { provide: Router, useValue: routerMock },
         { provide: FormBuilder, useValue: formBuilder },
@@ -52,12 +56,36 @@ describe('Fee search component', () => {
         }
       ]
     });
-
+    mockResponse = {
+        data: {
+          ccd_reference: '1111222233334444',
+          exception_record_reference: '1111222233334444',
+          payments: [
+            {
+              amount: 100,
+              bgc_reference: 'BGC1203',
+              case_reference: '1111222233334444',
+              currency: 'GBP',
+              date_banked: '2019-DEC-02',
+              date_created: '2019-DEC-19',
+              date_updated: '2019-DEC-30',
+              dcn_case: '11112222333344440',
+              dcn_reference: '11112222333344440',
+              first_cheque_dcn_in_batch: 'string',
+              outbound_batch_number: 'string',
+              payer_name: 'tester',
+              payment_method: 'CHEQUE',
+              po_box: 'string'
+            }
+          ],
+          responsible_service_id: 'AA07'
+      }
+    };
     fixture = TestBed.createComponent(CcdSearchComponent);
     component = fixture.componentInstance;
-        component.searchForm = formBuilder.group({
-            CCDorException: null
-        });
+    component.searchForm = formBuilder.group({
+      CCDorException: null
+    });
     caseRefService = fixture.debugElement.injector.get(CaseRefService);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
   });
@@ -111,9 +139,24 @@ describe('Fee search component', () => {
 
   it('Should set selected radio button category', () => {
     const selectedValue = 'DCN';
-
     component.onSelectionChange(selectedValue);
     expect(component.selectedValue).toBe('DCN');
     expect(component.searchForm.get('CCDorException').value).toBe('DCN');
+  });
+   it('Should get dcn details', async () => {
+    spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse));
+    component.ngOnInit();
+    component.dcnNumber = '';
+    component.ccdCaseNumber = '';
+
+    component.onSelectionChange('DCN');
+    expect(component.selectedValue).toBe('DCN');
+    spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('dcn');
+    component.searchForm.controls['searchInput'].setValue('11112222333344440');
+    component.searchFees();
+    await fixture.whenStable();
+    expect(component.selectedValue).toBe('DCN');
+    expect(component.dcnNumber).toBe('11112222333344440');
+    expect(component.ccdCaseNumber).toBe('1111222233334444');
   });
 });
