@@ -125,7 +125,6 @@ describe('Fee search component', () => {
     expect(component.hasErrors).toBeFalsy();
     expect(component.dcnNumber).toBe(null);
     expect(component.ccdCaseNumber).toBe('1111222233334444');
-
     // tslint:disable-next-line:max-line-length
     expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true');
   });
