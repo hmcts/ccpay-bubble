@@ -44,7 +44,7 @@ export class FeeDetailsComponent implements OnInit {
   }
 
   submitVolume() {
-    if(this.fee.current_version.flat_amount !== undefined) {
+    if (this.fee.current_version.flat_amount !== undefined) {
       this.fee.current_version.flat_amount.amount = this.feeDetailFormGroup.get('feeAmountFormControl').value;
     }
     this.submitFeeVolumeEvent.emit(this.feeDetailFormGroup.get('feeVolumeControl').value);
