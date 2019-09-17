@@ -318,8 +318,7 @@
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@codeceptjs/detox-helper/-/detox-helper-1.0.1.tgz#ced2e02a0deb53a8f72b8c3a0bdcce1ec67a3b42"
   dependencies:
-    detox "^12.11.0"
-
+    detox "^12.11.0" 
 "@hmcts/ccpay-web-component@~2.0.49":
   version "2.0.49"
   resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-2.0.49.tgz#79ad0d13c0693887ea8ed1b51e6e7e91e2189c8b"
