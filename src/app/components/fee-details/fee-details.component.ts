@@ -27,6 +27,9 @@ export class FeeDetailsComponent implements OnInit {
 
   feeDetailFormGroup: FormGroup;
 
+  feeVolumeControl: FormControl;
+  feeAmountFormControl: FormControl;
+
   constructor(
     private formBuilder: FormBuilder
   ) {

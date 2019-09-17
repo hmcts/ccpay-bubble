@@ -36,6 +36,10 @@ describe('FeeDetailsComponent', () => {
     expect(component.restartSearchEvent.emit).toHaveBeenCalled();
   });
 
-
+  it('Should submit fee volume', () => {
+    spyOn(component.submitFeeVolumeEvent, 'emit');
+    component.submitVolume();
+    expect(component.submitFeeVolumeEvent.emit).toHaveBeenCalledWith(1);
+  });
 
 });
