@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ccdCaseRefPatternValidator } from 'src/app/shared/validators/ccd-case-ref-pattern.validator';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
+import { CaseRefService } from '../../services/caseref/caseref.service';
 
 @Component({
   selector: 'app-ccd-search',
@@ -13,11 +16,14 @@ export class CcdSearchComponent implements OnInit {
   hasErrors = false;
   ccdCaseNumber: string;
   takePayment: boolean;
+  noCaseFound = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private http: PaybubbleHttpClient,
+    private caseRefService: CaseRefService
   ) {}
 
   ngOnInit() {
@@ -36,8 +42,13 @@ export class CcdSearchComponent implements OnInit {
     if (this.searchForm.invalid) { return this.hasErrors = true; }
     this.hasErrors = false;
     this.ccdCaseNumber = this.removeHyphenFromString(this.searchForm.get('searchInput').value);
-    const url = this.takePayment ? `?view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
-    this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
+    this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
+      this.noCaseFound = false;
+      const url = this.takePayment ? `?view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
+      this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
+    }, err => {
+      this.noCaseFound = true;
+    });
   }
 
   removeHyphenFromString(input: string) {
