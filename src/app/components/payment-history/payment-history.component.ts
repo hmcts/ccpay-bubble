@@ -20,6 +20,7 @@ export class PaymentHistoryComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    debugger;
       this.activatedRoute.params.subscribe((params) => {
       this.apiRoot = 'api/payment-history';
       this.bulkscanapiRoot = 'api/bulk-scan';

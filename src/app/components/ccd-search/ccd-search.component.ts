@@ -22,7 +22,7 @@ export class CcdSearchComponent implements OnInit {
   ccdPattern =  /^[0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4}$/i;
   dcnPattern = /^[0-9]{17}$/i;
   noCaseFound = false;
-
+  view: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -34,8 +34,14 @@ export class CcdSearchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-      this.fromValidation();
-     }
+    debugger;
+    this.fromValidation();
+    this.view = this.activatedRoute.snapshot.queryParams['viewname'];
+    if(this.view=== 'reports'){
+      const reportsurl = '?view=reports';
+      this.router.navigateByUrl(`/payment-history/${reportsurl}`);
+      } 
+  }
 
   fromValidation() {
       this.searchForm = this.formBuilder.group({
