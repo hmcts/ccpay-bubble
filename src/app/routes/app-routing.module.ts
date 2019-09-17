@@ -37,18 +37,15 @@ const routes: Routes = [
   },
   {
     path: 'fee-search',
-    component: FeeSearchComponent,
-    canActivate: [MVPGuard]
+    component: FeeSearchComponent
   },
   {
     path: 'ccd-search',
-    component: CcdSearchComponent,
-    canActivate: [MVPGuard]
+    component: CcdSearchComponent
   },
     {
     path: 'payment-history',
-    component: CcdSearchComponent,
-    canActivate: [MVPGuard]
+    component: CcdSearchComponent
   },
   {
     path: '',

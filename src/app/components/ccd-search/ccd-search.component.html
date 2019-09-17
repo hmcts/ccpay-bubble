@@ -1,10 +1,18 @@
-<legend><h1 class="heading-xlarge"></h1></legend>
+<legend><h1 class="heading-xlarge">Search for a case</h1></legend>
 <form [formGroup]="searchForm" [className]="hasErrors ? 'form-group form-group-error': 'form-group'">
   <label class="heading-small" for="ccd-search">
-    Search using a CCD reference number
-    <span class="form-hint">For example: 1111-2222-3333-4444</span>
+    <span class="form-hint"> Search using a CCD case reference number. For example: 1111-2222-3333-4444</span>
     <span *ngIf="hasErrors" class="error-message">Enter a CCD case reference number in the correct format</span>
   </label>
-  <input #searchInput [className]="hasErrors? 'form-control form-control-error': 'form-control'" id="ccd-search" type="text" name="ccd-search" formControlName="searchInput">
-  <button class="button button-search" type="submit" (click)="searchFees()">Search</button>
+  <div class="govuk-form-group">
+        <input #searchInput [className]="hasErrors? 'form-control form-control-error': 'form-control'" id="ccd-search" type="text" name="ccd-search" formControlName="searchInput">
+  </div>
+  <div class="govuk-form-group">
+  <button class="govuk-button" type="submit" (click)="searchFees()">Search</button>
+  </div>
+
+  <!--input #searchInput [className]="hasErrors? 'form-control form-control-error': 'form-control'" id="ccd-search" type="text" name="ccd-search" formControlName="searchInput">
+  <button class="govuk-button" type="submit" (click)="searchFees()">Search</button-->
+  <div class="nocase-message" *ngIf="noCaseFound">No matching cases found</div>
 </form>
+

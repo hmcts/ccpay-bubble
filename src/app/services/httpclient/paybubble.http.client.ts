@@ -20,6 +20,11 @@ export class PaybubbleHttpClient {
     return this.http.put(url, body, opts);
   }
 
+  get(url: string, options?: any): Observable<any> {
+    const opts = this.addHeaders(options || {});
+    return this.http.get(url, opts);
+  }
+
   addHeaders(options: any): any {
     const csrfToken = this.meta.getTag('name=csrf-token');
     const headers = {};
