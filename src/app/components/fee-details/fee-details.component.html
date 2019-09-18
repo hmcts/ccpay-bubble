@@ -4,25 +4,57 @@
 </legend>
 
 <table *ngIf="fee" class="table" style="margin-bottom: 20px">
+  <caption>Fee Details</caption>
   <tbody>
   <tr>
-    <th class="bold" width="80px">Fee code</th>
-    <th class="bold" width="620px">Description</th>
-    <th class="bold" width="80px">Amount</th>
+    <th class="bold" width="80px" scope="col">Fee code</th>
+    <th class="bold" width="620px" scope="col">Description</th>
+    <th class="bold" width="80px" scope="col">Amount</th>
   </tr>
   <tr>
     <td>{{ fee.code }}</td>
     <td>{{ fee.current_version.description }}</td>
-    <td>£{{ fee.current_version['volume_amount'].amount }}</td>
+    <td>£{{ fee.current_version['volume_amount']? fee.current_version['volume_amount'].amount : fee.current_version['flat_amount'].amount}}</td>
   </tr>
   </tbody>
 </table>
 <form>
-  <div class="form-group">
-    <label class="heading-small" for="volumeAmount">
+  <div [formGroup]="feeDetailFormGroup">
+    <label *ngIf="fee.current_version['volume_amount']" class="heading-small" for="volumeAmount">
       How many copies do you want?
     </label>
-    <input [formControl]="feeVolumeControl"  class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
+    <label *ngIf="fee.current_version['flat_amount']" class="heading-small" for="volumeAmount">
+      <span class="form-hint">If the document has more than 10 pages, you must also choose a fee for the additional pages.</span>
+      <p>
+      <p>
+      <span class="form-hint">For example:</span>
+      <p>
+      <span class="form-hint">Your client wants 3 copies of a 20 page document.</span>
+      <p>
+      <span class="form-hint">You select the fee for the first 10 pages. It costs £10 for the first 10 pages (£10 x 3 = 30).</span>
+      <p>
+      <span class="form-hint">You’d need to enter 3 copies.</span>
+      <p>
+      <span class="form-hint">You select the fee for the additional pages. It costs 50p for each subsequent page.</span>
+      <p>
+      <span class="form-hint">Step 1: £10 x 3 copies = £30</span>
+      <p>
+      <span class="form-hint">Step 2: Select the fee for the additional pages (if more than 10 pages). For example, 10 additional pages at 50p = £5.</span>
+      <p>
+      <span class="form-hint">Step 3: £5 x 3 copies = £15. You’ll need to enter this against the new fee</span>
+      <p>
+      <span class="form-hint">The citizen needs to pay £45 for 3 copies of the 20-page document.</span>
+      <p>
+      How many copies of the document are required?
+    </label>
+    <input  formControlName="feeVolumeControl" class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
+    <p>
+    <p>
+    <label *ngIf="fee.current_version['flat_amount']" class="heading-small" for="calculatedAmount">
+      How much does the citizen need to pay for the selected fee?
+    </label>
+    <input formControlName="feeAmountFormControl" *ngIf="fee.current_version['flat_amount']" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedAmount" type="number" min="1"/>
+
   </div>
 
   <div class="form-group">

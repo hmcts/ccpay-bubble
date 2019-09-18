@@ -17,6 +17,7 @@ describe('Fee search component', () => {
     router: Router,
     testFixedFlatFee: any,
     testFixedVolumeFee: any,
+    testBandedFlatFee: any,
     mockResponse: any;
 
   beforeEach(() => {
@@ -55,6 +56,25 @@ describe('Fee search component', () => {
       jurisdiction1: {name: 'test-jurisdiction1'},
       jurisdiction2: {name: 'test-jurisdiction2'},
     };
+
+    testBandedFlatFee = {
+      code: 'test-code',
+      fee_type: 'banded',
+      'current_version': {
+        version: 1,
+        calculatedAmount: 1234,
+        memo_line: 'test-memoline',
+        natural_account_code: '1234-1234-1234-1234',
+        flat_amount: {
+          amount: 1234
+        },
+        description: 'test-description'
+      },
+      ccdCaseNumber: '1111-2222-3333-4444',
+      jurisdiction1: {name: 'test-jurisdiction1'},
+      jurisdiction2: {name: 'test-jurisdiction2'},
+    };
+
     mockResponse = {
       payment_group_reference : '2019-12341234',
       fees: [{id: 808,
@@ -161,7 +181,6 @@ describe('Fee search component', () => {
     component.paymentGroupRef = 'paymentgroup';
     component.selectFee(testFixedFlatFee);
     expect(paymentGroupService.putPaymentGroup).toHaveBeenCalled();
-
   }));
 
   describe('If fixed volume fee is selected', () => {
@@ -177,6 +196,23 @@ describe('Fee search component', () => {
       component.selectFee(testFixedVolumeFee);
       fixture.detectChanges();
       expect(component.preselectedFee).toBe(testFixedVolumeFee);
+      expect(component.ccdNo).toBe('1234-1234-1234-1234');
+    }));
+  });
+
+  describe('If banded flat fee is selected', () => {
+    it('should make fee-details component visible and fee-search component invisible', async(async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      component.selectFee(testFixedVolumeFee);
+      fixture.detectChanges();
+      expect(component.showFeeDetails).toBe(true);
+    }));
+
+    it('should remember which fee was selected', async(async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      component.selectFee(testBandedFlatFee);
+      fixture.detectChanges();
+      expect(component.preselectedFee).toBe(testBandedFlatFee);
       expect(component.ccdNo).toBe('1234-1234-1234-1234');
     }));
   });
@@ -202,6 +238,32 @@ describe('Fee search component', () => {
           description: testFixedVolumeFee.current_version.description,
           volume: volume,
           volume_amount: testFixedVolumeFee.current_version.volume_amount.amount
+        }]
+      });
+    });
+  });
+
+  describe('Submitting volume for banded fee', () => {
+    it('should call backend with correct fee details', async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      const volume = 2;
+      component.selectFee(testBandedFlatFee);
+      component.selectPreselectedFeeWithVolume(volume);
+      await fixture.whenStable();
+      expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
+        fees: [{
+          code: testFixedVolumeFee.code,
+          version: testFixedVolumeFee['current_version'].version.toString(),
+          'calculated_amount': `${testBandedFlatFee['current_version'].flat_amount.amount * volume}`.toString(),
+          'memo_line': testBandedFlatFee['current_version'].memo_line,
+          'natural_account_code': testBandedFlatFee['current_version'].natural_account_code,
+          'ccd_case_number': component.ccdNo,
+          jurisdiction1: testBandedFlatFee.jurisdiction1.name,
+          jurisdiction2: testBandedFlatFee.jurisdiction2.name,
+          description: testBandedFlatFee.current_version.description,
+          volume: volume,
+          volume_amount: testBandedFlatFee.current_version.flat_amount.amount
         }]
       });
     });
