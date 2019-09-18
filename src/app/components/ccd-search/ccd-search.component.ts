@@ -34,7 +34,6 @@ export class CcdSearchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    debugger;
     this.fromValidation();
     this.view = this.activatedRoute.snapshot.queryParams['viewname'];
     if(this.view=== 'reports'){
