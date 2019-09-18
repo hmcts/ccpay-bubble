@@ -29,4 +29,17 @@ describe('FeeDetailsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('Should restart search event ongoback', () => {
+    spyOn(component.restartSearchEvent, 'emit');
+    component.goBack();
+    expect(component.restartSearchEvent.emit).toHaveBeenCalled();
+  });
+
+  it('Should submit fee volume', () => {
+    spyOn(component.submitFeeVolumeEvent, 'emit');
+    component.submitVolume();
+    expect(component.submitFeeVolumeEvent.emit).toHaveBeenCalledWith(1);
+  });
+
 });
