@@ -12,7 +12,7 @@ locals {
   nonPreviewVaultName = "${var.core_product}-${var.env}"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
 
-  s2sUrl = "https://rpe-service-auth-provider-${local.local_env}.service.${local.local_ase}.internal"
+  s2sUrl = "http://rpe-service-auth-provider-${local.local_env}.service.${local.local_ase}.internal"
 
   asp_name = "${var.core_product}-${var.env}"
 }
