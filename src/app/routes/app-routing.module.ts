@@ -43,6 +43,10 @@ const routes: Routes = [
     path: 'ccd-search',
     component: CcdSearchComponent
   },
+  {
+    path: 'payment-history/:view',
+    component: PaymentHistoryComponent
+  },
     {
     path: 'payment-history',
     component: CcdSearchComponent
@@ -55,12 +59,8 @@ const routes: Routes = [
   {
     path: 'payment-history/:ccdCaseNumber',
     component: PaymentHistoryComponent
-  },
-  {
-    path: 'payment-history/:view',
-    pathMatch: 'full',
-    component: PaymentHistoryComponent
   }
+ 
 ];
 
 @NgModule({
