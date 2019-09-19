@@ -29,10 +29,11 @@
             <span class="form-hint">For example: 1111-2222-3333-4444</span>
           </label>
       </div>
-      <div id="ccdorexception" [ngClass]="{'govuk-radios__conditional':  selectedValue === 'CCDorException' && hasErrors === false,
+      <div  [ngClass]="{'govuk-radios__conditional':  selectedValue === 'CCDorException' && hasErrors === false,
                                             'govuk-form-group form-group-error' : hasErrors === true,
                                             'govuk-radios__conditional--hidden': selectedValue === 'DCN'}">
             <input #searchInput 
+             aria-label ="Enter CCDorException"
              [className]="hasErrors? 'form-control form-control-error': 'govuk-input govuk-!-width-one-third'"
              id="ccd-search" 
              type="text" 
@@ -44,6 +45,7 @@
       <div class="govuk-radios__item">
         <input class="govuk-radios__input" 
           id="DCN"
+          aria-label ="Enter DCN"
           formControlName="CCDorException"
           name="CCDorException"
           type="radio"
@@ -57,14 +59,15 @@
         </label>
 
       </div>
-       <div id="ccdorexception" [ngClass]="{'govuk-radios__conditional':  selectedValue === 'DCN' && hasErrors === false,
+       <div  [ngClass]="{'govuk-radios__conditional':  selectedValue === 'DCN' && hasErrors === false,
                                         'govuk-form-group form-group-error' : hasErrors === true,
                                         'govuk-radios__conditional--hidden': selectedValue === 'CCDorException'}">
           <input #searchInput 
             [className]="hasErrors? 'form-control form-control-error': 'govuk-input govuk-!-width-one-third'"
-             id="ccd-search" 
+             id="dcn-search" 
              type="text" 
              name="ccd-search" 
+             aria-label ="Enter DCN"
              formControlName="searchInput">
             <span *ngIf="hasErrors && selectedValue === 'DCN'" class="error-message">Enter DCN number in the correct format</span>
             <span *ngIf="noCaseFound" class="error-message">No record found for this DCN</span>
