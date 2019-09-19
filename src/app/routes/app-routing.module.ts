@@ -55,6 +55,11 @@ const routes: Routes = [
   {
     path: 'payment-history/:ccdCaseNumber',
     component: PaymentHistoryComponent
+  },
+  {
+    path: 'payment-history/:view',
+    pathMatch: 'full',
+    component: PaymentHistoryComponent
   }
 ];
 
