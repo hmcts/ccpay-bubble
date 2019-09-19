@@ -44,7 +44,7 @@ const routes: Routes = [
     component: CcdSearchComponent
   },
   {
-    path: 'payment-history/:view',
+    path: 'payment-history/view/:view',
     component: PaymentHistoryComponent
   },
     {
