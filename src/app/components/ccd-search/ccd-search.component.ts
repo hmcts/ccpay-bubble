@@ -17,6 +17,7 @@ export class CcdSearchComponent implements OnInit {
   ccdCaseNumber: string;
   takePayment: boolean;
   noCaseFound = false;
+  searchInProgress = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -39,6 +40,7 @@ export class CcdSearchComponent implements OnInit {
   }
 
   searchFees() {
+    this.searchInProgress = true;
     if (this.searchForm.invalid) { return this.hasErrors = true; }
     this.hasErrors = false;
     this.ccdCaseNumber = this.removeHyphenFromString(this.searchForm.get('searchInput').value);
@@ -48,6 +50,7 @@ export class CcdSearchComponent implements OnInit {
       this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
     }, err => {
       this.noCaseFound = true;
+      this.searchInProgress = false;
     });
   }
 
