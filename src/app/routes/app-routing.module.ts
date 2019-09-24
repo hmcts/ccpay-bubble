@@ -60,7 +60,6 @@ const routes: Routes = [
     path: 'payment-history/:ccdCaseNumber',
     component: PaymentHistoryComponent
   }
- 
 ];
 
 @NgModule({
