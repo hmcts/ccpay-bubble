@@ -41,6 +41,18 @@ class BulkScanService {
       json: true
     }));
   }
+  getSelectedReport(req) {
+      return this.createAuthToken().then(token => request.get({
+      uri: `${bulkScanUrl}/report/download?date_from=${req.query.startDate}&date_to=${req.query.endDate}&report_type=${req.query.reportName}`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
   createAuthToken() {
     const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
     const serviceAuthRequest = {
