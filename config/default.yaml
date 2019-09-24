@@ -29,7 +29,7 @@ certs:
   key: ./localhost-ssl/localhost.key
   crt: ./localhost-ssl/localhost.crt
 fee:
-  feeRegistrationUrl: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register/fees
-  feeJurisdictionUrl: http://fees-register-api-aat.service.core-compute-aat.internal/jurisdictions
+  feeRegistrationUrl: http://fees-register-api-ithc.service.core-compute-ithc.internal/fees-register/fees
+  feeJurisdictionUrl: http://fees-register-api-ithc.service.core-compute-ithc.internal/jurisdictions
 ccd:
   url: http://localhost:23443
