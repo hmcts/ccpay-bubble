@@ -19,5 +19,6 @@
 <app-fee-details
   *ngIf="showFeeDetails"
   [fee]="preselectedFee"
+  [isSubmitBtnDisabled] = "isSubmitBtnDisabled"
   (restartSearchEvent)="onGoBack()"
   (submitFeeVolumeEvent)="selectPreselectedFeeWithVolume($event)"></app-fee-details>

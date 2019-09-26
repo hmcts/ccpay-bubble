@@ -25,3 +25,7 @@
 .govuk-pagination /deep/ .ngx-pagination a:hover {
   background: none;
 }
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
