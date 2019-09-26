@@ -318,11 +318,12 @@
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@codeceptjs/detox-helper/-/detox-helper-1.0.1.tgz#ced2e02a0deb53a8f72b8c3a0bdcce1ec67a3b42"
   dependencies:
-    detox "^12.11.0" 
-"@hmcts/ccpay-web-component@~2.0.49":
-  version "2.0.49"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-2.0.49.tgz#79ad0d13c0693887ea8ed1b51e6e7e91e2189c8b"
-  integrity sha512-JRThVWjkC2PAvylkfVeAdH5ymA2cZdZvmouw/Uw+32h7bq8iigDM78TjwxG/C0oKomQOLYX5xjauuf1iO0ob+A==
+    detox "^12.11.0"
+
+"@hmcts/ccpay-web-component@~3.0.0-alpha32":
+  version "3.0.0-alpha32"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-3.0.0-alpha32.tgz#2a7048166930967377133fd869d60e995b4349d5"
+  integrity sha512-gAwgeUd9lPCfW9ibqCsaesCG3MdN6skhjRMJBAoENLb+wjmO76Ef4LkTxWPXyP30pqfoZDcAjKThjUmyeMdosg==
   dependencies:
     tslib "^1.9.0"
 
