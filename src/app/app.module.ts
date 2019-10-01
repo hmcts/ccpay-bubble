@@ -12,6 +12,7 @@ import {ConfirmationComponent} from './components/confirmation/confirmation.comp
 import {PhaseBannerComponent} from './shared/components/phase-banner/phase-banner.component';
 import {FeeListTableComponent} from './shared/components/fee-list-table/fee-list-table.component';
 import {ServiceFailureComponent} from './shared/components/service-failure/service-failure.component';
+import {PciPalFailureComponent} from './shared/components/pci-pal-failure/pci-pal-failure.component';
 import {PaybubbleHttpClient} from './services/httpclient/paybubble.http.client';
 import {AddFeeDetailService} from './services/add-fee-detail/add-fee-detail.service';
 import {PaymentGroupService} from './services/payment-group/payment-group.service';
@@ -46,6 +47,7 @@ const nonProductionProviders = [{
     FeeListTableComponent,
     ConfirmationComponent,
     ServiceFailureComponent,
+    PciPalFailureComponent,
     ViewPaymentComponent,
     FormatDisplayCurrencyPipe,
     SanitizeHtmlPipe,
