@@ -6,6 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './pci-pal-failure.component.html',
   styleUrls: ['./pci-pal-failure.component.scss']
 })
-export class PciPalFailureComponent {
-  
-}
+export class PciPalFailureComponent {}
