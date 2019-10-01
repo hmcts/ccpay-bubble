@@ -15,6 +15,7 @@ export class FeeSearchComponent implements OnInit {
   showFeeDetails = false;
   paymentGroupRef: string = null;
   isSubmitBtnDisabled = false;
+  isSelectLinkDisable = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -98,6 +99,7 @@ export class FeeSearchComponent implements OnInit {
       .catch(err => {
         this.navigateToServiceFailure();
         this.isSubmitBtnDisabled = false;
+        this.isSelectLinkDisable = false;
        });
     } else {
       this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
@@ -109,6 +111,7 @@ export class FeeSearchComponent implements OnInit {
       .catch(err => {
         this.navigateToServiceFailure();
         this.isSubmitBtnDisabled = false;
+        this.isSelectLinkDisable = false;
        });
     }
   }

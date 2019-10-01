@@ -13,6 +13,7 @@
 <pay-fee-register-search
   *ngIf="!showFeeDetails"
   [APIRoot]='"api"'
+  [isSelectLinkDisable] = "isSelectLinkDisable"
   (selectedFeeEvent)="selectFee($event)"></pay-fee-register-search>
 
 
