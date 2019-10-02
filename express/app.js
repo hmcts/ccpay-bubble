@@ -96,7 +96,7 @@ module.exports = appInsights => express.Router()
   .get('/bulk-scan/cases?*', (req, res) => {
     controllers.bulkScanController.getPaymentDetailsForDcn(req, res);
   })
-  .get('/bulk-scan/report/download', (req, res) => {
+  .get('/bulk-scan/report/data', (req, res) => {
     controllers.bulkScanController.getSelectedReport(req, res);
   })
   .get('/payment/bulkscan-report-download?*', (req, res) => {
