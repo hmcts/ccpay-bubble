@@ -43,15 +43,13 @@ class BulkScanService {
   }
   getSelectedReport(req) {
       return this.createAuthToken().then(token => request.get({
-      uri: `${bulkScanUrl}/report/download?date_from=${req.query.date_from}&date_to=${req.query.date_to}&report_type=${req.query.report_type}`,
+      uri: `${bulkScanUrl}/report/data?date_from=${req.query.date_from}&date_to=${req.query.date_to}&report_type=${req.query.report_type}`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
-       'Content-type': 'application/octet-stream',
-       'Accept': 'application/vnd.ms-excel'
+        'Content-Type': 'application/json'
       },
-      json: true,
-      responseType: 'arraybuffer'
+      json: true
     }));
   }
 
