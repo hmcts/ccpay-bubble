@@ -11,6 +11,7 @@ import { Jurisdictions } from './models/Jurisdictions';
 })
 export class FeeRegisterSearchComponent implements OnInit {
   @Input() APIRoot;
+  @Input() isSelectLinkDisable;
   @Output() selectedFeeEvent: EventEmitter<IFee> = new EventEmitter();
   fees: IFee[];
   error: string;

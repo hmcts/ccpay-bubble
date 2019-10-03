@@ -14,6 +14,8 @@ export class FeeSearchComponent implements OnInit {
   preselectedFee: IFee;
   showFeeDetails = false;
   paymentGroupRef: string = null;
+  isSubmitBtnDisabled = false;
+  isSelectLinkDisable = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -62,6 +64,7 @@ export class FeeSearchComponent implements OnInit {
   }
 
   selectPreselectedFeeWithVolume(volume: number) {
+    this.isSubmitBtnDisabled = true;
     const fee = this.preselectedFee;
     const volAmt = fee['current_version']['volume_amount'];
     const flatAmt = fee['current_version']['flat_amount'];
@@ -95,6 +98,8 @@ export class FeeSearchComponent implements OnInit {
       })
       .catch(err => {
         this.navigateToServiceFailure();
+        this.isSubmitBtnDisabled = false;
+        this.isSelectLinkDisable = false;
        });
     } else {
       this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
@@ -105,6 +110,8 @@ export class FeeSearchComponent implements OnInit {
       })
       .catch(err => {
         this.navigateToServiceFailure();
+        this.isSubmitBtnDisabled = false;
+        this.isSelectLinkDisable = false;
        });
     }
   }

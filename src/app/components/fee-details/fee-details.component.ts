@@ -22,6 +22,7 @@ export class FeeDetailsComponent implements OnInit {
                           description: 'test-description'
                         }
                   };
+  @Input() isSubmitBtnDisabled = false;
   @Output() submitFeeVolumeEvent: EventEmitter<IFee> = new EventEmitter();
   @Output() restartSearchEvent: EventEmitter<IFee> = new EventEmitter();
 

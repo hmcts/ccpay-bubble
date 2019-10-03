@@ -13,11 +13,13 @@
 <pay-fee-register-search
   *ngIf="!showFeeDetails"
   [APIRoot]='"api"'
+  [isSelectLinkDisable] = "isSelectLinkDisable"
   (selectedFeeEvent)="selectFee($event)"></pay-fee-register-search>
 
 
 <app-fee-details
   *ngIf="showFeeDetails"
   [fee]="preselectedFee"
+  [isSubmitBtnDisabled] = "isSubmitBtnDisabled"
   (restartSearchEvent)="onGoBack()"
   (submitFeeVolumeEvent)="selectPreselectedFeeWithVolume($event)"></app-fee-details>

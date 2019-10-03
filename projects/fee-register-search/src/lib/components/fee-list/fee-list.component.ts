@@ -11,10 +11,12 @@ export class FeeListComponent {
   @Input() fees?: IFee[];
   @Input() searchFilter?: string;
   @Input() jurisdictionsFilter?: Jurisdictions;
+  @Input() isSelectLinkDisable;
   @Output() selectedFeeEvent: EventEmitter<IFee> = new EventEmitter();
   p = 1;
 
   selectFee(fee: IFee) {
+    this.isSelectLinkDisable = true;
     this.selectedFeeEvent.emit(fee);
   }
 }

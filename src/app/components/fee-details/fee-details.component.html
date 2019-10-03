@@ -65,9 +65,12 @@
     </div>
 
     <div class="button-grid__button">
-      <div style="margin-left: 10px" class="button button-view" type="submit" (click)="submitVolume()">
+      <button style="margin-left: 10px"
+      [disabled]="isSubmitBtnDisabled"
+      [ngClass]='isSubmitBtnDisabled ? "button button--disabled" : "button"'
+       type="submit" (click)="submitVolume()">
         Submit
-      </div>
+      </button>
     </div>
   </div>
 </form>

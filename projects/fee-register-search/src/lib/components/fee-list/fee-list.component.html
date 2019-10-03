@@ -21,7 +21,7 @@
         <span *ngIf="!fee.current_version?.flat_amount?.amount && !fee.current_version?.volume_amount?.amount ">-</span>
 
       </td>
-      <td><a (click)="selectFee(fee)">Select</a></td>
+      <td><a (click)="selectFee(fee)" [className]="isSelectLinkDisable ? 'disabled': 'link'">Select</a></td>
     </tr>
   </tbody>
 </table>
