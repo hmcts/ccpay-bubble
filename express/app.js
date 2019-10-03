@@ -96,13 +96,10 @@ module.exports = appInsights => express.Router()
   .get('/bulk-scan/cases?*', (req, res) => {
     controllers.bulkScanController.getPaymentDetailsForDcn(req, res);
   })
-  .get('/bulk-scan/report/data', (req, res) => {
+  .get('/bulk-scan/report/data?*', (req, res) => {
     controllers.bulkScanController.getSelectedReport(req, res);
   })
-  .get('/payment/bulkscan-report-download?*', (req, res) => {
-    controllers.payhubController.getSelectedReport(req, res);
-  })
-  .get('/bulkscan-report-download?*', (req, res) => {
+  .get('/payment-history/report/data', (req, res) => {
     controllers.payhubController.getSelectedReport(req, res);
   })
    .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }))
