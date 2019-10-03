@@ -11,9 +11,11 @@ import {IFee} from '../../../../projects/fee-register-search/src/lib/interfaces'
 export class FeeSearchComponent implements OnInit {
   selectedFee: any;
   ccdNo: string = null;
+  dcnNo: string = null;
   preselectedFee: IFee;
   showFeeDetails = false;
   paymentGroupRef: string = null;
+  selectedOption: string = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -26,6 +28,8 @@ export class FeeSearchComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       this.ccdNo = this.activatedRoute.snapshot.queryParams['ccdCaseNumber'];
       this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
+      this.dcnNo = this.activatedRoute.snapshot.queryParams['dcn'];
+      this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
     });
   }
 
@@ -86,12 +90,14 @@ export class FeeSearchComponent implements OnInit {
   }
 
   sendPaymentGroup(paymentGroup: any) {
+       const dcnQueryParams = this.dcnNo ? `&dcn=${this.dcnNo}` : '';
     if (this.paymentGroupRef) {
+
       this.paymentGroupService.putPaymentGroup(this.paymentGroupRef, paymentGroup)
       .then(response => {
         this.router
         .navigateByUrl(`/payment-history/${this.ccdNo}`
-            + `?view=fee-summary&paymentGroupRef=${this.paymentGroupRef}`);
+            + `?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}`);
       })
       .catch(err => {
         this.navigateToServiceFailure();
@@ -101,7 +107,8 @@ export class FeeSearchComponent implements OnInit {
         this
           .router
           .navigateByUrl(`/payment-history/${this.ccdNo}`
-            + `?view=fee-summary&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}`);
+            + `?view=fee-summary&selectedOption=${this.selectedOption}
+            &paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}`);
       })
       .catch(err => {
         this.navigateToServiceFailure();

@@ -125,6 +125,34 @@ class PayhubController {
       });
   }
 
+  postAllocatePayment(req, res, appInsights) {
+    return this.payhubService.postAllocatePayment(req, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        res.status(500).json({ err: error, success: false });
+      });
+  }
+  postBSPayments(req, res, appInsights) {
+    return this.payhubService.postBSPayments(req, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        res.status(500).json({ err: error, success: false });
+      });
+  }
+  postPaymentAllocations(req, res, appInsights) {
+    return this.payhubService.postPaymentAllocations(req, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        res.status(500).json({ err: error, success: false });
+      });
+  }
+
   getPayment(req, res) {
     return this.payhubService.getPayment(req)
       .then(result => {
