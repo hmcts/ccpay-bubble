@@ -3,6 +3,8 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   environment:
     S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+    S2S_KEY: G5XTFNBUW4P6ZP4F
+    IDAM_CLIENT_SECRET: NVYEC2X7XFSRENTU
 tags:
   - idam-pr
 idam-pr:
