@@ -23,7 +23,6 @@ export class CcdSearchComponent implements OnInit {
   dcnPattern = /^[0-9]{17}$/i;
   noCaseFound = false;
 
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private paymentGroupService: PaymentGroupService,
@@ -34,8 +33,8 @@ export class CcdSearchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-      this.fromValidation();
-     }
+    this.fromValidation();
+   }
 
   fromValidation() {
       this.searchForm = this.formBuilder.group({
