@@ -128,3 +128,41 @@ describe('Payment History component fee-summary', () => {
 
 });
 
+describe('Payment History component Reports', () => {
+  let component: PaymentHistoryComponent,
+  fixture: ComponentFixture<PaymentHistoryComponent>;
+  let activatedRoute: ActivatedRoute;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [PaymentHistoryComponent],
+      providers: [{
+        provide: ActivatedRoute,
+        useValue: {
+          params: of({ccdCaseNumber: '1111-2222-3333-4444'}),
+          snapshot: {
+            queryParams: { view: 'reports', paymentGroupRef: '123' }
+          }
+        }
+      }],
+      schemas: [NO_ERRORS_SCHEMA]
+    });
+
+    fixture = TestBed.createComponent(PaymentHistoryComponent);
+    component = fixture.componentInstance;
+    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
+  });
+
+  it('Should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('make sure the ngOnInit assign variables from activatedRoute', async() => {
+    component.ngOnInit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.bulkscanapiRoot).toBe('api/bulk-scan');
+  });
+
+});
+
