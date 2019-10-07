@@ -183,17 +183,16 @@ describe('Fee search component', () => {
     component.ngOnInit();
     component.dcnNumber = '';
     component.ccdCaseNumber = '';
-
     component.onSelectionChange('DCN');
     expect(component.selectedValue).toBe('DCN');
     spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('dcn');
     component.searchForm.controls['searchInput'].setValue('11112222333344440');
     component.searchFees();
-    fixture.detectChanges();
-    expect(component.hasErrors).toBeFalsy();
-    expect(component.ccdCaseNumber).toBe(null);
+    await fixture.whenStable();
+    expect(component.selectedValue).toBe('DCN');
     expect(component.dcnNumber).toBe('11112222333344440');
+    expect(component.ccdCaseNumber).toBe('1111222233234444');
     // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/11112222333344440?selectedOption=dcn&view=case-transactions&takePayment=true');
-   });
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233234444?selectedOption=DCN&dcn=11112222333344440&view=case-transactions&takePayment=true');
+  });
 });
