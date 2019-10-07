@@ -41,5 +41,10 @@ describe('FeeDetailsComponent', () => {
     component.submitVolume();
     expect(component.submitFeeVolumeEvent.emit).toHaveBeenCalledWith(1);
   });
+  it('Should check for the Flat fee', () => {
+    spyOn(component.submitFeeVolumeEvent, 'emit');
+    component.submitVolume();
+    expect(component.submitFeeVolumeEvent.emit).toHaveBeenCalledWith(1);
+  });
 
 });
