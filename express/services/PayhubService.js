@@ -197,16 +197,16 @@ class PayhubService {
 
   getSelectedReport(req) {
     return this.createAuthToken().then(token => request.get({
-    uri: `${payhubUrl}/payment/bulkscan-data-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}&report_type=${req.query.report_type}`,
-    headers: {
-      Authorization: `Bearer ${req.authToken}`,
-      ServiceAuthorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    responseType: 'blob',
-    json: true
-  }));
-}
+      uri: `${payhubUrl}/payment/bulkscan-data-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}&report_type=${req.query.report_type}`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      responseType: 'blob',
+      json: true
+    }));
+  }
 
   validateCaseReference(req) {
     let serviceToken = '';
