@@ -318,7 +318,8 @@
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@codeceptjs/detox-helper/-/detox-helper-1.0.1.tgz#ced2e02a0deb53a8f72b8c3a0bdcce1ec67a3b42"
   dependencies:
-    detox "^12.11.0" 
+    detox "^12.11.0"
+
 "@hmcts/ccpay-web-component@~2.0.49":
   version "2.0.49"
   resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-2.0.49.tgz#79ad0d13c0693887ea8ed1b51e6e7e91e2189c8b"
@@ -730,6 +731,13 @@ allure-js-commons@^1.3.2:
 amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
+
+angular-gtag@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/angular-gtag/-/angular-gtag-1.0.3.tgz#7b1669b5ba952568a4b2e99eecb30563307d697d"
+  integrity sha512-6MgzJCdXluemaPwxS+8ZaUWZ+YlI6HvyN0c+5uOLtbOD6y2evAkSmdAKIpGd7cPXs18F+7XqDSLefFw9ivIl3w==
+  dependencies:
+    tslib "^1.7.1"
 
 ansi-align@^2.0.0:
   version "2.0.0"
