@@ -21,12 +21,11 @@ export class PaymentHistoryComponent implements OnInit {
 
   ngOnInit() {
       this.activatedRoute.params.subscribe((params) => {
-        console.log(this.activatedRoute.snapshot.queryParams['view']);
       this.apiRoot = 'api/payment-history';
       this.bulkscanapiRoot = 'api/bulk-scan';
       this.ccdCaseNumber = params['ccdCaseNumber'];
       this.view = this.activatedRoute.snapshot.queryParams['view'] !== undefined ?
-                   this.activatedRoute.snapshot.queryParams['view'] : params['view'];
+                  this.activatedRoute.snapshot.queryParams['view'] : params['view'];
       this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
       this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
       this.dcnNumber = this.activatedRoute.snapshot.queryParams['dcn'];
