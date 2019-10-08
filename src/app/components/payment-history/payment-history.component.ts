@@ -21,7 +21,6 @@ export class PaymentHistoryComponent implements OnInit {
 
   ngOnInit() {
       this.activatedRoute.params.subscribe((params) => {
-        console.log(this.activatedRoute.snapshot.queryParams['view']);
       this.apiRoot = 'api/payment-history';
       this.bulkscanapiRoot = 'api/bulk-scan';
       this.ccdCaseNumber = params['ccdCaseNumber'];
