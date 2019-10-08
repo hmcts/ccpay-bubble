@@ -25,7 +25,7 @@ export class PaymentHistoryComponent implements OnInit {
       this.apiRoot = 'api/payment-history';
       this.bulkscanapiRoot = 'api/bulk-scan';
       this.ccdCaseNumber = params['ccdCaseNumber'];
-      this.view = this.activatedRoute.snapshot.queryParams['view'] !== undefined ? this.activatedRoute.snapshot.queryParams['view'] : params['view'];
+      this.view = this.activatedRoute.snapshot.queryParams['view'];
       this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
       this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
       this.dcnNumber = this.activatedRoute.snapshot.queryParams['dcn'];
