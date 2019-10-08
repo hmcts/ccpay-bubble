@@ -19,6 +19,30 @@ describe('Payment group service', () => {
     paymentGroupService = new PaymentGroupService(http);
   });
 
+  it('Should SET and GET private payment model', () => {
+    const paymentModel = new PaymentModel();
+    paymentModel.amount = 100;
+    expect(paymentModel.amount).toBe(100);
+  });
+
+  it('Should SET and GET private payment model', () => {
+    const paymentModel = new PaymentModel();
+    paymentModel.ccd_case_number = '1111222233334444';
+    expect(paymentModel.ccd_case_number).toBe('1111222233334444');
+  });
+
+  it('Should SET and GET private payment model', () => {
+    const paymentModel = new PaymentModel();
+    paymentModel.currency = 'GBP';
+    expect(paymentModel.currency).toBe('GBP');
+  });
+
+  it('Should SET and GET private payment model', () => {
+    const paymentModel = new PaymentModel();
+    paymentModel.description = 'test';
+    expect(paymentModel.description).toBe('test');
+  });
+
   it('Should call post full remission with a remissionModel', () => {
     const paymentGroup = <IPaymentGroup>{
         payment_group_reference: '1234',
