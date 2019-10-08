@@ -732,13 +732,6 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
-angular-gtag@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/angular-gtag/-/angular-gtag-1.0.3.tgz#7b1669b5ba952568a4b2e99eecb30563307d697d"
-  integrity sha512-6MgzJCdXluemaPwxS+8ZaUWZ+YlI6HvyN0c+5uOLtbOD6y2evAkSmdAKIpGd7cPXs18F+7XqDSLefFw9ivIl3w==
-  dependencies:
-    tslib "^1.7.1"
-
 ansi-align@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ansi-align/-/ansi-align-2.0.0.tgz#c36aeccba563b89ceb556f3690f0b1d9e3547f7f"

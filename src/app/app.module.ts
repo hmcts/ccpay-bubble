@@ -2,7 +2,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import { GtagModule } from 'angular-gtag';
 
 import {AppRoutingModule} from './routes/app-routing.module';
 import {AppComponent} from './app.component';
@@ -65,8 +64,7 @@ const nonProductionProviders = [{
     HttpClientModule,
     ViewPaymentModule,
     FeeRegisterSearchModule,
-    PaymentLibModule,
-    GtagModule.forRoot({ trackingId: 'UA-146285829-2', trackPageviews: true })
+    PaymentLibModule
   ],
   providers: [
     PaybubbleHttpClient,

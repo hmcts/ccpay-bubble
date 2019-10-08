@@ -48,7 +48,6 @@
     "@hmcts/frontend": "^0.0.34-alpha",
     "@hmcts/nodejs-healthcheck": "^1.5.1",
     "@hmcts/nodejs-logging": "^3.0.0",
-    "angular-gtag": "^1.0.3",
     "applicationinsights": "^1.1.0",
     "applicationinsights-js": "^1.0.20",
     "client-request": "^2.3.0",
