@@ -6,7 +6,7 @@ import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 describe('FeeDetailsComponent', () => {
   let component: FeeDetailsComponent;
   let fixture: ComponentFixture<FeeDetailsComponent>;
-
+  const formBuilder: FormBuilder = new FormBuilder();
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [FeeDetailsComponent],
@@ -18,6 +18,10 @@ describe('FeeDetailsComponent', () => {
         ReactiveFormsModule
       ]
     }).compileComponents();
+    component.feeDetailFormGroup = formBuilder.group({
+      feeVolumeControl: 1,
+      feeAmountFormControl: 0
+    });
   }));
 
   beforeEach(() => {
