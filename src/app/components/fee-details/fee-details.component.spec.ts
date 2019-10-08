@@ -6,7 +6,7 @@ import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 describe('FeeDetailsComponent', () => {
   let component: FeeDetailsComponent;
   let fixture: ComponentFixture<FeeDetailsComponent>;
-  const formBuilder: FormBuilder = new FormBuilder();
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [FeeDetailsComponent],
@@ -18,10 +18,6 @@ describe('FeeDetailsComponent', () => {
         ReactiveFormsModule
       ]
     }).compileComponents();
-    component.feeDetailFormGroup = formBuilder.group({
-      feeVolumeControl: 1,
-      feeAmountFormControl: 0
-    });
   }));
 
   beforeEach(() => {
@@ -41,11 +37,6 @@ describe('FeeDetailsComponent', () => {
   });
 
   it('Should submit fee volume', () => {
-    spyOn(component.submitFeeVolumeEvent, 'emit');
-    component.submitVolume();
-    expect(component.submitFeeVolumeEvent.emit).toHaveBeenCalledWith(1);
-  });
-  it('Should check for the Flat fee', () => {
     spyOn(component.submitFeeVolumeEvent, 'emit');
     component.submitVolume();
     expect(component.submitFeeVolumeEvent.emit).toHaveBeenCalledWith(1);
