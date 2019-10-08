@@ -127,4 +127,3 @@ describe('Payment History component fee-summary', () => {
   });
 
 });
-
