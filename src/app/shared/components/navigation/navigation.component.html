@@ -23,12 +23,16 @@
           <a id="ccd-search-link" class="logout-btn" href="/ccd-search?takePayment=true">{{ 'Case Transaction' }}</a>
       </li>
       <li>
-          <a id="ccd-search-link" class="logout-btn" href="/payment-history">{{ 'Payment history' }}</a>
+          <a id="ccd-payment-link" class="logout-btn" href="/payment-history">{{ 'Payment history' }}</a>
+      </li>
+      <li>
+        <a class="ccd-reports-link" href="/payment-history/view?view=reports">{{ 'Reports' }}</a>
       </li>
         <li>{{ todaysDate | date:'dd MMM yyyy' }}</li>
         <li>
           <a class="logout-btn" href="/logout">{{ 'Logout' }}</a>
         </li>
+
       </ul>
     </div>
   </div>

@@ -11,7 +11,11 @@ class BulkScanController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        res.status(500).json({ err: error, success: false });
+        if (error.statusCode) {
+          res.status(error.statusCode).json({ err: error.message, success: false });
+        } else {
+          res.status(500).json({ err: error, success: false });
+        }
       });
   }
 
@@ -21,11 +25,28 @@ class BulkScanController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        res.status(500).json({ err: error, success: false });
+        if (error.statusCode) {
+          res.status(error.statusCode).json({ err: error.message, success: false });
+        } else {
+          res.status(500).json({ err: error, success: false });
+        }
       });
   }
   patchBSChangeStatus(req, res, appInsights) {
     return this.bulkScanService.patchBSChangeStatus(req, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json({ err: error.message, success: false });
+        } else {
+          res.status(500).json({ err: error, success: false });
+        }
+      });
+  }
+  getSelectedReport(req, res) {
+    return this.bulkScanService.getSelectedReport(req)
       .then(result => {
         res.status(200).json({ data: result, success: true });
       })
