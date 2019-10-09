@@ -4,8 +4,7 @@ nodejs:
   environment:
     S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
     S2S_KEY: ${paybubble-s2s-secret}
-    #IDAM_CLIENT_SECRET: ${paybubble-idam-client-secret}
-    IDAM_CLIENT_SECRET: [paybubble-idam-client-secret]
+    IDAM_CLIENT_SECRET: ${paybubble-idam-client-secret}
 tags:
   - idam-pr
 idam-pr:

@@ -42,7 +42,7 @@ class BulkScanService {
     }));
   }
   getSelectedReport(req) {
-      return this.createAuthToken().then(token => request.get({
+    return this.createAuthToken().then(token => request.get({
       uri: `${bulkScanUrl}/report/data?date_from=${req.query.date_from}&date_to=${req.query.date_to}&report_type=${req.query.report_type}`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
