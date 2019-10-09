@@ -97,7 +97,6 @@ module.exports = appInsights => express.Router()
   .get('/payment-history/report/data?*', (req, res) => {
     controllers.payhubController.getSelectedReport(req, res);
   })
-  
   // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {
     controllers.payhubController.ccpayWebComponentIntegration(req, res);

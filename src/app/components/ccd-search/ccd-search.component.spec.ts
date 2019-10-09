@@ -59,7 +59,7 @@ describe('Fee search component', () => {
     mockResponse = {
         data: {
           ccd_reference: '1111222233334444',
-          exception_record_reference: '1111222233334444',
+          exception_record_reference: '1111222233234444',
           payments: [
             {
               amount: 100,
@@ -147,6 +147,7 @@ describe('Fee search component', () => {
     component.ngOnInit();
     component.dcnNumber = '';
     component.ccdCaseNumber = '';
+    component.takePayment = true;
 
     component.onSelectionChange('DCN');
     expect(component.selectedValue).toBe('DCN');
@@ -157,5 +158,41 @@ describe('Fee search component', () => {
     expect(component.selectedValue).toBe('DCN');
     expect(component.dcnNumber).toBe('11112222333344440');
     expect(component.ccdCaseNumber).toBe('1111222233334444');
+  });
+
+  it('Should get dcn details', async () => {
+    mockResponse['data'].ccd_reference = null;
+    spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse));
+    component.ngOnInit();
+    component.dcnNumber = '';
+    component.ccdCaseNumber = '';
+
+    component.onSelectionChange('DCN');
+    expect(component.selectedValue).toBe('DCN');
+    spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('dcn');
+    component.searchForm.controls['searchInput'].setValue('11112222333344440');
+    component.searchFees();
+    await fixture.whenStable();
+    expect(component.selectedValue).toBe('DCN');
+    expect(component.dcnNumber).toBe('11112222333344440');
+    expect(component.ccdCaseNumber).toBe('1111222233234444');
+  });
+  it('Should get go to correct navigation', async () => {
+    mockResponse['data'].ccd_reference = null;
+    spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse));
+    component.ngOnInit();
+    component.dcnNumber = '';
+    component.ccdCaseNumber = '';
+    component.onSelectionChange('DCN');
+    expect(component.selectedValue).toBe('DCN');
+    spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('dcn');
+    component.searchForm.controls['searchInput'].setValue('11112222333344440');
+    component.searchFees();
+    await fixture.whenStable();
+    expect(component.selectedValue).toBe('DCN');
+    expect(component.dcnNumber).toBe('11112222333344440');
+    expect(component.ccdCaseNumber).toBe('1111222233234444');
+    // tslint:disable-next-line:max-line-length
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233234444?selectedOption=DCN&dcn=11112222333344440&view=case-transactions&takePayment=true');
   });
 });

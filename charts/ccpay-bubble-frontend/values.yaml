@@ -8,16 +8,16 @@ nodejs:
 
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
-    #PAYHUB_API_URL: https://payment-api-aat.service.core-compute-aat.internal/
 
+    #PAYHUB_API_URL: https://payment-api-aat.service.core-compute-aat.internal/
     #CCPAY_BULKSCAN_API_URL: https://ccpay-bulkscanning-api-aat.service.core-compute-aat.internal/
-    PAYHUB_API_URL: https://payment-api-aat.service.core-compute-aat.internal/
-    CCPAY_BULKSCAN_API_URL: https://ccpay-bulkscanning-api-aat.service.core-compute-aat.internal/
+
+    PAYHUB_API_URL: https://payment-api-demo.service.core-compute-demo.internal/
+    CCPAY_BULKSCAN_API_URL: https://ccpay-bulkscanning-api-demo.service.core-compute-demo.internal/
 
     S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
     IDAM_API_URL: https://idam-api.aat.platform.hmcts.net
     IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.aat.platform.hmcts.net/login
-
     FEE_REGISTRATION_URL: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register/fees
     FEE_JURISDICTION_URL: http://fees-register-api-aat.service.core-compute-aat.internal/jurisdictions
 
