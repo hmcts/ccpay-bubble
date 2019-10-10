@@ -18,6 +18,7 @@ describe('Fee search component', () => {
     testFixedFlatFee: any,
     testFixedVolumeFee: any,
     testBandedFlatFee: any,
+    testRateableFlatFee: any,
     mockResponse: any;
 
   beforeEach(() => {
@@ -60,6 +61,24 @@ describe('Fee search component', () => {
     testBandedFlatFee = {
       code: 'test-code',
       fee_type: 'banded',
+      'current_version': {
+        version: 1,
+        calculatedAmount: 1234,
+        memo_line: 'test-memoline',
+        natural_account_code: '1234-1234-1234-1234',
+        flat_amount: {
+          amount: 1234
+        },
+        description: 'test-description'
+      },
+      ccdCaseNumber: '1111-2222-3333-4444',
+      jurisdiction1: {name: 'test-jurisdiction1'},
+      jurisdiction2: {name: 'test-jurisdiction2'},
+    };
+
+    testRateableFlatFee = {
+      code: 'test-code',
+      fee_type: 'rateable',
       'current_version': {
         version: 1,
         calculatedAmount: 1234,
@@ -293,5 +312,31 @@ describe('Fee search component', () => {
     tick();
     expect(component.navigateToServiceFailure).toHaveBeenCalled();
   }));
+
+  describe('Submitting fee amount for rateable fee', () => {
+    it('should call backend with rateable fee and flat amount', async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      const emitted_value = 2;
+      component.selectFee(testBandedFlatFee);
+      component.selectPreselectedFeeWithVolume(emitted_value);
+      await fixture.whenStable();
+      expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
+        fees: [{
+          code: testRateableFlatFee.code,
+          version: testRateableFlatFee['current_version'].version.toString(),
+          'calculated_amount': '2468',
+          'memo_line': testRateableFlatFee['current_version'].memo_line,
+          'natural_account_code': testRateableFlatFee['current_version'].natural_account_code,
+          'ccd_case_number': component.ccdNo,
+          jurisdiction1: testRateableFlatFee.jurisdiction1.name,
+          jurisdiction2: testRateableFlatFee.jurisdiction2.name,
+          description: testRateableFlatFee.current_version.description,
+          volume: 2,
+          fee_amount: testRateableFlatFee.current_version.flat_amount.amount
+        }]
+      });
+    });
+  });
 
 });
