@@ -13,7 +13,7 @@ ccpaybubble:
     microservice: ccpay_bubble
 s2s:
     key: G5XTFNBUW4P6ZP4F
-    url: 'https://rpe-service-auth-provider-ithc.service.core-compute-ithc.internal'
+    url: 'http://rpe-service-auth-provider-ithc.service.core-compute-ithc.internal'
 payhub:
   url: http://payment-api-ithc.service.core-compute-ithc.internal
 bulkscan:
