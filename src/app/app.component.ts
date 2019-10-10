@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-// import { filter } from 'rxjs/operators';
-// import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { Router, NavigationEnd } from '@angular/router';
+
+declare let gtag: Function;
 
 @Component({
   selector: 'app-root',
@@ -9,13 +11,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ccpay-bubble';
-  // gtag;
-  // constructor(router: Router) {
-  //   const navEndEvent$ = router.events.pipe(
-  //     filter(e => e instanceof NavigationEnd)
-  //   );
-  //   navEndEvent$.subscribe((e: NavigationEnd) => {
-  //     this.gtag('config', 'UA-146285829-2', {'page_path': e.urlAfterRedirects});
-  //   });
-  // }
+  constructor(router: Router) {
+    const navEndEvent$ = router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    );
+    navEndEvent$.subscribe((e: NavigationEnd) => {
+      gtag('config', 'UA-146285829-2', {'page_path': e.urlAfterRedirects});
+    });
+  }
 }
