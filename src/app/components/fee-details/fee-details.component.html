@@ -23,7 +23,9 @@
     <label *ngIf="fee.current_version['volume_amount']" class="heading-small" for="volumeAmount">
       How many copies do you want?
     </label>
-    <label *ngIf="fee.current_version['flat_amount']" class="heading-small" for="volumeAmount">
+
+    <!--Following is the section for fee_type='flat' and amont_type='banded'-->
+    <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="heading-small" for="volumeAmount">
       <span class="form-hint">If the document has more than 10 pages, you must also choose a fee for the additional pages.</span>
       <p>
       <p>
@@ -47,14 +49,22 @@
       <p>
       How many copies of the document are required?
     </label>
-    <input  formControlName="feeVolumeControl" class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
+    <input formControlName="feeOrVolumeControl" *ngIf="fee.fee_type !== 'rateable'" class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
     <p>
     <p>
-    <label *ngIf="fee.current_version['flat_amount']" class="heading-small" for="calculatedAmount">
+    <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="heading-small" for="calculatedAmount">
       How much does the citizen need to pay for the selected fee?
     </label>
-    <input formControlName="feeAmountFormControl" *ngIf="fee.current_version['flat_amount']" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedAmount" type="number" min="1"/>
+    <input formControlName="feeAmountFormControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedAmount" type="number" min="1"/>
+    <!--Above is the section for fee_type='flat' and amont_type='banded'-->
 
+    <!--Following is the section for fee_type='flat' and amont_type='rateable'-->
+    <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'" class="heading-small" for="calculateRateableFee">
+      Enter the calculated amount of fee
+    </label>
+    <div  *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'"  class="currencysymbol">£</div>
+    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculateRateableFee" type="number" min="1"/>
+    <!--Above is the section for fee_type='flat' and amont_type='rateable'-->
   </div>
 
   <div class="form-group">

@@ -30,7 +30,7 @@ describe('Fee search component', () => {
         memo_line: 'test-memoline',
         natural_account_code: '1234-1234-1234-1234',
         flat_amount: {
-          amount: 1234
+          amount: '1234'
         },
         description: 'test-description'
       },
@@ -147,7 +147,8 @@ describe('Fee search component', () => {
         jurisdiction1: testFixedFlatFee.jurisdiction1.name,
         jurisdiction2: testFixedFlatFee.jurisdiction2.name,
         description: testFixedFlatFee.current_version.description,
-        volume: 1
+        volume: 1,
+        fee_amount: testFixedFlatFee.current_version.flat_amount.amount
       }]
     });
   });
@@ -237,7 +238,7 @@ describe('Fee search component', () => {
           jurisdiction2: testFixedVolumeFee.jurisdiction2.name,
           description: testFixedVolumeFee.current_version.description,
           volume: volume,
-          volume_amount: testFixedVolumeFee.current_version.volume_amount.amount
+          fee_amount: testFixedVolumeFee.current_version.volume_amount.amount
         }]
       });
     });
@@ -253,8 +254,8 @@ describe('Fee search component', () => {
       await fixture.whenStable();
       expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
         fees: [{
-          code: testFixedVolumeFee.code,
-          version: testFixedVolumeFee['current_version'].version.toString(),
+          code: testBandedFlatFee.code,
+          version: testBandedFlatFee['current_version'].version.toString(),
           'calculated_amount': `${testBandedFlatFee['current_version'].flat_amount.amount * volume}`.toString(),
           'memo_line': testBandedFlatFee['current_version'].memo_line,
           'natural_account_code': testBandedFlatFee['current_version'].natural_account_code,
@@ -263,7 +264,7 @@ describe('Fee search component', () => {
           jurisdiction2: testBandedFlatFee.jurisdiction2.name,
           description: testBandedFlatFee.current_version.description,
           volume: volume,
-          volume_amount: testBandedFlatFee.current_version.flat_amount.amount
+          fee_amount: testBandedFlatFee.current_version.flat_amount.amount
         }]
       });
     });

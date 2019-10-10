@@ -34,7 +34,9 @@ export class FeeSearchComponent implements OnInit {
     const volAmt = fee.current_version['volume_amount'];
     const flatAmt = fee.current_version['flat_amount'];
     let paymentGroup;
-    if ((feeType === 'fixed' && volAmt) || (feeType === 'banded' && flatAmt)) {
+    if ((feeType === 'fixed' && volAmt)
+    || (feeType === 'banded' && flatAmt)
+    || (feeType === 'rateable' && flatAmt)) {
       this.preselectedFee = fee;
       this.showFeeDetails = true;
     } else {
@@ -49,7 +51,8 @@ export class FeeSearchComponent implements OnInit {
           jurisdiction1: fee.jurisdiction1['name'],
           jurisdiction2: fee.jurisdiction2['name'],
           description: fee.current_version.description,
-          volume: 1
+          volume: fee.fee_type === 'ranged' ? null : 1,
+          fee_amount: fee['current_version'].flat_amount.amount.toString()
         }]
       };
       this.sendPaymentGroup(paymentGroup);
@@ -61,7 +64,7 @@ export class FeeSearchComponent implements OnInit {
     this.showFeeDetails = false;
   }
 
-  selectPreselectedFeeWithVolume(volume: number) {
+  selectPreselectedFeeWithVolume(emitted_value: number) {
     const fee = this.preselectedFee;
     const volAmt = fee['current_version']['volume_amount'];
     const flatAmt = fee['current_version']['flat_amount'];
@@ -70,18 +73,17 @@ export class FeeSearchComponent implements OnInit {
       fees: [{
         code: fee.code,
         version: fee['current_version'].version.toString(),
-        'calculated_amount': (fee_amount * volume).toString(),
+        'calculated_amount': fee.fee_type === 'rateable' ? emitted_value : (fee_amount * emitted_value).toString(),
         'memo_line': fee['current_version'].memo_line,
         'natural_account_code': fee['current_version'].natural_account_code,
         'ccd_case_number': this.ccdNo,
         jurisdiction1: fee.jurisdiction1['name'],
         jurisdiction2: fee.jurisdiction2['name'],
         description: fee.current_version.description,
-        volume: volume,
-        volume_amount: fee_amount
+        volume: fee.fee_type === 'rateable' ? null : emitted_value,
+        fee_amount: fee_amount
       }]
     };
-
     this.sendPaymentGroup(paymentGroup);
   }
 

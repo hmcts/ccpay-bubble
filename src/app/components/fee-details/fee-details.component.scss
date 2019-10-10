@@ -2,4 +2,17 @@
     width: 100px; 
     display: block;
     margin-top: 10px;
+    margin-left: 33px;
+    margin-bottom: 16px;
 }
+
+.currencysymbol {
+    position: absolute;
+    font-weight: bold;
+    padding: 5px 10px;
+    height: 38px;
+    box-sizing: border-box;
+    background-color: #dee0e2;
+    border: 2px solid #0b0c0c;
+    margin-left: 1px;
+ }
