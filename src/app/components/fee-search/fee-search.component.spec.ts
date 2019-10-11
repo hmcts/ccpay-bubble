@@ -81,11 +81,11 @@ describe('Fee search component', () => {
       fee_type: 'rateable',
       'current_version': {
         version: 1,
-        calculatedAmount: 1234,
+        calculatedAmount: 0,
         memo_line: 'test-memoline',
         natural_account_code: '1234-1234-1234-1234',
         flat_amount: {
-          amount: 1234
+          amount: 12340
         },
         description: 'test-description'
       },
@@ -318,21 +318,21 @@ describe('Fee search component', () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
       spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
       const emitted_value = 2;
-      component.selectFee(testBandedFlatFee);
+      component.selectFee(testRateableFlatFee);
       component.selectPreselectedFeeWithVolume(emitted_value);
       await fixture.whenStable();
       expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
         fees: [{
           code: testRateableFlatFee.code,
           version: testRateableFlatFee['current_version'].version.toString(),
-          'calculated_amount': '2468',
+          'calculated_amount': emitted_value,
           'memo_line': testRateableFlatFee['current_version'].memo_line,
           'natural_account_code': testRateableFlatFee['current_version'].natural_account_code,
           'ccd_case_number': component.ccdNo,
           jurisdiction1: testRateableFlatFee.jurisdiction1.name,
           jurisdiction2: testRateableFlatFee.jurisdiction2.name,
           description: testRateableFlatFee.current_version.description,
-          volume: 2,
+          volume: null,
           fee_amount: testRateableFlatFee.current_version.flat_amount.amount
         }]
       });
