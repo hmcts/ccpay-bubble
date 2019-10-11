@@ -29,7 +29,9 @@
             "styles": [
               "./src/assets/stylesheets/main.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/gtag.js"
+            ]
           },
           "configurations": {
             "production": {
