@@ -29,7 +29,11 @@ function errorHandler(err, req, res, next) {
   if (err instanceof ApiCallError) {
     error = err;
   } else {
-    error = errorFactory.createServerError(err);
+    if (err.code === 'EBADCSRFTOKEN') {
+      error = errorFactory.createForbiddenError(err);
+    } else {
+      error = errorFactory.createServerError(err);
+    }
   }
   const msg = JSON.stringify({ error: error.toString(), cause: error.remoteError ? error.remoteError.toString() : '' });
   Logger.getLogger(`PAYBUBBLE: ${error.fileName || 'server.js'} -> error`).info(msg);
