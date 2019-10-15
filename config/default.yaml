@@ -13,11 +13,11 @@ ccpaybubble:
     microservice: ccpay_bubble
 s2s:
     key: [paybubble-s2s-secret]
-    url: 'https://rpe-service-auth-provider-aat.service.core-compute-aat.internal'
+    url: 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal'
 payhub:
   url: http://payment-api-demo.service.core-compute-demo.internal
 bulkscan:
-  url: https://ccpay-bulkscanning-api-demo.service.core-compute-demo.internal
+  url: http://ccpay-bulkscanning-api-demo.service.core-compute-demo.internal
 appInsights:
     instrumentationKey: some-key
     roleName: paybubble
