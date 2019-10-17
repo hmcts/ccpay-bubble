@@ -76,5 +76,9 @@ module "ccpay-bubble" {
     REFORM_ENVIRONMENT = "${var.env}"
 
     CCD_URL = "${var.ccd_api_url}"
+
+    //added attribute for bulkscan
+    BULKSCAN_URL = "http://ccpay-bulkscanning-api-${var.env}.service.core-compute-${var.env}.internal/"
+
   }
 }
