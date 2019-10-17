@@ -19,6 +19,7 @@ describe('Fee search component', () => {
     testFixedVolumeFee: any,
     testBandedFlatFee: any,
     testRateableFlatFee: any,
+    testRangedPercentFee: any,
     mockResponse: any;
 
   beforeEach(() => {
@@ -86,6 +87,24 @@ describe('Fee search component', () => {
         natural_account_code: '1234-1234-1234-1234',
         flat_amount: {
           amount: 12340
+        },
+        description: 'test-description'
+      },
+      ccdCaseNumber: '1111-2222-3333-4444',
+      jurisdiction1: {name: 'test-jurisdiction1'},
+      jurisdiction2: {name: 'test-jurisdiction2'},
+    };
+
+    testRangedPercentFee = {
+      code: 'test-code',
+      fee_type: 'ranged',
+      'current_version': {
+        version: 1,
+        calculatedAmount: 0,
+        memo_line: 'test-memoline',
+        natural_account_code: '1234-1234-1234-1234',
+        percentage_amount: {
+          percentage: 0.05
         },
         description: 'test-description'
       },
@@ -334,6 +353,32 @@ describe('Fee search component', () => {
           description: testRateableFlatFee.current_version.description,
           volume: null,
           fee_amount: testRateableFlatFee.current_version.flat_amount.amount
+        }]
+      });
+    });
+  });
+
+  describe('Submitting fee amount for ranged fee and percentage amont', () => {
+    it('should call backend with ranged fee and percentage amount', async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      const emitted_value = 2;
+      component.selectFee(testRangedPercentFee);
+      component.selectPreselectedFeeWithVolume(emitted_value);
+      await fixture.whenStable();
+      expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
+        fees: [{
+          code: testRangedPercentFee.code,
+          version: testRangedPercentFee['current_version'].version.toString(),
+          'calculated_amount': emitted_value,
+          'memo_line': testRangedPercentFee['current_version'].memo_line,
+          'natural_account_code': testRangedPercentFee['current_version'].natural_account_code,
+          'ccd_case_number': component.ccdNo,
+          jurisdiction1: testRangedPercentFee.jurisdiction1.name,
+          jurisdiction2: testRangedPercentFee.jurisdiction2.name,
+          description: testRangedPercentFee.current_version.description,
+          volume: null,
+          fee_amount: testRangedPercentFee.current_version.percentage_amount.percentage
         }]
       });
     });
