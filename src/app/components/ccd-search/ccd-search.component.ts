@@ -19,7 +19,7 @@ export class CcdSearchComponent implements OnInit {
   dcnNumber: string;
   takePayment: boolean;
   selectedValue = 'CCDorException';
-  ccdPattern =  /^[0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4}$/i;
+  ccdPattern =  /^([0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4})?([0-9]{16})?$/i;
   dcnPattern = /^[0-9]{17}$/i;
   noCaseFound = false;
 
