@@ -57,9 +57,9 @@ module "ccpay-bubble" {
     IDAM_API_URL = "${var.idam_api_url}"
     IDAM_AUTHENTICATION_WEB_URL = "${var.authentication_web_url}/login"
     IDAM_CLIENT_SECRET = "${data.azurerm_key_vault_secret.paybubble_idam_client_secret.value}"
-    CCPAY_BUBBLE_URL = "https://ccpay-bubble-frontend-${var.env}.service.core-compute-${var.env}.internal/"
+    CCPAY_BUBBLE_URL = "http://ccpay-bubble-frontend-${var.env}.service.core-compute-${var.env}.internal/"
     CCPAY_BUBBLE_MICROSERVICE = "ccpay_bubble"
-    PAYHUB_API_URL = "https://payment-api-${var.env}.service.core-compute-${var.env}.internal/"
+    PAYHUB_API_URL = "http://payment-api-${var.env}.service.core-compute-${var.env}.internal/"
     FEE_REGISTRATION_URL = "http://fees-register-api-${local.local_env}.service.${local.local_ase}.internal/fees-register/fees"
     FEE_JURISDICTION_URL = "http://fees-register-api-${local.local_env}.service.${local.local_ase}.internal/jurisdictions"
 
@@ -76,5 +76,9 @@ module "ccpay-bubble" {
     REFORM_ENVIRONMENT = "${var.env}"
 
     CCD_URL = "${var.ccd_api_url}"
+
+    //added attribute for bulkscan
+    BULKSCAN_URL = "http://ccpay-bulkscanning-api-${var.env}.service.core-compute-${var.env}.internal/"
+
   }
 }

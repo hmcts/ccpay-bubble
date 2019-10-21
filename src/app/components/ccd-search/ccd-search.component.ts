@@ -19,7 +19,7 @@ export class CcdSearchComponent implements OnInit {
   dcnNumber: string;
   takePayment: boolean;
   selectedValue = 'CCDorException';
-  ccdPattern =  /^[0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4}$/i;
+  ccdPattern =  /^([0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4})?([0-9]{16})?$/i;
   dcnPattern = /^[0-9]{17}$/i;
   noCaseFound = false;
 
@@ -58,11 +58,14 @@ export class CcdSearchComponent implements OnInit {
       const searchValue = this.searchForm.get('searchInput').value;
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
         this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((res) => {
-          this.dcnNumber = searchValue;
-          this.ccdCaseNumber = res['data'].ccd_reference ? res['data'].ccd_reference : res['data'].exception_record_reference;
-          // tslint:disable-next-line:max-line-length
-          const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
-          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
+          if (res['data'].ccd_reference || res['data'].exception_record_reference) {
+            this.dcnNumber = searchValue;
+            this.ccdCaseNumber = res['data'].ccd_reference ? res['data'].ccd_reference : res['data'].exception_record_reference;
+            // tslint:disable-next-line:max-line-length
+            const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
+            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
+          }
+          this.noCaseFound = true;
         }).catch(() => {
           this.noCaseFound = true;
         });
