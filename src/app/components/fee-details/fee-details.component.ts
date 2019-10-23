@@ -29,6 +29,7 @@ export class FeeDetailsComponent implements OnInit {
 
   feeVolumeControl: FormControl;
   feeAmountFormControl: FormControl;
+  calculatedAmountFormControl: FormControl;
 
   constructor(
     private formBuilder: FormBuilder
@@ -37,7 +38,7 @@ export class FeeDetailsComponent implements OnInit {
 
   ngOnInit() {
      this.feeDetailFormGroup = this.formBuilder.group({
-          feeVolumeControl : new FormControl({value: 1, disabled: false}),
+          feeOrVolumeControl : new FormControl({value: 1, disabled: false}),
           feeAmountFormControl : new FormControl({value: '0', disabled: false})
      });
   }
@@ -47,9 +48,9 @@ export class FeeDetailsComponent implements OnInit {
   }
 
   submitVolume() {
-    if (this.fee.current_version.flat_amount !== undefined) {
+    if (this.fee.current_version.flat_amount !== undefined && this.fee.fee_type === 'banded') {
       this.fee.current_version.flat_amount.amount = this.feeDetailFormGroup.get('feeAmountFormControl').value;
     }
-    this.submitFeeVolumeEvent.emit(this.feeDetailFormGroup.get('feeVolumeControl').value);
+    this.submitFeeVolumeEvent.emit(this.feeDetailFormGroup.get('feeOrVolumeControl').value);
   }
 }
