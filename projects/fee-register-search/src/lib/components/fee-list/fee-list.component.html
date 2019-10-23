@@ -18,8 +18,10 @@
         <span class="fee-current-version-amount" *ngIf="fee.current_version?.volume_amount?.amount">
         £{{ fee.current_version?.volume_amount?.amount | number:'.2' }}
         </span>
-        <span *ngIf="!fee.current_version?.flat_amount?.amount && !fee.current_version?.volume_amount?.amount ">-</span>
-
+        <span class="fee-current-version-amount" *ngIf="fee.current_version?.percentage_amount?.percentage">
+        £{{ fee.current_version?.percentage_amount?.percentage | number:'.2' }}
+        </span>
+        <span *ngIf="!fee.current_version?.flat_amount?.amount && !fee.current_version?.volume_amount?.amount && !fee.current_version?.percentage_amount?.percentage">-</span>
       </td>
       <td><a (click)="selectFee(fee)">Select</a></td>
     </tr>
