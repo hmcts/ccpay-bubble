@@ -28,9 +28,12 @@ function errorHandler(err, req, res, next) {
   let error = null;
   if (err instanceof ApiCallError) {
     error = err;
+  } else if (err.code === 'EBADCSRFTOKEN') {
+    error = errorFactory.createForbiddenError(err);
   } else {
     error = errorFactory.createServerError(err);
   }
+  
   const msg = JSON.stringify({ error: error.toString(), cause: error.remoteError ? error.remoteError.toString() : '' });
   Logger.getLogger(`PAYBUBBLE: ${error.fileName || 'server.js'} -> error`).info(msg);
   Logger.getLogger(`PAYBUBBLE: ${error.fileName || 'server.js'} -> error`).info(JSON.stringify(err));
@@ -87,7 +90,7 @@ module.exports = (security, appInsights) => {
   }
 
   // make all routes available via this imported module
-  app.use('/api', security.protectWithAnyOf(roles.allRoles, ['/**']), route(appInsights));
+  app.use('/api', security.protectWithAnyOf(roles.allRoles, ['/**']), csrfProtection, route(appInsights));
 
   app.use(security.protectWithAnyOf(roles.allRoles, ['/assets/'], express.static('dist')));
 
