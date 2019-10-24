@@ -320,10 +320,10 @@
   dependencies:
     detox "^12.11.0"
 
-"@hmcts/ccpay-web-component@~3.0.0-alpha52":
-  version "3.0.0-alpha52"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-3.0.0-alpha52.tgz#afc6fd152a2990df97144b691dd6ea4bfe3a2d29"
-  integrity sha512-YqloySPJkjxmOpDs/ljdgQxGKOR3n4YoQfeYED7I6bRrkxZwp+A4lqSILX6cYcFYjy2PkTyJdB3arZiHpUSJXA==
+"@hmcts/ccpay-web-component@~3.0.0-alpha53":
+  version "3.0.0-alpha53"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-3.0.0-alpha53.tgz#490a4d413a51c543513aff01102b2b2366d05a7f"
+  integrity sha512-5AX7oNzcLUZfN63Qs46VFtlBwTZNP8IKt+P3SaRVXI+Tu+ahi/ayogb2fcE31aiXlOSSB8i7Sb0OIean8h3OMQ==
   dependencies:
     tslib "^1.9.0"
 
@@ -9375,10 +9375,6 @@ typedarray@^0.0.6:
 typescript@3.2.4:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.2.4.tgz#c585cb952912263d915b462726ce244ba510ef3d"
-
-typescript@~3.1.6:
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.1.6.tgz#b6543a83cfc8c2befb3f4c8fba6896f5b0c9be68"
 
 typical@^2.6.0, typical@^2.6.1:
   version "2.6.1"
