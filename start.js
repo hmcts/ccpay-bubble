@@ -17,8 +17,8 @@ const app = require('./server')(security(appInsights), appInsights),
   https = require('https'),
   http = require('http');
 
-// Enable cert errors
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
+  // Disable cert errors
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 // SSL handled at IIS level so Node.js app (iisnode) should be http only.
 if (process.env.IGNORE_CERTS) {
