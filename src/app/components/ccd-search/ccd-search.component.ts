@@ -22,6 +22,7 @@ export class CcdSearchComponent implements OnInit {
   ccdPattern =  /^([0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4})?([0-9]{16})?$/i;
   dcnPattern = /^[0-9]{17}$/i;
   noCaseFound = false;
+  noCaseFoundInCCD = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -46,10 +47,10 @@ export class CcdSearchComponent implements OnInit {
   onSelectionChange(value: string) {
       this.selectedValue = value;
       this.hasErrors = false;
+      this.noCaseFoundInCCD = false;
       this.searchForm.get('CCDorException').setValue(value);
       this.fromValidation();
     }
-
 
   searchFees() {
       if (this.searchForm.controls['searchInput'].valid) {
@@ -73,9 +74,14 @@ export class CcdSearchComponent implements OnInit {
       } else {
         this.ccdCaseNumber = this.removeHyphenFromString(searchValue);
         this.dcnNumber = null;
-        // tslint:disable-next-line:max-line-length
-        const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
-        this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
+        this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
+          this.noCaseFoundInCCD = false;
+          // tslint:disable-next-line:max-line-length
+          const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
+          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
+        }, err => {
+          this.noCaseFoundInCCD = true;
+        });
       }
 
     } else {

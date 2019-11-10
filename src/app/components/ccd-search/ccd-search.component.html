@@ -75,6 +75,7 @@
       </div>
   </fieldset>
   <button class="button" type="submit" (click)="searchFees()">Search</button>
+  <div class="nocase-message" *ngIf="noCaseFoundInCCD">No matching cases found</div>
 </div>
 
 </form>
