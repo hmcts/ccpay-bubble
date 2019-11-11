@@ -32,8 +32,8 @@ export class CcdSearchComponent implements OnInit {
   ngOnInit() {
     this.paymentGroupService.getBSFeature().then((status) => {
       this.isBulkscanningEnable = status;
+      this.fromValidation();
     });
-    this.fromValidation();
    }
 
   fromValidation() {
