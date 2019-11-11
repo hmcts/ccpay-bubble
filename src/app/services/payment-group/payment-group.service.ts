@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {PaybubbleHttpClient} from '../httpclient/paybubble.http.client';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
-import {IBSPayments} from '@hmcts/ccpay-web-component/lib/interfaces/IBSPayments';
+
+const BULK_SCANNING_ENABLED = 'bulk-scan-enabling-fe';
 
 @Injectable()
 export class PaymentGroupService {
@@ -27,6 +28,12 @@ export class PaymentGroupService {
     return this.http.get(`api/bulk-scan/cases?document_control_number=${dcn}`).toPromise().then(bsPaymentGroupJson => {
       const bsPaymentGroup = JSON.parse(bsPaymentGroupJson);
       return <any>bsPaymentGroup;
+    });
+  }
+  getBSFeature(): Promise<any> {
+    return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
+      const regFeature = JSON.parse(features).find(feature => feature.uid === BULK_SCANNING_ENABLED);
+      return regFeature ? regFeature.enable : false;
     });
   }
 }

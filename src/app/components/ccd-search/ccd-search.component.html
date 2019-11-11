@@ -42,7 +42,7 @@
              <span *ngIf="hasErrors && selectedValue === 'CCDorException'" class="error-message">Enter a CCD case reference number in the correct format</span>
       </div>
 
-      <div class="govuk-radios__item">
+      <div class="govuk-radios__item" *ngIf="isBulkscanningEnable">
         <input class="govuk-radios__input" 
           id="DCN"
           aria-label ="Enter DCN"
@@ -58,7 +58,7 @@
             <span class="form-hint">This is a 17-digit number</span>
         </label>
       </div>
-       <div  [ngClass]="{'govuk-radios__conditional':  selectedValue === 'DCN' && hasErrors === false,
+       <div *ngIf="isBulkscanningEnable" [ngClass]="{'govuk-radios__conditional':  selectedValue === 'DCN' && hasErrors === false,
                                         'govuk-form-group form-group-error' : hasErrors === true,
                                         'govuk-radios__conditional--hidden': selectedValue === 'CCDorException'}">
           <input #searchInput 
