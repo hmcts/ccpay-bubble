@@ -94,36 +94,36 @@ describe('Fee search component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Should initialise the search input to an empty string', () => {
+  it('Should initialise the search input to an empty string', async () => {
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
-    component.ngOnInit();
+    await component.ngOnInit();
     fixture.detectChanges();
     expect(component.searchForm.get('searchInput').value).toBe('');
   });
 
-  it('Search form should be invalid if an empty string has been entered', () => {
+  it('Search form should be invalid if an empty string has been entered', async () => {
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
-    component.ngOnInit();
-    component.searchForm.controls['searchInput'].setValue('');
+    await component.ngOnInit();
+    await component.searchForm.controls['searchInput'].setValue('');
     component.searchFees();
     fixture.detectChanges();
     expect(component.hasErrors).toBeTruthy();
   });
 
-  it('Search form should be invalid if a wrong format string has been entered', () => {
+  it('Search form should be invalid if a wrong format string has been entered', async () => {
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
-    component.ngOnInit();
-    component.searchForm.controls['searchInput'].setValue('test');
+    await component.ngOnInit();
+    await component.searchForm.controls['searchInput'].setValue('test');
     component.searchFees();
     fixture.detectChanges();
     expect(component.hasErrors).toBeTruthy();
   });
 
-  it('Search form should be valid if a correct format string has been entered', () => {
+  it('Search form should be valid if a correct format string has been entered', async () => {
     spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
-    component.ngOnInit();
-    component.searchForm.controls['searchInput'].setValue('1111-2222-3333-4444');
+    await component.ngOnInit();
+    await component.searchForm.controls['searchInput'].setValue('1111-2222-3333-4444');
     component.searchFees();
     fixture.detectChanges();
     expect(component.hasErrors).toBeFalsy();
