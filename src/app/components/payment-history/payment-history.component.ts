@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import { PlatformLocation } from '@angular/common';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-payment-history',
@@ -16,6 +15,7 @@ export class PaymentHistoryComponent implements OnInit {
   paymentGroupRef: string;
   dcnNumber: string;
   selectedOption: string;
+  isBulkscanningEnable: boolean;
 
   constructor(private activatedRoute: ActivatedRoute) { }
 
@@ -24,6 +24,7 @@ export class PaymentHistoryComponent implements OnInit {
       this.apiRoot = 'api/payment-history';
       this.bulkscanapiRoot = 'api/bulk-scan';
       this.ccdCaseNumber = params['ccdCaseNumber'];
+      this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
       this.view = this.activatedRoute.snapshot.queryParams['view'];
       this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
       this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];

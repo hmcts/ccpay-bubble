@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { getTypeNameForDebugging } from '@angular/core/src/change_detection/differs/iterable_differs';
-import { Observable } from 'rxjs';
-import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
+import { Router } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 
@@ -23,21 +20,26 @@ export class CcdSearchComponent implements OnInit {
   dcnPattern = /^[0-9]{17}$/i;
   noCaseFound = false;
   noCaseFoundInCCD = false;
+  isBulkscanningEnable = true;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private paymentGroupService: PaymentGroupService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private http: PaybubbleHttpClient,
     private caseRefService: CaseRefService
   ) {}
 
   ngOnInit() {
+    this.paymentGroupService.getBSFeature().then((status) => {
+      this.isBulkscanningEnable = status;
+    });
     this.fromValidation();
    }
 
   fromValidation() {
+    if (!this.isBulkscanningEnable) {
+      this.selectedValue = 'CCDorException';
+    }
       this.searchForm = this.formBuilder.group({
       searchInput: new FormControl('', [ Validators.required,
                                      Validators.pattern(this.selectedValue === 'CCDorException' ? this.ccdPattern : this.dcnPattern)]),
@@ -57,6 +59,7 @@ export class CcdSearchComponent implements OnInit {
       this.takePayment = true;
       this.hasErrors = false;
       const searchValue = this.searchForm.get('searchInput').value;
+      const bsEnableUrl = this.isBulkscanningEnable ? '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
         this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((res) => {
           if (res['data'].ccd_reference || res['data'].exception_record_reference) {
@@ -64,7 +67,7 @@ export class CcdSearchComponent implements OnInit {
             this.ccdCaseNumber = res['data'].ccd_reference ? res['data'].ccd_reference : res['data'].exception_record_reference;
             // tslint:disable-next-line:max-line-length
             const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
-            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
+            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
           }
           this.noCaseFound = true;
         }).catch(() => {
@@ -78,7 +81,7 @@ export class CcdSearchComponent implements OnInit {
           this.noCaseFoundInCCD = false;
           // tslint:disable-next-line:max-line-length
           const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : '?view=case-transactions';
-          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}`);
+          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
         }, err => {
           this.noCaseFoundInCCD = true;
         });
