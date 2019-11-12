@@ -3,28 +3,22 @@ nodejs:
   environment:
     REFORM_TEAM: ccpay
     REFORM_SERVICE_NAME: ccpay-bubble-frontend
-    REFORM_ENVIRONMENT: preview
     NODE_ENV: production
 
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
-    CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
     PAYHUB_API_URL: https://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/
 
     CCPAY_BULKSCAN_API_URL: https://ccpay-bulkscanning-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/
-    #TODO to move to keyvault flex volumes.
-    S2S_KEY: ${PAYBUBBLE_S2S_TOTP_SECRET}
-    IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
 
     S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     IDAM_API_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
     IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net/login
 
-    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
-
     FEE_REGISTRATION_URL: http://fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/fees-register/fees
     FEE_JURISDICTION_URL: http://fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/jurisdictions
 
     CCD_URL: http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+
 ccpayfrontend:
   idampr:
     enabled: false
