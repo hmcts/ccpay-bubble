@@ -19,15 +19,6 @@ nodejs:
 
     CCD_URL: http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
 
-idam-pr:
-  api:
-    url: "{{ .Values.global.idamApiUrl }}"
-  web_public:
-    url: "{{ .Values.global.idamWebUrl }}"
-
-global:
-  idamApiUrl: https://idam-api.aat.platform.hmcts.net
-  idamWebUrl: https://idam-web-public.aat.platform.hmcts.net
 ccpayfrontend:
   idampr:
     enabled: false
