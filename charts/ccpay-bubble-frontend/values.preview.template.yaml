@@ -10,7 +10,7 @@ nodejs:
 
 idam-pr:
   redirect_uris:
-    pay-bubble:
+    paybubble:
       - https://${SERVICE_FQDN}/oauth2/callback
 ccpayfrontend:
   idampr:
