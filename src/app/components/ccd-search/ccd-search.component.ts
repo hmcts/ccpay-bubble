@@ -32,17 +32,19 @@ export class CcdSearchComponent implements OnInit {
   ngOnInit() {
     this.paymentGroupService.getBSFeature().then((status) => {
       this.isBulkscanningEnable = status;
-      this.fromValidation();
     });
+    this.fromValidation();
    }
 
   fromValidation() {
-    if (!this.isBulkscanningEnable) {
-      this.selectedValue = 'CCDorException';
-    }
       this.searchForm = this.formBuilder.group({
-      searchInput: new FormControl('', [ Validators.required,
-                                     Validators.pattern(this.selectedValue === 'CCDorException' ? this.ccdPattern : this.dcnPattern)]),
+      searchInput: new FormControl('',
+       [ Validators.required,
+          Validators.pattern(!this.isBulkscanningEnable ?
+          this.ccdPattern :
+          this.selectedValue === 'CCDorException' ?
+          this.ccdPattern : this.dcnPattern)
+          ]),
       CCDorException: new FormControl(this.selectedValue) });
   }
 
