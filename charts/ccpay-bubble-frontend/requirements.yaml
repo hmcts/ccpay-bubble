@@ -1,9 +1,8 @@
 dependencies:
   - name: nodejs
-    version: 1.3.1
+    version: 1.8.0
     repository: '@hmctspublic'
   - name: idam-pr
-    version: ~2.1.3
+    version: ~2.2.3
     repository: '@hmctspublic'
-    tags:
-    - idam-pr
+    condition: ccpayfrontend.idampr.enabled
