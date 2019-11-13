@@ -38,8 +38,13 @@ export class CcdSearchComponent implements OnInit {
 
   fromValidation() {
       this.searchForm = this.formBuilder.group({
-      searchInput: new FormControl('', [ Validators.required,
-                                     Validators.pattern(!this.isBulkscanningEnable ? this.ccdPattern : this.selectedValue === 'CCDorException' ? this.ccdPattern : this.dcnPattern)]),
+      searchInput: new FormControl('',
+       [ Validators.required,
+        Validators.pattern(!this.isBulkscanningEnable ?
+          this.ccdPattern :
+          this.selectedValue === 'CCDorException' ?
+          this.ccdPattern : this.dcnPattern)
+      ]),
       CCDorException: new FormControl(this.selectedValue) });
   }
 
