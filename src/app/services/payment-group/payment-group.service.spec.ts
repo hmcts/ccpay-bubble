@@ -154,4 +154,22 @@ describe('Payment group service', () => {
         expect(response).toBe(false);
       });
   });
+  it('Should return false if bulk scann flag is not available', () => {
+    const features = <any>[
+      {
+        customProperties: {},
+        description: 'then requests from all services will be checked against Liberata',
+        enable: false,
+        flippingStrategy: null,
+        group: null,
+        permissions: [],
+        uid: 'check-liberata-account-for-all-services'
+      }
+    ];
+    spyOn(http, 'get').and.callFake(() => of(features));
+    paymentGroupService.getBSFeature()
+      .then((response) => {
+        expect(response).toBe(false);
+      });
+  });
 });
