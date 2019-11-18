@@ -118,4 +118,40 @@ describe('Payment group service', () => {
 
       });
   });
+  it('Should return true is bulk scann flag is on', () => {
+    const features = <any>[
+      {
+        customProperties: {},
+        description: 'enable bulkScan payBubble check',
+        enable: true,
+        flippingStrategy: null,
+        group: null,
+        permissions: [],
+        uid: 'bulk-scan-enabling-fe'
+      }
+    ];
+    spyOn(http, 'get').and.callFake(() => of(features));
+    paymentGroupService.getBSFeature()
+      .then((response) => {
+        expect(response).toBe(true);
+      });
+  });
+  it('Should return false is bulk scann flag is off', () => {
+    const features = <any>[
+      {
+        customProperties: {},
+        description: 'enable bulkScan payBubble check',
+        enable: false,
+        flippingStrategy: null,
+        group: null,
+        permissions: [],
+        uid: 'bulk-scan-enabling-fe'
+      }
+    ];
+    spyOn(http, 'get').and.callFake(() => of(features));
+    paymentGroupService.getBSFeature()
+      .then((response) => {
+        expect(response).toBe(false);
+      });
+  });
 });
