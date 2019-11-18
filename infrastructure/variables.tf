@@ -64,7 +64,7 @@ variable "authentication_web_url" {
 }
 
 variable "ccd_api_url" {
-  default = "https://gateway-ccd.aat.platform.hmcts.net/aggregated"
+  default = "https://ccd-data-store-api-prod.service.core-compute-prod.internal"
 }
 
 variable "vault_section" {
