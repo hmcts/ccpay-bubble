@@ -38,7 +38,7 @@ data "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
 }
 
 module "ccpay-bubble" {
-  source   = "git@github.com:hmcts/moj-module-webapp?ref=master"
+  source   = "git@github.com:hmcts/cnp-module-webapp?ref=master"
   product  = "${var.product}-${var.component}"
   location = "${var.location}"
   env      = "${var.env}"
