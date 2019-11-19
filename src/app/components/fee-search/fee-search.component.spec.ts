@@ -137,7 +137,8 @@ describe('Fee search component', () => {
       },
       snapshot: {
         queryParams: {
-          'ccdCaseNumber': '1234-1234-1234-1234'
+          'ccdCaseNumber': '1234-1234-1234-1234',
+          'isBulkScanning': 'Enable'
         }
       }
     };
