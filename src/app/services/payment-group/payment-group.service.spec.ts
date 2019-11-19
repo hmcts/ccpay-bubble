@@ -131,6 +131,12 @@ describe('Payment group service', () => {
       }
     ];
     spyOn(http, 'get').and.callFake(() => of(features));
+    http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
+      const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
+       result = regFeature ? regFeature.enable : false;
+      expect(result).toBe(true);
+      expect(response[0].get('uid')).toBe('bulk-scan-enabling-fe');
+    });
     paymentGroupService.getBSFeature()
       .then((response) => {
         expect(response).toBe(true);
@@ -149,6 +155,12 @@ describe('Payment group service', () => {
       }
     ];
     spyOn(http, 'get').and.callFake(() => of(features));
+    http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
+      const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
+       result = regFeature ? regFeature.enable : false;
+      expect(result).toBe(false);
+      expect(response[0].get('uid')).toBe('bulk-scan-enabling-fe');
+    });
     paymentGroupService.getBSFeature()
       .then((response) => {
         expect(response).toBe(false);
@@ -167,6 +179,12 @@ describe('Payment group service', () => {
       }
     ];
     spyOn(http, 'get').and.callFake(() => of(features));
+    http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
+      const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
+       result = regFeature ? regFeature.enable : false;
+      expect(result).toBe(false);
+      expect(response[0].get('uid')).not.toBe('bulk-scan-enabling-fe');
+    });
     paymentGroupService.getBSFeature()
       .then((response) => {
         expect(response).toBe(false);
