@@ -2,12 +2,8 @@ import {PaybubbleHttpClient} from 'src/app/services/httpclient/paybubble.http.cl
 import {Meta} from '@angular/platform-browser';
 import {instance, mock} from 'ts-mockito/lib/ts-mockito';
 import {HttpClient} from '@angular/common/http';
-import {AddFeeDetailService} from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import {of} from 'rxjs';
 import {PaymentModel} from 'src/app/models/PaymentModel';
-import {RemissionModel} from 'src/app/models/RemissionModel';
-import {FeeModel} from 'src/app/models/FeeModel';
-import {feeTypes} from 'src/stubs/feeTypes';
 import {PaymentGroupService} from './payment-group.service';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 
@@ -130,7 +126,7 @@ describe('Payment group service', () => {
         uid: 'bulk-scan-enabling-fe'
       }
     ];
-    spyOn(features, 'find').and.callFake(() => features[0]);
+    spyOn(features, 'find').and.returnValue(features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
     http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
       const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
@@ -155,7 +151,7 @@ describe('Payment group service', () => {
         uid: 'bulk-scan-enabling-fe'
       }
     ];
-    spyOn(features, 'find').and.callFake(() => features[0]);
+    spyOn(features, 'find').and.returnValue(features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
     http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
       const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
@@ -180,7 +176,7 @@ describe('Payment group service', () => {
         uid: 'check-liberata-account-for-all-services'
       }
     ];
-    spyOn(features, 'find').and.callFake(() => features[0]);
+    spyOn(features, 'find').and.returnValue(features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
     http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
       const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
