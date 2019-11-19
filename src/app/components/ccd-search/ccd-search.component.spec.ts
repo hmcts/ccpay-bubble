@@ -153,7 +153,7 @@ describe('Fee search component', () => {
     component.dcnNumber = '';
     component.ccdCaseNumber = '';
     component.takePayment = true;
-
+    component.isBulkscanningEnable = true;
     component.onSelectionChange('DCN');
     expect(component.selectedValue).toBe('DCN');
     spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('dcn');
@@ -161,6 +161,16 @@ describe('Fee search component', () => {
     component.searchFees();
     await fixture.whenStable();
     expect(component.selectedValue).toBe('DCN');
+    expect(component.dcnNumber).toBe('11112222333344440');
+    expect(component.ccdCaseNumber).toBe('1111222233334444');
+    component.isBulkscanningEnable = false;
+    component.onSelectionChange('CCDorException');
+    expect(component.selectedValue).toBe('CCDorException');
+    spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('ccdorexception');
+    component.searchForm.controls['searchInput'].setValue('11112222333344440');
+    component.searchFees();
+    await fixture.whenStable();
+    expect(component.selectedValue).toBe('CCDorException');
     expect(component.dcnNumber).toBe('11112222333344440');
     expect(component.ccdCaseNumber).toBe('1111222233334444');
   });
