@@ -130,6 +130,7 @@ describe('Payment group service', () => {
         uid: 'bulk-scan-enabling-fe'
       }
     ];
+    spyOn(features, 'find').and.callFake(() => features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
     http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
       const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
@@ -154,6 +155,7 @@ describe('Payment group service', () => {
         uid: 'bulk-scan-enabling-fe'
       }
     ];
+    spyOn(features, 'find').and.callFake(() => features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
     http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
       const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
@@ -178,6 +180,7 @@ describe('Payment group service', () => {
         uid: 'check-liberata-account-for-all-services'
       }
     ];
+    spyOn(features, 'find').and.callFake(() => features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
     http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
       const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
