@@ -1,35 +1,33 @@
 security:
-    referrerPolicy: origin
+  referrerPolicy: origin
 idam:
-    client_id: paybubble
-    client_secret: NVYEC2X7XFSRENTU
-    login_url: 'https://idam-web-public.aat.platform.hmcts.net'
-    api_url: 'https://idam-api.aat.platform.hmcts.net'
+  client_id: paybubble
+  client_secret: NVYEC2X7XFSRENTU
+  login_url: https://idam-web-public.aat.platform.hmcts.net
+  api_url: https://idam-api.aat.platform.hmcts.net
 session:
-    cookieName: SESSION_ID
+  cookieName: SESSION_ID
 ccpaybubble:
-    url: 'https://localhost'
-    defaultPort: 3000
-    microservice: ccpay_bubble
+  url: https://localhost
+  defaultPort: 3000
+  microservice: ccpay_bubble
 s2s:
-    key: G5XTFNBUW4P6ZP4F
-    url: 'https://rpe-service-auth-provider-aat.service.core-compute-aat.internal'
+  key: G5XTFNBUW4P6ZP4F
+  url: https://rpe-service-auth-provider-aat.service.core-compute-aat.internal
 payhub:
-  url: http://payment-api-demo.service.core-compute-demo.internal
-bulkscan:
-  url: http://ccpay-bulkscanning-api-demo.service.core-compute-demo.internal
+  url: http://payment-api-aat.service.core-compute-aat.internal
 appInsights:
-    instrumentationKey: some-key
-    roleName: paybubble
+  instrumentationKey: some-key
+  roleName: paybubble
 e2e:
-    frontendUrl: 'https://localhost:4200/'
-    waitForTimeoutValue: 2600
-    waitForActionValue: 2000
+  frontendUrl: https://localhost:4200/
+  waitForTimeoutValue: 2600
+  waitForActionValue: 2000
 certs:
-    key: ./localhost-ssl/localhost.key
-    crt: ./localhost-ssl/localhost.crt
+  key: ./localhost-ssl/localhost.key
+  crt: ./localhost-ssl/localhost.crt
 fee:
-    feeRegistrationUrl: 'http://fees-register-api-aat.service.core-compute-aat.internal/fees-register/fees'
-    feeJurisdictionUrl: 'http://fees-register-api-aat.service.core-compute-aat.internal/jurisdictions'
+  feeRegistrationUrl: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register/fees
+  feeJurisdictionUrl: http://fees-register-api-aat.service.core-compute-aat.internal/jurisdictions
 ccd:
-    url: 'http://localhost:23443'
+  url: http://localhost:23443
