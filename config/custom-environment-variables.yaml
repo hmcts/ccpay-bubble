@@ -16,8 +16,6 @@ s2s:
   url: S2S_URL
 payhub:
   url: PAYHUB_API_URL
-bulkscan:
-  url: CCPAY_BULKSCAN_API_URL
 certs:
   key: CERTS_KEY
   crt: CERTS_CRT
