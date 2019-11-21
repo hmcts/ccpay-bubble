@@ -6,7 +6,7 @@ nodejs:
     NODE_ENV: production
 
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
-    PAYHUB_API_URL: https://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/
+    PAYHUB_API_URL: http://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/
 
     CCPAY_BULKSCAN_API_URL: https://ccpay-bulkscanning-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/
 
