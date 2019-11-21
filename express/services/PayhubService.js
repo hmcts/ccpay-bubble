@@ -109,6 +109,43 @@ class PayhubService {
     }));
   }
 
+  postAllocatePayment(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/bulk-scan-payments`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+  postBSPayments(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/payment-groups/bulk-scan-payments`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+  postPaymentAllocations(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/payment-allocations`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
   getPayment(req) {
     return this.createAuthToken().then(token => request.get({
       uri: `${payhubUrl}/payments/${req.params.id}`,
@@ -158,6 +195,18 @@ class PayhubService {
     }));
   }
 
+  getSelectedReport(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${payhubUrl}/payment/bulkscan-data-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}&report_type=${req.query.report_type}`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      responseType: 'blob',
+      json: true
+    }));
+  }
   validateCaseReference(req) {
     let serviceToken = '';
     return this.createAuthToken()
@@ -182,6 +231,11 @@ class PayhubService {
         }
         return 'OK';
       });
+  }
+
+  getBSfeature(req) {
+    return this.createAuthToken()
+      .then(token => this.featureService.getFeatures(req, token));
   }
 
   getFees() {
