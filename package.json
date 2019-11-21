@@ -15,7 +15,7 @@
     "merge-lcov": "cross-env lcov-result-merger './coverage/lcov-*.info' './coverage/lcov.info'",
     "copy-lcov": "node ./scripts/copy-lcov.js",
     "test": "yarn lint && yarn test:angular && yarn test:coverage",
-    "test:a11y": "echo 'TODO: Accessibility tests'",
+    "test:a11y": "echo 'TODO: Accessibility test case'",
     "gulp": "gulp",
     "lint": "yarn ng-lint && yarn eslint",
     "ng-lint": "ng lint",
