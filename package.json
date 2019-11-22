@@ -47,7 +47,7 @@
     "@angular/platform-browser": "~7.2.4",
     "@angular/platform-browser-dynamic": "~7.2.4",
     "@angular/router": "~7.2.4",
-    "@hmcts/ccpay-web-component": "~3.0.0-beta25",
+    "@hmcts/ccpay-web-component": "~3.0.0-beta26",
     "@hmcts/frontend": "^0.0.34-alpha",
     "@hmcts/nodejs-healthcheck": "^1.5.1",
     "@hmcts/nodejs-logging": "^3.0.0",
