@@ -5,6 +5,7 @@ nodejs:
     REFORM_SERVICE_NAME: ccpay-bubble-frontend
     NODE_ENV: production
 
+
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
     PAYHUB_API_URL: http://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
 
