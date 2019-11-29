@@ -17,12 +17,13 @@ const routerMock = {
 
 const paybubbleHttpClientMock = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
 
-describe('Fee search component', () => {
+describe('CCD search component with takePayment is equal to true', () => {
   let component: CcdSearchComponent,
     fixture: ComponentFixture<CcdSearchComponent>,
     caseRefService: CaseRefService,
     paymentGroupService: PaymentGroupService,
-    mockResponse: any;
+    mockResponse: any,
+    activatedRoute;
   const formBuilder: FormBuilder = new FormBuilder();
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -88,6 +89,7 @@ describe('Fee search component', () => {
     });
     caseRefService = fixture.debugElement.injector.get(CaseRefService);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
+    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
   });
 
   it('Should create', () => {
@@ -103,6 +105,7 @@ describe('Fee search component', () => {
 
   it('Search form should be invalid if an empty string has been entered', async () => {
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+    spyOn(activatedRoute, 'params').and.returnValue(of({}));
     await component.ngOnInit();
     await component.searchForm.controls['searchInput'].setValue('');
     component.searchFees();
@@ -110,6 +113,21 @@ describe('Fee search component', () => {
     expect(component.hasErrors).toBeTruthy();
   });
 
+   it('Should initialise the search input to an empty string', async () => {
+    spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+    await component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.searchForm.get('searchInput').value).toBe('');
+  });
+
+  it('Search form should be invalid if an empty string has been entered', async () => {
+    spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+    await component.ngOnInit();
+    await component.searchForm.controls['searchInput'].setValue('');
+    component.searchFees();
+    fixture.detectChanges();
+    expect(component.hasErrors).toBeTruthy();
+  });
   it('Search form should be invalid if a wrong format string has been entered', async () => {
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     await component.ngOnInit();
@@ -211,5 +229,84 @@ describe('Fee search component', () => {
     expect(component.ccdCaseNumber).toBe('1111222233234444');
     // tslint:disable-next-line:max-line-length
     expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233234444?selectedOption=DCN&dcn=11112222333344440&view=case-transactions&takePayment=true&isBulkScanning=Enable');
+  });
+});
+
+
+describe('ccd search component without takePayment option', () => {
+  let component: CcdSearchComponent,
+    fixture: ComponentFixture<CcdSearchComponent>,
+    caseRefService: CaseRefService,
+    paymentGroupService: PaymentGroupService,
+    activatedRoute;
+  const formBuilder: FormBuilder = new FormBuilder();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [CcdSearchComponent],
+      imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        RouterModule
+      ],
+      providers: [
+        CaseRefService,
+        {
+          provide: PaymentGroupService,
+          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        },
+        { provide: PaybubbleHttpClient, useValue: paybubbleHttpClientMock },
+        { provide: Router, useValue: routerMock },
+        { provide: FormBuilder, useValue: formBuilder },
+        { provide: ActivatedRoute,
+          useValue: {
+            params: of({ccdCaseNumber: '1111-2222-3333-4444'}),
+            routeConfig: {
+              path: 'ccd-search'
+            },
+            snapshot: {
+              queryParams: {
+                takePayment: 'false'
+              }
+            }
+          }
+        }
+      ]
+    });
+    fixture = TestBed.createComponent(CcdSearchComponent);
+    component = fixture.componentInstance;
+    component.searchForm = formBuilder.group({
+      CCDorException: null
+    });
+    caseRefService = fixture.debugElement.injector.get(CaseRefService);
+    paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
+    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
+  });
+
+  it('Should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('Search form should be invalid if an empty string has been entered', async () => {
+    spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+    spyOn(activatedRoute, 'params').and.returnValue(of({}));
+    await component.ngOnInit();
+    await component.searchForm.controls['searchInput'].setValue('');
+    component.searchFees();
+    fixture.detectChanges();
+    expect(component.hasErrors).toBeTruthy();
+  });
+
+  it('Search form should be valid if a correct format string has been entered', async () => {
+    spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+    spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+    await component.ngOnInit();
+    await component.searchForm.controls['searchInput'].setValue('1111-2222-3333-4444');
+    component.searchFees();
+    fixture.detectChanges();
+    expect(component.hasErrors).toBeFalsy();
+    expect(component.dcnNumber).toBe(null);
+    expect(component.ccdCaseNumber).toBe('1111222233334444');
+    // tslint:disable-next-line:max-line-length
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=CCDorException&dcn=null&view=case-transactions&isBulkScanning=Enable');
   });
 });
