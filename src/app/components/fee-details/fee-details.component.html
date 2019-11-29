@@ -13,7 +13,7 @@
   <tr>
     <td>{{ fee.code }}</td>
     <td>{{ fee.current_version.description }}</td>
-    <td *ngIf="fee.current_version['percentage_amount']; else volumeOrFlat">£{{fee.current_version['percentage_amount'].percentage}}</td>
+    <td *ngIf="fee.current_version['percentage_amount']; else volumeOrFlat">{{fee.current_version['percentage_amount'].percentage}}%</td>
     <ng-template #volumeOrFlat>
       <td>£{{ fee.current_version['volume_amount']? fee.current_version['volume_amount'].amount : fee.current_version['flat_amount'].amount}}</td>
     </ng-template>
