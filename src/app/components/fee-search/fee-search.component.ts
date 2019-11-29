@@ -16,6 +16,7 @@ export class FeeSearchComponent implements OnInit {
   showFeeDetails = false;
   paymentGroupRef: string = null;
   selectedOption: string = null;
+  bulkScanningTxt = '&isBulkScanning=Enable';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -30,6 +31,8 @@ export class FeeSearchComponent implements OnInit {
       this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
       this.dcnNo = this.activatedRoute.snapshot.queryParams['dcn'];
       this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
+      this.bulkScanningTxt = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable' ?
+                                  '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
     });
   }
 

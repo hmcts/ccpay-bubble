@@ -77,6 +77,10 @@ module.exports = appInsights => express.Router()
     controllers.feeController.getFees(req, res);
   })
 
+  .get('/payment-history/bulk-scan-feature', (req, res) => {
+    controllers.payhubController.bulkScanToggleFeature(req, res);
+  })
+
   .delete('/payment-history/fees/:id', (req, res) => {
     controllers.payhubController.deleteFeesFromPaymentGroup(req, res, appInsights);
   })

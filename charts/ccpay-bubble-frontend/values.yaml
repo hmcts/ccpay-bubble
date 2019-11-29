@@ -3,7 +3,6 @@ nodejs:
   environment:
     REFORM_TEAM: ccpay
     REFORM_SERVICE_NAME: ccpay-bubble-frontend
-    REFORM_ENVIRONMENT: preview
     NODE_ENV: production
 
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
