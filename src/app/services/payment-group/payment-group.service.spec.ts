@@ -2,12 +2,8 @@ import {PaybubbleHttpClient} from 'src/app/services/httpclient/paybubble.http.cl
 import {Meta} from '@angular/platform-browser';
 import {instance, mock} from 'ts-mockito/lib/ts-mockito';
 import {HttpClient} from '@angular/common/http';
-import {AddFeeDetailService} from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import {of} from 'rxjs';
 import {PaymentModel} from 'src/app/models/PaymentModel';
-import {RemissionModel} from 'src/app/models/RemissionModel';
-import {FeeModel} from 'src/app/models/FeeModel';
-import {feeTypes} from 'src/stubs/feeTypes';
 import {PaymentGroupService} from './payment-group.service';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 
@@ -116,6 +112,81 @@ describe('Payment group service', () => {
         expect(response.exception_record_reference).toBe(paymentGroup.exception_record_reference);
       }).catch(() => {
 
+      });
+  });
+  it('Should return true is bulk scann flag is on', () => {
+    const features = <any>[
+      {
+        customProperties: {},
+        description: 'enable bulkScan payBubble check',
+        enable: true,
+        flippingStrategy: null,
+        group: null,
+        permissions: [],
+        uid: 'bulk-scan-enabling-fe'
+      }
+    ];
+    spyOn(features, 'find').and.returnValue(features[0]);
+    spyOn(http, 'get').and.callFake(() => of(features));
+    http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
+      const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
+       result = regFeature ? regFeature.enable : false;
+      expect(result).toBe(true);
+      expect(response[0].get('uid')).toBe('bulk-scan-enabling-fe');
+    });
+    paymentGroupService.getBSFeature()
+      .then((response) => {
+        expect(response).toBe(true);
+      });
+  });
+  it('Should return false is bulk scann flag is off', () => {
+    const features = <any>[
+      {
+        customProperties: {},
+        description: 'enable bulkScan payBubble check',
+        enable: false,
+        flippingStrategy: null,
+        group: null,
+        permissions: [],
+        uid: 'bulk-scan-enabling-fe'
+      }
+    ];
+    spyOn(features, 'find').and.returnValue(features[0]);
+    spyOn(http, 'get').and.callFake(() => of(features));
+    http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
+      const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
+       result = regFeature ? regFeature.enable : false;
+      expect(result).toBe(false);
+      expect(response[0].get('uid')).toBe('bulk-scan-enabling-fe');
+    });
+    paymentGroupService.getBSFeature()
+      .then((response) => {
+        expect(response).toBe(false);
+      });
+  });
+  it('Should return false if bulk scann flag is not available', () => {
+    const features = <any>[
+      {
+        customProperties: {},
+        description: 'then requests from all services will be checked against Liberata',
+        enable: false,
+        flippingStrategy: null,
+        group: null,
+        permissions: [],
+        uid: 'check-liberata-account-for-all-services'
+      }
+    ];
+    spyOn(features, 'find').and.returnValue(features[0]);
+    spyOn(http, 'get').and.callFake(() => of(features));
+    http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
+      const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
+       result = regFeature ? regFeature.enable : false;
+      expect(result).toBe(false);
+      expect(response[0].get('uid')).not.toBe('bulk-scan-enabling-fe');
+    });
+    paymentGroupService.getBSFeature()
+      .then((response) => {
+        expect(response).toBe(false);
       });
   });
 });

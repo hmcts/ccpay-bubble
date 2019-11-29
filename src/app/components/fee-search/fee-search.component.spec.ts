@@ -137,7 +137,8 @@ describe('Fee search component', () => {
       },
       snapshot: {
         queryParams: {
-          'ccdCaseNumber': '1234-1234-1234-1234'
+          'ccdCaseNumber': '1234-1234-1234-1234',
+          'isBulkScanning': 'Enable'
         }
       }
     };
@@ -318,6 +319,7 @@ describe('Fee search component', () => {
     spyOn(paymentGroupService, 'postPaymentGroup').and.returnValue(Promise.reject('Promise should not be resolved'));
     spyOn(component, 'navigateToServiceFailure');
     component.paymentGroupRef = null;
+    component.dcnNo = null;
     component.sendPaymentGroup(null);
     tick();
     expect(component.navigateToServiceFailure).toHaveBeenCalled();
@@ -327,6 +329,7 @@ describe('Fee search component', () => {
     spyOn(paymentGroupService, 'putPaymentGroup').and.returnValue(Promise.reject('Promise should not be resolved'));
     spyOn(component, 'navigateToServiceFailure');
     component.paymentGroupRef = 'test';
+    component.dcnNo = '11';
     component.sendPaymentGroup('test');
     tick();
     expect(component.navigateToServiceFailure).toHaveBeenCalled();
