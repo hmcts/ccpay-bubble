@@ -207,7 +207,6 @@ class PayhubService {
       json: true
     }));
   }
-
   validateCaseReference(req) {
     let serviceToken = '';
     return this.createAuthToken()
@@ -232,6 +231,11 @@ class PayhubService {
         }
         return 'OK';
       });
+  }
+
+  getBSfeature(req) {
+    return this.createAuthToken()
+      .then(token => this.featureService.getFeatures(req, token));
   }
 
   getFees() {
