@@ -64,7 +64,7 @@ variable "authentication_web_url" {
 }
 
 variable "ccd_api_url" {
-  default = "https://ccd-data-store-api-prod.service.core-compute-prod.internal"
+  default = "http://ccd-data-store-api-prod.service.core-compute-prod.internal"
 }
 
 variable "vault_section" {
