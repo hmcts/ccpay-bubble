@@ -60,7 +60,7 @@ export class FeeSearchComponent implements OnInit {
           jurisdiction1: fee.jurisdiction1['name'],
           jurisdiction2: fee.jurisdiction2['name'],
           description: fee.current_version.description,
-          volume: fee.fee_type === 'ranged' || fee.fee_type === 'relational' ? null : 1,
+          volume: fee.fee_type === 'relational' ? null : 1,
           fee_amount: fee['current_version'].flat_amount.amount.toString()
         }]
       };
