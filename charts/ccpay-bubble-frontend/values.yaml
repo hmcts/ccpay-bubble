@@ -11,7 +11,7 @@ nodejs:
     #PAYHUB_API_URL: https://payment-api-aat.service.core-compute-aat.internal/
     #CCPAY_BULKSCAN_API_URL: https://ccpay-bulkscanning-api-aat.service.core-compute-aat.internal/
 
-    PAYHUB_API_URL: http://payment-api-demo.service.core-compute-demo.internal/
+    PAYHUB_API_URL: http://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/
     CCPAY_BULKSCAN_API_URL: http://ccpay-bulkscanning-api-demo.service.core-compute-demo.internal/
 
     S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
