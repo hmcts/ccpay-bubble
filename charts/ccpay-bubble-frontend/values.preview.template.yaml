@@ -3,18 +3,15 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   environment:
     S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-    S2S_KEY: ${paybubble-s2s-secret}
-    IDAM_CLIENT_SECRET: ${paybubble-idam-client-secret}
-tags:
-  - idam-pr
+    CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
+    #TODO to move to keyvault flex volumes.
+    S2S_KEY: ${PAYBUBBLE_S2S_TOTP_SECRET}
+    IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
+
 idam-pr:
-  service:
-    name: pay-bubble # this is the label (name) of the service as configured in IDAM. If unsure, see below.
-    redirect_uri: https://${SERVICE_FQDN}/oauth2/callback # this is the application callback URL where IDAM will send back the authentication code. SERVICE_FQDN is injected by Jenkins.
-  keyVaults:
-    "ccpay":
-      resourceGroup: ccpay
-      secrets:
-        - paybubble-idam-client-secret
-        - paybubble-s2s-secret
-        - AppInsightsInstrumentationKey
+  redirect_uris:
+    paybubble:
+      - https://${SERVICE_FQDN}/oauth2/callback
+ccpayfrontend:
+  idampr:
+    enabled: true
