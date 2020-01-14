@@ -33,3 +33,4 @@ fee:
     feeJurisdictionUrl: http://localhost:23443/jurisdictions
 ccd:
     url: 'http://localhost:23443'
+
