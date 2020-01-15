@@ -9,6 +9,9 @@ export interface IVersion {
   flat_amount?: {
     amount: number;
   };
+  percentage_amount?: {
+    percentage: number;
+  };
   memo_line: string;
   statutory_instrument?: string;
   si_ref_id?: string;

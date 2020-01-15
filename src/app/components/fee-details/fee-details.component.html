@@ -1,4 +1,3 @@
-
 <legend>
   <h1 class="heading-xlarge">Fee details</h1>
 </legend>
@@ -14,7 +13,11 @@
   <tr>
     <td>{{ fee.code }}</td>
     <td>{{ fee.current_version.description }}</td>
-    <td>£{{ fee.current_version['volume_amount']? fee.current_version['volume_amount'].amount : fee.current_version['flat_amount'].amount}}</td>
+    <td *ngIf="fee.current_version['percentage_amount']; else volumeOrFlat">{{fee.current_version['percentage_amount'].percentage}}%</td>
+    <ng-template #volumeOrFlat>
+      <td>£{{ fee.current_version['volume_amount']? fee.current_version['volume_amount'].amount : fee.current_version['flat_amount'].amount}}</td>
+    </ng-template>
+    
   </tr>
   </tbody>
 </table>
@@ -23,7 +26,9 @@
     <label *ngIf="fee.current_version['volume_amount']" class="heading-small" for="volumeAmount">
       How many copies do you want?
     </label>
-    <label *ngIf="fee.current_version['flat_amount']" class="heading-small" for="volumeAmount">
+    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['volume_amount']" class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
+    <!--Following is the section for fee_type='flat' and amont_type='banded'-->
+    <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="heading-small" for="volumeAmount">
       <span class="form-hint">If the document has more than 10 pages, you must also choose a fee for the additional pages.</span>
       <p>
       <p>
@@ -47,14 +52,30 @@
       <p>
       How many copies of the document are required?
     </label>
-    <input  formControlName="feeVolumeControl" class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
+    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
     <p>
     <p>
-    <label *ngIf="fee.current_version['flat_amount']" class="heading-small" for="calculatedAmount">
+    <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="heading-small" for="calculatedAmount">
       How much does the citizen need to pay for the selected fee?
     </label>
-    <input formControlName="feeAmountFormControl" *ngIf="fee.current_version['flat_amount']" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedAmount" type="number" min="1"/>
+    <input formControlName="feeAmountFormControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedAmount" type="number" min="1"/>
+    <!--Above is the section for fee_type='flat' and amont_type='banded'-->
 
+    <!--Following is the section for fee_type='flat' and amont_type='rateable'-->
+    <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'" class="heading-small" for="calculateRateableFee">
+      Enter the calculated amount of fee
+    </label>
+    <div  *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'"  class="currencysymbol">£</div>
+    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculateRateableFee" type="number" min="1"/>
+    <!--Above is the section for fee_type='flat' and amont_type='rateable'-->
+
+    <!--Following is the section for fee_type='ranged' and amont_type='percentage_amount'-->
+    <label *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'" class="heading-small" for="calculatedRangedFee">
+      Enter the calculated amount of fee
+    </label>
+    <div *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'"  class="currencysymbol">£</div>
+    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedRangedFee" type="number" min="1"/>
+    <!--Above is the section for fee_type='flat' and amont_type='percentageranged'-->
   </div>
 
   <div class="form-group">
@@ -71,4 +92,3 @@
     </div>
   </div>
 </form>
-

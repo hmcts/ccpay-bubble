@@ -9,7 +9,7 @@
     <div class="bar-header">
       <ul class="bar-header__list bar-header-left">
         <li class="title">
-          <a routerLink="/" title="Go to the GOV.UK homepage" class="content">
+          <a href="/ccd-search?takePayment=true" title="Go to the GOV.UK homepage" class="content">
             <span class="service-title" id="proposition-name">HMCTS PayBubble</span>
           </a>
         </li>
@@ -23,12 +23,16 @@
           <a id="ccd-search-link" class="logout-btn" href="/ccd-search?takePayment=true">{{ 'Case Transaction' }}</a>
       </li>
       <li>
-          <a id="ccd-search-link" class="logout-btn" href="/payment-history">{{ 'Payment history' }}</a>
+          <a id="ccd-payment-link" class="logout-btn" href="/payment-history?takePayment=false">{{ 'Payment history' }}</a>
+      </li>
+      <li>
+        <a class="ccd-reports-link" href="/payment-history/view?view=reports">{{ 'Reports' }}</a>
       </li>
         <li>{{ todaysDate | date:'dd MMM yyyy' }}</li>
         <li>
           <a class="logout-btn" href="/logout">{{ 'Logout' }}</a>
         </li>
+
       </ul>
     </div>
   </div>
