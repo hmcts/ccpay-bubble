@@ -5,9 +5,9 @@
     "passes": 2,
     "pending": 0,
     "failures": 0,
-    "start": "2019-11-11T23:00:15.291Z",
-    "end": "2019-11-11T23:02:54.044Z",
-    "duration": 158753,
+    "start": "2020-01-15T11:51:24.693Z",
+    "end": "2020-01-15T11:53:06.599Z",
+    "duration": 101906,
     "testsRegistered": 2,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -19,7 +19,7 @@
     "pendingPercentClass": "danger"
   },
   "suites": {
-    "uuid": "f4c994ea-074c-4fe7-8cb1-00fcb68811a9",
+    "uuid": "83bc3768-c9ea-4f57-b0af-8435bd336458",
     "title": "",
     "fullFile": "",
     "file": "",
@@ -28,7 +28,7 @@
     "tests": [],
     "suites": [
       {
-        "uuid": "dd8dcd9e-630e-4f8f-b75c-671aaef44653",
+        "uuid": "9413b39c-8273-4b79-ba7c-75b5641ab28f",
         "title": "CC Pay Bubble Acceptance Tests",
         "fullFile": "/Users/krishnakishorenuthalapati/ccpaybubble/ccpay-bubble/acceptance-tests/test/end-to-end/tests/CCPB_SearchCaseWithCCD_test.js",
         "file": "/acceptance-tests/test/end-to-end/tests/CCPB_SearchCaseWithCCD_test.js",
@@ -37,14 +37,14 @@
             "title": "\"before all\" hook: codeceptjs.beforeSuite",
             "fullTitle": "CC Pay Bubble Acceptance Tests \"before all\" hook: codeceptjs.beforeSuite",
             "timedOut": false,
-            "duration": 10702,
+            "duration": 1355,
             "pass": false,
             "fail": false,
             "pending": false,
             "code": "scenario.suiteSetup(suite)",
             "err": {},
             "isRoot": false,
-            "uuid": "c27fa082-9845-4f5f-8a75-729a6089c697",
+            "uuid": "e131c8b3-da87-4190-aff4-d2249482a385",
             "isHook": true,
             "skipped": false
           },
@@ -52,14 +52,14 @@
             "title": "\"before all\" hook: BeforeSuite",
             "fullTitle": "CC Pay Bubble Acceptance Tests \"before all\" hook: BeforeSuite",
             "timedOut": false,
-            "duration": 38483,
+            "duration": 6797,
             "pass": false,
             "fail": false,
             "pending": false,
             "code": "I.amOnPage('/');\nI.wait(CCPBATConstants.twoSecondWaitTime);\nI.resizeWindow(CCPBATConstants.windowsSizeX, CCPBATConstants.windowsSizeY);",
             "err": {},
             "isRoot": false,
-            "uuid": "1c54b7e9-30c9-4c73-ab00-e7c9428747aa",
+            "uuid": "0ac9058e-8801-453e-a302-f27afd1d8afe",
             "isHook": true,
             "skipped": false
           },
@@ -74,7 +74,7 @@
             "code": "scenario.setup(suite)",
             "err": {},
             "isRoot": false,
-            "uuid": "6b73c096-8d45-42bf-8a46-dee33026127f",
+            "uuid": "01b7fcb9-2644-487a-818d-ff11ff3c88c5",
             "isHook": true,
             "skipped": false
           }
@@ -91,7 +91,7 @@
             "code": "scenario.suiteTeardown(suite)",
             "err": {},
             "isRoot": false,
-            "uuid": "5a9072da-bbf3-4d70-8c59-4180aea75e0d",
+            "uuid": "346581c0-915e-4d70-bd36-bffd45e1330a",
             "isHook": true,
             "skipped": false
           },
@@ -106,7 +106,7 @@
             "code": "scenario.teardown(suite)",
             "err": {},
             "isRoot": false,
-            "uuid": "b5b4ff07-fe47-4d60-89ae-ade5fe481da1",
+            "uuid": "187be3d4-2c25-4937-b0b5-cc28116389d4",
             "isHook": true,
             "skipped": false
           }
@@ -116,16 +116,16 @@
             "title": "Search case with CCD paybubble flow",
             "fullTitle": "CC Pay Bubble Acceptance Tests: Search case with CCD paybubble flow",
             "timedOut": false,
-            "duration": 54067,
+            "duration": 46575,
             "state": "passed",
             "speed": "slow",
             "pass": true,
             "fail": false,
             "pending": false,
-            "code": "I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');\nI.wait(CCPBATConstants.tenSecondWaitTime);\nI.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);\nI.see('Search for a case');\nI.see('Search');\nI.see('Case Transaction');\nI.see('Payment history');\nI.searchForCCDdummydata();\nI.Logout();",
+            "code": "I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');\nI.wait(CCPBATConstants.tenSecondWaitTime);\nI.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);\nI.see('Search for a case');\nI.see('Search');\nI.see('Case Transaction');\nI.see('Payment history');\nI.searchForCCDdummydata();\nI.Logout1();",
             "err": {},
             "isRoot": false,
-            "uuid": "79fc192e-9dbe-4b4f-a35a-abbe4e387493",
+            "uuid": "44e3b11f-c21e-48ed-b3e9-b28c7e4af59b",
             "isHook": false,
             "skipped": false
           },
@@ -133,29 +133,29 @@
             "title": "Search case with CCD paybubble flow",
             "fullTitle": "CC Pay Bubble Acceptance Tests: Search case with CCD paybubble flow",
             "timedOut": false,
-            "duration": 55463,
+            "duration": 47171,
             "state": "passed",
             "speed": "slow",
             "pass": true,
             "fail": false,
             "pending": false,
-            "code": "I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');\nI.wait(CCPBATConstants.tenSecondWaitTime);\nI.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);\nI.see('Search for a case');\nI.see('Search');\nI.see('Case Transaction');\nI.see('Payment history');\nI.searchForCorrectCCDNumber();\nI.Logout();",
+            "code": "I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');\n  I.wait(CCPBATConstants.tenSecondWaitTime);\n  I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);\n  I.see('Search for a case');\n  I.see('Search');\n  I.see('Case Transaction');\n  I.see('Payment history');\n  I.searchForCorrectCCDNumber();\n  I.Logout1();",
             "err": {},
             "isRoot": false,
-            "uuid": "792dc879-498c-417c-ada8-711136990ca3",
+            "uuid": "6006c396-8418-4f9d-b146-2043285f3bfa",
             "isHook": false,
             "skipped": false
           }
         ],
         "suites": [],
         "passes": [
-          "79fc192e-9dbe-4b4f-a35a-abbe4e387493",
-          "792dc879-498c-417c-ada8-711136990ca3"
+          "44e3b11f-c21e-48ed-b3e9-b28c7e4af59b",
+          "6006c396-8418-4f9d-b146-2043285f3bfa"
         ],
         "failures": [],
         "pending": [],
         "skipped": [],
-        "duration": 109530,
+        "duration": 93746,
         "root": false,
         "rootEmpty": false,
         "_timeout": 0
@@ -170,5 +170,5 @@
     "rootEmpty": true,
     "_timeout": 0
   },
-  "copyrightYear": 2019
+  "copyrightYear": 2020
 }

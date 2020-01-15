@@ -17,10 +17,11 @@ Scenario('Search case with CCD paybubble flow', I => {
   I.see('Case Transaction');
   I.see('Payment history');
   I.searchForCCDdummydata();
-  I.Logout();
+  I.Logout1();
 });
 
 Scenario('Search case with CCD paybubble flow', I => {
+
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   I.wait(CCPBATConstants.tenSecondWaitTime);
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
@@ -29,5 +30,5 @@ Scenario('Search case with CCD paybubble flow', I => {
   I.see('Case Transaction');
   I.see('Payment history');
   I.searchForCorrectCCDNumber();
-  I.Logout();
+  I.Logout1();
 });
