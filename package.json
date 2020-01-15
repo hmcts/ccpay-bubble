@@ -1,6 +1,6 @@
 {
   "name": "ccpay-bubble",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
     "debug": "node --inspect --proxy-server=http://proxyout.reform.hmcts.net:8080 start.js",
     "ng": "ng",
