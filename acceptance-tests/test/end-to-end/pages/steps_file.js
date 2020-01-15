@@ -742,7 +742,7 @@ module.exports = () => actor({
   },
 
   searchForCCDdummydata() {
-    this.fillField({ css: '[type="text"]' }, CCDNumber);
+    this.fillField({ css: '[type="text"]' }, '3456789098765434');
     this.click('Search');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('No matching cases found');
