@@ -58,7 +58,7 @@
     <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="heading-small" for="calculatedAmount">
       How much does the citizen need to pay for the selected fee?
     </label>
-    <input formControlName="feeAmountFormControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedAmount" type="number" min="1"/>
+    <input formControlName="feeAmountFormControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedAmount" type="number" onkeypress="return event.charCode >= 48" min="1"/>
     <!--Above is the section for fee_type='flat' and amont_type='banded'-->
 
     <!--Following is the section for fee_type='flat' and amont_type='rateable'-->
@@ -66,7 +66,7 @@
       Enter the calculated amount of fee
     </label>
     <div  *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'"  class="currencysymbol">£</div>
-    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculateRateableFee" type="number" min="1"/>
+    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculateRateableFee" type="number" onkeypress="return event.charCode >= 48" min="1"/>
     <!--Above is the section for fee_type='flat' and amont_type='rateable'-->
 
     <!--Following is the section for fee_type='ranged' and amont_type='percentage_amount'-->
@@ -74,7 +74,7 @@
       Enter the calculated amount of fee
     </label>
     <div *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'"  class="currencysymbol">£</div>
-    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedRangedFee" type="number" min="1"/>
+    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedRangedFee" type="number" onkeypress="return event.charCode >= 48" min="1"/>
     <!--Above is the section for fee_type='flat' and amont_type='percentageranged'-->
   </div>
 
