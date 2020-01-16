@@ -6,17 +6,22 @@ nodejs:
     NODE_ENV: production
 
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
-    PAYHUB_API_URL: http://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-    CCPAY_BULKSCAN_API_URL: http://ccpay-bulkscanning-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-    S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-    IDAM_API_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
-    IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net/login
+    CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
+    
+    PAYHUB_API_URL: http://payment-api-demo.service.core-compute-demo.internal/
+    CCPAY_BULKSCAN_API_URL: http://ccpay-bulkscanning-api-demo.service.core-compute-demo.internal/
 
-    FEE_REGISTRATION_URL: http://fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/fees-register/fees
-    FEE_JURISDICTION_URL: http://fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/jurisdictions
+    S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+    IDAM_API_URL: https://idam-api.aat.platform.hmcts.net
+    IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.aat.platform.hmcts.net/login
+    FEE_REGISTRATION_URL: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register/fees
+    FEE_JURISDICTION_URL: http://fees-register-api-aat.service.core-compute-aat.internal/jurisdictions
 
-    CCD_URL: http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    CCD_URL: http://ccd-data-store-api-aat.service.core-compute-aat.internal
 
-ccpayfrontend:
-  idampr:
-    enabled: false
+tags:
+  - idam-pr
+idam-pr:
+  service:
+    name: pay-bubble # this is the label (name) of the service as configured in IDAM.
+    redirect_uri: https://${SERVICE_FQDN}/oauth2/callback # this is the application callback URL where IDAM will send back the authentication code. SERVICE_FQDN is injected by Jenkins.
