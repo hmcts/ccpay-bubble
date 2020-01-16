@@ -742,7 +742,7 @@ module.exports = () => actor({
   },
 
   searchForCCDdummydata() {
-    this.fillField({ css: '[type="text"]' }, CCDNumber);
+    this.fillField({ css: '[type="text"]' }, '3456789098765434');
     this.click('Search');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('No matching cases found');
@@ -753,12 +753,9 @@ module.exports = () => actor({
     this.click('Search');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Case transactions');
-    this.see('CCD case reference number:');
     this.see('1516-8818-0646-8540');
     this.see('Total payments');
     this.see('Total remissions');
-    this.see('Outstanding balance');
-    this.see('Fees');
     this.see('Description');
     this.see('Volume');
     this.see('Fee amount');
