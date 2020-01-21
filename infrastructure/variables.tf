@@ -64,7 +64,7 @@ variable "authentication_web_url" {
 }
 
 variable "ccd_api_url" {
-  default = "https://gateway-ccd.aat.platform.hmcts.net/aggregated"
+  default = "http://ccd-data-store-api-prod.service.core-compute-prod.internal"
 }
 
 variable "vault_section" {
@@ -75,4 +75,3 @@ variable "core_product" {
   type    = "string"
   default = "ccpay"
 }
-
