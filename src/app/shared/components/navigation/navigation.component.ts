@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , Input} from '@angular/core';
 import { WindowUtil } from 'src/app/services/window-util/window-util';
 
 @Component({
@@ -7,6 +7,7 @@ import { WindowUtil } from 'src/app/services/window-util/window-util';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
+  @Input() isBulkscanningEnable: boolean;
   todaysDate = Date.now();
   showMVP = true;
 
