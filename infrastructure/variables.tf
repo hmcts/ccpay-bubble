@@ -75,4 +75,3 @@ variable "core_product" {
   type    = "string"
   default = "ccpay"
 }
-
