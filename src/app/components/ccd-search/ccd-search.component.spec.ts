@@ -70,8 +70,8 @@ describe('CCD search component with takePayment is equal to true', () => {
               date_banked: '2019-DEC-02',
               date_created: '2019-DEC-19',
               date_updated: '2019-DEC-30',
-              dcn_case: '11112222333344440',
-              dcn_reference: '11112222333344440',
+              dcn_case: '111122223333444401234',
+              dcn_reference: '111122223333444401234',
               first_cheque_dcn_in_batch: 'string',
               outbound_batch_number: 'string',
               payer_name: 'tester',
@@ -175,21 +175,21 @@ describe('CCD search component with takePayment is equal to true', () => {
     component.onSelectionChange('DCN');
     expect(component.selectedValue).toBe('DCN');
     spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('dcn');
-    component.searchForm.controls['searchInput'].setValue('11112222333344440');
+    component.searchForm.controls['searchInput'].setValue('111122223333444401234');
     component.searchFees();
     await fixture.whenStable();
     expect(component.selectedValue).toBe('DCN');
-    expect(component.dcnNumber).toBe('11112222333344440');
+    expect(component.dcnNumber).toBe('111122223333444401234');
     expect(component.ccdCaseNumber).toBe('1111222233334444');
     component.isBulkscanningEnable = false;
     component.onSelectionChange('CCDorException');
     expect(component.selectedValue).toBe('CCDorException');
     spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('ccdorexception');
-    component.searchForm.controls['searchInput'].setValue('11112222333344440');
+    component.searchForm.controls['searchInput'].setValue('111122223333444401234');
     component.searchFees();
     await fixture.whenStable();
     expect(component.selectedValue).toBe('CCDorException');
-    expect(component.dcnNumber).toBe('11112222333344440');
+    expect(component.dcnNumber).toBe('111122223333444401234');
     expect(component.ccdCaseNumber).toBe('1111222233334444');
   });
 
@@ -204,11 +204,11 @@ describe('CCD search component with takePayment is equal to true', () => {
     component.onSelectionChange('DCN');
     expect(component.selectedValue).toBe('DCN');
     spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('dcn');
-    component.searchForm.controls['searchInput'].setValue('11112222333344440');
+    component.searchForm.controls['searchInput'].setValue('111122223333444401234');
     component.searchFees();
     await fixture.whenStable();
     expect(component.selectedValue).toBe('DCN');
-    expect(component.dcnNumber).toBe('11112222333344440');
+    expect(component.dcnNumber).toBe('111122223333444401234');
     expect(component.ccdCaseNumber).toBe('1111222233234444');
   });
   it('Should get go to correct navigation', async () => {
@@ -221,14 +221,14 @@ describe('CCD search component with takePayment is equal to true', () => {
     component.onSelectionChange('DCN');
     expect(component.selectedValue).toBe('DCN');
     spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('dcn');
-    component.searchForm.controls['searchInput'].setValue('11112222333344440');
+    component.searchForm.controls['searchInput'].setValue('111122223333444401234');
     component.searchFees();
     await fixture.whenStable();
     expect(component.selectedValue).toBe('DCN');
-    expect(component.dcnNumber).toBe('11112222333344440');
+    expect(component.dcnNumber).toBe('111122223333444401234');
     expect(component.ccdCaseNumber).toBe('1111222233234444');
     // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233234444?selectedOption=DCN&dcn=11112222333344440&view=case-transactions&takePayment=true&isBulkScanning=Enable');
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233234444?selectedOption=DCN&dcn=111122223333444401234&view=case-transactions&takePayment=true&isBulkScanning=Enable');
   });
 });
 
