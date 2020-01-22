@@ -11,8 +11,8 @@ BeforeSuite(I => {
 Scenario('Search case with CCD paybubble flow', I => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   I.wait(CCPBATConstants.tenSecondWaitTime);
-  I.waitForText('What do you want to search for?', CCPBATConstants.tenSecondWaitTime);
-  I.see('What do you want to search for?');
+  I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
+  I.see('Search for a case');
   I.see('Search');
   I.see('Case Transaction');
   I.see('Payment history');
