@@ -78,7 +78,7 @@ module "ccpay-bubble" {
     CCD_URL = "${var.ccd_api_url}"
 
     //added attribute for bulkscan
-    BULKSCAN_URL = "http://ccpay-bulkscanning-api-${var.env}.service.core-compute-${var.env}.internal/"
+    CCPAY_BULKSCAN_API_URL = "http://ccpay-bulkscanning-api-${var.env}.service.core-compute-${var.env}.internal"
 
   }
 }

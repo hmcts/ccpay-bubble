@@ -15,9 +15,9 @@ s2s:
   key: G5XTFNBUW4P6ZP4F
   url: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
 payhub:
-  url: http://payment-api-aat.service.core-compute-aat.internal
+  url: http://payment-api-prod.service.core-compute-prod.internal
 bulkscan:
-  url: http://ccpay-bulkscanning-api-aat.service.core-compute-aat.internal
+  url: http://ccpay-bulkscanning-api-prod.service.core-compute-prod.internal
 appInsights:
   instrumentationKey: some-key
   roleName: paybubble
