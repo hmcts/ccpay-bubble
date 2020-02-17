@@ -13,6 +13,7 @@ export class CcdSearchComponent implements OnInit {
   searchForm: FormGroup;
   hasErrors = false;
   ccdCaseNumber: string;
+  excReference: string;
   dcnNumber: string;
   takePayment: boolean;
   selectedValue = 'CCDorException';
@@ -60,7 +61,7 @@ export class CcdSearchComponent implements OnInit {
       this.fromValidation();
     }
 
-  searchFees() {
+    searchFees() {
       if (this.searchForm.controls['searchInput'].valid) {
       this.hasErrors = false;
       const searchValue = this.searchForm.get('searchInput').value;
@@ -69,9 +70,15 @@ export class CcdSearchComponent implements OnInit {
         this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((res) => {
           if (res['data'].ccd_reference || res['data'].exception_record_reference) {
             this.dcnNumber = searchValue;
-            this.ccdCaseNumber = res['data'].ccd_reference ? res['data'].ccd_reference : res['data'].exception_record_reference;
+           if (res['data'].ccd_reference !== undefined && res['data'].ccd_reference.length > 0) {
+              this.ccdCaseNumber = res['data'].ccd_reference ;
+              this.excReference = '';
+            } else if (res['data'].exception_record_reference !== undefined && res['data'].exception_record_reference.length > 0) {
+              this.excReference = res['data'].exception_record_reference ;
+              this.ccdCaseNumber = '';
+            }
             // tslint:disable-next-line:max-line-length
-            const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+            const url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
             this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
           }
           this.noCaseFound = true;

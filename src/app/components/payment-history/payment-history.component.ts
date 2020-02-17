@@ -12,6 +12,7 @@ export class PaymentHistoryComponent implements OnInit {
   view: string;
   takePayment: boolean;
   ccdCaseNumber: string;
+  excReference: string;
   paymentGroupRef: string;
   dcnNumber: string;
   selectedOption: string;
@@ -24,6 +25,7 @@ export class PaymentHistoryComponent implements OnInit {
       this.apiRoot = 'api/payment-history';
       this.bulkscanapiRoot = 'api/bulk-scan';
       this.ccdCaseNumber = params['ccdCaseNumber'];
+      this.excReference = this.activatedRoute.snapshot.queryParams['exceptionRecord'];
       this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
       this.view = this.activatedRoute.snapshot.queryParams['view'];
       this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
