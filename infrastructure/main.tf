@@ -55,7 +55,7 @@ module "ccpay-bubble" {
 
   app_settings = {
     IDAM_API_URL = "${var.idam_api_url}"
-    IDAM_AUTHENTICATION_WEB_URL = "${var.authentication_web_url}/login"
+    IDAM_AUTHENTICATION_WEB_URL = "${var.authentication_web_url}/o/authorize"
     IDAM_CLIENT_SECRET = "${data.azurerm_key_vault_secret.paybubble_idam_client_secret.value}"
     CCPAY_BUBBLE_URL = "http://ccpay-bubble-frontend-${var.env}.service.core-compute-${var.env}.internal/"
     CCPAY_BUBBLE_MICROSERVICE = "ccpay_bubble"
