@@ -3,7 +3,7 @@ security:
 idam:
   client_id: paybubble
   client_secret: NVYEC2X7XFSRENTU
-  login_url: https://idam-web-public.aat.platform.hmcts.net/o
+  login_url: https://idam-web-public.aat.platform.hmcts.net/o/authorize
   api_url: https://idam-api.aat.platform.hmcts.net
 session:
   cookieName: SESSION_ID
@@ -15,9 +15,9 @@ s2s:
   key: G5XTFNBUW4P6ZP4F
   url: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
 payhub:
-  url: http://payment-api-prod.service.core-compute-prod.internal
+  url: http://payment-api-demo.service.core-compute-demo.internal
 bulkscan:
-  url: http://ccpay-bulkscanning-api-prod.service.core-compute-prod.internal
+  url: http://ccpay-bulkscanning-api-demo.service.core-compute-demo.internal
 appInsights:
   instrumentationKey: some-key
   roleName: paybubble
