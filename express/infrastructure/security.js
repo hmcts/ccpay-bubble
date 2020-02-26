@@ -87,7 +87,6 @@ function authorize(req, res, next, self) {
 }
 
 function getTokenFromCode(self, req) {
-
   const url = URL.parse(`${self.opts.apiUrl}/o/token`, true);
   return request.post(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret)
@@ -99,7 +98,6 @@ function getTokenFromCode(self, req) {
     .send({ response_type: 'code token id_token' })
     .send({ redirect_uri: `https://${req.get('host')}${self.opts.redirectUri}` });
 }
-
 
 function getUserDetails(self, securityCookie) {
   return request.get(`${self.opts.apiUrl}/details`)
