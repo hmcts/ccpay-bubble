@@ -87,6 +87,8 @@ function authorize(req, res, next, self) {
 }
 
 function getTokenFromCode(self, req) {
+  console.log('hiu');// eslint-disable-line no-console
+  console.log(self, req);// eslint-disable-line no-console
   const url = URL.parse(`${self.opts.apiUrl}/o/token`, true);
   return request.post(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret)
