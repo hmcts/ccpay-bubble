@@ -87,7 +87,7 @@ function authorize(req, res, next, self) {
 }
 
 function getTokenFromCode(self, req) {
-  const url = URL.parse(`https://idam-api-idam-aat.service.core-compute-idam-aat.internal/o/token`, true);
+  const url = URL.parse('https://idam-api-idam-aat.service.core-compute-idam-aat.internal/o/token', true);
   return request.post(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret)
     .set('Accept', 'application/json')
@@ -95,7 +95,7 @@ function getTokenFromCode(self, req) {
     .set('Authorization', `Bearer ${req.authToken}`)
     .type('form')
     .send({ grant_type: 'authorization_code' })
-    .send({ code: req.query.code})
+    .send({ code: req.query.code })
     .send({ redirect_uri: `https://${req.get('host')}${self.opts.redirectUri}` });
 }
 
