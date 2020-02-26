@@ -31,7 +31,7 @@ function Security(options) {
 /* --- INTERNAL --- */
 
 function addOAuth2Parameters(url, state, self, req) {
-  url.query.response_type = 'code token id_token';
+  url.query.response_type = 'code';
   url.query.state = state;
   url.query.client_id = self.opts.clientId;
   url.query.scope = 'openid';
@@ -87,8 +87,7 @@ function authorize(req, res, next, self) {
 }
 
 function getTokenFromCode(self, req) {
-  const url = URL.parse(`${self.opts.apiUrl}/oauth2/token`, true);
-
+  const url = URL.parse(`${self.opts.apiUrl}/o/token`, true);
   return request.post(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret)
     .set('Accept', 'application/json')
@@ -96,8 +95,11 @@ function getTokenFromCode(self, req) {
     .type('form')
     .send({ grant_type: 'authorization_code' })
     .send({ code: req.query.code })
+    .send({ client_id: self.opts.clientId })
+    .send({ codresponse_typee: 'code token id_token' })
     .send({ redirect_uri: `https://${req.get('host')}${self.opts.redirectUri}` });
 }
+
 
 function getUserDetails(self, securityCookie) {
   return request.get(`${self.opts.apiUrl}/details`)
@@ -319,6 +321,8 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     }
 
     return getTokenFromCode(self, req).end((err, response) => { /* We ask for the token */
+      alert('hi');
+      console.log(response);
       if (err) {
         return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCode call failed'));
       }
