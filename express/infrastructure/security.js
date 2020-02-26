@@ -87,8 +87,7 @@ function authorize(req, res, next, self) {
 }
 
 function getTokenFromCode(self, req) {
-  console.log('hiu');// eslint-disable-line no-console
-  console.log(self, req);// eslint-disable-line no-console
+
   const url = URL.parse(`${self.opts.apiUrl}/o/token`, true);
   return request.post(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret)
@@ -96,9 +95,8 @@ function getTokenFromCode(self, req) {
     .set('Content-Type', 'application/x-www-form-urlencoded')
     .type('form')
     .send({ grant_type: 'authorization_code' })
-    .send({ code: req.query.code })
     .send({ client_id: self.opts.clientId })
-    .send({ codresponse_typee: 'code token id_token' })
+    .send({ response_type: 'code token id_token' })
     .send({ redirect_uri: `https://${req.get('host')}${self.opts.redirectUri}` });
 }
 
