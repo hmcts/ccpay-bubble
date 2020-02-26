@@ -87,7 +87,7 @@ function authorize(req, res, next, self) {
 }
 
 function getTokenFromCode(self, req) {
-  const url = URL.parse('https://idam-api-idam-aat.service.core-compute-idam-aat.internal/o/token', true);
+  const url = URL.parse(`${self.opts.apiUrl}/o/token`, true);
   return request.post(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret)
     .set('Accept', 'application/json')
