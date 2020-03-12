@@ -3,7 +3,7 @@ security:
 idam:
   client_id: paybubble
   client_secret: NVYEC2X7XFSRENTU
-  login_url: https://idam-web-public.aat.platform.hmcts.net/o/authorize
+  login_url: https://idam-web-public.aat.platform.hmcts.net
   api_url: https://idam-api.aat.platform.hmcts.net
 session:
   cookieName: SESSION_ID
