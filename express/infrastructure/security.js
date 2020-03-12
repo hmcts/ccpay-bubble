@@ -320,7 +320,6 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     }
 
     return getTokenFromCode(self, req).end((err, response) => { /* We ask for the token */
-  
       if (err) {
         return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCode call failed'));
       }
