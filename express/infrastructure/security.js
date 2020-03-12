@@ -101,7 +101,7 @@ function getTokenFromCode(self, req) {
 }
 
 function getUserDetails(self, securityCookie) {
-  return request.get(`${self.opts.apiUrl}/details`)
+  return request.get(`${self.opts.apiUrl}/o/userinfo`)
     .set('Accept', 'application/json')
     .set('Authorization', `Bearer ${securityCookie}`);
 }
