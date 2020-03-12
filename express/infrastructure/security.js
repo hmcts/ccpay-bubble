@@ -33,6 +33,7 @@ function Security(options) {
 function addOAuth2Parameters(url, state, self, req) {
   url.query.response_type = 'code';
   url.query.client_id = self.opts.clientId;
+  url.query.state = state;
   url.query.scope = 'openid';
   url.query.redirect_uri = `https://${req.get('host')}${self.opts.redirectUri}`;
 }
