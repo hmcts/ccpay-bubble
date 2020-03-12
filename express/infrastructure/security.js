@@ -319,8 +319,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     }
 
     return getTokenFromCode(self, req).end((err, response) => { /* We ask for the token */
-      alert('hi');// eslint-disable-line no-alert
-      console.log(response);// eslint-disable-line no-console
+  
       if (err) {
         return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCode call failed'));
       }
