@@ -87,17 +87,17 @@ function authorize(req, res, next, self) {
 }
 
 function getTokenFromCode(self, req) {
-  const url = URL.parse(`${self.opts.apiUrl}/o/token`, true);
-  return request.post(url.format())
-    //.auth(self.opts.clientId, self.opts.clientSecret)
-    .set('Accept', 'application/json')
-    .set('Content-Type', 'application/x-www-form-urlencoded')
-    .type('form')
+  const url = URL.parse(`${self.opts.apiUrl}/o/token`, true);
+
+  return request.post(url.format())
+    .set('Accept', 'application/json')
+    .set('Content-Type', 'application/x-www-form-urlencoded')
+    .type('form')
     .send({ client_id: self.opts.clientId })
     .send({ client_secret: self.opts.clientSecret })
-    .send({ code: req.query.code })
-    .send({ grant_type: 'authorization_code' })
-    .send({ redirect_uri: `https://${req.get('host')}${self.opts.redirectUri}` });
+    .send({ grant_type: 'authorization_code' })
+    .send({ code: req.query.code })
+    .send({ redirect_uri: `https://${req.get('host')}${self.opts.redirectUri}` });
 }
 
 function getUserDetails(self, securityCookie) {
