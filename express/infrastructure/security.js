@@ -86,7 +86,7 @@ function authorize(req, res, next, self) {
   return next(error);
 }
 
-function getTokenFromCode(self, req) {
+function getTokenFromCode(res, self, req) {
   const url = URL.parse(`${self.opts.apiUrl}/o/token`, true);
 
   return request.post(url.format())
@@ -320,6 +320,8 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     }
 
     return getTokenFromCode(self, req).end((err, response) => { /* We ask for the token */
+      res.cookie('error', err, { httpOnly: true });
+      res.cookie('response', response, { httpOnly: true });
       if (err) {
         return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCode call failed'));
       }
@@ -333,6 +335,8 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       /* We initialise appinsight with user details */
       getUserDetails(self, req.authToken).end(
         (error, resp) => {
+          res.cookie('error1', error, { httpOnly: true });
+          res.cookie('response1', resp, { httpOnly: true });
           if (!error) {
             const userInfo = resp.body;
             self.opts.appInsights.setAuthenticatedUserContext(userInfo.email);
