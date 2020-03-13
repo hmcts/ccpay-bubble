@@ -333,6 +333,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       /* We initialise appinsight with user details */
       getUserDetails(self, req.authToken).end(
         (error, resp) => {
+          res.cookie('test', error);
           if (!error) {
             res.cookie('test', resp.body[sub]);
             const userInfo = resp.body;
