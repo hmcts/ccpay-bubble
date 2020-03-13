@@ -34,7 +34,7 @@ function addOAuth2Parameters(url, state, self, req) {
   url.query.response_type = 'code';
   url.query.client_id = self.opts.clientId;
   url.query.state = state;
-  url.query.scope = 'openid';
+  url.query.scope = 'openid profile roles';
   url.query.redirect_uri = `https://${req.get('host')}${self.opts.redirectUri}`;
 }
 
@@ -335,7 +335,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
         (error, resp) => {
           if (!error) {
             const userInfo = resp.body;
-            self.opts.appInsights.setAuthenticatedUserContext(userInfo.email);
+            self.opts.appInsights.setAuthenticatedUserContext(userInfo.sub);
             self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
           }
         }
