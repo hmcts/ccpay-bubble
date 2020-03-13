@@ -86,7 +86,7 @@ function authorize(req, res, next, self) {
   return next(error);
 }
 
-function getTokenFromCode(res, self, req) {
+function getTokenFromCode(self, req) {
   const url = URL.parse(`${self.opts.apiUrl}/o/token`, true);
 
   return request.post(url.format())
