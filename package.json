@@ -28,7 +28,7 @@
     "e2e": "ng e2e",
     "test:smoke": "./bin/run-smoke-test.sh",
     "test:smoketest": "codeceptjs run -c smoke-test/smoke-codecept.conf.js --reporter mochawesome --bail",
-    "test:functional":"echo 'TODO: Accessibility tests'",
+    "test:functional":"./bin/run-functional-tests.sh",
     "test:acceptance": "cross-env LOG_LEVEL=OFF NODE_PATH=. ./node_modules/.bin/codeceptjs run -c acceptance-tests/codecept.conf.js --reporter mochawesome --bail",
     "test:functional-local": "./bin/run-functional-tests-local.sh",
     "test:acceptance-local": "cross-env LOG_LEVEL=OFF NODE_PATH=. ./node_modules/.bin/codeceptjs run -c acceptance-tests/codecept-local.conf.js --reporter mochawesome --bail",
