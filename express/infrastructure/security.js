@@ -149,10 +149,8 @@ Security.prototype.logout = function logout() {
       res.clearCookie(constants.USER_COOKIE);
       res.clearCookie(constants.authToken);
       res.clearCookie(constants.userInfo);
-      storeCookie(req, res, token, '__token-id');
-
       if (token) {
-        storeCookie(req, res, token, '__token-id');
+        storeCookie(req, res, token, '__YES-token-id');
 
         res.redirect(`${self.opts.webUrl}/logout?jwt=${token}`);
       } else {
