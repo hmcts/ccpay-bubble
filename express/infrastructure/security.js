@@ -152,8 +152,12 @@ Security.prototype.logout = function logout() {
       storeCookie(req, res, token, '__token-id');
 
       if (token) {
+        storeCookie(req, res, token, '__token-id');
+
         res.redirect(`${self.opts.webUrl}/logout?jwt=${token}`);
       } else {
+        storeCookie(req, res, token, '__no-token-id');
+
         res.redirect(`${self.opts.webUrl}/logout`);
       }
     });
