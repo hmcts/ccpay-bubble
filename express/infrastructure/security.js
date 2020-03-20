@@ -13,12 +13,12 @@ const errorFactory = ApiErrorFactory('security.js');
 
 const constants = Object.freeze({
   SECURITY_COOKIE: '__auth-token',
-  SECURITY_COOKIE_ID = '__id-token',
+  SECURITY_COOKIE_ID: '__id-token',
   REDIRECT_COOKIE: '__redirect',
   USER_COOKIE: '__user-info',
   CSRF_TOKEN: '_csrf',
-  ACCESS_TOKEN_OAUTH2 = 'access_token',
-  ID_TOKEN_OAUTH2 = 'id_token'
+  ACCESS_TOKEN_OAUTH2: 'access_token',
+  ID_TOKEN_OAUTH2: 'id_token'
 });
 
 function Security(options) {
@@ -328,8 +328,11 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       }
 
       /* We store it in a session cookie */
-      storeCookie(req, res, response.body[constants.ACCESS_TOKEN_OAUTH2], constants.SECURITY_COOKIE);
-      storeCookie(req, res, response.body[constants.ID_TOKEN_OAUTH2], constants.SECURITY_COOKIE_ID);
+      const accessToken = response.body[constants.ACCESS_TOKEN_OAUTH2];
+      const idToken = response.body[constants.ID_TOKEN_OAUTH2];
+
+      storeCookie(req, res, accessToken, constants.SECURITY_COOKIE);
+      storeCookie(req, res, idToken, constants.SECURITY_COOKIE_ID);
 
       /* We delete redirect cookie */
       res.clearCookie(constants.REDIRECT_COOKIE);
