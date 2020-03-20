@@ -13,12 +13,13 @@ const errorFactory = ApiErrorFactory('security.js');
 
 const constants = Object.freeze({
   SECURITY_COOKIE: '__auth-token',
+  SECURITY_COOKIE_ID = '__id-token',
   REDIRECT_COOKIE: '__redirect',
   USER_COOKIE: '__user-info',
-  CSRF_TOKEN: '_csrf'
+  CSRF_TOKEN: '_csrf',
+  ACCESS_TOKEN_OAUTH2 = 'access_token',
+  ID_TOKEN_OAUTH2 = 'id_token'
 });
-
-const ACCESS_TOKEN_OAUTH2 = 'access_token';
 
 function Security(options) {
   this.opts = options || {};
@@ -106,13 +107,13 @@ function getUserDetails(self, securityCookie) {
     .set('Authorization', `Bearer ${securityCookie}`);
 }
 
-function storeCookie(req, res, token) {
+function storeCookie(req, res, token, cookieName) {
   req.authToken = token;
 
   if (req.protocol === 'https') { /* SECURE */
-    res.cookie(constants.SECURITY_COOKIE, req.authToken, { secure: true, httpOnly: true });
+    res.cookie(cookieName, req.authToken, { secure: true, httpOnly: true });
   } else {
-    res.cookie(constants.SECURITY_COOKIE, req.authToken, { httpOnly: true });
+    res.cookie(cookieName, req.authToken, { httpOnly: true });
   }
 }
 
@@ -125,11 +126,11 @@ function handleCookie(req) {
   return null;
 }
 
-function invalidateToken(self, req) {
-  const url = URL.parse(`${self.opts.apiUrl}/session/${req.cookies[constants.SECURITY_COOKIE]}`, true);
-
-  return request.delete(url.format())
-    .auth(self.opts.clientId, self.opts.clientSecret);
+function invalidatesUserToken(self, securityCookie) {
+  return request
+    .get(`${self.opts.apiUrl}/o/endSession`)
+    .query({ id_token_hint: securityCookie })
+    .set('Accept', 'application/json');
 }
 
 Security.prototype.logout = function logout() {
@@ -137,20 +138,22 @@ Security.prototype.logout = function logout() {
 
   // eslint-disable-next-line no-unused-vars
   return function ret(req, res, next) {
-    return invalidateToken(self, req).end(err => {
+    const token = req.cookies[constants.SECURITY_COOKIE_ID];
+
+    return invalidatesUserToken(self, token).end(err => {
       if (err) {
         Logger.getLogger('CCPAY-BUBBLE: security.js').error(err);
       }
-      const token = req.cookies[constants.SECURITY_COOKIE];
       res.clearCookie(constants.SECURITY_COOKIE);
+      res.clearCookie(constants.SECURITY_COOKIE_ID);
       res.clearCookie(constants.REDIRECT_COOKIE);
       res.clearCookie(constants.USER_COOKIE);
       res.clearCookie(constants.authToken);
       res.clearCookie(constants.userInfo);
       if (token) {
-        res.redirect(`${self.opts.loginUrl}/logout?jwt=${token}`);
+        res.redirect(`${self.opts.webUrl}/logout?jwt=${token}`);
       } else {
-        res.redirect(`${self.opts.loginUrl}/logout`);
+        res.redirect(`${self.opts.webUrl}/logout`);
       }
     });
   };
@@ -325,7 +328,8 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       }
 
       /* We store it in a session cookie */
-      storeCookie(req, res, response.body[ACCESS_TOKEN_OAUTH2]);
+      storeCookie(req, res, response.body[constants.ACCESS_TOKEN_OAUTH2], constants.SECURITY_COOKIE);
+      storeCookie(req, res, response.body[constants.ID_TOKEN_OAUTH2], constants.SECURITY_COOKIE_ID);
 
       /* We delete redirect cookie */
       res.clearCookie(constants.REDIRECT_COOKIE);

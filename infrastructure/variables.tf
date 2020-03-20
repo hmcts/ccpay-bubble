@@ -60,7 +60,7 @@ variable "idam_api_url" {
 }
 
 variable "authentication_web_url" {
-  default = "https://idam.dev.ccidam.reform.hmcts.net/o/authorize"
+  default = "https://idam.dev.ccidam.reform.hmcts.net"
 }
 
 variable "ccd_api_url" {
