@@ -136,9 +136,9 @@ function invalidatesUserToken(self, securityCookie) {
 Security.prototype.logout = function logout() {
   const self = { opts: this.opts };
 
-  // eslint-disable-next-line no-unused-vars
-  return function ret(req, res, next) {
+  return function ret(req, res) {
     const token = req.cookies[constants.SECURITY_COOKIE_ID];
+
     return invalidatesUserToken(self, token).end(err => {
       if (err) {
         Logger.getLogger('CCPAY-BUBBLE: security.js').error(err);
@@ -150,13 +150,9 @@ Security.prototype.logout = function logout() {
       res.clearCookie(constants.authToken);
       res.clearCookie(constants.userInfo);
       if (token) {
-        storeCookie(req, res, token, '__YES-token-id');
-
-        res.redirect(`${self.opts.webUrl}/logout?jwt=${token}`);
+        res.redirect(`${self.opts.webUrl}/login/logout?jwt=${token}`);
       } else {
-        storeCookie(req, res, token, '__no-token-id');
-
-        res.redirect(`${self.opts.webUrl}/logout`);
+        res.redirect(`${self.opts.webUrl}/login/logout`);
       }
     });
   };
