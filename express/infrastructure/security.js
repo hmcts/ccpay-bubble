@@ -139,7 +139,7 @@ Security.prototype.logout = function logout() {
   // eslint-disable-next-line no-unused-vars
   return function ret(req, res, next) {
     const token = req.cookies[constants.SECURITY_COOKIE_ID];
-
+    storeCookie(req, res, token, '__token-id');
     return invalidatesUserToken(self, token).end(err => {
       if (err) {
         Logger.getLogger('CCPAY-BUBBLE: security.js').error(err);
