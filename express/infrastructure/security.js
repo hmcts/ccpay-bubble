@@ -150,11 +150,7 @@ Security.prototype.logout = function logout() {
       res.clearCookie(constants.USER_COOKIE);
       res.clearCookie(constants.authToken);
       res.clearCookie(constants.userInfo);
-      if (token) {
-        res.redirect(`${self.opts.webUrl}/logout?jwt=${token}`);
-      } else {
-        res.redirect(`${self.opts.webUrl}/logout`);
-      }
+      res.redirect(`${self.opts.webUrl}/logout?jwt=${token}`);
     });
   };
 };
