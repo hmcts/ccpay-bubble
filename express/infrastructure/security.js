@@ -129,7 +129,7 @@ function handleCookie(req) {
 function invalidatesUserToken(self, securityCookie) {
   return request
     .get(`${self.opts.apiUrl}/o/endSession`)
-    .query({ id_token_hint: securityCookie, post_logout_redirect_uri: `${self.opts.webUrl}/login/logout?jwt=${token}` })
+    .query({ id_token_hint: securityCookie, post_logout_redirect_uri: `${self.opts.webUrl}/login/logout?jwt=${securityCookie}` })
     .set('Accept', 'application/json');
 }
 
