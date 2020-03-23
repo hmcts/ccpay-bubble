@@ -129,7 +129,7 @@ function handleCookie(req) {
 function invalidatesUserToken(self, securityCookie) {
   return request
     .get(`${self.opts.apiUrl}/o/endSession`)
-    .query({ id_token_hint: securityCookie, post_logout_redirect_uri: 'https://ccpay-bubble-frontend-pr-282.service.core-compute-preview.internal/ccd-search' })
+    .query({ id_token_hint: securityCookie, post_logout_redirect_uri: '/logout' })
     .set('Accept', 'application/json');
 }
 
@@ -141,7 +141,7 @@ Security.prototype.logout = function logout() {
 
     return invalidatesUserToken(self, token).end(err => {
       if (err) {
-        Logger.getLogger('CCPAY-BUBBLE: security.js').error(err);
+        Logger.getLogger('ss-CCPAY-BUBBLE: security.js').error(err);
       }
       res.clearCookie(constants.SECURITY_COOKIE);
       res.clearCookie(constants.SECURITY_COOKIE_ID);
