@@ -129,7 +129,7 @@ function handleCookie(req) {
 function invalidatesUserToken(self, securityCookie) {
   return request
     .get(`${self.opts.apiUrl}/o/endSession`)
-    .query({ id_token_hint: securityCookie, post_logout_redirect_uri: 'https://idam-web-public.aat.platform.hmcts.net/login/logout' })
+    .query({ id_token_hint: securityCookie, post_logout_redirect_uri: 'https://ccpay-bubble-frontend-pr-282.service.core-compute-preview.internal/ccd-search' })
     .set('Accept', 'application/json');
 }
 
