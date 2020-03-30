@@ -141,7 +141,7 @@ Security.prototype.logout = function logout() {
 
     return invalidatesUserToken(self, token).end(err => {
       if (err) {
-        Logger.getLogger('ss-CCPAY-BUBBLE: security.js').error(err);
+        Logger.getLogger('CCPAY-BUBBLE: security.js').error(err);
       }
       res.clearCookie(constants.SECURITY_COOKIE);
       res.clearCookie(constants.SECURITY_COOKIE_ID);
@@ -149,11 +149,11 @@ Security.prototype.logout = function logout() {
       res.clearCookie(constants.USER_COOKIE);
       res.clearCookie(constants.authToken);
       res.clearCookie(constants.userInfo);
-      // if (token) {
-      //   res.redirect(`${self.opts.webUrl}/login/logout?jwt=${token}`);
-      // } else {
-      //   res.redirect(`${self.opts.webUrl}/login/logout`);
-      // }
+      if (token) {
+        res.redirect(`${self.opts.webUrl}/login/logout?jwt=${token}`);
+      } else {
+        res.redirect(`${self.opts.webUrl}/login/logout`);
+      }
     });
   };
 };
