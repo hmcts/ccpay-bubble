@@ -2,6 +2,7 @@ const express = require('express');
 const controllers = require('./mvc/controller');
 const config = require('config');
 const HttpStatus = require('http-status-codes');
+const timeOutSecond = 10;
 
 module.exports = appInsights => express.Router()
 
@@ -104,7 +105,7 @@ module.exports = appInsights => express.Router()
   })
   // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {
-    req.setTimeout(10);
+    req.setTimeout(timeOutSecond);
     controllers.payhubController.ccpayWebComponentIntegration(req, res);
   })
   .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }))
