@@ -2,6 +2,7 @@ const express = require('express');
 const controllers = require('./mvc/controller');
 const config = require('config');
 const HttpStatus = require('http-status-codes');
+
 const timeOutSecond = 10;
 
 module.exports = appInsights => express.Router()
