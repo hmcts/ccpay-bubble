@@ -10,5 +10,5 @@ nodejs:
 idam-pr:
   enabled: true
   redirect_uris:
-  paybubble:
-    - https://${SERVICE_FQDN}/oauth2/callback
+    paybubble:
+      - https://${SERVICE_FQDN}/oauth2/callback
