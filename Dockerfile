@@ -1,16 +1,13 @@
-FROM node:8.12.0-slim
+FROM hmctspublic.azurecr.io/base/node:12-alpine as base
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+ENV WORKDIR /opt/app
+WORKDIR ${WORKDIR}
 
-COPY . /usr/src/app/
-
-RUN yarn install --production && yarn cache clean;rm -rf /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp
-
+COPY --chown=hmcts:hmcts . .
+RUN yarn install --production  && yarn cache clean
 # force to run in http
 ENV IGNORE_CERTS true
 
-HEALTHCHECK --interval=10s --timeout=10s --retries=10 CMD http_proxy= curl -k --silent --fail https://localhost:3000/health
 
 EXPOSE 3000
 CMD [ "yarn", "start" ]
