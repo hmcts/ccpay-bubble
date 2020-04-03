@@ -28,12 +28,18 @@ import {PaymentLibModule} from '@hmcts/ccpay-web-component';
 import {WindowUtil} from './services/window-util/window-util';
 import {CcdSearchComponent} from './components/ccd-search/ccd-search.component';
 import {AuthDevInterceptor} from './shared/interceptors/auth.dev.interceptor';
+import {TimeoutDevInterceptor} from './shared/interceptors/timeout.dev.interceptor';
 import {environment} from '../environments/environment';
 import { CaseRefService } from './services/caseref/caseref.service';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
   useClass: AuthDevInterceptor,
+  multi: true
+}];
+const timeoutDevProviders = [{
+  provide: HTTP_INTERCEPTORS,
+  useClass: TimeoutDevInterceptor,
   multi: true
 }];
 
@@ -74,6 +80,7 @@ const nonProductionProviders = [{
     CaseRefService,
     WindowUtil,
     !environment.production ? nonProductionProviders : [],
+    timeoutDevProviders,
     PaymentGroupService
   ],
   bootstrap: [AppComponent]

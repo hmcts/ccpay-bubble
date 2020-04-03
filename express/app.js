@@ -3,7 +3,7 @@ const controllers = require('./mvc/controller');
 const config = require('config');
 const HttpStatus = require('http-status-codes');
 
-const timeOutSecond = 10;
+const timeOutSecond = 240000;
 
 module.exports = appInsights => express.Router()
 
@@ -99,14 +99,15 @@ module.exports = appInsights => express.Router()
     controllers.bulkScanController.getPaymentDetailsForDcn(req, res);
   })
   .get('/bulk-scan/report/data?*', (req, res) => {
+
     controllers.bulkScanController.getSelectedReport(req, res);
   })
   .get('/payment-history/report/data?*', (req, res) => {
+    res.setTimeout(timeOutSecond)
     controllers.payhubController.getSelectedReport(req, res);
   })
   // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {
-    req.setTimeout(timeOutSecond);
     controllers.payhubController.ccpayWebComponentIntegration(req, res);
   })
   .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('appInsights.instrumentationKey') }))
