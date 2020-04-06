@@ -8,7 +8,6 @@ nodejs:
   livenessDelay: 30
   keyVaults:
     "ccpay":
-      resourceGroup: ccpay		
       secrets:
         - paybubble-s2s-secret
         - paybubble-idam-client-secret
@@ -17,7 +16,6 @@ nodejs:
     REFORM_TEAM: ccpay
     REFORM_SERVICE_NAME: ccpay-bubble-frontend
     NODE_ENV: production
-    IGNORE_CERTS: true
 
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
     CCPAY_BUBBLE_URL:  https://ccpay-bubble-frontend-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
