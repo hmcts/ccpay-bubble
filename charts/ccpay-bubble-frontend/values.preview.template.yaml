@@ -3,9 +3,6 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   environment:
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
-    #TODO to move to keyvault flex volumes.
-    S2S_KEY: ${PAYBUBBLE_S2S_TOTP_SECRET}
-    IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
 
 idam-pr:
   enabled: true
