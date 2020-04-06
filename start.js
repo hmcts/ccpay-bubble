@@ -19,8 +19,6 @@ const app = require('./server')(security(appInsights), appInsights),
 
 // reverse proxy handles tls in non local environments
 if (process.env.NODE_ENV === 'development') {
-  // Disable cert errors
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
   const crtLocation = config.get('certs.crt'),
     keyLocation = config.get('certs.key'),
     cert = fs.readFileSync(crtLocation),
