@@ -4,7 +4,7 @@ const config = require('config');
 const security = appInsights =>
   new Security({
     clientId: config.idam.client_id,
-    clientSecret: config.idam.client_secret,
+    clientSecret: config.secrets.ccpay.paybubble-idam-client-secret,
     loginUrl: config.idam.login_url,
     registrationUrl: config.idam.registration_url,
     apiUrl: config.idam.api_url,
