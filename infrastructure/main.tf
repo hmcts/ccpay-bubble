@@ -80,6 +80,6 @@ module "ccpay-bubble" {
     //added attribute for bulkscan
     CCPAY_BULKSCAN_API_URL = "http://ccpay-bulkscanning-api-${var.env}.service.core-compute-${var.env}.internal"
     
-    WEBSITE_NODE_DEFAULT_VERSION = "12.14.1"  
+    WEBSITE_NODE_DEFAULT_VERSION = "12.15.0"  
   }
 }
