@@ -2,16 +2,10 @@ nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   environment:
-    S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
-    #TODO to move to keyvault flex volumes.
-    S2S_KEY: ${PAYBUBBLE_S2S_TOTP_SECRET}
-    IDAM_CLIENT_SECRET: ${IDAM_CLIENT_SECRET}
 
 idam-pr:
+  enabled: true
   redirect_uris:
-    paybubble:
+    pay-bubble:
       - https://${SERVICE_FQDN}/oauth2/callback
-ccpayfrontend:
-  idampr:
-    enabled: true

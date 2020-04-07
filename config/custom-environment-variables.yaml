@@ -5,14 +5,12 @@ security:
     pins: SECURITY_HPKP_PINS
 idam:
   client_id: paybubble
-  client_secret: IDAM_CLIENT_SECRET
   login_url: IDAM_AUTHENTICATION_WEB_URL
   api_url: IDAM_API_URL
 ccpaybubble:
   url: CCPAY_BUBBLE_URL
   microservice: CCPAY_BUBBLE_MICROSERVICE
 s2s:
-  key: S2S_KEY
   url: S2S_URL
 payhub:
   url: PAYHUB_API_URL
@@ -23,8 +21,6 @@ certs:
   crt: CERTS_CRT
 session:
   cookieName: JWT_PAYBUBBLE
-appInsights:
-  instrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
 e2e:
   frontendUrl: E2E_FRONTEND_URL
   waitForTimeoutValue: E2E_WAIT_FOR_TIMEOUT_VALUE
@@ -34,3 +30,8 @@ fee:
   feeJurisdictionUrl: FEE_JURISDICTION_URL
 ccd:
   url: CCD_URL
+secrets:
+  ccpay:
+    paybubble-s2s-secret: S2S_KEY
+    paybubble-idam-client-secret: IDAM_CLIENT_SECRET
+    AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
