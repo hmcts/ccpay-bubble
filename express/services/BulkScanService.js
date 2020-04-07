@@ -4,7 +4,7 @@ const request = require('request-promise-native');
 
 const bulkScanUrl = config.get('bulkscan.url');
 const s2sUrl = config.get('s2s.url');
-const ccpayBubbleSecret = config.get('s2s.key');
+const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
 const microService = config.get('ccpaybubble.microservice');
 
 class BulkScanService {

@@ -1,6 +1,9 @@
 {
   "name": "ccpay-bubble",
   "version": "2.0.0",
+  "engines": {
+    "node": ">=12.14.1"
+  },
   "scripts": {
     "debug": "node --inspect --proxy-server=http://proxyout.reform.hmcts.net:8080 start.js",
     "ng": "ng",
@@ -51,6 +54,7 @@
     "@hmcts/frontend": "^0.0.34-alpha",
     "@hmcts/nodejs-healthcheck": "^1.5.1",
     "@hmcts/nodejs-logging": "^3.0.0",
+    "@hmcts/properties-volume": "^0.0.9",
     "applicationinsights": "^1.1.0",
     "applicationinsights-js": "^1.0.20",
     "client-request": "^2.3.0",
@@ -87,6 +91,17 @@
     "zone.js": "~0.8.29"
   },
   "devDependencies": {
+    "@angular/animations": "~7.2.4",
+    "@angular/cdk": "6",
+    "@angular/common": "~7.2.4",
+    "@angular/compiler": "~7.2.4",
+    "@angular/core": "~7.2.4",
+    "@angular/forms": "~7.2.4",
+    "@angular/http": "^7.2.4",
+    "@angular/material": "6",
+    "@angular/platform-browser": "~7.2.4",
+    "@angular/platform-browser-dynamic": "~7.2.4",
+    "@angular/router": "~7.2.4",
     "@angular-devkit/build-angular": "~0.13.0",
     "@angular-devkit/build-ng-packagr": "~0.13.0",
     "@angular/cli": "~7.3.0",
