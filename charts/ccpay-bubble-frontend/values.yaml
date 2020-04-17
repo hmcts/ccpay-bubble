@@ -1,6 +1,6 @@
 nodejs:
   applicationPort: 3000
-  ingressHost: ccpay-bubble.{{ .Values.global.environment }}.platform.hmcts.net
+  ingressHost: paybubble.{{ .Values.global.environment }}.platform.hmcts.net
   aadIdentityName: ccpay
   memoryLimits: 1024Mi
   cpuLimits: 1000m
