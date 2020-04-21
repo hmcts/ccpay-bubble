@@ -1,11 +1,24 @@
 nodejs:
   applicationPort: 3000
+  ingressHost: paybubble.{{ .Values.global.environment }}.platform.hmcts.net
+  aadIdentityName: ccpay
+  memoryLimits: 1024Mi
+  cpuLimits: 1000m
+  readinessDelay: 30
+  livenessDelay: 30
+  keyVaults:
+    "ccpay":
+      secrets:
+        - paybubble-s2s-secret
+        - paybubble-idam-client-secret
+        - AppInsightsInstrumentationKey
   environment:
     REFORM_TEAM: ccpay
     REFORM_SERVICE_NAME: ccpay-bubble-frontend
     NODE_ENV: production
 
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
+    CCPAY_BUBBLE_URL:  https://ccpay-bubble-frontend-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     PAYHUB_API_URL: http://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     CCPAY_BULKSCAN_API_URL: http://ccpay-bulkscanning-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
@@ -18,6 +31,5 @@ nodejs:
 
     CCD_URL: http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
 
-ccpayfrontend:
-  idampr:
-    enabled: false
+idam-pr:
+  enabled: false

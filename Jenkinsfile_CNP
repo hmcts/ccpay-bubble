@@ -32,9 +32,9 @@ withPipeline("nodejs", product, component) {
 
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  //enableDockerBuild()
   installCharts()
   enableSlackNotifications('#cc-payments-tech')
+  enableAksStagingDeployment()
 
   after('checkout') {
     sh "yarn cache clean"
