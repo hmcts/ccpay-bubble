@@ -1,6 +1,0 @@
-name = "ccpay-bubble-test"
-product = "ccpay"
-component = "bubble-frontend"
-env = "sandbox"
-subscription = "sandbox"
-external_host_name ="ccpay-bubble-sandbox.platform.hmcts.net"
