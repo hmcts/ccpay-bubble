@@ -13,9 +13,9 @@ ccpaybubble:
 s2s:
   url: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
 payhub:
-  url: http://payment-api-prod.service.core-compute-prod.internal
+  url: http://payment-api-demo.service.core-compute-demo.internal
 bulkscan:
-  url: http://ccpay-bulkscanning-api-prod.service.core-compute-prod.internal
+  url: http://ccpay-bulkscanning-api-demo.service.core-compute-demo.internal
 appInsights:
   roleName: paybubble
 e2e:
