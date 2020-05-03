@@ -21,8 +21,6 @@ const constants = Object.freeze({
   ID_TOKEN_OAUTH2: 'id_token'
 });
 
-const ACCESS_TOKEN_OAUTH2 = 'access_token';
-
 function Security(options) {
   this.opts = options || {};
 
