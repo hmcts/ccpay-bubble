@@ -136,8 +136,8 @@ Security.prototype.logout = function logout() {
       if (err) {
         Logger.getLogger('CCPAY-BUBBLE: security.js').error(err);
       }
-      const token = req.cookies[constants.SECURITY_COOKIE];	
-      
+      const token = req.cookies[constants.SECURITY_COOKIE];
+
       res.clearCookie(constants.SECURITY_COOKIE);
       res.clearCookie(constants.REDIRECT_COOKIE);
       res.clearCookie(constants.USER_COOKIE);
