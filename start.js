@@ -14,7 +14,6 @@ const app = require('./server')(security(appInsights), appInsights),
   fs = require('fs'),
   defaultPort = '3000',
   port = process.env.PORT || defaultPort,
-  https = require('https'),
   http = require('http');
 
 // Disable cert errors

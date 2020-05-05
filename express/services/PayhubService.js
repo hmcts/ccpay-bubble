@@ -170,6 +170,18 @@ class PayhubService {
     }));
   }
 
+  patchPaymentsChangeStatus(req) {
+    return this.createAuthToken().then(token => request.patch({
+      uri: `${payhubUrl}/payments/${req.params.id}/status/${req.params[0]}`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
   createAuthToken() {
     const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
     const serviceAuthRequest = {

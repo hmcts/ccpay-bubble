@@ -85,6 +85,10 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.deleteFeesFromPaymentGroup(req, res, appInsights);
   })
 
+  .patch('/payment-history/payments/:id/status/*', (req, res) => {
+    controllers.payhubController.patchPaymentsChangeStatus(req, res, appInsights);
+  })
+
   .patch('/payment-history/bulk-scan-payments/:id/status/*', (req, res) => {
     controllers.bulkScanController.patchBSChangeStatus(req, res, appInsights);
   })

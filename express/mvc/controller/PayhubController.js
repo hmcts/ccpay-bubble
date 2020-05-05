@@ -158,6 +158,21 @@ class PayhubController {
         }
       });
   }
+
+  patchPaymentsChangeStatus(req, res, appInsights) {
+    return this.payhubService.patchPaymentsChangeStatus(req, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json({ err: error.message, success: false });
+        } else {
+          res.status(500).json({ err: error, success: false });
+        }
+      });
+  }
+
   postBSPayments(req, res, appInsights) {
     return this.payhubService.postBSPayments(req, appInsights)
       .then(result => {
