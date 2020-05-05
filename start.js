@@ -17,13 +17,7 @@ const app = require('./server')(security(appInsights), appInsights),
   https = require('https'),
   http = require('http');
 
-// reverse proxy handles tls in non local environments
-if (process.env.NODE_ENV === 'development') {
-  const crtLocation = config.get('certs.crt'),
-    keyLocation = config.get('certs.key'),
-    cert = fs.readFileSync(crtLocation),
-    key = fs.readFileSync(keyLocation);
-  https.createServer({ key, cert }, app).listen(port);
-} else {
-  http.createServer(app).listen(port);
-}
+// Disable cert errors
+
+// SSL handled at IIS level so Node.js app (iisnode) should be http only.
+http.createServer(app).listen(port);
