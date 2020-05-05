@@ -44,17 +44,20 @@ export class CcdSearchComponent implements OnInit {
     this.fromValidation();
    }
 
-   fromValidation() {
-    this.searchForm = this.formBuilder.group({
-    searchInput: new FormControl('',
-     [ Validators.required,
-      Validators.pattern(!this.isBulkscanningEnable ?
-        this.ccdPattern :
-        this.selectedValue === 'CCDorException' ?
-        this.ccdPattern : this.dcnPattern)
-    ]),
-    CCDorException: new FormControl(this.selectedValue) });
-}
+  fromValidation() {
+      this.searchForm = this.formBuilder.group({
+      searchInput: new FormControl('',
+       [ Validators.required,
+        Validators.pattern(!this.isBulkscanningEnable ?
+          this.ccdPattern :
+          this.selectedValue === 'CCDorException' ?
+          this.ccdPattern :
+          this.selectedValue === 'DCN' ?
+          this.dcnPattern : this.prnPattern)
+      ]),
+      CCDorException: new FormControl(this.selectedValue) });
+      console.log('one', this.selectedValue);
+  }
 
   onSelectionChange(value: string) {
       this.selectedValue = value;
@@ -117,6 +120,7 @@ export class CcdSearchComponent implements OnInit {
   }
 }
   removeHyphenFromString(input: string) {
+    console.log('two', input);
     const pattern = /\-/gi;
     return input.replace(pattern, '');
   }
