@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { Router, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
+import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
 
 @Component({
   selector: 'app-ccd-search',
@@ -18,6 +19,7 @@ export class CcdSearchComponent implements OnInit {
   selectedValue = 'CCDorException';
   ccdPattern =  /^([0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4})?([0-9]{16})?$/i;
   dcnPattern = /^[0-9]{21}$/i;
+  prnPattern = /^([a-z]{2}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4})?([a-z]{2}\[0-9]{16})?$/i;
   noCaseFound = false;
   noCaseFoundInCCD = false;
   isBulkscanningEnable = true;
@@ -27,7 +29,8 @@ export class CcdSearchComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private caseRefService: CaseRefService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private viewPaymentService: ViewPaymentService
   ) {}
 
   ngOnInit() {
@@ -47,7 +50,9 @@ export class CcdSearchComponent implements OnInit {
         Validators.pattern(!this.isBulkscanningEnable ?
           this.ccdPattern :
           this.selectedValue === 'CCDorException' ?
-          this.ccdPattern : this.dcnPattern)
+          this.ccdPattern :
+          this.selectedValue === 'DCN' ?
+          this.dcnPattern : this.prnPattern)
       ]),
       CCDorException: new FormControl(this.selectedValue) });
   }
@@ -57,6 +62,7 @@ export class CcdSearchComponent implements OnInit {
       this.hasErrors = false;
       this.noCaseFoundInCCD = false;
       this.searchForm.get('CCDorException').setValue(value);
+      // alert(this.searchForm.get('CCDorException').value);
       this.fromValidation();
     }
 
@@ -79,7 +85,7 @@ export class CcdSearchComponent implements OnInit {
           this.noCaseFound = true;
         });
 
-      } else {
+      } else if (this.selectedValue.toLocaleLowerCase() === 'ccdorexception') {
         this.ccdCaseNumber = this.removeHyphenFromString(searchValue);
         this.dcnNumber = null;
         this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
@@ -90,13 +96,27 @@ export class CcdSearchComponent implements OnInit {
         }, err => {
           this.noCaseFoundInCCD = true;
         });
-      }
-
-    } else {
+      } else if (this.selectedValue.toLocaleLowerCase() === 'prn') {
+      this.viewPaymentService.getPaymentDetail(searchValue).subscribe((res) => {
+        if (res['ccd_case_number']) {
+          this.ccdCaseNumber = this.removeHyphenFromString(res['ccd_case_number']);
+          this.dcnNumber = null;
+          this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
+            this.noCaseFoundInCCD = false;
+            // tslint:disable-next-line:max-line-length
+            const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
+          }, err => {
+            this.noCaseFoundInCCD = true;
+          });
+        }
+        this.noCaseFound = true;
+      });
+    } else  {
       return this.hasErrors = true;
     }
   }
-
+}
   removeHyphenFromString(input: string) {
     const pattern = /\-/gi;
     return input.replace(pattern, '');

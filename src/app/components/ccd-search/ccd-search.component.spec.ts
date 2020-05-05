@@ -191,6 +191,16 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.selectedValue).toBe('CCDorException');
     expect(component.dcnNumber).toBe('111122223333444401234');
     expect(component.ccdCaseNumber).toBe('1111222233334444');
+    component.onSelectionChange('PRN');
+    expect(component.selectedValue).toBe('PRN');
+    spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('prn');
+    component.searchForm.controls['searchInput'].setValue('RC-1577-2020-5487-0301');
+    component.searchFees();
+    await fixture.whenStable();
+    expect(component.selectedValue).toBe('PRN');
+    expect(component.dcnNumber).toBeNull();
+    expect(component.ccdCaseNumber).toBe('1111222233334444');
+    component.isBulkscanningEnable = false;
   });
 
   it('Should get dcn details', async () => {
