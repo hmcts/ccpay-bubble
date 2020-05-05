@@ -15,6 +15,7 @@ export class CcdSearchComponent implements OnInit {
   hasErrors = false;
   ccdCaseNumber: string;
   dcnNumber: string;
+  prnNumber: string;
   takePayment: boolean;
   selectedValue = 'CCDorException';
   ccdPattern =  /^([0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4})?([0-9]{16})?$/i;
@@ -43,19 +44,17 @@ export class CcdSearchComponent implements OnInit {
     this.fromValidation();
    }
 
-  fromValidation() {
-      this.searchForm = this.formBuilder.group({
-      searchInput: new FormControl('',
-       [ Validators.required,
-        Validators.pattern(!this.isBulkscanningEnable ?
-          this.ccdPattern :
-          this.selectedValue === 'CCDorException' ?
-          this.ccdPattern :
-          this.selectedValue === 'DCN' ?
-          this.dcnPattern : this.prnPattern)
-      ]),
-      CCDorException: new FormControl(this.selectedValue) });
-  }
+   fromValidation() {
+    this.searchForm = this.formBuilder.group({
+    searchInput: new FormControl('',
+     [ Validators.required,
+      Validators.pattern(!this.isBulkscanningEnable ?
+        this.ccdPattern :
+        this.selectedValue === 'CCDorException' ?
+        this.ccdPattern : this.dcnPattern)
+    ]),
+    CCDorException: new FormControl(this.selectedValue) });
+}
 
   onSelectionChange(value: string) {
       this.selectedValue = value;
