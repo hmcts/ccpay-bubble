@@ -1,4 +1,3 @@
-const config = require('@hmcts/properties-volume').addTo(require('config'));
 const security = require('./express/infrastructure/security-factory');
 const { enable } = require('./app-insights');
 
@@ -11,7 +10,6 @@ appInsights.setAuthenticatedUserContext = userId => {
 };
 
 const app = require('./server')(security(appInsights), appInsights),
-  fs = require('fs'),
   defaultPort = '3000',
   port = process.env.PORT || defaultPort,
   http = require('http');
