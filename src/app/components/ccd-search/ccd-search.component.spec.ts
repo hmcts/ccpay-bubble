@@ -71,6 +71,7 @@ describe('CCD search component with takePayment is equal to true', () => {
               amount: 100,
               bgc_reference: 'BGC1203',
               case_reference: '1111222233334444',
+              ccd_case_number: '1111-2222-3333-4444',
               payment_reference: 'RC-1577-2020-5487-0301',
               currency: 'GBP',
               date_banked: '2019-DEC-02',
@@ -234,7 +235,8 @@ describe('CCD search component with takePayment is equal to true', () => {
 
   it('Should get prn details', async () => {
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
-    spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
+    spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({ccd_case_number: '1111-2222-3333-4444'}));
+   //  spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
     component.ngOnInit();
     component.dcnNumber = '';
     component.ccdCaseNumber = '';
@@ -251,7 +253,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(ccd_case_number).toBe('1111222233334444');
     await fixture.whenStable();
     expect(component.selectedValue).toBe('PRN');
-    expect(component.dcnNumber).toBe('');
+    expect(component.dcnNumber).toBeNull();
     expect(component.ccdCaseNumber).toBe('1111222233334444');
     component.isBulkscanningEnable = false;
   });
