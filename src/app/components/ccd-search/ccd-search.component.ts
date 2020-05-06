@@ -56,7 +56,6 @@ export class CcdSearchComponent implements OnInit {
           this.dcnPattern : this.prnPattern)
       ]),
       CCDorException: new FormControl(this.selectedValue) });
-      console.log('one', this.selectedValue);
   }
 
   onSelectionChange(value: string) {
@@ -64,7 +63,6 @@ export class CcdSearchComponent implements OnInit {
       this.hasErrors = false;
       this.noCaseFoundInCCD = false;
       this.searchForm.get('CCDorException').setValue(value);
-      // alert(this.searchForm.get('CCDorException').value);
       this.fromValidation();
     }
 
@@ -104,12 +102,12 @@ export class CcdSearchComponent implements OnInit {
           this.ccdCaseNumber = this.removeHyphenFromString(res['ccd_case_number']);
           this.dcnNumber = null;
           this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
-            this.noCaseFoundInCCD = false;
+            this.noCaseFound = false;
             // tslint:disable-next-line:max-line-length
             const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
             this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
           }, err => {
-            this.noCaseFoundInCCD = true;
+            this.noCaseFound = true;
           });
         }
         this.noCaseFound = true;
@@ -117,10 +115,11 @@ export class CcdSearchComponent implements OnInit {
     } else  {
       return this.hasErrors = true;
     }
+  } else {
+    return this.hasErrors = true;
   }
 }
   removeHyphenFromString(input: string) {
-    console.log('two', input);
     const pattern = /\-/gi;
     return input.replace(pattern, '');
   }

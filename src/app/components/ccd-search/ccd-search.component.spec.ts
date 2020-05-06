@@ -4,12 +4,14 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CcdSearchComponent } from './ccd-search.component';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
+import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
 import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { instance, mock } from 'ts-mockito';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
 
 const routerMock = {
   navigateByUrl: jasmine.createSpy('navigateByUrl')
@@ -21,6 +23,7 @@ describe('CCD search component with takePayment is equal to true', () => {
   let component: CcdSearchComponent,
     fixture: ComponentFixture<CcdSearchComponent>,
     caseRefService: CaseRefService,
+    viewPaymentService: ViewPaymentService,
     paymentGroupService: PaymentGroupService,
     mockResponse: any,
     activatedRoute;
@@ -31,10 +34,12 @@ describe('CCD search component with takePayment is equal to true', () => {
       imports: [
         CommonModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
+        HttpClientModule
       ],
       providers: [
         CaseRefService,
+        ViewPaymentService,
         {
           provide: PaymentGroupService,
           useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
@@ -88,6 +93,7 @@ describe('CCD search component with takePayment is equal to true', () => {
       CCDorException: null
     });
     caseRefService = fixture.debugElement.injector.get(CaseRefService);
+    viewPaymentService = fixture.debugElement.injector.get(ViewPaymentService);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
   });
@@ -139,6 +145,7 @@ describe('CCD search component with takePayment is equal to true', () => {
 
   it('Search form should be valid if a correct format string has been entered', async () => {
     spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+    spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     await component.ngOnInit();
     await component.searchForm.controls['searchInput'].setValue('1111-2222-3333-4444');
@@ -167,6 +174,7 @@ describe('CCD search component with takePayment is equal to true', () => {
    it('Should get dcn details', async () => {
     spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse));
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+    spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
     component.ngOnInit();
     component.dcnNumber = '';
     component.ccdCaseNumber = '';
@@ -198,7 +206,8 @@ describe('CCD search component with takePayment is equal to true', () => {
     component.searchFees();
     await fixture.whenStable();
     expect(component.selectedValue).toBe('PRN');
-    expect(component.dcnNumber).toBeNull();
+    component.dcnNumber = '';
+    expect(component.dcnNumber).toBe('');
     expect(component.ccdCaseNumber).toBe('1111222233334444');
     component.isBulkscanningEnable = false;
   });
@@ -247,6 +256,7 @@ describe('ccd search component without takePayment option', () => {
   let component: CcdSearchComponent,
     fixture: ComponentFixture<CcdSearchComponent>,
     caseRefService: CaseRefService,
+    viewPaymentService: ViewPaymentService,
     paymentGroupService: PaymentGroupService,
     activatedRoute;
   const formBuilder: FormBuilder = new FormBuilder();
@@ -256,10 +266,12 @@ describe('ccd search component without takePayment option', () => {
       imports: [
         CommonModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
+        HttpClientModule
       ],
       providers: [
         CaseRefService,
+        ViewPaymentService,
         {
           provide: PaymentGroupService,
           useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
@@ -288,6 +300,7 @@ describe('ccd search component without takePayment option', () => {
       CCDorException: null
     });
     caseRefService = fixture.debugElement.injector.get(CaseRefService);
+    viewPaymentService = fixture.debugElement.injector.get(ViewPaymentService);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
   });
@@ -298,6 +311,7 @@ describe('ccd search component without takePayment option', () => {
 
   it('Search form should be invalid if an empty string has been entered', async () => {
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+    spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
     spyOn(activatedRoute, 'params').and.returnValue(of({}));
     await component.ngOnInit();
     await component.searchForm.controls['searchInput'].setValue('');
@@ -308,6 +322,7 @@ describe('ccd search component without takePayment option', () => {
 
   it('Search form should be valid if a correct format string has been entered', async () => {
     spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+    spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     await component.ngOnInit();
     await component.searchForm.controls['searchInput'].setValue('1111-2222-3333-4444');
