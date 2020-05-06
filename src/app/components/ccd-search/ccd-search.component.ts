@@ -94,7 +94,6 @@ export class CcdSearchComponent implements OnInit {
         });
       } else if (this.selectedValue.toLocaleLowerCase() === 'prn') {
       this.viewPaymentService.getPaymentDetail(searchValue).subscribe((res) => {
-        console.log('sntosh', res['ccd_case_number']);
         if (res['ccd_case_number']) {
           this.ccdCaseNumber = this.removeHyphenFromString(res['ccd_case_number']);
           this.dcnNumber = null;
@@ -103,7 +102,7 @@ export class CcdSearchComponent implements OnInit {
             // tslint:disable-next-line:max-line-length
             const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
             this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
-          }, err => {
+            }, err => {
             this.noCaseFound = true;
           });
         }
