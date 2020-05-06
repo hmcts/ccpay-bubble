@@ -15,7 +15,6 @@ export class CcdSearchComponent implements OnInit {
   hasErrors = false;
   ccdCaseNumber: string;
   dcnNumber: string;
-  prnNumber: string;
   takePayment: boolean;
   selectedValue = 'CCDorException';
   ccdPattern =  /^([0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4})?([0-9]{16})?$/i;
@@ -24,6 +23,7 @@ export class CcdSearchComponent implements OnInit {
   noCaseFound = false;
   noCaseFoundInCCD = false;
   isBulkscanningEnable = true;
+  ccdRef: string;
 
   constructor(
     private paymentGroupService: PaymentGroupService,
@@ -98,8 +98,10 @@ export class CcdSearchComponent implements OnInit {
         });
       } else if (this.selectedValue.toLocaleLowerCase() === 'prn') {
       this.viewPaymentService.getPaymentDetail(searchValue).subscribe((res) => {
-        if (res['ccd_case_number']) {
-          this.ccdCaseNumber = this.removeHyphenFromString(res['ccd_case_number']);
+        this.ccdRef = res['ccd_case_number'];
+        console.log('sntosh', this.ccdRef);
+        if (this.ccdRef) {
+          this.ccdCaseNumber = this.removeHyphenFromString(this.ccdRef);
           this.dcnNumber = null;
           this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
             this.noCaseFound = false;

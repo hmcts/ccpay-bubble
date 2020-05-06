@@ -71,6 +71,7 @@ describe('CCD search component with takePayment is equal to true', () => {
               amount: 100,
               bgc_reference: 'BGC1203',
               case_reference: '1111222233334444',
+              payment_reference: 'RC-1577-2020-5487-0301',
               currency: 'GBP',
               date_banked: '2019-DEC-02',
               date_created: '2019-DEC-19',
@@ -230,6 +231,32 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.dcnNumber).toBe('111122223333444401234');
     expect(component.ccdCaseNumber).toBe('1111222233234444');
   });
+
+  it('Should get prn details', async () => {
+    spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+    spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
+    component.ngOnInit();
+    component.dcnNumber = '';
+    component.ccdCaseNumber = '';
+    component.takePayment = true;
+    component.isBulkscanningEnable = true;
+    component.onSelectionChange('PRN');
+    expect(component.selectedValue).toBe('PRN');
+    spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('prn');
+    component.searchForm.controls['searchInput'].setValue('RC-1577-2020-5487-0301');
+    let ccd_case_number = '1111-2222-3333-4444';
+    ccd_case_number = component.removeHyphenFromString(ccd_case_number);
+    component.ccdCaseNumber = ccd_case_number;
+    component.ccdRef = '1111-2222-3333-4444';
+    component.searchFees();
+    expect(ccd_case_number).toBe('1111222233334444');
+    await fixture.whenStable();
+    expect(component.selectedValue).toBe('PRN');
+    expect(component.dcnNumber).toBe('');
+    expect(component.ccdCaseNumber).toBe('1111222233334444');
+    component.isBulkscanningEnable = false;
+  });
+
   it('Should get go to correct navigation', async () => {
     mockResponse['data'].ccd_reference = null;
     spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse));
