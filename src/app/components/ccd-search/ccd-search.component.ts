@@ -48,11 +48,8 @@ export class CcdSearchComponent implements OnInit {
       searchInput: new FormControl('',
        [ Validators.required,
         Validators.pattern(!this.isBulkscanningEnable ?
-          this.ccdPattern :
-          this.selectedValue === 'CCDorException' ?
-          this.ccdPattern :
-          this.selectedValue === 'DCN' ?
-          this.dcnPattern : this.prnPattern)
+          // tslint:disable-next-line:max-line-length
+          this.ccdPattern : this.selectedValue === 'CCDorException' ? this.ccdPattern : this.selectedValue === 'DCN' ? this.dcnPattern : this.prnPattern)
       ]),
       CCDorException: new FormControl(this.selectedValue) });
   }
