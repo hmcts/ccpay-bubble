@@ -247,7 +247,6 @@ describe('CCD search component with takePayment is equal to true', () => {
     let ccd_case_number = '1111-2222-3333-4444';
     ccd_case_number = component.removeHyphenFromString(ccd_case_number);
     component.ccdCaseNumber = ccd_case_number;
-    component.ccdRef = '1111-2222-3333-4444';
     component.searchFees();
     expect(ccd_case_number).toBe('1111222233334444');
     await fixture.whenStable();

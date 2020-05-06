@@ -23,7 +23,6 @@ export class CcdSearchComponent implements OnInit {
   noCaseFound = false;
   noCaseFoundInCCD = false;
   isBulkscanningEnable = true;
-  ccdRef: string;
 
   constructor(
     private paymentGroupService: PaymentGroupService,
@@ -98,10 +97,9 @@ export class CcdSearchComponent implements OnInit {
         });
       } else if (this.selectedValue.toLocaleLowerCase() === 'prn') {
       this.viewPaymentService.getPaymentDetail(searchValue).subscribe((res) => {
-        this.ccdRef = res['ccd_case_number'];
-        console.log('sntosh', this.ccdRef);
-        if (this.ccdRef) {
-          this.ccdCaseNumber = this.removeHyphenFromString(this.ccdRef);
+        console.log('sntosh', res['ccd_case_number']);
+        if (res['ccd_case_number']) {
+          this.ccdCaseNumber = this.removeHyphenFromString(res['ccd_case_number']);
           this.dcnNumber = null;
           this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
             this.noCaseFound = false;
