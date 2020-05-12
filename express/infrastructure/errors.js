@@ -44,7 +44,7 @@ module.exports = {
           .setFileName(fileName)
           .setStatus(httpStatusCodes.UNAUTHORIZED)
           .setTitle('401 - Access Denied')
-          .setDetailedMessage('This server could not verify that you are authorized to access the document requested'),
+          .setDetailedMessage('This server could not verify that you are authorized to access the document requested kumar'),
       createForbiddenError: (err, message = '403 - Forbidden') =>
         new ApiCallError(message)
           .setRemoteError(err)
