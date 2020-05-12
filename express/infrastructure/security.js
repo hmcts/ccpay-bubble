@@ -94,6 +94,7 @@ function getTokenFromCode(self, req) {
     .set('Accept', 'application/json')
     .set('Content-Type', 'application/x-www-form-urlencoded')
     .type('form')
+
     .send({ client_id: self.opts.clientId })
     .send({ client_secret: self.opts.clientSecret })
     .send({ grant_type: 'authorization_code' })
@@ -324,7 +325,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
 
     return getTokenFromCode(self, req).end((err, response) => { /* We ask for the token */
       if (err) {
-        return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCode call failed'));
+        return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCodetest call failed'));
       }
 
       /* We store it in a session cookie */
