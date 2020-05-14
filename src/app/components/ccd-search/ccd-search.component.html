@@ -142,7 +142,7 @@
              data-aria-controls="PRN"
              />
              <label class="govuk-label govuk-radios__label govuk-label--m" for="PRN">
-              Payment Reference Number (PRN)
+              Payment Reference(RC)
                 <span class="form-hint">For example: RC-XXXX-XXXX-XXXX-XXXX</span>
             </label>
           </div>
@@ -156,8 +156,8 @@
                  name="ccd-search" 
                  aria-label ="Enter PRN"
                  formControlName="searchInput">
-                <span *ngIf="hasErrors && selectedValue === 'PRN'" class="error-message">Enter PRN number in the correct format</span>
-                <span *ngIf="noCaseFound" class="error-message">No record found for this PRN</span>
+                <span *ngIf="hasErrors && selectedValue === 'PRN'" class="error-message">Enter RC number in the correct format</span>
+                <span *ngIf="noCaseFound" class="error-message">No record found for this RC</span>
     
           </div>
   
