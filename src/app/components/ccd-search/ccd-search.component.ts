@@ -92,7 +92,8 @@ export class CcdSearchComponent implements OnInit {
         }, err => {
           this.noCaseFoundInCCD = true;
         });
-      } else if (this.selectedValue.toLocaleLowerCase() === 'prn') {
+      } else if (this.selectedValue.toLocaleLowerCase() === 'rc') {
+      this.noCaseFound = false;
       this.viewPaymentService.getPaymentDetail(searchValue).subscribe((res) => {
         if (res['ccd_case_number']) {
           this.ccdCaseNumber = this.removeHyphenFromString(res['ccd_case_number']);
