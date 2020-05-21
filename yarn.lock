@@ -320,10 +320,10 @@
   dependencies:
     detox "^12.11.0"
 
-"@hmcts/ccpay-web-component@~3.0.8":
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-3.0.8.tgz#8cb6b82496768d712106faefaa7d4361de5037b5"
-  integrity sha512-fNBUxGowmo/NljfFe7yB8CHCXWdhFRzHTYiICmGut+xAJJJX4vt1T/yanZ9a8V1q4bO/rxEwFK/Bv+C+xugXiA==
+"@hmcts/ccpay-web-component@v4.0.0-beta19":
+  version "4.0.0-beta19"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta19.tgz#6b3dc69bcf1259db50985a66bfed6716fc243509"
+  integrity sha512-gkW1TDcEpFNu/QGrfwdZG98s0UXj+R0oYO0Fv6GBL9X5oRimmzXj8u9ay1iba13hdydDXTG+KrmVq/rAYorjyg==
   dependencies:
     tslib "^1.9.0"
 
