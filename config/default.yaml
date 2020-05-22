@@ -15,7 +15,7 @@ s2s:
 payhub:
   url: http://payment-api-prod.service.core-compute-prod.internal
 bulkscan:
-  url: https://ccpay-bulkscanning-api-pr-207.service.core-compute-preview.internal
+  url: http://ccpay-bulkscanning-api-prod.service.core-compute-prod.internal
 appInsights:
   roleName: paybubble
 e2e:
