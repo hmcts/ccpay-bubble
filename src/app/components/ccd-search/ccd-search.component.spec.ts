@@ -65,6 +65,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     mockResponse = {
         data: {
           ccd_reference: '1111222233334444',
+          ccd_case_number:'1111222233334444',
           exception_record_reference: '1111222233234444',
           payments: [
             {
@@ -220,7 +221,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     component.ngOnInit();
     component.dcnNumber = '';
     component.ccdCaseNumber = '';
-
+    component.excReference='';
     component.onSelectionChange('DCN');
     expect(component.selectedValue).toBe('DCN');
     spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('dcn');
@@ -230,6 +231,20 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.selectedValue).toBe('DCN');
     expect(component.dcnNumber).toBe('111122223333444401234');
     expect(component.ccdCaseNumber).toBe('');
+    let ccd_reference = '1111222233334444';
+    component.searchFees();
+    await fixture.whenStable();
+    expect(component.selectedValue).toBe('DCN');
+    expect(component.ccdCaseNumber).toBe('1111222233334444');
+    expect(component.excReference).toBe('');
+    ccd_reference = '';
+    let exception_record_reference = '1111222233234444';
+    component.ccdCaseNumber = '';
+    component.searchFees();
+    await fixture.whenStable();
+    expect(component.selectedValue).toBe('DCN');
+    expect(component.ccdCaseNumber).toBe('');
+    expect(component.excReference).toBe('1111222233234444');
   });
 
   it('Should get rc details', async () => {
