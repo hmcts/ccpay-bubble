@@ -231,21 +231,21 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.selectedValue).toBe('DCN');
     expect(component.dcnNumber).toBe('111122223333444401234');
     expect(component.ccdCaseNumber).toBe('');
-    let ccd_reference = '1111222233334444';
+    mockResponse['data'].ccd_reference  = '1111222233334444';
+    component.ccdCaseNumber =  mockResponse['data'].ccd_reference;
     component.searchFees();
     await fixture.whenStable();
     expect(component.selectedValue).toBe('DCN');
     expect(component.ccdCaseNumber).toBe('1111222233334444');
     expect(component.excReference).toBe('');
-    ccd_reference = undefined;
-    let exception_record_reference = '1111222233234444';
+    mockResponse['data'].ccd_reference = undefined;
+    mockResponse['data'].exception_record_reference = '1111222233234444';
     component.ccdCaseNumber = '';
     component.searchFees();
     await fixture.whenStable();
     expect(component.selectedValue).toBe('DCN');
     expect(component.ccdCaseNumber).toBe('');
     expect(component.excReference).toBe('1111222233234444');
-    exception_record_reference = '';
   });
 
   it('Should get rc details', async () => {
