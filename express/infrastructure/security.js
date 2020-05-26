@@ -91,7 +91,7 @@ function authorize(req, res, next, self) {
 
 function getTokenFromCode(self, req) {
   const url = URL.parse(`${self.opts.apiUrl}/o/token`, true);
-  Logger.getLogger('PAYBUBBLE: server.js -> error').info(`token`);
+  Logger.getLogger('PAYBUBBLE: server.js -> error').info('token');
 
   return request.post(url.format())
     .set('Accept', 'application/json')
