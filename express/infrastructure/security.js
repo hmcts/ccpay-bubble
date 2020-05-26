@@ -13,9 +13,12 @@ const errorFactory = ApiErrorFactory('security.js');
 
 const constants = Object.freeze({
   SECURITY_COOKIE: '__auth-token',
+  SECURITY_COOKIE_ID: '__id-token',
   REDIRECT_COOKIE: '__redirect',
   USER_COOKIE: '__user-info',
-  CSRF_TOKEN: '_csrf'
+  CSRF_TOKEN: '_csrf',
+  ACCESS_TOKEN_OAUTH2: 'access_token',
+  ID_TOKEN_OAUTH2: 'id_token'
 });
 
 const ACCESS_TOKEN_OAUTH2 = 'access_token';
@@ -87,31 +90,32 @@ function authorize(req, res, next, self) {
 }
 
 function getTokenFromCode(self, req) {
-  const url = URL.parse(`${self.opts.apiUrl}/oauth2/token`, true);
+  const url = URL.parse(`${self.opts.apiUrl}/o/token`, true);
 
   return request.post(url.format())
-    .auth(self.opts.clientId, self.opts.clientSecret)
     .set('Accept', 'application/json')
     .set('Content-Type', 'application/x-www-form-urlencoded')
     .type('form')
+    .send({ client_id: self.opts.clientId })
+    .send({ client_secret: self.opts.clientSecret })
     .send({ grant_type: 'authorization_code' })
     .send({ code: req.query.code })
     .send({ redirect_uri: `https://${req.get('host')}${self.opts.redirectUri}` });
 }
 
 function getUserDetails(self, securityCookie) {
-  return request.get(`${self.opts.apiUrl}/details`)
+  return request.get(`${self.opts.apiUrl}/o/userinfo`)
     .set('Accept', 'application/json')
     .set('Authorization', `Bearer ${securityCookie}`);
 }
 
-function storeCookie(req, res, token) {
+function storeCookie(req, res, token, cookieName) {
   req.authToken = token;
 
   if (req.protocol === 'https') { /* SECURE */
-    res.cookie(constants.SECURITY_COOKIE, req.authToken, { secure: true, httpOnly: true });
+    res.cookie(cookieName, req.authToken, { secure: true, httpOnly: true });
   } else {
-    res.cookie(constants.SECURITY_COOKIE, req.authToken, { httpOnly: true });
+    res.cookie(cookieName, req.authToken, { httpOnly: true });
   }
 }
 
@@ -124,8 +128,8 @@ function handleCookie(req) {
   return null;
 }
 
-function invalidateToken(self, req) {
-  const url = URL.parse(`${self.opts.apiUrl}/session/${req.cookies[constants.SECURITY_COOKIE]}`, true);
+function invalidateToken(self, token) {
+  const url = URL.parse(`${self.opts.apiUrl}/session/${token}`, true);
 
   return request.delete(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret);
@@ -135,21 +139,23 @@ Security.prototype.logout = function logout() {
   const self = { opts: this.opts };
 
   // eslint-disable-next-line no-unused-vars
-  return function ret(req, res, next) {
-    return invalidateToken(self, req).end(err => {
+  return function ret(req, res) {
+    const token = req.cookies[constants.SECURITY_COOKIE];
+
+    return invalidateToken(self, token).end(err => {
       if (err) {
         Logger.getLogger('CCPAY-BUBBLE: security.js').error(err);
       }
-      const token = req.cookies[constants.SECURITY_COOKIE];
       res.clearCookie(constants.SECURITY_COOKIE);
+      res.clearCookie(constants.SECURITY_COOKIE_ID);
       res.clearCookie(constants.REDIRECT_COOKIE);
       res.clearCookie(constants.USER_COOKIE);
       res.clearCookie(constants.authToken);
       res.clearCookie(constants.userInfo);
       if (token) {
-        res.redirect(`${self.opts.loginUrl}/logout?jwt=${token}`);
+        res.redirect(`${self.opts.webUrl}/login/logout?jwt=${token}`);
       } else {
-        res.redirect(`${self.opts.loginUrl}/logout`);
+        res.redirect(`${self.opts.webUrl}/login/logout`);
       }
     });
   };
@@ -195,7 +201,7 @@ function protectImpl(req, res, next, self) {
         }
       }
 
-      self.opts.appInsights.setAuthenticatedUserContext(response.body.email);
+      self.opts.appInsights.setAuthenticatedUserContext(response.body.sub);
       req.roles = response.body.roles;
       req.userInfo = response.body;
       return authorize(req, res, next, self);
@@ -334,7 +340,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
         (error, resp) => {
           if (!error) {
             const userInfo = resp.body;
-            self.opts.appInsights.setAuthenticatedUserContext(userInfo.email);
+            self.opts.appInsights.setAuthenticatedUserContext(userInfo.sub);
             self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
           }
         }
