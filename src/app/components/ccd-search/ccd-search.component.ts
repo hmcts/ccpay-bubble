@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-ccd-search',
@@ -59,6 +60,7 @@ export class CcdSearchComponent implements OnInit {
       this.selectedValue = value;
       this.hasErrors = false;
       this.noCaseFoundInCCD = false;
+      this.noCaseFound = false;
       this.searchForm.get('CCDorException').setValue(value);
       this.fromValidation();
     }
@@ -100,8 +102,8 @@ export class CcdSearchComponent implements OnInit {
           this.noCaseFoundInCCD = true;
         });
       } else if (this.selectedValue.toLocaleLowerCase() === 'rc') {
-      this.noCaseFound = false;
-      this.viewPaymentService.getPaymentDetail(searchValue).subscribe((res) => {
+      this.viewPaymentService.getPaymentDetail(searchValue)
+      .subscribe((res) => {
         if (res['ccd_case_number']) {
           this.ccdCaseNumber = this.removeHyphenFromString(res['ccd_case_number']);
           this.dcnNumber = null;
@@ -115,8 +117,9 @@ export class CcdSearchComponent implements OnInit {
           });
         }
         this.noCaseFound = true;
-      }),
-      () => { this.noCaseFound = true;};
+      }, err => {
+        this.noCaseFound = true;
+      }) ;
     } else  {
       return this.hasErrors = true;
     }
