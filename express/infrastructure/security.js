@@ -341,7 +341,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       res.clearCookie(constants.REDIRECT_COOKIE);
 
       /* We initialise appinsight with user details */
-      getUserDetails(self, req.authToken).end(
+      getUserDetails(self, accessToken).end(
         (error, resp) => {
           Logger.getLogger('PAYBUBBLE: server.js -> error').info(`getUserDetails Get user details called with the result: err: ${err}`);
           if (!error) {
