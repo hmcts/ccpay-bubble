@@ -333,7 +333,11 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       }
 
       /* We store it in a session cookie */
-      storeCookie(req, res, response.body[ACCESS_TOKEN_OAUTH2]);
+      const accessToken = response.body[constants.ACCESS_TOKEN_OAUTH2];
+      const idToken = response.body[constants.ID_TOKEN_OAUTH2];
+
+      storeCookie(req, res, accessToken, constants.SECURITY_COOKIE);
+      storeCookie(req, res, idToken, constants.SECURITY_COOKIE_ID);
 
       /* We delete redirect cookie */
       res.clearCookie(constants.REDIRECT_COOKIE);
@@ -341,6 +345,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       /* We initialise appinsight with user details */
       getUserDetails(self, req.authToken).end(
         (error, resp) => {
+          Logger.getLogger('PAYBUBBLE: server.js -> error').info(`getUserDetails Get user details called with the result: err: ${err}`);
           if (!error) {
             const userInfo = resp.body;
             self.opts.appInsights.setAuthenticatedUserContext(userInfo.sub);
