@@ -115,7 +115,8 @@ export class CcdSearchComponent implements OnInit {
           });
         }
         this.noCaseFound = true;
-      });
+      }),
+      () => { this.noCaseFound = true;};
     } else  {
       return this.hasErrors = true;
     }
