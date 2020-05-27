@@ -184,7 +184,7 @@ function protectImpl(req, res, next, self) {
   Logger.getLogger('PAYBUBBLE: server.js -> error').info('About to call user details endpoint');
   return getUserDetails(self, securityCookie).end(
     (err, response) => {
-      Logger.getLogger('PAYBUBBLE: server.js -> error').info(`Get user details called with the result: err: ${err}`);
+      Logger.getLogger('PAYBUBBLE: server.js -> error').info(`Get user details called with the result:${response.body} err: ${err}`);
       if (err) {
         if (!err.status) {
           err.status = 500;
@@ -324,7 +324,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     }
 
     return getTokenFromCode(self, req).end((err, response) => { /* We ask for the token */
-      Logger.getLogger('PAYBUBBLE: server.js -> error').info(`token Get user details called with the result: err: ${err} resp: ${response}`);
+      Logger.getLogger('PAYBUBBLE: server.js -> error').info(`token Get user details called with the result: err: ${err} resp: ${response.body}`);
 
       if (err) {
         return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCode call failed'));
@@ -343,7 +343,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       /* We initialise appinsight with user details */
       getUserDetails(self, accessToken).end(
         (error, resp) => {
-          Logger.getLogger('PAYBUBBLE: server.js -> error').info(`getUserDetails Get user details called with the result: err: ${err}`);
+          Logger.getLogger('PAYBUBBLE: server.js -> error').info(`getUserDetails Get user details called with the result:${resp.body} err: ${err}`);
           if (!error) {
             const userInfo = resp.body;
             self.opts.appInsights.setAuthenticatedUserContext(userInfo.sub);
