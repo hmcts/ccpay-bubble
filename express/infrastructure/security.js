@@ -324,7 +324,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     }
 
     return getTokenFromCode(self, req).end((err, response) => { /* We ask for the token */
-      Logger.getLogger('PAYBUBBLE: server.js -> error').info(`token Get user details called with the result: err: ${err}`);
+      Logger.getLogger('PAYBUBBLE: server.js -> error').info(`token Get user details called with the result: err: ${err} resp: ${response}`);
 
       if (err) {
         return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCode call failed'));
