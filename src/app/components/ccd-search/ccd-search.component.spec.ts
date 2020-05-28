@@ -271,7 +271,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.selectedValue).toBe('RC');
     expect(component.dcnNumber).toBeNull();
     expect(component.ccdCaseNumber).toBe('1111222233334444');
-    expect(component.noCaseFound).toBeTruthy();
+    expect(component.noCaseFound).toBeFalsy();
     // tslint:disable-next-line:max-line-length
     expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&isBulkScanning=Enable');
     component.isBulkscanningEnable = false;
