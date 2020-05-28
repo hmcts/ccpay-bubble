@@ -32,7 +32,6 @@ withPipeline("nodejs", product, component) {
 
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  // installCharts()
   enableSlackNotifications('#cc-payments-tech')
   enableAksStagingDeployment()
   disableLegacyDeployment()
