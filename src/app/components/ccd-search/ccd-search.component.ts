@@ -108,7 +108,7 @@ export class CcdSearchComponent implements OnInit {
           this.ccdCaseNumber = this.removeHyphenFromString(res['ccd_case_number']);
           this.dcnNumber = null;
           this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
-            this.noCaseFound = false;
+            // this.noCaseFound = false;
             // tslint:disable-next-line:max-line-length
             const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
             this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
@@ -116,7 +116,7 @@ export class CcdSearchComponent implements OnInit {
             this.noCaseFound = true;
           });
         }
-        this.noCaseFound = true;
+        // this.noCaseFound = true;
       }, err => {
         this.noCaseFound = true;
       }) ;
