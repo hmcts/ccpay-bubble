@@ -71,7 +71,8 @@ export class CcdSearchComponent implements OnInit {
             this.dcnNumber = searchValue;
             this.ccdCaseNumber = res['data'].ccd_reference ? res['data'].ccd_reference : res['data'].exception_record_reference;
             // tslint:disable-next-line:max-line-length
-            const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+            let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+            url = url.replace(/[\r\n]+/g,' ');
             this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
           }
           this.noCaseFound = true;
@@ -85,7 +86,8 @@ export class CcdSearchComponent implements OnInit {
         this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
           this.noCaseFoundInCCD = false;
           // tslint:disable-next-line:max-line-length
-          const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+          let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+          url = url.replace(/[\r\n]+/g,' ');
           this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
         }, err => {
           this.noCaseFoundInCCD = true;
