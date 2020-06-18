@@ -320,7 +320,7 @@
   dependencies:
     detox "^12.11.0"
 
-"@hmcts/ccpay-web-component@~4.0.0-beta25":
+"@hmcts/ccpay-web-component@4.0.0-beta25":
   version "4.0.0-beta25"
   resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta25.tgz#d4c2fc338a18208ee85f4684cf23084a19f24558"
   integrity sha512-m/VwQJo49KMZIF391UYMliUXecfyOvnStmJdDqMyNvN6jpVfrZirIbVlr7c/vhr2QDfzZRxmQDg4EzqcQYTDLg==
