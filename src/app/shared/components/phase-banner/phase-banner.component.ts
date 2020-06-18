@@ -1,5 +1,5 @@
 import { Component, Input, ViewEncapsulation, ViewChild } from '@angular/core';
-import { BulkScanService } from 'express/services/'
+import { BulkScanService } from 'express/services/';
 
 @Component({
   selector: 'app-phase-banner',
@@ -11,7 +11,7 @@ export class PhaseBannerComponent {
   @Input() type = 'beta';
 
   myFunction () {
-    let myInput = (document.getElementById('iFrameDrivenImageValue') as HTMLInputElement).value;
-    window.open('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl='+myInput, '_blank');
+    const myInput = (document.getElementById('iFrameDrivenImageValue') as HTMLInputElement).value;
+    window.open('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + myInput, '_blank');
   }
 }
