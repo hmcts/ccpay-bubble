@@ -29,7 +29,7 @@ Scenario('Probate: partial remission for one fee for one payment', I => {
   I.clickCaseTransaction();
 });
 
-Scenario('Probate: partial remission assign for one fee not assign for another fee', I => {
+/*Scenario('Probate: partial remission assign for one fee not assign for another fee', I => {
   I.partialremissionassignforonefeenotassignforanotherfee2();
   I.clickCaseTransaction();
 });
@@ -72,4 +72,5 @@ Scenario('Probate: another fee for probate', I => {
 Scenario('Probate: another fee fo rprobate', I => {
   I.anotherfeeforprobate2();
   I.Logout1();
-});
+}); */
+
