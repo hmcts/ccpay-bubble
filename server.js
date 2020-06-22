@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // eslint-disable-next-line no-unused-vars
-function errorHandler(err, req, res, next) {
+function errorHandler(err, req, res) {
   let error = null;
   if (err instanceof ApiCallError) {
     error = err;
