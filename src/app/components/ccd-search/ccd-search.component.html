@@ -32,6 +32,7 @@
       <div  [ngClass]="{'govuk-radios__conditional':  selectedValue === 'CCDorException' && hasErrors === false,
                                             'govuk-form-group form-group-error' : hasErrors === true,
                                             'govuk-radios__conditional--hidden': selectedValue === 'DCN'}">
+    <input #myInput type='hidden' id='iFrameDrivenImageValue' value='CCDSEARCH'>
             <input #searchInput 
              aria-label ="Enter CCDorException"
              [className]="hasErrors? 'form-control form-control-error': 'govuk-input govuk-!-width-one-third'"
