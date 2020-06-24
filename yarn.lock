@@ -324,6 +324,7 @@
   version "4.0.0-beta48"
   resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta48.tgz#db7a2c67e352788f80edb195f148b73ac0778c86"
   integrity sha512-hEvHO9l4itZW0gWyomneBfcGD25eiXiGA+NIFqf6QFPJbWZ8ENfX3v0lF8RVlfXGEDk5M4BUxPLpg8BQR2W+iw==
+
   dependencies:
     tslib "^1.9.0"
 
