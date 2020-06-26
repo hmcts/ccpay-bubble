@@ -26,7 +26,7 @@ module.exports = appInsights => express.Router()
   })
 
   .post('/payment-history/payment-groups/card-payments', (req, res) => {
-    controllers.payhubController.postCardPayment(req, res, appInsights);
+    controllers.payhubController.postPaymentGroupListToPayHub(req, res, appInsights);
   })
 
   .put('/payment-groups/:paymentGroup', (req, res) => {
