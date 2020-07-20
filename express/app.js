@@ -85,6 +85,10 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.bulkScanToggleFeature(req, res);
   })
 
+  .get('/payment-history/LD-feature', (req, res) => {
+    controllers.payhubController.getLDFeatures(req, res);
+  })
+
   .get('/payment-history/payment-groups/fee-pay-apportion/:id', (req, res) => {
     controllers.payhubController.getApportionPaymentGroup(req, res);
   })
