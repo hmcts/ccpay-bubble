@@ -1,6 +1,12 @@
 const { payhubService } = require('../../services');
 const request = require('request-promise-native');
+const LaunchDarkly = require('launchdarkly-node-client-sdk');
 const HttpStatusCodes = require('http-status-codes');
+
+const user = {
+  key: "aa0ceb1212@test.com"
+};
+
 
 class PayhubController {
   constructor() {
@@ -55,6 +61,16 @@ class PayhubController {
       .catch(error => {
         res.status(500).json({ err: error, success: false });
       });
+  }
+
+  getLDFeatures(req, res) {
+    const ldClient = LaunchDarkly.initialize('5ece8ce7a23c700ac470f78a', user);
+    ldClient.on('ready', (e) => {
+      console.log("It's now safe to request feature flags");
+    
+      const showFeature = ldClient.variation("apportion-feature", false);
+      return res.status(200).send({flag: showFeature});
+    });
   }
 
   postPaymentGroupListToPayHub(req, res, appInsights) {
