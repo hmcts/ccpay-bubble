@@ -25,6 +25,7 @@ export class CcdSearchComponent implements OnInit {
   noCaseFound = false;
   noCaseFoundInCCD = false;
   isBulkscanningEnable = true;
+  isTurnOff: boolean;
 
   constructor(
     private paymentGroupService: PaymentGroupService,
@@ -32,7 +33,6 @@ export class CcdSearchComponent implements OnInit {
     private router: Router,
     private caseRefService: CaseRefService,
     private activatedRoute: ActivatedRoute,
-    private viewPaymentService: ViewPaymentService
   ) {}
 
   ngOnInit() {
@@ -41,6 +41,9 @@ export class CcdSearchComponent implements OnInit {
     });
     this.paymentGroupService.getBSFeature().then((status) => {
       this.isBulkscanningEnable = status;
+    });
+    this.paymentGroupService.getLDFeature('apportion-feature').then((status) => {
+      this.isTurnOff = status;
     });
     this.fromValidation();
    }
@@ -70,6 +73,7 @@ export class CcdSearchComponent implements OnInit {
       this.hasErrors = false;
       const searchValue = this.searchForm.get('searchInput').value;
       const bsEnableUrl = this.isBulkscanningEnable ? '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
+      const turnOffUrl = this.isTurnOff ? '&isTurnOff=Enable' : '&isTurnOff=Disable';
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
         this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((res) => {
           if (res['data'].ccd_reference || res['data'].exception_record_reference) {
@@ -83,7 +87,7 @@ export class CcdSearchComponent implements OnInit {
             }
             // tslint:disable-next-line:max-line-length
             const url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
-            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
+            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${turnOffUrl}`);
           }
           this.noCaseFound = true;
         }).catch(() => {
@@ -97,30 +101,11 @@ export class CcdSearchComponent implements OnInit {
           this.noCaseFoundInCCD = false;
           // tslint:disable-next-line:max-line-length
           const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
-          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
+          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${turnOffUrl}`);
         }, err => {
           this.noCaseFoundInCCD = true;
         });
-      } else if (this.selectedValue.toLocaleLowerCase() === 'rc') {
-      this.viewPaymentService.getPaymentDetail(searchValue)
-      .subscribe((res) => {
-        if (res['ccd_case_number']) {
-          this.ccdCaseNumber = this.removeHyphenFromString(res['ccd_case_number']);
-          this.dcnNumber = null;
-          this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
-            this.noCaseFound = false;
-            // tslint:disable-next-line:max-line-length
-            const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
-            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
-            }, err => {
-            this.noCaseFound = true;
-          });
-        }
-        // this.noCaseFound = true;
-      }, err => {
-        this.noCaseFound = true;
-      }) ;
-    } else  {
+      } else  {
       return this.hasErrors = true;
     }
   } else {
