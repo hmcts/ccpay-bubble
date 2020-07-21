@@ -63,7 +63,7 @@ class PayhubController {
   getLDFeatures(req, res) {
     const ldClient = LaunchDarkly.initialize('5ece8ce7a23c700ac470f78a', user);
     ldClient.on('ready', () => {
-      const showFeature = ldClient.variation('apportion-feature', false);
+      const showFeature = ldClient.variation(req.query.flag, false);
       return res.status(200).send({ flag: showFeature });
     });
   }
