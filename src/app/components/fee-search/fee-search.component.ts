@@ -1,8 +1,8 @@
 import { IVersion } from './../../../../dist/fee-register-search/lib/interfaces/IVersion.d';
-import {Component, OnInit} from '@angular/core';
-import {PaymentGroupService} from '../../services/payment-group/payment-group.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {IFee} from '../../../../projects/fee-register-search/src/lib/interfaces';
+import { Component, OnInit } from '@angular/core';
+import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
 
 @Component({
   selector: 'app-fee-search',
@@ -76,12 +76,12 @@ export class FeeSearchComponent implements OnInit {
   }
 
   selectPreselectedFeeWithVolume(submitFeeVolumeEvent) {
-    this.outputEmitterFeesDetails = submitFeeVolumeEvent
-    let selectedFeeVersion = this.outputEmitterFeesDetails.selectedVersionEmit
+    this.outputEmitterFeesDetails = submitFeeVolumeEvent;
+    let selectedFeeVersion = this.outputEmitterFeesDetails.selectedVersionEmit;
 
     const fee = this.preselectedFee;
     if (selectedFeeVersion === null || typeof selectedFeeVersion === 'undefined') {
-        selectedFeeVersion = fee['current_version'];
+      selectedFeeVersion = fee['current_version'];
     }
 
     const volAmt = selectedFeeVersion['volume_amount'];
@@ -93,14 +93,15 @@ export class FeeSearchComponent implements OnInit {
       fees: [{
         code: fee.code,
         version: selectedFeeVersion.version.toString(),
-        'calculated_amount': (fee.fee_type === 'rateable' || fee.fee_type === 'ranged') ? this.outputEmitterFeesDetails.volumeAmount : (fee_amount * this.outputEmitterFeesDetails.volumeAmount).toString(),
+        'calculated_amount': (fee.fee_type === 'rateable' || fee.fee_type === 'ranged')
+          ? this.outputEmitterFeesDetails.volumeAmount : (fee_amount * this.outputEmitterFeesDetails.volumeAmount).toString(),
         'memo_line': selectedFeeVersion.memo_line,
         'natural_account_code': selectedFeeVersion.natural_account_code,
         'ccd_case_number': this.ccdNo,
         jurisdiction1: fee.jurisdiction1['name'],
         jurisdiction2: fee.jurisdiction2['name'],
         description: selectedFeeVersion.description,
-        volume: fee.fee_type === 'rateable'  ||  fee.fee_type === 'ranged' ? null : this.outputEmitterFeesDetails.volumeAmount,
+        volume: fee.fee_type === 'rateable' || fee.fee_type === 'ranged' ? null : this.outputEmitterFeesDetails.volumeAmount,
         fee_amount: amount
       }]
     };
@@ -109,18 +110,18 @@ export class FeeSearchComponent implements OnInit {
   }
 
   sendPaymentGroup(paymentGroup: any) {
-       const dcnQueryParams = this.dcnNo ? `&dcn=${this.dcnNo}` : '';
+    const dcnQueryParams = this.dcnNo ? `&dcn=${this.dcnNo}` : '';
     if (this.paymentGroupRef) {
 
       this.paymentGroupService.putPaymentGroup(this.paymentGroupRef, paymentGroup)
-      .then(response => {
-        this.router
-        .navigateByUrl(`/payment-history/${this.ccdNo}`
-            + `?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}`);
-      })
-      .catch(err => {
-        this.navigateToServiceFailure();
-       });
+        .then(response => {
+          this.router
+            .navigateByUrl(`/payment-history/${this.ccdNo}`
+              + `?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}`);
+        })
+        .catch(err => {
+          this.navigateToServiceFailure();
+        });
     } else {
       this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
         this
@@ -129,9 +130,9 @@ export class FeeSearchComponent implements OnInit {
             + `?view=fee-summary&selectedOption=${this.selectedOption}
             &paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}`);
       })
-      .catch(err => {
-        this.navigateToServiceFailure();
-       });
+        .catch(err => {
+          this.navigateToServiceFailure();
+        });
     }
   }
 

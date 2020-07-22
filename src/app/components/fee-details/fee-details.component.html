@@ -1,30 +1,30 @@
-<div *ngIf="validOldFeesVersions.length < 2">
-    <legend>
-        <h1 class="heading-xlarge">Fee details</h1>
-      </legend>
+<div *ngIf="validOldVersionArray.length < 2">
+  <legend>
+    <h1 class="heading-xlarge">Fee details</h1>
+  </legend>
 
-      <table *ngIf="fee" class="table" style="margin-bottom: 20px">
-        <caption>Fee Details</caption>
-        <tbody>
-        <tr>
-          <th class="bold" width="80px" scope="col">Fee code</th>
-          <th class="bold" width="620px" scope="col">Description</th>
-          <th class="bold" width="80px" scope="col">Amount</th>
-        </tr>
-        <tr>
-          <td>{{ fee.code }}</td>
-          <td>{{ fee.current_version.description }}</td>
-          <td *ngIf="fee.current_version['percentage_amount']; else volumeOrFlat">{{fee.current_version['percentage_amount'].percentage}}%</td>
-          <ng-template #volumeOrFlat>
-            <td>£{{ fee.current_version['volume_amount']? fee.current_version['volume_amount'].amount : fee.current_version['flat_amount'].amount}}</td>
-          </ng-template>
+  <table *ngIf="fee" class="table" style="margin-bottom: 20px">
+    <caption>Fee Details</caption>
+    <tbody>
+    <tr>
+      <th class="bold" width="80px" scope="col">Fee code</th>
+      <th class="bold" width="620px" scope="col">Description</th>
+      <th class="bold" width="80px" scope="col">Amount</th>
+    </tr>
+    <tr>
+      <td>{{ fee.code }}</td>
+      <td>{{ fee.current_version.description }}</td>
+      <td *ngIf="fee.current_version['percentage_amount']; else volumeOrFlat">{{fee.current_version['percentage_amount'].percentage}}%</td>
+      <ng-template #volumeOrFlat>
+        <td>£{{ fee.current_version['volume_amount']? fee.current_version['volume_amount'].amount : fee.current_version['flat_amount'].amount}}</td>
+      </ng-template>
 
-        </tr>
-        </tbody>
-      </table>
+    </tr>
+    </tbody>
+  </table>
 </div>
 
-<main *ngIf="validOldFeesVersions.length >=2">
+<main *ngIf="validOldVersionArray.length >=2">
     <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
     <p class="form-hint">{{ fee.current_version.description }}</p>
 
@@ -42,7 +42,7 @@
         When was this application received?
       </legend>
 
-      <div *ngFor="let feeVersion of validOldFeesVersions; index as i; let firstversion = first; let lastversion = last" class="govuk-radios">
+      <div *ngFor="let feeVersion of validOldVersionArray; index as i; let firstversion = first; let lastversion = last" class="govuk-radios">
 
         <div class="govuk-radios__item">
           <input class="govuk-radios__input" id="{{ 'fee-version' + i }}" name="fee-version" type="radio" value="feeVersion"
@@ -88,85 +88,56 @@
     <label *ngIf="fee.current_version['volume_amount']" class="heading-small" for="volumeAmount">
       How many copies do you want?
     </label>
-    <!--condition common across fees, fees got old version -->
-    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['volume_amount']"
-      class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number"
-      min="1" />
+    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['volume_amount']" class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
     <!--Following is the section for fee_type='flat' and amont_type='banded'-->
-    <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="heading-small"
-      for="volumeAmount">
-      <span class="form-hint">If the document has more than 10 pages, you must also choose a fee for the additional
-        pages.</span>
+    <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="heading-small" for="volumeAmount">
+      <span class="form-hint">If the document has more than 10 pages, you must also choose a fee for the additional pages.</span>
       <p>
-        <p>
-          <span class="form-hint">For example:</span>
-          <p>
-            <span class="form-hint">Your client wants 3 copies of a 20 page document.</span>
-            <p>
-              <span class="form-hint">You select the fee for the first 10 pages. It costs £10 for the first 10 pages
-                (£10 x 3 = 30).</span>
-              <p>
-                <span class="form-hint">You’d need to enter 3 copies.</span>
-                <p>
-                  <span class="form-hint">You select the fee for the additional pages. It costs 50p for each subsequent
-                    page.</span>
-                  <p>
-                    <span class="form-hint">Step 1: £10 x 3 copies = £30</span>
-                    <p>
-                      <span class="form-hint">Step 2: Select the fee for the additional pages (if more than 10 pages).
-                        For example, 10 additional pages at 50p = £5.</span>
-                      <p>
-                        <span class="form-hint">Step 3: £5 x 3 copies = £15. You’ll need to enter this against the new
-                          fee</span>
-                        <p>
-                          <span class="form-hint">The citizen needs to pay £45 for 3 copies of the 20-page
-                            document.</span>
-                          <p>
-                            How many copies of the document are required?
+      <p>
+        <span class="form-hint">For example:</span>
+      <p>
+        <span class="form-hint">Your client wants 3 copies of a 20 page document.</span>
+      <p>
+        <span class="form-hint">You select the fee for the first 10 pages. It costs £10 for the first 10 pages (£10 x 3 = 30).</span>
+      <p>
+        <span class="form-hint">You’d need to enter 3 copies.</span>
+      <p>
+        <span class="form-hint">You select the fee for the additional pages. It costs 50p for each subsequent page.</span>
+      <p>
+        <span class="form-hint">Step 1: £10 x 3 copies = £30</span>
+      <p>
+        <span class="form-hint">Step 2: Select the fee for the additional pages (if more than 10 pages). For example, 10 additional pages at 50p = £5.</span>
+      <p>
+        <span class="form-hint">Step 3: £5 x 3 copies = £15. You’ll need to enter this against the new fee</span>
+      <p>
+        <span class="form-hint">The citizen needs to pay £45 for 3 copies of the 20-page document.</span>
+      <p>
+        How many copies of the document are required?
     </label>
-    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'"
-      class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number"
-      min="1" />
+    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
     <p>
-      <p>
-        <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="heading-small"
-          for="calculatedAmount">
-          How much does the citizen need to pay for the selected fee?
-        </label>
-        <input formControlName="feeAmountFormControl"
-          *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'"
-          class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedAmount" type="number"
-          onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"
-          step=".01" min="0.01" />
-        <!--Above is the section for fee_type='flat' and amont_type='banded'-->
+    <p>
+      <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="heading-small" for="calculatedAmount">
+        How much does the citizen need to pay for the selected fee?
+      </label>
+      <input formControlName="feeAmountFormControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedAmount" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" step=".01" min="0.01"/>
+      <!--Above is the section for fee_type='flat' and amont_type='banded'-->
 
-        <!--Following is the section for fee_type='flat' and amont_type='rateable'-->
-        <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'" class="heading-small"
-          for="calculateRateableFee">
-          Enter the calculated amount of fee
-        </label>
-        <div *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'" class="currencysymbol">£</div>
-        <input formControlName="feeOrVolumeControl"
-          *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'"
-          class="form-control short-input volume-amount-control" autocomplete="off" id="calculateRateableFee"
-          type="number"
-          onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"
-          step=".01" min="0.01" />
-        <!--Above is the section for fee_type='flat' and amont_type='rateable'-->
+      <!--Following is the section for fee_type='flat' and amont_type='rateable'-->
+      <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'" class="heading-small" for="calculateRateableFee">
+        Enter the calculated amount of fee
+      </label>
+    <div  *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'"  class="currencysymbol">£</div>
+    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculateRateableFee" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" step=".01" min="0.01"/>
+    <!--Above is the section for fee_type='flat' and amont_type='rateable'-->
 
-        <!--Following is the section for fee_type='ranged' and amont_type='percentage_amount'-->
-        <label *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'" class="heading-small"
-          for="calculatedRangedFee">
-          Enter the calculated amount of fee
-        </label>
-        <div *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'" class="currencysymbol">£</div>
-        <input formControlName="feeOrVolumeControl"
-          *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'"
-          class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedRangedFee"
-          type="number"
-          onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"
-          step=".01" min="0.01" />
-        <!--Above is the section for fee_type='flat' and amont_type='percentageranged'-->
+    <!--Following is the section for fee_type='ranged' and amont_type='percentage_amount'-->
+    <label *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'" class="heading-small" for="calculatedRangedFee">
+      Enter the calculated amount of fee
+    </label>
+    <div *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'"  class="currencysymbol">£</div>
+    <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedRangedFee" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" step=".01" min="0.01"/>
+    <!--Above is the section for fee_type='flat' and amont_type='percentageranged'-->
   </div>
 
   <div class="form-group">
