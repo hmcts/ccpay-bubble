@@ -1,6 +1,8 @@
+import { IVersion } from './../../../../projects/fee-register-search/src/lib/interfaces/IVersion';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+
 
 
 @Component({
@@ -9,6 +11,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./fee-details.component.scss']
 })
 export class FeeDetailsComponent implements OnInit {
+  selectedFeeVersion: IVersion
   @Input() fee = {
     code: 'test-code',
     fee_type: 'banded',
@@ -44,7 +47,7 @@ export class FeeDetailsComponent implements OnInit {
     }
 
   };
-  @Output() submitFeeVolumeEvent: EventEmitter<IFee> = new EventEmitter();
+  @Output() submitFeeVolumeEvent: EventEmitter<{ volumeAmount: number, selectedVersionEmit: IVersion }> = new EventEmitter();
   @Output() restartSearchEvent: EventEmitter<IFee> = new EventEmitter();
 
   feeDetailFormGroup: FormGroup;
@@ -73,11 +76,17 @@ export class FeeDetailsComponent implements OnInit {
     if (this.fee.current_version.flat_amount !== undefined && this.fee.fee_type === 'banded') {
       this.fee.current_version.flat_amount.amount = this.feeDetailFormGroup.get('feeAmountFormControl').value;
     }
-    this.submitFeeVolumeEvent.emit(this.feeDetailFormGroup.get('feeOrVolumeControl').value);
+
+    this.submitFeeVolumeEvent.emit({ volumeAmount: this.feeDetailFormGroup.get('feeAmountFormControl').value, selectedVersionEmit: this.selectedFeeVersion });
+  }
+
+  getSelectedFeesVersion(currentSelectedFeeVersion: IVersion) {
+    this.selectedFeeVersion = currentSelectedFeeVersion;
   }
 
   get validOldFeesVersions() {
     const feesLimitDate = new Date();
+    /* Check valid fees till 6 months  */
     feesLimitDate.setMonth(feesLimitDate.getMonth() - 3);
 
     if (this.fee.fee_versions.length > 1) {
@@ -87,5 +96,15 @@ export class FeeDetailsComponent implements OnInit {
         })
     }
     return [];
+  }
+
+  getAmountFromFeeVersion(feeVersion: IVersion) {
+    if (feeVersion['volume_amount'] != null) {
+      return feeVersion['volume_amount'].amount
+    } else if (feeVersion['flat_amount'] != null) {
+      return feeVersion['flat_amount'].amount
+    } else if (feeVersion['percentage_amount'] != null) {
+      return feeVersion['percentage_amount'].percentage
+    }
   }
 }

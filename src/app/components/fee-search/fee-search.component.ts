@@ -1,3 +1,4 @@
+import { IVersion } from './../../../../dist/fee-register-search/lib/interfaces/IVersion.d';
 import {Component, OnInit} from '@angular/core';
 import {PaymentGroupService} from '../../services/payment-group/payment-group.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -9,6 +10,7 @@ import {IFee} from '../../../../projects/fee-register-search/src/lib/interfaces'
   styleUrls: ['./fee-search.component.scss']
 })
 export class FeeSearchComponent implements OnInit {
+  outputEmitterFeesDetails: { volumeAmount: number, selectedVersionEmit: IVersion };
   selectedFee: any;
   ccdNo: string = null;
   dcnNo: string = null;
@@ -73,25 +75,32 @@ export class FeeSearchComponent implements OnInit {
     this.showFeeDetails = false;
   }
 
-  selectPreselectedFeeWithVolume(emitted: number) {
+  selectPreselectedFeeWithVolume(submitFeeVolumeEvent) {
+    this.outputEmitterFeesDetails = submitFeeVolumeEvent
+    let selectedFeeVersion = this.outputEmitterFeesDetails.selectedVersionEmit
+
     const fee = this.preselectedFee;
-    const volAmt = fee['current_version']['volume_amount'];
-    const flatAmt = fee['current_version']['flat_amount'];
-    const percentageAmt = fee.current_version['percentage_amount'];
+    if (selectedFeeVersion === null || typeof selectedFeeVersion === 'undefined') {
+        selectedFeeVersion = fee['current_version'];
+    }
+
+    const volAmt = selectedFeeVersion['volume_amount'];
+    const flatAmt = selectedFeeVersion['flat_amount'];
+    const percentageAmt = selectedFeeVersion['percentage_amount'];
     const fee_amount = volAmt ? volAmt.amount : (flatAmt ? flatAmt.amount : percentageAmt.percentage);
     const amount = fee_amount ? fee_amount : percentageAmt;
     const paymentGroup = {
       fees: [{
         code: fee.code,
-        version: fee['current_version'].version.toString(),
-        'calculated_amount': (fee.fee_type === 'rateable' || fee.fee_type === 'ranged') ? emitted : (fee_amount * emitted).toString(),
-        'memo_line': fee['current_version'].memo_line,
-        'natural_account_code': fee['current_version'].natural_account_code,
+        version: selectedFeeVersion.version.toString(),
+        'calculated_amount': (fee.fee_type === 'rateable' || fee.fee_type === 'ranged') ? this.outputEmitterFeesDetails.volumeAmount : (fee_amount * this.outputEmitterFeesDetails.volumeAmount).toString(),
+        'memo_line': selectedFeeVersion.memo_line,
+        'natural_account_code': selectedFeeVersion.natural_account_code,
         'ccd_case_number': this.ccdNo,
         jurisdiction1: fee.jurisdiction1['name'],
         jurisdiction2: fee.jurisdiction2['name'],
-        description: fee.current_version.description,
-        volume: fee.fee_type === 'rateable'  ||  fee.fee_type === 'ranged' ? null : emitted,
+        description: selectedFeeVersion.description,
+        volume: fee.fee_type === 'rateable'  ||  fee.fee_type === 'ranged' ? null : this.outputEmitterFeesDetails.volumeAmount,
         fee_amount: amount
       }]
     };
