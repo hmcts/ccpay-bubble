@@ -6,6 +6,7 @@ import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 describe('FeeDetailsComponent', () => {
   let component: FeeDetailsComponent;
   let fixture: ComponentFixture<FeeDetailsComponent>;
+  const submitEventemmitter = Object({ volumeAmount: 1, selectedVersionEmit: undefined });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,7 +40,7 @@ describe('FeeDetailsComponent', () => {
   it('Should  submit fee volume', () => {
     spyOn(component.submitFeeVolumeEvent, 'emit');
     component.submitVolume();
-    expect(component.submitFeeVolumeEvent.emit).toHaveBeenCalledWith(1);
+    expect(component.submitFeeVolumeEvent.emit).toHaveBeenCalledWith(submitEventemmitter);
   });
 
 });
