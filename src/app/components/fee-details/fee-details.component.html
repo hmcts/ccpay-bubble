@@ -1,8 +1,8 @@
-<div *ngIf="validOldFeesVersions.length === 0">
+<div *ngIf="validOldFeesVersions.length < 2">
     <legend>
         <h1 class="heading-xlarge">Fee details</h1>
       </legend>
-      
+
       <table *ngIf="fee" class="table" style="margin-bottom: 20px">
         <caption>Fee Details</caption>
         <tbody>
@@ -18,19 +18,19 @@
           <ng-template #volumeOrFlat>
             <td>£{{ fee.current_version['volume_amount']? fee.current_version['volume_amount'].amount : fee.current_version['flat_amount'].amount}}</td>
           </ng-template>
-      
+
         </tr>
         </tbody>
       </table>
 </div>
 
-<main *ngIf="validOldFeesVersions.length > 0" class="govuk-main-wrapper">
-  <h1 class="govuk-heading-l" style="margin-bottom: 0">Add {{ fee.code }}</h1>
-  <p class="govuk-hint">{{ fee.current_version.description }}</p>
+<main *ngIf="validOldFeesVersions.length >=2">
+    <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
+    <p class="form-hint">{{ fee.current_version.description }}</p>
 
   <div class="govuk-warning-text">
       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-      <strong class="govuk-warning-text__text">
+      <strong class="govuk-warning-text__text" style="font-size: 16px;">
         <span class="govuk-warning-text__assistive">Warning</span>
         This fee changed on {{ fee.current_version['valid_from'] | date: 'd MMMM y' }}
       </strong>
@@ -38,40 +38,41 @@
 
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
         When was this application received?
       </legend>
 
-      <div *ngFor="let feeVersion of validOldFeesVersions; let firstversion = first; let lastversion = last" class="govuk-radios">
+      <div *ngFor="let feeVersion of validOldFeesVersions; index as i; let firstversion = first; let lastversion = last" class="govuk-radios">
 
         <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="fee-version" name="fee-version" type="radio" value="current"
-            aria-describedby="fee-version-item-hint" onclick="$('.fee').text('£215.00')">
-          <label *ngIf="firstversion; else oldFeeValidFrom" class="govuk-label govuk-radios__label" for="fee-version">
-            On or after {{ feeVersion.valid_from | date: 'd MMMM y' }}
+          <input class="govuk-radios__input" id="{{ 'fee-version' + i }}" name="fee-version" type="radio" value="feeVersion"
+            aria-describedby="fee-version-item-hint" (click)="getSelectedFeesVersion(feeVersion)">
+          <label *ngIf="firstversion; else oldFeeValidFrom" class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
+               On or after {{ feeVersion.valid_from | date: 'd MMMM y' }}
+
           </label>
           <ng-template #oldFeeValidFrom>
 
-            <label *ngIf="!lastversion; else oldFeeLastFees" class="govuk-label govuk-radios__label" for="fee-version">
+            <label *ngIf="!lastversion; else oldFeeLastFees" class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
               Between {{ feeVersion.valid_from | date: 'd MMMM'  }} and {{ feeVersion.valid_to | date: 'd MMMM y' }}
             </label>
 
             <ng-template #oldFeeLastFees>
-              <label class="govuk-label govuk-radios__label" for="fee-version">
+              <label class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
                 Before {{ feeVersion.valid_to | date: 'd MMMM y' }}
             </label>
 
             </ng-template>
           </ng-template>
 
-          <span *ngIf="firstversion; else oldversion" id="fee-version-item-hint1" class="govuk-hint govuk-radios__hint">
+          <span *ngIf="firstversion; else oldversion" id="{{ 'fee-version-item-hint' + i }}" class="govuk-hint govuk-radios__hint" style="font-size: 16px;">
             Use the current
-            £{{ feeVersion['volume_amount']? feeVersion['volume_amount'].amount : feeVersion['flat_amount'].amount}} fee
+            £ {{ getAmountFromFeeVersion(feeVersion) }} fee
           </span>
           <ng-template #oldversion>
-            <span id="fee-version-item-hint" class="govuk-hint govuk-radios__hint">
+            <span id="{{ 'fee-version-item-hint' + i }}" class="govuk-hint govuk-radios__hint" style="font-size: 16px;">
               Use the old
-              £{{ feeVersion['volume_amount']? feeVersion['volume_amount'].amount : feeVersion['flat_amount'].amount}}
+              £ {{ getAmountFromFeeVersion(feeVersion) }} fee
               fee
             </span>
           </ng-template>
