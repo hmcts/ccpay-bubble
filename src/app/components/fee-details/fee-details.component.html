@@ -1,4 +1,5 @@
 <div *ngIf="validOldVersionArray.length < 2">
+   Old version are less than 2
   <legend>
     <h1 class="heading-xlarge">Fee details</h1>
   </legend>
@@ -24,7 +25,8 @@
   </table>
 </div>
 
-<main *ngIf="validOldVersionArray.length >=2">
+<main *ngIf="validOldVersionArray.length > 1">
+  Old version are greater than 1
     <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
     <p class="form-hint">{{ fee.current_version.description }}</p>
 
@@ -43,7 +45,7 @@
       </legend>
 
       <div *ngFor="let feeVersion of validOldVersionArray; index as i; let firstversion = first; let lastversion = last" class="govuk-radios">
-
+      Old version are greater than 1 for loop
         <div class="govuk-radios__item">
           <input class="govuk-radios__input" id="{{ 'fee-version' + i }}" name="fee-version" type="radio" value="feeVersion"
             aria-describedby="fee-version-item-hint" (click)="getSelectedFeesVersion(feeVersion)">
