@@ -39,6 +39,26 @@ describe('Fee search component', () => {
         },
         description: 'test-description'
       },
+      'fee_versions': [
+        {
+          description: 'test fee version description',
+          status: 'approved',
+          author: '126172',
+          approvedBy: '126175',
+          version: 1,
+          valid_from: '2014-04-21T00:00:00.000+0000',
+          valid_to: '2014-04-21T00:00:00.000+0000',
+          flat_amount: {
+            'amount': 100
+          },
+          memo_line: 'test memo line',
+          statutory_instrument: 'test instrument ',
+          si_ref_id: 'test ref id',
+          natural_account_code: 'test nac',
+          fee_order_name: 'test fee order name',
+          direction: 'cost recovery'
+        }
+      ],
       ccdCaseNumber: '1111-2222-3333-4444',
       jurisdiction1: { name: 'test-jurisdiction1' },
       jurisdiction2: { name: 'test-jurisdiction2' },
@@ -184,16 +204,18 @@ describe('Fee search component', () => {
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
     router = TestBed.get(Router);
     component = fixture.componentInstance;
-    component.ngOnInit();
+    // component.ngOnInit();
   });
 
   it('Should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Should pass selected fee into POST call for backend', () => {
+  it('Should pass selected fee into POST call for backend', async () => {
     spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
     spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+    await component.ngOnInit();
     component.selectFee(testFixedFlatFee);
     fixture.detectChanges();
     expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
@@ -213,9 +235,11 @@ describe('Fee search component', () => {
     });
   });
 
-  it('Should set ccd number from URL', async(async () => {
+  it('Should set ccd number from URL', async () => {
+    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+    await component.ngOnInit();
     expect(component.ccdNo).toBe('1234-1234-1234-1234');
-  }));
+  });
 
   it('Should reset preselected fee and show fee details ongoback', () => {
     component.onGoBack();
@@ -226,6 +250,9 @@ describe('Fee search component', () => {
   it('Should navigate to fee-summary page using correct CCD case number and payment group reference', async () => {
     spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
     spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+    await component.ngOnInit();
+
     component.paymentGroupRef = 'paymentgroup';
     component.selectFee(testFixedFlatFee);
     await fixture.whenStable();
@@ -244,38 +271,46 @@ describe('Fee search component', () => {
     expect(paymentGroupService.putPaymentGroup).toHaveBeenCalled();
   }));
 
-  describe('If fixed volume fee is selected', () => {
-    it('should make fee-details component visible and fee-search component invisible', async(async () => {
+  describe('If fixed volume fee is selected', async () => {
+    it('should make fee-details component visible and fee-search component invisible', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+      await component.ngOnInit();
       component.selectFee(testFixedVolumeFee);
       fixture.detectChanges();
       expect(component.showFeeDetails).toBe(true);
-    }));
+    });
 
-    it('should remember which fee was selected', async(async () => {
+    it('should remember which fee was selected', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+      await component.ngOnInit();
       component.selectFee(testFixedVolumeFee);
       fixture.detectChanges();
       expect(component.preselectedFee).toBe(testFixedVolumeFee);
       expect(component.ccdNo).toBe('1234-1234-1234-1234');
-    }));
+    });
   });
 
   describe('If banded flat fee is selected', () => {
-    it('should make fee-details component visible and fee-search component invisible', async(async () => {
+    it('should make fee-details component visible and fee-search component invisible', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+      await component.ngOnInit();
       component.selectFee(testFixedVolumeFee);
       fixture.detectChanges();
       expect(component.showFeeDetails).toBe(true);
-    }));
+    });
 
-    it('should remember which fee was selected', async(async () => {
+    it('should remember which fee was selected', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+      await component.ngOnInit();
       component.selectFee(testBandedFlatFee);
       fixture.detectChanges();
       expect(component.preselectedFee).toBe(testBandedFlatFee);
       expect(component.ccdNo).toBe('1234-1234-1234-1234');
-    }));
+    });
   });
 
   describe('Submitting volume fee', () => {
@@ -388,6 +423,9 @@ describe('Fee search component', () => {
     it('should call backend with ranged fee and percentage amount', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
       spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+      await component.ngOnInit();
+
       const emitted_value = { volumeAmount: 2, selectedVersionEmit: null };
 
       component.selectFee(testRangedPercentFee);

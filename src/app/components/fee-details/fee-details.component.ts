@@ -1,5 +1,6 @@
+import { PaymentGroupService } from './../../services/payment-group/payment-group.service';
 import { IVersion } from './../../../../projects/fee-register-search/src/lib/interfaces/IVersion';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from '@angular/core';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
@@ -10,9 +11,10 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
   templateUrl: './fee-details.component.html',
   styleUrls: ['./fee-details.component.scss']
 })
-export class FeeDetailsComponent implements OnInit {
+export class FeeDetailsComponent implements OnInit, OnChanges {
   selectedFeeVersion: IVersion;
-  validOldVersionArray: IVersion[];
+  validOldVersionArray: IVersion[] = [];
+  isDiscontinuedFeatureEnabled = true;
   @Input() fee = {
     code: 'test-code',
     fee_type: 'banded',
@@ -58,17 +60,23 @@ export class FeeDetailsComponent implements OnInit {
   calculatedAmountFormControl: FormControl;
 
   constructor(
+    private paymentGroupService: PaymentGroupService,
     private formBuilder: FormBuilder
   ) {
   }
 
+  async ngOnChanges() {
+    this.isDiscontinuedFeatureEnabled = await this.paymentGroupService.getDiscontinuedFrFeature();
+    console.log(this.isDiscontinuedFeatureEnabled);
+    if (this.isDiscontinuedFeatureEnabled) {
+      this.validOldVersionArray = this.validOldFeesVersions(this.fee);
+    }
+  }
   ngOnInit() {
     this.feeDetailFormGroup = this.formBuilder.group({
       feeOrVolumeControl: new FormControl({ value: 1, disabled: false }),
       feeAmountFormControl: new FormControl({ value: '0', disabled: false })
     });
-
-    this.validOldFeesVersions();
   }
 
   goBack() {
@@ -80,7 +88,7 @@ export class FeeDetailsComponent implements OnInit {
       this.fee.current_version.flat_amount.amount = this.feeDetailFormGroup.get('feeAmountFormControl').value;
 
       if (this.selectedFeeVersion != null) {
-           this.selectedFeeVersion.flat_amount.amount = this.feeDetailFormGroup.get('feeAmountFormControl').value;
+        this.selectedFeeVersion.flat_amount.amount = this.feeDetailFormGroup.get('feeAmountFormControl').value;
       }
     }
 
@@ -93,12 +101,12 @@ export class FeeDetailsComponent implements OnInit {
     this.selectedFeeVersion = currentSelectedFeeVersion;
   }
 
-  validOldFeesVersions() {
+  validOldFeesVersions(feesObject: any) {
     const validOldFeeVersionArray = new Array();
 
-    if (this.fee.fee_versions.length > 1) {
+    if (feesObject.fee_versions.length > 1) {
       /* sort based on valid from */
-      this.fee.fee_versions = this.fee.fee_versions.
+      feesObject.fee_versions = feesObject.fee_versions.
         filter(feesVersion => feesVersion.status === 'approved')
         .sort((a, b) => {
           return <any>new Date(b.valid_from) - <any>new Date(a.valid_from);
@@ -106,29 +114,31 @@ export class FeeDetailsComponent implements OnInit {
 
 
 
-      console.log('List of all old fee versions', this.fee.fee_versions);
+      console.log('List of all old fee versions', feesObject.fee_versions);
 
-      this.fee.fee_versions.forEach(function (value, i) {
+      feesObject.fee_versions.forEach(function (value, i) {
         if (i !== 0) {
           // if amount is diffrent then only consider it for push need to confirm that as well
-          // if (this.getAmountFromFeeVersion(value) == this.getAmountFromFeeVersion(this.fee.fee_versions[i - 1])) {
-          //   console.log('fee version deleted due to same amount with previous vesion ', value)
-          //   return
-          // }
-          /* set valid to date if not present for fee version from previous version*/
-          if (value.valid_to == null) {
-            const new_valid_to = new Date(validOldFeeVersionArray[i - 1].valid_from);
+          if (this.getAmountFromFeeVersion(value) === this.getAmountFromFeeVersion(feesObject.fee_versions[i - 1])) {
+            return;
+          }
+          //  set valid to date if not present for fee version from previous version
+          if (value.valid_to === null) {
+            const oldFeeVersionPreviousIndex = validOldFeeVersionArray.length - 1;
+            const new_valid_to = new Date(validOldFeeVersionArray[oldFeeVersionPreviousIndex].valid_from);
             new_valid_to.setDate(new_valid_to.getDate() - 1);
             value.valid_to = new_valid_to.toDateString();
           }
         }
         validOldFeeVersionArray.push(value);
-      });
+      }.bind(this));
     }
-    console.log('Valid old fee version list', validOldFeeVersionArray);
 
-    if (validOldFeeVersionArray.length > 1) {
-      return this.validOldVersionArray = validOldFeeVersionArray.filter(feesVersion => this.getValidFeeVersionsBasedOnDate(feesVersion));
+
+  if (validOldFeeVersionArray.length > 1) {
+      this.validOldVersionArray = validOldFeeVersionArray.filter(feesVersion => this.getValidFeeVersionsBasedOnDate(feesVersion));
+      console.log('Valid old fee version list', this.validOldVersionArray);
+      return this.validOldVersionArray;
     } else {
       return this.validOldVersionArray = [];
     }
@@ -137,17 +147,19 @@ export class FeeDetailsComponent implements OnInit {
   getValidFeeVersionsBasedOnDate(feeVersion: IVersion) {
     const feesLimitDate = new Date();
     /* Check valid fees till 6 months  */
-    feesLimitDate.setMonth(feesLimitDate.getMonth() - 3);
+    feesLimitDate.setMonth(feesLimitDate.getMonth() - 6);
 
-    if (feeVersion.valid_from != null && <any>new Date(feeVersion.valid_from) > feesLimitDate) {
-      return true;
-    } else if (feeVersion.valid_to != null && <any>new Date(feeVersion.valid_to) > feesLimitDate) {
+    const vaidFrom = feeVersion.valid_from;
+    const valid_to = feeVersion.valid_to;
+
+    if ((vaidFrom != null && <any>new Date(vaidFrom) > feesLimitDate) ||
+      (valid_to != null && <any>new Date(valid_to) > feesLimitDate)) {
       return true;
     }
     return false;
   }
 
-  getAmountFromFeeVersion(feeVersion: IVersion) {
+  getAmountFromFeeVersion(feeVersion: any) {
     if (feeVersion['volume_amount'] != null) {
       return feeVersion['volume_amount'].amount;
     } else if (feeVersion['flat_amount'] != null) {
@@ -156,4 +168,5 @@ export class FeeDetailsComponent implements OnInit {
       return feeVersion['percentage_amount'].percentage;
     }
   }
+
 }

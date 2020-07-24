@@ -1,3 +1,4 @@
+import { FeeDetailsComponent } from './../fee-details/fee-details.component';
 import { IVersion } from './../../../../dist/fee-register-search/lib/interfaces/IVersion.d';
 import { Component, OnInit } from '@angular/core';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
@@ -19,6 +20,7 @@ export class FeeSearchComponent implements OnInit {
   paymentGroupRef: string = null;
   selectedOption: string = null;
   bulkScanningTxt = '&isBulkScanning=Enable';
+  isDiscontinuedFeatureEnabled = true;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -34,7 +36,11 @@ export class FeeSearchComponent implements OnInit {
       this.dcnNo = this.activatedRoute.snapshot.queryParams['dcn'];
       this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
       this.bulkScanningTxt = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable' ?
-                                  '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
+        '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
+    });
+
+    this.paymentGroupService.getDiscontinuedFrFeature().then((status) => {
+      this.isDiscontinuedFeatureEnabled = status;
     });
   }
 
@@ -44,10 +50,13 @@ export class FeeSearchComponent implements OnInit {
     const flatAmt = fee.current_version['flat_amount'];
     const percentageAmt = fee.current_version['percentage_amount'];
     let paymentGroup;
+    const feeDetailsComponent = new FeeDetailsComponent(null, null);
+
     if ((feeType === 'fixed' && volAmt)
-    || (feeType === 'banded' && flatAmt)
-    || (feeType === 'rateable' && flatAmt)
-    || (feeType === 'ranged' && percentageAmt)) {
+      || (feeType === 'banded' && flatAmt)
+      || (feeType === 'rateable' && flatAmt)
+      || (feeType === 'ranged' && percentageAmt)
+      || (this.isDiscontinuedFeatureEnabled && fee.fee_versions.length > 1 && feeDetailsComponent.validOldFeesVersions(fee).length > 1)) {
       this.preselectedFee = fee;
       this.showFeeDetails = true;
     } else {
