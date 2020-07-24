@@ -1,19 +1,29 @@
+import { PaymentGroupService } from './../../services/payment-group/payment-group.service';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {FeeDetailsComponent} from './fee-details.component';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { IVersion } from 'fee-register-search/lib/interfaces';
+import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
+import { instance, mock, anyFunction } from 'ts-mockito';
+import { HttpClient } from '@angular/common/http';
+import { Meta } from '@angular/platform-browser';
 
 describe('FeeDetailsComponent', () => {
   let component: FeeDetailsComponent;
   let fixture: ComponentFixture<FeeDetailsComponent>;
   let testFeeVersions: any;
+  let paymentGroupService: PaymentGroupService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [FeeDetailsComponent],
       providers: [
-        FormBuilder
+        FormBuilder,
+        {
+          provide: PaymentGroupService,
+          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        }
       ],
       imports: [
         FormsModule,
@@ -34,6 +44,7 @@ describe('FeeDetailsComponent', () => {
         description: 'test-description'
     };
     fixture = TestBed.createComponent(FeeDetailsComponent);
+    paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -270,7 +281,7 @@ describe('FeeDetailsComponent', () => {
         description: 'test-description'
       }
    };
-    const result7 = component.validOldFeesVersions();
+    const result7 = component.validOldFeesVersions(component.fee);
     expect(result7.length).toBe(2);
   });
 });

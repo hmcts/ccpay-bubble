@@ -1,36 +1,37 @@
 <div *ngIf="validOldVersionArray.length < 2">
-   Old version are less than 2
-  <legend>
-    <h1 class="heading-xlarge">Fee details</h1>
-  </legend>
+    <legend>
+      <h1 class="heading-xlarge">Fee details</h1>
+    </legend>
 
-  <table *ngIf="fee" class="table" style="margin-bottom: 20px">
-    <caption>Fee Details</caption>
-    <tbody>
-    <tr>
-      <th class="bold" width="80px" scope="col">Fee code</th>
-      <th class="bold" width="620px" scope="col">Description</th>
-      <th class="bold" width="80px" scope="col">Amount</th>
-    </tr>
-    <tr>
-      <td>{{ fee.code }}</td>
-      <td>{{ fee.current_version.description }}</td>
-      <td *ngIf="fee.current_version['percentage_amount']; else volumeOrFlat">{{fee.current_version['percentage_amount'].percentage}}%</td>
-      <ng-template #volumeOrFlat>
-        <td>£{{ fee.current_version['volume_amount']? fee.current_version['volume_amount'].amount : fee.current_version['flat_amount'].amount}}</td>
-      </ng-template>
+    <table *ngIf="fee" class="table" style="margin-bottom: 20px">
+      <caption>Fee Details</caption>
+      <tbody>
+        <tr>
+          <th class="bold" width="80px" scope="col">Fee code</th>
+          <th class="bold" width="620px" scope="col">Description</th>
+          <th class="bold" width="80px" scope="col">Amount</th>
+        </tr>
+        <tr>
+          <td>{{ fee.code }}</td>
+          <td>{{ fee.current_version.description }}</td>
+          <td *ngIf="fee.current_version['percentage_amount']; else volumeOrFlat">
+            {{fee.current_version['percentage_amount'].percentage}}%</td>
+          <ng-template #volumeOrFlat>
+            <td>
+              £{{ fee.current_version['volume_amount']? fee.current_version['volume_amount'].amount : fee.current_version['flat_amount'].amount}}
+            </td>
+          </ng-template>
 
-    </tr>
-    </tbody>
-  </table>
-</div>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
 <main *ngIf="validOldVersionArray.length > 1">
-  Old version are greater than 1
     <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
     <p class="form-hint">{{ fee.current_version.description }}</p>
 
-  <div class="govuk-warning-text">
+    <div class="govuk-warning-text">
       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
       <strong class="govuk-warning-text__text" style="font-size: 16px;">
         <span class="govuk-warning-text__assistive">Warning</span>
@@ -38,51 +39,58 @@
       </strong>
     </div>
 
-  <div class="govuk-form-group">
-    <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-        When was this application received?
-      </legend>
+    <div class="govuk-form-group">
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+          When was this application received?
+        </legend>
 
-      <div *ngFor="let feeVersion of validOldVersionArray; index as i; let firstversion = first; let lastversion = last" class="govuk-radios">
-      Old version are greater than 1 for loop
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="{{ 'fee-version' + i }}" name="fee-version" type="radio" value="feeVersion"
-            aria-describedby="fee-version-item-hint" (click)="getSelectedFeesVersion(feeVersion)">
-          <label *ngIf="firstversion; else oldFeeValidFrom" class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
-               On or after {{ feeVersion.valid_from | date: 'd MMMM y' }}
+        <div
+          *ngFor="let feeVersion of validOldVersionArray; index as i; let firstversion = first; let lastversion = last"
+          class="govuk-radios">
 
-          </label>
-          <ng-template #oldFeeValidFrom>
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="{{ 'fee-version' + i }}" name="fee-version" type="radio"
+              value="feeVersion" aria-describedby="fee-version-item-hint" (click)="getSelectedFeesVersion(feeVersion)">
+            <label *ngIf="firstversion; else oldFeeValidFrom" class="govuk-label govuk-radios__label"
+              style="font-size: 16px;" for="fee-version">
+              On or after {{ feeVersion.valid_from | date: 'd MMMM y' }}
 
-            <label *ngIf="!lastversion; else oldFeeLastFees" class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
-              Between {{ feeVersion.valid_from | date: 'd MMMM'  }} and {{ feeVersion.valid_to | date: 'd MMMM y' }}
             </label>
+            <ng-template #oldFeeValidFrom>
 
-            <ng-template #oldFeeLastFees>
-              <label class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
-                Before {{ feeVersion.valid_to | date: 'd MMMM y' }}
-            </label>
+              <label *ngIf="!lastversion; else oldFeeLastFees" class="govuk-label govuk-radios__label"
+                style="font-size: 16px;" for="fee-version">
+                Between {{ feeVersion.valid_from | date: 'd MMMM'  }} and {{ feeVersion.valid_to | date: 'd MMMM y' }}
+              </label>
 
+              <ng-template #oldFeeLastFees>
+                <label class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
+                  Before {{ feeVersion.valid_to | date: 'd MMMM y' }}
+                </label>
+
+              </ng-template>
             </ng-template>
-          </ng-template>
 
-          <span *ngIf="firstversion; else oldversion" id="{{ 'fee-version-item-hint' + i }}" class="govuk-hint govuk-radios__hint" style="font-size: 16px;">
-            Use the current
-            £ {{ getAmountFromFeeVersion(feeVersion) }} fee
-          </span>
-          <ng-template #oldversion>
-            <span id="{{ 'fee-version-item-hint' + i }}" class="govuk-hint govuk-radios__hint" style="font-size: 16px;">
-              Use the old
+            <span *ngIf="firstversion; else oldversion" id="{{ 'fee-version-item-hint' + i }}"
+              class="govuk-hint govuk-radios__hint" style="font-size: 16px;">
+              Use the current
               £ {{ getAmountFromFeeVersion(feeVersion) }} fee
-              fee
             </span>
-          </ng-template>
-        </div>
+            <ng-template #oldversion>
+              <span id="{{ 'fee-version-item-hint' + i }}" class="govuk-hint govuk-radios__hint"
+                style="font-size: 16px;">
+                Use the old
+                £ {{ getAmountFromFeeVersion(feeVersion) }} fee
+                fee
+              </span>
+            </ng-template>
+          </div>
 
-      </div>
-    </fieldset>
-  </div>
+        </div>
+      </fieldset>
+    </div>
+
 </main>
 
 <form>
