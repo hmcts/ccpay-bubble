@@ -67,7 +67,6 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
 
   async ngOnChanges() {
     this.isDiscontinuedFeatureEnabled = await this.paymentGroupService.getDiscontinuedFrFeature();
-    console.log(this.isDiscontinuedFeatureEnabled);
     if (this.isDiscontinuedFeatureEnabled) {
       this.validOldVersionArray = this.validOldFeesVersions(this.fee);
     }
@@ -112,10 +111,6 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
           return <any>new Date(b.valid_from) - <any>new Date(a.valid_from);
         });
 
-
-
-      console.log('List of all old fee versions', feesObject.fee_versions);
-
       feesObject.fee_versions.forEach(function (value, i) {
         if (i !== 0) {
           // if amount is diffrent then only consider it for push need to confirm that as well
@@ -137,7 +132,6 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
 
   if (validOldFeeVersionArray.length > 1) {
       this.validOldVersionArray = validOldFeeVersionArray.filter(feesVersion => this.getValidFeeVersionsBasedOnDate(feesVersion));
-      console.log('Valid old fee version list', this.validOldVersionArray);
       return this.validOldVersionArray;
     } else {
       return this.validOldVersionArray = [];
