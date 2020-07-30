@@ -3,7 +3,6 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   environment:
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
-    PAYHUB_API_URL: http://payment-api-pr-710.service.core-compute-preview.internal
 
 idam-pr:
   enabled: true
