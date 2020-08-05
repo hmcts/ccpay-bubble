@@ -67,7 +67,7 @@ class PayhubController {
     const ldClient = LaunchDarkly.initialize(ccpayBubbleLDclientId, user);
     ldClient.on('ready', () => {
       const showFeature = ldClient.variation(req.query.flag, false);
-      return res.status(200).send({ flag: showFeature, user: user, id:ccpayBubbleLDclientId });
+      return res.status(200).send({ flag: showFeature, u: user, id: ccpayBubbleLDclientId });
     });
   }
 
