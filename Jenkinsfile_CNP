@@ -9,6 +9,7 @@ def secrets = [
   'ccpay-${env}': [
       secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET'),
       secret('paybubble-idam-client-secret', 'IDAM_CLIENT_SECRET'),
+      secret('launch-darkly-client-id', 'LD_CLIENT_ID'),
       secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
   ]
 ]
