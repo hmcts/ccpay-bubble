@@ -33,7 +33,7 @@ export class FeeSearchComponent implements OnInit {
       this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
       this.bulkScanningTxt = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable' ?
                                   '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
-      this.bulkScanningTxt+= this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable' ?
+      this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable' ?
                                   '&isTurnOff=Enable' : '&isTurnOff=Disable';
     });
   }
