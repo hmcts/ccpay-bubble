@@ -34,4 +34,5 @@ secrets:
   ccpay:
     paybubble-s2s-secret: [paybubble-s2s-secret]
     paybubble-idam-client-secret: [paybubble-idam-client-secret]
+    launch-darkly-client-id: [launch-darkly-client-id]
     AppInsightsInstrumentationKey: some-key
