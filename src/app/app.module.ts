@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/http';
 
 import {AppRoutingModule} from './routes/app-routing.module';
 import {AppComponent} from './app.component';
@@ -30,6 +30,7 @@ import {CcdSearchComponent} from './components/ccd-search/ccd-search.component';
 import {AuthDevInterceptor} from './shared/interceptors/auth.dev.interceptor';
 import {environment} from '../environments/environment';
 import { CaseRefService } from './services/caseref/caseref.service';
+import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -69,12 +70,14 @@ const nonProductionProviders = [{
   providers: [
     PaybubbleHttpClient,
     AddFeeDetailService,
+    HttpClient,
     FeeSearchComponent,
     PaymentHistoryComponent,
     CaseRefService,
     WindowUtil,
     !environment.production ? nonProductionProviders : [],
-    PaymentGroupService
+    PaymentGroupService,
+    ViewPaymentService
   ],
   bootstrap: [AppComponent]
 })

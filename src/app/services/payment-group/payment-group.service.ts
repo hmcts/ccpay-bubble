@@ -36,4 +36,9 @@ export class PaymentGroupService {
       return regFeature ? regFeature.enable : false;
     });
   }
+  getLDFeature(flagKey): Promise<any> {
+    return this.http.get(`api/payment-history/LD-feature?flag=${flagKey}`).toPromise().then(features => {
+      return JSON.parse(features).flag;
+    });
+  }
 }
