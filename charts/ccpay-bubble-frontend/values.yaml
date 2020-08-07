@@ -11,6 +11,7 @@ nodejs:
       secrets:
         - paybubble-s2s-secret
         - paybubble-idam-client-secret
+        - launch-darkly-client-id
         - AppInsightsInstrumentationKey
   environment:
     REFORM_TEAM: ccpay
@@ -23,8 +24,8 @@ nodejs:
     CCPAY_BULKSCAN_API_URL: http://ccpay-bulkscanning-api-pr-195.service.core-compute-preview.internal
     S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     IDAM_API_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
-    IDAM_LOGIN_URL: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net/o/authorize
-    IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net
+    IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net/login
+    LD_FLAG_PREFIX: FE{{ .Values.global.environment }}
 
     FEE_REGISTRATION_URL: http://fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/fees-register/fees
     FEE_JURISDICTION_URL: http://fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/jurisdictions
