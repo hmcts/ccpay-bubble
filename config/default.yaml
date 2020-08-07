@@ -6,6 +6,8 @@ idam:
   api_url: https://idam-api.aat.platform.hmcts.net
 session:
   cookieName: SESSION_ID
+environment:
+  ldPrefix: LD_FLAG_PREFIX
 ccpaybubble:
   url: https://localhost
   defaultPort: 3000
@@ -13,9 +15,9 @@ ccpaybubble:
 s2s:
   url: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
 payhub:
-  url: http://payment-api-prod.service.core-compute-prod.internal
+  url: http://payment-api-demo.service.core-compute-demo.internal
 bulkscan:
-  url: http://ccpay-bulkscanning-api-prod.service.core-compute-prod.internal
+  url: http://ccpay-bulkscanning-api-demo.service.core-compute-demo.internal
 appInsights:
   roleName: paybubble
 e2e:
@@ -34,4 +36,5 @@ secrets:
   ccpay:
     paybubble-s2s-secret: G5XTFNBUW4P6ZP4F
     paybubble-idam-client-secret: NVYEC2X7XFSRENTU
+    launch-darkly-client-id: 5f227f4df775300ba82996dc
     AppInsightsInstrumentationKey: some-key
