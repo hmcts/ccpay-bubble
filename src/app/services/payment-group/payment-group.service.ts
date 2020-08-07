@@ -40,7 +40,7 @@ export class PaymentGroupService {
   }
   getLDFeature(flagKey): Promise<any> {
     return this.http.get(`api/payment-history/LD-feature?flag=${flagKey}`).toPromise().then(features => {
-      return JSON.parse(features).flag;
+      return !JSON.parse(features).flag;
     });
   }
 
