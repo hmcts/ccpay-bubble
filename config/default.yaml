@@ -2,8 +2,8 @@ security:
   referrerPolicy: origin
 idam:
   client_id: paybubble
-  login_url: https://idam-web-public.aat.platform.hmcts.net
-  api_url: https://idam-api.aat.platform.hmcts.net
+  login_url: http://localhost:9002/login
+  api_url: http://localhost:5000
 session:
   cookieName: SESSION_ID
 environment:
@@ -15,9 +15,9 @@ ccpaybubble:
 s2s:
   url: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
 payhub:
-  url: http://payment-api-demo.service.core-compute-demo.internal
+  url: http://localhost:8080
 bulkscan:
-  url: http://ccpay-bulkscanning-api-demo.service.core-compute-demo.internal
+  url: http://localhost:8081
 appInsights:
   roleName: paybubble
 e2e:
