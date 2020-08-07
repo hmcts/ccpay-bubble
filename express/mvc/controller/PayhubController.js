@@ -1,13 +1,13 @@
 const { payhubService } = require('../../services');
-//const config = require('config');
+// const config = require('config');
 const request = require('request-promise-native');
 const LaunchDarkly = require('launchdarkly-node-client-sdk');
 const HttpStatusCodes = require('http-status-codes');
 
-//const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
-//const LDprefix = config.get('environment.ldPrefix');
-//const user = { key: `${LDprefix}@test.com` };
-const user = { key: `FEaat@test.com` };
+// const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
+// const LDprefix = config.get('environment.ldPrefix');
+// const user = { key: `${LDprefix}@test.com` };
+const user = { key: 'FEaat@test.com' };
 class PayhubController {
   constructor() {
     this.payhubService = payhubService;
