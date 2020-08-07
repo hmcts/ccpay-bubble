@@ -6,6 +6,8 @@ idam:
   api_url: https://idam-api.aat.platform.hmcts.net
 session:
   cookieName: SESSION_ID
+environment:
+  ldPrefix: LD_FLAG_PREFIX
 ccpaybubble:
   url: https://localhost
   defaultPort: 3000
