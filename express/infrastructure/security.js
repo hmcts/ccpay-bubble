@@ -18,6 +18,8 @@ const constants = Object.freeze({
   CSRF_TOKEN: '_csrf'
 });
 
+const ACCESS_TOKEN_OAUTH2 = 'access_token';
+
 function Security(options) {
   this.opts = options || {};
 
