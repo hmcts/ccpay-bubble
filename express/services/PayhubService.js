@@ -148,7 +148,7 @@ class PayhubService {
 
   postStrategicPayment(req) {
     return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/${req.params[0]}`,
+      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/bulk-scan-payments-strategic`,
       body: req.body,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
