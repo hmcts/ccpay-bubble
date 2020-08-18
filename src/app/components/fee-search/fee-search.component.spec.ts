@@ -259,7 +259,8 @@ describe('Fee search component', () => {
     fixture.detectChanges();
     expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
     expect(router.navigateByUrl)
-      .toHaveBeenCalledWith('/payment-history/1234-1234-1234-1234?view=fee-summary&selectedOption=undefined&paymentGroupRef=paymentgroup&isBulkScanning=Enable&isTurnOff=Disable');
+      .toHaveBeenCalledWith(`/payment-history/1234-1234-1234-1234?view=fee-summary&selectedOption=undefined
+&paymentGroupRef=paymentgroup&isBulkScanning=Enable&isTurnOff=Disable`);
   });
 
 
