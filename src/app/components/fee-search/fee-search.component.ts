@@ -122,13 +122,15 @@ export class FeeSearchComponent implements OnInit {
 
   sendPaymentGroup(paymentGroup: any) {
     const dcnQueryParams = this.dcnNo ? `&dcn=${this.dcnNo}` : '';
+
     if (this.paymentGroupRef) {
 
       this.paymentGroupService.putPaymentGroup(this.paymentGroupRef, paymentGroup)
         .then(response => {
           this.router
             .navigateByUrl(`/payment-history/${this.ccdNo}`
-              + `?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}`);
+              + `?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${this.paymentGroupRef}
+              ${dcnQueryParams}${this.bulkScanningTxt}`);
         })
         .catch(err => {
           this.navigateToServiceFailure();
@@ -139,7 +141,8 @@ export class FeeSearchComponent implements OnInit {
           .router
           .navigateByUrl(`/payment-history/${this.ccdNo}`
             + `?view=fee-summary&selectedOption=${this.selectedOption}
-            &paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}`);
+            &paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}
+            ${dcnQueryParams}${this.bulkScanningTxt}`);
       })
         .catch(err => {
           this.navigateToServiceFailure();
