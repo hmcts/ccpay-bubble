@@ -137,12 +137,12 @@ export class FeeSearchComponent implements OnInit {
         });
     } else {
       this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
+        const pgRef = JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference;
+        const url = `${this.selectedOption}&paymentGroupRef=${pgRef}${dcnQueryParams}${this.bulkScanningTxt}`
         this
           .router
           .navigateByUrl(`/payment-history/${this.ccdNo}`
-            + `?view=fee-summary&selectedOption=${this.selectedOption}
-            &paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}
-            ${dcnQueryParams}${this.bulkScanningTxt}`);
+            + `?view=fee-summary&selectedOption=${url}`);
       })
         .catch(err => {
           this.navigateToServiceFailure();
