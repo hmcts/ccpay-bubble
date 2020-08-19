@@ -138,7 +138,7 @@ export class FeeSearchComponent implements OnInit {
     } else {
       this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
         const pgRef = JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference;
-        const url = `${this.selectedOption}&paymentGroupRef=${pgRef}${dcnQueryParams}${this.bulkScanningTxt}`
+        const url = `${this.selectedOption}&paymentGroupRef=${pgRef}${dcnQueryParams}${this.bulkScanningTxt}`;
         this
           .router
           .navigateByUrl(`/payment-history/${this.ccdNo}`
