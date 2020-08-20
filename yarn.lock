@@ -330,10 +330,10 @@
     lodash.mergewith "^4.6.2"
     webdriverio "^5.15.2"
 
-"@hmcts/ccpay-web-component@4.0.0-beta81":
-  version "4.0.0-beta81"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta81.tgz#9e109ff7cd6019dd2fa0bcb3c161bd9550414b76"
-  integrity sha512-DRmb4Sr6/adh6q3HP13gQW1sQRXzFX+a9RYY+/Zr2pr4duBA+DGKl61h6v3QrxvnHcXuG6GXyJauk7ywtwPSVA==
+"@hmcts/ccpay-web-component@4.0.0-beta89":
+  version "4.0.0-beta89"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta89.tgz#b61a85efd1d002bdffeef9dfcb3fd832ad73b821"
+  integrity sha512-6felACCiOF8fBCzVAswTCeGUd4wfEZ/q5w22pSHlyA99Ezl1GE4mg4oDH1vRgpZk4OECfP1fq1uV5nMeoGl/7g==
   dependencies:
     tslib "^1.9.0"
 
