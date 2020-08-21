@@ -127,10 +127,10 @@ export class FeeSearchComponent implements OnInit {
 
       this.paymentGroupService.putPaymentGroup(this.paymentGroupRef, paymentGroup)
         .then(response => {
+          const partUrl = `&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}${this.bulkScanningTxt}`;
           this.router
             .navigateByUrl(`/payment-history/${this.ccdNo}`
-              + `?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${this.paymentGroupRef}
-              ${dcnQueryParams}${this.bulkScanningTxt}`);
+              + `?view=fee-summary&selectedOption=${this.selectedOption}${partUrl}`);
         })
         .catch(err => {
           this.navigateToServiceFailure();
