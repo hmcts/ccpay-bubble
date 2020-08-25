@@ -178,8 +178,13 @@ describe('Fee search component', () => {
       },
       snapshot: {
         queryParams: {
-          'ccdCaseNumber': '1234-1234-1234-1234',
-          'isBulkScanning': 'Enable'
+          ccdCaseNumber: '1234-1234-1234-1234',
+          isBulkScanning: 'Enable',
+          paymentGroupRef: null,
+          dcn: '11',
+          isTurnOff: 'Enable',
+          selectedOption: 'test'
+
         }
       }
     };
@@ -239,6 +244,10 @@ describe('Fee search component', () => {
     spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
     await component.ngOnInit();
     expect(component.ccdNo).toBe('1234-1234-1234-1234');
+    expect(component.paymentGroupRef).toBe(null);
+    expect(component.dcnNo).toBe('11');
+    expect(component.selectedOption).toBe('test');
+    expect(component.bulkScanningTxt).toBe('&isBulkScanning=Enable&isTurnOff=Enable');
   });
 
   it('Should reset preselected fee and show fee details ongoback', () => {
