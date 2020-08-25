@@ -39,6 +39,12 @@ export class PaymentGroupService {
     });
   }
 
+  getLDFeature(flagKey): Promise<any> {
+    return this.http.get(`api/payment-history/LD-feature?flag=${flagKey}`).toPromise().then(features => {
+      return !JSON.parse(features).flag;
+    });
+  }
+
    getDiscontinuedFrFeature(): Promise<any> {
       return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
         const regFeature = JSON.parse(features).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);

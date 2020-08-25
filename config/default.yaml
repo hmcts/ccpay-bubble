@@ -6,6 +6,8 @@ idam:
   api_url: http://localhost:23443
 session:
   cookieName: SESSION_ID
+environment:
+  ldPrefix: FElocal
 ccpaybubble:
   url: https://localhost
   defaultPort: 3000
@@ -34,4 +36,5 @@ secrets:
   ccpay:
     paybubble-s2s-secret: [paybubble-s2s-secret]
     paybubble-idam-client-secret: [paybubble-idam-client-secret]
+    launch-darkly-client-id: [launch-darkly-client-id]
     AppInsightsInstrumentationKey: some-key
