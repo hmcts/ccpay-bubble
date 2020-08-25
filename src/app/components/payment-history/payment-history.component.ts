@@ -16,6 +16,7 @@ export class PaymentHistoryComponent implements OnInit {
   dcnNumber: string;
   selectedOption: string;
   isBulkscanningEnable: boolean;
+  isStrategicFixEnable: boolean;
 
   constructor(private activatedRoute: ActivatedRoute) { }
 
@@ -25,6 +26,7 @@ export class PaymentHistoryComponent implements OnInit {
       this.bulkscanapiRoot = 'api/bulk-scan';
       this.ccdCaseNumber = params['ccdCaseNumber'];
       this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
+      this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
       this.view = this.activatedRoute.snapshot.queryParams['view'];
       this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
       this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
