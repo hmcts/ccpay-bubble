@@ -370,6 +370,17 @@ describe('Fee search component', () => {
     expect(router.navigateByUrl).toHaveBeenCalledWith('/service-failure');
   });
 
+  it('should navigate to payment history page when postPayment return success with ref', fakeAsync(() => {
+    spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    component.paymentGroupRef = 'test';
+    component.dcnNo = '11';
+    component.sendPaymentGroup('test');
+    tick();
+    expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
+    const url = 'selectedOption=null&paymentGroupRef=test&dcn=11&isBulkScanning=Enable&isTurnOff=Enable';
+    expect(router.navigateByUrl).toHaveBeenCalledWith(`/payment-history/null?view=fee-summary&${url}`);
+    }));
+
   it('should navigate to service failure when postPayment return error', fakeAsync(() => {
     spyOn(paymentGroupService, 'postPaymentGroup').and.returnValue(Promise.reject('Promise should not be resolved'));
     spyOn(component, 'navigateToServiceFailure');
@@ -388,6 +399,7 @@ describe('Fee search component', () => {
     component.sendPaymentGroup('test');
     tick();
     expect(component.navigateToServiceFailure).toHaveBeenCalled();
+
   }));
 
   describe('Submitting fee amount for rateable fee', () => {
