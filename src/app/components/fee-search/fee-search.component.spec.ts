@@ -175,11 +175,11 @@ describe('Fee search component', () => {
     };
 
     mockResponse1 = {
-        data: {
-          payment_group_reference: '2019-12341234',
-          fees: [],
-          payments: [],
-          remissions: []
+        'data': {
+          'payment_group_reference': '2019-12341234',
+          'fees': [],
+          'payments': [],
+          'remissions': []
         }
       };
     activatedRoute = {
@@ -433,7 +433,8 @@ describe('Fee search component', () => {
       component.sendPaymentGroup('test');
       tick();
       expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
-      expect(router.navigateByUrl).toHaveBeenCalledWith(`/service-failure`);
+      const url = 'selectedOption=null&paymentGroupRef=2019-12341234&dcn=11&isBulkScanning=Enable&isTurnOff=Enable';
+      expect(router.navigateByUrl).toHaveBeenCalledWith(`/payment-history/null?view=fee-summary&${url}`);
       }));
 
   it('should navigate to service failure when postPayment return error', fakeAsync(() => {
