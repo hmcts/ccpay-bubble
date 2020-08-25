@@ -346,6 +346,32 @@ describe('Fee search component', () => {
     });
   });
 
+  describe('Submitting volume fee without version', () => {
+    it('should call backend with correct fee details', async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      const emitSelectEvent = { volumeAmount: 2};
+      component.selectFee(testFixedVolumeFee);
+      component.selectPreselectedFeeWithVolume(emitSelectEvent);
+      await fixture.whenStable();
+      expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
+        fees: [{
+          code: testFixedVolumeFee.code,
+          version: testFixedVolumeFee['current_version'].version.toString(),
+          'calculated_amount': `${testFixedVolumeFee['current_version'].volume_amount.amount * emitSelectEvent.volumeAmount}`.toString(),
+          'memo_line': testFixedVolumeFee['current_version'].memo_line,
+          'natural_account_code': testFixedVolumeFee['current_version'].natural_account_code,
+          'ccd_case_number': component.ccdNo,
+          jurisdiction1: testFixedVolumeFee.jurisdiction1.name,
+          jurisdiction2: testFixedVolumeFee.jurisdiction2.name,
+          description: testFixedVolumeFee.current_version.description,
+          volume: emitSelectEvent.volumeAmount,
+          fee_amount: testFixedVolumeFee.current_version.volume_amount.amount
+        }]
+      });
+    });
+  });
+
   describe('Submitting volume for banded fee', () => {
     it('should call backend with correct fee details', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
