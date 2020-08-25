@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
+import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 
 @Component({
   selector: 'app-fee-search',
@@ -137,7 +138,7 @@ export class FeeSearchComponent implements OnInit {
         });
     } else {
       this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
-        const pgRef = JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference;
+        const pgRef = <IPaymentGroup>paymentGroupReceived['data'].payment_group_reference;
         const url = `${this.selectedOption}&paymentGroupRef=${pgRef}${dcnQueryParams}${this.bulkScanningTxt}`;
         this
           .router
