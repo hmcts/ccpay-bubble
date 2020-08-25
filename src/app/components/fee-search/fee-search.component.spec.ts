@@ -23,7 +23,9 @@ describe('Fee search component', () => {
     testRateableFlatFee: any,
     testRangedPercentFee: any,
     testIversion: any,
-    mockResponse: any;
+    mockResponse: any,
+    mockResponse1: any;
+
 
   beforeEach(() => {
     testFixedFlatFee = {
@@ -172,6 +174,14 @@ describe('Fee search component', () => {
       remissions: []
     };
 
+    mockResponse1 = {
+        data: {
+          payment_group_reference: '2019-12341234',
+          fees: [],
+          payments: [],
+          remissions: []
+        }
+      };
     activatedRoute = {
       params: {
         subscribe: (fun) => fun()
@@ -415,6 +425,16 @@ describe('Fee search component', () => {
     const url = 'selectedOption=null&paymentGroupRef=test&dcn=11&isBulkScanning=Enable&isTurnOff=Enable';
     expect(router.navigateByUrl).toHaveBeenCalledWith(`/payment-history/null?view=fee-summary&${url}`);
     }));
+
+    it('should navigate to payment history page when postPayment return success without ref', fakeAsync(() => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse1));
+      component.paymentGroupRef = null;
+      component.dcnNo = '11';
+      component.sendPaymentGroup('test');
+      tick();
+      expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
+      expect(router.navigateByUrl).toHaveBeenCalledWith(`/service-failure`);
+      }));
 
   it('should navigate to service failure when postPayment return error', fakeAsync(() => {
     spyOn(paymentGroupService, 'postPaymentGroup').and.returnValue(Promise.reject('Promise should not be resolved'));
