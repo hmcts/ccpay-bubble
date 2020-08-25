@@ -88,6 +88,10 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.bulkScanToggleFeature(req, res);
   })
 
+  .get('/payment-history/LD-feature?*', (req, res) => {
+    controllers.payhubController.getLDFeatures(req, res);
+  })
+
   .delete('/payment-history/fees/:id', (req, res) => {
     controllers.payhubController.deleteFeesFromPaymentGroup(req, res, appInsights);
   })
