@@ -57,6 +57,17 @@ class PayhubController {
       });
   }
 
+  postPaymentAntennaToPayHub(req, res, appInsights) {
+    return this.payhubService.postPaymentAntennaToPayHub(req, res, appInsights)
+    // eslint-disable-next-line
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(error => {
+      res.status(500).json({ err: error, success: false });
+    });
+  }
+
   sendToPayhubWithUrl(req, res) {
     if (req.body.url) {
       return request({

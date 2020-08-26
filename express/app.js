@@ -45,6 +45,10 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postPaymentGroupToPayHub(req, res, appInsights);
   })
 
+  .post('/payment-history/payment-groups/:paymentGroup/card-payments-antenna', (req, res) => {
+    controllers.payhubController.postPaymentAntennaToPayHub(req, res, appInsights);
+  })
+
   .post('/payment-history/payment-groups/:paymentGroup/bulk-scan-payments', (req, res) => {
     controllers.payhubController.postAllocatePayment(req, res, appInsights);
   })
