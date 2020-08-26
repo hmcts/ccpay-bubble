@@ -428,6 +428,8 @@ describe('Fee search component', () => {
 
     it('should navigate to payment history page when postPayment return success without ref', fakeAsync(() => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse1));
+      spyOn(JSON, 'parse').and.callFake(() => mockResponse1);
+
       component.paymentGroupRef = null;
       component.dcnNo = '11';
       component.sendPaymentGroup('test');
