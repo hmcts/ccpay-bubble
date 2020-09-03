@@ -71,14 +71,6 @@ class PayhubController {
       });
   }
 
-  getLDFeatures(req, res) {
-    const ldClient = LaunchDarkly.initialize(ccpayBubbleLDclientId, user);
-    ldClient.on('ready', () => {
-      const showFeature = ldClient.variation(req.query.flag, false);
-      return res.status(200).send({ flag: showFeature, u: user, id: ccpayBubbleLDclientId });
-    });
-  }
-
   postPaymentGroupListToPayHub(req, res, appInsights) {
     return this.payhubService.sendToPayhub(req, res, appInsights)
     // eslint-disable-next-line
