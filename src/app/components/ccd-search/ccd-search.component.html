@@ -1,82 +1,83 @@
 <form [formGroup]="searchForm" >
  
-<div class="govuk-form-group">
-    <legend class='govuk-fieldset__legend--xl'>
-        <h1 class="govuk-fieldset__heading">
-          Search for a case
-        </h1>
+  <div class="govuk-form-group">
+      <legend class='govuk-fieldset__legend--xl'>
+          <h1 class="govuk-fieldset__heading">
+            Search for a case
+          </h1>
+        </legend>
+    <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+        <h3 class="form-hint">
+          What do you want to search for?
+        </h3>
       </legend>
-  <fieldset class="govuk-fieldset">
-    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-      <h3 class="form-hint">
-        What do you want to search for?
-      </h3>
-    </legend>
-    <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-      <div class="govuk-radios__item">
-          <input 
-          id="CCDorException"
-          class="govuk-radios__input"
-          formControlName="CCDorException"
-          name="CCDorException"
-          type="radio"
-          value="CCDorException" 
-          (change)= "onSelectionChange('CCDorException')"
-          [checked]='true' 
-          data-aria-controls="CCDorException"/>
-          <label class="govuk-label govuk-radios__label govuk-label--m" for="CCDorException">
-          <legend> CCD case reference or exception record</legend>
-            <span class="form-hint">For example: 1111-2222-3333-4444</span>
+      
+  
+      <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+         <div class="govuk-radios__item">
+            <input 
+            id="CCDorException"
+            class="govuk-radios__input"
+            formControlName="CCDorException"
+            name="CCDorException"
+            type="radio"
+            value="CCDorException" 
+            (change)= "onSelectionChange('CCDorException')"
+            [checked]='true' 
+            data-aria-controls="CCDorException"/>
+            <label class="govuk-label govuk-radios__label govuk-label--m" for="CCDorException">
+            <legend> CCD case reference or exception record</legend>
+              <span class="form-hint">For example: 1111-2222-3333-4444</span>
+            </label>
+        </div>
+        <div  [ngClass]="{'govuk-radios__conditional':  selectedValue === 'CCDorException' && hasErrors === false,
+                                              'govuk-form-group form-group-error' : hasErrors === true,
+                                              'govuk-radios__conditional--hidden': selectedValue === 'DCN' || selectedValue === 'RC'}">
+              <input #searchInput 
+               aria-label ="Enter CCDorException"
+               [className]="hasErrors? 'form-control form-control-error': 'govuk-input govuk-!-width-one-third'"
+               id="ccd-search" 
+               type="text" 
+               name="ccd-search" 
+               formControlName="searchInput">
+               <span *ngIf="hasErrors && selectedValue === 'CCDorException'" class="error-message">Enter a CCD case reference number in the correct format</span>
+        </div>
+  
+        <div class="govuk-radios__item" *ngIf="isBulkscanningEnable">
+          <input class="govuk-radios__input" 
+            id="DCN"
+            aria-label ="Enter DCN"
+            formControlName="CCDorException"
+            name="CCDorException"
+            type="radio"
+            value="DCN" 
+            (change)= "onSelectionChange('DCN')"
+           data-aria-controls="DCN"
+           />
+           <label class="govuk-label govuk-radios__label govuk-label--m" for="DCN">
+            Payment Asset Number (DCN)
+              <span class="form-hint">This is a 21-digit number</span>
           </label>
-      </div>
-      <div  [ngClass]="{'govuk-radios__conditional':  selectedValue === 'CCDorException' && hasErrors === false,
-                                            'govuk-form-group form-group-error' : hasErrors === true,
-                                            'govuk-radios__conditional--hidden': selectedValue === 'DCN'}">
+        </div>
+         <div *ngIf="isBulkscanningEnable" [ngClass]="{'govuk-radios__conditional':  selectedValue === 'DCN' && hasErrors === false,
+                                          'govuk-form-group form-group-error' : hasErrors === true,
+                                          'govuk-radios__conditional--hidden': selectedValue === 'CCDorException' || selectedValue === 'RC'}">
             <input #searchInput 
-             aria-label ="Enter CCDorException"
-             [className]="hasErrors? 'form-control form-control-error': 'govuk-input govuk-!-width-one-third'"
-             id="ccd-search" 
-             type="text" 
-             name="ccd-search" 
-             formControlName="searchInput">
-             <span *ngIf="hasErrors && selectedValue === 'CCDorException'" class="error-message">Enter a CCD case reference number in the correct format</span>
-      </div>
-
-      <div class="govuk-radios__item" *ngIf="isBulkscanningEnable">
-        <input class="govuk-radios__input" 
-          id="DCN"
-          aria-label ="Enter DCN"
-          formControlName="CCDorException"
-          name="CCDorException"
-          type="radio"
-          value="DCN" 
-          (change)= "onSelectionChange('DCN')"
-         data-aria-controls="DCN"
-         />
-         <label class="govuk-label govuk-radios__label govuk-label--m" for="DCN">
-          Payment Asset Number (DCN)
-            <span class="form-hint">This is a 21-digit number</span>
-        </label>
-      </div>
-       <div *ngIf="isBulkscanningEnable" [ngClass]="{'govuk-radios__conditional':  selectedValue === 'DCN' && hasErrors === false,
-                                        'govuk-form-group form-group-error' : hasErrors === true,
-                                        'govuk-radios__conditional--hidden': selectedValue === 'CCDorException'}">
-          <input #searchInput 
-            [className]="hasErrors? 'form-control form-control-error': 'govuk-input govuk-!-width-one-third'"
-             id="dcn-search" 
-             type="text" 
-             name="ccd-search" 
-             aria-label ="Enter DCN"
-             formControlName="searchInput">
-            <span *ngIf="hasErrors && selectedValue === 'DCN'" class="error-message">Enter DCN number in the correct format</span>
-            <span *ngIf="noCaseFound" class="error-message">No record found for this DCN</span>
-
-          </div>
-      </div>
-  </fieldset>
-  <button class="button" type="submit" (click)="searchFees()">Search</button>
-  <div class="nocase-message" *ngIf="noCaseFoundInCCD">No matching cases found</div>
-</div>
-
-</form>
-
+              [className]="hasErrors? 'form-control form-control-error': 'govuk-input govuk-!-width-one-third'"
+               id="dcn-search" 
+               type="text" 
+               name="ccd-search" 
+               aria-label ="Enter DCN"
+               formControlName="searchInput">
+              <span *ngIf="hasErrors && selectedValue === 'DCN'" class="error-message">Enter DCN number in the correct format</span>
+              <span *ngIf="noCaseFound" class="error-message">No record found for this DCN</span>
+  
+        </div>
+        </div> 
+    </fieldset>
+    <button class="button" type="submit" (click)="searchFees()">Search</button>
+    <div class="nocase-message" *ngIf="noCaseFoundInCCD">No matching cases found</div>
+  </div>
+  
+  </form>

@@ -760,7 +760,7 @@ module.exports = () => actor({
     this.see('Volume');
     this.see('Fee amount');
     this.see('Calculated amount');
-    this.see('Group amount outstanding');
+    // this.see('Group amount outstanding');
     this.see('£0.00');
   }
 });

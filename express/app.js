@@ -25,6 +25,10 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postPaymentGroup(req, res, appInsights);
   })
 
+  .post('/payment-history/payment-groups/card-payments', (req, res) => {
+    controllers.payhubController.postPaymentGroupListToPayHub(req, res, appInsights);
+  })
+
   .put('/payment-groups/:paymentGroup', (req, res) => {
     controllers.payhubController.putPaymentGroup(req, res, appInsights);
   })
@@ -90,6 +94,10 @@ module.exports = appInsights => express.Router()
 
   .get('/payment-history/LD-feature?*', (req, res) => {
     controllers.payhubController.getLDFeatures(req, res);
+  })
+
+  .get('/payment-history/payment-groups/fee-pay-apportion/:id', (req, res) => {
+    controllers.payhubController.getApportionPaymentGroup(req, res);
   })
 
   .delete('/payment-history/fees/:id', (req, res) => {
