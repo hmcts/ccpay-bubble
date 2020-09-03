@@ -21,8 +21,8 @@
     "test:a11y": "echo 'TODO: Accessibility tests'",
     "gulp": "gulp",
     "lint": "yarn ng-lint && yarn eslint",
-    "ng-lint": "ng lint",
     "audit": "yarn audit --groups dependencies",
+    "ng-lint": "ng lint",
     "eslint": "eslint .",
     "lint:fix": "yarn eslint --fix && yarn ng lint --fix",
     "test:angular": "ng test --watch=false --code-coverage && yarn rename source=./coverage/lcov.info destination=./coverage/lcov-angular.info",
@@ -40,7 +40,7 @@
   },
   "private": true,
   "dependencies": {
-    "@hmcts/ccpay-web-component": "4.0.0-beta93",
+    "@hmcts/ccpay-web-component": "4.0.0-beta96",
     "@hmcts/frontend": "^0.0.34-alpha",
     "@hmcts/nodejs-healthcheck": "^1.5.1",
     "@hmcts/nodejs-logging": "^3.0.0",
