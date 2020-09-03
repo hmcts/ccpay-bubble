@@ -29,6 +29,11 @@ module.exports = config => {
     // leave Jasmine Spec Runner output visible in browser
     client: { clearContext: false },
     customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: [ '--no-sandbox' ],
+        debug: true
+      },
       ChromeDebug: {
         base: 'Chrome',
         flags: [ '--remote-debugging-port=9333', '--headless'],
