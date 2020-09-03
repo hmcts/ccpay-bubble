@@ -71,6 +71,39 @@ class PayhubController {
       });
   }
 
+  getLDFeatures(req, res) {
+    const ldClient = LaunchDarkly.initialize(ccpayBubbleLDclientId, user);
+    ldClient.on('ready', () => {
+      const showFeature = ldClient.variation(req.query.flag, false);
+      return res.status(200).send({ flag: showFeature, u: user, id: ccpayBubbleLDclientId });
+    });
+  }
+
+  postPaymentGroupListToPayHub(req, res, appInsights) {
+    return this.payhubService.sendToPayhub(req, res, appInsights)
+    // eslint-disable-next-line
+    .then(result => {
+        if (result._links.next_url) {
+          request({
+            method: 'GET',
+            uri: result._links.next_url.href
+          },
+          (error, response, body) => {
+            if (error) {
+              return res.status(500).json({ err: `${error}`, success: false });
+            }
+            return res.status(200).send(body);
+          });
+        } else {
+          const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
+          return res.status(500).json({ err: `${error}`, success: false });
+        }
+      })
+      .catch(error => {
+        res.status(500).json({ err: error, success: false });
+      });
+  }
+
   sendToPayhubWithUrl(req, res) {
     if (req.body.url) {
       return request({
@@ -255,6 +288,20 @@ class PayhubController {
 
   getPaymentGroup(req, res) {
     return this.payhubService.getPaymentGroup(req)
+      .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json(error.message);
+        } else {
+          res.status(500).json(error);
+        }
+      });
+  }
+
+  getApportionPaymentGroup(req, res) {
+    return this.payhubService.getApportionPaymentGroup(req)
       .then(result => {
         res.status(200).json(result);
       })
