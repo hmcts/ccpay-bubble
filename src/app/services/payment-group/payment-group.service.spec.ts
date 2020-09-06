@@ -7,9 +7,6 @@ import {PaymentModel} from 'src/app/models/PaymentModel';
 import {PaymentGroupService} from './payment-group.service';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 
-const DISCONTINUED_FEES_FEATURE_ENABLED = 'discontinued-fees-feature';
-const BULK_SCANNING_ENABLED = 'bulk-scan-enabling-fe';
-
 describe('Payment group service', () => {
   let paymentGroupService: PaymentGroupService;
   let http: PaybubbleHttpClient;
@@ -44,10 +41,10 @@ describe('Payment group service', () => {
 
   it('Should call post full remission with a remissionModel', () => {
     const paymentGroup = <IPaymentGroup>{
-        payment_group_reference: '1234',
-        fees: [{code: 'FEE0001'}],
-        payments: null,
-        remissions: null
+      payment_group_reference: '1234',
+      fees: [{code: 'FEE0001'}],
+      payments: null,
+      remissions: null
     };
     spyOn(http, 'post').and.callFake((param1: string, param2: IPaymentGroup) => of(paymentGroup));
     const inputPaymentGroup = <IPaymentGroup>{
@@ -65,10 +62,10 @@ describe('Payment group service', () => {
 
   it('Should call put Payment Group', () => {
     const paymentGroup = <IPaymentGroup>{
-        payment_group_reference: '1234',
-        fees: [{code: 'FEE0001'}],
-        payments: null,
-        remissions: null
+      payment_group_reference: '1234',
+      fees: [{code: 'FEE0001'}],
+      payments: null,
+      remissions: null
     };
     spyOn(http, 'put').and.callFake((param1: string, param2: IPaymentGroup) => of(paymentGroup));
     const inputPaymentGroup = <IPaymentGroup>{
@@ -98,12 +95,7 @@ describe('Payment group service', () => {
     ];
     spyOn(features, 'find').and.returnValue(features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
-    http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
-      const regFeature = JSON.parse(response).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED),
-       result = regFeature ? regFeature.enable : false;
-      expect(result).toBe(true);
-      expect(response[0].get('uid')).toBe('discontinued-fees-feature');
-    });
+
     paymentGroupService.getDiscontinuedFrFeature()
       .then((response) => {
         expect(response).toBe(true);
@@ -124,12 +116,7 @@ describe('Payment group service', () => {
     ];
     spyOn(features, 'find').and.returnValue(features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
-    http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
-      const regFeature = JSON.parse(response).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED),
-       result = regFeature ? regFeature.enable : false;
-      expect(result).toBe(false);
-      expect(response[0].get('uid')).toBe('discontinued-fees-feature');
-    });
+
     paymentGroupService.getDiscontinuedFrFeature()
       .then((response) => {
         expect(response).toBe(false);
@@ -141,10 +128,6 @@ describe('Payment group service', () => {
       flag: true
     };
     spyOn(http, 'get').and.callFake(() => of(feature));
-    http.get('api/payment-history/LD-feature?flag=test').subscribe(response => {
-      const regFeature = !JSON.parse(response).flag;
-      expect(regFeature).toBe(false);
-    });
     paymentGroupService.getLDFeature('test')
       .then((response) => {
         expect(response).toBe(false);
@@ -156,39 +139,35 @@ describe('Payment group service', () => {
       flag: false
     };
     spyOn(http, 'get').and.callFake(() => of(feature));
-    http.get('api/payment-history/LD-feature?flag=test').subscribe(response => {
-      const regFeature = !JSON.parse(response).flag;
-      expect(regFeature).toBe(true);
-    });
     paymentGroupService.getLDFeature('test')
       .then((response) => {
         expect(response).toBe(true);
       });
   });
 
-    it('Should call get bulk scanning Payment details', () => {
+  it('Should call get bulk scanning Payment details', () => {
     const paymentGroup = <any>{
-        ccd_reference: '1111222233334444',
-        exception_record_reference: '1111222233334444',
-        payments: [
-          {
-            amount: 100,
-            bgc_reference: 'BGC1203',
-            case_reference: '1111222233334444',
-            currency: 'GBP',
-            date_banked: '2019-DEC-02',
-            date_created: '2019-DEC-19',
-            date_updated: '2019-DEC-30',
-            dcn_case: '11112222333344440',
-            dcn_reference: '11112222333344440',
-            first_cheque_dcn_in_batch: 'string',
-            outbound_batch_number: 'string',
-            payer_name: 'tester',
-            payment_method: 'CHEQUE',
-            po_box: 'string'
-          }
-        ],
-        responsible_service_id: 'AA07'
+      ccd_reference: '1111222233334444',
+      exception_record_reference: '1111222233334444',
+      payments: [
+        {
+          amount: 100,
+          bgc_reference: 'BGC1203',
+          case_reference: '1111222233334444',
+          currency: 'GBP',
+          date_banked: '2019-DEC-02',
+          date_created: '2019-DEC-19',
+          date_updated: '2019-DEC-30',
+          dcn_case: '11112222333344440',
+          dcn_reference: '11112222333344440',
+          first_cheque_dcn_in_batch: 'string',
+          outbound_batch_number: 'string',
+          payer_name: 'tester',
+          payment_method: 'CHEQUE',
+          po_box: 'string'
+        }
+      ],
+      responsible_service_id: 'AA07'
     };
     spyOn(http, 'get').and.callFake((param1: string) => of(paymentGroup));
     paymentGroupService.getBSPaymentsByDCN('1234')
@@ -197,7 +176,7 @@ describe('Payment group service', () => {
         expect(response.exception_record_reference).toBe(paymentGroup.exception_record_reference);
       }).catch(() => {
 
-      });
+    });
   });
   it('Should return true is bulk scann flag is on', () => {
     const features = <any>[
@@ -213,12 +192,6 @@ describe('Payment group service', () => {
     ];
     spyOn(features, 'find').and.returnValue(features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
-    http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
-      const regFeature = JSON.parse(response).find(feature => feature.uid === BULK_SCANNING_ENABLED),
-       result = regFeature ? regFeature.enable : false;
-      expect(result).toBe(true);
-      expect(response[0].get('uid')).toBe('bulk-scan-enabling-fe');
-    });
     paymentGroupService.getBSFeature()
       .then((response) => {
         expect(response).toBe(true);
@@ -238,12 +211,6 @@ describe('Payment group service', () => {
     ];
     spyOn(features, 'find').and.returnValue(features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
-    http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
-      const regFeature = JSON.parse(response).find(feature => feature.uid === BULK_SCANNING_ENABLED),
-       result = regFeature ? regFeature.enable : false;
-      expect(result).toBe(false);
-      expect(response[0].get('uid')).toBe('bulk-scan-enabling-fe');
-    });
     paymentGroupService.getBSFeature()
       .then((response) => {
         expect(response).toBe(false);
@@ -263,12 +230,6 @@ describe('Payment group service', () => {
     ];
     spyOn(features, 'find').and.returnValue(features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
-    http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
-      const regFeature = JSON.parse(response).find(feature => feature.uid === BULK_SCANNING_ENABLED),
-       result = regFeature ? regFeature.enable : false;
-      expect(result).toBe(false);
-      expect(response[0].get('uid')).not.toBe('bulk-scan-enabling-fe');
-    });
     paymentGroupService.getBSFeature()
       .then((response) => {
         expect(response).toBe(false);
