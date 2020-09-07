@@ -24,7 +24,7 @@ describe('PhaseBannerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Should default type property to alpha', () => {
-    expect(component.type).toBe('alpha');
+  it('Should default type property to beta', () => {
+    expect(component.type).toBe('beta');
   });
 });
