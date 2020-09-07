@@ -109,7 +109,7 @@ export class CcdSearchComponent implements OnInit {
           const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
           this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${isStFixEnable}${turnOffUrl}`);
         }, err => {
-          this.noCaseFoundInCCD = true;
+         this.noCaseFoundInCCD = true;
         });
       } else if (this.selectedValue.toLocaleLowerCase() === 'rc') {
         this.noCaseFound = false;
@@ -121,7 +121,7 @@ export class CcdSearchComponent implements OnInit {
               this.noCaseFound = false;
               // tslint:disable-next-line:max-line-length
               const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
-              this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
+              this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${isStFixEnable}${turnOffUrl}`);
               }, err => {
               this.noCaseFound = true;
             });
