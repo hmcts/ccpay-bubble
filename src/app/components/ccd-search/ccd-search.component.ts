@@ -33,6 +33,7 @@ export class CcdSearchComponent implements OnInit {
     private router: Router,
     private caseRefService: CaseRefService,
     private activatedRoute: ActivatedRoute,
+    private viewPaymentService: ViewPaymentService
   ) {}
 
   ngOnInit() {
@@ -105,6 +106,24 @@ export class CcdSearchComponent implements OnInit {
         }, err => {
           this.noCaseFoundInCCD = true;
         });
+      } else if (this.selectedValue.toLocaleLowerCase() === 'rc') {
+        this.noCaseFound = false;
+        this.viewPaymentService.getPaymentDetail(searchValue).subscribe((res) => {
+          if (res['ccd_case_number']) {
+            this.ccdCaseNumber = this.removeHyphenFromString(res['ccd_case_number']);
+            this.dcnNumber = null;
+            this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
+              this.noCaseFound = false;
+              // tslint:disable-next-line:max-line-length
+              const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+              this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
+              }, err => {
+              this.noCaseFound = true;
+            });
+          }
+          }, err => {
+            this.noCaseFoundInCCD = true;
+          });
       } else  {
       return this.hasErrors = true;
     }
