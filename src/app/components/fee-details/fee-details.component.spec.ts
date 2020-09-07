@@ -59,6 +59,12 @@ describe('FeeDetailsComponent', () => {
     expect(component.restartSearchEvent.emit).toHaveBeenCalled();
   });
 
+  it('Should set isDiscontinuedFeatureEnabled from URL', async () => {
+    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+    await component.ngOnChanges();
+    expect(component.isDiscontinuedFeatureEnabled).toBeTruthy();
+  });
+
   it('Should  submit fee volume', () => {
     const submitEventemmitter = Object({ volumeAmount: 1, selectedVersionEmit: undefined });
     spyOn(component.submitFeeVolumeEvent, 'emit');
