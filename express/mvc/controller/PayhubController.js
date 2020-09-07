@@ -38,6 +38,14 @@ class PayhubController {
       });
   }
 
+  getLDFeatures(req, res) {
+    const ldClient = LaunchDarkly.initialize(ccpayBubbleLDclientId, user);
+    ldClient.on('ready', () => {
+      const showFeature = ldClient.variation(req.query.flag, false);
+      return res.status(200).send({ flag: showFeature, u: user, id: ccpayBubbleLDclientId });
+    });
+  }
+
   postPaymentGroupToPayHub(req, res, appInsights) {
     return this.payhubService.postPaymentGroupToPayhub(req, res, appInsights)
     // eslint-disable-next-line
@@ -61,14 +69,6 @@ class PayhubController {
       .catch(error => {
         res.status(500).json({ err: error, success: false });
       });
-  }
-
-  getLDFeatures(req, res) {
-    const ldClient = LaunchDarkly.initialize(ccpayBubbleLDclientId, user);
-    ldClient.on('ready', () => {
-      const showFeature = ldClient.variation(req.query.flag, false);
-      return res.status(200).send({ flag: showFeature, u: user, id: ccpayBubbleLDclientId });
-    });
   }
 
   postPaymentGroupListToPayHub(req, res, appInsights) {
@@ -128,6 +128,32 @@ class PayhubController {
       });
   }
 
+  postStrategicPayment(req, res, appInsights) {
+    return this.payhubService.postStrategicPayment(req, res, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json({ err: error.message, success: false });
+        } else {
+          res.status(500).json({ err: error, success: false });
+        }
+      });
+  }
+  postWoPGStrategicPayment(req, res, appInsights) {
+    return this.payhubService.postWoPGStrategicPayment(req, res, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json({ err: error.message, success: false });
+        } else {
+          res.status(500).json({ err: error, success: false });
+        }
+      });
+  }
   postPaymentGroup(req, res, appInsights) {
     return this.payhubService.postPaymentGroup(req, res, appInsights)
       .then(result => {

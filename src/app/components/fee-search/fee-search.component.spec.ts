@@ -229,8 +229,8 @@ describe('Fee search component', () => {
   it('Should pass selected fee into POST call for backend', async () => {
     spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
     spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
-    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
-    await component.ngOnInit();
+    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+    await component.ngOnInit();
     component.selectFee(testFixedFlatFee);
     fixture.detectChanges();
     expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
@@ -321,8 +321,8 @@ describe('Fee search component', () => {
 
     it('should remember which fee was selected', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
-      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
-      await component.ngOnInit();
+      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+      await component.ngOnInit();
       component.selectFee(testBandedFlatFee);
       fixture.detectChanges();
       expect(component.preselectedFee).toBe(testBandedFlatFee);

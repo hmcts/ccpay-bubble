@@ -178,7 +178,7 @@ function protectImpl(req, res, next, self) {
   Logger.getLogger('PAYBUBBLE: server.js -> error').info('About to call user details endpoint');
   return getUserDetails(self, securityCookie).end(
     (err, response) => {
-      Logger.getLogger('CCPAY-BUBBLE: security.js').info('Welcome user');
+      Logger.getLogger('CCPAY-BUBBLE: security.js').info('Welcome pay bubble');
       if (err) {
         Logger.getLogger('PAYBUBBLE: server.js -> error').info(`Get user details called with the result: err: ${err}`);
         if (!err.status) {
