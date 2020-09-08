@@ -327,7 +327,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     await fixture.whenStable();
     expect(component.selectedValue).toBe('DCN');
     expect(component.dcnNumber).toBe('111122223333444401234');
-    expect(component.ccdCaseNumber).toBe('');  
+    expect(component.ccdCaseNumber).toBe('');
   });
 
   it('Should get prn details', async () => {
