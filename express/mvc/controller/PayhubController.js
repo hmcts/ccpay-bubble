@@ -3,10 +3,13 @@ const config = require('config');
 const request = require('request-promise-native');
 const LaunchDarkly = require('launchdarkly-node-client-sdk');
 const HttpStatusCodes = require('http-status-codes');
-
 const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
 const LDprefix = config.get('environment.ldPrefix');
 const user = { key: `${LDprefix}@test.com` };
+
+const constants = Object.freeze({
+  PCIPAL_SECURITY_INFO: '__pcipal-info'
+});
 
 class PayhubController {
   constructor() {
@@ -67,7 +70,8 @@ class PayhubController {
     return this.payhubService.postPaymentAntennaToPayHub(req, res, appInsights)
     // eslint-disable-next-line
     .then(result => {
-        res.status(200).send(result);
+        res.cookie(constants.PCIPAL_SECURITY_INFO, {url: result._links.next_url.href, auth: result.access_token, ref: result.refresh_token }, { httpOnly: true });
+        res.status(200).send('success');
       })
       .catch(error => {
         res.status(500).json({ err: error, success: false });
