@@ -78,7 +78,7 @@ module.exports = (security, appInsights) => {
   // enable the dist folder to be accessed statically
   app.use(express.static('dist/ccpay-bubble'));
 
-  app.use('/pcipalTest', dom.firstChild.outerHTML);
+  app.use('/pcipalTest', () => dom.firstChild.outerHTML);
 
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
