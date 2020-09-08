@@ -74,7 +74,37 @@
               <span *ngIf="noCaseFound" class="error-message">No record found for this DCN</span>
   
         </div>
-        </div> 
+        <div class="govuk-radios__item" *ngIf="isBulkscanningEnable">
+          <input class="govuk-radios__input" 
+            id="RC"
+            aria-label ="Enter RC"
+            formControlName="CCDorException"
+            name="CCDorException"
+            type="radio"
+            value="RC" 
+            (change)= "onSelectionChange('RC')"
+           data-aria-controls="RC"
+           />
+           <label class="govuk-label govuk-radios__label govuk-label--m" for="RC">
+            Payment Reference (RC)
+              <span class="form-hint">For example: RC-XXXX-XXXX-XXXX-XXXX</span>
+          </label>
+        </div>
+      <div *ngIf="isBulkscanningEnable" [ngClass]="{'govuk-radios__conditional':  selectedValue === 'RC' && hasErrors === false,
+                                          'govuk-form-group form-group-error' : hasErrors === true,
+                                          'govuk-radios__conditional--hidden': selectedValue === 'CCDorException' || selectedValue === 'DCN'}">
+            <input #searchInput 
+              [className]="hasErrors? 'form-control form-control-error': 'govuk-input govuk-!-width-one-third'"
+               id="RC-search" 
+               type="text" 
+               name="ccd-search" 
+               aria-label ="Enter RC"
+               formControlName="searchInput">
+              <span *ngIf="hasErrors && selectedValue === 'RC'" class="error-message">Enter Payment Reference in the correct format</span>
+              <span *ngIf="noCaseFound" class="error-message">No record found for this Payment Reference</span>
+
+        </div>
+     </div> 
     </fieldset>
     <button class="button" type="submit" (click)="searchFees()">Search</button>
     <div class="nocase-message" *ngIf="noCaseFoundInCCD">No matching cases found</div>
