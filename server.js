@@ -11,11 +11,11 @@ const moment = require('moment');
 const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
-const jsdom = require("jsdom");
+const jsdom = require('jsdom');
+
 const { JSDOM } = jsdom;
-const dom = JSDOM.fragment(`<!DOCTYPE html><p>Hello world</p>`);
 
-
+const dom = JSDOM.fragment('<!DOCTYPE html><p>Hello world</p>');
 
 const app = express();
 
