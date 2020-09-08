@@ -11,11 +11,6 @@ const moment = require('moment');
 const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
-const jsdom = require('jsdom');
-
-const { JSDOM } = jsdom;
-
-const dom = JSDOM.fragment('<!DOCTYPE html><p>Hello world</p>');
 
 const app = express();
 
@@ -78,7 +73,7 @@ module.exports = (security, appInsights) => {
   // enable the dist folder to be accessed statically
   app.use(express.static('dist/ccpay-bubble'));
 
-  app.use('/pcipalTest', (req, res) => res.status(HttpStatus.OK).send(dom.firstChild.outerHTML));
+  app.use('/pcipalTest', security.pcipalForm());
 
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
