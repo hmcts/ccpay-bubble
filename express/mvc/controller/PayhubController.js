@@ -67,11 +67,11 @@ class PayhubController {
     return this.payhubService.postPaymentAntennaToPayHub(req, res, appInsights)
     // eslint-disable-next-line
     .then(result => {
-      res.status(200).send(result);
-    })
-    .catch(error => {
-      res.status(500).json({ err: error, success: false });
-    });
+        res.status(200).send(result);
+      })
+      .catch(error => {
+        res.status(500).json({ err: error, success: false });
+      });
   }
   getLDFeatures(req, res) {
     const ldClient = LaunchDarkly.initialize(ccpayBubbleLDclientId, user);
