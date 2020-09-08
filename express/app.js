@@ -40,6 +40,9 @@ module.exports = appInsights => express.Router()
   .post('/payment-groups/:paymentGroup/fees/:feeId/remissions', (req, res) => {
     controllers.payhubController.postPartialRemission(req, res, appInsights);
   })
+  .post('/payment-history/payment-groups/:paymentGroup/card-payments', (req, res) => {
+    controllers.payhubController.postPaymentGroupToPayHub(req, res, appInsights);
+  })
 
   .post('/payment-history/payment-groups/:paymentGroup/fees/:feeId/remissions', (req, res) => {
     controllers.payhubController.postPartialRemission(req, res, appInsights);
@@ -53,9 +56,6 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postWoPGStrategicPayment(req, res, appInsights);
   })
 
-  .post('/payment-history/payment-groups/:paymentGroup/bulk-scan-payments', (req, res) => {
-    controllers.payhubController.postAllocatePayment(req, res, appInsights);
-  })
   .post('/payment-history/payment-groups/:paymentGroup/bulk-scan-payments', (req, res) => {
     controllers.payhubController.postAllocatePayment(req, res, appInsights);
   })
