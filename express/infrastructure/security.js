@@ -125,7 +125,6 @@ function handleCookie(req) {
 
 function invalidateToken(self, req) {
   const url = URL.parse(`${self.opts.apiUrl}/session/${req.cookies[constants.SECURITY_COOKIE]}`, true);
-
   return request.delete(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret);
 }
@@ -134,12 +133,13 @@ Security.prototype.logout = function logout() {
   const self = { opts: this.opts };
 
   // eslint-disable-next-line no-unused-vars
-  return function ret(req, res, next) {
+  return function ret(req, res) {
     return invalidateToken(self, req).end(err => {
       if (err) {
         Logger.getLogger('CCPAY-BUBBLE: security.js').error(err);
       }
       const token = req.cookies[constants.SECURITY_COOKIE];
+
       res.clearCookie(constants.SECURITY_COOKIE);
       res.clearCookie(constants.REDIRECT_COOKIE);
       res.clearCookie(constants.USER_COOKIE);
@@ -178,7 +178,7 @@ function protectImpl(req, res, next, self) {
   Logger.getLogger('PAYBUBBLE: server.js -> error').info('About to call user details endpoint');
   return getUserDetails(self, securityCookie).end(
     (err, response) => {
-      Logger.getLogger('CCPAY-BUBBLE: security.js').info('Welcome user');
+      Logger.getLogger('CCPAY-BUBBLE: security.js').info('Welcome pay bubble');
       if (err) {
         Logger.getLogger('PAYBUBBLE: server.js -> error').info(`Get user details called with the result: err: ${err}`);
         if (!err.status) {

@@ -7,6 +7,9 @@ import {PaymentModel} from 'src/app/models/PaymentModel';
 import {PaymentGroupService} from './payment-group.service';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 
+const DISCONTINUED_FEES_FEATURE_ENABLED = 'discontinued-fees-feature';
+const BULK_SCANNING_ENABLED = 'bulk-scan-enabling-fe';
+
 describe('Payment group service', () => {
   let paymentGroupService: PaymentGroupService;
   let http: PaybubbleHttpClient;
@@ -81,6 +84,88 @@ describe('Payment group service', () => {
       });
   });
 
+  it('Should call get discontinued fees feature is on', () => {
+    const features = <any>[
+      {
+        uid: 'discontinued-fees-feature',
+        enable: true,
+        description: 'To enable discontinued fees FeesRegister Feature',
+        group: null,
+        permissions: [],
+        flippingStrategy: null,
+        customProperties: {}
+      }
+    ];
+    spyOn(features, 'find').and.returnValue(features[0]);
+    spyOn(http, 'get').and.callFake(() => of(features));
+    http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
+      const regFeature = JSON.parse(response).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED),
+       result = regFeature ? regFeature.enable : false;
+      expect(result).toBe(true);
+      expect(response[0].get('uid')).toBe('discontinued-fees-feature');
+    });
+    paymentGroupService.getDiscontinuedFrFeature()
+      .then((response) => {
+        expect(response).toBe(true);
+      });
+  });
+
+  it('Should call get discontinued fees feature is off', () => {
+    const features = <any>[
+      {
+        uid: 'discontinued-fees-feature',
+        enable: false,
+        description: 'To enable discontinued fees FeesRegister Feature',
+        group: null,
+        permissions: [],
+        flippingStrategy: null,
+        customProperties: {}
+      }
+    ];
+    spyOn(features, 'find').and.returnValue(features[0]);
+    spyOn(http, 'get').and.callFake(() => of(features));
+    http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
+      const regFeature = JSON.parse(response).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED),
+       result = regFeature ? regFeature.enable : false;
+      expect(result).toBe(false);
+      expect(response[0].get('uid')).toBe('discontinued-fees-feature');
+    });
+    paymentGroupService.getDiscontinuedFrFeature()
+      .then((response) => {
+        expect(response).toBe(false);
+      });
+  });
+
+  it('Should call get LD feature on flow', () => {
+    const feature = <any>{
+      flag: true
+    };
+    spyOn(http, 'get').and.callFake(() => of(feature));
+    http.get('api/payment-history/LD-feature?flag=test').subscribe(response => {
+      const regFeature = !JSON.parse(response).flag;
+      expect(regFeature).toBe(false);
+    });
+    paymentGroupService.getLDFeature('test')
+      .then((response) => {
+        expect(response).toBe(false);
+      });
+  });
+
+  it('Should call get LD feature off flow', () => {
+    const feature = <any>{
+      flag: false
+    };
+    spyOn(http, 'get').and.callFake(() => of(feature));
+    http.get('api/payment-history/LD-feature?flag=test').subscribe(response => {
+      const regFeature = !JSON.parse(response).flag;
+      expect(regFeature).toBe(true);
+    });
+    paymentGroupService.getLDFeature('test')
+      .then((response) => {
+        expect(response).toBe(true);
+      });
+  });
+
     it('Should call get bulk scanning Payment details', () => {
     const paymentGroup = <any>{
         ccd_reference: '1111222233334444',
@@ -129,7 +214,7 @@ describe('Payment group service', () => {
     spyOn(features, 'find').and.returnValue(features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
     http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
-      const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
+      const regFeature = JSON.parse(response).find(feature => feature.uid === BULK_SCANNING_ENABLED),
        result = regFeature ? regFeature.enable : false;
       expect(result).toBe(true);
       expect(response[0].get('uid')).toBe('bulk-scan-enabling-fe');
@@ -154,7 +239,7 @@ describe('Payment group service', () => {
     spyOn(features, 'find').and.returnValue(features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
     http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
-      const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
+      const regFeature = JSON.parse(response).find(feature => feature.uid === BULK_SCANNING_ENABLED),
        result = regFeature ? regFeature.enable : false;
       expect(result).toBe(false);
       expect(response[0].get('uid')).toBe('bulk-scan-enabling-fe');
@@ -179,7 +264,7 @@ describe('Payment group service', () => {
     spyOn(features, 'find').and.returnValue(features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
     http.get('api/payment-history/bulk-scan-feature').subscribe(response => {
-      const regFeature = JSON.parse(response).find(feature => feature.uid === 'bulk-scan-enabling-fe'),
+      const regFeature = JSON.parse(response).find(feature => feature.uid === BULK_SCANNING_ENABLED),
        result = regFeature ? regFeature.enable : false;
       expect(result).toBe(false);
       expect(response[0].get('uid')).not.toBe('bulk-scan-enabling-fe');
