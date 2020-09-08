@@ -9,6 +9,7 @@ const UUID = require('uuid/v4');
 const { ApiErrorFactory } = require('./errors');
 const { Logger } = require('@hmcts/nodejs-logging');
 const jsdom = require('jsdom');
+
 const { JSDOM } = jsdom;
 const errorFactory = ApiErrorFactory('security.js');
 
@@ -144,10 +145,10 @@ Security.prototype.pcipalForm = function pcipalForm() {
       document.forms[‘myform’].submit();
       }
       </script>
-      </html>`);
-  return dom.firstChild.outerHTML;
-  }
-}
+        </html>`);
+    return dom.firstChild.outerHTML;
+  };
+};
 
 Security.prototype.logout = function logout() {
   const self = { opts: this.opts };
