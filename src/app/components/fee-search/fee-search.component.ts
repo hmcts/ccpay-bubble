@@ -19,7 +19,7 @@ export class FeeSearchComponent implements OnInit {
   showFeeDetails = false;
   paymentGroupRef: string = null;
   selectedOption: string = null;
-  bulkScanningTxt = '&isBulkScanning=Enable';
+  bulkScanningTxt = '&isBulkScanning=Enable&isTurnOff=Enable';
   isDiscontinuedFeatureEnabled = true;
 
   constructor(
@@ -36,7 +36,9 @@ export class FeeSearchComponent implements OnInit {
       this.dcnNo = this.activatedRoute.snapshot.queryParams['dcn'];
       this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
       this.bulkScanningTxt = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable' ?
-        '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
+                                  '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
+      this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable' ?
+                                  '&isTurnOff=Enable' : '&isTurnOff=Disable';
     });
 
     this.paymentGroupService.getDiscontinuedFrFeature().then((status) => {
@@ -120,24 +122,27 @@ export class FeeSearchComponent implements OnInit {
 
   sendPaymentGroup(paymentGroup: any) {
     const dcnQueryParams = this.dcnNo ? `&dcn=${this.dcnNo}` : '';
+
     if (this.paymentGroupRef) {
 
       this.paymentGroupService.putPaymentGroup(this.paymentGroupRef, paymentGroup)
         .then(response => {
+          const partUrl = `&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}${this.bulkScanningTxt}`;
           this.router
             .navigateByUrl(`/payment-history/${this.ccdNo}`
-              + `?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}`);
+              + `?view=fee-summary&selectedOption=${this.selectedOption}${partUrl}`);
         })
         .catch(err => {
           this.navigateToServiceFailure();
         });
     } else {
       this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
+        // tslint:disable-next-line:max-line-length
+        const url = `${this.selectedOption}&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}${this.bulkScanningTxt}`;
         this
           .router
           .navigateByUrl(`/payment-history/${this.ccdNo}`
-            + `?view=fee-summary&selectedOption=${this.selectedOption}
-            &paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}`);
+            + `?view=fee-summary&selectedOption=${url}`);
       })
         .catch(err => {
           this.navigateToServiceFailure();
