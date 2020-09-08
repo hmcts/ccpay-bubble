@@ -330,10 +330,19 @@
     lodash.mergewith "^4.6.2"
     webdriverio "^5.15.2"
 
-"@hmcts/ccpay-web-component@4.0.0-beta89":
-  version "4.0.0-beta89"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta89.tgz#b61a85efd1d002bdffeef9dfcb3fd832ad73b821"
-  integrity sha512-6felACCiOF8fBCzVAswTCeGUd4wfEZ/q5w22pSHlyA99Ezl1GE4mg4oDH1vRgpZk4OECfP1fq1uV5nMeoGl/7g==
+"@dabh/diagnostics@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@dabh/diagnostics/-/diagnostics-2.0.2.tgz#290d08f7b381b8f94607dc8f471a12c675f9db31"
+  integrity sha512-+A1YivoVDNNVCdfozHSR8v/jyuuLTMXwjWuxPFlFlUapXoGc+Gj9mDlTDDfrwl7rXCl2tNZ0kE8sIBO6YOn96Q==
+  dependencies:
+    colorspace "1.1.x"
+    enabled "2.0.x"
+    kuler "^2.0.0"
+
+"@hmcts/ccpay-web-component@4.0.0-beta103":
+  version "4.0.0-beta103"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta103.tgz#0cbd519f6512610396070677fef26c8d41de7daa"
+  integrity sha512-21T8qAyQwI33MO/0aVVHVC+meRJYANafllzhGPBSupAqrGZND8BQZCCkzMcX0bjkGqbjESXjDhgrp1FoBLwm+w==
   dependencies:
     tslib "^1.9.0"
 
