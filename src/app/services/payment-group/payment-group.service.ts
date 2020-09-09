@@ -28,26 +28,26 @@ export class PaymentGroupService {
 
   getBSPaymentsByDCN(dcn: string): Promise<any> {
     return this.http.get(`api/bulk-scan/cases?document_control_number=${dcn}`).toPromise().then(bsPaymentGroupJson => {
-      const bsPaymentGroup = JSON.parse(JSON.stringify(bsPaymentGroupJson));
+      const bsPaymentGroup = JSON.parse(bsPaymentGroupJson);
       return <any>bsPaymentGroup;
     });
   }
   getBSFeature(): Promise<any> {
     return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
-      const regFeature = JSON.parse(JSON.stringify(features)).find(feature => feature.uid === BULK_SCANNING_ENABLED);
+      const regFeature = JSON.parse(features).find(feature => feature.uid === BULK_SCANNING_ENABLED);
       return regFeature ? regFeature.enable : false;
     });
   }
 
   getLDFeature(flagKey): Promise<any> {
     return this.http.get(`api/payment-history/LD-feature?flag=${flagKey}`).toPromise().then(features => {
-      return !JSON.parse(JSON.stringify(features)).flag;
+      return !JSON.parse(features).flag;
     });
   }
 
    getDiscontinuedFrFeature(): Promise<any> {
       return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
-        const regFeature = JSON.parse(JSON.stringify(features)).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
+        const regFeature = JSON.parse(features).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
         return regFeature ? regFeature.enable : false;
       });
     }
