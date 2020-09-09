@@ -3,6 +3,7 @@ const config = require('config');
 const request = require('request-promise-native');
 const LaunchDarkly = require('launchdarkly-node-client-sdk');
 const HttpStatusCodes = require('http-status-codes');
+const sessionstorage = require('node-sessionstorage');
 
 const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
 const LDprefix = config.get('environment.ldPrefix');
@@ -73,7 +74,7 @@ class PayhubController {
           auth: result.access_token,
           ref: result.refresh_token
         };
-        res.cookie(constants.PCIPAL_SECURITY_INFO, pcipalDtata, { httpOnly: true });
+        sessionstorage.setItem(constants.PCIPAL_SECURITY_INFO, pcipalDtata);
         res.status(200).send('success');
       })
       .catch(error => {

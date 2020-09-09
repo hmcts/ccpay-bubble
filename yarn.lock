@@ -330,6 +330,15 @@
     lodash.mergewith "^4.6.2"
     webdriverio "^5.15.2"
 
+"@dabh/diagnostics@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@dabh/diagnostics/-/diagnostics-2.0.2.tgz#290d08f7b381b8f94607dc8f471a12c675f9db31"
+  integrity sha512-+A1YivoVDNNVCdfozHSR8v/jyuuLTMXwjWuxPFlFlUapXoGc+Gj9mDlTDDfrwl7rXCl2tNZ0kE8sIBO6YOn96Q==
+  dependencies:
+    colorspace "1.1.x"
+    enabled "2.0.x"
+    kuler "^2.0.0"
+
 "@hmcts/ccpay-web-component@4.0.0-beta100":
   version "4.0.0-beta100"
   resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta100.tgz#e6c8a43b6a2f85fabeba9361c995702a8290e1be"
@@ -7723,6 +7732,11 @@ node-sass@^4.8.3, node-sass@^4.9.3:
     sass-graph "2.2.5"
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
+
+node-sessionstorage@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-sessionstorage/-/node-sessionstorage-1.0.0.tgz#c00b8b9c560296dd03743fdc3cd7689aefb249f2"
+  integrity sha512-7WgwJ+7z0+hZSnrYp2KzWsP9tooHr0XtWGsvFycqYE/jPcMHsAGBwm8Hck2HKd/3RFF+SueqzMDm9AEggKJ5qQ==
 
 nodemon@^1.18.10:
   version "1.19.4"
