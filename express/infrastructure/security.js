@@ -8,9 +8,7 @@ const URL = require('url');
 const UUID = require('uuid/v4');
 const { ApiErrorFactory } = require('./errors');
 const { Logger } = require('@hmcts/nodejs-logging');
-const jsdom = require('jsdom');
-
-const { JSDOM } = jsdom;
+const sessionstorage = require('node-sessionstorage');
 const errorFactory = ApiErrorFactory('security.js');
 
 const constants = Object.freeze({
@@ -132,22 +130,17 @@ function invalidateToken(self, req) {
     .auth(self.opts.clientId, self.opts.clientSecret);
 }
 Security.prototype.pcipalForm = function pcipalForm() {
-  return function ret(req) {
-    const pcipalData = req.cookies[constants.PCIPAL_SECURITY_INFO];
-    const dom = JSDOM.fragment(`<!DOCTYPE html><html>
-      <form method='post' enctype='application/x-www-form-urlencoded; charset=utf-8' name='myform' action='~${pcipalData.url}'>
-      <input type='hidden' name='X-BEARER-TOKEN' value='${pcipalData.auth}'>
-      <input type='hidden' name='X-REFRESH-TOKEN' value='${pcipalData.ref}'>
-      LOADING...
-      </form>
-      <script>
-      window.onload = function () {
-      document.forms[‘myform’].submit();
-      }
-      </script>
-        </html>`);
-    return dom.firstChild.outerHTML;
-  };
+  const pcipalData = sessionstorage.getItem(constants.PCIPAL_SECURITY_INFO);
+  let html='';
+  html +='<body>';
+  html += `<form action='${pcipalData.url}' enctype='application/x-www-form-urlencoded; charset=utf-8' method='post' name='form1'>`;
+  html += `<input type='hidden' name='X-BEARER-TOKEN' value='${pcipalData.auth}'>`;
+  html += `<input type='hidden' name='X-REFRESH-TOKEN' value='${pcipalData.ref}'>`;
+  html += `Loading...`;
+  html += '</form>';
+  html += `<script>window.onload = function () { document.forms['form1'].submit();}</script>`;
+  html += '</body>';
+  return html;
 };
 
 Security.prototype.logout = function logout() {
