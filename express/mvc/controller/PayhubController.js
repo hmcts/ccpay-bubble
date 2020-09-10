@@ -10,14 +10,6 @@ const LDprefix = config.get('environment.ldPrefix');
 const user = { key: `${LDprefix}@test.com` };
 const constants = Object.freeze({ PCIPAL_SECURITY_INFO: '__pcipal-info' });
 
-const dummypcipalDtata = {
-  url: 'https://www.google.com',
-  auth: 'test',
-  ref: 'test'
-};
-
-sessionstorage.setItem(constants.PCIPAL_SECURITY_INFO, dummypcipalDtata);
-
 class PayhubController {
   constructor() {
     this.payhubService = payhubService;
