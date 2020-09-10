@@ -1,8 +1,12 @@
-import {Injectable} from '@angular/core';
-import {PaybubbleHttpClient} from '../httpclient/paybubble.http.client';
+import {PaybubbleHttpClient} from 'src/app/services/httpclient/paybubble.http.client';
+import {Meta} from '@angular/platform-browser';
+import {instance, mock} from 'ts-mockito/lib/ts-mockito';
+import {HttpClient} from '@angular/common/http';
+import {of} from 'rxjs';
+import {PaymentModel} from 'src/app/models/PaymentModel';
+import {PaymentGroupService} from './payment-group.service';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 
-<<<<<<< HEAD
 describe('Payment group service', () => {
   let paymentGroupService: PaymentGroupService;
   let http: PaybubbleHttpClient;
@@ -34,21 +38,49 @@ describe('Payment group service', () => {
     paymentModel.description = 'test';
     expect(paymentModel.description).toBe('test');
   });
-=======
-const BULK_SCANNING_ENABLED = 'bulk-scan-enabling-fe';
-const DISCONTINUED_FEES_FEATURE_ENABLED = 'discontinued-fees-feature';
 
->>>>>>> eeccf47129692794f603527fe56473c3f77a1183
+  it('Should call post full remission with a remissionModel', () => {
+    const paymentGroup = <IPaymentGroup>{
+        payment_group_reference: '1234',
+        fees: [{code: 'FEE0001'}],
+        payments: null,
+        remissions: null
+    };
+    spyOn(http, 'post').and.callFake((param1: string, param2: IPaymentGroup) => of(paymentGroup));
+    const inputPaymentGroup = <IPaymentGroup>{
+      payment_group_reference: null,
+      fees: [{ccd_case_number: '1234', code: 'FEE0001'}],
+      payments: null,
+      remissions: null
+    };
+    paymentGroupService.postPaymentGroup(inputPaymentGroup)
+      .then((response) => {
+        expect(response.fees[0].code).toBe(paymentGroup.fees[0].code);
+        expect(response.payment_group_reference).toBe(paymentGroup.payment_group_reference);
+      });
+  });
 
-@Injectable()
-export class PaymentGroupService {
+  it('Should call put Payment Group', () => {
+    const paymentGroup = <IPaymentGroup>{
+        payment_group_reference: '1234',
+        fees: [{code: 'FEE0001'}],
+        payments: null,
+        remissions: null
+    };
+    spyOn(http, 'put').and.callFake((param1: string, param2: IPaymentGroup) => of(paymentGroup));
+    const inputPaymentGroup = <IPaymentGroup>{
+      payment_group_reference: null,
+      fees: [{ccd_case_number: '1234', code: 'FEE0001'}],
+      payments: null,
+      remissions: null
+    };
+    paymentGroupService.putPaymentGroup('1234', inputPaymentGroup)
+      .then((response) => {
+        expect(response.fees[0].code).toBe(paymentGroup.fees[0].code);
+        expect(response.payment_group_reference).toBe(paymentGroup.payment_group_reference);
+      });
+  });
 
-  constructor(
-    private http: PaybubbleHttpClient
-  ) {
-  }
-
-<<<<<<< HEAD
   it('Should call get discontinued fees feature is on', () => {
     const features = <any>[
       {
@@ -201,43 +233,6 @@ export class PaymentGroupService {
     paymentGroupService.getBSFeature()
       .then((response) => {
         expect(response).toBe(false);
-=======
-  postPaymentGroup(paymentGroup: any): Promise<IPaymentGroup> {
-    return this.http.post('api/payment-groups', paymentGroup).toPromise().then(paymentGroupJson => {
-      return <IPaymentGroup>paymentGroupJson;
-    });
-  }
-
-  putPaymentGroup(paymentGroupRef: string, paymentGroup: any): Promise<IPaymentGroup> {
-    return this.http.put(`api/payment-groups/${paymentGroupRef}`, paymentGroup).toPromise().then(paymentGroupJson => {
-      return <IPaymentGroup>paymentGroupJson;
-    });
-  }
-
-  getBSPaymentsByDCN(dcn: string): Promise<any> {
-    return this.http.get(`api/bulk-scan/cases?document_control_number=${dcn}`).toPromise().then(bsPaymentGroupJson => {
-      const bsPaymentGroup = JSON.parse(bsPaymentGroupJson);
-      return <any>bsPaymentGroup;
-    });
-  }
-  getBSFeature(): Promise<any> {
-    return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
-      const regFeature = JSON.parse(features).find(feature => feature.uid === BULK_SCANNING_ENABLED);
-      return regFeature ? regFeature.enable : false;
-    });
-  }
-
-  getLDFeature(flagKey): Promise<any> {
-    return this.http.get(`api/payment-history/LD-feature?flag=${flagKey}`).toPromise().then(features => {
-      return !JSON.parse(features).flag;
-    });
-  }
-
-   getDiscontinuedFrFeature(): Promise<any> {
-      return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
-        const regFeature = JSON.parse(features).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
-        return regFeature ? regFeature.enable : false;
->>>>>>> eeccf47129692794f603527fe56473c3f77a1183
       });
-    }
-}
+  });
+});
