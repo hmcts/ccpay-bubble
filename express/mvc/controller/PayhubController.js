@@ -71,8 +71,8 @@ class PayhubController {
     .then(result => {
         const pcipalDtata = {
           url: result._links.next_url.href,
-          auth: result.access_token,
-          ref: result.refresh_token
+          auth: result._links.next_url.accessToken,
+          ref: result._links.next_url.refreshToken
         };
 
 
