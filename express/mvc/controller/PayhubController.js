@@ -3,10 +3,12 @@ const config = require('config');
 const request = require('request-promise-native');
 const LaunchDarkly = require('launchdarkly-node-client-sdk');
 const HttpStatusCodes = require('http-status-codes');
+const sessionstorage = require('node-sessionstorage');
 
 const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
 const LDprefix = config.get('environment.ldPrefix');
 const user = { key: `${LDprefix}@test.com` };
+const constants = Object.freeze({ PCIPAL_SECURITY_INFO: '__pcipal-info' });
 
 class PayhubController {
   constructor() {
@@ -69,6 +71,32 @@ class PayhubController {
       .catch(error => {
         res.status(500).json({ err: error, success: false });
       });
+  }
+
+  postPaymentAntennaToPayHub(req, res, appInsights) {
+    sessionstorage.removeItem(constants.PCIPAL_SECURITY_INFO);
+    return this.payhubService.postPaymentAntennaToPayHub(req, res, appInsights)
+    // eslint-disable-next-line
+    .then(result => {
+        const pcipalDtata = {
+          url: result._links.next_url.href,
+          auth: result._links.next_url.accessToken,
+          ref: result._links.next_url.refreshToken
+        };
+
+        sessionstorage.setItem(constants.PCIPAL_SECURITY_INFO, pcipalDtata);
+        res.status(200).send('success');
+      })
+      .catch(error => {
+        res.status(500).json({ err: error, success: false });
+      });
+  }
+  getLDFeatures(req, res) {
+    const ldClient = LaunchDarkly.initialize(ccpayBubbleLDclientId, user);
+    ldClient.on('ready', () => {
+      const showFeature = ldClient.variation(req.query.flag, false);
+      return res.status(200).send({ flag: showFeature, u: user, id: ccpayBubbleLDclientId });
+    });
   }
 
   postPaymentGroupListToPayHub(req, res, appInsights) {

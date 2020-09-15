@@ -339,10 +339,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@hmcts/ccpay-web-component@4.0.0-beta105":
-  version "4.0.0-beta105"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta105.tgz#aa9da887a6aa14eaa3a4bbd8e41645b37c9d7568"
-  integrity sha512-KGdi5zPMoZbPGCBlZl9bdc6Dq4OTPOxa9D2gO3c8vJ7AtubTaUrZXfDNLnsCENGTJRxR+sdSfgBO5Dv0hDvBcw==
+"@hmcts/ccpay-web-component@4.0.0-beta110":
+  version "4.0.0-beta110"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta110.tgz#ae665dc60b89619039aec39453f668eca2460596"
+  integrity sha512-3nsxgSoCDehTIF3rEc2+4W4w0bYYyq9uoSZodAsMXPNzF3R/Z0gSrdXyOfQfgJbrDtBb/9Yqj/ynbXgztlz+bQ==
   dependencies:
     tslib "^1.9.0"
 
@@ -7732,6 +7732,11 @@ node-sass@^4.8.3, node-sass@^4.9.3:
     sass-graph "2.2.5"
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
+
+node-sessionstorage@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-sessionstorage/-/node-sessionstorage-1.0.0.tgz#c00b8b9c560296dd03743fdc3cd7689aefb249f2"
+  integrity sha512-7WgwJ+7z0+hZSnrYp2KzWsP9tooHr0XtWGsvFycqYE/jPcMHsAGBwm8Hck2HKd/3RFF+SueqzMDm9AEggKJ5qQ==
 
 nodemon@^1.18.10:
   version "1.19.4"
