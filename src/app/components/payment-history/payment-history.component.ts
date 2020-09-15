@@ -18,6 +18,8 @@ export class PaymentHistoryComponent implements OnInit {
   selectedOption: string;
   isBulkscanningEnable: boolean;
   isTurnOff: boolean;
+  isOldPcipalOff: boolean;
+  isNewPcipalOff: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute
@@ -31,6 +33,8 @@ export class PaymentHistoryComponent implements OnInit {
       this.ccdCaseNumber = params['ccdCaseNumber'];
       this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
       this.isTurnOff = this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable';
+      this.isOldPcipalOff = this.activatedRoute.snapshot.queryParams['isOldPcipalOff'] === 'Enable';
+      this.isNewPcipalOff = this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable';
       this.excReference = this.activatedRoute.snapshot.queryParams['exceptionRecord'];
       this.view = this.activatedRoute.snapshot.queryParams['view'];
       this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
