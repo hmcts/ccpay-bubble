@@ -141,7 +141,6 @@ Security.prototype.pcipalForm = function pcipalForm() {
   html += '</form>';
   html += '<script>window.onload = function () { document.forms["form1"].submit();}</script>';
   html += '</body>';
-  sessionstorage.removeItem(constants.PCIPAL_SECURITY_INFO);
   return html;
 };
 
