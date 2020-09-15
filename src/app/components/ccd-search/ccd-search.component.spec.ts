@@ -163,7 +163,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.dcnNumber).toBe(null);
     expect(component.ccdCaseNumber).toBe('1111222233334444');
     // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&isBulkScanning=Enable&isTurnOff=Enable');
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&isBulkScanning=Enable&isTurnOff=Enable&isOldPcipalOff=Enable&isNewPcipalOff=Enable');
   });
 
   it('Should remove hyphems from ccd_case_number', () => {
@@ -361,6 +361,6 @@ describe('ccd search component without takePayment option', () => {
     expect(component.dcnNumber).toBe(null);
     expect(component.ccdCaseNumber).toBe('1111222233334444');
     // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=CCDorException&dcn=null&view=case-transactions&isBulkScanning=Enable&isTurnOff=Enable');
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=CCDorException&dcn=null&view=case-transactions&isBulkScanning=Enable&isTurnOff=Enable&isOldPcipalOff=Enable&isNewPcipalOff=Enable');
   });
 });
