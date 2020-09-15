@@ -72,7 +72,7 @@ module.exports = (security, appInsights) => {
 
   // enable the dist folder to be accessed statically
   app.use(express.static('dist/ccpay-bubble'));
-  // eslint-disable-next-line no-alert
+  app.use('/pcipalThirdCall', (req, res) => res.status(HttpStatus.OK).send(security.pcipalForm()));
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
   app.use('/health/liveness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));

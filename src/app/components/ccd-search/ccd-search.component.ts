@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-ccd-search',
@@ -27,6 +26,8 @@ export class CcdSearchComponent implements OnInit {
   isBulkscanningEnable = true;
   isStrategicFixEnable: boolean;
   isTurnOff: boolean;
+  isOldPcipalOff: boolean;
+  isNewPcipalOff: boolean;
 
   constructor(
     private paymentGroupService: PaymentGroupService,
@@ -49,6 +50,12 @@ export class CcdSearchComponent implements OnInit {
     });
     this.paymentGroupService.getLDFeature('apportion-feature').then((status) => {
       this.isTurnOff = status;
+    });
+    this.paymentGroupService.getLDFeature('FE-pcipal-old-feature').then((status) => {
+      this.isOldPcipalOff = status;
+    });
+    this.paymentGroupService.getLDFeature('FE-pcipal-antenna-feature').then((status) => {
+      this.isNewPcipalOff = status;
     });
     this.fromValidation();
    }
@@ -80,6 +87,9 @@ export class CcdSearchComponent implements OnInit {
       const bsEnableUrl = this.isBulkscanningEnable ? '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
       const isStFixEnable = this.isStrategicFixEnable ? '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
       const turnOffUrl = this.isTurnOff ? '&isTurnOff=Enable' : '&isTurnOff=Disable';
+      const isOldPcipalOff = this.isOldPcipalOff ? '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
+      const isNewPcipalOff = this.isNewPcipalOff ? '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
+
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
         this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((res) => {
           if (res['data'].ccd_reference || res['data'].exception_record_reference) {
@@ -92,8 +102,9 @@ export class CcdSearchComponent implements OnInit {
               this.ccdCaseNumber = '';
             }
             // tslint:disable-next-line:max-line-length
-            const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
-            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${isStFixEnable}${turnOffUrl}`);
+            const url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+            // tslint:disable-next-line:max-line-length
+            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${isStFixEnable}${turnOffUrl}${isOldPcipalOff}${isNewPcipalOff}`);
           }
           this.noCaseFound = true;
         }).catch(() => {
@@ -107,7 +118,8 @@ export class CcdSearchComponent implements OnInit {
           this.noCaseFoundInCCD = false;
           // tslint:disable-next-line:max-line-length
           const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
-          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${isStFixEnable}${turnOffUrl}`);
+          // tslint:disable-next-line:max-line-length
+          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${isStFixEnable}${turnOffUrl}${isOldPcipalOff}${isNewPcipalOff}`);
         }, err => {
          this.noCaseFoundInCCD = true;
         });
