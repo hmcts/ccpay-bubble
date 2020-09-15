@@ -26,6 +26,10 @@ export class CcdSearchComponent implements OnInit {
   noCaseFoundInCCD = false;
   isBulkscanningEnable = true;
   isTurnOff: boolean;
+  isOldPcipalOff: boolean;
+  isNewPcipalOff: boolean;
+
+
 
   constructor(
     private paymentGroupService: PaymentGroupService,
@@ -44,6 +48,12 @@ export class CcdSearchComponent implements OnInit {
     });
     this.paymentGroupService.getLDFeature('apportion-feature').then((status) => {
       this.isTurnOff = status;
+    });
+    this.paymentGroupService.getLDFeature('FE-pcipal-old-feature').then((status) => {
+      this.isOldPcipalOff = status;
+    });
+    this.paymentGroupService.getLDFeature('FE-pcipal-antenna-feature').then((status) => {
+      this.isNewPcipalOff = status;
     });
     this.fromValidation();
    }
@@ -74,6 +84,9 @@ export class CcdSearchComponent implements OnInit {
       const searchValue = this.searchForm.get('searchInput').value;
       const bsEnableUrl = this.isBulkscanningEnable ? '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
       const turnOffUrl = this.isTurnOff ? '&isTurnOff=Enable' : '&isTurnOff=Disable';
+      const isOldPcipalOff = this.isOldPcipalOff ? '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
+      const isNewPcipalOff = this.isNewPcipalOff ? '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
+
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
         this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((res) => {
           if (res['data'].ccd_reference || res['data'].exception_record_reference) {
@@ -87,7 +100,7 @@ export class CcdSearchComponent implements OnInit {
             }
             // tslint:disable-next-line:max-line-length
             const url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
-            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${turnOffUrl}`);
+            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${turnOffUrl}${isOldPcipalOff}${isNewPcipalOff}`);
           }
           this.noCaseFound = true;
         }).catch(() => {
@@ -101,7 +114,7 @@ export class CcdSearchComponent implements OnInit {
           this.noCaseFoundInCCD = false;
           // tslint:disable-next-line:max-line-length
           const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
-          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${turnOffUrl}`);
+          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${turnOffUrl}${isOldPcipalOff}${isNewPcipalOff}`);
         }, err => {
           this.noCaseFoundInCCD = true;
         });
