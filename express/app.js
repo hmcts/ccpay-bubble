@@ -1,11 +1,7 @@
 const express = require('express');
-const session = require('express-session');
 const controllers = require('./mvc/controller');
 const config = require('config');
 const HttpStatus = require('http-status-codes');
-
-const app = express();
-app.use(session({ secret: 'Shh, its a secret!' }));
 
 module.exports = appInsights => express.Router()
 
