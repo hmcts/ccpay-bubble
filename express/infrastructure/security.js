@@ -131,6 +131,8 @@ function invalidateToken(self, req) {
 }
 Security.prototype.pcipalForm = function pcipalForm(req) {
   const pcipalData = req.session.pcipalData;
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info(`res - > ${req.session}`);
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info(`res - > ${req.session.pcipalData}`);
 
   Logger.getLogger('CCPAY-BUBBLE: security.js').info(`res - > ${pcipalData.url}`);
 

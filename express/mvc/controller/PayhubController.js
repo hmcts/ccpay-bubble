@@ -73,7 +73,6 @@ class PayhubController {
   }
 
   postPaymentAntennaToPayHub(req, res, appInsights) {
-    req.session.pcipalData = '';
     return this.payhubService.postPaymentAntennaToPayHub(req, res, appInsights)
     // eslint-disable-next-line
     .then(result => {
