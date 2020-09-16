@@ -129,7 +129,7 @@ function invalidateToken(self, req) {
   return request.delete(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret);
 }
-Security.prototype.pcipalForm = function pcipalForm() {
+Security.prototype.pcipalForm = function pcipalForm(req) {
   const pcipalData = req.session.pcipalData;
 
   Logger.getLogger('CCPAY-BUBBLE: security.js').info(`res - > ${pcipalData.url}`);
