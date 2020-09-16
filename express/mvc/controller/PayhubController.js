@@ -3,8 +3,6 @@ const config = require('config');
 const request = require('request-promise-native');
 const LaunchDarkly = require('launchdarkly-node-client-sdk');
 const HttpStatusCodes = require('http-status-codes');
-const sessionstorage = require('node-sessionstorage');
-
 const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
 const LDprefix = config.get('environment.ldPrefix');
 const user = { key: `${LDprefix}@test.com` };
@@ -69,13 +67,14 @@ class PayhubController {
     return this.payhubService.postPaymentAntennaToPayHub(req, res, appInsights)
     // eslint-disable-next-line
     .then(result => {
-        const pcipalDtata = {
+        const pcipalData = {
           url: result._links.next_url.href,
           auth: result._links.next_url.accessToken,
           ref: result._links.next_url.refreshToken
         };
+        req.session.pcipalData = pcipalData;
 
-        sessionstorage.setItem(constants.PCIPAL_SECURITY_INFO, pcipalDtata);
+        //sessionstorage.setItem(constants.PCIPAL_SECURITY_INFO, pcipalDtata);
         res.status(200).send('success');
       })
       .catch(error => {
