@@ -8,8 +8,6 @@ const URL = require('url');
 const UUID = require('uuid/v4');
 const { ApiErrorFactory } = require('./errors');
 const { Logger } = require('@hmcts/nodejs-logging');
-const sessionstorage = require('node-sessionstorage');
-
 const errorFactory = ApiErrorFactory('security.js');
 
 const constants = Object.freeze({
@@ -130,8 +128,8 @@ function invalidateToken(self, req) {
   return request.delete(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret);
 }
-Security.prototype.pcipalForm = function pcipalForm() {
-  const pcipalData = sessionstorage.getItem(constants.PCIPAL_SECURITY_INFO);
+Security.prototype.pcipalForm = function pcipalForm(req, res) {
+  const pcipalData = req.session.pcipalData;
   let html = '';
   html += '<body>';
   html += `<form action='${pcipalData.url}' enctype='application/x-www-form-urlencoded; charset=utf-8' method='post' name='form1'>`;
