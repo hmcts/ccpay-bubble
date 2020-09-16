@@ -14,7 +14,11 @@ const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 
 const app = express();
-app.use(session({ secret: 'Shh, its a secret!' }));
+app.use(session({ 
+  secret: 'Shh, its a secret!',
+  resave: false,
+  saveUninitialized: true
+ }));
 
 const errorFactory = ApiErrorFactory('server.js');
 let csrfProtection = csurf({ cookie: true });
