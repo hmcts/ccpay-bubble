@@ -8,7 +8,6 @@ const URL = require('url');
 const UUID = require('uuid/v4');
 const { ApiErrorFactory } = require('./errors');
 const { Logger } = require('@hmcts/nodejs-logging');
-const sessionstorage = require('node-sessionstorage');
 
 const errorFactory = ApiErrorFactory('security.js');
 
@@ -131,8 +130,9 @@ function invalidateToken(self, req) {
     .auth(self.opts.clientId, self.opts.clientSecret);
 }
 Security.prototype.pcipalForm = function pcipalForm() {
-  const pcipalData = sessionstorage.getItem(constants.PCIPAL_SECURITY_INFO);
-  Logger.getLogger('CCPAY-BUBBLE: security.js').info(`res - > ${pcipalData}`);
+  const pcipalData = req.session.pcipalData;
+
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info(`res - > ${pcipalData.url}`);
 
   let html = '';
   html += '<body>';

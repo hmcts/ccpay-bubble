@@ -258,7 +258,7 @@ describe('Fee search component', () => {
     expect(component.dcnNo).toBe('11');
     expect(component.selectedOption).toBe('test');
     expect(component.bulkScanningTxt).toBe('&isBulkScanning=Enable&isTurnOff=Enable&isOldPcipalOff=Disable&isNewPcipalOff=Disable');
-    });
+  });
 
   it('Should reset preselected fee and show fee details ongoback', () => {
     component.onGoBack();
