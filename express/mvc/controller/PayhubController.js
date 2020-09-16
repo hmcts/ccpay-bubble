@@ -66,7 +66,6 @@ class PayhubController {
   }
 
   postPaymentAntennaToPayHub(req, res, appInsights) {
-    sessionstorage.removeItem(constants.PCIPAL_SECURITY_INFO);
     return this.payhubService.postPaymentAntennaToPayHub(req, res, appInsights)
     // eslint-disable-next-line
     .then(result => {
