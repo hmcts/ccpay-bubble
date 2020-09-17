@@ -130,7 +130,7 @@ function invalidateToken(self, req) {
     .auth(self.opts.clientId, self.opts.clientSecret);
 }
 Security.prototype.pcipalForm = function pcipalForm(req) {
-  const pcipalData = req.session.pcipalData;
+  const pcipalData = req.cookies[constants.PCIPAL_SECURITY_INFO];
   let html = '';
   html += '<body>';
   html += `<form action='${pcipalData.url}' enctype='application/x-www-form-urlencoded; charset=utf-8' method='post' name='form1'>`;
@@ -140,6 +140,7 @@ Security.prototype.pcipalForm = function pcipalForm(req) {
   html += '</form>';
   html += '<script>window.onload = function () { document.forms["form1"].submit();}</script>';
   html += '</body>';
+  
   return html;
 };
 
