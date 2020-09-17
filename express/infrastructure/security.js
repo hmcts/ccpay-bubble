@@ -140,7 +140,6 @@ Security.prototype.pcipalForm = function pcipalForm(req) {
   html += '</form>';
   html += '<script>window.onload = function () { document.forms["form1"].submit();}</script>';
   html += '</body>';
-  
   return html;
 };
 
