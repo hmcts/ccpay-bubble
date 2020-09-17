@@ -81,7 +81,6 @@ module.exports = (security, appInsights) => {
 
   app.use('/pcipalThirdCall', (req, res) => {
     res.status(HttpStatus.OK).send(security.pcipalForm(req, res));
-    res.clearCookie(constants.PCIPAL_SECURITY_INFO);
   });
 
   app.use('/logout', security.logout());

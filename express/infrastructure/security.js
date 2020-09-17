@@ -129,7 +129,7 @@ function invalidateToken(self, req) {
   return request.delete(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret);
 }
-Security.prototype.pcipalForm = function pcipalForm(req) {
+Security.prototype.pcipalForm = function pcipalForm(req, res) {
   const pcipalData = req.cookies[constants.PCIPAL_SECURITY_INFO];
   let html = '';
   html += '<body>';
@@ -140,6 +140,7 @@ Security.prototype.pcipalForm = function pcipalForm(req) {
   html += '</form>';
   html += '<script>window.onload = function () { document.forms["form1"].submit();}</script>';
   html += '</body>';
+  res.clearCookie(constants.PCIPAL_SECURITY_INFO);
   return html;
 };
 
