@@ -3,11 +3,11 @@ const config = require('config');
 const request = require('request-promise-native');
 const LaunchDarkly = require('launchdarkly-node-client-sdk');
 const HttpStatusCodes = require('http-status-codes');
-const { Logger } = require('@hmcts/nodejs-logging');
 
 const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
 const LDprefix = config.get('environment.ldPrefix');
 const user = { key: `${LDprefix}@test.com` };
+const constants = Object.freeze({ PCIPAL_SECURITY_INFO: '__pcipal-info' });
 
 class PayhubController {
   constructor() {
@@ -81,10 +81,8 @@ class PayhubController {
           auth: result._links.next_url.accessToken,
           ref: result._links.next_url.refreshToken
         };
-        req.session.pcipalData = pcipalData;
 
-        Logger.getLogger('CCPAY-BUBBLE: security.js').info(`set - > ${req.session.pcipalData.url}`);
-
+        res.cookie(constants.PCIPAL_SECURITY_INFO, pcipalData, { httpOnly: true });
         res.status(200).send('success');
       })
       .catch(error => {
