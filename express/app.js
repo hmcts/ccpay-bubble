@@ -56,7 +56,7 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postWoPGStrategicPayment(req, res, appInsights);
   })
 
-  .post('/payment-history/payment-groups/:paymentGroup/card-payments-antenna', (req, res) => {
+  .post('/payment-history/payment-groups/:paymentGroup/telephony-card-payments', (req, res) => {
     controllers.payhubController.postPaymentAntennaToPayHub(req, res, appInsights);
   })
 
