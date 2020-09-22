@@ -48,7 +48,7 @@ class PayhubService {
   async postPaymentAntennaToPayHub(req) {
     const serviceAuthToken = await this.createAuthToken();
     return request.post({
-      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/card-payments-antenna`,
+      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/telephony-card-payments`,
       body: req.body,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
