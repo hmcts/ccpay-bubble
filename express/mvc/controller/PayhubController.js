@@ -9,6 +9,8 @@ const LDprefix = config.get('environment.ldPrefix');
 const user = { key: `${LDprefix}@test.com` };
 const constants = Object.freeze({ PCIPAL_SECURITY_INFO: '__pcipal-info' });
 
+const constants = Object.freeze({ PCIPAL_SECURITY_INFO: '__pcipal-info' });
+
 class PayhubController {
   constructor() {
     this.payhubService = payhubService;
@@ -81,7 +83,6 @@ class PayhubController {
           auth: result._links.next_url.accessToken,
           ref: result._links.next_url.refreshToken
         };
-
         res.cookie(constants.PCIPAL_SECURITY_INFO, pcipalData, { httpOnly: true });
         res.status(200).send('success');
       })
