@@ -18,6 +18,7 @@ const app = require('./server')(security(appInsights), appInsights),
   http = require('http');
 
 // reverse proxy handles tls in non local environments
+<<<<<<< Updated upstream
 if (process.env.NODE_ENV === 'development') {
   const crtLocation = config.get('certs.crt'),
     keyLocation = config.get('certs.key'),
@@ -27,3 +28,6 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   http.createServer(app).listen(port);
 }
+=======
+http.createServer(app).listen(port);
+>>>>>>> Stashed changes

@@ -10,6 +10,9 @@ idam:
 ccpaybubble:
   url: CCPAY_BUBBLE_URL
   microservice: CCPAY_BUBBLE_MICROSERVICE
+pcipalantenna:
+  url: PCIPAL_ANTENNA_URL
+  microservice: CCPAY_BUBBLE_MICROSERVICE
 s2s:
   url: S2S_URL
 payhub:
