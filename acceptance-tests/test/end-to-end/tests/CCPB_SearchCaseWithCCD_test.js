@@ -70,15 +70,3 @@ Scenario('Remove fee from case transaction page Telephony flow', I => {
   I.removeFeeFromCaseTransactionPageTelephonyFlow();
   I.Logout();
 });
-
-Scenario('Remission Validation Telephony flow', I => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  I.wait(CCPBATConstants.tenSecondWaitTime);
-  I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
-  I.see('Search for a case');
-  I.see('Search');
-  I.see('Case Transaction');
-  I.see('Payment history');
-  I.remissionsAmountValidation();
-  I.Logout();
-});
