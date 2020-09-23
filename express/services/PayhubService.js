@@ -48,13 +48,13 @@ class PayhubService {
 
   async postPaymentAntennaToPayHub(req) {
     const serviceAuthToken = await this.createAuthToken();
+    req.body['return_url'] = pcipalAntennaReturnUrl;
     return request.post({
       uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/telephony-card-payments`,
       body: req.body,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${serviceAuthToken}`,
-        'return-url': `${pcipalAntennaReturnUrl}`,
         'Content-Type': 'application/json'
       },
       json: true
