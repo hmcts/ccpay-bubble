@@ -331,6 +331,8 @@ describe('CCD search component with takePayment is equal to true', () => {
     component.isBulkscanningEnable = true;
     component.isStrategicFixEnable = true;
     component.isTurnOff = true;
+    component.isOldPcipalOff = true;
+    component.isNewPcipalOff = true;
 
     component.onSelectionChange('RC');
     expect(component.selectedValue).toBe('RC');
@@ -343,7 +345,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.ccdCaseNumber).toBe('1111222233334444');
     expect(component.noCaseFound).toBeFalsy();
     // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable');
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable&isOldPcipalOff=Enable&isNewPcipalOff=Enable');
 
     component.ngOnInit();
     component.dcnNumber = '';
@@ -352,6 +354,8 @@ describe('CCD search component with takePayment is equal to true', () => {
     component.isBulkscanningEnable = false;
     component.isStrategicFixEnable = false;
     component.isTurnOff = false;
+    component.isOldPcipalOff = false;
+    component.isNewPcipalOff = false;
     component.onSelectionChange('RC');
     expect(component.selectedValue).toBe('RC');
     spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('RC');
@@ -363,7 +367,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.ccdCaseNumber).toBe('');
     expect(component.noCaseFound).toBeFalsy();
     // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable');
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable&isOldPcipalOff=Enable&isNewPcipalOff=Enable');
   });
 });
 
