@@ -27,6 +27,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     viewPaymentService: ViewPaymentService,
     mockResponse: any,
     mockResponse1: any,
+    mockResponse2: any,
     activatedRoute;
   const formBuilder: FormBuilder = new FormBuilder();
   beforeEach(() => {
@@ -128,6 +129,45 @@ describe('CCD search component with takePayment is equal to true', () => {
           }
         ]
   };
+
+  mockResponse2 = {
+    amount: 550,
+    ccd_case_number: '1111222233334444',
+    channel: 'telephony',
+    currency: 'GBP',
+    date_created: '2020-09-03T16:48:51.816+0000',
+    date_updated: '2020-09-03T16:48:51.816+0000',
+    external_provider: 'pci pal',
+    fee: [
+      {
+        calculated_amount: 550,
+        case_reference: '1111222233334444',
+        code: 'FEE0303',
+        date_created: '2020-09-03T16:30:47.633+0000',
+        date_updated: '2020-09-03T16:30:53.648+0000',
+        id: 40,
+        version: '1',
+        volume: 1
+      }
+    ],
+    method: 'card',
+    payment_allocation: [],
+    payment_group_reference: '2020-1599150647664',
+    payment_reference: 'RC-1599-1517-2787-5110',
+    service_name: 'Probate',
+    site_id: 'AA08',
+    status: 'Initiated',
+    responsible_service_id: 'AA07',
+    status_histories: [
+      {
+        date_created: '2020-09-03T16:48:51.824+0000',
+        error_code: 'code',
+        error_message: 'message',
+        external_status: 'created',
+        status: 'Initiated'
+      }
+    ]
+};
     fixture = TestBed.createComponent(CcdSearchComponent);
     component = fixture.componentInstance;
     component.searchForm = formBuilder.group({
@@ -450,6 +490,32 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.selectedValue).toBe('test');
 
     expect(component.hasErrors).toBeTruthy();
+   });
+
+   it('Should get prn details if exception', async () => {
+    spyOn(viewPaymentService, 'getPaymentDetail').and.returnValue(
+      of(mockResponse2)
+    );
+    spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+    spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
+    spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+
+    component.ngOnInit();
+    component.dcnNumber = '';
+    component.ccdCaseNumber = '';
+    component.takePayment = false;
+    component.isBulkscanningEnable = true;
+    component.isTurnOff = true;
+
+    component.onSelectionChange('RC');
+    expect(component.selectedValue).toBe('RC');
+    spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('rc');
+    component.searchForm.controls['searchInput'].setValue('RC-1599-1517-2787-5110');
+    component.searchFees();
+    await fixture.whenStable();
+    expect(component.selectedValue).toBe('RC');
+    expect(component.ccdCaseNumber).toBe('1111222233334444');
+    expect(component.hasErrors).toBeFalsy();
    });
 });
 
