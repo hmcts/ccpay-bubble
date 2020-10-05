@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-ccd-search',
@@ -33,6 +32,7 @@ export class CcdSearchComponent implements OnInit {
     private router: Router,
     private caseRefService: CaseRefService,
     private activatedRoute: ActivatedRoute,
+    private viewPaymentService: ViewPaymentService
   ) {}
 
   ngOnInit() {
@@ -86,7 +86,8 @@ export class CcdSearchComponent implements OnInit {
               this.ccdCaseNumber = '';
             }
             // tslint:disable-next-line:max-line-length
-            const url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+            let url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions`;
+            url = url.replace(/[\r\n]+/g, ' ');
             this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${turnOffUrl}`);
           }
           this.noCaseFound = true;
@@ -100,11 +101,30 @@ export class CcdSearchComponent implements OnInit {
         this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
           this.noCaseFoundInCCD = false;
           // tslint:disable-next-line:max-line-length
-          const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+          let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+          url = url.replace(/[\r\n]+/g, ' ');
           this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${turnOffUrl}`);
         }, err => {
-          this.noCaseFoundInCCD = true;
+         this.noCaseFoundInCCD = true;
         });
+      } else if (this.selectedValue.toLocaleLowerCase() === 'rc') {
+        this.noCaseFound = false;
+        this.viewPaymentService.getPaymentDetail(searchValue).subscribe((res) => {
+          if (res['ccd_case_number'] || res['case_reference']) {
+            this.ccdCaseNumber = res['ccd_case_number'] ? res['ccd_case_number'] : res['case_reference'];
+            this.dcnNumber = null;
+            this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
+              this.noCaseFound = false;
+              // tslint:disable-next-line:max-line-length
+              const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+              this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${turnOffUrl}`);
+              }, err => {
+              this.noCaseFound = true;
+            });
+          }
+          }, err => {
+            this.noCaseFoundInCCD = true;
+          });
       } else  {
       return this.hasErrors = true;
     }
