@@ -343,7 +343,6 @@
   version "4.0.0-beta113"
   resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta113.tgz#c9fad170356d33a4e012ba69f88f30311a3ca877"
   integrity sha512-Z5R6MJHz058Wrb/kaGEw8HeAQUpU22lmbcD6x7eFz7GmFNypirMRRkFM9HB+PFKATeROIa3zdh6lTNgGO7SX5g==
-
   dependencies:
     tslib "^1.9.0"
 
