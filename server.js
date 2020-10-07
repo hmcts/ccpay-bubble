@@ -20,8 +20,8 @@ app.use(session({
   secret: 'session_secret',
   resave: false,
   saveUninitialized: true,
-  store: new FileStore,
-  cookie: { maxAge: 3600000,secure: false, httpOnly: true }
+  store: new FileStore(),
+  cookie: { maxAge: 3600000, secure: false, httpOnly: true }
 }));
 
 const errorFactory = ApiErrorFactory('server.js');
