@@ -13,11 +13,15 @@ const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 
+const FileStore = require('session-file-store')(session);
+
 const app = express();
 app.use(session({
-  secret: 'Shh, its a secret!',
+  secret: 'session_secret',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: new FileStore,
+  cookie: { maxAge: 3600000,secure: false, httpOnly: true }
 }));
 
 const errorFactory = ApiErrorFactory('server.js');
