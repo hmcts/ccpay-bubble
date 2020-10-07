@@ -44,9 +44,11 @@ module.exports = appInsights => express.Router()
   .post('/payment-history/payment-groups/:paymentGroup/fees/:feeId/remissions', (req, res) => {
     controllers.payhubController.postPartialRemission(req, res, appInsights);
   })
- .post('/payment-history/payment-groups/:paymentGroup/card-payments', (req, res) => {
+
+  .post('/payment-history/payment-groups/:paymentGroup/card-payments', (req, res) => {
     controllers.payhubController.postPaymentGroupToPayHub(req, res, appInsights);
   })
+
   .post('/payment-history/payment-groups/:paymentGroup/bulk-scan-payments-strategic', (req, res) => {
     controllers.payhubController.postStrategicPayment(req, res, appInsights);
   })
