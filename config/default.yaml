@@ -12,6 +12,9 @@ ccpaybubble:
   url: https://localhost
   defaultPort: 3000
   microservice: ccpay_bubble
+pcipalantenna:
+  url: https://paybubble.platform.hmcts.net/ccd-search
+  microservice: ccpay_bubble
 s2s:
   url: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
 payhub:
