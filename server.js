@@ -94,7 +94,7 @@ module.exports = (security, appInsights) => {
 
   app.use(security.protectWithAnyOf(roles.allRoles, ['/assets/'], express.static('dist')));
 
-  // fallback to this route (so that Angular will handle all routing)
+  // fallback to this route (so that Angular will handle all routing correctly)
   app.get('**', security.protectWithAnyOf(roles.allRoles, ['/assets/']), csrfProtection,
     (req, res) => {
       res.render('index', { csrfToken: req.csrfToken() });
