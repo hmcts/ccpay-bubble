@@ -338,7 +338,7 @@
     colorspace "1.1.x"
     enabled "2.0.x"
     kuler "^2.0.0"
-
+    
 "@hmcts/ccpay-web-component@3.0.16":
   version "3.0.16"
   resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-3.0.16.tgz#9b210a0f88739acf1029bfd136788177fb66e7d9"
