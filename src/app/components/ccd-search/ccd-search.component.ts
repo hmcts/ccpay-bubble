@@ -24,6 +24,7 @@ export class CcdSearchComponent implements OnInit {
   noCaseFound = false;
   noCaseFoundInCCD = false;
   isBulkscanningEnable = true;
+  isStrategicFixEnable: boolean;
   isTurnOff: boolean;
 
   constructor(
@@ -41,6 +42,9 @@ export class CcdSearchComponent implements OnInit {
     });
     this.paymentGroupService.getBSFeature().then((status) => {
       this.isBulkscanningEnable = status;
+    });
+    this.paymentGroupService.getLDFeature('bspayments-strategic').then((status) => {
+      this.isStrategicFixEnable = status;
     });
     this.paymentGroupService.getLDFeature('apportion-feature').then((status) => {
       this.isTurnOff = status;
@@ -72,8 +76,9 @@ export class CcdSearchComponent implements OnInit {
       if (this.searchForm.controls['searchInput'].valid) {
       this.hasErrors = false;
       const searchValue = this.searchForm.get('searchInput').value;
-      const bsEnableUrl = this.isBulkscanningEnable ? '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
-      const turnOffUrl = this.isTurnOff ? '&isTurnOff=Enable' : '&isTurnOff=Disable';
+      let bsEnableUrl = this.isBulkscanningEnable ? '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
+        bsEnableUrl += this.isStrategicFixEnable ? '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
+        bsEnableUrl += this.isTurnOff ? '&isTurnOff=Enable' : '&isTurnOff=Disable';
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
         this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((res) => {
           if (res['data'].ccd_reference || res['data'].exception_record_reference) {
@@ -88,7 +93,7 @@ export class CcdSearchComponent implements OnInit {
             // tslint:disable-next-line:max-line-length
             let url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions`;
             url = url.replace(/[\r\n]+/g, ' ');
-            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${turnOffUrl}`);
+            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
           }
           this.noCaseFound = true;
         }).catch(() => {
@@ -103,7 +108,7 @@ export class CcdSearchComponent implements OnInit {
           // tslint:disable-next-line:max-line-length
           let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
           url = url.replace(/[\r\n]+/g, ' ');
-          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${turnOffUrl}`);
+          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
         }, err => {
          this.noCaseFoundInCCD = true;
         });
@@ -117,7 +122,7 @@ export class CcdSearchComponent implements OnInit {
               this.noCaseFound = false;
               // tslint:disable-next-line:max-line-length
               const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
-              this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}${turnOffUrl}`);
+              this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
               }, err => {
               this.noCaseFound = true;
             });

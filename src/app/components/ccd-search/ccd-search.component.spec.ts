@@ -244,7 +244,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.dcnNumber).toBe(null);
     expect(component.ccdCaseNumber).toBe('1111222233334444');
     // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&isBulkScanning=Enable&isTurnOff=Enable');
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable');
   });
 
   it('Should remove hyphems from ccd_case_number', () => {
@@ -397,8 +397,6 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.dcnNumber).toBe(null);
     expect(component.ccdCaseNumber).toBe('1111222233334444');
     expect(component.noCaseFound).toBeFalsy();
-    // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&isBulkScanning=Enable&isTurnOff=Enable');
 
     component.ngOnInit();
     component.dcnNumber = '';
@@ -416,8 +414,6 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.dcnNumber).toBe('');
     expect(component.ccdCaseNumber).toBe('');
     expect(component.noCaseFound).toBeFalsy();
-    // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&isBulkScanning=Enable&isTurnOff=Enable');
   });
 
   it('Should get prn details if takepayment is false', async () => {
@@ -445,8 +441,6 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.dcnNumber).toBe(null);
     expect(component.ccdCaseNumber).toBe('1111222233334444');
     expect(component.noCaseFound).toBeFalsy();
-    // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&isBulkScanning=Enable&isTurnOff=Enable');
 
     component.ngOnInit();
     component.dcnNumber = '';
@@ -464,8 +458,6 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.dcnNumber).toBe('');
     expect(component.ccdCaseNumber).toBe('');
     expect(component.noCaseFound).toBeFalsy();
-    // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&isBulkScanning=Enable&isTurnOff=Enable');
   });
 
   it('Should get prn details if selectoption is null', async () => {
@@ -663,6 +655,6 @@ describe('ccd search component without takePayment option', () => {
     expect(component.dcnNumber).toBe(null);
     expect(component.ccdCaseNumber).toBe('1111222233334444');
     // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=CCDorException&dcn=null&view=case-transactions&isBulkScanning=Enable&isTurnOff=Enable');
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=CCDorException&dcn=null&view=case-transactions&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable');
   });
 });
