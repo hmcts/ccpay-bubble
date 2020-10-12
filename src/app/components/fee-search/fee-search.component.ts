@@ -39,6 +39,8 @@ export class FeeSearchComponent implements OnInit {
                                   '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
       this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable' ?
                                   '&isTurnOff=Enable' : '&isTurnOff=Disable';
+      this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable' ?
+                                  '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
     });
 
     this.paymentGroupService.getDiscontinuedFrFeature().then((status) => {
