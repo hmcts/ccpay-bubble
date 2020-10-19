@@ -59,7 +59,7 @@ describe('CCD search component with takePayment is equal to true', () => {
             },
             snapshot: {
               queryParams: {
-                takePayment: true
+                takePayment: false
               }
             }
           }
@@ -93,6 +93,8 @@ describe('CCD search component with takePayment is equal to true', () => {
           responsible_service_id: 'AA07'
       }
     };
+
+
     mockResponse1 = {
         amount: 550,
         ccd_case_number: '1111222233334444',
@@ -711,4 +713,158 @@ describe('ccd search component without takePayment option', () => {
     // tslint:disable-next-line:max-line-length
     expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=CCDorException&dcn=null&view=case-transactions&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable&isOldPcipalOff=Enable&isNewPcipalOff=Enable');
   });
+});
+
+
+describe('CCD search component with takePayment is equal to true', () => {
+  let component: CcdSearchComponent,
+    fixture: ComponentFixture<CcdSearchComponent>,
+    caseRefService: CaseRefService,
+    paymentGroupService: PaymentGroupService,
+    viewPaymentService: ViewPaymentService,
+    mockResponse: any,
+    mockResponse1: any,
+    activatedRoute;
+  const formBuilder: FormBuilder = new FormBuilder();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [CcdSearchComponent],
+      imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        RouterModule,
+        HttpClientModule
+      ],
+      providers: [
+        CaseRefService,
+        ViewPaymentService,
+        {
+          provide: PaymentGroupService,
+          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        },
+        { provide: PaybubbleHttpClient, useValue: paybubbleHttpClientMock },
+        { provide: Router, useValue: routerMock },
+        { provide: FormBuilder, useValue: formBuilder },
+        { provide: ActivatedRoute,
+          useValue: {
+            params: of({ccdCaseNumber: '1111-2222-3333-4444'}),
+            routeConfig: {
+              path: 'ccd-search'
+            },
+            snapshot: {
+              queryParams: {
+                takePayment: true
+              }
+            }
+          }
+        }
+      ]
+    });
+
+    mockResponse = {
+      data: {
+        exception_record_reference: '3333333333333333',
+        payments: [
+          {
+            amount: 100,
+            bgc_reference: 'BGC1203',
+            case_reference: '1111222233334444',
+            payment_reference: 'RC-1577-2020-5487-0301',
+            currency: 'GBP',
+            date_banked: '2019-DEC-02',
+            date_created: '2019-DEC-19',
+            date_updated: '2019-DEC-30',
+            dcn_case: '111122223333444401234',
+            dcn_reference: '111122223333444401234',
+            first_cheque_dcn_in_batch: 'string',
+            outbound_batch_number: 'string',
+            payer_name: 'tester',
+            payment_method: 'CHEQUE',
+            po_box: 'string'
+          }
+        ],
+        responsible_service_id: 'AA07'
+    }
+  };
+
+  mockResponse1 = {
+    data: {
+      ccd_reference: '2222222222222222',
+      payments: [
+        {
+          amount: 100,
+          bgc_reference: 'BGC1203',
+          case_reference: '1111222233334444',
+          payment_reference: 'RC-1577-2020-5487-0301',
+          currency: 'GBP',
+          date_banked: '2019-DEC-02',
+          date_created: '2019-DEC-19',
+          date_updated: '2019-DEC-30',
+          dcn_case: '111122223333444401234',
+          dcn_reference: '111122223333444401234',
+          first_cheque_dcn_in_batch: 'string',
+          outbound_batch_number: 'string',
+          payer_name: 'tester',
+          payment_method: 'CHEQUE',
+          po_box: 'string'
+        }
+      ],
+      responsible_service_id: 'AA07'
+  }
+};
+
+    fixture = TestBed.createComponent(CcdSearchComponent);
+    component = fixture.componentInstance;
+    component.searchForm = formBuilder.group({
+      CCDorException: null
+    });
+    caseRefService = fixture.debugElement.injector.get(CaseRefService);
+    paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
+    viewPaymentService = fixture.debugElement.injector.get(ViewPaymentService);
+    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
+  });
+
+  it('Should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('DCN search only case id present', async () => {
+    spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse1));
+    spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+    spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
+    spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('dcn');
+
+    component.ngOnInit();
+    component.dcnNumber = '';
+    component.isBulkscanningEnable = true;
+    component.onSelectionChange('DCN');
+    expect(component.selectedValue).toBe('DCN');
+    component.searchForm.controls['searchInput'].setValue('123456789012345678901');
+    component.searchFees();
+    await fixture.whenStable();
+    expect(component.selectedValue).toBe('DCN');
+    expect(component.dcnNumber).toBe('123456789012345678901');
+    expect(component.ccdCaseNumber).toBe('2222222222222222');
+  });
+
+it('DCN search only exception id present', async () => {
+  spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse));
+  spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+  spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
+  spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('dcn');
+
+  component.ngOnInit();
+  component.dcnNumber = '';
+  component.takePayment = null;
+  component.isBulkscanningEnable = true;
+  component.onSelectionChange('DCN');
+  expect(component.selectedValue).toBe('DCN');
+  component.searchForm.controls['searchInput'].setValue('123456789012345678901');
+
+  component.searchFees();
+  await fixture.whenStable();
+  expect(component.selectedValue).toBe('DCN');
+  expect(component.dcnNumber).toBe('123456789012345678901');
+  expect(component.ccdCaseNumber).toBe('');
+});
 });
