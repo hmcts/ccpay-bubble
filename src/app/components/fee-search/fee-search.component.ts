@@ -39,6 +39,8 @@ export class FeeSearchComponent implements OnInit {
                                   '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
       this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable' ?
                                   '&isTurnOff=Enable' : '&isTurnOff=Disable';
+      this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable' ?
+                                  '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
     });
 
     this.paymentGroupService.getDiscontinuedFrFeature().then((status) => {
@@ -127,10 +129,10 @@ export class FeeSearchComponent implements OnInit {
 
       this.paymentGroupService.putPaymentGroup(this.paymentGroupRef, paymentGroup)
         .then(response => {
-          const partUrl = `&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}${this.bulkScanningTxt}`;
-          this.router
-            .navigateByUrl(`/payment-history/${this.ccdNo}`
-              + `?view=fee-summary&selectedOption=${this.selectedOption}${partUrl}`);
+         // tslint:disable-next-line:max-line-length
+          let url = `/payment-history/${this.ccdNo}?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}${this.bulkScanningTxt}`;
+          url = url.replace(/[\r\n]+/g, ' ');
+          this.router.navigateByUrl(url);
         })
         .catch(err => {
           this.navigateToServiceFailure();
@@ -138,11 +140,9 @@ export class FeeSearchComponent implements OnInit {
     } else {
       this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
         // tslint:disable-next-line:max-line-length
-        const url = `${this.selectedOption}&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}${this.bulkScanningTxt}`;
-        this
-          .router
-          .navigateByUrl(`/payment-history/${this.ccdNo}`
-            + `?view=fee-summary&selectedOption=${url}`);
+        let url = `/payment-history/${this.ccdNo}?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}${this.bulkScanningTxt}`;
+        url = url.replace(/[\r\n]+/g, ' ');
+        this.router.navigateByUrl(url);
       })
         .catch(err => {
           this.navigateToServiceFailure();
