@@ -867,4 +867,21 @@ it('DCN search only exception id present', async () => {
   expect(component.dcnNumber).toBe('123456789012345678901');
   expect(component.ccdCaseNumber).toBe('');
 });
+
+it('DCN search bulkscan false', async () => {
+  spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+  spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+  spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
+
+  component.ngOnInit();
+  component.dcnNumber = '';
+  component.isBulkscanningEnable = false;
+  component.searchForm.controls['searchInput'].setValue('1111-2222-3333-4444');
+
+  component.searchFees();
+  await fixture.whenStable();
+  expect(component.dcnNumber).toBeNull();
+  expect(component.ccdCaseNumber).toBe('1111222233334444');
+});
+
 });
