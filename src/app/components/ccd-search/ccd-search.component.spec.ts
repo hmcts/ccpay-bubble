@@ -724,6 +724,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     viewPaymentService: ViewPaymentService,
     mockResponse: any,
     mockResponse1: any,
+    mockResponse2: any,
     activatedRoute;
   const formBuilder: FormBuilder = new FormBuilder();
   beforeEach(() => {
@@ -813,6 +814,31 @@ describe('CCD search component with takePayment is equal to true', () => {
   }
 };
 
+mockResponse2 = {
+    ccd_reference: '1111222233334444',
+    ccd_case_number: '1111222233334444',
+    payments: [
+      {
+        amount: 100,
+        bgc_reference: 'BGC1203',
+        case_reference: '1111222233334444',
+        payment_reference: 'RC-1577-2020-5487-0301',
+        currency: 'GBP',
+        date_banked: '2019-DEC-02',
+        date_created: '2019-DEC-19',
+        date_updated: '2019-DEC-30',
+        dcn_case: '111122223333444401234',
+        dcn_reference: '111122223333444401234',
+        first_cheque_dcn_in_batch: 'string',
+        outbound_batch_number: 'string',
+        payer_name: 'tester',
+        payment_method: 'CHEQUE',
+        po_box: 'string'
+      }
+    ],
+    responsible_service_id: 'AA07'
+};
+
     fixture = TestBed.createComponent(CcdSearchComponent);
     component = fixture.componentInstance;
     component.searchForm = formBuilder.group({
@@ -890,4 +916,27 @@ it('DCN search bulkscan false', async () => {
   expect(component.ccdCaseNumber).toBe('1111222233334444');
 });
 
+it('Should get RC details', async () => {
+  spyOn(viewPaymentService, 'getPaymentDetail').and.returnValue(
+    of(mockResponse2)
+  );
+  spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+  spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
+  spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+
+  component.ngOnInit();
+  component.takePayment = false;
+  component.isBulkscanningEnable = true;
+  component.isStrategicFixEnable = false;
+  component.onSelectionChange('RC');
+  expect(component.selectedValue).toBe('RC');
+  spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('RC');
+  component.searchForm.controls['searchInput'].setValue('RC-1599-1517-2787-5110');
+  await component.searchFees();
+  await fixture.whenStable();
+  expect(component.selectedValue).toBe('RC');
+  expect(component.dcnNumber).toBeNull();
+  expect(component.ccdCaseNumber).toBe('1111222233334444');
+  expect(component.noCaseFound).toBeFalsy();
+});
 });
