@@ -94,10 +94,10 @@ export class CcdSearchComponent implements OnInit {
         this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((res) => {
           if (res['data'].ccd_reference || res['data'].exception_record_reference) {
             this.dcnNumber = searchValue;
-            if (res['data'].ccd_reference !== undefined) {
+            if (res['data'].ccd_reference !== undefined && res['data'].ccd_reference.length > 0) {
               this.ccdCaseNumber = res['data'].ccd_reference ;
               this.excReference = '';
-            } else if (res['data'].exception_record_reference !== undefined ) {
+            } else if (res['data'].exception_record_reference !== undefined && res['data'].exception_record_reference.length > 0) {
               this.excReference = res['data'].exception_record_reference ;
               this.ccdCaseNumber = '';
             }
