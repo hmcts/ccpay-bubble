@@ -339,10 +339,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@hmcts/ccpay-web-component@3.0.17":
-  version "3.0.17"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-3.0.17.tgz#13d970d9b52ea89ae6b3a0c8aa52319d2e216465"
-  integrity sha512-uW8L5+kuVzYHOq7gyc0JItGxF8l3Wh0WSONvSMcTZiZ3mu4DIKonW8F7DFtg8NXMrwBVSl44lP4DxNAMpzPZpA==
+"@hmcts/ccpay-web-component@4.0.0-beta140":
+  version "4.0.0-beta140"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta140.tgz#71e53f89d5c4706f3de038b8ca23ac155683ab9d"
+  integrity sha512-B21MwE9RZ2aV8d0YkA91ysL8mmqTDXzQQ0FXsoJrGwP0+j9G0+iy1xqbbW+UnZix1jlIN/8Vj/+ao5vnIUM3oA==
   dependencies:
     tslib "^1.9.0"
 

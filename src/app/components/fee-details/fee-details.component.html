@@ -2,7 +2,7 @@
     <legend>
       <h1 class="heading-xlarge">Fee details</h1>
     </legend>
-
+    <input #myInput type='hidden' id='iFrameDrivenImageValue' value='FEEDETAILS'>
     <table *ngIf="fee" class="table" style="margin-bottom: 20px">
       <caption>Fee Details</caption>
       <tbody>
@@ -30,7 +30,7 @@
 <main *ngIf="validOldVersionArray.length > 1">
     <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
     <p class="form-hint">{{ fee.current_version.description }}</p>
-
+    <input #myInput type='hidden' id='iFrameDrivenImageValue' value='FEEVERSION'>
     <div class="govuk-warning-text">
       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
       <strong class="govuk-warning-text__text" style="font-size: 16px;">
