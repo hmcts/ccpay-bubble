@@ -2,8 +2,8 @@ security:
   referrerPolicy: origin
 idam:
   client_id: paybubble
-  login_url: https://idam-web-public.aat.platform.hmcts.net
-  api_url: https://idam-api.aat.platform.hmcts.net
+  login_url: http://localhost:23443/login #https://idam-web-public.aat.platform.hmcts.net
+  api_url: http://localhost:23443 #https://idam-api.aat.platform.hmcts.net
 session:
   cookieName: SESSION_ID
 environment:
@@ -13,11 +13,11 @@ ccpaybubble:
   defaultPort: 3000
   microservice: ccpay_bubble
 s2s:
-  url: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+  url: http://localhost:23443 #http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
 payhub:
-  url: http://payment-api-prod.service.core-compute-prod.internal
+  url: http://localhost:8080 #http://payment-api-prod.service.core-compute-prod.internal
 bulkscan:
-  url: http://ccpay-bulkscanning-api-prod.service.core-compute-prod.internal
+  url: http://localhost:8081 #http://ccpay-bulkscanning-api-prod.service.core-compute-prod.internal
 appInsights:
   roleName: paybubble
 e2e:
@@ -28,8 +28,8 @@ certs:
   key: ./localhost-ssl/localhost.key
   crt: ./localhost-ssl/localhost.crt
 fee:
-  feeRegistrationUrl: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register/fees
-  feeJurisdictionUrl: http://fees-register-api-aat.service.core-compute-aat.internal/jurisdictions
+  feeRegistrationUrl: http://localhost:23443/fees #http://fees-register-api-aat.service.core-compute-aat.internal/fees-register/fees
+  feeJurisdictionUrl: http://localhost:23443/jurisdictions #http://fees-register-api-aat.service.core-compute-aat.internal/jurisdictions
 ccd:
   url: http://localhost:23443
 secrets:
