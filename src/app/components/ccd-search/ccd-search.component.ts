@@ -24,6 +24,7 @@ export class CcdSearchComponent implements OnInit {
   noCaseFound = false;
   noCaseFoundInCCD = false;
   isBulkscanningEnable = true;
+  isStrategicFixEnable: boolean;
   isTurnOff: boolean;
   isOldPcipalOff: boolean;
   isNewPcipalOff: boolean;
@@ -45,6 +46,9 @@ export class CcdSearchComponent implements OnInit {
     });
     this.paymentGroupService.getBSFeature().then((status) => {
       this.isBulkscanningEnable = status;
+    });
+    this.paymentGroupService.getLDFeature('bspayments-strategic').then((status) => {
+      this.isStrategicFixEnable = status;
     });
     this.paymentGroupService.getLDFeature('apportion-feature').then((status) => {
       this.isTurnOff = status;
@@ -83,6 +87,7 @@ export class CcdSearchComponent implements OnInit {
       this.hasErrors = false;
       const searchValue = this.searchForm.get('searchInput').value;
       let bsEnableUrl = this.isBulkscanningEnable ? '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
+       bsEnableUrl += this.isStrategicFixEnable ? '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
        bsEnableUrl += this.isTurnOff ? '&isTurnOff=Enable' : '&isTurnOff=Disable';
        bsEnableUrl += this.isOldPcipalOff ? '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
        bsEnableUrl += this.isNewPcipalOff ? '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
