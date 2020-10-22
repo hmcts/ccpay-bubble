@@ -257,6 +257,7 @@ describe('Fee search component', () => {
     expect(component.paymentGroupRef).toBe(null);
     expect(component.dcnNo).toBe('11');
     expect(component.selectedOption).toBe('test');
+    // tslint:disable-next-line:max-line-length
     expect(component.bulkScanningTxt).toBe('&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Enable&isOldPcipalOff=Disable&isNewPcipalOff=Disable');
   });
 
