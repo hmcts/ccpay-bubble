@@ -108,7 +108,15 @@ export class CcdSearchComponent implements OnInit {
           // tslint:disable-next-line:max-line-length
           let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
           url = url.replace(/[\r\n]+/g, ' ');
-          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
+          this.paymentGroupService.getBSPaymentsByCCD(this.ccdCaseNumber).then( result => {
+            if (result['data'] && result['data'].exception_record_reference && result['data'].ccd_reference) {
+              this.ccdCaseNumber = result['data'].ccd_reference;
+            }
+            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
+          }).catch(() => {
+             this.noCaseFoundInCCD = true;
+          });
+
         }, err => {
          this.noCaseFoundInCCD = true;
         });
