@@ -63,6 +63,7 @@
          <div *ngIf="isBulkscanningEnable" [ngClass]="{'govuk-radios__conditional':  selectedValue === 'DCN' && hasErrors === false,
                                           'govuk-form-group form-group-error' : hasErrors === true,
                                           'govuk-radios__conditional--hidden': selectedValue === 'CCDorException' || selectedValue === 'RC'}">
+            <input #myInput type='hidden' id='iFrameDrivenImageValue' value='CCDSEARCH'>
             <input #searchInput 
               [className]="hasErrors? 'form-control form-control-error': 'govuk-input govuk-!-width-one-third'"
                id="dcn-search" 
