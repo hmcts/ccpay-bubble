@@ -116,7 +116,7 @@ export class CcdSearchComponent implements OnInit {
             }
             this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
           }).catch(() => {
-            window.scrollTo(0,0);
+            window.scrollTo(0, 0);
             this.errorMessage = this.getErrorMessage(true);
           });
 
