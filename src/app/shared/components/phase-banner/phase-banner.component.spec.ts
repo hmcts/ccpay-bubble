@@ -27,4 +27,14 @@ describe('PhaseBannerComponent', () => {
   it('Should default type property to beta', () => {
     expect(component.type).toBe('beta');
   });
+
+  it('Should open new window', () => {
+    spyOn(document, 'getElementById').and.returnValue(<any>{ value: 'test' });
+    const url = spyOn( window, 'open' );
+    component.myFunction();
+    expect(document.getElementById).toHaveBeenCalled();
+    expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue');
+    expect(url).toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=test', '_blank');
+
+  });
 });
