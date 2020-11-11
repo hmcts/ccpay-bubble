@@ -154,7 +154,7 @@ describe('FeeDetailsComponent', () => {
       calculatedAmount: 0,
       memo_line: 'test-memoline',
       natural_account_code: '1234-1234-1234-1234',
-      valid_to: '2020-05-10',
+      valid_to: '2020-12-12',
       percentage_amount: {
         percentage: 10
       },
@@ -170,7 +170,7 @@ describe('FeeDetailsComponent', () => {
       calculatedAmount: 0,
       memo_line: 'test-memoline',
       natural_account_code: '1234-1234-1234-1234',
-      valid_from: '2020-05-10',
+      valid_from: '2020-12-12',
       valid_to: '',
       percentage_amount: {
         percentage: 10
