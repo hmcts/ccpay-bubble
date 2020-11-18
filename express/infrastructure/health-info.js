@@ -13,15 +13,28 @@ function url(serviceName) {
   return `${config.get(`${serviceName}`)}/health`;
 }
 
+function readinessUrl(serviceName) {
+  const healthCheckUrlLocation = `${serviceName}.healthCheckUrl`;
+
+  if (config.has(healthCheckUrlLocation)) {
+    return config.get(healthCheckUrlLocation);
+  }
+  return `${config.get(`${serviceName}`)}/health/readiness`;
+}
+
 function basicHealthCheck(serviceName) {
   return healthcheck.web(url(serviceName));
+}
+function basicHealthReadinessCheck(serviceName) {
+  return healthcheck.web(readinessUrl(serviceName));
 }
 
 const healthCheckConfig = {
   checks: {
     payhub: basicHealthCheck('payhub.url'),
     s2s: basicHealthCheck('s2s.url'),
-    idamapi: basicHealthCheck('idam.api_url')
+    idamapi: basicHealthCheck('idam.api_url'),
+    readiness: basicHealthReadinessCheck('ccpaybubble.url')
     // idamauthenticationweb: basicHealthCheck('idam.login_url')
   }
 };
