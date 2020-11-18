@@ -21,7 +21,7 @@ const healthCheckConfig = {
   checks: {
     payhub: basicHealthCheck('payhub.url'),
     s2s: basicHealthCheck('s2s.url'),
-    idamapi: basicHealthCheck('idam.api_url'),
+    idamapi: basicHealthCheck('idam.api_url')
     // idamauthenticationweb: basicHealthCheck('idam.login_url')
   }
 };
