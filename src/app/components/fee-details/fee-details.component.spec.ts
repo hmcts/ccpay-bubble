@@ -161,7 +161,7 @@ describe('FeeDetailsComponent', () => {
       description: 'test-description'
   };
     const result4 = component.getValidFeeVersionsBasedOnDate(feeVersion4);
-    expect(result4).toBe(true);
+    expect(result4).toBe(false);
   });
 
   it('Should return true if valid_from has value and no valid_to value', () => {
@@ -178,7 +178,7 @@ describe('FeeDetailsComponent', () => {
       description: 'test-description'
   };
     const result5 = component.getValidFeeVersionsBasedOnDate(feeVersion5);
-    expect(result5).toBe(true);
+    expect(result5).toBe(false);
   });
 
   it('Should return false if valid_from  and no valid_to has nore than six month value', () => {
