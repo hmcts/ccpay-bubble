@@ -43,3 +43,12 @@
 .govuk-label--m{
   font-size: large;
 }
+
+.govuk-error-summary {
+  h2 {
+    font-size: 24px;
+  }
+  &__list li{
+    font-size: 19px;
+  }
+}
