@@ -1,5 +1,17 @@
 <form [formGroup]="searchForm" >
- 
+  <div class="govuk-error-summary" *ngIf='errorMessage.showError'aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+    <h2 class="govuk-error-summary__title govuk-error-summary__title-custom" id="error-summary-title">
+        {{errorMessage.title}}
+    </h2>
+    <div class="govuk-error-summary__body">
+      <ul class="govuk-list govuk-error-summary__list">
+        <li>
+            {{errorMessage.body}}
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <div class="govuk-form-group">
       <legend class='govuk-fieldset__legend--xl'>
           <h1 class="govuk-fieldset__heading">
