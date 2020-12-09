@@ -41,10 +41,10 @@ describe('Payment group service', () => {
 
   it('Should call post full remission with a remissionModel', () => {
     const paymentGroup = <IPaymentGroup>{
-        payment_group_reference: '1234',
-        fees: [{code: 'FEE0001'}],
-        payments: null,
-        remissions: null
+      payment_group_reference: '1234',
+      fees: [{code: 'FEE0001'}],
+      payments: null,
+      remissions: null
     };
     spyOn(http, 'post').and.callFake((param1: string, param2: IPaymentGroup) => of(paymentGroup));
     const inputPaymentGroup = <IPaymentGroup>{
@@ -62,10 +62,10 @@ describe('Payment group service', () => {
 
   it('Should call put Payment Group', () => {
     const paymentGroup = <IPaymentGroup>{
-        payment_group_reference: '1234',
-        fees: [{code: 'FEE0001'}],
-        payments: null,
-        remissions: null
+      payment_group_reference: '1234',
+      fees: [{code: 'FEE0001'}],
+      payments: null,
+      remissions: null
     };
     spyOn(http, 'put').and.callFake((param1: string, param2: IPaymentGroup) => of(paymentGroup));
     const inputPaymentGroup = <IPaymentGroup>{
@@ -145,29 +145,29 @@ describe('Payment group service', () => {
       });
   });
 
-    it('Should call get bulk scanning Payment details', () => {
+  it('Should call get bulk scanning Payment details', () => {
     const paymentGroup = <any>{
-        ccd_reference: '1111222233334444',
-        exception_record_reference: '1111222233334444',
-        payments: [
-          {
-            amount: 100,
-            bgc_reference: 'BGC1203',
-            case_reference: '1111222233334444',
-            currency: 'GBP',
-            date_banked: '2019-DEC-02',
-            date_created: '2019-DEC-19',
-            date_updated: '2019-DEC-30',
-            dcn_case: '11112222333344440',
-            dcn_reference: '11112222333344440',
-            first_cheque_dcn_in_batch: 'string',
-            outbound_batch_number: 'string',
-            payer_name: 'tester',
-            payment_method: 'CHEQUE',
-            po_box: 'string'
-          }
-        ],
-        responsible_service_id: 'AA07'
+      ccd_reference: '1111222233334444',
+      exception_record_reference: '1111222233334444',
+      payments: [
+        {
+          amount: 100,
+          bgc_reference: 'BGC1203',
+          case_reference: '1111222233334444',
+          currency: 'GBP',
+          date_banked: '2019-DEC-02',
+          date_created: '2019-DEC-19',
+          date_updated: '2019-DEC-30',
+          dcn_case: '11112222333344440',
+          dcn_reference: '11112222333344440',
+          first_cheque_dcn_in_batch: 'string',
+          outbound_batch_number: 'string',
+          payer_name: 'tester',
+          payment_method: 'CHEQUE',
+          po_box: 'string'
+        }
+      ],
+      responsible_service_id: 'AA07'
     };
     spyOn(http, 'get').and.callFake((param1: string) => of(paymentGroup));
     paymentGroupService.getBSPaymentsByDCN('1234')
@@ -176,7 +176,7 @@ describe('Payment group service', () => {
         expect(response.exception_record_reference).toBe(paymentGroup.exception_record_reference);
       }).catch(() => {
 
-      });
+    });
   });
   it('Should return true is bulk scann flag is on', () => {
     const features = <any>[
