@@ -67,7 +67,7 @@ class PayhubController {
         }
       })
       .catch(error => {
-        res.status(500).json({ err: error, success: false });
+        res.status(error.statusCode).json({ err: error.message, success: false });
       });
   }
 
