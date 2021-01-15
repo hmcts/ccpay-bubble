@@ -810,10 +810,12 @@ module.exports = () => actor({
     this.see('What service is this fee for?');
     this.see('£550.00');
     this.click({ css: '#responsibleOffice' });
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Please select');
     this.see('Divorce');
     this.see('Probate');
     this.click('remove fee');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Are you sure you want to delete this fee?');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Remove');
@@ -842,6 +844,7 @@ module.exports = () => actor({
     this.see('What service is this fee for?');
     this.see('£550.00');
     this.click({ css: '#responsibleOffice' });
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Please select');
     this.see('Divorce');
     this.see('Probate');
@@ -879,6 +882,7 @@ module.exports = () => actor({
     this.see('What service is this fee for?');
     this.see('£550.00');
     this.click({ css: '#responsibleOffice' });
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Please select');
     this.see('Divorce');
     this.see('Probate');
@@ -891,6 +895,7 @@ module.exports = () => actor({
     this.see('CCD reference:');
     this.see('1599-0011-5857-2365');
     this.click('Remove');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Are you sure you want to delete this fee?');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Remove');
