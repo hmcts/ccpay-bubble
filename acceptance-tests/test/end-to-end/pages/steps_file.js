@@ -774,7 +774,7 @@ module.exports = () => actor({
     this.see('Calculated amount');
     this.see('Amount due');
     this.see('Action');
-    this.see('No fees recorded');
+    // this.see('No fees recorded');
     this.see('£0.00');
   },
 
