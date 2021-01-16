@@ -10,7 +10,7 @@
     "@angular-devkit/core" "7.3.10"
     rxjs "6.3.3"
 
-"@angular-devkit/build-angular@~0.13.0":
+"@angular-devkit/build-angular@^0.13.0":
   version "0.13.10"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-angular/-/build-angular-0.13.10.tgz#bdcace32679e5b873709e4f17bfdf5e71168c735"
   integrity sha512-wBWZJh89pPHE06WRoUJ+tdGk+yyMGM+3j0I2gduoxmGvgXXjf48tM4QbXZZSJbHkOeYlCiuP/wiVyTkshzCwGA==
@@ -382,6 +382,20 @@
     "@hmcts/nodejs-logging" "^3.0.0"
     lodash "^4.17.11"
     path "^0.12.7"
+
+"@ng-idle/core@^10.0.0-beta.1":
+  version "10.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@ng-idle/core/-/core-10.0.0-beta.1.tgz#8dacb80b5eb93c2ad21cbf8d94caa632765290d6"
+  integrity sha512-Sss3yaCRfvwhYHIsDGuetSQFIpLRJTEu6km37VlWvQze5cfaMsZpgNgKHpSm8F1sVhPcjEZWi2sgNlGd3Yv6Sw==
+  dependencies:
+    tslib "^2.0.0"
+
+"@ng-idle/keepalive@^10.0.0-beta.1":
+  version "10.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@ng-idle/keepalive/-/keepalive-10.0.0-beta.1.tgz#aba8fd105dd0a07a0849e8e1277660bb18d62857"
+  integrity sha512-cCDNmYbzVLsSfchjCJzqA+qED6s8kcD1/fV3JNTj9fmchZ05ZFT3qB1CB5RxfQlvGmdOKykRQWWn3XRRBdhHNw==
+  dependencies:
+    tslib "^2.0.0"
 
 "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
@@ -7558,6 +7572,13 @@ next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
+ng-idle-keepalive@^8.0.0-beta.7:
+  version "8.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/ng-idle-keepalive/-/ng-idle-keepalive-8.0.0-beta.7.tgz#a24f1d642bcf4ef3aa2b107d4791905964d8189f"
+  integrity sha512-+YgtlcsGbN7CmHkgtz/s6AqiTCNTOSBvL6EBeAdZ0IW2lDxWdVXm46xWRLYeId6/jbDNWezTmm5E2IO8vh4pOA==
+  dependencies:
+    tslib "^1.9.0"
+
 ng-packagr@^4.2.0:
   version "4.7.1"
   resolved "https://registry.yarnpkg.com/ng-packagr/-/ng-packagr-4.7.1.tgz#a3e8fd2a7b70573a3a7759c4c57408a3b0e8ce11"
@@ -11106,6 +11127,11 @@ tslib@^1.10.0, tslib@^1.7.1, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.
   version "1.14.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.0.tgz#d624983f3e2c5e0b55307c3dd6c86acd737622c6"
   integrity sha512-+Zw5lu0D9tvBMjGP8LpvMb0u2WW2QV3y+D8mO6J+cNzCYIN4sVy43Bf9vl92nqFahutN0I8zHa7cc4vihIshnw==
+
+tslib@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
+  integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
 
 tslint@~5.12.1:
   version "5.12.1"
