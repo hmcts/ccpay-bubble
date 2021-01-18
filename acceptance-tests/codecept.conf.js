@@ -35,7 +35,8 @@ exports.config = {
     },
     Mochawesome: { uniqueScreenshotNames: 'true' }
   },
-  include: { I: './test/end-to-end/pages/steps_file.js' },
+  include: { I: './test/end-to-end/pages/steps_file.js',
+            CaseSearch: './test/end-to-end/pages/case_search.js'},
   mocha: {
     reporterOptions: {
       mochaFile: 'functional-output/result.xml',
