@@ -36,7 +36,13 @@ exports.config = {
     Mochawesome: { uniqueScreenshotNames: 'true' }
   },
   include: { I: './test/end-to-end/pages/steps_file.js',
-            CaseSearch: './test/end-to-end/pages/case_search.js'},
+            CaseSearch: './test/end-to-end/pages/case_search.js',
+            CaseTransaction: './test/end-to-end/pages/case_transactions.js',
+            FeesSummary: './test/end-to-end/pages/fees_summary.js',
+            AddFees: './test/end-to-end/pages/add_fees.js',
+            ConfirmAssociation: './test/end-to-end/pages/confirm_association.js',
+            CaseTransferred: './test/end-to-end/pages/case_transferred.js',
+            CaseUnidentified: './test/end-to-end/pages/case_unidentified.js'},
   mocha: {
     reporterOptions: {
       mochaFile: 'functional-output/result.xml',
