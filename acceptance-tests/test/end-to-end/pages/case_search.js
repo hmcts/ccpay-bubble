@@ -41,8 +41,8 @@ module.exports =  {
 
   search_case_using_payment_ref(pay_reference) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    this.validate_search_page()
-    I.checkOption(this.locators.paymentOption)
+    this.validate_search_page();
+    I.checkOption(this.locators.paymentOption);
     I.fillField(this.locators.paymentRefField, pay_reference);
     I.click('Search');
     I.wait(CCPBConstants.fiveSecondWaitTime);
