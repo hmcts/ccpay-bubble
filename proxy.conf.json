@@ -5,7 +5,6 @@
     "logLevel": "debug",
     "changeOrigin": true
   },
-
   "/login": {
     "target": "http://localhost:3000",
     "secure": false,
