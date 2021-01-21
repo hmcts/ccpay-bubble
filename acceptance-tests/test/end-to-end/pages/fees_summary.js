@@ -1,14 +1,15 @@
 'use strict';
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const PaybubbleStaticData = require('../pages/paybubble_static_data');
-const {I} = inject();
+
+const { I } = inject();
 
 module.exports = {
 
-  verifyFeeSummaryBulkScan(fee_code) {
+  verifyFeeSummaryBulkScan(feeCode) {
     I.see('Fee Summary');
-    I.see(fee_code);
-    I.see(PaybubbleStaticData.fee_description[fee_code]);
+    I.see(feeCode);
+    I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see('Fee amount');
     I.see('Volume');
     I.see('Fee total');
@@ -29,8 +30,8 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  deductRemission(fee_code) {
-    I.click({xpath: "//ccpay-fee-summary//*[text()='" + fee_code + "']/../td[4]//*[text()=' Deduct remission ']"});
+  deductRemission(feeCode) {
+    I.click({ xpath: `//ccpay-fee-summary//*[text()='${feeCode}']/../td[4]//*[text()=' Deduct remission ']` });
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
@@ -43,4 +44,4 @@ module.exports = {
   }
 
 
-}
+};
