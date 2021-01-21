@@ -19,6 +19,7 @@ export class PaymentHistoryComponent implements OnInit {
   isBulkscanningEnable: boolean;
   isStrategicFixEnable: boolean;
   isTurnOff: boolean;
+  caseType: string;
 
   constructor(
     private activatedRoute: ActivatedRoute
@@ -39,6 +40,7 @@ export class PaymentHistoryComponent implements OnInit {
       this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
       this.dcnNumber = this.activatedRoute.snapshot.queryParams['dcn'];
       this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
+      this.caseType = this.activatedRoute.snapshot.queryParams['caseType'];
     });
   }
 }
