@@ -267,7 +267,10 @@ class PayhubService {
             json: true
           });
         }
-        return 'OK';
+        return {
+          exception: 'CMC_ExceptionRecord',
+          case: 'MoneyClaimCase'
+        };
       });
   }
 
