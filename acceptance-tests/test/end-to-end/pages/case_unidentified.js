@@ -1,22 +1,21 @@
 'use strict';
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
-const {I} = inject();
+
+const { I } = inject();
 
 module.exports = {
-  locators: {
-    unidentified_investigation: {xpath: '//*[@id="investicationDetail"]'},
-  },
+  locators: { unidentified_investigation: { xpath: '//*[@id="investicationDetail"]' } },
 
 
-  validateUnidentifiedPage(dcn_number, amount, method) {
+  validateUnidentifiedPage(dcnNumber, amount, method) {
     I.see('Mark payment as unidentified');
     I.see('Payment asset number (DCN)');
     I.see('Banked date');
     I.see('Amount');
     I.see('Method');
     I.see('Give a reason for marking this payment as unidentified.');
-    I.see("Include any investigations you've made.");
-    I.see(dcn_number);
+    I.see('Include any investigations you\'ve made.');
+    I.see(dcnNumber);
     I.see(amount);
     I.see(method);
   },
@@ -26,22 +25,21 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  inputUnidentifiedComment(unidentified_investigation) {
-    I.fillField(this.locators.unidentified_investigation, unidentified_investigation);
+  inputUnidentifiedComment(unidentifiedInvestigation) {
+    I.fillField(this.locators.unidentified_investigation, unidentifiedInvestigation);
   },
 
-  validateUnidentifiedConfirmationPage(unidentified_investigation) {
+  validateUnidentifiedConfirmationPage(unidentifiedInvestigation) {
     I.see('Investigations');
-    I.see(unidentified_investigation);
+    I.see(unidentifiedInvestigation);
     I.see('Are you sure you want to mark this payment as unidentified?');
   },
 
-  validateAndConfirmUnidentified(unidentified_investigation) {
-    this.inputUnidentifiedComment(unidentified_investigation);
+  validateAndConfirmUnidentified(unidentifiedInvestigation) {
+    this.inputUnidentifiedComment(unidentifiedInvestigation);
     this.continuePayment();
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    this.validateUnidentifiedConfirmationPage(unidentified_investigation)
-
+    this.validateUnidentifiedConfirmationPage(unidentifiedInvestigation);
   },
 
   cancelUnidentified() {
@@ -66,5 +64,5 @@ module.exports = {
 
   whenCommentLessThanLimit() {
     I.see('Reason should be at least 3 characters.');
-  },
-}
+  }
+};
