@@ -257,7 +257,7 @@ describe('Fee search component', () => {
     expect(component.paymentGroupRef).toBe(null);
     expect(component.dcnNo).toBe('11');
     expect(component.selectedOption).toBe('test');
-    expect(component.bulkScanningTxt).toBe('&isBulkScanning=Enable&isTurnOff=Enable&isStFixEnable=Disable');
+    expect(component.bulkScanningTxt).toBe('&isBulkScanning=Enable&isTurnOff=Enable&isStFixEnable=Disable&caseType=undefined');
   });
 
   it('Should reset preselected fee and show fee details ongoback', () => {

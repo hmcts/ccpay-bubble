@@ -24,6 +24,7 @@ export class CcdSearchComponent implements OnInit {
   noCaseFound = false;
   noCaseFoundInCCD = false;
   isBulkscanningEnable = true;
+  caseType: string = null;
   errorMessage = this.getErrorMessage(false);
   isStrategicFixEnable: boolean;
   isTurnOff: boolean;
@@ -105,16 +106,29 @@ export class CcdSearchComponent implements OnInit {
         this.ccdCaseNumber = this.removeHyphenFromString(searchValue);
         this.dcnNumber = null;
         this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
+
+
           this.noCaseFoundInCCD = false;
           // tslint:disable-next-line:max-line-length
           let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
           url = url.replace(/[\r\n]+/g, ' ');
           this.paymentGroupService.getBSPaymentsByCCD(this.ccdCaseNumber).then( result => {
+          const caseRes = JSON.parse(resp);
+
+            if (caseRes.case) {
+              this.caseType = caseRes.case;
+            } else {
+              this.caseType = caseRes['case_type'];
+            }
+
             this.errorMessage = this.getErrorMessage(false);
             if (result['data'] && result['data'].exception_record_reference && result['data'].ccd_reference) {
+              if (resp.case) {
+                this.caseType = resp.exception;
+              }
               this.ccdCaseNumber = result['data'].ccd_reference;
             }
-            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
+            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
           }).catch(() => {
             window.scrollTo(0, 0);
             this.errorMessage = this.getErrorMessage(true);
