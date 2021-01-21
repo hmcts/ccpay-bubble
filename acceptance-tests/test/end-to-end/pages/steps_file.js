@@ -742,7 +742,7 @@ module.exports = () => actor({
   },
 
   searchForCCDdummydata() {
-    this.fillField({ css: '[type="text"]' }, '3456789098765434');
+    this.fillField({ css: '[type="text"]' }, CCDNumber);
     this.click('Search');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('No matching cases found');
@@ -790,6 +790,7 @@ module.exports = () => actor({
     this.see('Search for a fee');
     this.fillField({ css: '[type="text"]' }, '550');
     this.click('Search');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Jurisdiction 1');
     this.click({ css: '#family' });
     this.click('Jurisdiction 2');
@@ -859,6 +860,7 @@ module.exports = () => actor({
     this.see('Search for a fee');
     this.fillField({ css: '[type="text"]' }, '550');
     this.click('Search');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Jurisdiction 1');
     this.click({ css: '#family' });
     this.click('Jurisdiction 2');
