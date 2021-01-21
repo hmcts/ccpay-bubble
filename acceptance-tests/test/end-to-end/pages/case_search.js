@@ -1,55 +1,46 @@
 'use strict';
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
-// in this file you can append custom step methods to 'I' object
-// const faker = require('faker');
-const faker = require('faker');
-
 const {I} = inject();
 
-const RANDOM_NUMBER = 9999999999999999;
+module.exports = {
+  locators: {
+    ccd_option: {xpath: '//*[@id="CCDorException"]'},
+    ccd_field: {xpath: '//*[@id="ccd-search"]'},
+    dcn_option: {xpath: '//*[@id="DCN"]'},
+    dcn_field: {xpath: '//*[@id="dcn-search"]'},
+    payment_option: {xpath: '//*[@id="RC"]'},
+    payment_ref_ield: {xpath: '//*[@id="RC-search"]'}
 
-const CCDNumber = faker.random.number(RANDOM_NUMBER);
-
-module.exports =  {
-    locators :{
-      ccdOption : {xpath : '//*[@id="CCDorException"]'},
-      ccdField : {xpath : '//*[@id="ccd-search"]'},
-      dcnOption : {xpath : '//*[@id="DCN"]'},
-      dcnField : {xpath : '//*[@id="dcn-search"]'},
-      paymentOption : {xpath : '//*[@id="RC"]'},
-      paymentRefField : {xpath : '//*[@id="RC-search"]'}
-
-    },
+  },
   // done
-  search_case_using_ccd_number(case_number) {
+  searchCaseUsingCcdNumber(case_number) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    this.validate_search_page()
-    I.checkOption(this.locators.ccdOption)
-    I.fillField(this.locators.ccdField, case_number);
+    this.validateSearchPage()
+    I.checkOption(this.locators.ccd_option)
+    I.fillField(this.locators.ccd_field, case_number);
     I.click('Search');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  search_case_using_dcn_number(dcn_number) {
+  searchCaseUsingDcnNumber(dcn_number) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    this.validate_search_page()
-    I.checkOption(this.locators.dcnOption)
-    I.fillField(this.locators.dcnField, dcn_number);
+    this.validateSearchPage()
+    I.checkOption(this.locators.dcn_option)
+    I.fillField(this.locators.dcn_field, dcn_number);
     I.click('Search');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  search_case_using_payment_ref(pay_reference) {
+  searchCaseUsingPaymentRef(pay_reference) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    this.validate_search_page();
-    I.checkOption(this.locators.paymentOption);
-    I.fillField(this.locators.paymentRefField, pay_reference);
+    this.validateSearchPage();
+    I.checkOption(this.locators.payment_option);
+    I.fillField(this.locators.payment_ref_ield, pay_reference);
     I.click('Search');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  validate_search_page()
-  {
+  validateSearchPage() {
     I.see('Search for a case');
     I.see('Search');
     I.see('Case Transaction');
