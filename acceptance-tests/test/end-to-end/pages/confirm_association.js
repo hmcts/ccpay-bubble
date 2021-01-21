@@ -1,11 +1,12 @@
 'use strict';
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const PaybubbleStaticData = require('../pages/paybubble_static_data');
-const {I} = inject();
+
+const { I } = inject();
 
 module.exports = {
 
-  verifyConfirmAssociationFullPayment(fee_code, amount) {
+  verifyConfirmAssociationFullPayment(feeCode, amount) {
     I.see('Confirm association');
     I.see('Amount to be allocated: '.concat(amount));
     I.see('Code');
@@ -13,16 +14,15 @@ module.exports = {
     I.see('Volume');
     I.see('Fee amount');
     I.see('Calculated amount');
-    I.see('Amount Due')
-    I.see(fee_code);
-    I.see(PaybubbleStaticData.fee_description[fee_code]);
+    I.see('Amount Due');
+    I.see(feeCode);
+    I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see(amount);
     I.see('Amount left to be allocated £0.00');
     I.see('Confirm');
-
   },
 
-  verifyConfirmAssociationShortfallPayment(fee_code, amount, shortfall_amount) {
+  verifyConfirmAssociationShortfallPayment(feeCode, amount, shortfallAmount) {
     I.see('Confirm association');
     I.see('Amount to be allocated: '.concat(amount));
     I.see('Code');
@@ -30,11 +30,11 @@ module.exports = {
     I.see('Volume');
     I.see('Fee amount');
     I.see('Calculated amount');
-    I.see('Amount Due')
-    I.see(fee_code);
-    I.see(PaybubbleStaticData.fee_description[fee_code]);
+    I.see('Amount Due');
+    I.see(feeCode);
+    I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see(amount);
-    I.see('There is a shortfall of '.concat((shortfall_amount)));
+    I.see('There is a shortfall of '.concat((shortfallAmount)));
     I.see('Provide a reason');
     I.see('Help with Fees (HWF) application declined');
     I.see('Incorrect payment received');
@@ -44,10 +44,9 @@ module.exports = {
     I.see('I have put a stop on the case. The applicant needs to be contacted to request the balance of payment');
     I.see('Enter your name');
     I.see('Confirm');
-
   },
 
-  verifyConfirmAssociationSurplusPayment(fee_code, amount, surplus_amount) {
+  verifyConfirmAssociationSurplusPayment(feeCode, amount, surplusAmount) {
     I.see('Confirm association');
     I.see('Amount to be allocated: '.concat(amount));
     I.see('Code');
@@ -55,11 +54,11 @@ module.exports = {
     I.see('Volume');
     I.see('Fee amount');
     I.see('Calculated amount');
-    I.see('Amount Due')
-    I.see(fee_code);
-    I.see(PaybubbleStaticData.fee_description[fee_code]);
+    I.see('Amount Due');
+    I.see(feeCode);
+    I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see(amount);
-    I.see('There is a surplus of '.concat(surplus_amount));
+    I.see('There is a surplus of '.concat(surplusAmount));
     I.see('Provide a reason. This will be used in the Refund process.');
     I.see('Help with Fees (HWF) awarded. Please include the HWF reference number in the explanatory note');
     I.see('Incorrect payment received');
@@ -71,7 +70,6 @@ module.exports = {
     I.see('No case created. Refund due');
     I.see('Enter your name');
     I.see('Confirm');
-
   },
 
   cancelPayment() {
@@ -79,4 +77,4 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   }
 
-}
+};

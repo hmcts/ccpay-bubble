@@ -16,7 +16,7 @@ Scenario('Normal ccd case cash payment full allocation', (I, CaseSearch, CaseTra
   CaseTransaction.checkUnallocatedPayments('1', '700000000000100000503', '£550.00', 'Cash');
   CaseTransaction.allocateToNewFee();
   AddFees.addFees('550.00', 'family', 'family_court');
-  FeesSummary.verifyFeeSummaryBulkScan('FEE0002')
+  FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
   FeesSummary.allocateBulkPayment();
   ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '£550.00');
   ConfirmAssociation.cancelPayment();
@@ -31,15 +31,15 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees add', (I, Cas
   CaseTransaction.checkUnallocatedPayments('1', '700000000000100000515', '£550.00', 'Cheque');
   CaseTransaction.allocateToNewFee();
   AddFees.addFees('550.00', 'family', 'family_court');
-  FeesSummary.verifyFeeSummaryBulkScan('FEE0002')
+  FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
   FeesSummary.deductRemission('FEE0002');
   Remission.noRemissionCodeOrAmount();
   Remission.remissionAmountExceed('600');
-  Remission.processRemission('FEE0002', '450')
-  Remission.cancelprocessRemission()
+  Remission.processRemission('FEE0002', '450');
+  Remission.cancelprocessRemission();
   FeesSummary.addFeeFromSummary();
   AddFees.addFees('100.00', 'civil', 'magistrates_court');
-  FeesSummary.verifyFeeSummaryBulkScan('FEE0059')
+  FeesSummary.verifyFeeSummaryBulkScan('FEE0059');
   FeesSummary.allocateBulkPayment();
   ConfirmAssociation.cancelPayment();
   FeesSummary.removeFeesFromSummary();
@@ -91,7 +91,7 @@ Scenario('Normal ccd case cash payment transferred when no valid reason or site 
   CaseTransaction.checkBulkCase('1611-0003-0084-6903', 'CCD reference');
   CaseTransaction.checkUnallocatedPayments('1', '700000000000100000504', '£550.00', 'Cash');
   CaseTransaction.allocateToTransferred();
-  CaseTransferred.confirmPayment()
+  CaseTransferred.confirmPayment();
   CaseTransferred.whenNoReasonAndSiteid();
   CaseTransferred.selectSiteId('Basildon Combined Court - Crown (W802)');
   CaseTransferred.inputTransferredReason('ab');
@@ -120,7 +120,7 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
   CaseTransaction.checkUnallocatedPayments('1', '700000000000100000505', '£550.00', 'Cheque');
   CaseTransaction.allocateToUnidentified();
   CaseUnidentified.continuePayment();
-  CaseUnidentified.whenNoInvestigation()
+  CaseUnidentified.whenNoInvestigation();
   CaseUnidentified.inputUnidentifiedComment('ta');
   CaseUnidentified.continuePayment();
   CaseUnidentified.whenCommentLessThanLimit();
@@ -135,7 +135,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
   CaseTransaction.checkUnallocatedPayments('1', '700000000000100000510', '£500.00', 'Postal order');
   CaseTransaction.allocateToNewFee();
   AddFees.addFees('550.00', 'family', 'family_court');
-  FeesSummary.verifyFeeSummaryBulkScan('FEE0002')
+  FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
   FeesSummary.allocateBulkPayment();
   ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '£500.00', '£50.00');
   ConfirmAssociation.cancelPayment();
@@ -150,7 +150,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   CaseTransaction.checkUnallocatedPayments('1', '700000000000100000511', '£600.00', 'Postal order');
   CaseTransaction.allocateToNewFee();
   AddFees.addFees('550.00', 'family', 'family_court');
-  FeesSummary.verifyFeeSummaryBulkScan('FEE0002')
+  FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
   FeesSummary.allocateBulkPayment();
   ConfirmAssociation.verifyConfirmAssociationSurplusPayment('FEE0002', '£550.00', '£50.00');
   ConfirmAssociation.cancelPayment();
@@ -158,14 +158,14 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   I.Logout();
 });
 
-Scenario('Payment reference RC search with ccd record associated with exception', (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
+Scenario('Payment reference RC search with ccd record associated with exception', (I, CaseSearch, CaseTransaction) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   CaseSearch.searchCaseUsingPaymentRef('RC-1611-0153-2743-2552');
   CaseTransaction.checkBulkCaseSuccessPayment('1611-0122-8484-2170', 'CCD reference', 'Allocated');
   I.Logout();
 });
 
-Scenario('Payment reference RC search for exception', (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
+Scenario('Payment reference RC search for exception', (I, CaseSearch, CaseTransaction) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   CaseSearch.searchCaseUsingPaymentRef('RC-1611-0169-9283-4106');
   CaseTransaction.checkBulkCaseSuccessPayment('1611-0168-3181-5167', 'Exception reference', 'Transferred');

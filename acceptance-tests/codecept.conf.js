@@ -29,11 +29,11 @@ exports.config = {
           '--no-sandbox',
           '--proxy-server=proxyout.reform.hmcts.net:8080',
           '--proxy-bypass-list=*beta*LB.reform.hmcts.net',
-          "--start-maximized",
+          '--start-maximized'
         ]
       }
     },
-    Mochawesome: {uniqueScreenshotNames: 'true'}
+    Mochawesome: { uniqueScreenshotNames: 'true' }
   },
   include: {
     I: './test/end-to-end/pages/steps_file.js',
