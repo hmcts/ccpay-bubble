@@ -28,6 +28,7 @@ export class CcdSearchComponent implements OnInit {
   errorMessage = this.getErrorMessage(false);
   isStrategicFixEnable: boolean;
   isTurnOff: boolean;
+  caseResponse: any;
 
   constructor(
     private paymentGroupService: PaymentGroupService,
@@ -106,30 +107,28 @@ export class CcdSearchComponent implements OnInit {
         this.ccdCaseNumber = this.removeHyphenFromString(searchValue);
         this.dcnNumber = null;
         this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
-
-
+          this.caseResponse = JSON.parse(resp);
           this.noCaseFoundInCCD = false;
           // tslint:disable-next-line:max-line-length
           let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
           url = url.replace(/[\r\n]+/g, ' ');
           this.paymentGroupService.getBSPaymentsByCCD(this.ccdCaseNumber).then( result => {
-          const caseRes = JSON.parse(resp);
 
-            if (caseRes.case) {
-              this.caseType = caseRes.case;
+            if (this.caseResponse.case) {
+              this.caseType = this.caseResponse.case;
             } else {
-              this.caseType = caseRes['case_type'];
+              this.caseType = this.caseResponse['case_type'];
             }
 
             this.errorMessage = this.getErrorMessage(false);
             if (result['data'] && result['data'].exception_record_reference && result['data'].ccd_reference) {
-              if (resp.case) {
-                this.caseType = resp.exception;
+              if (this.caseResponse.case) {
+                this.caseType = this.caseResponse.exception;
               }
               this.ccdCaseNumber = result['data'].ccd_reference;
             }
             this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
-          }).catch(() => {
+          }).catch((e) => {
             window.scrollTo(0, 0);
             this.errorMessage = this.getErrorMessage(true);
           });
