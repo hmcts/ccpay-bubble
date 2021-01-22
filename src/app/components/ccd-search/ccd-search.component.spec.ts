@@ -748,6 +748,27 @@ describe('ccd search component without takePayment option', () => {
     expect(component.caseType).toBe(null);
     expect(component.caseResponse.exception).toBe('CMC_ExceptionRecord');
   });
+
+it('Search form should be valid if a correct format string has been entered1', async () => {
+  spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+    of(mockResponse1)
+  );
+  spyOn(paymentGroupService, 'getBSPaymentsByCCD').and.callFake(() => Promise.resolve(mockResponse4));
+  spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+  spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
+  spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
+  await component.ngOnInit();
+  await component.searchForm.controls['searchInput'].setValue('1111-2222-3333-4444');
+  component.searchFees();
+  fixture.detectChanges();
+  expect(component.hasErrors).toBeFalsy();
+  expect(component.dcnNumber).toBe(null);
+  expect(component.ccdCaseNumber).toBe('1111222233334444');
+  expect(component.caseResponse.case).toBeUndefined();
+  expect(component.caseResponse.exception).toBeUndefined();
+  expect(component.caseResponse['case_type']).toBe('MoneyClaimCase');
+  expect(component.caseType).toBe(null);
+});
 });
 
 
