@@ -55,5 +55,12 @@ exports.config = {
       shortScrFileNames: false
     }
   },
+  plugins: {
+    allure: {
+      outputDir: 'functional-output',
+      enabled: true
+    },
+    screenshotOnFail: { enabled: true }
+  },
   bootstrap: false
 };

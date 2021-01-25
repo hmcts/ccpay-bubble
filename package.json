@@ -34,7 +34,7 @@
     "test:smoketest": "codeceptjs run -c smoke-test/smoke-codecept.conf.js --reporter mochawesome --bail",
     "test:functional": "./bin/run-functional-tests.sh",
     "test:fullfunctional": "./bin/run-functional-tests.sh",
-    "test:acceptance": "cross-env LOG_LEVEL=OFF NODE_PATH=. ./node_modules/.bin/codeceptjs run -c acceptance-tests/codecept.conf.js --reporter mochawesome --bail",
+    "test:acceptance": "cross-env LOG_LEVEL=OFF NODE_PATH=. ./node_modules/.bin/codeceptjs run-workers 3 -c acceptance-tests/codecept.conf.js --plugins allure",
     "test:functional-local": "./bin/run-functional-tests-local.sh",
     "test:acceptance-local": "cross-env LOG_LEVEL=OFF NODE_PATH=. ./node_modules/.bin/codeceptjs run -c acceptance-tests/codecept-local.conf.js --reporter mochawesome --bail",
     "sonar-scan": "sonar-scanner"
@@ -132,6 +132,7 @@
     "karma-spec-reporter": "^0.0.32",
     "lcov-result-merger": "3.1.0",
     "mocha": "^5.2.0",
+    "allure-commandline": "^2.13.8",
     "ng-packagr": "^4.2.0",
     "nock": "^10.0.6",
     "nodemon": "^1.18.10",

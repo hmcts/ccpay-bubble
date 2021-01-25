@@ -2,10 +2,14 @@ const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 
 Feature('CC Pay Bubble Acceptance Tests');
 
-BeforeSuite(I => {
+Before(I => {
   I.amOnPage('/');
-  I.wait(CCPBATConstants.twoSecondWaitTime);
+  I.wait(CCPBATConstants.thirtySecondWaitTime);
   I.resizeWindow(CCPBATConstants.windowsSizeX, CCPBATConstants.windowsSizeY);
+});
+
+After(I => {
+  I.Logout();
 });
 
 // #region Normal CCD case bulk scan functional cases
@@ -21,7 +25,6 @@ Scenario('Normal ccd case cash payment full allocation', (I, CaseSearch, CaseTra
   ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '£550.00');
   ConfirmAssociation.cancelPayment();
   FeesSummary.removeFeesFromSummary();
-  I.Logout();
 });
 
 Scenario('Normal ccd case cheque payment partial allocation 2 fees add', (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
@@ -44,7 +47,6 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees add', (I, Cas
   ConfirmAssociation.cancelPayment();
   FeesSummary.removeFeesFromSummary();
   FeesSummary.removeFeesFromSummary();
-  I.Logout();
 });
 
 Scenario('Normal ccd case cash payment transferred', (I, CaseSearch, CaseTransaction, CaseTransferred) => {
@@ -56,7 +58,6 @@ Scenario('Normal ccd case cash payment transferred', (I, CaseSearch, CaseTransac
   CaseTransferred.validateTransferredPage('700000000000100000504', '550.00', 'Cash');
   CaseTransferred.validateAndConfirmTransferred('auto transferred reason', 'Basildon Combined Court - Crown (W802)');
   CaseTransferred.cancelTransferred();
-  I.Logout();
 });
 
 // #endregion
@@ -70,7 +71,6 @@ Scenario('Exception ccd case cash payment transferred', (I, CaseSearch, CaseTran
   CaseTransferred.validateTransferredPage('700000000000100000505', '550.00', 'Cheque');
   CaseTransferred.validateAndConfirmTransferred('auto transferred reason', 'Basildon Combined Court - Crown (W802)');
   CaseTransferred.cancelTransferred();
-  I.Logout();
 });
 
 Scenario('DCN Search for ccd case associated with exception postal order payment transferred', (I, CaseSearch, CaseTransaction, CaseTransferred) => {
@@ -82,14 +82,13 @@ Scenario('DCN Search for ccd case associated with exception postal order payment
   CaseTransferred.validateTransferredPage('700000000000100000513', '600.00', 'Postal Order');
   CaseTransferred.validateAndConfirmTransferred('auto transferred reason', 'Basildon Combined Court - Crown (W802)');
   CaseTransferred.cancelTransferred();
-  I.Logout();
 });
 
 Scenario('Normal ccd case cash payment transferred when no valid reason or site id selected', (I, CaseSearch, CaseTransaction, CaseTransferred) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  CaseSearch.searchCaseUsingCcdNumber('1611000300846903');
-  CaseTransaction.checkBulkCase('1611-0003-0084-6903', 'CCD reference');
-  CaseTransaction.checkUnallocatedPayments('1', '700000000000100000504', '£550.00', 'Cash');
+  CaseSearch.searchCaseUsingCcdNumber('1611351705931406');
+  CaseTransaction.checkBulkCase('1611-3517-0593-1406', 'CCD reference');
+  CaseTransaction.checkUnallocatedPayments('1', '700000000000100000521', '£550.00', 'Cash');
   CaseTransaction.allocateToTransferred();
   CaseTransferred.confirmPayment();
   CaseTransferred.whenNoReasonAndSiteid();
@@ -98,26 +97,24 @@ Scenario('Normal ccd case cash payment transferred when no valid reason or site 
   CaseTransferred.confirmPayment();
   CaseTransferred.whenReasonLessThanLimit();
   CaseTransferred.cancelTransferredReason();
-  I.Logout();
 });
 
 Scenario('Exception Case Cheque Payment Unidentified', (I, CaseSearch, CaseTransaction, CaseUnidentified) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  CaseSearch.searchCaseUsingCcdNumber('1611009456795970');
-  CaseTransaction.checkBulkCase('1611-0094-5679-5970', 'Exception reference');
-  CaseTransaction.checkUnallocatedPayments('1', '700000000000100000505', '£550.00', 'Cheque');
+  CaseSearch.searchCaseUsingCcdNumber('1611352177564626');
+  CaseTransaction.checkBulkCase('1611-3521-7756-4626', 'Exception reference');
+  CaseTransaction.checkUnallocatedPayments('1', '700000000000100000522', '£550.00', 'Cheque');
   CaseTransaction.allocateToUnidentified();
-  CaseUnidentified.validateUnidentifiedPage('700000000000100000505', '550.00', 'Cheque');
+  CaseUnidentified.validateUnidentifiedPage('700000000000100000522', '550.00', 'Cheque');
   CaseUnidentified.validateAndConfirmUnidentified('auto unidentified reason');
   CaseUnidentified.cancelUnidentified();
-  I.Logout();
 });
 
 Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less investigation comment provided', (I, CaseSearch, CaseTransaction, CaseUnidentified) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  CaseSearch.searchCaseUsingDcnNumber('700000000000100000505');
-  CaseTransaction.checkBulkCase('1611-0094-5679-5970', 'Exception reference');
-  CaseTransaction.checkUnallocatedPayments('1', '700000000000100000505', '£550.00', 'Cheque');
+  CaseSearch.searchCaseUsingDcnNumber('700000000000100000523');
+  CaseTransaction.checkBulkCase('1611-3526-7932-6995', 'Exception reference');
+  CaseTransaction.checkUnallocatedPayments('1', '700000000000100000523', '£550.00', 'Cheque');
   CaseTransaction.allocateToUnidentified();
   CaseUnidentified.continuePayment();
   CaseUnidentified.whenNoInvestigation();
@@ -125,7 +122,6 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
   CaseUnidentified.continuePayment();
   CaseUnidentified.whenCommentLessThanLimit();
   CaseUnidentified.cancelUnidentifiedComment();
-  I.Logout();
 });
 
 Scenario('Ccd case search with exception record postal order payment shortfall payment', (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
@@ -140,7 +136,6 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
   ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '£500.00', '£50.00');
   ConfirmAssociation.cancelPayment();
   FeesSummary.removeFeesFromSummary();
-  I.Logout();
 });
 
 Scenario('Exception search with ccd record postal order payment surplus payment', (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
@@ -155,19 +150,16 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   ConfirmAssociation.verifyConfirmAssociationSurplusPayment('FEE0002', '£550.00', '£50.00');
   ConfirmAssociation.cancelPayment();
   FeesSummary.removeFeesFromSummary();
-  I.Logout();
 });
 
 Scenario('Payment reference RC search with ccd record associated with exception', (I, CaseSearch, CaseTransaction) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   CaseSearch.searchCaseUsingPaymentRef('RC-1611-0153-2743-2552');
   CaseTransaction.checkBulkCaseSuccessPayment('1611-0122-8484-2170', 'CCD reference', 'Allocated');
-  I.Logout();
 });
 
 Scenario('Payment reference RC search for exception', (I, CaseSearch, CaseTransaction) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   CaseSearch.searchCaseUsingPaymentRef('RC-1611-0169-9283-4106');
   CaseTransaction.checkBulkCaseSuccessPayment('1611-0168-3181-5167', 'Exception reference', 'Transferred');
-  I.Logout();
 });

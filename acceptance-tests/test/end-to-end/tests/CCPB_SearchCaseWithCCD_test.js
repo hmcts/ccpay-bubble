@@ -2,10 +2,14 @@ const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 
 Feature('CC Pay Bubble Acceptance Tests');
 
-BeforeSuite(I => {
+Before(I => {
   I.amOnPage('/');
-  I.wait(CCPBATConstants.twoSecondWaitTime);
+  I.wait(CCPBATConstants.thirtySecondWaitTime);
   I.resizeWindow(CCPBATConstants.windowsSizeX, CCPBATConstants.windowsSizeY);
+});
+
+After(I => {
+  I.Logout();
 });
 
 Scenario('Search for a case with dummy case number', I => {
@@ -17,7 +21,6 @@ Scenario('Search for a case with dummy case number', I => {
   I.see('Case Transaction');
   I.see('Payment history');
   I.searchForCCDdummydata();
-  I.Logout();
 });
 
 Scenario('Search for a case with actual case number from CCD', I => {
@@ -32,7 +35,6 @@ Scenario('Search for a case with actual case number from CCD', I => {
   I.see('Payment history');
   I.see('Reports');
   I.searchForCorrectCCDNumber();
-  I.Logout();
 });
 
 Scenario('Search for a case with actual case for Telephony flow', I => {
@@ -44,7 +46,6 @@ Scenario('Search for a case with actual case for Telephony flow', I => {
   I.see('Case Transaction');
   I.see('Payment history');
   I.caseforTelephonyFlow();
-  I.Logout();
 });
 
 Scenario('Amount Due case for Telephony flow', I => {
@@ -56,7 +57,6 @@ Scenario('Amount Due case for Telephony flow', I => {
   I.see('Case Transaction');
   I.see('Payment history');
   I.AmountDueCaseForTelephonyFlow();
-  I.Logout();
 });
 
 Scenario('Remove fee from case transaction page Telephony flow', I => {
@@ -68,5 +68,4 @@ Scenario('Remove fee from case transaction page Telephony flow', I => {
   I.see('Case Transaction');
   I.see('Payment history');
   I.removeFeeFromCaseTransactionPageTelephonyFlow();
-  I.Logout();
 });
