@@ -52,7 +52,7 @@ withNightlyPipeline("nodejs", product, component) {
 
   after('functionalTest:aat') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/functional-output/'
-    scripts {
+    script {
       allure([
         includeProperties: false,
         jdk              : '',
@@ -65,7 +65,7 @@ withNightlyPipeline("nodejs", product, component) {
 
   after('functionalTest:preview') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/functional-output/'
-    scripts {
+    script {
       allure([
         includeProperties: false,
         jdk              : '',
