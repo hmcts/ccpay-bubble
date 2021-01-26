@@ -43,5 +43,30 @@ withPipeline("nodejs", product, component) {
   after('build') {
     sh 'yarn ng:build'
   }
+  after('functionalTest:aat') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/functional-output/'
+    scripts {
+      allure([
+        includeProperties: false,
+        jdk              : '',
+        properties       : [],
+        reportBuildPolicy: 'ALWAYS',
+        results          : [[path: 'functional-output']]
+      ])
+    }
+  }
+
+  after('functionalTest:preview') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/functional-output/'
+    scripts {
+      allure([
+        includeProperties: false,
+        jdk              : '',
+        properties       : [],
+        reportBuildPolicy: 'ALWAYS',
+        results          : [[path: 'functional-output']]
+      ])
+    }
+  }
 
 }
