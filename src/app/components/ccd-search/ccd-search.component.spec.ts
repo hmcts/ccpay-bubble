@@ -275,6 +275,9 @@ mockResponse4 = {
   });
    it('Should get dcn details', async () => {
     spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+      of(mockResponse3)
+    );
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
     spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
@@ -318,6 +321,9 @@ mockResponse4 = {
   it('Should get dcn details', async () => {
     mockResponse['data'].ccd_reference = null;
     spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+      of(mockResponse3)
+    );
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
     component.ngOnInit();
@@ -353,6 +359,9 @@ mockResponse4 = {
   it('Should get go to correct navigation', async () => {
     mockResponse['data'].ccd_reference = null;
     spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+      of(mockResponse3)
+    );
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
     component.ngOnInit();
@@ -962,7 +971,7 @@ mockResponse5 = '{\n "exception":"CMC_ExceptionRecord",\n "case":"MoneyClaimCase
     expect(component.ccdCaseNumber).toBe('2222222222222222');
     expect(component.excReference).toBe('');
       // tslint:disable-next-line:max-line-length
-      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable');
+      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Enable');
   });
 
 it('DCN search only exception id present', async () => {
