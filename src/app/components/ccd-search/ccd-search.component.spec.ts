@@ -970,8 +970,6 @@ mockResponse5 = '{\n "exception":"CMC_ExceptionRecord",\n "case":"MoneyClaimCase
     expect(component.dcnNumber).toBe('123456789012345678901');
     expect(component.ccdCaseNumber).toBe('2222222222222222');
     expect(component.excReference).toBe('');
-      // tslint:disable-next-line:max-line-length
-      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Enable');
   });
 
 it('DCN search only exception id present', async () => {
@@ -994,8 +992,6 @@ it('DCN search only exception id present', async () => {
   expect(component.dcnNumber).toBe('123456789012345678901');
   expect(component.ccdCaseNumber).toBe('');
   expect(component.excReference).toBe('3333333333333333');
-  // tslint:disable-next-line:max-line-length
-  expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Enable');
 });
 
 it('DCN search bulkscan false', async () => {
