@@ -23,8 +23,7 @@ Scenario('Search for a case with dummy case number', I => {
 });
 
 Scenario('Search for a case with actual case number from CCD @nightly', I => {
-  if (nightlyTest === 'true')
-  {
+  if (nightlyTest === 'true') {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
@@ -37,9 +36,7 @@ Scenario('Search for a case with actual case number from CCD @nightly', I => {
     I.see('Reports');
     I.searchForCorrectCCDNumber();
     I.Logout();
-
   }
-
 });
 
 Scenario('Search for a case with actual case for Telephony flow', I => {
