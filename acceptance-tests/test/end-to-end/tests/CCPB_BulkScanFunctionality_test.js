@@ -27,34 +27,32 @@ Scenario('Normal ccd case cash payment full allocation', (I, CaseSearch, CaseTra
 });
 
 Scenario('Normal ccd case cheque payment partial allocation 2 fees add @nightly', (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
- if (nightlyTest === 'true')
- {
-   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-   CaseSearch.searchCaseUsingCcdNumber('1611157881361585');
-   CaseTransaction.checkBulkCase('1611-1578-8136-1585', 'CCD reference');
-   CaseTransaction.checkUnallocatedPayments('1', '700000000000100000515', '£550.00', 'Cheque');
-   CaseTransaction.allocateToNewFee();
-   AddFees.addFees('550.00', 'family', 'family_court');
-   FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
-   FeesSummary.deductRemission('FEE0002');
-   Remission.noRemissionCodeOrAmount();
-   Remission.remissionAmountExceed('600');
-   Remission.processRemission('FEE0002', '450');
-   Remission.cancelprocessRemission();
-   FeesSummary.addFeeFromSummary();
-   AddFees.addFees('100.00', 'civil', 'magistrates_court');
-   FeesSummary.verifyFeeSummaryBulkScan('FEE0059');
-   FeesSummary.allocateBulkPayment();
-   ConfirmAssociation.cancelPayment();
-   FeesSummary.removeFeesFromSummary();
-   FeesSummary.removeFeesFromSummary();
-   I.Logout();
- }
+  if (nightlyTest === 'true') {
+    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    CaseSearch.searchCaseUsingCcdNumber('1611157881361585');
+    CaseTransaction.checkBulkCase('1611-1578-8136-1585', 'CCD reference');
+    CaseTransaction.checkUnallocatedPayments('1', '700000000000100000515', '£550.00', 'Cheque');
+    CaseTransaction.allocateToNewFee();
+    AddFees.addFees('550.00', 'family', 'family_court');
+    FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
+    FeesSummary.deductRemission('FEE0002');
+    Remission.noRemissionCodeOrAmount();
+    Remission.remissionAmountExceed('600');
+    Remission.processRemission('FEE0002', '450');
+    Remission.cancelprocessRemission();
+    FeesSummary.addFeeFromSummary();
+    AddFees.addFees('100.00', 'civil', 'magistrates_court');
+    FeesSummary.verifyFeeSummaryBulkScan('FEE0059');
+    FeesSummary.allocateBulkPayment();
+    ConfirmAssociation.cancelPayment();
+    FeesSummary.removeFeesFromSummary();
+    FeesSummary.removeFeesFromSummary();
+    I.Logout();
+  }
 });
 
 Scenario('Normal ccd case cash payment transferred @nightly', (I, CaseSearch, CaseTransaction, CaseTransferred) => {
-  if (nightlyTest === 'true')
-  {
+  if (nightlyTest === 'true') {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     CaseSearch.searchCaseUsingCcdNumber('1611000300846903');
     CaseTransaction.checkBulkCase('1611-0003-0084-6903', 'CCD reference');
@@ -70,8 +68,7 @@ Scenario('Normal ccd case cash payment transferred @nightly', (I, CaseSearch, Ca
 // #endregion
 
 Scenario('Exception ccd case cash payment transferred @nightly', (I, CaseSearch, CaseTransaction, CaseTransferred) => {
-  if (nightlyTest === 'true')
-  {
+  if (nightlyTest === 'true') {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     CaseSearch.searchCaseUsingCcdNumber('1611009456795970');
     CaseTransaction.checkBulkCase('1611-0094-5679-5970', 'Exception reference');
@@ -125,8 +122,7 @@ Scenario('Exception Case Cheque Payment Unidentified', (I, CaseSearch, CaseTrans
 });
 
 Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less investigation comment provided @nightly', (I, CaseSearch, CaseTransaction, CaseUnidentified) => {
-  if (nightlyTest === 'true')
-  {
+  if (nightlyTest === 'true') {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     CaseSearch.searchCaseUsingDcnNumber('700000000000100000505');
     CaseTransaction.checkBulkCase('1611-0094-5679-5970', 'Exception reference');
