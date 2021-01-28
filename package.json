@@ -41,11 +41,7 @@
   },
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
-    "@hmcts/ccpay-web-component": "4.0.0-beta161",
-=======
-    "@hmcts/ccpay-web-component": "3.0.26",
->>>>>>> c7dda7af1ea656ec760d8d04b3dda8522ad918db
+    "@hmcts/ccpay-web-component": "3.0.27",
     "@hmcts/frontend": "^0.0.34-alpha",
     "@hmcts/nodejs-healthcheck": "^1.5.1",
     "@hmcts/nodejs-logging": "^3.0.0",
