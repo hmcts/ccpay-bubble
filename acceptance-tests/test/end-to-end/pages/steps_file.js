@@ -5,7 +5,7 @@ const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 
 const helpers = require('./helpers.js');
 
-const CCDNumber = helpers.getRandomNumber(CCPBConstants.ccdNumberLength);
+const CCDNumber = helpers.getRandomNumber(CCPBConstants.ccdNumberLength, true);
 
 module.exports = () => actor({
   // done
