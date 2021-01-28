@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {PaybubbleHttpClient} from '../httpclient/paybubble.http.client';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
+import { IBSPayments } from '@hmcts/ccpay-web-component/lib/interfaces/IBSPayments';
 
 const BULK_SCANNING_ENABLED = 'bulk-scan-enabling-fe';
 const DISCONTINUED_FEES_FEATURE_ENABLED = 'discontinued-fees-feature';
@@ -50,4 +51,12 @@ export class PaymentGroupService {
         return regFeature ? regFeature.enable : false;
       });
     }
+
+    getBSPaymentsByCCD(ccdCaseNumber: string): Promise<IBSPayments> {
+      return this.http.get(`api/bulk-scan/cases/${ccdCaseNumber}`)
+      .toPromise()
+      .then(response => {
+        return <IBSPayments>JSON.parse(response);
+      });
+  }
 }
