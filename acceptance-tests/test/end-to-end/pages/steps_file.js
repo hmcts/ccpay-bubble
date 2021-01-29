@@ -3,7 +3,7 @@ const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 // in this file you can append custom step methods to 'I' object
 // const faker = require('faker');
 
-const helpers = require('./helpers.js');
+const helpers = require('../helpers/number_utils.js');
 
 const CCDNumber = helpers.getRandomNumber(CCPBConstants.ccdNumberLength, true);
 
