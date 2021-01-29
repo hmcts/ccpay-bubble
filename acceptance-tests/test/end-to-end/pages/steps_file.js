@@ -2,11 +2,10 @@
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 // in this file you can append custom step methods to 'I' object
 // const faker = require('faker');
-const faker = require('faker');
 
-const RANDOM_NUMBER = 9999999999999999;
+const helpers = require('./helpers.js');
 
-const CCDNumber = faker.random.number(RANDOM_NUMBER);
+const CCDNumber = helpers.getRandomNumber(CCPBConstants.ccdNumberLength);
 
 module.exports = () => actor({
   // done
@@ -742,7 +741,7 @@ module.exports = () => actor({
   },
 
   searchForCCDdummydata() {
-    this.fillField({ css: '[type="text"]' }, '3456789098765434');
+    this.fillField({ css: '[type="text"]' }, CCDNumber);
     this.click('Search');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('No matching cases found');
@@ -790,6 +789,7 @@ module.exports = () => actor({
     this.see('Search for a fee');
     this.fillField({ css: '[type="text"]' }, '550');
     this.click('Search');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Jurisdiction 1');
     this.click({ css: '#family' });
     this.click('Jurisdiction 2');
@@ -859,6 +859,7 @@ module.exports = () => actor({
     this.see('Search for a fee');
     this.fillField({ css: '[type="text"]' }, '550');
     this.click('Search');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Jurisdiction 1');
     this.click({ css: '#family' });
     this.click('Jurisdiction 2');
