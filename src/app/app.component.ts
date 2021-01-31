@@ -46,9 +46,8 @@ export class AppComponent implements OnInit {
     this.paymentGroupService.getBSFeature().then((status) => {
       this.isBulkscanningEnable = status;
     });
- 
   }
-  
+
   // userTimeOut(event:any) {
   //   this.isUserTimedOut = event;
   //   if (this.isUserTimedOut) {
@@ -57,8 +56,7 @@ export class AppComponent implements OnInit {
   //     this.addTimeoutNotificationServiceListener();
   //     this.initTimeoutNotificationService(idleModalDisplayTime, totalIdleTime);
   //   }
-   
-  //}
+  // }
 
   public userDetailsHandler(userDetails) {
 
