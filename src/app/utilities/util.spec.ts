@@ -7,7 +7,7 @@ describe('Object Utilities ', () => {
 
     it('Should return true if all the properties exist on an object.', () => {
       const object = {level1: {level2: {level3: 'level3'}}};
-      expect(propsExist(object, ['level1', 'level2', 'level3'])).toBeFalsy();
+      expect(propsExist(object, ['level1', 'level2', 'level3'])).toBeTruthy();
     });
 
     it('Should return false if a property does not exist on an object.', () => {
