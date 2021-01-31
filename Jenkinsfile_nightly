@@ -43,11 +43,23 @@ withNightlyPipeline("nodejs", product, component) {
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
   enableFullFunctionalTest(90)
+  enableMutationTest()
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
   }
   after('build') {
     sh 'yarn ng:build'
+  }
+
+  after('mutationTest') {
+    publishHTML([
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "reports/tests/mutation/node/",
+      reportFiles          : 'index.html',
+      reportName           : 'PayBubble Mutation tests'
+    ])
   }
 }
