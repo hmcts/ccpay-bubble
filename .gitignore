@@ -48,3 +48,7 @@ package-lock.json
 # System Files
 .DS_Store
 Thumbs.db
+
+# stryker temp files
+.stryker-tmp
+stryker.log
