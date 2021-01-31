@@ -10,7 +10,7 @@
     "@angular-devkit/core" "7.3.10"
     rxjs "6.3.3"
 
-"@angular-devkit/build-angular@^0.13.0":
+"@angular-devkit/build-angular@~0.13.0":
   version "0.13.10"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-angular/-/build-angular-0.13.10.tgz#bdcace32679e5b873709e4f17bfdf5e71168c735"
   integrity sha512-wBWZJh89pPHE06WRoUJ+tdGk+yyMGM+3j0I2gduoxmGvgXXjf48tM4QbXZZSJbHkOeYlCiuP/wiVyTkshzCwGA==
@@ -457,6 +457,11 @@
   version "0.12.2"
   resolved "https://registry.yarnpkg.com/@types/caseless/-/caseless-0.12.2.tgz#f65d3d6389e01eeb458bd54dc8f52b95a9463bc8"
   integrity sha512-6ckxMjBBD8URvjB6J3NcnuAn5Pkl7t3TizAg+xdlzzQGSPSmBcXf8KoIH0ua/i+tio+ZRUHEXp0HEmvaR4kt0w==
+
+"@types/chai@^4.2.14":
+  version "4.2.14"
+  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.2.14.tgz#44d2dd0b5de6185089375d976b4ec5caf6861193"
+  integrity sha512-G+ITQPXkwTrslfG5L/BksmbLUA0M1iybEsmCWPqzSxsRRhJZimBKJkoMi8fr/CPygPTj4zO5pJH7I2/cm9M7SQ==
 
 "@types/estree@0.0.39":
   version "0.0.39"
@@ -7572,13 +7577,6 @@ next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-ng-idle-keepalive@^8.0.0-beta.7:
-  version "8.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/ng-idle-keepalive/-/ng-idle-keepalive-8.0.0-beta.7.tgz#a24f1d642bcf4ef3aa2b107d4791905964d8189f"
-  integrity sha512-+YgtlcsGbN7CmHkgtz/s6AqiTCNTOSBvL6EBeAdZ0IW2lDxWdVXm46xWRLYeId6/jbDNWezTmm5E2IO8vh4pOA==
-  dependencies:
-    tslib "^1.9.0"
-
 ng-packagr@^4.2.0:
   version "4.7.1"
   resolved "https://registry.yarnpkg.com/ng-packagr/-/ng-packagr-4.7.1.tgz#a3e8fd2a7b70573a3a7759c4c57408a3b0e8ce11"
@@ -7622,6 +7620,13 @@ ngx-pagination@^3.2.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/ngx-pagination/-/ngx-pagination-3.3.1.tgz#2dab7171c38c1b326571c4353a524d4614e28fa3"
   integrity sha512-ocDJrdxFiij1XVWhY4uwpiJevvgluvm4qe7xZRRVGHpzjkxQIJCQbSRkQXWYjXorV/Xre79dMDKmXKHvlxEqcA==
+
+ngx-swiper-wrapper@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-swiper-wrapper/-/ngx-swiper-wrapper-10.0.0.tgz#afca849a17d64f00d5b16e5040f4bdae0549e06d"
+  integrity sha512-cP7yCV1j9fyPkaEu4muec+4ChwpYq1zn62qR6HcZttZgPcqaSEd8yLB7fp61ASAWR31iKUycVhqNtmsYstMXpA==
+  dependencies:
+    tslib "^2.0.0"
 
 nice-try@^1.0.4:
   version "1.0.5"

@@ -15,10 +15,11 @@ declare var gtag;
 export class AppComponent implements OnInit {
  title = 'ccpay-bubble';
  isBulkscanningEnable = true;
+ // isUserTimedOut: Boolean;
  public  userDetails: any = {
    sessionTimeout: {
    idleModalDisplayTime: 1,
-   totalIdleTime: 5
+   totalIdleTime: 2
    }
   };
 
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
    private paymentGroupService: PaymentGroupService,
    private readonly timeoutNotificationsService: TimeoutNotificationsService
    ) {
+    this.userDetailsHandler(this.userDetails);
    const navEndEvents = router.events.pipe (
      filter(event => event instanceof NavigationEnd)
    );
@@ -44,8 +46,19 @@ export class AppComponent implements OnInit {
     this.paymentGroupService.getBSFeature().then((status) => {
       this.isBulkscanningEnable = status;
     });
-    this.userDetailsHandler(this.userDetails);
+ 
   }
+  
+  // userTimeOut(event:any) {
+  //   this.isUserTimedOut = event;
+  //   if (this.isUserTimedOut) {
+  //     alert("hello");
+  //     const { idleModalDisplayTime, totalIdleTime } = this.userDetails.sessionTimeout;
+  //     this.addTimeoutNotificationServiceListener();
+  //     this.initTimeoutNotificationService(idleModalDisplayTime, totalIdleTime);
+  //   }
+   
+  //}
 
   public userDetailsHandler(userDetails) {
 
@@ -53,7 +66,6 @@ export class AppComponent implements OnInit {
 
       console.log(userDetails.sessionTimeout);
       const { idleModalDisplayTime, totalIdleTime } = userDetails.sessionTimeout;
-
       this.addTimeoutNotificationServiceListener();
       this.initTimeoutNotificationService(idleModalDisplayTime, totalIdleTime);
     }
