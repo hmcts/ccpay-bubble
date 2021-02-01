@@ -25,6 +25,11 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
+  confirmPayment() {
+    I.click('Confirm');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+  },
+
   inputUnidentifiedComment(unidentifiedInvestigation) {
     I.fillField(this.locators.unidentified_investigation, unidentifiedInvestigation);
   },

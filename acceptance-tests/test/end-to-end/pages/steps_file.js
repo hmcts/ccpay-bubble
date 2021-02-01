@@ -19,8 +19,7 @@ module.exports = () => actor({
   },
 
   Logout() {
-    this.moveCursorTo('//div/div/ul[2]/li[2]/a');
-    this.see('Logout');
+    this.wait(CCPBConstants.twoSecondWaitTime);
     this.click('Logout');
     this.wait(CCPBConstants.fiveSecondWaitTime);
   },
