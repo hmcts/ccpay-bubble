@@ -20,6 +20,23 @@ module.exports = {
     I.dontSee('What service is this fee for?');
   },
 
+  verifyFeeSummaryAfterRemissionBulkScan(feeCode, remissionAmount, totalAfterRemission) {
+    I.see('Fee Summary');
+    I.see(feeCode);
+    I.see(PaybubbleStaticData.fee_description[feeCode]);
+    I.see('Fee amount');
+    I.see('Volume');
+    I.see('Fee total');
+    I.see('Remission amount');
+    I.see('HWF-A1B-23C');
+    I.see('Total after remission');
+    I.see(remissionAmount);
+    I.see('Total payment');
+    I.see('Total outstanding amount');
+    I.see(totalAfterRemission);
+    I.dontSee('What service is this fee for?');
+  },
+
   allocateBulkPayment() {
     I.click('Allocate payment');
     I.wait(CCPBConstants.fiveSecondWaitTime);

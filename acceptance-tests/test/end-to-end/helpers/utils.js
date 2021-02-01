@@ -1,6 +1,9 @@
-const {Logger} = require('@hmcts/nodejs-logging');
+const { Logger } = require('@hmcts/nodejs-logging');
 const requestModule = require('request-promise-native');
-const request = requestModule.defaults({proxy: 'http://proxyout.reform.hmcts.net:8080'});
+
+// eslint-disable max-len
+
+const request = requestModule.defaults({ proxy: 'http://proxyout.reform.hmcts.net:8080' });
 
 const stringUtil = require('./string_utils.js');
 const numUtil = require('./number_utils');
@@ -18,12 +21,12 @@ async function getServiceToken(service) {
   const s2sBaseUrl = `http://rpe-service-auth-provider-${env}.service.core-compute-${env}.internal`;
   const s2sAuthPath = '/testing-support/lease';
   // eslint-disable-next-line global-require
-  const oneTimePassword = require('otp')({secret: serviceSecret}).totp();
+  const oneTimePassword = require('otp')({ secret: serviceSecret }).totp();
 
   const serviceToken = await request({
     method: 'POST',
     uri: s2sBaseUrl + s2sAuthPath,
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       microservice: service,
       oneTimePassword
@@ -43,41 +46,42 @@ async function CaseValidation(flag) {
   // eslint-disable-next-line global-require
 
   const disabled = await request({
-      method: 'POST',
-      uri: paymentBaseUrl + disablePath,
-      headers: {'Content-Type': 'application/json'},
-     },
-    function (error, response, body) {
-      statusCode = response.statusCode;
-    }).catch(error => {
-    console.log(error);
+    method: 'POST',
+    uri: paymentBaseUrl + disablePath,
+    headers: { 'Content-Type': 'application/json' }
+  },
+  (error, response) => {
+    statusCode = response.statusCode;
+  }).catch(error => {
+    logger.log(error);
   });
   logger.debug(disabled);
-  return statusCode
+  return statusCode;
 }
 
-async function toggleOffCaseValidation()
-{
-  return await CaseValidation("disable")
+async function toggleOffCaseValidation() {
+  const response = await CaseValidation('disable');
+  return response;
 }
 
-async function toggleOnCaseValidation()
-{
-  return await CaseValidation("enable")
+async function toggleOnCaseValidation() {
+  const response = await CaseValidation('enable');
+  return response;
 }
 
-async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber, bankedDate, dcnNumber, paymentMethod) {
+async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
+  bankedDate, dcnNumber, paymentMethod) {
   logger.info('Creating bulk Excela Case');
   const bulkApiUrl = `http://ccpay-bulkscanning-api-${env}.service.core-compute-${env}.internal`;
   const bulkendPoint = '/bulk-scan-payment';
 
   const saveBody = {
-    "amount": amount,
-    "bank_giro_credit_slip_number": `${creditSlipNumber}`,
-    "banked_date": `${bankedDate}`,
-    "currency": "GBP",
-    "document_control_number": `${dcnNumber}`,
-    "method": `${paymentMethod}`
+    amount,
+    bank_giro_credit_slip_number: `${creditSlipNumber}`,
+    banked_date: `${bankedDate}`,
+    currency: 'GBP',
+    document_control_number: `${dcnNumber}`,
+    method: `${paymentMethod}`
   };
 
   const saveCaseOptions = {
@@ -90,13 +94,14 @@ async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber, banke
     body: JSON.stringify(saveBody)
   };
 
-  const saveCaseResponse = await request(saveCaseOptions ,function (error, response, body) {
-      statusCode = response.statusCode;
-    }
+  const saveCaseResponse = await request(saveCaseOptions, (error, response) => {
+    statusCode = response.statusCode;
+  }
   ).catch(error => {
-    console.log(error);
+    logger.log(error);
   });
 
+  logger.info(saveCaseResponse);
   return statusCode;
 }
 
@@ -107,12 +112,10 @@ async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, except
   const bulkendPoint = '/bulk-scan-payments';
 
   const saveBody = {
-    "ccd_case_number": `${ccdNumber}`,
-    "document_control_numbers": [
-      `${dcnNumber}`
-    ],
-    "is_exception_record": exception,
-    "site_id": `${siteId}`
+    ccd_case_number: `${ccdNumber}`,
+    document_control_numbers: [`${dcnNumber}`],
+    is_exception_record: exception,
+    site_id: `${siteId}`
   };
 
   const saveCaseOptions = {
@@ -126,13 +129,14 @@ async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, except
   };
 
   const saveCaseResponse = await request(saveCaseOptions
-  ,function (error, response, body) {
+    , (error, response) => {
       statusCode = response.statusCode;
     }
   ).catch(error => {
-    console.log(error);
+    logger.log(error);
   });
 
+  logger.info(saveCaseResponse);
   return statusCode;
 }
 
@@ -142,11 +146,9 @@ async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNum
 
   const bulkApiUrl = `http://ccpay-bulkscanning-api-${env}.service.core-compute-${env}.internal`;
   const bulkendPoint = '/bulk-scan-payments';
-  const query = `?exception_reference=${exceptionCCDNumber}`
+  const query = `?exception_reference=${exceptionCCDNumber}`;
 
-  const saveBody = {
-    "ccd_case_number": `${ccdNumber}`
-  };
+  const saveBody = { ccd_case_number: `${ccdNumber}` };
 
   const saveCaseOptions = {
     method: 'PUT',
@@ -155,84 +157,69 @@ async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNum
       ServiceAuthorization: `Bearer ${serviceToken}`,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(saveBody),
-   };
+    body: JSON.stringify(saveBody)
+  };
 
   const saveCaseResponse = await request(saveCaseOptions
-    ,function (error, response, body) {
+    , (error, response) => {
       statusCode = response.statusCode;
     }
   ).catch(error => {
-    console.log(error);
+    logger.log(error);
   });
+
+  logger.info(saveCaseResponse);
 
   return statusCode;
 }
 
-async function bulkScanExceptionCcd(siteId, amount, paymentMethod) {
- return bulkScanNormalCcd(siteId,amount,paymentMethod,true)
-}
-
-async function bulkScanNormalCcd(siteId, amount, paymentMethod, exception=false) {
-  const microservice = "api_gw";
+async function bulkScanNormalCcd(siteId, amount, paymentMethod, exception = false) {
+  const microservice = 'api_gw';
   const numberTwo = 2;
-  const numberSeven = 7
-  const creditSlipNumber = "312312"
+  const numberSeven = 7;
+  const creditSlipNumber = '312312';
   const serviceToken = await getServiceToken(microservice);
-  const bankedDate = stringUtil.getDateInYYYYMMDD();
-  var retryCount = 0;
-
-  do {
-    var dcnNumber = stringUtil.getDateAndTimeInString() + numUtil.getRandomNumber(numberSeven)
-    var responseCode = await bulkScanExelaRecord(serviceToken, amount, creditSlipNumber, bankedDate, dcnNumber, paymentMethod)
-    if (responseCode == 201)  break
-    else if (retryCount > 1) {
-      logger.info("retrying to create another dcn " + retryCount);
-    }
-    retryCount++;
-  } while (retryCount <= 3);
-
-  retryCount = 0;
-  do {
-
-    var ccdNumber = stringUtil.getDateAndTimeInString() + numUtil.getRandomNumber(numberTwo);
-    var responseCode = await bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, exception)
-    if (responseCode == 201) break
-    else if (retryCount > 1) {
-      logger.info("retrying to create another ccd case " + retryCount);
-    }
-    retryCount++;
-  } while (retryCount <= 3);
-
-  return [dcnNumber, ccdNumber]
-
-
+  const bankedDate = stringUtil.getTodayDateInYYYYMMDD();
+  let dcnNumber = 0;
+  let ccdNumber = 0;
+  const randomNumber = numUtil.getRandomNumber(numberSeven);
+  dcnNumber = stringUtil.getTodayDateAndTimeInString() + randomNumber;
+  const responseDcnCode = await bulkScanExelaRecord(serviceToken, amount,
+    creditSlipNumber, bankedDate, dcnNumber, paymentMethod);
+  if (responseDcnCode) logger.info('DCN Created');
+  ccdNumber = await stringUtil.getTodayDateAndTimeInString() + numUtil.getRandomNumber(numberTwo);
+  const responseCcdCode = bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, exception);
+  if (responseCcdCode) logger.info('CCD Created');
+  return [dcnNumber, ccdNumber];
 }
+
+
+async function bulkScanExceptionCcd(siteId, amount, paymentMethod) {
+  const result = await bulkScanNormalCcd(siteId, amount, paymentMethod, true);
+  return result;
+}
+
 
 async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
-  var ccdAndDcn = await bulkScanExceptionCcd(siteId, amount, paymentMethod)
-  var dcnNumber = ccdAndDcn[0];
-  var exceptionCcdNumber = ccdAndDcn[1];
-  const microservice = "api_gw";
+  const ccdAndDcn = await bulkScanExceptionCcd(siteId, amount, paymentMethod);
+  const dcnNumber = ccdAndDcn[0];
+  const exceptionCcdNumber = ccdAndDcn[1];
+  const microservice = 'api_gw';
   const numberTwo = 2;
-  const numberSeven = 7
+  let ccdNumber = 0;
+
 
   const serviceToken = await getServiceToken(microservice);
 
-  var retryCount = 0;
-
-  do {
-    var ccdNumber = stringUtil.getDateAndTimeInString() + numUtil.getRandomNumber(numberTwo);
-    var responseCode = await bulkScanCcdWithException(serviceToken,ccdNumber,exceptionCcdNumber)
-    if (responseCode == 200) break
-    else if (retryCount > 1) {
-      logger.info("retrying to create another ccd case linked to exception " + retryCount);
-    }
-    retryCount++;
-  } while (retryCount <= 3);
-
-  return [dcnNumber, ccdNumber, exceptionCcdNumber]
-
+  const randomNumber = numUtil.getRandomNumber(numberTwo);
+  ccdNumber = stringUtil.getTodayDateAndTimeInString() + randomNumber;
+  const responseCode = await bulkScanCcdWithException(serviceToken, ccdNumber
+    , exceptionCcdNumber);
+  if (responseCode) logger.info('CCD Linked to Exception created');
+  return [dcnNumber, ccdNumber, exceptionCcdNumber];
 }
 
-module.exports = {bulkScanNormalCcd, bulkScanExceptionCcd, bulkScanCcdLinkedToException, toggleOffCaseValidation, toggleOnCaseValidation }
+module.exports = {
+  bulkScanNormalCcd, bulkScanExceptionCcd, bulkScanCcdLinkedToException,
+  toggleOffCaseValidation, toggleOnCaseValidation
+};

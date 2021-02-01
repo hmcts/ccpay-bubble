@@ -7,7 +7,8 @@ module.exports = {
   locators: {
     case_title: { xpath: '//*[@class = "heading-medium"]' },
     unallocated_payments_count: { xpath: '//table[@class="govuk-table"]/tbody//td[4]' },
-    unallocated_payment_select_option: { xpath: '//ccpay-app-unprocessed-payments//tbody/tr[1]//input' }
+    unallocated_payment_select_option: { xpath: '//ccpay-app-unprocessed-payments//tbody/tr[1]//input' },
+    rc_reference: { xpath: '//*[contains(text() , "RC")]' }
 
 
   },
@@ -24,11 +25,23 @@ module.exports = {
     I.see(caseTitle);
   },
 
+  checkBulkCaseSurplusOrShortfallSuccessPayment(caseNumber, caseTitle,
+    allocationStatus, amoundDue) {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    this.validateTransactionPageForSuccessPayment(caseNumber, allocationStatus);
+    I.see(caseTitle);
+    I.see(amoundDue);
+  },
+
   checkUnallocatedPayments(totalDcn, dcnNumber, amount, method) {
     I.see(totalDcn);
     I.see(dcnNumber);
     I.see(amount);
     I.see(method);
+  },
+
+  checkIfBulkScanPaymentsAllocated(dcnNumber) {
+    I.dontSee(dcnNumber);
   },
 
   allocateToNewFee() {
@@ -95,7 +108,17 @@ module.exports = {
     I.see(allocationStatus);
     I.see('Bulk scan');
     I.see('Success');
-  }
+  },
 
+  validateTransactionPageForRemission(remissionCode, feeCode, remissionAmount) {
+    I.see(remissionCode);
+    I.see(feeCode);
+    I.see(remissionAmount);
+  },
+
+  async getReceiptReference() {
+    const receiptReference = await I.grabTextFrom(this.locators.rc_reference);
+    return receiptReference;
+  }
 
 };
