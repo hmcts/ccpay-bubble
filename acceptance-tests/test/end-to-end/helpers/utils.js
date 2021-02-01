@@ -39,7 +39,7 @@ async function getServiceToken(service) {
 }
 
 async function CaseValidation(flag) {
-  logger.info('Disabling case validation');
+  logger.info(`${flag} case validation`);
 
   const paymentBaseUrl = `http://payment-api-${env}.service.core-compute-${env}.internal`;
   const disablePath = `/api/ff4j/store/features/caseref-validation/${flag}`;
