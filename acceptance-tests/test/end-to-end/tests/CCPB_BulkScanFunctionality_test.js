@@ -1,5 +1,9 @@
 const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 
+const { Logger } = require('@hmcts/nodejs-logging');
+
+const logger = Logger.getLogger('CCPB_BulkScanFunctionality_test.js');
+
 
 const bulkScanApiCalls = require('../helpers/utils');
 
@@ -11,19 +15,20 @@ const nightlyTest = process.env.NIGHTLY_TEST;
 
 Feature('CC Pay Bubble Acceptance Tests');
 
-BeforeSuite(async I => {
+Before(async I => {
   const response = await bulkScanApiCalls.toggleOffCaseValidation();
-  if (response) {
-    I.amOnPage('/');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.resizeWindow(CCPBATConstants.windowsSizeX, CCPBATConstants.windowsSizeY);
+  if (response === '202') {
+    logger.info('Disabled CCD validation');
   }
+  I.amOnPage('/');
+  I.wait(CCPBATConstants.twoSecondWaitTime);
+  I.resizeWindow(CCPBATConstants.windowsSizeX, CCPBATConstants.windowsSizeY);
 });
 
-AfterSuite(async() => {
+After(async() => {
   const response = await bulkScanApiCalls.toggleOnCaseValidation();
-  if (response) {
-    logger.info('Success');
+  if (response === '202') {
+    logger.info('Enabled CCD validation');
   }
 });
 

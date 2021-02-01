@@ -14,13 +14,24 @@ module.exports = {
 
   },
   // done
-  searchCaseUsingCcdNumber(caseNumber) {
+  searchCaseUsingCcdNumber(caseNumber, repeat = true) {
+    const maxCount = 4;
     I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateSearchPage();
     I.checkOption(this.locators.ccd_option);
     I.fillField(this.locators.ccd_field, caseNumber);
-    I.click('Search');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    if (repeat) {
+      let repeatCount = 0;
+      do {
+        I.click('Search');
+        I.wait(CCPBConstants.fiveSecondWaitTime);
+        if (I.dontSee('Search')) break;
+        else repeatCount = repeatCount + 1;
+      } while (repeatCount < maxCount);
+    } else {
+      I.click('Search');
+      I.wait(CCPBConstants.fiveSecondWaitTime);
+    }
   },
 
   searchCaseUsingDcnNumber(dcnNumber) {
