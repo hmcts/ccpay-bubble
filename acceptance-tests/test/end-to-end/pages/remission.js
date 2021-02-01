@@ -47,7 +47,18 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
+  confirmprocessRemission() {
+    I.click('Confirm');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+  },
+
   noRemissionCodeOrAmount() {
+    I.click('Submit');
+    I.see('Enter a remission code');
+    I.see('Enter a amount');
+  },
+
+  checkRemissionCodeAndAmount() {
     I.click('Submit');
     I.see('Enter a remission code');
     I.see('Enter a amount');
