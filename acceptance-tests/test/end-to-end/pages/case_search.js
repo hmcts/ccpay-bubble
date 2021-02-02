@@ -14,12 +14,13 @@ module.exports = {
 
   },
   // done
-  searchCaseUsingCcdNumber(caseNumber) {
+  searchCaseUsingCcdNumber(caseNumber, retry = true) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateSearchPage();
     I.checkOption(this.locators.ccd_option);
     I.fillField(this.locators.ccd_field, caseNumber);
-    I.click('Search');
+    if (retry) I.retry({ retries: CCPBConstants.retryCountForStep, minTimeout: CCPBConstants.maxTimeout }).click('Search');
+    else I.click('Search');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 

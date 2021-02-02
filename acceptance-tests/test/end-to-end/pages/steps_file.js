@@ -15,15 +15,18 @@ module.exports = () => actor({
   // done
   login(email, password) {
     this.amOnPage('/');
-    this.retry(CCPBConstants.retryCountForStep).waitForElement('#username', CCPBConstants.thirtySecondWaitTime);
+    this.wait(CCPBConstants.twoSecondWaitTime);
+    this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
+    this.wait(CCPBConstants.twoSecondWaitTime);
     this.fillField('Email address', email);
     this.fillField('Password', password);
-    this.waitForElement({ css: '[type="submit"]' }, CCPBConstants.thirtySecondWaitTime);
+    this.wait(CCPBConstants.twoSecondWaitTime);
     this.click({ css: '[type="submit"]' });
+    this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   Logout() {
-    this.wait(CCPBConstants.twoSecondWaitTime);
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Logout');
     this.wait(CCPBConstants.fiveSecondWaitTime);
   },
