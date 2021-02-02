@@ -5,5 +5,6 @@ module.exports = {
   fiveSecondWaitTime: 15,
   tenSecondWaitTime: 20,
   thirtySecondWaitTime: 40,
-  retryCountForStep: 4
+  retryCountForStep: 4,
+  CCDCaseNumber: 16
 };
