@@ -1,9 +1,8 @@
-const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
-
 const { Logger } = require('@hmcts/nodejs-logging');
 
-const logger = Logger.getLogger('CCPB_BulkScanFunctionality_test.js');
+const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 
+const logger = Logger.getLogger('CCPB_BulkScanFunctionality_test.js');
 
 const bulkScanApiCalls = require('../helpers/utils');
 
@@ -13,19 +12,17 @@ const nightlyTest = process.env.NIGHTLY_TEST;
 
 // eslint-disable max-len
 
-Feature('CC Pay Bubble Acceptance Tests');
+Feature('CC Pay Bubble Bulk Scan Acceptance Tests');
 
-Before(async I => {
+BeforeSuite(async I => {
   const response = await bulkScanApiCalls.toggleOffCaseValidation();
+  I.wait(CCPBATConstants.thirtySecondWaitTime);
   if (response === '202') {
     logger.info('Disabled CCD validation');
   }
-  I.amOnPage('/');
-  I.wait(CCPBATConstants.twoSecondWaitTime);
-  I.resizeWindow(CCPBATConstants.windowsSizeX, CCPBATConstants.windowsSizeY);
 });
 
-After(async() => {
+AfterSuite(async() => {
   const response = await bulkScanApiCalls.toggleOnCaseValidation();
   if (response === '202') {
     logger.info('Enabled CCD validation');
@@ -55,7 +52,7 @@ Scenario('Normal ccd case cash payment full allocation @pipeline @nightly', asyn
   PaymentHistory.navigateToReceiptRefs(receiptReference);
   PaymentHistory.validateCcdPaymentDetails(receiptReference, '£550.00', dcnNumber, 'success', 'Cash', 'FEE0002');
   I.Logout();
-});
+}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
@@ -87,7 +84,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   CaseTransaction.validateTransactionPageForRemission('HWF-A1B-23C', 'FEE0002', '£100.00');
   I.Logout();
-});
+}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Normal ccd case cash payment transferred @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred, PaymentHistory) => {
   if (nightlyTest === 'true') {
@@ -111,7 +108,7 @@ Scenario('Normal ccd case cash payment transferred @nightly', async(I, CaseSearc
     PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£550.00', dcnNumber, 'Cash');
     I.Logout();
   }
-});
+}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 // #endregion
 
@@ -134,7 +131,7 @@ Scenario('Exception ccd case cash payment transferred @nightly', async(I, CaseSe
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
     I.Logout();
   }
-});
+}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('DCN Search for ccd case associated with exception postal order payment transferred @nightly @pipeline', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
@@ -154,7 +151,7 @@ Scenario('DCN Search for ccd case associated with exception postal order payment
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'CCD reference', 'Transferred');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   I.Logout();
-});
+}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Normal ccd case cash payment transferred when no valid reason or site id selected @nightly @pipeline', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
@@ -175,7 +172,7 @@ Scenario('Normal ccd case cash payment transferred when no valid reason or site 
   CaseTransferred.whenReasonLessThanLimit();
   CaseTransferred.cancelTransferredReason();
   I.Logout();
-});
+}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Exception Case Cheque Payment Unidentified @nightly @pipeline', async(I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
@@ -197,7 +194,7 @@ Scenario('Exception Case Cheque Payment Unidentified @nightly @pipeline', async(
   PaymentHistory.navigateToReceiptRefs(receiptReference);
   PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£550.00', dcnNumber, 'Cheque');
   I.Logout();
-});
+}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less investigation comment provided @nightly', async(I, CaseSearch, CaseTransaction, CaseUnidentified) => {
   if (nightlyTest === 'true') {
@@ -219,7 +216,7 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
     CaseUnidentified.cancelUnidentifiedComment();
     I.Logout();
   }
-});
+}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Ccd case search with exception record postal order payment shortfall payment @nightly @pipeline', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
@@ -242,7 +239,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
   CaseTransaction.checkBulkCaseSurplusOrShortfallSuccessPayment(ccdCaseNumberFormatted, 'CCD reference', 'Allocated', '£50.00');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   I.Logout();
-});
+}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Exception search with ccd record postal order payment surplus payment @pipeline @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
@@ -265,7 +262,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment 
   CaseTransaction.checkBulkCaseSurplusOrShortfallSuccessPayment(ccdCaseNumberFormatted, 'CCD reference', 'Allocated', '-£50.00');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   I.Logout();
-});
+}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Payment reference RC search with ccd record associated with exception @pipeline, @nightly', (I, CaseSearch, CaseTransaction, PaymentHistory) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
@@ -277,14 +274,14 @@ Scenario('Payment reference RC search with ccd record associated with exception 
   PaymentHistory.navigateToReceiptRefs('RC-1611-0153-2743-2552');
   PaymentHistory.validateCcdPaymentDetails('RC-1611-0153-2743-2552', '£550.00', '700000000000100000506', 'success', 'Postal order', 'FEE0002');
   I.Logout();
-});
+}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Payment reference RC search for exception @pipeline, @nightly', (I, CaseSearch, CaseTransaction) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   CaseSearch.searchCaseUsingPaymentRef('RC-1611-0169-9283-4106');
   CaseTransaction.checkBulkCaseSuccessPayment('1611-0168-3181-5167', 'Exception reference', 'Transferred');
   I.Logout();
-});
+}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Download reports in paybubble @pipeline, @nightly', (I, Reports) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
@@ -295,4 +292,4 @@ Scenario('Download reports in paybubble @pipeline, @nightly', (I, Reports) => {
   Reports.selectReportAndDownload('Processed unallocated');
   Reports.selectReportAndDownload('Shortfalls and surplus');
   I.Logout();
-});
+}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
