@@ -2,24 +2,29 @@ const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 
 const nightlyTest = process.env.NIGHTLY_TEST;
 
+const bulkScanApiCalls = require('../helpers/utils');
+
+const { Logger } = require('@hmcts/nodejs-logging');
+
+const logger = Logger.getLogger('CCPB_SearchCaseWithCCD_test.js');
+
 Feature('CC Pay Bubble Acceptance Tests');
 
-BeforeSuite(I => {
+BeforeSuite(async I => {
+  const response = await bulkScanApiCalls.toggleOffCaseValidation();
+  if (response === '202') {
+    logger.info('Disabled CCD validation');
+  }
   I.amOnPage('/');
-  I.wait(CCPBATConstants.twoSecondWaitTime);
+  I.wait(CCPBATConstants.thirtySecondWaitTimeSecondWaitTime);
   I.resizeWindow(CCPBATConstants.windowsSizeX, CCPBATConstants.windowsSizeY);
 });
 
-Scenario('Search for a case with dummy case number', I => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  I.wait(CCPBATConstants.tenSecondWaitTime);
-  I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
-  I.see('Search for a case');
-  I.see('Search');
-  I.see('Case Transaction');
-  I.see('Payment history');
-  I.searchForCCDdummydata();
-  I.Logout();
+AfterSuite(async() => {
+  const response = await bulkScanApiCalls.toggleOnCaseValidation();
+  if (response === '202') {
+    logger.info('Enabled CCD validation');
+  }
 });
 
 Scenario('Search for a case with actual case number from CCD @nightly', I => {
@@ -73,4 +78,22 @@ Scenario('Remove fee from case transaction page Telephony flow', I => {
   I.see('Payment history');
   I.removeFeeFromCaseTransactionPageTelephonyFlow();
   I.Logout();
+});
+
+Scenario('Search for a case with dummy case number @nightly @pipeline', async I => {
+  const responseOff = await bulkScanApiCalls.toggleOnCaseValidation();
+  I.wait(CCPBATConstants.thirtySecondWaitTime);
+  if (responseOff === '202') {
+    logger.info('Enabled CCD validation');
+  }
+  I.login('kishanki@gmail.com', 'LevelAt12');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
+  I.searchForCCDdummydata();
+  I.Logout();
+
+  const responseOn = await bulkScanApiCalls.toggleOffCaseValidation();
+  if (responseOn === '202') {
+    logger.info('Disabled CCD validation');
+  }
 });
