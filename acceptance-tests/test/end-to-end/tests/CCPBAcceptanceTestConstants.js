@@ -6,5 +6,8 @@ module.exports = {
   tenSecondWaitTime: 20,
   thirtySecondWaitTime: 40,
   retryCountForStep: 4,
-  CCDCaseNumber: 16
+  CCDCaseNumber: 16,
+  minTimeout: 1000,
+  maxTimeout: 3000,
+  retryScenario: 3
 };
