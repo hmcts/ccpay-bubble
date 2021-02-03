@@ -16,7 +16,7 @@ Feature('CC Pay Bubble Bulk Scan Acceptance Tests');
 
 BeforeSuite(async I => {
   const response = await bulkScanApiCalls.toggleOffCaseValidation();
-  I.wait(CCPBATConstants.thirtySecondWaitTime);
+  I.wait(CCPBATConstants.oneMinute);
   if (response === '202') {
     logger.info('Disabled CCD validation');
   }
@@ -136,10 +136,12 @@ Scenario('Exception ccd case cash payment transferred @nightly', async(I, CaseSe
 Scenario('DCN Search for ccd case associated with exception postal order payment transferred @nightly @pipeline', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   const totalAmount = 600;
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA09', totalAmount, 'PostalOrder');
-  const ccdCaseNumber = ccdAndDcn[1];
-
-  const dcnNumber = ccdAndDcn[0];
+  const exceptionAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA09', totalAmount, 'PostalOrder');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  const dcnNumber = exceptionAndDcn[0];
+  const exNumber = exceptionAndDcn[1];
+  const ccdCaseNumber = await bulkScanApiCalls.bulkScanCcdLinkedToException(dcnNumber, exNumber);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   CaseSearch.searchCaseUsingDcnNumber(dcnNumber);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
@@ -221,10 +223,12 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
 Scenario('Ccd case search with exception record postal order payment shortfall payment @nightly @pipeline', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   const totalAmount = 500;
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA08', totalAmount, 'PostalOrder');
-  const ccdCaseNumber = ccdAndDcn[1];
-
-  const dcnNumber = ccdAndDcn[0];
+  const exceptionAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA08', totalAmount, 'PostalOrder');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  const dcnNumber = exceptionAndDcn[0];
+  const exNumber = exceptionAndDcn[1];
+  const ccdCaseNumber = await bulkScanApiCalls.bulkScanCcdLinkedToException(dcnNumber, exNumber);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   CaseSearch.searchCaseUsingCcdNumber(ccdCaseNumber);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
@@ -244,12 +248,14 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
 Scenario('Exception search with ccd record postal order payment surplus payment @pipeline @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   const totalAmount = 600;
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA07', totalAmount, 'PostalOrder');
-  const ccdCaseNumber = ccdAndDcn[1];
-  const ccdExceptionCaseNumber = ccdAndDcn[2];
-  const dcnNumber = ccdAndDcn[0];
+  const exceptionAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'PostalOrder');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  const dcnNumber = exceptionAndDcn[0];
+  const exNumber = exceptionAndDcn[1];
+  const ccdCaseNumber = await bulkScanApiCalls.bulkScanCcdLinkedToException(dcnNumber, exNumber);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
-  CaseSearch.searchCaseUsingCcdNumber(ccdExceptionCaseNumber);
+  CaseSearch.searchCaseUsingCcdNumber(exNumber);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£600.00', 'Postal order');
   CaseTransaction.allocateToNewFee();

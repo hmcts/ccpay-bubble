@@ -12,7 +12,7 @@ Feature('CC Pay Bubble Acceptance Tests');
 
 BeforeSuite(async I => {
   const response = await bulkScanApiCalls.toggleOffCaseValidation();
-  I.wait(CCPBATConstants.thirtySecondWaitTime);
+  I.wait(CCPBATConstants.oneMinute);
   if (response === '202') {
     logger.info('Disabled CCD validation');
   }
