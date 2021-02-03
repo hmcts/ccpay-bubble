@@ -4,7 +4,6 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { PaymentGroupService } from './services/payment-group/payment-group.service';
 import { TimeoutNotificationsService} from './services/notification-service/notification-service';
 import {propsExist} from 'src/app/utilities/util';
-import { SelectorMatcher } from '@angular/compiler';
 
 declare var gtag;
 @Component({
@@ -29,23 +28,23 @@ export class AppComponent implements OnInit {
   };
 
  constructor (
-   private router: Router,
-   private activatedRoute: ActivatedRoute,
+   router: Router,
    private paymentGroupService: PaymentGroupService,
    private readonly timeoutNotificationsService: TimeoutNotificationsService
    ) {
     this.userDetailsHandler(this.userDetails);
-   const navEndEvents = router.events.pipe (
-     filter(event => event instanceof NavigationEnd)
-   );
-   navEndEvents.subscribe((event: NavigationEnd) => {
-     gtag('config', 'UA-146285829-2', {'page_path': event.urlAfterRedirects} );
-   });
+  // //  const navEndEvents = router.events.pipe (
+  // //    filter(event => event instanceof NavigationEnd)
+  // //  );
+  // //  navEndEvents.subscribe((event: NavigationEnd) => {
+  // //    gtag('config', 'UA-146285829-2', {'page_path': event.urlAfterRedirects} );
+  // //  });
    }
    ngOnInit() {
-    this.paymentGroupService.getBSFeature().then((status) => {
-      this.isBulkscanningEnable = status;
-    });
+    // this.paymentGroupService.getBSFeature().then((status) => {
+    //   this.isBulkscanningEnable = status;
+    // });
+    this.isBulkscanningEnable = true;
   }
 
   // userTimeOut(event:any) {
