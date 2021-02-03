@@ -64,7 +64,6 @@ function getCcdCaseInFormat(ccdNumber) {
   return (ccdNumber.match(/(.{1,4})/g)).join('-');
 }
 
-
 module.exports = {
   getTodayDateAndTimeInString,
   getTodayDateInYYYYMMDD, getTodayDateInDDMMYYY,
