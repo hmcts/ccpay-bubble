@@ -200,10 +200,7 @@ async function bulkScanExceptionCcd(siteId, amount, paymentMethod) {
 }
 
 
-async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
-  const ccdAndDcn = await bulkScanExceptionCcd(siteId, amount, paymentMethod);
-  const dcnNumber = ccdAndDcn[0];
-  const exceptionCcdNumber = ccdAndDcn[1];
+async function bulkScanCcdLinkedToException(dcnNumber, exceptionCcdNumber) {
   const microservice = 'api_gw';
   const numberTwo = 2;
   let ccdNumber = 0;
@@ -216,7 +213,7 @@ async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
   const responseCode = await bulkScanCcdWithException(serviceToken, ccdNumber
     , exceptionCcdNumber);
   if (responseCode) logger.info('CCD Linked to Exception created');
-  return [dcnNumber, ccdNumber, exceptionCcdNumber];
+  return ccdNumber;
 }
 
 module.exports = {
