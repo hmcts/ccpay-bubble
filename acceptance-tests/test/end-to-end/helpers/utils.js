@@ -173,7 +173,23 @@ async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNum
   return statusCode;
 }
 
-async function bulkScanNormalCcd(siteId, amount, paymentMethod, exception = false) {
+async function bulkScanCcdLinkedException(exceptionCcdNumber, serviceToken) {
+  const numberTwo = 2;
+  const successResponse = 200;
+  let ccdNumber = 0;
+  const randomNumber = numUtil.getRandomNumber(numberTwo);
+  ccdNumber = stringUtil.getTodayDateAndTimeInString() + randomNumber;
+  const responseCode = await bulkScanCcdWithException(serviceToken, ccdNumber,
+    exceptionCcdNumber).catch(error => {
+    logger.log(error);
+  });
+  if (responseCode === successResponse) logger.info('CCD link to exception created');
+  else logger.info('CCD link to exception NOT created');
+
+  return ccdNumber;
+}
+
+async function createBulkScanRecords(siteId, amount, paymentMethod, exception, linkedCcd = false) {
   const microservice = 'api_gw';
   const numberTwo = 2;
   const numberSeven = 7;
@@ -182,39 +198,52 @@ async function bulkScanNormalCcd(siteId, amount, paymentMethod, exception = fals
   const bankedDate = stringUtil.getTodayDateInYYYYMMDD();
   let dcnNumber = 0;
   let ccdNumber = 0;
+  const successResponse = 201;
+
   const randomNumber = numUtil.getRandomNumber(numberSeven);
   dcnNumber = stringUtil.getTodayDateAndTimeInString() + randomNumber;
   const responseDcnCode = await bulkScanExelaRecord(serviceToken, amount,
-    creditSlipNumber, bankedDate, dcnNumber, paymentMethod);
-  if (responseDcnCode) logger.info('DCN Created');
-  ccdNumber = await stringUtil.getTodayDateAndTimeInString() + numUtil.getRandomNumber(numberTwo);
-  const responseCcdCode = bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, exception);
-  if (responseCcdCode) logger.info('CCD Created');
+    creditSlipNumber, bankedDate, dcnNumber, paymentMethod).catch(error => {
+    logger.log(error);
+  });
+
+  if (responseDcnCode === successResponse) logger.info('DCN Created');
+  else logger.info('CCD Case NOT Created');
+
+  ccdNumber = stringUtil.getTodayDateAndTimeInString() + numUtil.getRandomNumber(numberTwo);
+  const responseCcdCode = await bulkScanRecord(serviceToken, ccdNumber, dcnNumber,
+    siteId, exception).catch(error => {
+    logger.log(error);
+  });
+
+  if (responseCcdCode === successResponse) logger.info('CCD Case Created');
+  else logger.info('CCD Case NOT Created');
+
+  if (linkedCcd) {
+    const result = Promise.all([responseDcnCode, responseCcdCode]);
+    if (result) {
+      const ccdNumberLinked = await bulkScanCcdLinkedException(ccdNumber, serviceToken);
+      return [dcnNumber, ccdNumberLinked, ccdNumber];
+    }
+  }
   return [dcnNumber, ccdNumber];
 }
 
+async function bulkScanNormalCcd(siteId, amount, paymentMethod) {
+  const bulkDcnCcd = await createBulkScanRecords(siteId, amount, paymentMethod, false);
+  return bulkDcnCcd;
+}
 
 async function bulkScanExceptionCcd(siteId, amount, paymentMethod) {
-  const result = await bulkScanNormalCcd(siteId, amount, paymentMethod, true);
-  return result;
+  const bulkDcnExceptionCcd = await createBulkScanRecords(siteId, amount, paymentMethod, true);
+  return bulkDcnExceptionCcd;
 }
 
-
-async function bulkScanCcdLinkedToException(dcnNumber, exceptionCcdNumber) {
-  const microservice = 'api_gw';
-  const numberTwo = 2;
-  let ccdNumber = 0;
-
-
-  const serviceToken = await getServiceToken(microservice);
-
-  const randomNumber = numUtil.getRandomNumber(numberTwo);
-  ccdNumber = stringUtil.getTodayDateAndTimeInString() + randomNumber;
-  const responseCode = await bulkScanCcdWithException(serviceToken, ccdNumber
-    , exceptionCcdNumber);
-  if (responseCode) logger.info('CCD Linked to Exception created');
-  return ccdNumber;
+async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
+  const bulkDcnExpCcd = await createBulkScanRecords(siteId, amount, paymentMethod, true, true);
+  return bulkDcnExpCcd;
 }
+
 
 module.exports = {
   bulkScanNormalCcd, bulkScanExceptionCcd, bulkScanCcdLinkedToException,
