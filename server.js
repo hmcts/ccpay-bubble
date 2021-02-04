@@ -63,7 +63,7 @@ module.exports = (security, appInsights) => {
 
   // use helmet for security
   app.use(helmet());
-  app.use(helmet.noCache());
+  // app.use(helmet.noCache());
   app.use(helmet.frameguard());
   app.use(helmet.xssFilter());
 
