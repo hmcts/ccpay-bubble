@@ -43,31 +43,37 @@ Scenario('Search for a case with actual case number from CCD @nightly', async I 
   }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Search for a case with actual case for Telephony flow', async I => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  await I.caseforTelephonyFlow();
-  I.Logout();
+Scenario('Search for a case with actual case for Telephony flow @nightly @pipeline', async I => {
+  if (nightlyTest) {
+    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    await I.caseforTelephonyFlow();
+    I.Logout();
+  }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Amount Due case for Telephony flow', async I => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  await I.AmountDueCaseForTelephonyFlow();
-  I.Logout();
+Scenario('Amount Due case for Telephony flow @nightly', async I => {
+  if (nightlyTest) {
+    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    await I.AmountDueCaseForTelephonyFlow();
+    I.Logout();
+  }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Remove fee from case transaction page Telephony flow', async I => {
+Scenario('Remove fee from case transaction page Telephony flow @nightly @pipeline', async I => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   await I.removeFeeFromCaseTransactionPageTelephonyFlow();
   I.Logout();
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Search for a case with dummy case number @nightly @pipeline', async I => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  const responseOn = await bulkScanApiCalls.toggleOnCaseValidation();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  if (responseOn === successResponse) {
-    logger.info('Enabled CCD validation');
+Scenario('Search for a case with dummy case number @nightly', async I => {
+  if (nightlyTest) {
+    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    const responseOn = await bulkScanApiCalls.toggleOnCaseValidation();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    if (responseOn === successResponse) {
+      logger.info('Enabled CCD validation');
+    }
+    await I.searchForCCDdummydata();
+    I.Logout();
   }
-  await I.searchForCCDdummydata();
-  I.Logout();
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });

@@ -36,28 +36,30 @@ AfterSuite(async I => {
 
 
 // #region Normal CCD case bulk scan functional cases
-Scenario('Normal ccd case cash payment full allocation @pipeline @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  const totalAmount = 550;
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'Cash');
-  const ccdCaseNumber = ccdAndDcn[1];
-  const dcnNumber = ccdAndDcn[0];
-  const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
-  await miscUtils.multipleCcdSearch(CaseSearch, I, ccdCaseNumber);
-  CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
-  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£550.00', 'Cash');
-  CaseTransaction.allocateToNewFee();
-  AddFees.addFees('550.00', 'family', 'family_court');
-  FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
-  FeesSummary.allocateBulkPayment();
-  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '£550.00', '£550.00');
-  ConfirmAssociation.confirmPayment();
-  CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'CCD reference', 'Allocated');
-  CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
-  const receiptReference = await CaseTransaction.getReceiptReference();
-  PaymentHistory.navigateToReceiptRefs(receiptReference);
-  PaymentHistory.validateCcdPaymentDetails(receiptReference, '£550.00', dcnNumber, 'success', 'Cash', 'FEE0002');
-  I.Logout();
+Scenario('Normal ccd case cash payment full allocation @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
+  if (nightlyTest) {
+    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    const totalAmount = 550;
+    const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'Cash');
+    const ccdCaseNumber = ccdAndDcn[1];
+    const dcnNumber = ccdAndDcn[0];
+    const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
+    await miscUtils.multipleCcdSearch(CaseSearch, I, ccdCaseNumber);
+    CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
+    CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£550.00', 'Cash');
+    CaseTransaction.allocateToNewFee();
+    AddFees.addFees('550.00', 'family', 'family_court');
+    FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
+    FeesSummary.allocateBulkPayment();
+    ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '£550.00', '£550.00');
+    ConfirmAssociation.confirmPayment();
+    CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'CCD reference', 'Allocated');
+    CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
+    const receiptReference = await CaseTransaction.getReceiptReference();
+    PaymentHistory.navigateToReceiptRefs(receiptReference);
+    PaymentHistory.validateCcdPaymentDetails(receiptReference, '£550.00', dcnNumber, 'success', 'Cash', 'FEE0002');
+    I.Logout();
+  }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
@@ -158,25 +160,27 @@ Scenario('DCN Search for ccd case associated with exception postal order payment
   I.Logout();
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Normal ccd case cash payment transferred when no valid reason or site id selected @nightly @pipeline', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  const totalAmount = 550;
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA09', totalAmount, 'Cash');
-  const ccdCaseNumber = ccdAndDcn[1];
-  const dcnNumber = ccdAndDcn[0];
-  const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
-  await miscUtils.multipleCcdSearch(CaseSearch, I, ccdCaseNumber);
-  CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
-  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£550.00', 'Cash');
-  CaseTransaction.allocateToTransferred();
-  CaseTransferred.confirmPayment();
-  CaseTransferred.whenNoReasonAndSiteid();
-  CaseTransferred.selectSiteId('Basildon Combined Court - Crown (W802)');
-  CaseTransferred.inputTransferredReason('ab');
-  CaseTransferred.confirmPayment();
-  CaseTransferred.whenReasonLessThanLimit();
-  CaseTransferred.cancelTransferredReason();
-  I.Logout();
+Scenario('Normal ccd case cash payment transferred when no valid reason or site id selected @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
+  if (nightlyTest) {
+    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    const totalAmount = 550;
+    const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA09', totalAmount, 'Cash');
+    const ccdCaseNumber = ccdAndDcn[1];
+    const dcnNumber = ccdAndDcn[0];
+    const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
+    await miscUtils.multipleCcdSearch(CaseSearch, I, ccdCaseNumber);
+    CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
+    CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£550.00', 'Cash');
+    CaseTransaction.allocateToTransferred();
+    CaseTransferred.confirmPayment();
+    CaseTransferred.whenNoReasonAndSiteid();
+    CaseTransferred.selectSiteId('Basildon Combined Court - Crown (W802)');
+    CaseTransferred.inputTransferredReason('ab');
+    CaseTransferred.confirmPayment();
+    CaseTransferred.whenReasonLessThanLimit();
+    CaseTransferred.cancelTransferredReason();
+    I.Logout();
+  }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Exception Case Cheque Payment Unidentified @nightly @pipeline', async(I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
@@ -247,28 +251,30 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
   I.Logout();
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Exception search with ccd record postal order payment surplus payment @pipeline @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  const totalAmount = 600;
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA07', totalAmount, 'PostalOrder');
-  const dcnNumber = ccdAndDcn[0];
-  const exNumber = ccdAndDcn[2];
-  const ccdCaseNumber = ccdAndDcn[1];
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
-  await miscUtils.multipleCcdSearch(CaseSearch, I, exNumber);
-  CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
-  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£600.00', 'Postal order');
-  CaseTransaction.allocateToNewFee();
-  AddFees.addFees('550.00', 'family', 'family_court');
-  FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
-  FeesSummary.allocateBulkPayment();
-  ConfirmAssociation.verifyConfirmAssociationSurplusPayment('FEE0002', '£550.00', '£50.00');
-  ConfirmAssociation.selectSurplusReasonOtherExplainatoryAndUser('Help with Fees awarded', 'Other explainatory note', 'Auto Comment');
-  ConfirmAssociation.confirmPayment();
-  CaseTransaction.checkBulkCaseSurplusOrShortfallSuccessPayment(ccdCaseNumberFormatted, 'CCD reference', 'Allocated', '-£50.00');
-  CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
-  I.Logout();
+Scenario('Exception search with ccd record postal order payment surplus payment @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
+  if (nightlyTest) {
+    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    const totalAmount = 600;
+    const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA07', totalAmount, 'PostalOrder');
+    const dcnNumber = ccdAndDcn[0];
+    const exNumber = ccdAndDcn[2];
+    const ccdCaseNumber = ccdAndDcn[1];
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
+    await miscUtils.multipleCcdSearch(CaseSearch, I, exNumber);
+    CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
+    CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£600.00', 'Postal order');
+    CaseTransaction.allocateToNewFee();
+    AddFees.addFees('550.00', 'family', 'family_court');
+    FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
+    FeesSummary.allocateBulkPayment();
+    ConfirmAssociation.verifyConfirmAssociationSurplusPayment('FEE0002', '£550.00', '£50.00');
+    ConfirmAssociation.selectSurplusReasonOtherExplainatoryAndUser('Help with Fees awarded', 'Other explainatory note', 'Auto Comment');
+    ConfirmAssociation.confirmPayment();
+    CaseTransaction.checkBulkCaseSurplusOrShortfallSuccessPayment(ccdCaseNumberFormatted, 'CCD reference', 'Allocated', '-£50.00');
+    CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
+    I.Logout();
+  }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Payment reference RC search with ccd record associated with exception @pipeline, @nightly', (I, CaseSearch, CaseTransaction, PaymentHistory) => {
@@ -290,13 +296,15 @@ Scenario('Payment reference RC search for exception @pipeline, @nightly', (I, Ca
   I.Logout();
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Download reports in paybubble @pipeline, @nightly', (I, Reports) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  Reports.navigateToReports();
-  Reports.validateReportsPage();
-  Reports.selectReportAndDownload('Data loss');
-  Reports.selectReportAndDownload('Unprocessed transactions');
-  Reports.selectReportAndDownload('Processed unallocated');
-  Reports.selectReportAndDownload('Shortfalls and surplus');
-  I.Logout();
+Scenario('Download reports in paybubble @nightly', (I, Reports) => {
+  if (nightlyTest) {
+    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    Reports.navigateToReports();
+    Reports.validateReportsPage();
+    Reports.selectReportAndDownload('Data loss');
+    Reports.selectReportAndDownload('Unprocessed transactions');
+    Reports.selectReportAndDownload('Processed unallocated');
+    Reports.selectReportAndDownload('Shortfalls and surplus');
+    I.Logout();
+  }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
