@@ -45,7 +45,7 @@ async function CaseValidation(flag) {
   const disablePath = `/api/ff4j/store/features/caseref-validation/${flag}`;
   // eslint-disable-next-line global-require
 
-  const disabled = await request({
+  const saveCaseResponse = await request({
     method: 'POST',
     uri: paymentBaseUrl + disablePath,
     headers: { 'Content-Type': 'application/json' }
@@ -55,18 +55,18 @@ async function CaseValidation(flag) {
   }).catch(error => {
     logger.log(error);
   });
-  logger.debug(disabled);
+  logger.info(saveCaseResponse);
   return statusCode;
 }
 
 async function toggleOffCaseValidation() {
   const response = await CaseValidation('disable');
-  return response;
+  return Promise.all([response]);
 }
 
 async function toggleOnCaseValidation() {
   const response = await CaseValidation('enable');
-  return response;
+  return Promise.all([response]);
 }
 
 async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
