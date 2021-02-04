@@ -72,7 +72,7 @@
     "pug": "2.0.3",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
-    "rxjs": "~6.4.0",
+    "rxjs": "~6.6.3",
     "rxjs-compat": "^6.5.2",
     "superagent": "4.1.0",
     "supertest": "^3.4.2",
