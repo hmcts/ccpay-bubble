@@ -5,6 +5,8 @@ const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 
 const numUtils = require('../helpers/number_utils');
 
+const miscUtils = require('../helpers/misc');
+
 const searchCase = require('../pages/case_search');
 
 const stringUtils = require('../helpers/string_utils');
@@ -749,15 +751,15 @@ module.exports = () => actor({
   searchForCCDdummydata() {
     const ccdNumber = numUtils.getRandomNumber(CCPBConstants.CCDCaseNumber, true);
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
-    searchCase.searchCaseUsingCcdNumber(ccdCaseNumberFormatted, false);
+    searchCase.searchCaseUsingCcdNumber(ccdCaseNumberFormatted);
     this.see('No matching cases found');
   },
 
-  searchForCorrectCCDNumber() {
+  async searchForCorrectCCDNumber() {
     const randomNumber = numUtils.getRandomNumber(numberTwo);
     const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
-    searchCase.searchCaseUsingCcdNumber(ccdNumber);
+    await miscUtils.multipleCcdSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
     this.see('CCD reference:');
     this.see(ccdCaseNumberFormatted);
@@ -784,11 +786,11 @@ module.exports = () => actor({
     this.see('£0.00');
   },
 
-  caseforTelephonyFlow() {
+  async caseforTelephonyFlow() {
     const randomNumber = numUtils.getRandomNumber(numberTwo);
     const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
-    searchCase.searchCaseUsingCcdNumber(ccdCaseNumberFormatted);
+    await miscUtils.multipleCcdSearch(searchCase, this, ccdCaseNumberFormatted);
     this.see('Case transactions');
     this.see('CCD reference:');
     this.see(ccdCaseNumberFormatted);
@@ -828,10 +830,8 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  AmountDueCaseForTelephonyFlow() {
-    this.fillField({ css: '[type="text"]' }, '1598999494885873');
-    this.click('Search');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+  async AmountDueCaseForTelephonyFlow() {
+    await miscUtils.multipleCcdSearch(searchCase, this, '1598999494885873');
     this.see('Case transactions');
     this.see('CCD reference:');
     this.see('1598-9994-9488-5873');
@@ -855,11 +855,11 @@ module.exports = () => actor({
     this.see('Probate');
   },
 
-  removeFeeFromCaseTransactionPageTelephonyFlow() {
+  async removeFeeFromCaseTransactionPageTelephonyFlow() {
     const randomNumber = numUtils.getRandomNumber(numberTwo);
     const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
-    searchCase.searchCaseUsingCcdNumber(ccdNumber);
+    await miscUtils.multipleCcdSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
     this.see('CCD reference:');
     this.see(ccdCaseNumberFormatted);
@@ -893,10 +893,7 @@ module.exports = () => actor({
     this.see('Divorce');
     this.see('Probate');
     this.click('Case Transaction');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
-    this.fillField({ css: '[type="text"]' }, ccdNumber);
-    this.click('Search');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    await miscUtils.multipleCcdSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
     this.see('CCD reference:');
     this.see(ccdCaseNumberFormatted);

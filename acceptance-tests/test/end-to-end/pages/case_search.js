@@ -10,17 +10,24 @@ module.exports = {
     dcn_option: { xpath: '//*[@id="DCN"]' },
     dcn_field: { xpath: '//*[@id="dcn-search"]' },
     payment_option: { xpath: '//*[@id="RC"]' },
-    payment_ref_ield: { xpath: '//*[@id="RC-search"]' }
+    payment_ref_ield: { xpath: '//*[@id="RC-search"]' },
+    header: { xpath: '//h1' }
 
   },
+
+  async getHeaderValue() {
+    const headerValue = await I.grabTextFrom(this.locators.header);
+    return headerValue;
+  },
+
+
   // done
-  searchCaseUsingCcdNumber(caseNumber, retry = true) {
+  searchCaseUsingCcdNumber(caseNumber) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateSearchPage();
     I.checkOption(this.locators.ccd_option);
     I.fillField(this.locators.ccd_field, caseNumber);
-    if (retry) I.retry({ retries: CCPBConstants.retryCountForStep, minTimeout: CCPBConstants.maxTimeout }).click('Search');
-    else I.click('Search');
+    I.click('Search');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
