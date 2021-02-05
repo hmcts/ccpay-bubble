@@ -1,5 +1,13 @@
 #!groovy
 
+properties([
+  pipelineTriggers([cron('0 3 * * *')]),
+
+  parameters([
+    string(name: 'URL_TO_TEST', defaultValue: 'https://paybubble.aat.platform.hmcts.net', description: 'The URL you want to run these tests against')
+  ])
+])
+
 @Library("Infrastructure")
 
 def product = "ccpay"
@@ -7,10 +15,10 @@ def component = "bubble-frontend"
 
 def secrets = [
   'ccpay-${env}': [
-      secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET'),
-      secret('paybubble-idam-client-secret', 'IDAM_CLIENT_SECRET'),
-      secret('launch-darkly-client-id', 'LD_CLIENT_ID'),
-      secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
+    secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET'),
+    secret('paybubble-idam-client-secret', 'IDAM_CLIENT_SECRET'),
+    secret('launch-darkly-client-id', 'LD_CLIENT_ID'),
+    secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
   ]
 ]
 
@@ -29,13 +37,11 @@ def vaultOverrides = [
 
 ]
 
-withPipeline("nodejs", product, component) {
-
+withNightlyPipeline("nodejs", product, component) {
+  env.TEST_URL = params.URL_TO_TEST
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  enableSlackNotifications('#cc-payments-tech')
-  enableAksStagingDeployment()
-  disableLegacyDeployment()
+  enableFullFunctionalTest()
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
@@ -43,5 +49,4 @@ withPipeline("nodejs", product, component) {
   after('build') {
     sh 'yarn ng:build'
   }
-
 }

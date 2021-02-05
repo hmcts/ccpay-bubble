@@ -5,9 +5,8 @@ security:
     pins: SECURITY_HPKP_PINS
 idam:
   client_id: paybubble
-  login_url: IDAM_LOGIN_URL
+  login_url: IDAM_AUTHENTICATION_WEB_URL
   api_url: IDAM_API_URL
-  web_url: IDAM_AUTHENTICATION_WEB_URL
 ccpaybubble:
   url: CCPAY_BUBBLE_URL
   microservice: CCPAY_BUBBLE_MICROSERVICE
@@ -22,6 +21,8 @@ certs:
   crt: CERTS_CRT
 session:
   cookieName: JWT_PAYBUBBLE
+environment:
+  ldPrefix: LD_FLAG_PREFIX
 e2e:
   frontendUrl: E2E_FRONTEND_URL
   waitForTimeoutValue: E2E_WAIT_FOR_TIMEOUT_VALUE
@@ -35,4 +36,5 @@ secrets:
   ccpay:
     paybubble-s2s-secret: S2S_KEY
     paybubble-idam-client-secret: IDAM_CLIENT_SECRET
+    launch-darkly-client-id: LD_CLIENT_ID
     AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
