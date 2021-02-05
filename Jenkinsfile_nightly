@@ -39,7 +39,7 @@ def vaultOverrides = [
 
 withNightlyPipeline("nodejs", product, component) {
   env.TEST_URL = params.URL_TO_TEST
-  env.NIGHTLY_TEST="true"
+  env.NIGHTLY_TEST= true
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
   enableFullFunctionalTest()
