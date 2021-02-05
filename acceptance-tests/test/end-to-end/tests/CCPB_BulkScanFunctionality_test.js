@@ -290,10 +290,12 @@ Scenario('Payment reference RC search with ccd record associated with exception 
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Payment reference RC search for exception @pipeline, @nightly', (I, CaseSearch, CaseTransaction) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  CaseSearch.searchCaseUsingPaymentRef('RC-1611-0169-9283-4106');
-  CaseTransaction.checkBulkCaseSuccessPayment('1611-0168-3181-5167', 'Exception reference', 'Transferred');
-  I.Logout();
+  if (nightlyTest) {
+    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    CaseSearch.searchCaseUsingPaymentRef('RC-1611-0169-9283-4106');
+    CaseTransaction.checkBulkCaseSuccessPayment('1611-0168-3181-5167', 'Exception reference', 'Transferred');
+    I.Logout();
+  }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Download reports in paybubble @nightly', (I, Reports) => {
