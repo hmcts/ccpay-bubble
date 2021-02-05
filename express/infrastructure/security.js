@@ -153,14 +153,14 @@ Security.prototype.logout = function logout() {
       if (err) {
         Logger.getLogger('CCPAY-BUBBLE: security.js').error(err);
       }
-      const token1 = req.cookies[constants.SECURITY_COOKIE];
+      // const token1 = req.cookies[constants.SECURITY_COOKIE];
 
       res.clearCookie(constants.SECURITY_COOKIE);
       res.clearCookie(constants.REDIRECT_COOKIE);
       res.clearCookie(constants.USER_COOKIE);
       res.clearCookie(constants.authToken);
       res.clearCookie(constants.userInfo);
-      if (token1) {
+      if (token) {
         res.redirect(`${self.opts.webUrl}/login/logout?jwt=${token1}`);
       } else {
         res.redirect(`${self.opts.webUrl}/login/logout`);
