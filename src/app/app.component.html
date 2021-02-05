@@ -6,6 +6,19 @@
     <div class="govuk-grid-row">
       <router-outlet></router-outlet>
     </div>
+    <app-session-dialog positionTop="300px" *ngIf="timeoutModalConfig.isVisible"  (close)="staySignedInHandler()">
+      <h3 class="govuk-heading-m">We are about to sign you out</h3>
+      <p class="govuk-body">For your security, we will sign you out of your account in
+        <strong style="font-weight: bold">{{timeoutModalConfig.countdown}}</strong>
+      </p>
+      <p>Any information you have not saved will be lost</p>
+      <button type="submit" class="govuk-button stay-signed-in-button" (click)="staySignedInHandler()">
+        Stay signed in
+      </button>
+      <button type="submit" class="govuk-button govuk-button--secondary" (click)="signOutHandler()">
+        Sign out
+      </button>
+    </app-session-dialog>
 </div>
 
 <footer class="group js-footer" id="footer" role="contentinfo">
