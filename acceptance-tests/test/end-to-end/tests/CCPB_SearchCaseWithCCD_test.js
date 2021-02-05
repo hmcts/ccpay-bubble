@@ -51,18 +51,19 @@ Scenario('Search for a case with actual case for Telephony flow @nightly @pipeli
   }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Amount Due case for Telephony flow @nightly', async I => {
-  if (nightlyTest) {
+Scenario('Amount Due case for Telephony flow @nightly @pipeline', async I => {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     await I.AmountDueCaseForTelephonyFlow();
     I.Logout();
-  }
+
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Remove fee from case transaction page Telephony flow @nightly @pipeline', async I => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  await I.removeFeeFromCaseTransactionPageTelephonyFlow();
-  I.Logout();
+Scenario('Remove fee from case transaction page Telephony flow @nightly', async I => {
+  if (nightlyTest) {
+    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    await I.removeFeeFromCaseTransactionPageTelephonyFlow();
+    I.Logout();
+  }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Search for a case with dummy case number @nightly', async I => {
