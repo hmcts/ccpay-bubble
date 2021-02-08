@@ -39,8 +39,8 @@ function addOAuth2Parameters(url, state, self, req) {
   url.query.scope = 'openid profile roles';
   url.query.client_id = self.opts.clientId;
   url.query.redirect_uri = `https://${req.get('host')}${self.opts.redirectUri}`;
-  req.session.testing = "testing";
-  console.log("Access Token" + req.session['testing']);
+  req.session.testing = 'testing';
+  Logger.getLogger('CCPAY-BUBBLE: security.js').error(req.session.testing);
 }
 
 function generateState() {
@@ -353,8 +353,8 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       res.clearCookie(constants.REDIRECT_COOKIE);
       req.session.accesstoken = accessToken;
       req.session.idtoken = idToken;
-      console.log("Access Token" + req.session['accesstoken']);
-      console.log("Access Token" + req.session['idtoken']);
+      Logger.getLogger('PAYBUBBLE: server.js -> error santosh').error(req.session.accesstoken);
+      Logger.getLogger('PAYBUBBLE: server.js -> error santosh').error(req.session.idtoken);
       /* We initialise appinsight with user details */
       getUserDetails(self, req.authToken).end(
         (error, resp) => {
