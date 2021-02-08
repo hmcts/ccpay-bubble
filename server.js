@@ -11,14 +11,64 @@ const moment = require('moment');
 const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+const redis = require('redis');
+
+
+// Create redis client
+const client = redis.createClient();
+//Configure redis client
+const redisClient = redis.createClient({
+  host: 'localhost',
+  port: 6379
+})
 
 const app = express();
 
 const errorFactory = ApiErrorFactory('server.js');
 let csrfProtection = csurf({ cookie: true });
 
+client.on('error', function (err) {
+  console.log('could not establish a connection with redis. ' + err);
+});
+client.on('connect', function (err) {
+  console.log('connected to redis successfully');
+});
+
+// app.use(session({
+//     secret: config.secrets.ccpay['paybubble-idam-client-secret'],
+//     name: '_paybubblesession',
+//     resave: false,
+//     saveUninitialized:false,
+//     cookie: { secure: false }, // Note that the cookie-parser module is no longer needed
+//     store: new redisStore({ host: 'localhost', port: 6379, client: redisClient, ttl: 86400 }),
+//   }));
+
+//   app.use(session({
+//     store: new RedisStore({ client: redisClient }),
+//     name: '_paybubblesession',
+//     secret: 'secret$%^134',
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//         secure: false, // if true only transmit cookie over https
+//         httpOnly: false, // if true prevent client side JS from reading the cookie 
+//         maxAge: 1000 * 60 * 10 // session max age in miliseconds
+//     }
+// }))
+
+app.use(session({
+  store: new RedisStore({client: client}),
+  name: '_paybubblesession',
+  secret: 'some secret',
+  resave: false,
+  saveUninitialized: true
+}));
+
 if (process.env.NODE_ENV === 'development') {
   csrfProtection = (req, res, next) => {
+    req.session.name = 'santosh';
     next();
   };
 }

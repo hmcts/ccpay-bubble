@@ -39,6 +39,8 @@ function addOAuth2Parameters(url, state, self, req) {
   url.query.scope = 'openid profile roles';
   url.query.client_id = self.opts.clientId;
   url.query.redirect_uri = `https://${req.get('host')}${self.opts.redirectUri}`;
+  req.session.testing = "testing";
+  console.log("Access Token" + req.session['testing']);
 }
 
 function generateState() {
@@ -313,6 +315,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     /* We clear any potential existing sessions first, as we want to start over even if we deny access */
     res.clearCookie(constants.SECURITY_COOKIE);
     res.clearCookie(constants.USER_COOKIE);
+    res.session.name = 'santosh';
 
     /* We check that our stored state matches the requested one */
     const redirectInfo = getRedirectCookie(req);
@@ -348,7 +351,10 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       storeCookie(req, res, idToken, constants.SECURITY_COOKIE_ID);
       /* We delete redirect cookie */
       res.clearCookie(constants.REDIRECT_COOKIE);
-
+      req.session.accesstoken = accessToken;
+      req.session.idtoken = idToken;
+      console.log("Access Token" + req.session['accesstoken']);
+      console.log("Access Token" + req.session['idtoken']);
       /* We initialise appinsight with user details */
       getUserDetails(self, req.authToken).end(
         (error, resp) => {
