@@ -12,41 +12,43 @@ const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
 const redis = require('redis');
+const RedisStore = require('connect-redis')(session);
+const { SESSION_OPTIONS } = require('./express/config/session');
+const { REDIS_OPTIONS } = require('./express/config/redis');
+// const client =  redis.createClient(RedisOptions);
+/* eslint-disable no-console  */
+/* eslint-disable no-unused-vars  */
 
-
-// Create redis client
-const client1 = redis.createClient();
-// Configure redis client
-// const redisClient = redis.createClient({
-//   host: 'localhost',
-//   port: 6379
-// })
-
+const client1 = redis.createClient({ REDIS_OPTIONS });
 const app = express();
+
+app.use(
+  session({
+    ...SESSION_OPTIONS,
+    store: new RedisStore(client1)
+  }));
 
 const errorFactory = ApiErrorFactory('server.js');
 let csrfProtection = csurf({ cookie: true });
 
-// client1.on('error', function (err) {
-//   console.log('could not establish a connection with redis. ' + err);
-// });
-// client1.on('connect', function (err) {
-//   console.log('connected to redis successfully');
-// });
+client1.on('connect', (req, res) => {
+  console.log('redis connected1');
+  client1.SET('name', 'santosh');
+  console.log(`connected ${client1.connected}`);
+}).on('error', error => {
+  console.log(error);
+});
 
-app.use(session({
-  store: new RedisStore({ client: client1 }),
-  name: '_paybubblesession',
-  secret: 'some secret',
-  resave: false,
-  saveUninitialized: true
-}));
+client1.GET('name', (err, val) => {
+  if (err) console.log(err.message);
+  console.log(val);
+});
+
 
 if (process.env.NODE_ENV === 'development') {
   csrfProtection = (req, res, next) => {
-    req.session.name = 'santosh';
+    req.session.env = process.env.NODE_ENV;
     next();
   };
 }
@@ -81,7 +83,6 @@ function errorHandler(err, req, res, next) {
 module.exports = (security, appInsights) => {
   const client = appInsights.defaultClient;
   const startTime = Date.now();
-
   // parse application/x-www-form-urlencoded
   app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -125,6 +126,7 @@ module.exports = (security, appInsights) => {
   // fallback to this route (so that Angular will handle all routing)
   app.get('**', security.protectWithAnyOf(roles.allRoles, ['/assets/']), csrfProtection,
     (req, res) => {
+      req.session.mm = 'mm';
       res.render('index', { csrfToken: req.csrfToken() });
     });
 
@@ -140,3 +142,27 @@ module.exports = (security, appInsights) => {
 
   return app;
 };
+
+// const url = require('url')
+
+
+// const redisUrl = url.parse('redis://:@127.0.0.1:6379/0');
+
+// const redisProtocol = redisUrl.protocol.substr(0, redisUrl.protocol.length - 1); // Remove trailing ':'
+// const redisUsername = redisUrl.auth.split(':')[0];
+// const redisPassword = redisUrl.auth.split(':')[1];
+// const redisHost = redisUrl.hostname;
+// const redisPort = redisUrl.port;
+// const redisDatabase = redisUrl.path.substring(1);
+// Create redis client
+// const client1 = redis.createClient();
+// Configure redis client
+// const client1 = redis.createClient(6379, '127.0.0.1');
+// const client  = redis.createClient();
+// const REDIS_USER_DATA_INDEX = 2;
+// client1.select(REDIS_USER_DATA_INDEX);
+// const client1 = redis.createClient({
+//   host: '127.0.0.1',
+//   port: 6379,
+//   tls: true
+// })

@@ -6,7 +6,8 @@
   },
   "parserOptions": {
     "sourceType": "module",
-    "ecmaVersion": 2017
+    "parser": "babel-eslint",
+    "ecmaVersion": 2018
   },
   "rules": {
     "id-blacklist": [

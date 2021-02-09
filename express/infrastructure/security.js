@@ -62,6 +62,7 @@ function storeRedirectCookie(req, res, continueUrl, state) {
 function login(req, res, roles, self) {
   const originalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
   const state = generateState();
+  req.session.sessionkey = res;
 
   storeRedirectCookie(req, res, originalUrl, state);
 
