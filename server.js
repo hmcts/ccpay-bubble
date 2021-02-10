@@ -23,11 +23,11 @@ const { REDIS_OPTIONS } = require('./express/config/redis');
 const client1 = redis.createClient({ REDIS_OPTIONS });
 const app = express();
 
-app.use(
-  session({
-    ...SESSION_OPTIONS,
-    store: new RedisStore(client1)
-  }));
+// app.use(
+//   session({
+//     ...SESSION_OPTIONS,
+//     store: new RedisStore(client1)
+//   }));
 
 const errorFactory = ApiErrorFactory('server.js');
 let csrfProtection = csurf({ cookie: true });
@@ -42,7 +42,6 @@ client1.on('connect', (req, res) => {
 
 if (process.env.NODE_ENV === 'development') {
   csrfProtection = (req, res, next) => {
-    req.session.env = process.env.NODE_ENV;
     next();
   };
 }
@@ -59,8 +58,8 @@ function errorHandler(err, req, res, next) {
   }
 
   const msg = JSON.stringify({ error: error.toString(), cause: error.remoteError ? error.remoteError.toString() : '' });
-  Logger.getLogger(`PAYBUBBLE: ${error.fileName || 'server.js'} -> error`).info(msg);
-  Logger.getLogger(`PAYBUBBLE: ${error.fileName || 'server.js'} -> error`).info(JSON.stringify(err));
+  Logger.getLogger(`PAYBUBBLE: ${error.fileName || 'server.js1'} -> error`).info(msg);
+  Logger.getLogger(`PAYBUBBLE: ${error.fileName || 'server.js2'} -> error`).info(JSON.stringify(err));
   if (req.xhr) {
     res.status(error.status).send({ error: error.remoteError || error.message });
   } else {
@@ -89,18 +88,34 @@ module.exports = (security, appInsights) => {
   app.use(helmet.noCache());
   app.use(helmet.frameguard());
   app.use(helmet.xssFilter());
-
+ 
   app.set('view engine', 'pug');
   app.set('views', path.join(__dirname, 'express/mvc/views'));
 
   // enable the dist folder to be accessed statically
   app.use(express.static('dist/ccpay-bubble'));
 
-  app.use('/logout', security.logout());
-  app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
   app.use('/health/liveness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
   app.use('/health/readiness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
+  app.use(
+    session({
+      ...SESSION_OPTIONS,
+      store: new RedisStore(client1)
+    }));
+
+  client1.on('connect', (req, res) => {
+    console.log('redis connected1');
+    console.log(`connected ${client1.connected}`);
+  }).on('error', error => {
+    console.log(error);
+  });
+
+  app.use('/logout', security.logout());
+  app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
+ 
   app.use('/health', healthcheck);
+ 
+
 
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"
