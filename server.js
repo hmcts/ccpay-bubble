@@ -22,6 +22,8 @@ const { REDIS_OPTIONS } = require('./express/config/redis');
 
 const client1 = redis.createClient({ REDIS_OPTIONS });
 const app = express();
+let csrfProtection = csurf({ cookie: true });
+const errorFactory = ApiErrorFactory('server.js');
 
 if (process.env.NODE_ENV === 'development') {
   csrfProtection = (req, res, next) => {
@@ -86,16 +88,6 @@ module.exports = (security, appInsights) => {
       ...SESSION_OPTIONS,
       store: new RedisStore(client1)
     }));
-  
-  const errorFactory = ApiErrorFactory('server.js');
-  let csrfProtection = csurf({ cookie: true });
-  
-  client1.on('connect', (req, res) => {
-    console.log('redis connected1');
-    console.log(`connected ${client1.connected}`);
-  }).on('error', error => {
-    console.log(error);
-  });
 
   client1.on('connect', (req, res) => {
     console.log('redis connected1');
