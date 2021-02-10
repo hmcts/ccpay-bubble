@@ -25,7 +25,7 @@ const constants = Object.freeze({
 
 function Security(options) {
   this.opts = options || {};
-
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info('HELLO12345');
   if (!this.opts.loginUrl) {
     throw new Error('login URL required for Security');
   }
@@ -39,6 +39,7 @@ function addOAuth2Parameters(url, state, self, req) {
   url.query.scope = 'openid profile roles';
   url.query.client_id = self.opts.clientId;
   url.query.redirect_uri = `https://${req.get('host')}${self.opts.redirectUri}`;
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info('HELLO123456');
   req.session.testing = 'testing';
   Logger.getLogger('CCPAY-BUBBLE: security.js').error(req.session.testing);
 }
@@ -62,7 +63,8 @@ function storeRedirectCookie(req, res, continueUrl, state) {
 function login(req, res, roles, self) {
   const originalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
   const state = generateState();
-  req.session.sessionkey = res;
+  req.session.key = res;
+  
 
   storeRedirectCookie(req, res, originalUrl, state);
 
@@ -75,6 +77,7 @@ function login(req, res, roles, self) {
   }
 
   addOAuth2Parameters(url, state, self, req);
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info(url.format());
 
   res.redirect(url.format());
 }

@@ -1,4 +1,4 @@
-// // import { RedisOptions } from 'ioredis';
+// import { RedisOptions } from 'ioredis';
 // tslint:disable:no-magic-numbers
 const {
   REDIS_HOST = 'localhost',
@@ -11,7 +11,8 @@ const REDIS_OPTIONS = {
   port: Number(REDIS_PORT),
   host: REDIS_HOST,
   password: REDIS_PASSWORD,
-  ttl: 86400
+  ttl: 86400,
+  tls: true
 };
 
 module.exports = { REDIS_OPTIONS };
@@ -30,13 +31,9 @@ module.exports = { REDIS_OPTIONS };
 //     host: REDIS_HOST,
 //     password: REDIS_PASSWORD,
 //     username: REDIS_USERNAME,
-//     password: REDIS_PROTOCOL
+//     password: REDIS_PROTOCOL,
+//     ttl: 86400
 // }
 
-// class RedisOptions {
-//  getRedisObj(){
-//      return REDIS_OPTIONS;
-//  }
-// }
 
-// module.exports  = { RedisOptions };
+// module.exports  = { REDIS_OPTIONS };

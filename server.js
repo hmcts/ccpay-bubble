@@ -23,23 +23,6 @@ const { REDIS_OPTIONS } = require('./express/config/redis');
 const client1 = redis.createClient({ REDIS_OPTIONS });
 const app = express();
 
-// app.use(
-//   session({
-//     ...SESSION_OPTIONS,
-//     store: new RedisStore(client1)
-//   }));
-
-const errorFactory = ApiErrorFactory('server.js');
-let csrfProtection = csurf({ cookie: true });
-
-client1.on('connect', (req, res) => {
-  console.log('redis connected1');
-  console.log(`connected ${client1.connected}`);
-}).on('error', error => {
-  console.log(error);
-});
-
-
 if (process.env.NODE_ENV === 'development') {
   csrfProtection = (req, res, next) => {
     next();
@@ -73,6 +56,7 @@ function errorHandler(err, req, res, next) {
   }
 }
 
+
 module.exports = (security, appInsights) => {
   const client = appInsights.defaultClient;
   const startTime = Date.now();
@@ -96,11 +80,22 @@ module.exports = (security, appInsights) => {
   app.use('/health', healthcheck);
   app.use('/health/liveness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
   app.use('/health/readiness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
+
   app.use(
     session({
       ...SESSION_OPTIONS,
       store: new RedisStore(client1)
     }));
+  
+  const errorFactory = ApiErrorFactory('server.js');
+  let csrfProtection = csurf({ cookie: true });
+  
+  client1.on('connect', (req, res) => {
+    console.log('redis connected1');
+    console.log(`connected ${client1.connected}`);
+  }).on('error', error => {
+    console.log(error);
+  });
 
   client1.on('connect', (req, res) => {
     console.log('redis connected1');
