@@ -34,15 +34,9 @@ let csrfProtection = csurf({ cookie: true });
 
 client1.on('connect', (req, res) => {
   console.log('redis connected1');
-  client1.SET('name', 'santosh');
   console.log(`connected ${client1.connected}`);
 }).on('error', error => {
   console.log(error);
-});
-
-client1.GET('name', (err, val) => {
-  if (err) console.log(err.message);
-  console.log(val);
 });
 
 
