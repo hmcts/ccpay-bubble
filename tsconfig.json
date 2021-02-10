@@ -11,7 +11,6 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
     "target": "es5",
     "typeRoots": [
       "node_modules/@types"
