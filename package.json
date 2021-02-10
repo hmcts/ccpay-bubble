@@ -37,7 +37,7 @@
     "test:acceptance": "cross-env LOG_LEVEL=OFF NODE_PATH=. ./node_modules/.bin/codeceptjs run -c acceptance-tests/codecept.conf.js --reporter mochawesome --bail",
     "test:functional-local": "./bin/run-functional-tests-local.sh",
     "test:acceptance-local": "cross-env LOG_LEVEL=OFF NODE_PATH=. ./node_modules/.bin/codeceptjs run -c acceptance-tests/codecept-local.conf.js --reporter mochawesome --bail",
-    "test:mutation": "NODE_CONFIG_DIR=./config stryker run stryker.node.conf.js ",
+    "test:mutation": "stryker run ./stryker.ng.conf.js",
     "sonar-scan": "sonar-scanner"
   },
   "private": true,
@@ -104,7 +104,6 @@
     "@stryker-mutator/core": "^3.0.1",
     "@stryker-mutator/html-reporter": "^3.0.1",
     "@stryker-mutator/karma-runner": "^3.0.1",
-    "@stryker-mutator/mocha-runner": "^3.0.1",
     "@stryker-mutator/typescript": "^3.0.1",
     "@hmcts/eslint-config": "^1.4.0",
     "@types/applicationinsights-js": "^1.0.9",
