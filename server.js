@@ -88,7 +88,6 @@ module.exports = (security, appInsights) => {
   app.use(helmet.noCache());
   app.use(helmet.frameguard());
   app.use(helmet.xssFilter());
- 
   app.set('view engine', 'pug');
   app.set('views', path.join(__dirname, 'express/mvc/views'));
 
@@ -112,10 +111,7 @@ module.exports = (security, appInsights) => {
 
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
- 
   app.use('/health', healthcheck);
- 
-
 
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"
