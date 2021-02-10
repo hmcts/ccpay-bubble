@@ -86,6 +86,8 @@ function authorize(req, res, next, self) {
     for (const role in self.roles) {
       if (req.roles.includes(self.roles[role])) {
         res.cookie(constants.USER_COOKIE, JSON.stringify(req.userInfo));
+        req.session.userinfo = JSON.stringify(req.userInfo);
+        // storeCookie(req, res, 'RedisUserInfo', req.session.userinfo);
         return next();
       }
     }
@@ -356,6 +358,8 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       res.clearCookie(constants.REDIRECT_COOKIE);
       req.session.accesstoken = accessToken;
       req.session.idtoken = idToken;
+      storeCookie(req, res, 'RedisAccessToken', req.session.accesstoken);
+      storeCookie(req, res, 'RedissessionIdtoken', req.session.idtoken);
       Logger.getLogger('PAYBUBBLE: server.js -> error santosh').error(req.session.accesstoken);
       Logger.getLogger('PAYBUBBLE: server.js -> error santosh').error(req.session.idtoken);
       /* We initialise appinsight with user details */
