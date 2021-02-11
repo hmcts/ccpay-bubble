@@ -1,6 +1,12 @@
 const { payhubService } = require('../../services');
+const config = require('config');
 const request = require('request-promise-native');
+const LaunchDarkly = require('launchdarkly-node-client-sdk');
 const HttpStatusCodes = require('http-status-codes');
+
+const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
+const LDprefix = config.get('environment.ldPrefix');
+const user = { key: `${LDprefix}@test.com` };
 
 class PayhubController {
   constructor() {
@@ -32,8 +38,41 @@ class PayhubController {
       });
   }
 
+  getLDFeatures(req, res) {
+    const ldClient = LaunchDarkly.initialize(ccpayBubbleLDclientId, user);
+    ldClient.on('ready', () => {
+      const showFeature = ldClient.variation(req.query.flag, false);
+      return res.status(200).send({ flag: showFeature, u: user, id: ccpayBubbleLDclientId });
+    });
+  }
+
   postPaymentGroupToPayHub(req, res, appInsights) {
     return this.payhubService.postPaymentGroupToPayhub(req, res, appInsights)
+    // eslint-disable-next-line
+    .then(result => {
+        if (result._links.next_url) {
+          request({
+            method: 'GET',
+            uri: result._links.next_url.href
+          },
+          (error, response, body) => {
+            if (error) {
+              return res.status(500).json({ err: `${error}`, success: false });
+            }
+            return res.status(200).send(body);
+          });
+        } else {
+          const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
+          return res.status(500).json({ err: `${error}`, success: false });
+        }
+      })
+      .catch(error => {
+        res.status(500).json({ err: error, success: false });
+      });
+  }
+
+  postPaymentGroupListToPayHub(req, res, appInsights) {
+    return this.payhubService.sendToPayhub(req, res, appInsights)
     // eslint-disable-next-line
     .then(result => {
         if (result._links.next_url) {
@@ -89,6 +128,32 @@ class PayhubController {
       });
   }
 
+  postStrategicPayment(req, res, appInsights) {
+    return this.payhubService.postStrategicPayment(req, res, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json({ err: error.message, success: false });
+        } else {
+          res.status(500).json({ err: error, success: false });
+        }
+      });
+  }
+  postWoPGStrategicPayment(req, res, appInsights) {
+    return this.payhubService.postWoPGStrategicPayment(req, res, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json({ err: error.message, success: false });
+        } else {
+          res.status(500).json({ err: error, success: false });
+        }
+      });
+  }
   postPaymentGroup(req, res, appInsights) {
     return this.payhubService.postPaymentGroup(req, res, appInsights)
       .then(result => {
@@ -215,6 +280,20 @@ class PayhubController {
 
   getPaymentGroup(req, res) {
     return this.payhubService.getPaymentGroup(req)
+      .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json(error.message);
+        } else {
+          res.status(500).json(error);
+        }
+      });
+  }
+
+  getApportionPaymentGroup(req, res) {
+    return this.payhubService.getApportionPaymentGroup(req)
       .then(result => {
         res.status(200).json(result);
       })
