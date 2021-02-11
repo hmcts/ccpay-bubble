@@ -14,29 +14,26 @@ const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/erro
 const session = require('express-session');
 const redis = require('redis');
 const RedisStore = require('connect-redis')(session);
-// const { SESSION_OPTIONS } = require('./express/config/session');
-// const { REDIS_OPTIONS } = require('./express/config/redis');
-const config = require('@hmcts/properties-volume').addTo(require('config'));
-// const client =  redis.createClient(RedisOptions);
+const { SESSION_OPTIONS } = require('./express/config/session');
+const { REDIS_OPTIONS } = require('./express/config/redis');
+
+const client1 = redis.createClient(REDIS_OPTIONS);
+const isDevMode = process.env.NODE_ENV === 'development';
+
 /* eslint-disable no-console  */
 /* eslint-disable no-unused-vars  */
 
-const client1 = redis.createClient();
 const app = express();
-// app.use(
-//   session({
-//     secret: 'aaaaaaa',
-//     ...SESSION_OPTIONS,
-//     store: new RedisStore(client1)
-//   }));
-app.use(session({
-  secret: config.secrets.ccpay['paybubble-idam-client-secret'],
-  name: 'paybubblesessionid',
-  // Redis store para las sesiones
-  store: new RedisStore({ host: 'localhost', port: 6379, client: client1, ttl: 260 }),
-  saveUninitialized: false,
-  resave: false
-}));
+
+if (!isDevMode) {
+  app.set('trust proxy', 1);
+}
+
+app.use(
+  session({
+    ...SESSION_OPTIONS,
+    store: new RedisStore(client1)
+  }));
 
 client1.on('connect', (req, res) => {
   console.log('redis connected1');
