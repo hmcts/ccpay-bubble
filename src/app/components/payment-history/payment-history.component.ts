@@ -19,9 +19,7 @@ export class PaymentHistoryComponent implements OnInit {
   isBulkscanningEnable: boolean;
   isStrategicFixEnable: boolean;
   isTurnOff: boolean;
-  isOldPcipalOff: boolean;
-  isNewPcipalOff: boolean;
-
+  caseType: string;
   constructor(
     private activatedRoute: ActivatedRoute
     ) { }
@@ -35,14 +33,13 @@ export class PaymentHistoryComponent implements OnInit {
       this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
       this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
       this.isTurnOff = this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable';
-      this.isOldPcipalOff = this.activatedRoute.snapshot.queryParams['isOldPcipalOff'] === 'Enable';
-      this.isNewPcipalOff = this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable';
       this.excReference = this.activatedRoute.snapshot.queryParams['exceptionRecord'];
       this.view = this.activatedRoute.snapshot.queryParams['view'];
       this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
       this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
       this.dcnNumber = this.activatedRoute.snapshot.queryParams['dcn'];
       this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
+      this.caseType = this.activatedRoute.snapshot.queryParams['caseType'];
     });
   }
 }
