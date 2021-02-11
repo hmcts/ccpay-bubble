@@ -43,7 +43,7 @@ withNightlyPipeline("nodejs", product, component) {
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
   enableFullFunctionalTest(90)
-  enableMutationTest()
+  enableMutationTest(90)
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
@@ -53,13 +53,12 @@ withNightlyPipeline("nodejs", product, component) {
   }
 
   after('mutationTest') {
-    publishHTML([
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : "reports/tests/mutation/node/",
-      reportFiles          : 'index.html',
-      reportName           : 'PayBubble Mutation tests'
-    ])
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/reports/**/*'
+    publishHTML target: [
+      reportDir            : "reports/mutation/html/",
+      reportFiles          : "index.html",
+      reportName           : "PayBubble Mutation tests",
+      alwaysLinkToLastBuild: true
+    ]
   }
 }
