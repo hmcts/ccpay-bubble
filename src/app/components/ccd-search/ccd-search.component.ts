@@ -24,12 +24,13 @@ export class CcdSearchComponent implements OnInit {
   noCaseFound = false;
   noCaseFoundInCCD = false;
   isBulkscanningEnable = true;
+  caseType: string = null;
   errorMessage = this.getErrorMessage(false);
   isStrategicFixEnable: boolean;
   isTurnOff: boolean;
   isOldPcipalOff: boolean;
   isNewPcipalOff: boolean;
-
+  caseResponse: any;
   constructor(
     private paymentGroupService: PaymentGroupService,
     private formBuilder: FormBuilder,
@@ -92,6 +93,7 @@ export class CcdSearchComponent implements OnInit {
         partUrl += this.isNewPcipalOff ? '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
 
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
+        this.caseResponse = null;
         this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((res) => {
           if (res['data'].ccd_reference || res['data'].exception_record_reference) {
             this.dcnNumber = searchValue;
@@ -102,13 +104,22 @@ export class CcdSearchComponent implements OnInit {
               this.excReference = res['data'].exception_record_reference ;
               this.ccdCaseNumber = '';
             }
+            const validRefCheck = this.ccdCaseNumber ? this.ccdCaseNumber : this.excReference;
+            this.caseRefService.validateCaseRef(validRefCheck).subscribe(resp => {
+              this.caseResponse = JSON.parse(resp);
+              if (this.caseResponse.case) {
+                this.caseType = this.ccdCaseNumber ? this.caseResponse.case : this.caseResponse.exception;
+              } else {
+                this.caseType = this.caseResponse['case_type'];
+              }
             // tslint:disable-next-line:max-line-length
             let url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions`;
-             url = url.replace(/[\r\n]+/g, ' ');
-            // tslint:disable-next-line:max-line-length
-            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${partUrl}`);
-          }
-          this.noCaseFound = true;
+            url = url.replace(/[\r\n]+/g, ' ');
+            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${partUrl}`);
+          }, err => {
+            this.noCaseFoundInCCD = true;
+          });
+        }
         }).catch(() => {
           this.noCaseFound = true;
         });
@@ -116,18 +127,30 @@ export class CcdSearchComponent implements OnInit {
       } else if (this.selectedValue.toLocaleLowerCase() === 'ccdorexception') {
         this.ccdCaseNumber = this.removeHyphenFromString(searchValue);
         this.dcnNumber = null;
+        this.caseResponse = null;
         this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
+          this.caseResponse = JSON.parse(resp);
           this.noCaseFoundInCCD = false;
           // tslint:disable-next-line:max-line-length
           let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
           url = url.replace(/[\r\n]+/g, ' ');
           this.paymentGroupService.getBSPaymentsByCCD(this.ccdCaseNumber).then( result => {
+
+            if (this.caseResponse.case) {
+              this.caseType = this.caseResponse.case;
+            } else {
+              this.caseType = this.caseResponse['case_type'];
+            }
+
             this.errorMessage = this.getErrorMessage(false);
             if (result['data'] && result['data'].exception_record_reference && result['data'].ccd_reference) {
+              if (this.caseResponse.case) {
+                this.caseType = this.caseResponse.exception;
+              }
               this.ccdCaseNumber = result['data'].ccd_reference;
             }
-            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${partUrl}`);
-          }).catch(() => {
+            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${partUrl}`);
+          }).catch((e) => {
             window.scrollTo(0, 0);
             this.errorMessage = this.getErrorMessage(true);
           });
@@ -136,16 +159,23 @@ export class CcdSearchComponent implements OnInit {
          this.noCaseFoundInCCD = true;
         });
       } else if (this.selectedValue.toLocaleLowerCase() === 'rc') {
+        this.caseResponse = null;
         this.noCaseFound = false;
         this.viewPaymentService.getPaymentDetail(searchValue).subscribe((res) => {
           if (res['ccd_case_number'] || res['case_reference']) {
             this.ccdCaseNumber = res['ccd_case_number'] ? res['ccd_case_number'] : res['case_reference'];
             this.dcnNumber = null;
             this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
+              this.caseResponse = JSON.parse(resp);
               this.noCaseFound = false;
+              if (this.caseResponse.case) {
+                this.caseType = res['ccd_case_number']  ? this.caseResponse.case : this.caseResponse.exception;
+              } else {
+                this.caseType = this.caseResponse['case_type'];
+              }
               // tslint:disable-next-line:max-line-length
               const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
-              this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${partUrl}`);
+              this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${partUrl}`);
               }, err => {
               this.noCaseFound = true;
             });
