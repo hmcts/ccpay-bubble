@@ -42,6 +42,7 @@ export class FeeSearchComponent implements OnInit {
                                   '&isTurnOff=Enable' : '&isTurnOff=Disable';
       this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable' ?
                                   '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
+      this.bulkScanningTxt += `&caseType=${this.activatedRoute.snapshot.queryParams['caseType']}`;
       this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isOldPcipalOff'] === 'Enable' ?
                                   '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
       this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable' ?
