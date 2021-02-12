@@ -40,8 +40,14 @@ function addOAuth2Parameters(url, state, self, req) {
   url.query.client_id = self.opts.clientId;
   url.query.redirect_uri = `https://${req.get('host')}${self.opts.redirectUri}`;
   Logger.getLogger('CCPAY-BUBBLE: security.js').info('HELLO123456');
-  req.session.testing = 'testing';
-  Logger.getLogger('CCPAY-BUBBLE: security.js').error(req.session.testing);
+  if (!req.session.testing) {
+    req.session.testing = 'testing';
+  }
+  if (!req.session.name) {
+    req.session.name = 'testing';
+  }
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info(req.session.name);
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info(req.session.testing);
 }
 
 function generateState() {
@@ -63,8 +69,6 @@ function storeRedirectCookie(req, res, continueUrl, state) {
 function login(req, res, roles, self) {
   const originalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
   const state = generateState();
-  req.session.key = res;
-
   storeRedirectCookie(req, res, originalUrl, state);
 
   let url = null;
@@ -77,7 +81,7 @@ function login(req, res, roles, self) {
 
   addOAuth2Parameters(url, state, self, req);
   Logger.getLogger('CCPAY-BUBBLE: security.js').info(url.format());
-
+  // console.log(res);
   res.redirect(url.format());
 }
 
@@ -86,7 +90,9 @@ function authorize(req, res, next, self) {
     for (const role in self.roles) {
       if (req.roles.includes(self.roles[role])) {
         res.cookie(constants.USER_COOKIE, JSON.stringify(req.userInfo));
-        req.session.userinfo = JSON.stringify(req.userInfo);
+        if (req.session.userinfo) {
+          req.session.userinfo = JSON.stringify(req.userInfo);
+        }
         // storeCookie(req, res, 'RedisUserInfo', req.session.userinfo);
         return next();
       }
@@ -356,8 +362,12 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       storeCookie(req, res, idToken, constants.SECURITY_COOKIE_ID);
       /* We delete redirect cookie */
       res.clearCookie(constants.REDIRECT_COOKIE);
-      req.session.accesstoken = accessToken;
-      req.session.idtoken = idToken;
+      if (!req.session.accesstoken) {
+        req.session.accesstoken = accessToken;
+      }
+      if (!req.session.accesstoken) {
+        req.session.idtoken = idToken;
+      }
       storeCookie(req, res, 'RedisAccessToken', req.session.accesstoken);
       storeCookie(req, res, 'RedissessionIdtoken', req.session.idtoken);
       Logger.getLogger('PAYBUBBLE: server.js -> error santosh').error(req.session.accesstoken);

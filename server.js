@@ -32,7 +32,7 @@ if (!isDevMode) {
 app.use(
   session({
     ...SESSION_OPTIONS,
-    store: new RedisStore(client1)
+    store: new RedisStore({ client: client1 })
   }));
 
 client1.on('connect', (req, res) => {
@@ -42,10 +42,12 @@ client1.on('connect', (req, res) => {
   console.log(error);
 });
 
-app.use((req, res, next) => {
-  res.session = req.session;
-  next();
-});
+// app.use(function(req, res, next) {
+//   if (!req.session) {
+//     return next(new Error('oh no'));
+//   }
+//   next();
+// });
 
 let csrfProtection = csurf({ cookie: true });
 const errorFactory = ApiErrorFactory('server.js');
@@ -130,7 +132,6 @@ module.exports = (security, appInsights) => {
   // fallback to this route (so that Angular will handle all routing)
   app.get('**', security.protectWithAnyOf(roles.allRoles, ['/assets/']), csrfProtection,
     (req, res) => {
-      req.session.mm = 'mm';
       res.render('index', { csrfToken: req.csrfToken() });
     });
 
