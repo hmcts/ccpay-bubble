@@ -11,36 +11,39 @@ const moment = require('moment');
 const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
-const session = require('express-session');
-const redis = require('redis');
-const RedisStore = require('connect-redis')(session);
-const { SESSION_OPTIONS } = require('./express/config/session');
-const { REDIS_OPTIONS } = require('./express/config/redis');
+// const session = require('express-session');
+const { getXuiNodeMiddleware } = require('./express/config/sessionmiddleware');
+// const redis = require('redis');
+// const RedisStore = require('connect-redis')(session);
+// const { SESSION_OPTIONS } = require('./express/config/session');
+// const { REDIS_OPTIONS } = require('./express/config/redis');
 
-const client1 = redis.createClient(REDIS_OPTIONS);
-const isDevMode = process.env.NODE_ENV === 'development';
+// const client1 = redis.createClient(REDIS_OPTIONS);
+// const isDevMode = process.env.NODE_ENV === 'development';
 
 /* eslint-disable no-console  */
 /* eslint-disable no-unused-vars  */
 
 const app = express();
 
-if (!isDevMode) {
-  app.set('trust proxy', 1);
-}
+app.use(getXuiNodeMiddleware());
 
-app.use(
-  session({
-    ...SESSION_OPTIONS,
-    store: new RedisStore({ client: client1 })
-  }));
+// if (!isDevMode) {
+//   app.set('trust proxy', 1);
+// }
 
-client1.on('connect', (req, res) => {
-  console.log('redis connected1');
-  console.log(`connected ${client1.connected}`);
-}).on('error', error => {
-  console.log(error);
-});
+// app.use(
+//   session({
+//     ...SESSION_OPTIONS,
+//     store: new RedisStore({ client: client1 })
+//   }));
+
+// client1.on('connect', (req, res) => {
+//   console.log('redis connected1');
+//   console.log(`connected ${client1.connected}`);
+// }).on('error', error => {
+//   console.log(error);
+// });
 
 // app.use(function(req, res, next) {
 //   if (!req.session) {
