@@ -32,8 +32,6 @@ async function multipleCcdSearch(CaseSearch, I, ccdCaseNumber) {
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     CaseSearch.searchCaseUsingCcdNumber(ccdCaseNumber);
   }
-
-
 }
 
 async function ccdSearchEnabledValidation(CaseSearch, I, ccdCaseNumber) {
@@ -70,8 +68,6 @@ async function ccdSearchEnabledValidation(CaseSearch, I, ccdCaseNumber) {
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     CaseSearch.searchCaseUsingCcdNumber(ccdCaseNumber);
   }
-
-
 }
 
 module.exports = { multipleCcdSearch, ccdSearchEnabledValidation };
