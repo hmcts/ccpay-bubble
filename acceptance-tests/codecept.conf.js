@@ -21,20 +21,33 @@ exports.config = {
       keepCookies: false,
       keepBrowserState: true,
       networkIdleTimeout: 5000,
-      waitUntil: 'networkidle',
+      waitUntil: 'networkidle0',
       timeout: 3000000,
       chrome: {
         ignoreHTTPSErrors: true,
         args: [
           '--no-sandbox',
           '--proxy-server=proxyout.reform.hmcts.net:8080',
-          '--proxy-bypass-list=*beta*LB.reform.hmcts.net'
+          '--proxy-bypass-list=*beta*LB.reform.hmcts.net',
+          '--start-maximized'
         ]
       }
     },
     Mochawesome: { uniqueScreenshotNames: 'true' }
   },
-  include: { I: './test/end-to-end/pages/steps_file.js' },
+  include: {
+    I: './test/end-to-end/pages/steps_file.js',
+    CaseSearch: './test/end-to-end/pages/case_search.js',
+    CaseTransaction: './test/end-to-end/pages/case_transactions.js',
+    FeesSummary: './test/end-to-end/pages/fees_summary.js',
+    AddFees: './test/end-to-end/pages/add_fees.js',
+    ConfirmAssociation: './test/end-to-end/pages/confirm_association.js',
+    CaseTransferred: './test/end-to-end/pages/case_transferred.js',
+    CaseUnidentified: './test/end-to-end/pages/case_unidentified.js',
+    Remission: './test/end-to-end/pages/remission.js',
+    PaymentHistory: './test/end-to-end/pages/payment_history.js',
+    Reports: './test/end-to-end/pages/reports.js'
+  },
   mocha: {
     reporterOptions: {
       mochaFile: 'functional-output/result.xml',
