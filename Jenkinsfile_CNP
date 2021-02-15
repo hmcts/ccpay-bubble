@@ -44,7 +44,9 @@ withPipeline("nodejs", product, component) {
     sh 'yarn ng:build'
   }
 
-  after('functionalTest:preview') {
+  after('test'){
+    sh 'chmod +x bin/run-mutation-tests.sh'
+    sh 'yarn test:mutation'
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/reports/**/*'
     publishHTML target: [
       reportDir            : "reports/mutation/html/",
