@@ -53,9 +53,9 @@ withNightlyPipeline("nodejs", product, component) {
   }
 
   after('mutationTest') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/functional-output/**/*'
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/reports/**/*'
     publishHTML target: [
-      reportDir            : "functional-output/mutation-reports/",
+      reportDir            : "reports/mutation/html/",
       reportFiles          : "index.html",
       reportName           : "PayBubble Mutation tests",
       alwaysLinkToLastBuild: true
