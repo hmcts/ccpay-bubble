@@ -44,4 +44,14 @@ withPipeline("nodejs", product, component) {
     sh 'yarn ng:build'
   }
 
+  after('functionalTest:preview') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/reports/**/*'
+    publishHTML target: [
+      reportDir            : "reports/mutation/html/",
+      reportFiles          : "index.html",
+      reportName           : "PayBubble Mutation tests",
+      alwaysLinkToLastBuild: true
+    ]
+  }
+
 }
