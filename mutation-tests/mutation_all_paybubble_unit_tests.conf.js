@@ -21,21 +21,21 @@ module.exports = {
     '!reports/**'
   ],
   mutate: [
-    //Components
+    // Components
     'src/app/components/**/*.ts',
     '!src/app/components/**/*.spec.ts',
-  //  Models
+    //  Models
     'src/app/models/**/*.ts',
     '!src/app/models/**/*.spec.ts',
     '!src/app/models/FeeModel.ts',
-  //  Route-Guards
+    //  Route-Guards
     'src/app/route-guards/**/*.ts',
     '!src/app/route-guards/**/*.spec.ts',
-  //  Services
+    //  Services
     'src/app/services/**/*.ts',
     '!src/app/services/**/*.spec.ts',
     '!src/app/services/caseref/caseref.service.ts',
-  //  Shared
+    //  Shared
     'src/app/shared/**/*.ts',
     '!src/app/shared/**/*.spec.ts',
     '!src/app/shared/interceptors/auth.dev.interceptor.ts',
@@ -53,11 +53,11 @@ module.exports = {
     config: { browsers: ['ChromeHeadless'] }
   },
   reporters: ['html', 'clear-text', 'progress'],
-  htmlReporter: { baseDir: 'functional-output/mutation-reports' },
 
   // logLevel: "all",
   timeoutMS: 600000,
   timeoutFactor: 4,
   maxConcurrentTestRunners: 4,
-  coverageAnalysis: 'off'
+  coverageAnalysis: 'off',
+  thresholds: { high: 95, low: 85, break: 45 }
 };
