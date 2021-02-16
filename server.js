@@ -11,10 +11,22 @@ const moment = require('moment');
 const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
-// const session = require('express-session');
-const { getXuiNodeMiddleware } = require('./express/config/sessionmiddleware');
-// const redis = require('redis');
-// const RedisStore = require('connect-redis')(session);
+const session = require('express-session');
+// const { getXuiNodeMiddleware } = require('./express/config/sessionmiddleware');
+const redis = require('redis');
+const redisStore = require('connect-redis')(session);
+
+const redisClient = redis.createClient();
+// const router = express.Router();
+const app = express();
+
+app.use(session({
+  secret: 'ssshhhhh',
+  name: 'Santosh',
+  store: new redisStore({ host: 'redis://localhost', port: 6379, client: redisClient, ttl: 260 }),
+  saveUninitialized: false,
+  resave: false
+}));
 // const { SESSION_OPTIONS } = require('./express/config/session');
 // const { REDIS_OPTIONS } = require('./express/config/redis');
 
@@ -24,9 +36,10 @@ const { getXuiNodeMiddleware } = require('./express/config/sessionmiddleware');
 /* eslint-disable no-console  */
 /* eslint-disable no-unused-vars  */
 
-const app = express();
-
-app.use(getXuiNodeMiddleware());
+// const app = express();
+// this.RedisStore = getXuiNodeMiddleware();
+// console.log(this.RedisStore);
+// app.use(getXuiNodeMiddleware());
 
 // if (!isDevMode) {
 //   app.set('trust proxy', 1);
@@ -38,19 +51,19 @@ app.use(getXuiNodeMiddleware());
 //     store: new RedisStore({ client: client1 })
 //   }));
 
-// client1.on('connect', (req, res) => {
-//   console.log('redis connected1');
-//   console.log(`connected ${client1.connected}`);
-// }).on('error', error => {
-//   console.log(error);
-// });
+redisClient.on('connect', (req, res) => {
+  console.log('redis connected12345');
+  console.log(`connected ${redisClient.connected}`);
+}).on('error', error => {
+  console.log(error);
+});
 
-// app.use(function(req, res, next) {
-//   if (!req.session) {
-//     return next(new Error('oh no'));
-//   }
-//   next();
-// });
+app.get('/api/session', (req, res) => {
+  console.log(req.sessionID);
+  req.session.test = 42;
+  console.log(req.session.test);
+  res.end('1');
+});
 
 let csrfProtection = csurf({ cookie: true });
 const errorFactory = ApiErrorFactory('server.js');

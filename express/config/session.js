@@ -4,7 +4,7 @@ const config = require('@hmcts/properties-volume').addTo(require('config'));
 
 const {
   // SESSION_SECRET = 'secret',
-  SESSION_NAME = 'paybubblesessionid',
+  SESSION_NAME = 'santosh',
   SESSION_IDLE_TIMEOUT = HALF_HOUR,
   NODE_ENV = 'development'
 } = process.env;
@@ -20,8 +20,8 @@ const SESSION_OPTIONS = {
     sameSite: true
   },
   rolling: true,
-  resave: false,
-  saveUninitialized: false
+  resave: true,
+  saveUninitialized: true
 };
 
 module.exports = { SESSION_OPTIONS };

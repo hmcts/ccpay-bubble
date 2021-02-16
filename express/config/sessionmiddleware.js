@@ -1,5 +1,5 @@
 // import {xuiNode} from '@hmcts/rpx-xui-node-lib'
-const {xuiNode} = require('@hmcts/rpx-xui-node-lib')
+const { xuiNode } = require('@hmcts/rpx-xui-node-lib');
 // import {NextFunction, Request, Response} from 'express'
 // import {getConfigValue, showFeature} from '../configuration'
 // import {
@@ -52,35 +52,33 @@ const {xuiNode} = require('@hmcts/rpx-xui-node-lib')
 // xuiNode.on(AUTH.EVENT.AUTHENTICATE_SUCCESS, successCallback)
 
 const getXuiNodeMiddleware = () => {
+  const baseStoreOptions = {
+    cookie: {
+      httpOnly: true,
+      maxAge: 240,
+      secure: true
+    },
+    name: 'govindu',
+    rolling: true,
+    resave: true,
+    saveUninitialized: false,
+    secret: 'ggg'
+  };
 
-    const baseStoreOptions = {
-        cookie: {
-            httpOnly: true,
-            maxAge: 28800000,
-            secure: true,
-        },
-        name: 'ccpay-webapp',
-        resave: false,
-        saveUninitialized: false,
-        secret: 'ggg'
-    };
+  const redisStoreOptions = {
+    redisStore: {
+      ...baseStoreOptions, ...{
+        redisStoreOptions: {
+          redisCloudUrl: 'redis://localhost:6379',
+          redisKeyPrefix: 'santosh',
+          redisTtl: 240
+        }
+      }
+    }
+  };
 
-    const redisStoreOptions = {
-        redisStore: {
-            ...baseStoreOptions, ...{
-                redisStoreOptions: {
-                    redisCloudUrl: 'redis://localhost:6379',
-                    redisKeyPrefix: 'paybubble',
-                    redisTtl: 86200,
-                },
-            },
-        },
-    };
+  const nodeLibOptions = { session: redisStoreOptions };
+  return xuiNode.configure(nodeLibOptions);
+};
 
-    const nodeLibOptions = {
-        session: redisStoreOptions,
-    };
-
-    return xuiNode.configure(nodeLibOptions)
-}
 module.exports = { getXuiNodeMiddleware };

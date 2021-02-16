@@ -58,6 +58,7 @@
     "core-js": "^2.6.3",
     "crypto-js": "^3.3.0",
     "csurf": "^1.9.0",
+    "dotenv-extended": "^2.9.0",
     "ejs": "2.6.1",
     "express": "^4.16.4",
     "express-session": "^1.17.1",

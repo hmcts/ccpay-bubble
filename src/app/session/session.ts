@@ -1,5 +1,5 @@
-import {xuiNode} from '@hmcts/rpx-xui-node-lib'
-import {NextFunction, Request, Response} from 'express'
+import {xuiNode} from '@hmcts/rpx-xui-node-lib';
+import {NextFunction, Request, Response} from 'express';
 // import {getConfigValue, showFeature} from '../configuration'
 // import {
 //     COOKIE_ROLES,
@@ -58,8 +58,9 @@ export const getXuiNodeMiddleware = () => {
             maxAge: 28800000,
             secure: true,
         },
+        rolling: true,
         name: 'ccpay-webapp',
-        resave: false,
+        resave: true,
         saveUninitialized: false,
         secret: 'ggg'
     };
@@ -69,7 +70,7 @@ export const getXuiNodeMiddleware = () => {
             ...baseStoreOptions, ...{
                 redisStoreOptions: {
                     redisCloudUrl: 'redis://localhost:6379',
-                    redisKeyPrefix: 'paybubble',
+                    redisKeyPrefix: 'paybubble123',
                     redisTtl: 86200,
                 },
             },
@@ -80,5 +81,5 @@ export const getXuiNodeMiddleware = () => {
         session: redisStoreOptions,
     };
 
-    return xuiNode.configure(nodeLibOptions)
-}
+    return xuiNode.configure(nodeLibOptions);
+};
