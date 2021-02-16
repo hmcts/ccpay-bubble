@@ -11,7 +11,8 @@ module.exports = {
     dcn_field: { xpath: '//*[@id="dcn-search"]' },
     payment_option: { xpath: '//*[@id="RC"]' },
     payment_ref_ield: { xpath: '//*[@id="RC-search"]' },
-    header: { xpath: '//h1' }
+    header: { xpath: '//h1' },
+    case_transaction_link: { xpath: '//*[@id="ccd-search-link"]' }
 
   },
 
@@ -54,6 +55,12 @@ module.exports = {
     I.see('Search');
     I.see('Case Transaction');
     I.see('Payment history');
+  },
+
+  navigateToCaseTransaction() {
+    I.click(this.locators.case_transaction_link);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   }
+
 
 };
