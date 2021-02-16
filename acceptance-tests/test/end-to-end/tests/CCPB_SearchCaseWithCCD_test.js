@@ -66,14 +66,12 @@ Scenario('Remove fee from case transaction page Telephony flow @nightly', async 
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 Scenario('Search for a case with dummy case number @nightly', async I => {
-  if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-    const responseOn = await bulkScanApiCalls.toggleOnCaseValidation();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    if (responseOn === successResponse) {
-      logger.info('Enabled CCD validation');
-    }
-    await I.searchForCCDdummydata();
-    I.Logout();
+  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  const responseOn = await bulkScanApiCalls.toggleOnCaseValidation();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  if (responseOn === successResponse) {
+    logger.info('Enabled CCD validation');
   }
+  await I.searchForCCDdummydata();
+  I.Logout();
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
