@@ -4,7 +4,7 @@ const config = require('@hmcts/properties-volume').addTo(require('config'));
 
 const {
   // SESSION_SECRET = 'secret',
-  SESSION_NAME = 'santosh',
+  SESSION_NAME = 'paybybblesession',
   SESSION_IDLE_TIMEOUT = HALF_HOUR,
   NODE_ENV = 'development'
 } = process.env;
