@@ -9,7 +9,6 @@ for file in mutation-tests/mutation_*.conf.js ; do
   do
         yarn test:stryker $file ;
         let retVal=$?;
-        echo $retVal;
         if [ $retVal == 0 ];
         then
         count=7;
