@@ -18,6 +18,4 @@ variable "location" {
   default = "UK South"
 }
 
-variable "component" {
-  default = "ccpay"
-}
+variable "component" { }
