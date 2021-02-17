@@ -28,7 +28,7 @@ app.use(session({
   secret: config.secrets.ccpay['paybubble-idam-client-secret'],
   name: 'ccpay-session',
   store: new redisStore({
-    host: config.redis.host,
+    host: config.secrets.ccpay['ccpay-redis-connection-string'],
     port: config.redis.port,
     client: redisClient,
     ttl: config.redis.ttl
@@ -48,7 +48,7 @@ app.use(session({
 // });
 // const { SESSION_OPTIONS } = require('./express/config/session');
 // const { REDIS_OPTIONS } = require('./express/config/redis');
-
+Logger.getLogger(`PAYBUBBLE:san.js1'} -> error`).info(config.secrets.ccpay['ccpay-redis-connection-string']);
 // const client1 = redis.createClient(REDIS_OPTIONS);
 // const isDevMode = process.env.NODE_ENV === 'development';
 
