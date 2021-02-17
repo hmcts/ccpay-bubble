@@ -62,7 +62,7 @@ const getXuiNodeMiddleware = () => {
     rolling: true,
     resave: true,
     saveUninitialized: false,
-    secret: 'ggg'
+    secret: 'secret'
   };
 
   const redisStoreOptions = {
@@ -70,7 +70,7 @@ const getXuiNodeMiddleware = () => {
       ...baseStoreOptions, ...{
         redisStoreOptions: {
           redisCloudUrl: 'redis://localhost:6379',
-          redisKeyPrefix: 'santosh',
+          redisKeyPrefix: 'redisprefix',
           redisTtl: 240
         }
       }

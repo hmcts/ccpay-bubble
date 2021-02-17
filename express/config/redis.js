@@ -1,17 +1,16 @@
 // tslint:disable:no-magic-numbers
 const {
-  REDIS_HOST = 'localhost',
+  REDIS_HOST = 'redis://localhost',
   // eslint-disable-next-line no-magic-numbers
-  REDIS_PORT = 6379,
-  REDIS_PASSWORD = 'secret'
+  REDIS_PORT = 6379
+  // REDIS_PASSWORD = 'secret'
 } = process.env;
 
 const REDIS_OPTIONS = {
   port: Number(REDIS_PORT),
   host: REDIS_HOST,
-  password: REDIS_PASSWORD,
-  ttl: 86400,
-  tls: true
+  // password: REDIS_PASSWORD,
+  ttl: 260
 };
 
 module.exports = { REDIS_OPTIONS };

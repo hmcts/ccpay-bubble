@@ -13,6 +13,7 @@ nodejs:
         - paybubble-idam-client-secret
         - launch-darkly-client-id
         - AppInsightsInstrumentationKey
+        - ccpay-redis-connection-string
   environment:
     REFORM_TEAM: ccpay
     REFORM_SERVICE_NAME: ccpay-bubble-frontend
@@ -32,6 +33,7 @@ nodejs:
     FEE_JURISDICTION_URL: http://fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/jurisdictions
 
     CCD_URL: http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-
+    REDIS_KEY_PREFIX: 'activity:'
+    REDIS_TTL: 6000
 idam-pr:
   enabled: false

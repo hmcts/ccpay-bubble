@@ -1,3 +1,5 @@
+/* eslint-disable no-irregular-whitespace */
+/* eslint-disable indent */
 const path = require('path');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
@@ -20,23 +22,30 @@ const redisStore = require('connect-redis')(session);
 const redisClient = redis.createClient();
 // const router = express.Router();
 const app = express();
+app.set('trust proxy', true);
 
 app.use(session({
-  secret: config.secrets.ccpay['paybubble-idam-client-secret'],
+  secret: config.secrets.ccpay['paybubble-idam-client-secret'],
   name: 'ccpay-session',
-  store: new redisStore({ host: 'redis://localhost', port: 6379, client: redisClient, ttl: 260 }),
+  store: new redisStore({
+    host: config.redis.host,
+    port: config.redis.port,
+    client: redisClient,
+    ttl: config.redis.ttl
+    }),
   saveUninitialized: false,
   resave: false
 }));
 
-app.get('/api/session', (req, res) => {
-    console.log(req.sessionID);
-    req.session.test = 42;
-    console.log(req.session.test);
-    console.log(req.session);
-    console.log(req.session.test1);
-    res.end('1');
-  });
+// app.get('/api/session', (req, res) => {
+//     // console.log(req.sessionID);
+//   req.session['name'] = 'santosh';
+//   req.session.test = 42;
+//   console.log(req.session.test);
+//   console.log(req.session);
+//   console.log(req.session['name']);
+//   res.end('1');
+// });
 // const { SESSION_OPTIONS } = require('./express/config/session');
 // const { REDIS_OPTIONS } = require('./express/config/redis');
 
@@ -62,23 +71,23 @@ app.get('/api/session', (req, res) => {
 //   }));
 
 redisClient.on('connect', (req, res) => {
-  console.log(`redis connected ${redisClient.connected}`);
+  console.log(`redis connected ${redisClient.connected}`);
 }).on('error', error => {
-  console.log(error);
+  console.log(error);
 });
 
 let csrfProtection = csurf({ cookie: true });
 const errorFactory = ApiErrorFactory('server.js');
 
 if (process.env.NODE_ENV === 'development') {
-  csrfProtection = (req, res, next) => {
-    next();
-  };
+  csrfProtection = (req, res, next) => {
+    next();
+  };
 }
 
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
-  let error = null;
+  let error = null;
   if (err instanceof ApiCallError) {
     error = err;
   } else if (err.code === 'EBADCSRFTOKEN') {
@@ -189,4 +198,3 @@ module.exports = (security, appInsights) => {
 //   port: 6379,
 //   tls: true
 // })
-

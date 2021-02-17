@@ -1,5 +1,6 @@
 'use strict';
-
+/* eslint-disable no-irregular-whitespace */
+/* eslint-disable indent */
 const UNAUTHORIZED = 401;
 const FORBIDDEN = 403;
 const request = require('superagent');
@@ -33,34 +34,56 @@ function Security(options) {
 /* --- INTERNAL --- */
 
 function addOAuth2Parameters(url, state, self, req) {
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info('Inside addOAuth2Parameters function');
   url.query.response_type = 'code';
   url.query.state = state;
   url.query.scope = 'openid profile roles';
   url.query.client_id = self.opts.clientId;
   url.query.redirect_uri = `https://${req.get('host')}${self.opts.redirectUri}`;
+  if (req.session) {
+    req.session.testing = 'testing';
+  }
+  if (req.session) {
+    req.session.name = 'testing';
+  }
+  Logger.getLogger('CCPAY-BUBBLE: security.js -> addOAuth2Parameters').info(req.session.name);
+  Logger.getLogger('CCPAY-BUBBLE: security.js-> addOAuth2Parameters').info(req.session.testing);
 }
 
 function generateState() {
   return UUID();
 }
 
-function storeRedirectCookie(req, res, continueUrl, state) {
-  const url = URL.parse(continueUrl);
-  const cookieValue = { continue_url: url.path, state };
-  if (req.protocol === 'https') {
-    res.cookie(constants.REDIRECT_COOKIE, JSON.stringify(cookieValue),
-      { secure: true, httpOnly: true });
-  } else {
-    res.cookie(constants.REDIRECT_COOKIE, JSON.stringify(cookieValue),
-      { httpOnly: true });
+// function storeRedirectCookie(req, res, continueUrl, state) {
+//   const url = URL.parse(continueUrl);
+//   const cookieValue = { continue_url: url.path, state };
+//   if (req.protocol === 'https') {
+//     res.cookie(constants.REDIRECT_COOKIE, JSON.stringify(cookieValue),
+//       { secure: true, httpOnly: true });
+//   } else {
+//     res.cookie(constants.REDIRECT_COOKIE, JSON.stringify(cookieValue),
+//       { httpOnly: true });
+//   }
+// }
+function storeRedirectSessionCookie(req, continueUrl, state) {
+  Logger.getLogger('CCPAY-BUBBLE: security.js ->storeRedirectSessionCookie ').info(continueUrl);
+  const url = URL.parse(continueUrl);
+  const cookieValue = { continue_url: url.path, state };
+  if (req.protocol === 'https') {
+    req.session[constants.REDIRECT_COOKIE] = JSON.stringify(cookieValue);
+  } else {
+    req.session[constants.REDIRECT_COOKIE] = JSON.stringify(cookieValue);
   }
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info(req.session[constants.REDIRECT_COOKIE]);
 }
 
 function login(req, res, roles, self) {
+  Logger.getLogger('CCPAY-BUBBLE: security.js ->login ').info('inside Login function');
   const originalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
   const state = generateState();
-
-  storeRedirectCookie(req, res, originalUrl, state);
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info('login function before redirectsessioncookie');
+  // storeRedirectCookie(req, res, originalUrl, state);
+  storeRedirectSessionCookie(req, originalUrl, state);
 
   let url = null;
 
@@ -89,6 +112,7 @@ function authorize(req, res, next, self) {
 }
 
 function getTokenFromCode(self, req) {
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info('Inside getTokenFromCode function');
   const url = URL.parse(`${self.opts.apiUrl}/o/token`, true);
 
   return request.post(url.format())
@@ -104,28 +128,48 @@ function getTokenFromCode(self, req) {
 }
 
 function getUserDetails(self, securityCookie) {
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info('Inside getUserDetails function');
   return request.get(`${self.opts.apiUrl}/o/userinfo`)
     .set('Accept', 'application/json')
     .set('Authorization', `Bearer ${securityCookie}`);
 }
 
-function storeCookie(req, res, token, cookieName) {
-  req.authToken = token;
+// function storeCookie(req, res, token, cookieName) {
+//   req.authToken = token;
 
-  if (req.protocol === 'https') { /* SECURE */
-    res.cookie(cookieName, req.authToken, { secure: true, httpOnly: true });
-  } else {
-    res.cookie(cookieName, req.authToken, { httpOnly: true });
+//   if (req.protocol === 'https') { /* SECURE */
+//     res.cookie(cookieName, req.authToken, { secure: true, httpOnly: true });
+//   } else {
+//     res.cookie(cookieName, req.authToken, { httpOnly: true });
+//   }
+// }
+
+function storeSession(req, token, sessionName) {
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info('Inside storeSession function');
+  req.authToken = token;
+  if (req.protocol === 'https') { /* SECURE */
+    req.session[sessionName] = req.authToken;
+  } else {
+    req.session[sessionName] = req.authToken;
   }
 }
 
-function handleCookie(req) {
-  if (req.cookies && req.cookies[constants.SECURITY_COOKIE]) {
-    req.authToken = req.cookies[constants.SECURITY_COOKIE];
-    return req.authToken;
-  }
+// function handleCookie(req) {
+//   if (req.cookies && req.cookies[constants.SECURITY_COOKIE]) {
+//     req.authToken = req.cookies[constants.SECURITY_COOKIE];
+//     return req.authToken;
+//   }
 
-  return null;
+//   return null;
+// }
+
+function handleSession(req) {
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info('Inside handleSession function');
+  if (req.session && req.session[constants.SECURITY_COOKIE]) {
+    req.authToken = req.session[constants.SECURITY_COOKIE];
+    return req.authToken;
+  }
+    return null;
 }
 
 // function invalidateToken(self, req) {
@@ -169,6 +213,7 @@ Security.prototype.logout = function logout() {
 };
 
 function protectImpl(req, res, next, self) {
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info('Inside protectImpl function');
   if (self.exceptUrls) {
     for (let i = 0; i < self.exceptUrls.length; i++) {
       if (req.url.includes(self.exceptUrls[i])) {
@@ -181,9 +226,11 @@ function protectImpl(req, res, next, self) {
     if (req.method === 'OPTIONS') {
       return next();
     }
-    req.cookies[constants.SECURITY_COOKIE] = req.header('Auth-Dev');
+    // req.cookies[constants.SECURITY_COOKIE] = req.header('Auth-Dev');
+    req.session[constants.SECURITY_COOKIE] = req.header('Auth-Dev');
   }
-  securityCookie = handleCookie(req);
+  // securityCookie = handleCookie(req);
+  securityCookie = handleSession(req);
 
   if (!securityCookie) {
     return login(req, res, self.roles, self);
@@ -252,7 +299,8 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
 
   return function ret(req, res, next) {
     /* Read the value of the token from the cookie */
-    const securityCookie = handleCookie(req);
+    // const securityCookie = handleCookie(req);
+    const securityCookie = handleSession(req);
 
     if (!securityCookie) {
       return login(req, res, self.role, self);
@@ -285,7 +333,8 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
         const originalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
 
         const state = generateState();
-        storeRedirectCookie(req, res, originalUrl, state);
+        storeRedirectSessionCookie(req, originalUrl, state);
+        // storeRedirectCookie(req, res, originalUrl, state);
 
         const url = URL.parse(`${self.opts.loginUrl}/uplift`, true);
         addOAuth2Parameters(url, state, self, req);
@@ -296,25 +345,35 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
   };
 };
 
-function getRedirectCookie(req) {
-  if (!req.cookies[constants.REDIRECT_COOKIE]) {
-    return null;
+// function getRedirectCookie(req) {
+//   if (!req.cookies[constants.REDIRECT_COOKIE]) {
+//     return null;
+//   }
+
+//   return JSON.parse(req.cookies[constants.REDIRECT_COOKIE]);
+// }
+
+function getRedirectSessionCookie(req) {
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info('Inside getRedirectSessionCookie function');
+  if (!req.session[constants.REDIRECT_COOKIE]) {
+    return null;
   }
 
-  return JSON.parse(req.cookies[constants.REDIRECT_COOKIE]);
+   return JSON.parse(req.session[constants.REDIRECT_COOKIE]);
 }
 
 /* Callback endpoint */
 Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
   const self = { opts: this.opts };
-
+  Logger.getLogger('PAYBUBBLE: server.js -> error santosh').info('Inside OAuth2CallbackEndpoint function');
   return function ret(req, res, next) {
     /* We clear any potential existing sessions first, as we want to start over even if we deny access */
     res.clearCookie(constants.SECURITY_COOKIE);
     res.clearCookie(constants.USER_COOKIE);
 
     /* We check that our stored state matches the requested one */
-    const redirectInfo = getRedirectCookie(req);
+    // const redirectInfo = getRedirectCookie(req);
+    const redirectInfo = getRedirectSessionCookie(req);
 
     if (!redirectInfo) {
       return next(errorFactory.createUnatohorizedError(null, 'Redirect cookie is missing'));
@@ -334,8 +393,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
 
     return getTokenFromCode(self, req).end((err, response) => { /* We ask for the token */
       if (err) {
-        Logger.getLogger('PAYBUBBLE: server.js -> error santosh').error(err);
-        Logger.getLogger('PAYBUBBLE: server.js -> error').info('About to call user details endpoint');
+        Logger.getLogger('PAYBUBBLE: server.js -> error').info('Inside OAuth2CallbackEndpoint function getTokenFromCode failed');
         return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCodetest call failed'));
       }
       Logger.getLogger(response.body[constants.ACCESS_TOKEN_OAUTH2]);
@@ -343,8 +401,10 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       /* We store it in a session cookie */
       const accessToken = response.body[constants.ACCESS_TOKEN_OAUTH2];
       const idToken = response.body[constants.ID_TOKEN_OAUTH2];
-      storeCookie(req, res, accessToken, constants.SECURITY_COOKIE);
-      storeCookie(req, res, idToken, constants.SECURITY_COOKIE_ID);
+      // storeCookie(req, res, accessToken, constants.SECURITY_COOKIE);
+      // storeCookie(req, res, idToken, constants.SECURITY_COOKIE_ID);
+      storeSession(req, accessToken, constants.ACCESS_TOKEN_OAUTH2);
+      storeSession(req, idToken, constants.IDTOKEN_COOKIE);
       /* We delete redirect cookie */
       res.clearCookie(constants.REDIRECT_COOKIE);
 
