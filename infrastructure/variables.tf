@@ -17,3 +17,5 @@ variable "shared_product_name" {
 variable "location" {
   default = "UK South"
 }
+
+variable "component" {}
