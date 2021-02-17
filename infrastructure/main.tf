@@ -1,3 +1,15 @@
+locals {
+    app_full_name = "ccpay-${var.component}"
+    ase_name = "core-compute-${var.env}"
+    local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
+    shared_vault_name = "${var.shared_product_name}-${local.local_env}"
+}
+
+data "azurerm_key_vault" "key_vault" {
+    name = local.shared_vault_name
+    resource_group_name = local.shared_vault_name
+}
+
 provider "azurerm" {
   version = "=2.20.0"
   features {}
