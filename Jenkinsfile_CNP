@@ -11,7 +11,7 @@ def secrets = [
       secret('paybubble-idam-client-secret', 'IDAM_CLIENT_SECRET'),
       secret('launch-darkly-client-id', 'LD_CLIENT_ID'),
       secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
-      secret('ccpay-redis-connection-string', 'REDISCLOUD_URL')
+      secret('bubble-frontend-redis-connection-string', 'REDISCLOUD_URL')
   ]
 ]
 
