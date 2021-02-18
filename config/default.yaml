@@ -40,7 +40,7 @@ secrets:
     launch-darkly-client-id: 5f227f4df775300ba82996dc
     AppInsightsInstrumentationKey: some-key
 redis:
-    host: ccpay-webapp-prod.redis.cache.windows.net,
+    host: ccpay-bubble-frontend-prod.redis.cache.windows.net,
     port: 6380,
     tls: true,
     prefix: activity:,
