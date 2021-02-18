@@ -24,9 +24,16 @@ const redisClient = redis.createClient();
 const app = express();
 app.set('trust proxy', true);
 
+// eslint-disable-next-line no-magic-numbers
+const HALF_HOUR = 1000 * 60 * 30;
 app.use(session({
   secret: config.secrets.ccpay['paybubble-idam-client-secret'],
   name: 'ccpay-session',
+  cookie: {
+    maxAge: Number(HALF_HOUR),
+    secure: IN_PROD,
+    sameSite: true
+  },
   store: new redisStore({
     host: config.secrets.ccpay['ccpay-redis-connection-string'],
     port: config.redis.port,
