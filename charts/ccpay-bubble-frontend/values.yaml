@@ -23,7 +23,7 @@ nodejs:
         - paybubble-idam-client-secret
         - launch-darkly-client-id
         - AppInsightsInstrumentationKey
-        - bubble-frontend-redis-connection-string
+        - ccpay-redis-connection-string
   environment:
     REFORM_TEAM: ccpay
     REFORM_SERVICE_NAME: ccpay-bubble-frontend

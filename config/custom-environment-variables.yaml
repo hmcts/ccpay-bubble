@@ -39,7 +39,7 @@ secrets:
     paybubble-idam-client-secret: IDAM_CLIENT_SECRET
     launch-darkly-client-id: LD_CLIENT_ID
     AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
-    bubble-frontend-redis-connection-string: REDISCLOUD_URL
+    ccpay-redis-connection-string: REDISCLOUD_URL
 redis:
   prefix: REDIS_KEY_PREFIX
   ttl: REDIS_TTL  
