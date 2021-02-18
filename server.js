@@ -26,6 +26,7 @@ app.set('trust proxy', true);
 
 // eslint-disable-next-line no-magic-numbers
 const HALF_HOUR = 1000 * 60 * 30;
+const IN_PROD = NODE_ENV === 'production';
 app.use(session({
   secret: config.secrets.ccpay['paybubble-idam-client-secret'],
   name: 'ccpay-session',
