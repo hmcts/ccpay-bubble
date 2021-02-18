@@ -26,11 +26,11 @@ app.set('trust proxy', true);
 
 // eslint-disable-next-line no-magic-numbers
 const HALF_HOUR = 1000 * 60 * 30;
-const NODE_ENV = 'development'
+const NODE_ENV = 'development';
 const IN_PROD = NODE_ENV === 'production';
-Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.redis.port);
-Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.redis.ttl);
-Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.secrets.ccpay['ccpay-redis-connection-string']);
+// Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.redis.port);
+// Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.redis.ttl);
+// Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.secrets.ccpay['ccpay-redis-connection-string']);
 // Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info( redisClient);
 app.use(session({
   secret: config.secrets.ccpay['paybubble-idam-client-secret'],
