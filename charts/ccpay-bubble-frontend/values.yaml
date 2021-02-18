@@ -1,3 +1,13 @@
+redis:
+  enabled: false
+  cluster:
+    enabled: false
+    slaveCount: 0
+  password: fake-password
+  master:
+    persistence:
+      enabled: false
+
 nodejs:
   applicationPort: 3000
   ingressHost: paybubble.{{ .Values.global.environment }}.platform.hmcts.net

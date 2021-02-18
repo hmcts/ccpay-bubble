@@ -1,18 +1,19 @@
-locals {
-    app_full_name = "ccpay-${var.component}"
-    ase_name = "core-compute-${var.env}"
-    local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
-    shared_vault_name = "${var.shared_product_name}-${local.local_env}"
-}
-
-data "azurerm_key_vault" "key_vault" {
-    name = local.shared_vault_name
-    resource_group_name = local.shared_vault_name
-}
-
 provider "azurerm" {
   version = "=2.20.0"
   features {}
+}
+
+locals {
+  aseName = "core-compute-${var.env}"
+  app_full_name = "ccpay-${var.component}"
+  local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
+  local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
+  shared_vault_name = "${var.shared_product_name}-${local.local_env}"
+}
+
+data "azurerm_key_vault" "paybubble_key_vault" {
+  name = local.shared_vault_name
+  resource_group_name = local.shared_vault_name
 }
 
 data "azurerm_subnet" "core_infra_redis_subnet" {
@@ -24,7 +25,7 @@ data "azurerm_subnet" "core_infra_redis_subnet" {
 resource "azurerm_key_vault_secret" "redis_connection_string" {
   name = "${var.component}-redis-connection-string"
   value = "redis://ignore:${urlencode(module.redis-cache.access_key)}@${module.redis-cache.host_name}:${module.redis-cache.redis_port}?tls=true"
-  key_vault_id = data.azurerm_key_vault.key_vault.id
+  key_vault_id = data.azurerm_key_vault.paybubble_key_vault.id
 }
 
 module "redis-cache" {

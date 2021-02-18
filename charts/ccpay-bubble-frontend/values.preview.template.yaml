@@ -10,3 +10,5 @@ idam-pr:
   redirect_uris:
     pay-bubble:
       - https://${SERVICE_FQDN}/oauth2/callback
+redis:
+  enabled: true
