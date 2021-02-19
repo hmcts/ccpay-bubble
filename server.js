@@ -33,8 +33,6 @@ const IN_PROD = NODE_ENV === 'production';
 // Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.redis.ttl);
 // Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.secrets.ccpay['ccpay-redis-connection-string']);
 // Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info( redisClient);
- 
-  
 // app.get('/api/session', (req, res) => {
 //     // console.log(req.sessionID);
 //   req.session['name'] = 'santosh';
@@ -67,8 +65,6 @@ const IN_PROD = NODE_ENV === 'production';
 //     ...SESSION_OPTIONS,
 //     store: new RedisStore({ client: client1 })
 //   }));
-
-
 
 let csrfProtection = csurf({ cookie: true });
 const errorFactory = ApiErrorFactory('server.js');
@@ -139,7 +135,7 @@ module.exports = (security, appInsights) => {
   }).on('error', error => {
     console.log(error);
   });
-  
+
   // use helmet for security
   app.use(helmet());
   app.use(helmet.noCache());
