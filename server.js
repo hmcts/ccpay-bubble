@@ -14,14 +14,15 @@ const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 const session = require('express-session');
-// const { getXuiNodeMiddleware } = require('./express/config/sessionmiddleware');
-const config = require('@hmcts/properties-volume').addTo(require('config'));
 const redis = require('redis');
 const redisStore = require('connect-redis')(session);
+const config = require('@hmcts/properties-volume').addTo(require('config'));
+
 
 const redisClient = redis.createClient();
-// const router = express.Router();
+// const router = express.Router();
 const app = express();
+
 app.set('trust proxy', true);
 
 // eslint-disable-next-line no-magic-numbers
@@ -32,24 +33,8 @@ const IN_PROD = NODE_ENV === 'production';
 // Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.redis.ttl);
 // Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.secrets.ccpay['ccpay-redis-connection-string']);
 // Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info( redisClient);
-app.use(session({
-  secret: config.secrets.ccpay['paybubble-idam-client-secret'],
-  name: 'ccpay-session',
-  cookie: {
-    maxAge: Number(HALF_HOUR),
-    secure: IN_PROD,
-    sameSite: true
-  },
-  store: new redisStore({
-    host: config.secrets.ccpay['ccpay-redis-connection-string'],
-    port: config.redis.port,
-    client: redisClient,
-    ttl: config.redis.ttl
-    }),
-  saveUninitialized: false,
-  resave: false
-}));
-
+ 
+  
 // app.get('/api/session', (req, res) => {
 //     // console.log(req.sessionID);
 //   req.session['name'] = 'santosh';
@@ -83,11 +68,7 @@ app.use(session({
 //     store: new RedisStore({ client: client1 })
 //   }));
 
-redisClient.on('connect', (req, res) => {
-  console.log(`redis connected ${redisClient.connected}`);
-}).on('error', error => {
-  console.log(error);
-});
+
 
 let csrfProtection = csurf({ cookie: true });
 const errorFactory = ApiErrorFactory('server.js');
@@ -134,8 +115,31 @@ module.exports = (security, appInsights) => {
 
   // parse application/json - REMOVE THIS! https://expressjs.com/en/changelog/4x.html#4.16.0
   app.use(bodyParser.json());
-  app.use(cookieParser());
+  app.use(cookieParser());
+  app.use(session({
+    secret: config.secrets.ccpay['paybubble-idam-client-secret'],
+    name: 'ccpay-session',
+    cookie: {
+      maxAge: Number(HALF_HOUR),
+      secure: IN_PROD,
+      sameSite: true
+    },
+    store: new redisStore({
+      host: config.secrets.ccpay['ccpay-redis-connection-string'],
+      port: config.redis.port,
+      client: redisClient,
+      ttl: config.redis.ttl
+      }),
+    saveUninitialized: false,
+    resave: false
+  }));
 
+  redisClient.on('connect', (req, res) => {
+    console.log(`redis connected ${redisClient.connected}`);
+  }).on('error', error => {
+    console.log(error);
+  });
+  
   // use helmet for security
   app.use(helmet());
   app.use(helmet.noCache());

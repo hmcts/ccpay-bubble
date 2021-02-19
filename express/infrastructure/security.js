@@ -370,7 +370,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     /* We clear any potential existing sessions first, as we want to start over even if we deny access */
     res.clearCookie(constants.SECURITY_COOKIE);
     res.clearCookie(constants.USER_COOKIE);
-
+    req.session.name = 'ok';
     /* We check that our stored state matches the requested one */
     // const redirectInfo = getRedirectCookie(req);
     const redirectInfo = getRedirectSessionCookie(req);
