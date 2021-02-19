@@ -358,6 +358,8 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
 
 function getRedirectSessionCookie(req) {
   Logger.getLogger('CCPAY-BUBBLE: security.js').info('Inside getRedirectSessionCookie function');
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info(req.session);
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info(req.session[constants.REDIRECT_COOKIE]);
   if (!req.session[constants.REDIRECT_COOKIE]) {
     return null;
   }
