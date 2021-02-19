@@ -99,6 +99,7 @@ function login(req, res, roles, self) {
 }
 
 function authorize(req, res, next, self) {
+  Logger.getLogger('PAYBUBBLE: server.js -> error santosh').info('Inside authorize function');
   if (req.roles !== null) {
     for (const role in self.roles) {
       if (req.roles.includes(self.roles[role])) {
@@ -370,7 +371,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     /* We clear any potential existing sessions first, as we want to start over even if we deny access */
     res.clearCookie(constants.SECURITY_COOKIE);
     res.clearCookie(constants.USER_COOKIE);
-    req.session.name = 'ok';
+    // req.session.name = 'ok';
     /* We check that our stored state matches the requested one */
     // const redirectInfo = getRedirectCookie(req);
     const redirectInfo = getRedirectSessionCookie(req);

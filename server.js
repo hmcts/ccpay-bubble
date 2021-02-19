@@ -112,6 +112,20 @@ module.exports = (security, appInsights) => {
   // parse application/json - REMOVE THIS! https://expressjs.com/en/changelog/4x.html#4.16.0
   app.use(bodyParser.json());
   app.use(cookieParser());
+
+  // use helmet for security
+  app.use(helmet());
+  app.use(helmet.noCache());
+  app.use(helmet.frameguard());
+  app.use(helmet.xssFilter());
+  app.set('view engine', 'pug');
+  app.set('views', path.join(__dirname, 'express/mvc/views'));
+
+  // enable the dist folder to be accessed statically
+  app.use(express.static('dist/ccpay-bubble'));
+  app.use('/health', healthcheck);
+  app.use('/health/liveness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
+  app.use('/health/readiness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
   app.use(session({
     secret: config.secrets.ccpay['paybubble-idam-client-secret'],
     name: 'ccpay-session',
@@ -135,20 +149,6 @@ module.exports = (security, appInsights) => {
   }).on('error', error => {
     console.log(error);
   });
-
-  // use helmet for security
-  app.use(helmet());
-  app.use(helmet.noCache());
-  app.use(helmet.frameguard());
-  app.use(helmet.xssFilter());
-  app.set('view engine', 'pug');
-  app.set('views', path.join(__dirname, 'express/mvc/views'));
-
-  // enable the dist folder to be accessed statically
-  app.use(express.static('dist/ccpay-bubble'));
-  app.use('/health', healthcheck);
-  app.use('/health/liveness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
-  app.use('/health/readiness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
 
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
