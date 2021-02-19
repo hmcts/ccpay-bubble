@@ -18,8 +18,11 @@ const redis = require('redis');
 const redisStore = require('connect-redis')(session);
 const config = require('@hmcts/properties-volume').addTo(require('config'));
 
-
-const redisClient = redis.createClient();
+const tlsOptions = {
+  host: '127.0.0.1',
+  port: config.redis.port
+}
+const redisClient = redis.createClient(tlsOptions);
 // const router = express.Router();
 const app = express();
 
@@ -135,8 +138,6 @@ module.exports = (security, appInsights) => {
       sameSite: true
     },
     store: new redisStore({
-      host: config.secrets.ccpay['ccpay-redis-connection-string'],
-      port: config.redis.port,
       client: redisClient,
       ttl: config.redis.ttl
       }),
