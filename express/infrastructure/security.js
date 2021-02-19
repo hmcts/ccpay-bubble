@@ -66,7 +66,7 @@ function generateState() {
 //   }
 // }
 function storeRedirectSessionCookie(req, continueUrl, state) {
-  Logger.getLogger('CCPAY-BUBBLE: security.js ->storeRedirectSessionCookie ').info(continueUrl);
+  Logger.getLogger('CCPAY-BUBBLE: security.js ->storeRedirectSessionCookie1 ').info(continueUrl);
   const url = URL.parse(continueUrl);
   const cookieValue = { continue_url: url.path, state };
   if (req.protocol === 'https') {
@@ -74,7 +74,7 @@ function storeRedirectSessionCookie(req, continueUrl, state) {
   } else {
     req.session[constants.REDIRECT_COOKIE] = JSON.stringify(cookieValue);
   }
-  Logger.getLogger('CCPAY-BUBBLE: security.js').info(req.session[constants.REDIRECT_COOKIE]);
+  Logger.getLogger('CCPAY-BUBBLE: security.js->storeRedirectSessionCookie2').info(req.session[constants.REDIRECT_COOKIE]);
 }
 
 function login(req, res, roles, self) {
@@ -230,6 +230,8 @@ function protectImpl(req, res, next, self) {
     // req.cookies[constants.SECURITY_COOKIE] = req.header('Auth-Dev');
     req.session[constants.SECURITY_COOKIE] = req.header('Auth-Dev');
   }
+  Logger.getLogger('CCPAY-BUBBLE: security.js -> Inside protectImpl function security cookie1').info(req.header('Auth-Dev'));
+  Logger.getLogger('PAYBUBBLE: server.js -> Inside protectImpl function security cookie').info(req.session[constants.SECURITY_COOKIE]);
   // securityCookie = handleCookie(req);
   securityCookie = handleSession(req);
 
