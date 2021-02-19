@@ -335,7 +335,6 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       const accessToken = response.body[constants.ACCESS_TOKEN_OAUTH2];
       const idToken = response.body[constants.ID_TOKEN_OAUTH2];
       const refreshToken = response.body[constants.REFRESH_TOKEN_OAUTH2];
-      
       storeCookie(req, res, refreshToken, constants.SECURITY_REFRESH_COOKIE);
       storeCookie(req, res, accessToken, constants.SECURITY_COOKIE);
       storeCookie(req, res, idToken, constants.SECURITY_COOKIE_ID);
