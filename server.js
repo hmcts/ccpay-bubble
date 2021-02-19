@@ -21,7 +21,7 @@ const config = require('@hmcts/properties-volume').addTo(require('config'));
 const tlsOptions = {
   host: '127.0.0.1',
   port: config.redis.port
-}
+};
 const redisClient = redis.createClient(tlsOptions);
 // const router = express.Router();
 const app = express();
