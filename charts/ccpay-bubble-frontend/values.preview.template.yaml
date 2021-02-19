@@ -1,6 +1,12 @@
 nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
+  devmemoryRequests: 1024Mi
+  devcpuRequests: 1000m
+  devmemoryLimits: 1024Mi
+  devcpuLimits: 1000m
+  memoryRequests: 1024Mi
+  cpuRequests: 1000m
   environment:
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
 
@@ -9,3 +15,4 @@ idam-pr:
   redirect_uris:
     pay-bubble:
       - https://${SERVICE_FQDN}/oauth2/callback
+
