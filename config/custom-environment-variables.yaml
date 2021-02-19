@@ -8,6 +8,7 @@ idam:
   client_secret: IDAM_CLIENT_SECRET
   login_url: IDAM_LOGIN_URL
   web_url: IDAM_AUTHENTICATION_WEB_URL
+  api_url: IDAM_API_URL
 ccpaybubble:
   url: CCPAY_BUBBLE_URL
   microservice: CCPAY_BUBBLE_MICROSERVICE
