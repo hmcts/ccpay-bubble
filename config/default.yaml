@@ -2,8 +2,9 @@ security:
   referrerPolicy: origin
 idam:
   client_id: paybubble
-  login_url: https://idam-web-public.aat.platform.hmcts.net
-  api_url: https://idam-api.aat.platform.hmcts.net
+  client_secret: IDAM_CLIENT_SECRET
+  login_url: https://idam-web-public.aat.platform.hmcts.net/o/authorize
+  web_url: https://idam-web-public.aat.platform.hmcts.net
 session:
   cookieName: SESSION_ID
 environment:
