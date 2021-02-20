@@ -151,6 +151,12 @@ module.exports = (security, appInsights) => {
     console.log(error);
   });
 
+  // redisClient.read('connect', (req, res) => {
+  //   console.log(`redis connected ${redisClient.connected}`);
+  // }).on('error', error => {
+  //   console.log(error);
+  // });
+
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
 
