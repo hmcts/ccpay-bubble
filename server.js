@@ -105,12 +105,6 @@ function errorHandler(err, req, res, next) {
 module.exports = (security, appInsights) => {
   const client = appInsights.defaultClient;
   const startTime = Date.now();
-  // parse application/x-www-form-urlencoded
-  app.use(bodyParser.urlencoded({ extended: false }));
-
-  // parse application/json - REMOVE THIS! https://expressjs.com/en/changelog/4x.html#4.16.0
-  app.use(bodyParser.json());
-  app.use(cookieParser());
 
   // use helmet for security
   app.use(helmet());
@@ -129,6 +123,13 @@ module.exports = (security, appInsights) => {
   const HALF_HOUR = 1000 * 60 * 30;
   const NODE_ENV = 'development';
   const IN_PROD = NODE_ENV !== 'development';
+
+  // parse application/x-www-form-urlencoded
+  app.use(bodyParser.urlencoded({ extended: false }));
+
+  // parse application/json - REMOVE THIS! https://expressjs.com/en/changelog/4x.html#4.16.0
+  app.use(bodyParser.json());
+  app.use(cookieParser());
   app.use(session({
     secret: config.secrets.ccpay['paybubble-idam-client-secret'],
     name: 'ccpay-session1',
