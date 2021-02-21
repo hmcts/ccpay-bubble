@@ -1,5 +1,6 @@
 /* eslint-disable no-irregular-whitespace */
 /* eslint-disable indent */
+/* eslint-disable consistent-return */
 const path = require('path');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
@@ -14,9 +15,11 @@ const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 const session = require('express-session');
-const redis = require('redis');
-const redisStore = require('connect-redis')(session);
+// const redis = require('redis');
+// const redisStore = require('connect-redis')(session);
 const config = require('@hmcts/properties-volume').addTo(require('config'));
+const { redisStore } = require('./express/config/redis');
+
 
 // const client1 = redis.createClient({
 //   host: '127.0.0.1',
@@ -113,11 +116,11 @@ module.exports = (security, appInsights) => {
   app.use(helmet.xssFilter());
   app.set('view engine', 'pug');
   app.set('views', path.join(__dirname, 'express/mvc/views'));
-  const REDIS_HOST = config.redis.host || '127.0.0.1';
+  // const REDIS_HOST = config.redis.host || '127.0.0.1';
 
-  // eslint-disable-next-line no-magic-numbers
-  const REDIS_PORT = config.redis.port || 6379;
-  const redisClient = redis.createClient({ port: REDIS_PORT, host: REDIS_HOST });
+  // // eslint-disable-next-line no-magic-numbers
+  // const REDIS_PORT = config.redis.port || 6379;
+  // const redisClient = redis.createClient({ port: REDIS_PORT, host: REDIS_HOST });
 
   // eslint-disable-next-line no-magic-numbers
   const HALF_HOUR = 1000 * 60 * 30;
@@ -138,20 +141,23 @@ module.exports = (security, appInsights) => {
       secure: IN_PROD,
       sameSite: true
     },
-    store: new redisStore({
-      client: redisClient,
-      ttl: config.redis.ttl
-      }),
+    store: redisStore,
     saveUninitialized: false,
     resave: false
   }));
 
-  redisClient.on('connect', (req, res) => {
-    console.log(`redis connected ${redisClient.connected}`);
-  }).on('error', error => {
-    console.log(error);
-  });
+  // redisClient.on('connect', (req, res) => {
+  //   console.log(`redis connected ${redisClient.connected}`);
+  // }).on('error', error => {
+  //   console.log(error);
+  // });
+  app.use((req, res, next) => {
+    if (!req.session) {
+        return next(new Error('Unable to reach redis'));
+    }
 
+    next();
+});
   // enable the dist folder to be accessed statically
   app.use(express.static('dist/ccpay-bubble'));
   app.use('/health', healthcheck);
