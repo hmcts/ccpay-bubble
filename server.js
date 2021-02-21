@@ -18,20 +18,16 @@ const redis = require('redis');
 const redisStore = require('connect-redis')(session);
 const config = require('@hmcts/properties-volume').addTo(require('config'));
 
-const tlsOptions = {
-  host: '127.0.0.1',
-  port: config.redis.port
-};
-const redisClient = redis.createClient(tlsOptions);
+// const client1 = redis.createClient({
+//   host: '127.0.0.1',
+//   port: 6379,
+//   tls: true
+// })
 // const router = express.Router();
 const app = express();
 
-app.set('trust proxy', true);
+app.set('trust proxy', 1);
 
-// eslint-disable-next-line no-magic-numbers
-const HALF_HOUR = 1000 * 60 * 30;
-const NODE_ENV = 'development';
-const IN_PROD = NODE_ENV === 'production';
 // Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.redis.port);
 // Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.redis.ttl);
 // Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.secrets.ccpay['ccpay-redis-connection-string']);
@@ -123,21 +119,25 @@ module.exports = (security, appInsights) => {
   app.use(helmet.xssFilter());
   app.set('view engine', 'pug');
   app.set('views', path.join(__dirname, 'express/mvc/views'));
+  const REDIS_HOST = config.redis.host || '127.0.0.1';
 
-  // enable the dist folder to be accessed statically
-  app.use(express.static('dist/ccpay-bubble'));
-  app.use('/health', healthcheck);
-  app.use('/health/liveness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
-  app.use('/health/readiness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
+  // eslint-disable-next-line no-magic-numbers
+  const REDIS_PORT = config.redis.port || 6379;
+  const redisClient = redis.createClient({ port: REDIS_PORT, host: REDIS_HOST });
+
+  // eslint-disable-next-line no-magic-numbers
+  const HALF_HOUR = 1000 * 60 * 30;
+  const NODE_ENV = 'development';
+  const IN_PROD = NODE_ENV !== 'development';
   app.use(session({
     secret: config.secrets.ccpay['paybubble-idam-client-secret'],
-    name: 'ccpay-session',
-    cookie: {
-      maxAge: Number(HALF_HOUR),
-      secure: IN_PROD,
-      sameSite: true
-    },
-    store: new redisStore({
+    name: 'ccpay-session1',
+    cookie: {
+      maxAge: Number(HALF_HOUR),
+      secure: IN_PROD,
+      sameSite: true
+    },
+    store: new redisStore({
       client: redisClient,
       ttl: config.redis.ttl
       }),
@@ -151,11 +151,11 @@ module.exports = (security, appInsights) => {
     console.log(error);
   });
 
-  // redisClient.read('connect', (req, res) => {
-  //   console.log(`redis connected ${redisClient.connected}`);
-  // }).on('error', error => {
-  //   console.log(error);
-  // });
+  // enable the dist folder to be accessed statically
+  app.use(express.static('dist/ccpay-bubble'));
+  app.use('/health', healthcheck);
+  app.use('/health/liveness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
+  app.use('/health/readiness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
 
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
