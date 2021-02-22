@@ -43,10 +43,10 @@ nodejs:
     FEE_JURISDICTION_URL: http://fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/jurisdictions
 
     CCD_URL: http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-    REDIS_HOST: ccpay-bubble-frontend-redis-cache-{{ .Values.global.environment }}.redis.cache.windows.net
-    REDIS_PORT: 6380
-    USE_REDIS: true
-    REDIS_USE_TLS: true
+    # REDIS_HOST: ccpay-bubble-frontend-redis-cache-{{ .Values.global.environment }}.redis.cache.windows.net
+    # REDIS_PORT: 6380
+    # USE_REDIS: true
+    # REDIS_USE_TLS: true
     REDIS_KEY_PREFIX: 'activity:'
     REDIS_TTL: 6000
 idam-pr:

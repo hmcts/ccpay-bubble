@@ -41,9 +41,9 @@ secrets:
     AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
     ccpay-redis-connection-string: REDISCLOUD_URL
 redis:
-  host: REDIS_HOST
-  port: REDIS_PORT
+  # host: REDIS_HOST
+  # port: REDIS_PORT
   prefix: REDIS_KEY_PREFIX
-  password: REDIS_PASSWORD
-  useTLS: REDIS_USE_TLS
+  # password: REDIS_PASSWORD
+  # useTLS: REDIS_USE_TLS
   ttl: REDIS_TTL  

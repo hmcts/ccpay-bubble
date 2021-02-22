@@ -71,11 +71,9 @@ const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const config = require('@hmcts/properties-volume').addTo(require('config'));
 
-const client = redis.createClient();
+const client = redis.createClient(config.secrets.ccpay['ccpay-redis-connection-string'], config.redis.prefix);
 
 const redisStore = new RedisStore({
-  host: config.redis.host,
-  port: config.redis.port,
   client: client,
   ttl: 60 * 60 * 10
 });

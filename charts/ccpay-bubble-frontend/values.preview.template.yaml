@@ -4,9 +4,9 @@ nodejs:
   environment:
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
     REDISCLOUD_URL: redis://ignore:fake-password@${SERVICE_NAME}-redis-master:6379
-    REDIS_HOST: ${SERVICE_NAME}-redis-master
-    REDIS_PORT: 6379
-    REDIS_USE_TLS: false
+    # REDIS_HOST: ${SERVICE_NAME}-redis-master
+    # REDIS_PORT: 6379
+    # REDIS_USE_TLS: false
 idam-pr:
   enabled: true
   redirect_uris:
