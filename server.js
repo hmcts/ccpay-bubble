@@ -35,15 +35,7 @@ app.set('trust proxy', 1);
 // Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.redis.ttl);
 // Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.secrets.ccpay['ccpay-redis-connection-string']);
 // Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info( redisClient);
-// app.get('/api/session', (req, res) => {
-//     // console.log(req.sessionID);
-//   req.session['name'] = 'santosh';
-//   req.session.test = 42;
-//   console.log(req.session.test);
-//   console.log(req.session);
-//   console.log(req.session['name']);
-//   res.end('1');
-// });
+
 // const { SESSION_OPTIONS } = require('./express/config/session');
 // const { REDIS_OPTIONS } = require('./express/config/redis');
 // Logger.getLogger(`PAYBUBBLE:san.js1'} -> error`).info(config.secrets.ccpay['ccpay-redis-connection-string']);
@@ -146,6 +138,15 @@ module.exports = (security, appInsights) => {
     resave: false
   }));
 
+  app.get('/api/session', (req, res) => {
+      // console.log(req.sessionID);
+    req.session['name'] = 'santosh';
+    req.session.test = 42;
+    console.log(req.session.test);
+    console.log(req.session);
+    console.log(req.session['name']);
+    res.end('1');
+  });
   // redisClient.on('connect', (req, res) => {
   //   console.log(`redis connected ${redisClient.connected}`);
   // }).on('error', error => {
