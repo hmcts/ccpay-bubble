@@ -140,11 +140,9 @@ module.exports = (security, appInsights) => {
 
   app.get('/api/session', (req, res) => {
       // console.log(req.sessionID);
-    req.session['name'] = 'santosh';
     req.session.test = 42;
     console.log(req.session.test);
     console.log(req.session);
-    console.log(req.session['name']);
     res.end('1');
   });
   // redisClient.on('connect', (req, res) => {

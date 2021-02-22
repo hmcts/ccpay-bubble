@@ -74,12 +74,13 @@ const config = require('@hmcts/properties-volume').addTo(require('config'));
 const client = redis.createClient();
 
 const redisStore = new RedisStore({
-  host: '20.49.168.141',
+  host: config.redis.host,
   port: config.redis.port,
   client: client,
   ttl: 60 * 60 * 10
 });
 client.on('connect', () => {
+  console.log(config.redis.host);
   console.log(`redis connected ${client.connected}`);
 }).on('error', error => {
   console.log(error);
