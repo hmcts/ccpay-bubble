@@ -40,8 +40,8 @@ secrets:
     launch-darkly-client-id: 5f227f4df775300ba82996dc
     AppInsightsInstrumentationKey: some-key
 redis:
-    host: 'localhost'
-    port: 6380,
+    host: '10.0.205.18'
+    port: 6379,
     password: 'dummy_password'
     tls: true,
     prefix: activity:,
