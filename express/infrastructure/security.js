@@ -25,7 +25,7 @@ const constants = Object.freeze({
 
 function Security(options) {
   this.opts = options || {};
-
+  Logger.getLogger('CCPAY-BUBBLE: security.js -> Inside protectImpl function security cookie1').info('one');
   if (!this.opts.loginUrl) {
     throw new Error('login URL required for Security');
   }
@@ -104,6 +104,7 @@ function authorize(req, res, next, self) {
     for (const role in self.roles) {
       if (req.roles.includes(self.roles[role])) {
         res.cookie(constants.USER_COOKIE, JSON.stringify(req.userInfo));
+        req.session[onstants.USER_COOKIE] = JSON.stringify(req.userInfo);
         return next();
       }
     }
@@ -267,6 +268,7 @@ function protectImpl(req, res, next, self) {
 }
 
 Security.prototype.protect = function protect(role, exceptUrls) {
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info('protect');
   const self = {
     roles: [role],
     new: false,
@@ -275,6 +277,10 @@ Security.prototype.protect = function protect(role, exceptUrls) {
   };
 
   return function ret(req, res, next) {
+    Logger.getLogger('CCPAY-BUBBLE: security.js').info('before calling protectimpl function');
+    Logger.getLogger('CCPAY-BUBBLE: security.js').info(req);
+    Logger.getLogger('CCPAY-BUBBLE: security.js').info(req.session);
+    Logger.getLogger(req.session);
     protectImpl(req, res, next, self);
   };
 };
@@ -288,6 +294,9 @@ Security.prototype.protectWithAnyOf = function protectWithAnyOf(roles, exceptUrl
   };
 
   return function ret(req, res, next) {
+    Logger.getLogger('CCPAY-BUBBLE: security.js').info('before calling protectimpl in protectWithAnyOf function');
+    Logger.getLogger('CCPAY-BUBBLE: security.js').info(req);
+    Logger.getLogger('CCPAY-BUBBLE: security.js').info(req.session);
     protectImpl(req, res, next, self);
   };
 };
@@ -299,10 +308,13 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
     new: false,
     opts: this.opts
   };
-
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info('protectWithUplift function');
   return function ret(req, res, next) {
     /* Read the value of the token from the cookie */
     // const securityCookie = handleCookie(req);
+    Logger.getLogger('CCPAY-BUBBLE: security.js').info('protectWithUplift function');
+    Logger.getLogger('CCPAY-BUBBLE: security.js').info(req);
+    Logger.getLogger('CCPAY-BUBBLE: security.js').info(req.session);
     const securityCookie = handleSession(req);
 
     if (!securityCookie) {
@@ -371,7 +383,9 @@ function getRedirectSessionCookie(req) {
 Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
   const self = { opts: this.opts };
   Logger.getLogger('PAYBUBBLE: server.js -> error santosh').info('Inside OAuth2CallbackEndpoint function');
+  // Logger.getLogger('PAYBUBBLE: server.js -> error santosh').info(self);
   return function ret(req, res, next) {
+    Logger.getLogger('PAYBUBBLE: server.js -> error santosh').info(req.session);
     /* We clear any potential existing sessions first, as we want to start over even if we deny access */
     res.clearCookie(constants.SECURITY_COOKIE);
     res.clearCookie(constants.USER_COOKIE);
