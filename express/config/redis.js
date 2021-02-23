@@ -71,17 +71,24 @@ const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const config = require('@hmcts/properties-volume').addTo(require('config'));
 
-const client = redis.createClient(config.secrets.ccpay['ccpay-redis-connection-string'], config.redis.prefix);
+// const tlsOptions = {
+//   prefix: config.redis.prefix
+// }
+const redisUrl = config.secrets.ccpay['ccpay-redis-connection-string'];
+const client = redis.createClient(config.redis.port, redisUrl);
 
 const redisStore = new RedisStore({
   client: client,
   ttl: 60 * 60 * 10
 });
 client.on('connect', () => {
-  console.log(config.redis.host);
   console.log(`redis connected ${client.connected}`);
 }).on('error', error => {
   console.log(error);
+});
+
+client.on('ready', () => {
+  console.log('redis client is ready');
 });
 
 function getAllActiveSessions() {

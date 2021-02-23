@@ -1,6 +1,7 @@
 /* eslint-disable no-irregular-whitespace */
 /* eslint-disable indent */
 /* eslint-disable consistent-return */
+/* eslint-disable no-unused-vars */
 const path = require('path');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
@@ -15,50 +16,12 @@ const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 const session = require('express-session');
-// const redis = require('redis');
-// const redisStore = require('connect-redis')(session);
 const config = require('@hmcts/properties-volume').addTo(require('config'));
 const { redisStore } = require('./express/config/redis');
 
-
-// const client1 = redis.createClient({
-//   host: '127.0.0.1',
-//   port: 6379,
-//   tls: true
-// })
-// const router = express.Router();
 const app = express();
 
 app.set('trust proxy', 1);
-
-// Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.redis.port);
-// Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.redis.ttl);
-// Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info(config.secrets.ccpay['ccpay-redis-connection-string']);
-// Logger.getLogger(`PAYBUBBLE:server.js1'} -> error`).info( redisClient);
-
-// const { SESSION_OPTIONS } = require('./express/config/session');
-// const { REDIS_OPTIONS } = require('./express/config/redis');
-// Logger.getLogger(`PAYBUBBLE:san.js1'} -> error`).info(config.secrets.ccpay['ccpay-redis-connection-string']);
-// const client1 = redis.createClient(REDIS_OPTIONS);
-// const isDevMode = process.env.NODE_ENV === 'development';
-
-/* eslint-disable no-console  */
-/* eslint-disable no-unused-vars  */
-
-// const app = express();
-// this.RedisStore = getXuiNodeMiddleware();
-// console.log(this.RedisStore);
-// app.use(getXuiNodeMiddleware());
-
-// if (!isDevMode) {
-//   app.set('trust proxy', 1);
-// }
-
-// app.use(
-//   session({
-//     ...SESSION_OPTIONS,
-//     store: new RedisStore({ client: client1 })
-//   }));
 
 let csrfProtection = csurf({ cookie: true });
 const errorFactory = ApiErrorFactory('server.js');
@@ -108,53 +71,43 @@ module.exports = (security, appInsights) => {
   app.use(helmet.xssFilter());
   app.set('view engine', 'pug');
   app.set('views', path.join(__dirname, 'express/mvc/views'));
-  // const REDIS_HOST = config.redis.host || '127.0.0.1';
-
-  // // eslint-disable-next-line no-magic-numbers
-  // const REDIS_PORT = config.redis.port || 6379;
-  // const redisClient = redis.createClient({ port: REDIS_PORT, host: REDIS_HOST });
 
   // eslint-disable-next-line no-magic-numbers
   const HALF_HOUR = 1000 * 60 * 30;
   const NODE_ENV = 'development';
   const IN_PROD = NODE_ENV !== 'development';
+  const sessionMiddleware = session({
+    secret: config.secrets.ccpay['paybubble-idam-client-secret'],
+    name: 'ccpay-session1',
+    cookie: {
+      maxAge: Number(HALF_HOUR),
+      secure: IN_PROD,
+      httpOnly: true,
+      sameSite: true
+    },
+    store: redisStore,
+    saveUninitialized: true,
+    resave: false
+  });
 
   // parse application/x-www-form-urlencoded
   app.use(bodyParser.urlencoded({ extended: false }));
 
   // parse application/json - REMOVE THIS! https://expressjs.com/en/changelog/4x.html#4.16.0
   app.use(bodyParser.json());
+  // app.set('port', process.env.PORT || 3000);
   app.use(cookieParser());
-  app.use(session({
-    secret: config.secrets.ccpay['paybubble-idam-client-secret'],
-    name: 'ccpay-session1',
-    cookie: {
-      maxAge: Number(HALF_HOUR),
-      secure: IN_PROD,
-      sameSite: true
-    },
-    store: redisStore,
-    saveUninitialized: false,
-    resave: false
-  }));
+  app.use(sessionMiddleware);
 
-  app.get('/api/session', (req, res) => {
-      // console.log(req.sessionID);
-    req.session.test = 42;
-    console.log(req.session.test);
-    console.log(req.session);
-    res.end('1');
-  });
-  // redisClient.on('connect', (req, res) => {
-  //   console.log(`redis connected ${redisClient.connected}`);
-  // }).on('error', error => {
-  //   console.log(error);
-  // });
+  const sessionCheck = (req, res) => {
+    const sessionId = (req.sessionID);
+  };
+  app.use(sessionCheck);
   app.use((req, res, next) => {
     if (!req.session) {
         return next(new Error('Unable to reach redis'));
     }
-
+    Logger.getLogger('CCPAY-BUBBLE:server.js').info('redis unavailable');
     next();
 });
   // enable the dist folder to be accessed statically
@@ -164,7 +117,8 @@ module.exports = (security, appInsights) => {
   app.use('/health/readiness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
 
   app.use('/logout', security.logout());
-  app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
+
+  app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
 
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"

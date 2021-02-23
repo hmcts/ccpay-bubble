@@ -25,7 +25,6 @@ const constants = Object.freeze({
 
 function Security(options) {
   this.opts = options || {};
-  Logger.getLogger('CCPAY-BUBBLE: security.js -> Inside protectImpl function security cookie1').info('one');
   if (!this.opts.loginUrl) {
     throw new Error('login URL required for Security');
   }
@@ -99,7 +98,7 @@ function login(req, res, roles, self) {
 }
 
 function authorize(req, res, next, self) {
-  Logger.getLogger('PAYBUBBLE: server.js -> error santosh').info('Inside authorize function');
+  Logger.getLogger('PAYBUBBLE: server.js -> error santosh1').info('Inside authorize function');
   if (req.roles !== null) {
     for (const role in self.roles) {
       if (req.roles.includes(self.roles[role])) {
@@ -278,9 +277,9 @@ Security.prototype.protect = function protect(role, exceptUrls) {
 
   return function ret(req, res, next) {
     Logger.getLogger('CCPAY-BUBBLE: security.js').info('before calling protectimpl function');
-    Logger.getLogger('CCPAY-BUBBLE: security.js').info(req);
-    Logger.getLogger('CCPAY-BUBBLE: security.js').info(req.session);
-    Logger.getLogger(req.session);
+    // Logger.getLogger('CCPAY-BUBBLE: security.js').info(req);
+    // Logger.getLogger('CCPAY-BUBBLE: security.js').info(req.session);
+    // Logger.getLogger(req.session);
     protectImpl(req, res, next, self);
   };
 };
@@ -292,7 +291,7 @@ Security.prototype.protectWithAnyOf = function protectWithAnyOf(roles, exceptUrl
     opts: this.opts,
     exceptUrls
   };
-
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info('before calling protectimpl in protectWithAnyOf1 function');
   return function ret(req, res, next) {
     Logger.getLogger('CCPAY-BUBBLE: security.js').info('before calling protectimpl in protectWithAnyOf function');
     Logger.getLogger('CCPAY-BUBBLE: security.js').info(req);
@@ -381,11 +380,12 @@ function getRedirectSessionCookie(req) {
 
 /* Callback endpoint */
 Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
+  // Logger.getLogger('PAYBUBBLE: server.js -> error santosh4').info(req.sessionName);
   const self = { opts: this.opts };
-  Logger.getLogger('PAYBUBBLE: server.js -> error santosh').info('Inside OAuth2CallbackEndpoint function');
+  Logger.getLogger('PAYBUBBLE: server.js -> error santosh4').info('Inside OAuth2CallbackEndpoint function');
   // Logger.getLogger('PAYBUBBLE: server.js -> error santosh').info(self);
   return function ret(req, res, next) {
-    Logger.getLogger('PAYBUBBLE: server.js -> error santosh').info(req.session);
+    Logger.getLogger('PAYBUBBLE: server.js -> error santosh5').info(req.session);
     /* We clear any potential existing sessions first, as we want to start over even if we deny access */
     res.clearCookie(constants.SECURITY_COOKIE);
     res.clearCookie(constants.USER_COOKIE);
