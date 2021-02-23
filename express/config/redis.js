@@ -75,7 +75,7 @@ const config = require('@hmcts/properties-volume').addTo(require('config'));
 //   prefix: config.redis.prefix
 // }
 const redisUrl = config.secrets.ccpay['ccpay-redis-connection-string'];
-const client = redis.createClient(config.redis.port, redisUrl);
+const client = redis.createClient({ port: config.redis.port, host: redisUrl });
 
 const redisStore = new RedisStore({
   client: client,
