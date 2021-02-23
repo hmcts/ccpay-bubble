@@ -12,19 +12,28 @@ export class PaymentHistoryComponent implements OnInit {
   view: string;
   takePayment: boolean;
   ccdCaseNumber: string;
+  excReference: string;
   paymentGroupRef: string;
   dcnNumber: string;
   selectedOption: string;
   isBulkscanningEnable: boolean;
+  isStrategicFixEnable: boolean;
+  isTurnOff: boolean;
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private activatedRoute: ActivatedRoute
+    ) { }
 
   ngOnInit() {
+
       this.activatedRoute.params.subscribe((params) => {
       this.apiRoot = 'api/payment-history';
       this.bulkscanapiRoot = 'api/bulk-scan';
       this.ccdCaseNumber = params['ccdCaseNumber'];
       this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
+      this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
+      this.isTurnOff = this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable';
+      this.excReference = this.activatedRoute.snapshot.queryParams['exceptionRecord'];
       this.view = this.activatedRoute.snapshot.queryParams['view'];
       this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
       this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];

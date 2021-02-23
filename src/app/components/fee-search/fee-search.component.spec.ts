@@ -23,7 +23,9 @@ describe('Fee search component', () => {
     testRateableFlatFee: any,
     testRangedPercentFee: any,
     testIversion: any,
-    mockResponse: any;
+    mockResponse: any,
+    mockResponse1: any;
+
 
   beforeEach(() => {
     testFixedFlatFee = {
@@ -172,14 +174,27 @@ describe('Fee search component', () => {
       remissions: []
     };
 
+    mockResponse1 = {
+        'data': {
+          'payment_group_reference': '2019-12341234',
+          'fees': [],
+          'payments': [],
+          'remissions': []
+        }
+      };
     activatedRoute = {
       params: {
         subscribe: (fun) => fun()
       },
       snapshot: {
         queryParams: {
-          'ccdCaseNumber': '1234-1234-1234-1234',
-          'isBulkScanning': 'Enable'
+          ccdCaseNumber: '1234-1234-1234-1234',
+          isBulkScanning: 'Enable',
+          paymentGroupRef: null,
+          dcn: '11',
+          isTurnOff: 'Enable',
+          selectedOption: 'test'
+
         }
       }
     };
@@ -214,8 +229,8 @@ describe('Fee search component', () => {
   it('Should pass selected fee into POST call for backend', async () => {
     spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
     spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
-    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
-    await component.ngOnInit();
+    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+    await component.ngOnInit();
     component.selectFee(testFixedFlatFee);
     fixture.detectChanges();
     expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
@@ -239,6 +254,10 @@ describe('Fee search component', () => {
     spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
     await component.ngOnInit();
     expect(component.ccdNo).toBe('1234-1234-1234-1234');
+    expect(component.paymentGroupRef).toBe(null);
+    expect(component.dcnNo).toBe('11');
+    expect(component.selectedOption).toBe('test');
+    expect(component.bulkScanningTxt).toBe('&isBulkScanning=Enable&isTurnOff=Enable&isStFixEnable=Disable');
   });
 
   it('Should reset preselected fee and show fee details ongoback', () => {
@@ -258,8 +277,6 @@ describe('Fee search component', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
-    expect(router.navigateByUrl)
-      .toHaveBeenCalledWith('/payment-history/1234-1234-1234-1234?view=fee-summary&selectedOption=undefined&paymentGroupRef=paymentgroup');
   });
 
 
@@ -304,8 +321,8 @@ describe('Fee search component', () => {
 
     it('should remember which fee was selected', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
-      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
-      await component.ngOnInit();
+      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+      await component.ngOnInit();
       component.selectFee(testBandedFlatFee);
       fixture.detectChanges();
       expect(component.preselectedFee).toBe(testBandedFlatFee);
@@ -318,6 +335,32 @@ describe('Fee search component', () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
       spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
       const emitSelectEvent = { volumeAmount: 2, selectedVersionEmit: null };
+      component.selectFee(testFixedVolumeFee);
+      component.selectPreselectedFeeWithVolume(emitSelectEvent);
+      await fixture.whenStable();
+      expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
+        fees: [{
+          code: testFixedVolumeFee.code,
+          version: testFixedVolumeFee['current_version'].version.toString(),
+          'calculated_amount': `${testFixedVolumeFee['current_version'].volume_amount.amount * emitSelectEvent.volumeAmount}`.toString(),
+          'memo_line': testFixedVolumeFee['current_version'].memo_line,
+          'natural_account_code': testFixedVolumeFee['current_version'].natural_account_code,
+          'ccd_case_number': component.ccdNo,
+          jurisdiction1: testFixedVolumeFee.jurisdiction1.name,
+          jurisdiction2: testFixedVolumeFee.jurisdiction2.name,
+          description: testFixedVolumeFee.current_version.description,
+          volume: emitSelectEvent.volumeAmount,
+          fee_amount: testFixedVolumeFee.current_version.volume_amount.amount
+        }]
+      });
+    });
+  });
+
+  describe('Submitting volume fee without version', () => {
+    it('should call backend with correct fee details', async () => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      const emitSelectEvent = { volumeAmount: 2};
       component.selectFee(testFixedVolumeFee);
       component.selectPreselectedFeeWithVolume(emitSelectEvent);
       await fixture.whenStable();
@@ -372,6 +415,30 @@ describe('Fee search component', () => {
     expect(router.navigateByUrl).toHaveBeenCalledWith('/service-failure');
   });
 
+  it('should navigate to payment history page when postPayment return success with ref', fakeAsync(() => {
+    spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    component.paymentGroupRef = 'test';
+    component.dcnNo = '11';
+    component.sendPaymentGroup('test');
+    tick();
+    expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
+    const url = 'selectedOption=null&paymentGroupRef=test&dcn=11&isBulkScanning=Enable&isTurnOff=Enable';
+    expect(router.navigateByUrl).toHaveBeenCalledWith(`/payment-history/null?view=fee-summary&${url}`);
+    }));
+
+    it('should navigate to payment history page when postPayment return success without ref', fakeAsync(() => {
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse1));
+      spyOn(JSON, 'parse').and.callFake(() => mockResponse1);
+
+      component.paymentGroupRef = null;
+      component.dcnNo = '11';
+      component.sendPaymentGroup('test');
+      tick();
+      expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
+      const url = 'selectedOption=null&paymentGroupRef=2019-12341234&dcn=11&isBulkScanning=Enable&isTurnOff=Enable';
+      expect(router.navigateByUrl).toHaveBeenCalledWith(`/payment-history/null?view=fee-summary&${url}`);
+      }));
+
   it('should navigate to service failure when postPayment return error', fakeAsync(() => {
     spyOn(paymentGroupService, 'postPaymentGroup').and.returnValue(Promise.reject('Promise should not be resolved'));
     spyOn(component, 'navigateToServiceFailure');
@@ -390,6 +457,7 @@ describe('Fee search component', () => {
     component.sendPaymentGroup('test');
     tick();
     expect(component.navigateToServiceFailure).toHaveBeenCalled();
+
   }));
 
   describe('Submitting fee amount for rateable fee', () => {

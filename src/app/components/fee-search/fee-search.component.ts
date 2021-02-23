@@ -19,7 +19,7 @@ export class FeeSearchComponent implements OnInit {
   showFeeDetails = false;
   paymentGroupRef: string = null;
   selectedOption: string = null;
-  bulkScanningTxt = '&isBulkScanning=Enable';
+  bulkScanningTxt = '&isBulkScanning=Enable&isTurnOff=Enable';
   isDiscontinuedFeatureEnabled = true;
 
   constructor(
@@ -36,7 +36,11 @@ export class FeeSearchComponent implements OnInit {
       this.dcnNo = this.activatedRoute.snapshot.queryParams['dcn'];
       this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
       this.bulkScanningTxt = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable' ?
-        '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
+                                  '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
+      this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable' ?
+                                  '&isTurnOff=Enable' : '&isTurnOff=Disable';
+      this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable' ?
+                                  '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
     });
 
     this.paymentGroupService.getDiscontinuedFrFeature().then((status) => {
@@ -120,24 +124,25 @@ export class FeeSearchComponent implements OnInit {
 
   sendPaymentGroup(paymentGroup: any) {
     const dcnQueryParams = this.dcnNo ? `&dcn=${this.dcnNo}` : '';
+
     if (this.paymentGroupRef) {
 
       this.paymentGroupService.putPaymentGroup(this.paymentGroupRef, paymentGroup)
         .then(response => {
-          this.router
-            .navigateByUrl(`/payment-history/${this.ccdNo}`
-              + `?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}`);
+         // tslint:disable-next-line:max-line-length
+          let url = `/payment-history/${this.ccdNo}?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}${this.bulkScanningTxt}`;
+          url = url.replace(/[\r\n]+/g, ' ');
+          this.router.navigateByUrl(url);
         })
         .catch(err => {
           this.navigateToServiceFailure();
         });
     } else {
       this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
-        this
-          .router
-          .navigateByUrl(`/payment-history/${this.ccdNo}`
-            + `?view=fee-summary&selectedOption=${this.selectedOption}
-            &paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}`);
+        // tslint:disable-next-line:max-line-length
+        let url = `/payment-history/${this.ccdNo}?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}${this.bulkScanningTxt}`;
+        url = url.replace(/[\r\n]+/g, ' ');
+        this.router.navigateByUrl(url);
       })
         .catch(err => {
           this.navigateToServiceFailure();

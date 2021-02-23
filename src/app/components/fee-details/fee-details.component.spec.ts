@@ -59,6 +59,12 @@ describe('FeeDetailsComponent', () => {
     expect(component.restartSearchEvent.emit).toHaveBeenCalled();
   });
 
+  it('Should set isDiscontinuedFeatureEnabled from URL', async () => {
+    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+    await component.ngOnChanges();
+    expect(component.isDiscontinuedFeatureEnabled).toBeTruthy();
+  });
+
   it('Should  submit fee volume', () => {
     const submitEventemmitter = Object({ volumeAmount: 1, selectedVersionEmit: undefined });
     spyOn(component.submitFeeVolumeEvent, 'emit');
@@ -155,7 +161,7 @@ describe('FeeDetailsComponent', () => {
       description: 'test-description'
   };
     const result4 = component.getValidFeeVersionsBasedOnDate(feeVersion4);
-    expect(result4).toBe(true);
+    expect(result4).toBe(false);
   });
 
   it('Should return true if valid_from has value and no valid_to value', () => {
@@ -172,7 +178,7 @@ describe('FeeDetailsComponent', () => {
       description: 'test-description'
   };
     const result5 = component.getValidFeeVersionsBasedOnDate(feeVersion5);
-    expect(result5).toBe(true);
+    expect(result5).toBe(false);
   });
 
   it('Should return false if valid_from  and no valid_to has nore than six month value', () => {
