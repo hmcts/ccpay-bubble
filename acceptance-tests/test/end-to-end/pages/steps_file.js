@@ -748,10 +748,10 @@ module.exports = () => actor({
     this.see('Error in processing the request');
   },
 
-  searchForCCDdummydata() {
+  async searchForCCDdummydata() {
     const ccdNumber = numUtils.getRandomNumber(CCPBConstants.CCDCaseNumber, true);
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
-    searchCase.searchCaseUsingCcdNumber(ccdCaseNumberFormatted);
+    await miscUtils.ccdSearchEnabledValidation(searchCase, this, ccdCaseNumberFormatted);
     this.see('No matching cases found');
   },
 

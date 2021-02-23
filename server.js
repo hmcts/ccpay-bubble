@@ -153,6 +153,7 @@ module.exports = (security, appInsights) => {
   client.trackMetric({ name: 'server startup time', value: duration });
 
   return app;
+
 };
 
 // const url = require('url')
