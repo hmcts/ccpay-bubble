@@ -74,15 +74,18 @@ const config = require('@hmcts/properties-volume').addTo(require('config'));
 // const tlsOptions = {
 //   prefix: config.redis.prefix
 // }
+console.log( config.secrets.ccpay['ccpay-redis-connection-string']);
 const redisUrl = config.secrets.ccpay['ccpay-redis-connection-string'];
-const client = redis.createClient({ port: config.redis.port, host: redisUrl });
+const client = redis.createClient({ port: config.redis.port, host: config.redis.host });
 
 const redisStore = new RedisStore({
   client: client,
   ttl: 60 * 60 * 10
 });
 client.on('connect', () => {
-  console.log(`redis connected ${client.connected}`);
+  // console.log( config.get('secrets.ccpay.ccpay-redis-connection-string'));
+  console.log( config.redis.host);
+  console.log(`redis connected 1${client.connected}`);
 }).on('error', error => {
   console.log(error);
 });
