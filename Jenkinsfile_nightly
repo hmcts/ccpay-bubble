@@ -42,6 +42,7 @@ withNightlyPipeline("nodejs", product, component) {
   env.NIGHTLY_TEST= true
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
+  enableMutationTest(120)
   enableFullFunctionalTest(90)
   after('checkout') {
     sh "yarn cache clean"
@@ -49,5 +50,16 @@ withNightlyPipeline("nodejs", product, component) {
   }
   after('build') {
     sh 'yarn ng:build'
+    sh 'chmod +x bin/run-mutation-tests.sh'
+  }
+
+  after('mutationTest') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/reports/**/*'
+    publishHTML target: [
+      reportDir            : "reports/mutation/html/",
+      reportFiles          : "index.html",
+      reportName           : "PayBubble Mutation tests",
+      alwaysLinkToLastBuild: true
+    ]
   }
 }
