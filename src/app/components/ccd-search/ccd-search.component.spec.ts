@@ -631,7 +631,7 @@ mockResponse4 = {
     expect(component.ccdCaseNumber).toBe('1111222233334444');
     expect(component.noCaseFound).toBeFalsy();
     // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable');
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222299990000?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=CMC_ExceptionRecord&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable&isOldPcipalOff=Enable&isNewPcipalOff=Enable');
 
     component.ngOnInit();
     component.dcnNumber = '';
@@ -653,7 +653,7 @@ mockResponse4 = {
     expect(component.ccdCaseNumber).toBe('');
     expect(component.noCaseFound).toBeFalsy();
     // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable');
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222299990000?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=CMC_ExceptionRecord&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable&isOldPcipalOff=Enable&isNewPcipalOff=Enable');
   });
 });
 
