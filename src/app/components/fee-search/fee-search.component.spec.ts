@@ -277,7 +277,7 @@ describe('Fee search component', () => {
     component.selectFee(testFixedFlatFee);
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
+    expect(router.navigateByUrl).toHaveBeenCalledTimes(3);
   });
 
 
