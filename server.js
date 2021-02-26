@@ -20,6 +20,7 @@ const config = require('@hmcts/properties-volume').addTo(require('config'));
 const { redisStore } = require('./express/config/redis');
 // const  http = require('http');
 const app = express();
+
 // const server = http.createServer(app);
 
 app.set('trust proxy', 1);
@@ -108,7 +109,7 @@ module.exports = (security, appInsights) => {
   app.use((req, res, next) => {
     Logger.getLogger('CCPAY-BUBBLE:server.js').info('redis unavailable');
     app.use(sessionMiddleware);
-    //req.session.name='kkk'
+    // req.session.name='kkk'
     if (!req.session) {
         return next(new Error('Unable to reach redis'));
     }
@@ -118,8 +119,8 @@ module.exports = (security, appInsights) => {
   // enable the dist folder to be accessed statically
   app.use(express.static('dist/ccpay-bubble'));
   app.use('/health', healthcheck);
-  app.use('/health/liveness', (req, res) => res.status(HttpStatus.OK).json({ status: 'up'}));
-  app.use('/health/readiness', (req, res) => res.status(HttpStatus.OK).json({ status: 'up'}));
+  app.use('/health/liveness', (req, res) => res.status(HttpStatus.OK).json({ status: 'up' }));
+  app.use('/health/readiness', (req, res) => res.status(HttpStatus.OK).json({ status: 'up' }));
 
   app.use('/logout', security.logout());
 
