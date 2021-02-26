@@ -18,8 +18,9 @@ const { ApiCallError, ApiErrorFactory } = require('./express/infrastructur
 const session = require('express-session');
 const config = require('@hmcts/properties-volume').addTo(require('config'));
 const { redisStore } = require('./express/config/redis');
-
+// const  http = require('http');
 const app = express();
+// const server = http.createServer(app);
 
 app.set('trust proxy', 1);
 
@@ -99,11 +100,15 @@ module.exports = (security, appInsights) => {
   app.use(cookieParser());
   app.use(sessionMiddleware);
 
-  const sessionCheck = (req, res) => {
-    const sessionId = (req.sessionID);
-  };
-  app.use(sessionCheck);
+  // const sessionCheck = (req, res) => {
+  //   req.session.name= 'hello';
+  //   console.log(req.session.name);
+  // };
+  // app.use(sessionCheck);
   app.use((req, res, next) => {
+    Logger.getLogger('CCPAY-BUBBLE:server.js').info('redis unavailable');
+    app.use(sessionMiddleware);
+    //req.session.name='kkk'
     if (!req.session) {
         return next(new Error('Unable to reach redis'));
     }
@@ -113,8 +118,8 @@ module.exports = (security, appInsights) => {
   // enable the dist folder to be accessed statically
   app.use(express.static('dist/ccpay-bubble'));
   app.use('/health', healthcheck);
-  app.use('/health/liveness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
-  app.use('/health/readiness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
+  app.use('/health/liveness', (req, res) => res.status(HttpStatus.OK).json({ status: 'up'}));
+  app.use('/health/readiness', (req, res) => res.status(HttpStatus.OK).json({ status: 'up'}));
 
   app.use('/logout', security.logout());
 
@@ -151,7 +156,7 @@ module.exports = (security, appInsights) => {
   client.trackMetric({ name: 'custom metric', value: 3 });
   client.trackTrace({ message: 'trace message' });
   client.trackMetric({ name: 'server startup time', value: duration });
-
+  // server.listen(3000);
   return app;
 };
 
