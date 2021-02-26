@@ -5,6 +5,7 @@ idam:
   login_url: https://idam-web-public.aat.platform.hmcts.net/o/authorize
   web_url: https://idam-web-public.aat.platform.hmcts.net
   api_url: https://idam-api.aat.platform.hmcts.net
+  client_secret: IDAM_CLIENT_SECRET
 session:
   cookieName: SESSION_ID
 environment:
