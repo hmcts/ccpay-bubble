@@ -8,7 +8,7 @@ const URL = require('url');
 const UUID = require('uuid/v4');
 const { ApiErrorFactory } = require('./errors');
 const { Logger } = require('@hmcts/nodejs-logging');
-const route = require('../app');
+// const route = require('../app');
 
 
 const errorFactory = ApiErrorFactory('security.js');
