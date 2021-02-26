@@ -8,12 +8,15 @@ const URL = require('url');
 const UUID = require('uuid/v4');
 const { ApiErrorFactory } = require('./errors');
 const { Logger } = require('@hmcts/nodejs-logging');
+const route = require('../app');
+
 
 const errorFactory = ApiErrorFactory('security.js');
 
 const constants = Object.freeze({
   SECURITY_COOKIE: '__auth-token',
   SECURITY_COOKIE_ID: '__id-token',
+  SECURITY_REFRESH_COOKIE: '__refresh-token',
   REDIRECT_COOKIE: '__redirect',
   USER_COOKIE: '__user-info',
   CSRF_TOKEN: '_csrf',
@@ -291,7 +294,7 @@ Security.prototype.protectWithAnyOf = function protectWithAnyOf(roles, exceptUrl
     opts: this.opts,
     exceptUrls
   };
-  Logger.getLogger('CCPAY-BUBBLE: security.js').info('before calling protectimpl in protectWithAnyOf1 function');
+  // Logger.getLogger('CCPAY-BUBBLE: security.js').info('before calling protectimpl in protectWithAnyOf1 function');
   return function ret(req, res, next) {
     Logger.getLogger('CCPAY-BUBBLE: security.js').info('before calling protectimpl in protectWithAnyOf function');
     Logger.getLogger('CCPAY-BUBBLE: security.js').info(req);
