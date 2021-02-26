@@ -18,10 +18,8 @@ const { ApiCallError, ApiErrorFactory } = require('./express/infrastructur
 const session = require('express-session');
 const config = require('@hmcts/properties-volume').addTo(require('config'));
 const { redisStore } = require('./express/config/redis');
-// const  http = require('http');
-const app = express();
 
-// const server = http.createServer(app);
+const app = express();
 
 app.set('trust proxy', 1);
 
