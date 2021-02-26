@@ -104,6 +104,16 @@ module.exports = (security, appInsights) => {
   //   console.log(req.session.name);
   // };
   // app.use(sessionCheck);
+  function sessionHandler(req, res, next) {
+    Logger.getLogger('CCPAY-BUBBLE:server.js').info('redis unavailable');
+    app.use(sessionMiddleware);
+    // req.session.name='kkk'
+    if (!req.session) {
+        return next(new Error('Unable to reach redis'));
+    }
+    Logger.getLogger('CCPAY-BUBBLE:server.js').info('redis unavailable');
+    next();
+  }
   app.use((req, res, next) => {
     Logger.getLogger('CCPAY-BUBBLE:server.js').info('redis unavailable');
     app.use(sessionMiddleware);
@@ -122,7 +132,7 @@ module.exports = (security, appInsights) => {
 
   app.use('/logout', security.logout());
 
-  app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
+  app.use('/oauth2/callback', sessionHandler, security.OAuth2CallbackEndpoint());
 
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"
