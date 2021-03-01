@@ -43,5 +43,10 @@ withPipeline("nodejs", product, component) {
   after('build') {
     sh 'yarn ng:build'
   }
-
+  onMaster() {
+      env.PACT_BRANCH_NAME = 'master'
+      enablePactAs([
+              AppPipelineDsl.PactRoles.CONSUMER
+      ])
+  }
 }
