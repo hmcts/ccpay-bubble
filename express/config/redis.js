@@ -68,39 +68,55 @@
 /*  eslint-disable object-shorthand */
 const redis = require('redis');
 const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
+const connectRedis = require('connect-redis');
+const RedisStore = connectRedis(session);
 const config = require('@hmcts/properties-volume').addTo(require('config'));
+const HALF_HOUR = 1000 * 60 * 30;
+const NODE_ENV = 'development';
+const IN_PROD = NODE_ENV !== 'development';
 
 // const tlsOptions = {
 //   prefix: config.redis.prefix
 // }
 // console.log( config.secrets.ccpay['ccpay-redis-connection-string']);
 // const redisUrl = config.secrets.ccpay['ccpay-redis-connection-string'];
-const client = redis.createClient({ port: config.redis.port, host: 'ccpay-bubble-frontend-pr-427-redis-master-0' });
+const redisClient = redis.createClient({ port: config.redis.port, host: 'localhost' });
 
-const redisStore = new RedisStore({
-  client: client,
-  ttl: 60 * 60 * 10
+// const redisStore = new RedisStore({
+//   client: client,
+//   ttl: 60 * 60 * 10
+// });
+// client.on('connect', () => {
+//   // console.log( config.get('secrets.ccpay.ccpay-redis-connection-string'));
+//   // console.log( config.redis.host);
+//   console.log(`redis connected 1${client.connected}`);
+// }).on('error', error => {
+//   console.log(error);
+// });
+
+// client.on('ready', () => {
+//   console.log('redis client is ready');
+// });
+
+// function getAllActiveSessions() {
+//   return new Promise((resolve, reject) => {
+//     redisStore.all(function(err, sessions) {
+//       if (err) reject(err);
+//         else resolve(sessions);
+//       });
+//     });
+// }
+
+module.exports = session({
+  secret: config.secrets.ccpay['paybubble-idam-client-secret'],
+  name: 'ccpay-session1',
+  cookie: {
+      maxAge: Number(HALF_HOUR),
+      secure: IN_PROD,
+    httpOnly: true,
+      sameSite: true
+    },
+  store: new RedisStore({ client: redisClient }),
+  saveUninitialized: true,
+  resave: false
 });
-client.on('connect', () => {
-  // console.log( config.get('secrets.ccpay.ccpay-redis-connection-string'));
-  // console.log( config.redis.host);
-  console.log(`redis connected 1${client.connected}`);
-}).on('error', error => {
-  console.log(error);
-});
-
-client.on('ready', () => {
-  console.log('redis client is ready');
-});
-
-function getAllActiveSessions() {
-  return new Promise((resolve, reject) => {
-    redisStore.all(function(err, sessions) {
-      if (err) reject(err);
-        else resolve(sessions);
-      });
-    });
-}
-
-module.exports = { redisStore, getAllActiveSessions };

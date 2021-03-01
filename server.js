@@ -17,7 +17,7 @@ const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 const session = require('express-session');
 const config = require('@hmcts/properties-volume').addTo(require('config'));
-const { redisStore } = require('./express/config/redis');
+const redisSession = require('./express/config/redis');
 
 const app = express();
 
@@ -73,22 +73,20 @@ module.exports = (security, appInsights) => {
   app.set('views', path.join(__dirname, 'express/mvc/views'));
 
   // eslint-disable-next-line no-magic-numbers
-  const HALF_HOUR = 1000 * 60 * 30;
-  const NODE_ENV = 'development';
-  const IN_PROD = NODE_ENV !== 'development';
-  const sessionMiddleware = session({
-    secret: config.secrets.ccpay['paybubble-idam-client-secret'],
-    name: 'ccpay-session1',
-    cookie: {
-      maxAge: Number(HALF_HOUR),
-      secure: IN_PROD,
-      httpOnly: true,
-      sameSite: true
-    },
-    store: redisStore,
-    saveUninitialized: true,
-    resave: false
-  });
+ 
+//   const sessionMiddleware = session({
+//     secret: config.secrets.ccpay['paybubble-idam-client-secret'],
+//     name: 'ccpay-session1',
+//     cookie: {
+//       maxAge: Number(HALF_HOUR),
+//       secure: IN_PROD,
+//       httpOnly: true,
+//       sameSite: true
+//     },
+//     store: redisStore,
+//     saveUninitialized: true,
+//     resave: false
+//   });
 
   // parse application/x-www-form-urlencoded
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -97,7 +95,7 @@ module.exports = (security, appInsights) => {
   app.use(bodyParser.json());
   // app.set('port', process.env.PORT || 3000);
   app.use(cookieParser());
-  app.use(sessionMiddleware);
+  app.use(redisSession);
 
   // const sessionCheck = (req, res) => {
   //   req.session.name= 'hello';
@@ -115,14 +113,17 @@ module.exports = (security, appInsights) => {
     next();
   }
   app.use((req, res, next) => {
-    Logger.getLogger('CCPAY-BUBBLE:server.js').info('redis unavailable');
-    app.use(sessionMiddleware);
+    Logger.getLogger('CCPAY-BUBBLE:server.js').info('checking for redis connection');
+    app.use(redisSession);
     // req.session.name='kkk'
-    if (!req.session) {
-        return next(new Error('Unable to reach redis'));
+    if (req.session) {
+      Logger.getLogger('CCPAY-BUBBLE:server.js').info('redis connection is established');
+      Logger.getLogger('CCPAY-BUBBLE:server.js').info(req.sessionID);
+      Logger.getLogger('CCPAY-BUBBLE:server.js').info(req.session);
+      req.session.name ='santosh'
+      Logger.getLogger('CCPAY-BUBBLE:server.js').info(req.session.name);
+      next();
     }
-    Logger.getLogger('CCPAY-BUBBLE:server.js').info('redis unavailable');
-    next();
 });
   // enable the dist folder to be accessed statically
   app.use(express.static('dist/ccpay-bubble'));
