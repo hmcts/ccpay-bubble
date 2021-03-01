@@ -5,3 +5,8 @@ export async function getUserDetails(self, securityCookie) {
     .set('Accept', 'application/json')
     .set('Authorization', `Bearer ${securityCookie}`);
 }
+
+export async function createAuthToken(taskUrl: string, payload: any) {
+  const response = await request.post(`${taskUrl}`, payload);
+  return response;
+}
