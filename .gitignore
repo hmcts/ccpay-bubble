@@ -45,6 +45,10 @@ Reset
 express/mvc/views/index.pug
 package-lock.json
 
+#opact
+/src/test/pact/logs/
+/src/test/pact/pacts/
+
 # System Files
 .DS_Store
 Thumbs.db
