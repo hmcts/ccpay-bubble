@@ -7,7 +7,12 @@ export async function getUserDetails(self, securityCookie) {
 }
 
 export async function createAuthToken(taskUrl: string, payload: any) {
-
   return (await request.post(`${taskUrl}/lease`, payload)
     .set('Content-Type', 'application/json'));
+}
+export async function validateCaseReference(taskUrl, securityCookie, caseId) {
+  return request.get(`${taskUrl}/cases/${caseId.replace(/-/g, '')}`)
+    .set('Authorization', `Bearer ${securityCookie}`)
+    .set('ServiceAuthorization', 'Bearer ServiceAuthToken')
+    .set('Content-Type', 'application/json');
 }
