@@ -43,11 +43,22 @@ withNightlyPipeline("nodejs", product, component) {
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
   enableFullFunctionalTest(90)
+  enableSecurityScan()
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
   }
   after('build') {
     sh 'yarn ng:build'
+  }
+  after('securityScan') {
+    publishHTML([
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "reports/tests/",
+      reportFiles          : 'activescan.html',
+      reportName           : 'ccpaybubble ZAP Security Scan Report'
+    ])
   }
 }
