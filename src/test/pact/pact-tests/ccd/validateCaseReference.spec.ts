@@ -4,7 +4,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const { PactTestSetup } = require('../settings/provider.mock');
 const { Matchers } = require('@pact-foundation/pact');
-const { somethingLike, like, eachLike } = Matchers;
+const { somethingLike } = Matchers;
 const { validateCaseReference } = require('../../pactUtil');
 const pactSetUp = new PactTestSetup({provider: 'ccdDataStoreApi', port: 8000});
 
@@ -23,8 +23,7 @@ describe('CaseData', () => {
         uponReceiving: 'a request for that case',
         withRequest: {
           method: 'GET',
-          path: `/cases/`,
-          query: '12345678',
+          path: `/cases/12345678`,
           headers: {
             ContentType: 'application/json',
             Authorization: 'Bearer some-access-token',
@@ -32,11 +31,11 @@ describe('CaseData', () => {
           },
         },
         willRespondWith: {
-          status: 200
-          // headers: {
-          //   'Content-Type': 'application/json'
-          // },
-          // body: mockResponse
+          status: 200,
+          headers: {
+             'Content-Type': 'application/json'
+          },
+          body: mockResponse
         }
       };
       pactSetUp.provider.addInteraction(interaction).then(() => {});

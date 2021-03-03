@@ -14,5 +14,5 @@ export async function validateCaseReference(taskUrl, securityCookie, caseId) {
   return request.get(`${taskUrl}/cases/${caseId.replace(/-/g, '')}`)
     .set('Authorization', `Bearer ${securityCookie}`)
     .set('ServiceAuthorization', 'Bearer ServiceAuthToken')
-    .set('Content-Type', 'application/json');
+    .set('ContentType', 'application/json');
 }
