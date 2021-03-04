@@ -1,5 +1,4 @@
 const pa11y = require('pa11y');
-const path = require('path');
 const fs = require('fs');
 const htmlReporter = require('pa11y-reporter-html');
 const urls = require('./pa11y-urls');
