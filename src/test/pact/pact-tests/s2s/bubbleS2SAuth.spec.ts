@@ -1,4 +1,4 @@
-"use strict"
+'use strict';
 
 const {createAuthToken} = require('../../pactUtil');
 const { PactTestSetup } = require('../settings/provider.mock');
@@ -13,8 +13,8 @@ const microService = config.get('ccpaybubble.microservice');
 
 const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
 const payload = {
-  "microservice": microService,
-  "oneTimePassword": otpPassword
+  'microservice': microService,
+  'oneTimePassword': otpPassword
 };
 
 describe('ccpay-bubble AUTH token', async () => {
@@ -53,7 +53,7 @@ describe('ccpay-bubble AUTH token', async () => {
 
       response.then((Response) => {
         const authResponse: string = Response;
-        //expect(authResponse).to.be.equal(s2sResponseSecret);
+        // expect(authResponse).to.be.equal(s2sResponseSecret);
       }).then(() => {
         pactSetUp.provider.verify();
         pactSetUp.provider.finalize();
