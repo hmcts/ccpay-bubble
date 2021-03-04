@@ -36,6 +36,11 @@ withPipeline("nodejs", product, component) {
   enableSlackNotifications('#cc-payments-tech')
   enableAksStagingDeployment()
   disableLegacyDeployment()
+  after('smokeTest:preview') {
+    onMaster {
+      yarnBuilder.yarn('test:a11y')
+    }
+  }
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'

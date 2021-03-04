@@ -1,5 +1,4 @@
 const pa11y = require('pa11y');
-const path = require('path');
 const fs = require('fs');
 const htmlReporter = require('pa11y-reporter-html');
 const urls = require('./pa11y-urls');
@@ -15,8 +14,9 @@ const configuration = {
 
 const generateHTMLReport = (isNew, html) => new Promise((resolve, reject) => {
   const editType = (isNew) ? 'writeFile' : 'appendFile';
-  fs[editType](`${path.resolve(__dirname, '..', 'coverage')}/pa11y.html`, html, err => {
-    if (err) reject(new Error({ err }));
+  fs[editType]('./pa11y.html', html, err => {
+    console.log(err);
+    if (err) reject(new Error(err));
     resolve({ message: (isNew) ? 'pa11y file created.' : 'pa11y file updated.' });
   });
 });
