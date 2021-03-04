@@ -18,7 +18,7 @@
     "merge-lcov": "cross-env lcov-result-merger './coverage/lcov-*.info' './coverage/lcov.info'",
     "copy-lcov": "node ./scripts/copy-lcov.js",
     "test": "yarn lint && yarn test:angular && yarn test:coverage",
-    "test:a11y": "echo 'TODO: Accessibility tests'",
+    "test:a11y": "cross-env node scripts/pa11y",
     "gulp": "gulp",
     "lint": "yarn ng-lint && yarn eslint",
     "audit": "yarn audit --groups dependencies",
@@ -80,7 +80,8 @@
     "tslib": "^1.9.3",
     "uuid": "3.3.2",
     "web-animations-js": "^2.3.2",
-    "zone.js": "~0.8.29"
+    "zone.js": "~0.8.29",
+    "pa11y-reporter-html": "^1.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
@@ -144,7 +145,8 @@
     "tsickle": ">=0.34.0",
     "tslint": "~5.12.1",
     "typescript": "3.2.4",
-    "xlsx": "^0.15.1"
+    "xlsx": "^0.15.1",
+    "pa11y": "^5.0.0"
   },
   "optionalDependencies": {
     "fsevents": "*"
