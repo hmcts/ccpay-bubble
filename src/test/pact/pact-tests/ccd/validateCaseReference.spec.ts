@@ -19,7 +19,7 @@ describe('CaseData', () => {
     before(async () => {
       await pactSetUp.provider.setup();
       const interaction = {
-        state: 'a case exists',
+        state: 'A Search for cases is requested',
         uponReceiving: 'a request for that case',
         withRequest: {
           method: 'GET',
@@ -33,7 +33,7 @@ describe('CaseData', () => {
         willRespondWith: {
           status: 200,
           headers: {
-             'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
           },
           body: mockResponse
         }
@@ -44,7 +44,6 @@ describe('CaseData', () => {
       const taskUrl = `${pactSetUp.provider.mockService.baseUrl}`;
       const response = validateCaseReference(taskUrl, jwt, caseId);
       response.then((Response) => {
-        console.log('Test');
         const dto: CcdGetResponseDto = <CcdGetResponseDto>Response.body;
         assertResponse(dto);
       }).then(() => {

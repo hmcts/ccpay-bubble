@@ -1,59 +1,51 @@
 'use strict';
 
-const {createAuthToken} = require('../../pactUtil');
+const chai = require('chai');
+const expect = chai.expect;
 const { PactTestSetup } = require('../settings/provider.mock');
-const s2sResponseSecret = 'someMicroServiceToken';
-const pactSetUp = new PactTestSetup({provider: 's2s_auth', port: 8000});
+const { Matchers } = require('@pact-foundation/pact');
+const { somethingLike } = Matchers;
+const { validateCaseReference } = require('../../pactUtil');
+const pactSetUp = new PactTestSetup({provider: 'ccdDataStoreApi', port: 8000});
 
-
-const config = require('config');
-const otp = require('otp');
-const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
-const microService = config.get('ccpaybubble.microservice');
-
-const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
-const payload = {
-  'microservice': microService,
-  'oneTimePassword': otpPassword
-};
-
-describe('ccpay-bubble AUTH token', async () => {
-  before(async () => {
-    await new Promise(resolve => setTimeout(resolve, 3000));
-  });
-
-  describe('POST /lease', () => {
+describe('CaseData', () => {
+  const mockResponse = {
+    'status_message' : somethingLike('OK'),
+    'caseref' : somethingLike('12345678')
+  };
+  describe('/get cases', () => {
+    const jwt = 'some-access-token';
+    const caseId = '12345678';
     before(async () => {
       await pactSetUp.provider.setup();
       const interaction = {
-        state: 'microservice with valid credentials',
-        uponReceiving: 'a request for a token for a microservice',
+        state: 'A Search for cases is requested',
+        uponReceiving: 'a request for that case',
         withRequest: {
-          method: 'POST',
-          path: '/lease',
-          body: payload,
+          method: 'GET',
+          path: `/cases/12345678`,
           headers: {
-            'Content-Type' : 'application/json'
+            ContentType: 'application/json',
+            Authorization: 'Bearer some-access-token',
+            ServiceAuthorization: 'Bearer ServiceAuthToken'
           },
         },
         willRespondWith: {
           status: 200,
           headers: {
-            'Content-Type' : 'text/plain;charset=ISO-8859-1'
+            'Content-Type': 'application/json'
           },
-          body: s2sResponseSecret,
-        },
+          body: mockResponse
+        }
       };
-      pactSetUp.provider.addInteraction(interaction).then(() => {
-      });
+      pactSetUp.provider.addInteraction(interaction).then(() => {});
     });
-    it('returns the token from S2S service', async () => {
+    it('Returns Case', async () => {
       const taskUrl = `${pactSetUp.provider.mockService.baseUrl}`;
-      const response = createAuthToken(taskUrl, payload);
-
+      const response = validateCaseReference(taskUrl, jwt, caseId);
       response.then((Response) => {
-        const authResponse: string = Response;
-        // expect(authResponse).to.be.equal(s2sResponseSecret);
+        const dto: CcdGetResponseDto = <CcdGetResponseDto>Response.body;
+        assertResponse(dto);
       }).then(() => {
         pactSetUp.provider.verify();
         pactSetUp.provider.finalize();
@@ -61,3 +53,13 @@ describe('ccpay-bubble AUTH token', async () => {
     });
   });
 });
+
+function assertResponse(dto: CcdGetResponseDto) {
+  expect(dto.status_message).to.be.equal('OK');
+  expect(dto.caseref).to.be.equal('12345678');
+}
+
+export interface CcdGetResponseDto {
+  status_message: string;
+  caseref: string;
+}
