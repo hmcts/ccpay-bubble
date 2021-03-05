@@ -2,32 +2,41 @@
 
 const chai = require('chai');
 const expect = chai.expect;
+const {createAuthToken} = require('../../pactUtil');
 const { PactTestSetup } = require('../settings/provider.mock');
-const { Matchers } = require('@pact-foundation/pact');
-const { somethingLike } = Matchers;
-const { validateCaseReference } = require('../../pactUtil');
-const pactSetUp = new PactTestSetup({provider: 'ccdDataStoreApi', port: 8000});
+const pactSetUp = new PactTestSetup({provider: 's2s_auth', port: 8000});
+const config = require('config');
+const otp = require('otp');
+const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
+const microService = config.get('ccpaybubble.microservice');
+const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
 
-describe('CaseData', () => {
-  const mockResponse = {
-    'status_message' : somethingLike('OK'),
-    'caseref' : somethingLike('12345678')
-  };
-  describe('/get cases', () => {
-    const jwt = 'some-access-token';
-    const caseId = '12345678';
+const payload = {
+  'microservice': microService,
+  'oneTimePassword': otpPassword
+};
+
+const s2sResponseSecret = {
+  's2sResponseSecret' : 'someMicroServiceToken',
+};
+
+describe('ccpay-bubble AUTH token', async () => {
+  before(async () => {
+    await new Promise(resolve => setTimeout(resolve, 3000));
+  });
+
+  describe('POST /lease', () => {
     before(async () => {
       await pactSetUp.provider.setup();
       const interaction = {
-        state: 'A Search for cases is requested',
-        uponReceiving: 'a request for that case',
+        state: 'microservice with valid credentials',
+        uponReceiving: 'a request for a token for a microservice',
         withRequest: {
-          method: 'GET',
-          path: `/cases/12345678`,
+          method: 'POST',
+          path: '/lease',
+          body: payload,
           headers: {
-            ContentType: 'application/json',
-            Authorization: 'Bearer some-access-token',
-            ServiceAuthorization: 'Bearer ServiceAuthToken'
+            'Content-Type' : 'application/json'
           },
         },
         willRespondWith: {
@@ -35,16 +44,18 @@ describe('CaseData', () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: mockResponse
-        }
+          body: s2sResponseSecret,
+        },
       };
-      pactSetUp.provider.addInteraction(interaction).then(() => {});
+      pactSetUp.provider.addInteraction(interaction).then(() => {
+      });
     });
-    it('Returns Case', async () => {
+    it('returns the token from S2S service', async () => {
       const taskUrl = `${pactSetUp.provider.mockService.baseUrl}`;
-      const response = validateCaseReference(taskUrl, jwt, caseId);
+      const response = createAuthToken(taskUrl, payload);
+
       response.then((Response) => {
-        const dto: CcdGetResponseDto = <CcdGetResponseDto>Response.body;
+        const dto: S2SAuthResponseDto = <S2SAuthResponseDto>Response.body;
         assertResponse(dto);
       }).then(() => {
         pactSetUp.provider.verify();
@@ -54,12 +65,10 @@ describe('CaseData', () => {
   });
 });
 
-function assertResponse(dto: CcdGetResponseDto) {
-  expect(dto.status_message).to.be.equal('OK');
-  expect(dto.caseref).to.be.equal('12345678');
+function assertResponse(dto: S2SAuthResponseDto) {
+  expect(dto.s2sResponseSecret).to.be.equal('someMicroServiceToken');
 }
 
-export interface CcdGetResponseDto {
-  status_message: string;
-  caseref: string;
+export interface S2SAuthResponseDto {
+  s2sResponseSecret: string;
 }
