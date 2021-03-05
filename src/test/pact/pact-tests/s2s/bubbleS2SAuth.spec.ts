@@ -1,7 +1,5 @@
 'use strict';
 
-const chai = require('chai');
-const expect = chai.expect;
 const {createAuthToken} = require('../../pactUtil');
 const { PactTestSetup } = require('../settings/provider.mock');
 const pactSetUp = new PactTestSetup({provider: 's2s_auth', port: 8000});
@@ -42,9 +40,9 @@ describe('ccpay-bubble AUTH token', async () => {
         willRespondWith: {
           status: 200,
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'text/plain;charset=ISO-8859-1'
           },
-          body: s2sResponseSecret,
+          body: 'someMicroServiceToken',
         },
       };
       pactSetUp.provider.addInteraction(interaction).then(() => {
@@ -55,8 +53,6 @@ describe('ccpay-bubble AUTH token', async () => {
       const response = createAuthToken(taskUrl, payload);
 
       response.then((Response) => {
-        const dto: S2SAuthResponseDto = <S2SAuthResponseDto>Response.body;
-        assertResponse(dto);
       }).then(() => {
         pactSetUp.provider.verify();
         pactSetUp.provider.finalize();
@@ -64,11 +60,3 @@ describe('ccpay-bubble AUTH token', async () => {
     });
   });
 });
-
-function assertResponse(dto: S2SAuthResponseDto) {
-  expect(dto.s2sResponseSecret).to.be.equal('someMicroServiceToken');
-}
-
-export interface S2SAuthResponseDto {
-  s2sResponseSecret: string;
-}
