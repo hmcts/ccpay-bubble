@@ -44,6 +44,8 @@ nodejs:
     CCD_URL: http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     REDISCLOUD_URL: redis://ignore:fake-password@${SERVICE_NAME}-redis-master:6379
     REDIS_KEY_PREFIX: 'activity:'
+    REDISCLOUD_URL: xui-webapp-{{ .Values.global.environment }}.redis.cache.windows.net
+    REDIS_PORT: 6380
     REDIS_TTL: 6000
 
 

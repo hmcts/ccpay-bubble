@@ -43,6 +43,7 @@ function addOAuth2Parameters(url, state, self, req) {
   url.query.client_id = self.opts.clientId;
   url.query.redirect_uri = `https://${req.get('host')}${self.opts.redirectUri}`;
   if (req.session) {
+    // Logger.getLogger('CCPAY-BUBBLE: security.js -> addOAuth2Parameters + SessionId').info(req.sessionId);
     req.session.testing = 'testing';
   }
   if (req.session) {
@@ -297,8 +298,8 @@ Security.prototype.protectWithAnyOf = function protectWithAnyOf(roles, exceptUrl
   // Logger.getLogger('CCPAY-BUBBLE: security.js').info('before calling protectimpl in protectWithAnyOf1 function');
   return function ret(req, res, next) {
     Logger.getLogger('CCPAY-BUBBLE: security.js').info('before calling protectimpl in protectWithAnyOf function');
-    Logger.getLogger('CCPAY-BUBBLE: security.js').info(req);
-    Logger.getLogger('CCPAY-BUBBLE: security.js').info(req.session);
+    // Logger.getLogger('CCPAY-BUBBLE: security.js').info(req);
+    Logger.getLogger('CCPAY-BUBBLE: security.js').info(req.sessionId);
     protectImpl(req, res, next, self);
   };
 };

@@ -1,5 +1,6 @@
 // import {xuiNode} from '@hmcts/rpx-xui-node-lib'
 const { xuiNode } = require('@hmcts/rpx-xui-node-lib');
+const config = require('config');
 // import {NextFunction, Request, Response} from 'express'
 // import {getConfigValue, showFeature} from '../configuration'
 // import {
@@ -58,20 +59,20 @@ const getXuiNodeMiddleware = () => {
       maxAge: 240,
       secure: true
     },
-    name: 'govindu',
+    name: 'ccpay-session',
     rolling: true,
     resave: true,
     saveUninitialized: false,
-    secret: 'secret'
+    secret: config.secrets.ccpay['paybubble-idam-client-secret']
   };
 
   const redisStoreOptions = {
     redisStore: {
       ...baseStoreOptions, ...{
         redisStoreOptions: {
-          redisCloudUrl: 'redis://localhost:6379',
-          redisKeyPrefix: 'redisprefix',
-          redisTtl: 240
+          redisCloudUrl: config.redis.host,
+          redisKeyPrefix: config.redis.prefix,
+          redisTtl: config.redis.ttl
         }
       }
     }

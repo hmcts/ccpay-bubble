@@ -65,6 +65,7 @@ module.exports = (security, appInsights) => {
   app.use(cookieParser());
   app.use(getXuiNodeMiddleware());
   app.use(function(req, res, next) {
+    Logger.getLogger(`PAYBUBBLE:Server.js File ->SessionId`).info(req.sessionID);
     if (!req.session) {
       return next(new Error('oh no'));
     }

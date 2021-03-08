@@ -2,8 +2,10 @@ security:
   referrerPolicy: origin
 idam:
   client_id: paybubble
-  login_url: https://idam-web-public.aat.platform.hmcts.net
+  login_url: https://idam-web-public.aat.platform.hmcts.net/o/authorize
+  web_url: https://idam-web-public.aat.platform.hmcts.net
   api_url: https://idam-api.aat.platform.hmcts.net
+  client_secret: IDAM_CLIENT_SECRET
 session:
   cookieName: SESSION_ID
 environment:
@@ -38,3 +40,10 @@ secrets:
     paybubble-idam-client-secret: NVYEC2X7XFSRENTU
     launch-darkly-client-id: 5f227f4df775300ba82996dc
     AppInsightsInstrumentationKey: some-key
+redis:
+    host: 'ccpay-bubble-frontend-pr-427-redis-master-0'
+    port: 6380,
+    password: 'dummy_password'
+    tls: true,
+    prefix: activity:,
+    ttl: 86400
