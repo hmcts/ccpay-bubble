@@ -5,7 +5,9 @@ security:
     pins: SECURITY_HPKP_PINS
 idam:
   client_id: paybubble
-  login_url: IDAM_AUTHENTICATION_WEB_URL
+  client_secret: IDAM_CLIENT_SECRET
+  login_url: IDAM_LOGIN_URL
+  web_url: IDAM_AUTHENTICATION_WEB_URL
   api_url: IDAM_API_URL
 ccpaybubble:
   url: CCPAY_BUBBLE_URL
@@ -38,3 +40,12 @@ secrets:
     paybubble-idam-client-secret: IDAM_CLIENT_SECRET
     launch-darkly-client-id: LD_CLIENT_ID
     AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
+    ccpay-redis-connection-string: REDISCLOUD_URL
+redis:
+  # host: REDIS_HOST
+  # port: REDIS_PORT
+  prefix: REDIS_KEY_PREFIX
+  # password: REDIS_PASSWORD
+  # useTLS: REDIS_USE_TLS
+  ttl: REDIS_TTL 
+

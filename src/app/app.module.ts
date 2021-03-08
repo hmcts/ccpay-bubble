@@ -31,6 +31,9 @@ import {AuthDevInterceptor} from './shared/interceptors/auth.dev.interceptor';
 import {environment} from '../environments/environment';
 import { CaseRefService } from './services/caseref/caseref.service';
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
+import { SessionDialogComponent} from './components/session-dialog/session-dialog.component';
+import {TimeoutNotificationsService} from './services/notification-service/notification-service';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -55,7 +58,8 @@ const nonProductionProviders = [{
     PaymentHistoryComponent,
     FeeSearchComponent,
     CcdSearchComponent,
-    FeeDetailsComponent
+    FeeDetailsComponent,
+    SessionDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +69,8 @@ const nonProductionProviders = [{
     HttpClientModule,
     ViewPaymentModule,
     FeeRegisterSearchModule,
-    PaymentLibModule
+    PaymentLibModule,
+    NgIdleKeepaliveModule.forRoot()
   ],
   providers: [
     PaybubbleHttpClient,
@@ -77,7 +82,8 @@ const nonProductionProviders = [{
     WindowUtil,
     !environment.production ? nonProductionProviders : [],
     PaymentGroupService,
-    ViewPaymentService
+    ViewPaymentService,
+    TimeoutNotificationsService
   ],
   bootstrap: [AppComponent]
 })

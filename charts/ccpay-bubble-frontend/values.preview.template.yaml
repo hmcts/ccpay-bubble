@@ -3,9 +3,12 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   environment:
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
+    REDISCLOUD_URL: redis://ignore:fake-password@${SERVICE_NAME}-redis-master:6379
 
 idam-pr:
   enabled: true
   redirect_uris:
     pay-bubble:
       - https://${SERVICE_FQDN}/oauth2/callback
+redis:
+  enabled: true
