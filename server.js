@@ -1,3 +1,7 @@
+/* eslint-disable no-irregular-whitespace */
+/* eslint-disable indent */
+/* eslint-disable func-names */
+/* eslint-disable prefer-arrow-callback */
 const path = require('path');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
@@ -65,14 +69,13 @@ module.exports = (security, appInsights) => {
   app.use(cookieParser());
   app.use(getXuiNodeMiddleware());
   app.use(function(req, res, next) {
-    Logger.getLogger(`PAYBUBBLE:Server.js File ->SessionId`).info(req.sessionID);
+    Logger.getLogger('PAYBUBBLE:Server.js File ->SessionId').info(req.sessionID);
     if (!req.session) {
-      return next(new Error('oh no'));
+      Logger.getLogger('PAYBUBBLE:Server.js File ->SessionId').info('SessionId not created');
     }
     next();
   });
 
- 
   // use helmet for security
   app.use(helmet());
   app.use(helmet.noCache());
