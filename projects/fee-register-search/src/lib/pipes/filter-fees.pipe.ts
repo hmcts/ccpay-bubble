@@ -33,13 +33,13 @@ export class FilterFeesPipe implements PipeTransform {
 
   filterValidFee(fees: IFee[]) {
         const todayDate = new Date();
-        return fees.filter(fee => fee.current_version.status === 'approved' &&  
-                              <any>new Date(fee.current_version.valid_from) <= todayDate &&
-                              (fee.current_version.valid_to === ' ' || 
-                              fee.current_version.valid_to === '' || 
-                               fee.current_version.valid_to === null || 
-                               fee.current_version.valid_to === undefined || 
-                              <any>new Date(fee.current_version.valid_to) >= todayDate));
+        return fees.filter(fee => fee.current_version.status === 'approved' &&
+   <any>new Date(fee.current_version.valid_from) <= todayDate &&
+  (fee.current_version.valid_to === ' ' ||
+   fee.current_version.valid_to === '' ||
+   fee.current_version.valid_to === null ||
+   fee.current_version.valid_to === undefined ||
+   <any>new Date(fee.current_version.valid_to) >= todayDate));
       }
 
   filterByDescription(fees, filter): IFee[] {
