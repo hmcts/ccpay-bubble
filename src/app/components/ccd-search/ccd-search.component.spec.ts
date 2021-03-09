@@ -1,5 +1,4 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
 import { throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -245,8 +244,6 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.hasErrors).toBeFalsy();
     expect(component.dcnNumber).toBe(null);
     expect(component.ccdCaseNumber).toBe('1111222233334444');
-    // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable&isOldPcipalOff=Enable&isNewPcipalOff=Enable');
   });
 
   it('Should remove hyphems from ccd_case_number', () => {
@@ -706,8 +703,6 @@ describe('ccd search component without takePayment option', () => {
     expect(component.hasErrors).toBeFalsy();
     expect(component.dcnNumber).toBe(null);
     expect(component.ccdCaseNumber).toBe('1111222233334444');
-    // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=CCDorException&dcn=null&view=case-transactions&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable&isOldPcipalOff=Enable&isNewPcipalOff=Enable');
   });
 });
 
@@ -722,7 +717,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     mockResponse1: any,
     mockResponse2: any,
     mockResponse3: any,
-    activatedRoute;
+    mockResponse4: any;
   const formBuilder: FormBuilder = new FormBuilder();
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -858,6 +853,15 @@ mockResponse3 = {
   ],
   responsible_service_id: 'AA07'
 };
+mockResponse4 = {
+  data: {
+     ccd_reference: '1111222299990000',
+     exception_record_reference: '1111222233334444',
+     responsible_service_id: 'AA08',
+     all_payments_status: 'INCOMPLETE'
+  },
+  success: true
+};
 
     fixture = TestBed.createComponent(CcdSearchComponent);
     component = fixture.componentInstance;
@@ -867,7 +871,6 @@ mockResponse3 = {
     caseRefService = fixture.debugElement.injector.get(CaseRefService);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
     viewPaymentService = fixture.debugElement.injector.get(ViewPaymentService);
-    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
   });
 
   it('Should create', () => {
@@ -982,5 +985,33 @@ it('Should get RC details', async () => {
   expect(component.dcnNumber).toBeNull();
   expect(component.ccdCaseNumber).toBe('1111222233334444');
   expect(component.noCaseFound).toBeFalsy();
+});
+it('Should use ccd number if user search with excption which has ccd assinged', async () => {
+  spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+  spyOn(paymentGroupService, 'getBSPaymentsByCCD').and.callFake(() => Promise.resolve(mockResponse4));
+  spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+  spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
+  spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
+  await component.ngOnInit();
+  await component.searchForm.controls['searchInput'].setValue('1111-2222-9999-0000');
+  component.searchFees();
+  fixture.detectChanges();
+  expect(component.hasErrors).toBeFalsy();
+  expect(component.dcnNumber).toBe(null);
+  expect(component.ccdCaseNumber).toBe('1111222299990000');
+});
+
+it('Should use ccd number if user search with excption which has ccd assinged', async () => {
+  spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+  spyOn(paymentGroupService, 'getBSPaymentsByCCD').and.callFake(() => Promise.reject({ message: 'failure' }));
+  spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+  spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
+  spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
+  await component.ngOnInit();
+  await component.searchForm.controls['searchInput'].setValue('1111-2222-9999-0000');
+  component.searchFees();
+  fixture.detectChanges();
+  expect(component.hasErrors).toBeFalsy();
+  expect(component.dcnNumber).toBe(null);
 });
 });

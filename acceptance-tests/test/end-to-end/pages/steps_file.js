@@ -2,26 +2,33 @@
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 // in this file you can append custom step methods to 'I' object
 // const faker = require('faker');
-const faker = require('faker');
 
-const RANDOM_NUMBER = 9999999999999999;
+const numUtils = require('../helpers/number_utils');
 
-const CCDNumber = faker.random.number(RANDOM_NUMBER);
+const miscUtils = require('../helpers/misc');
+
+const searchCase = require('../pages/case_search');
+
+const stringUtils = require('../helpers/string_utils');
+
+const numberTwo = 2;
 
 module.exports = () => actor({
   // done
   login(email, password) {
     this.amOnPage('/');
-    this.retry(CCPBConstants.retryCountForStep).waitForElement('#username', CCPBConstants.thirtySecondWaitTime);
+    this.wait(CCPBConstants.twoSecondWaitTime);
+    this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
+    this.wait(CCPBConstants.twoSecondWaitTime);
     this.fillField('Email address', email);
     this.fillField('Password', password);
-    this.waitForElement({ css: '[type="submit"]' }, CCPBConstants.thirtySecondWaitTime);
+    this.wait(CCPBConstants.twoSecondWaitTime);
     this.click({ css: '[type="submit"]' });
+    this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   Logout() {
-    this.moveCursorTo('//div/div/ul[2]/li[2]/a');
-    this.see('Logout');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Logout');
     this.wait(CCPBConstants.fiveSecondWaitTime);
   },
@@ -741,20 +748,21 @@ module.exports = () => actor({
     this.see('Error in processing the request');
   },
 
-  searchForCCDdummydata() {
-    this.fillField({ css: '[type="text"]' }, '3456789098765434');
-    this.click('Search');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+  async searchForCCDdummydata() {
+    const ccdNumber = numUtils.getRandomNumber(CCPBConstants.CCDCaseNumber, true);
+    const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
+    await miscUtils.ccdSearchEnabledValidation(searchCase, this, ccdCaseNumberFormatted);
     this.see('No matching cases found');
   },
 
-  searchForCorrectCCDNumber() {
-    this.fillField({ css: '[type="text"]' }, '1516881806468540');
-    this.click('Search');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+  async searchForCorrectCCDNumber() {
+    const randomNumber = numUtils.getRandomNumber(numberTwo);
+    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
+    const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
+    await miscUtils.multipleCcdSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
     this.see('CCD reference:');
-    this.see('1516-8818-0646-8540');
+    this.see(ccdCaseNumberFormatted);
     this.see('Total payments');
     this.see('Total remissions');
     this.see('Amount due');
@@ -774,22 +782,24 @@ module.exports = () => actor({
     this.see('Calculated amount');
     this.see('Amount due');
     this.see('Action');
-    this.see('No fees recorded');
+    // this.see('No fees recorded');
     this.see('£0.00');
   },
 
-  caseforTelephonyFlow() {
-    this.fillField({ css: '[type="text"]' }, '1598-9964-5285-5138');
-    this.click('Search');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+  async caseforTelephonyFlow() {
+    const randomNumber = numUtils.getRandomNumber(numberTwo);
+    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
+    const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
+    await miscUtils.multipleCcdSearch(searchCase, this, ccdCaseNumberFormatted);
     this.see('Case transactions');
     this.see('CCD reference:');
-    this.see('1598-9964-5285-5138');
+    this.see(ccdCaseNumberFormatted);
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Search for a fee');
     this.fillField({ css: '[type="text"]' }, '550');
     this.click('Search');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Jurisdiction 1');
     this.click({ css: '#family' });
     this.click('Jurisdiction 2');
@@ -820,10 +830,8 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  AmountDueCaseForTelephonyFlow() {
-    this.fillField({ css: '[type="text"]' }, '1598999494885873');
-    this.click('Search');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+  async AmountDueCaseForTelephonyFlow() {
+    await miscUtils.multipleCcdSearch(searchCase, this, '1598999494885873');
     this.see('Case transactions');
     this.see('CCD reference:');
     this.see('1598-9994-9488-5873');
@@ -847,18 +855,20 @@ module.exports = () => actor({
     this.see('Probate');
   },
 
-  removeFeeFromCaseTransactionPageTelephonyFlow() {
-    this.fillField({ css: '[type="text"]' }, '1599001158572365');
-    this.click('Search');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+  async removeFeeFromCaseTransactionPageTelephonyFlow() {
+    const randomNumber = numUtils.getRandomNumber(numberTwo);
+    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
+    const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
+    await miscUtils.multipleCcdSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
     this.see('CCD reference:');
-    this.see('1599-0011-5857-2365');
+    this.see(ccdCaseNumberFormatted);
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Search for a fee');
     this.fillField({ css: '[type="text"]' }, '550');
     this.click('Search');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Jurisdiction 1');
     this.click({ css: '#family' });
     this.click('Jurisdiction 2');
@@ -883,13 +893,10 @@ module.exports = () => actor({
     this.see('Divorce');
     this.see('Probate');
     this.click('Case Transaction');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
-    this.fillField({ css: '[type="text"]' }, '1599001158572365');
-    this.click('Search');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    await miscUtils.multipleCcdSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
     this.see('CCD reference:');
-    this.see('1599-0011-5857-2365');
+    this.see(ccdCaseNumberFormatted);
     this.click('Remove');
     this.see('Are you sure you want to delete this fee?');
     this.wait(CCPBConstants.fiveSecondWaitTime);
