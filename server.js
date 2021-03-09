@@ -69,7 +69,7 @@ module.exports = (security, appInsights) => {
   app.use(cookieParser());
   app.use(getXuiNodeMiddleware());
   app.use(function(req, res, next) {
-    Logger.getLogger('PAYBUBBLE:Server.js File ->SessionId').info(req.sessionID);
+    // Logger.getLogger('PAYBUBBLE:Server.js File ->SessionId').info(req.sessionID);
     if (!req.session) {
       Logger.getLogger('PAYBUBBLE:Server.js File ->SessionId').info('SessionId not created');
     }

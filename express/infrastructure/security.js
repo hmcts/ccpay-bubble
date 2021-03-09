@@ -112,6 +112,7 @@ function authorize(req, res, next, self) {
       }
     }
   }
+  Logger.getLogger('PAYBUBBLE: server.js -> error santosh1').info(req.session[onstants.USER_COOKIE]);
   const error = errorFactory.createForbiddenError(null, `ERROR: Access forbidden - User does not have any of ${self.roles}. Actual roles:${req.roles}`);
   return next(error);
 }
@@ -134,6 +135,7 @@ function getTokenFromCode(self, req) {
 
 function getUserDetails(self, securityCookie) {
   Logger.getLogger('CCPAY-BUBBLE: security.js').info('Inside getUserDetails function');
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info(securityCookie);
   return request.get(`${self.opts.apiUrl}/o/userinfo`)
     .set('Accept', 'application/json')
     .set('Authorization', `Bearer ${securityCookie}`);
@@ -151,6 +153,8 @@ function getUserDetails(self, securityCookie) {
 
 function storeSession(req, token, sessionName) {
   Logger.getLogger('CCPAY-BUBBLE: security.js').info('Inside storeSession function');
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info(token);
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info(sessionName);
   req.authToken = token;
   if (req.protocol === 'https') { /* SECURE */
     req.session[sessionName] = req.authToken;
@@ -170,6 +174,7 @@ function storeSession(req, token, sessionName) {
 
 function handleSession(req) {
   Logger.getLogger('CCPAY-BUBBLE: security.js').info('Inside handleSession function');
+  Logger.getLogger('CCPAY-BUBBLE: security.js').info(req.session[constants.SECURITY_COOKIE]);
   if (req.session && req.session[constants.SECURITY_COOKIE]) {
     req.authToken = req.session[constants.SECURITY_COOKIE];
     return req.authToken;
@@ -430,7 +435,9 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       storeSession(req, idToken, constants.IDTOKEN_COOKIE);
       /* We delete redirect cookie */
       res.clearCookie(constants.REDIRECT_COOKIE);
-
+      Logger.getLogger('PAYBUBBLE: server.js -> error').info(req.session.accessToken);
+      Logger.getLogger('PAYBUBBLE: server.js -> error').info(req.session.idToken);
+      Logger.getLogger('PAYBUBBLE: server.js -> error').info(req.authToken); 
       /* We initialise appinsight with user details */
       getUserDetails(self, req.authToken).end(
         (error, resp) => {
