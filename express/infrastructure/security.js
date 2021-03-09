@@ -71,6 +71,7 @@ function generateState() {
 function storeRedirectSessionCookie(req, continueUrl, state) {
   Logger.getLogger('CCPAY-BUBBLE: security.js ->storeRedirectSessionCookie1 ').info(continueUrl);
   const url = URL.parse(continueUrl);
+  Logger.getLogger('CCPAY-BUBBLE: security.js ->storeRedirectSessionCookie1.1 ').info(url);
   const cookieValue = { continue_url: url.path, state };
   if (req.protocol === 'https') {
     req.session[constants.REDIRECT_COOKIE] = JSON.stringify(cookieValue);
@@ -155,9 +156,11 @@ function storeSession(req, token, sessionName) {
   Logger.getLogger('CCPAY-BUBBLE: security.js').info('Inside storeSession function');
   Logger.getLogger('CCPAY-BUBBLE: security.js').info(token);
   Logger.getLogger('CCPAY-BUBBLE: security.js').info(sessionName);
+  Logger.getLogger('Stesting sessions objects').info(token);
   req.authToken = token;
   if (req.protocol === 'https') { /* SECURE */
     req.session[sessionName] = req.authToken;
+    Logger.getLogger('Stesting sessions objects123').info(req.session[sessionName]);
   } else {
     req.session[sessionName] = req.authToken;
   }
