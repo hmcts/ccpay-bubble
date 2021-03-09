@@ -4,6 +4,7 @@ export interface IFee {
   code: string;
   fee_type: string;
   sort_value: number;
+  isdiscontinued_fee: number;
   channel_type?: {
     name: string;
   };
