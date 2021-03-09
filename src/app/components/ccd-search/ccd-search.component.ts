@@ -24,6 +24,7 @@ export class CcdSearchComponent implements OnInit {
   noCaseFound = false;
   noCaseFoundInCCD = false;
   isBulkscanningEnable = true;
+  errorMessage = this.getErrorMessage(false);
   isStrategicFixEnable: boolean;
   isTurnOff: boolean;
   isOldPcipalOff: boolean;
@@ -121,7 +122,17 @@ export class CcdSearchComponent implements OnInit {
           // tslint:disable-next-line:max-line-length
           let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
           url = url.replace(/[\r\n]+/g, ' ');
-          this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
+          this.paymentGroupService.getBSPaymentsByCCD(this.ccdCaseNumber).then( result => {
+            this.errorMessage = this.getErrorMessage(false);
+            if (result['data'] && result['data'].exception_record_reference && result['data'].ccd_reference) {
+              this.ccdCaseNumber = result['data'].ccd_reference;
+            }
+            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}${bsEnableUrl}`);
+          }).catch(() => {
+            window.scrollTo(0, 0);
+            this.errorMessage = this.getErrorMessage(true);
+          });
+
         }, err => {
          this.noCaseFoundInCCD = true;
         });
@@ -152,6 +163,13 @@ export class CcdSearchComponent implements OnInit {
   }
 }
 
+getErrorMessage(isErrorExist) {
+  return {
+    title: 'Something went wrong',
+    body: 'Please try again later',
+    showError: isErrorExist
+  };
+}
   removeHyphenFromString(input: string) {
     const pattern = /\-/gi;
     return input.replace(pattern, '');
