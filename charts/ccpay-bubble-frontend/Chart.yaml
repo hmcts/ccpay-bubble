@@ -3,11 +3,7 @@ appVersion: "2.0"
 description: Helm chart for the HMCTS Pay bubble frontend service
 name: ccpay-bubble-frontend
 home: https://github.com/hmcts/ccpay-bubble
-<<<<<<< HEAD
 version: 0.2.6
-=======
-version: 0.2.4
->>>>>>> 65b573a2ba41d7532850fd63821ccc68e3248e12
 maintainers:
   - name: HMCTS Fees & Payments Dev Team
     email: ccpay@hmcts.net
