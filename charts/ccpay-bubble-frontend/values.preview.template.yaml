@@ -3,6 +3,7 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   environment:
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
+    PAYHUB_API_URL: https://payment-api-pr-830.service.core-compute-preview.internal
     REDISCLOUD_URL: ${SERVICE_NAME}-redis-master
     REDIS_PORT: 6379
 
