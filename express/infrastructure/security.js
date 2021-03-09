@@ -437,7 +437,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       res.clearCookie(constants.REDIRECT_COOKIE);
       Logger.getLogger('PAYBUBBLE: server.js -> error').info(req.session.accessToken);
       Logger.getLogger('PAYBUBBLE: server.js -> error').info(req.session.idToken);
-      Logger.getLogger('PAYBUBBLE: server.js -> error').info(req.authToken); 
+      Logger.getLogger('PAYBUBBLE: server.js -> error').info(req.authToken);
       /* We initialise appinsight with user details */
       getUserDetails(self, req.authToken).end(
         (error, resp) => {
