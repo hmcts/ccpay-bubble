@@ -56,7 +56,7 @@ const getXuiNodeMiddleware = () => {
   const baseStoreOptions = {
     cookie: {
       httpOnly: true,
-      maxAge: 240,
+      maxAge: 86400,
       secure: true
     },
     name: 'ccpay-session',
