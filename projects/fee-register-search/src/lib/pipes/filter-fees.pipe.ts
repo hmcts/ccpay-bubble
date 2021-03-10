@@ -31,13 +31,29 @@ export class FilterFeesPipe implements PipeTransform {
     return filteredList;
   }
 
+  // filterValidFee(fees: IFee[]) {
+  //   const todayDate = new Date();
+  //       return fees.filter((fee: IFee) => fee.current_version.status === 'approved' &&
+  //  <any>new Date(fee.current_version.valid_from) <= todayDate &&
+  // (fee.current_version.valid_to === '' ||
+  //  fee.current_version.valid_to === null ||
+  //  fee.current_version.valid_to === undefined ||
+  //  <any>new Date(fee.current_version.valid_to) >= todayDate));
+  // }
+
   filterValidFee(fees: IFee[]) {
     const todayDate = new Date();
-        return fees.filter((fee: IFee) => fee.current_version.status === 'approved' &&
-   <any>new Date(fee.current_version.valid_from) <= todayDate &&
-  (fee.current_version.valid_to === '' ||
-   fee.current_version.valid_to === undefined ||
-   <any>new Date(fee.current_version.valid_to) >= todayDate));
+        return fees.filter((fee: IFee) => {
+      if (fee.current_version !== undefined) {
+        if ( fee.current_version.status === 'approved' && <any>new Date(fee.current_version.valid_from) <= todayDate &&
+        (fee.current_version.valid_to === '' ||
+         fee.current_version.valid_to === null ||
+         fee.current_version.valid_to === undefined ||
+         <any>new Date(fee.current_version.valid_to) >= todayDate)) {
+          return true;
+        }
+       }
+    });
   }
 
   filterByDescription(fees, filter): IFee[] {

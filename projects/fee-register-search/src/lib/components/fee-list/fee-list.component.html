@@ -4,6 +4,9 @@
       <th>Fee Code</th>
       <th>Description</th>
       <th>Current amount</th>
+      <th>Status</th>
+      <th>Valid from</th>
+      <th>Valid to</th>
       <th class="hide">Actions</th>
     </tr>
   </thead>
@@ -23,6 +26,9 @@
         </span>
         <span *ngIf="!fee.current_version?.flat_amount?.amount && !fee.current_version?.volume_amount?.amount && !fee.current_version?.percentage_amount?.percentage">-</span>
       </td>
+      <td>{{ fee.current_version?.status }}</td>
+      <td>{{ fee.current_version?.valid_from }}</td>
+      <td>{{ fee.current_version?.valid_to }}</td>
       <td><a (click)="selectFee(fee)">Select</a></td>
     </tr>
   </tbody>
