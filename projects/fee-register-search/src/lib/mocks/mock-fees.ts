@@ -201,10 +201,10 @@ export const mockFees = [
     ],
     current_version: {
       description: '',
-      status: 'approved',
+      status: '',
       author: '',
       approvedBy: '',
-      version: 2,
+      version: 0,
       valid_from: '',
       flat_amount: {
         amount: 0
