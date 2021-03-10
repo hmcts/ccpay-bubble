@@ -50,9 +50,9 @@ export class FeeSearchComponent implements OnInit {
 
   selectFee(fee: IFee) {
     const feeType = fee.fee_type;
-    const volAmt = fee.current_version['volume_amount'];
-    const flatAmt = fee.current_version['flat_amount'];
-    const percentageAmt = fee.current_version['percentage_amount'];
+    const volAmt = fee.current_version ? fee.current_version['volume_amount'] : fee.fee_versions['volume_amount'];
+    const flatAmt = fee.current_version ? fee.current_version['flat_amount'] : fee.fee_versions['flat_amount'];
+    const percentageAmt = fee.current_version ? fee.current_version['percentage_amount'] : fee.fee_versions['percentage_amount'];
     let paymentGroup;
     const feeDetailsComponent = new FeeDetailsComponent(null, null);
 
@@ -63,7 +63,13 @@ export class FeeSearchComponent implements OnInit {
       || (this.isDiscontinuedFeatureEnabled && fee.fee_versions.length > 1 && feeDetailsComponent.validOldFeesVersions(fee).length > 1)) {
       this.preselectedFee = fee;
       this.showFeeDetails = true;
-    } else {
+    } else if (fee.current_version === undefined
+      && this.isDiscontinuedFeatureEnabled
+      && fee.fee_versions.length === 1
+      && feeDetailsComponent.validOldFeesVersions(fee).length === 1) {
+      this.preselectedFee = fee;
+      this.showFeeDetails = true;
+    } else if (fee.current_version !== undefined) {
       paymentGroup = {
         fees: [{
           code: fee.code,
