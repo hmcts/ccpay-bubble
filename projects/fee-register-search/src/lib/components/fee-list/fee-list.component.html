@@ -10,8 +10,16 @@
   <tbody>
     <tr *ngFor="let fee of fees | filterFees: searchFilter: jurisdictionsFilter | paginate: { itemsPerPage: 15, currentPage: p }">
       <td>{{ fee.code }}</td>
-      <td>{{ fee.current_version?.description }}</td>
       <td>
+        
+        <span *ngIf="!fee.current_version?.description || fee.current_version?.description === ''">
+           {{fee?.discontinued_list[fee?.discontinued_list.length-1]?.description}}
+        </span>
+        <span *ngIf="fee.current_version?.description && fee.current_version?.description !== ''">
+          {{ fee.current_version?.description }}
+       </span>
+      </td>
+      <td class="fee-current-version-amount-field">
         <span class="fee-current-version-amount" *ngIf="fee.current_version?.flat_amount?.amount">
         £{{ fee.current_version?.flat_amount?.amount | number:'.2' }}
         </span>
@@ -21,7 +29,18 @@
         <span class="fee-current-version-amount" *ngIf="fee.current_version?.percentage_amount?.percentage">
         {{ fee.current_version?.percentage_amount?.percentage | number:'.2' }}%
         </span>
-        <span *ngIf="!fee.current_version?.flat_amount?.amount && !fee.current_version?.volume_amount?.amount && !fee.current_version?.percentage_amount?.percentage">-</span>
+        <span *ngIf="">-</span>
+        <span class="fee-discontinued-version-amount" *ngFor="let oldVersions of fee?.discontinued_list; let i = index;">
+          <span *ngIf="fee.isCurrentAmount_available === 1">
+            or £{{oldVersions?.flat_amount?.amount | number:'.2'}}
+          </span>
+          <span *ngIf="fee.isCurrentAmount_available !== 1 && i == 0">
+            £{{oldVersions?.flat_amount?.amount | number:'.2'}}
+          </span>
+          <span *ngIf="fee.isCurrentAmount_available !== 1 && i > 0">
+            or £{{oldVersions?.flat_amount?.amount | number:'.2'}}
+          </span>
+        </span>
       </td>
       <td><a (click)="selectFee(fee)">Select</a></td>
     </tr>
