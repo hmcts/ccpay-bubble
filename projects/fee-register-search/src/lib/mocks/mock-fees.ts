@@ -199,6 +199,23 @@ export const mockFees = [
         direction: 'enhanced'
       }
     ],
+    current_version: {
+      description: '',
+      status: 'approved',
+      author: '',
+      approvedBy: '',
+      version: 2,
+      valid_from: '',
+      flat_amount: {
+        amount: 0
+      },
+      memo_line: '',
+      statutory_instrument: '',
+      si_ref_id: '',
+      natural_account_code: '',
+      fee_order_name: '',
+      direction: ''
+    },
     unspecified_claim_amount: true
   }
 ];
