@@ -90,4 +90,8 @@ fee:
 
    Run the following commands: `yarn start:angular-dev` and `yarn start:express:dev`
 
+## Running Consumer Driven Contract tests (pact)
+
+Run `yarn test-pact` to execute the Pact tests 
+For publishing the pacts to broker execute `yarn publish-pact`
 
