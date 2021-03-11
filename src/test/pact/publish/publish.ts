@@ -1,27 +1,20 @@
 import pact from '@pact-foundation/pact-node';
 import * as git from 'git-rev-sync';
 import * as path from 'path';
-import { getConfigValue } from '../../../configuration';
-import {
-  PACT_BRANCH_NAME,
-  PACT_BROKER_PASSWORD,
-  PACT_BROKER_URL,
-  PACT_BROKER_USERNAME,
-  PACT_CONSUMER_VERSION
-} from '../../../configuration/references';
 
+const config = require('config');
 const publish = async (): Promise<void> => {
   try {
 
-    const pactBroker = getConfigValue(PACT_BROKER_URL) ?
-        getConfigValue(PACT_BROKER_URL) : 'http://localhost:80';
+    const pactBroker = config.get('pact.brokerUrl') ?
+    config.get('pact.brokerUrl') : 'http://localhost:80';
 
-    const pactTag = getConfigValue(PACT_BRANCH_NAME) ?
-        getConfigValue(PACT_BRANCH_NAME) : 'Dev';
+    const pactTag = config.get('pact.branchName') ?
+    config.get('pact.branchName') : 'Dev';
 
-    const consumerVersion = getConfigValue(PACT_CONSUMER_VERSION) !== '' ?
+    const consumerVersion = config.get('pact.consumerVersion') !== '' ?
       // @ts-ignore
-      getConfigValue(PACT_CONSUMER_VERSION) : git.short();
+      config.get('pact.consumerVersion') : git.short();
 
     const certPath = path.resolve(__dirname, '../cer/ca-bundle.crt');
     process.env.SSL_CERT_FILE = certPath;
@@ -29,8 +22,8 @@ const publish = async (): Promise<void> => {
     const opts = {
       consumerVersion,
       pactBroker,
-      pactBrokerPassword: getConfigValue(PACT_BROKER_PASSWORD),
-      pactBrokerUsername: getConfigValue(PACT_BROKER_USERNAME),
+      pactBrokerPassword: '',
+      pactBrokerUsername: '',
       pactFilesOrDirs: [
         path.resolve(__dirname, '../pacts/'),
       ],
