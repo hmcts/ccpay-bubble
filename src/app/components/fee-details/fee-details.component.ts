@@ -15,41 +15,7 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
   selectedFeeVersion: IVersion;
   validOldVersionArray: IVersion[] = [];
   isDiscontinuedFeatureEnabled = true;
-  @Input() fee = {
-    code: 'test-code',
-    fee_type: 'banded',
-    fee_versions: [
-      {
-        description: 'Recovery order (section 50)',
-        status: 'approved',
-        author: '126172',
-        approvedBy: '126175',
-        version: 1,
-        valid_from: '2014-04-21T00:00:00.000+0000',
-        valid_to: '2014-04-21T00:00:00.000+0000',
-        flat_amount: {
-          'amount': 215
-        },
-        memo_line: 'RECEIPT OF FEES - Family misc private',
-        statutory_instrument: '2014 No 877 ',
-        si_ref_id: '2.1q',
-        natural_account_code: '4481102174',
-        fee_order_name: 'Family Proceedings',
-        direction: 'cost recovery'
-      }
-    ],
-    'current_version': {
-      version: 1,
-      calculatedAmount: 1234,
-      memo_line: 'test-memoline',
-      natural_account_code: '1234-1234-1234-1234',
-      flat_amount: {
-        amount: 1234
-      },
-      description: 'test-description'
-    }
-
-  };
+  @Input() fee: any;
   @Output() submitFeeVolumeEvent: EventEmitter<{ volumeAmount: number, selectedVersionEmit: IVersion }> = new EventEmitter();
   @Output() restartSearchEvent: EventEmitter<IFee> = new EventEmitter();
 
@@ -108,7 +74,6 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
 
   validOldFeesVersions(feesObject: any) {
     const validOldFeeVersionArray = new Array();
-
     if ((feesObject.current_version !== undefined && feesObject.fee_versions.length > 1)
     || (feesObject.current_version === undefined && feesObject.fee_versions.length === 1)) {
       /* sort based on valid from */
@@ -136,8 +101,7 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
         if (feesObject.current_version === undefined && feesObject.fee_versions.length === 1) {
           //  set valid to date if not present for fee version from previous version
           if (value.valid_to === null) {
-            const oldFeeVersionPreviousIndex = 0 ;
-            const new_valid_to = new Date(validOldFeeVersionArray[oldFeeVersionPreviousIndex].valid_from);
+            const new_valid_to = new Date(feesObject.fee_versions.valid_from);
             new_valid_to.setDate(new_valid_to.getDate() - 1);
             value.valid_to = new_valid_to.toDateString();
           }
