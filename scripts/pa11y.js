@@ -1,5 +1,4 @@
 'use strict';
-/* eslint-disable no-console */
 const pa11y = require('pa11y');
 const fs = require('fs');
 const htmlReporter = require('pa11y-reporter-html');
@@ -31,7 +30,13 @@ async function runTest() {
         'wait for url to not be https://paybubble.aat.platform.hmcts.net/',
         'screen capture a.png'
       ],
-      timeout: 70000
+      wait: 1000,
+      timeout: 70000,
+      log: {
+        debug: console.log,
+        error: console.error,
+        info: console.log
+      }
     });
 
     // Case transactions
@@ -47,7 +52,13 @@ async function runTest() {
         'wait for element .govuk-heading-xl to be visible',
         'screen capture b.png'
       ],
-      timeout: 70000
+      wait: 1000,
+      timeout: 70000,
+      log: {
+        debug: console.log,
+        error: console.error,
+        info: console.log
+      }
     });
 
     // Reports
@@ -60,7 +71,13 @@ async function runTest() {
         'wait for element .govuk-fieldset__legend--xl to be visible',
         'screen capture c.png'
       ],
-      timeout: 70000
+      timeout: 70000,
+      wait: 1000,
+      log: {
+        debug: console.log,
+        error: console.error,
+        info: console.log
+      }
     });
 
     // Search for a fee
@@ -76,7 +93,13 @@ async function runTest() {
         'wait for element [class="govuk-button"] to be visible',
         'screen capture d.png'
       ],
-      timeout: 70000
+      wait: 1000,
+      timeout: 70000,
+      log: {
+        debug: console.log,
+        error: console.error,
+        info: console.log
+      }
     });
 
     // Add fee details
@@ -89,7 +112,13 @@ async function runTest() {
         'wait for element .heading-xlarge to be visible',
         'screen capture e.png'
       ],
-      timeout: 70000
+      wait: 1000,
+      timeout: 70000,
+      log: {
+        debug: console.log,
+        error: console.error,
+        info: console.log
+      }
     });
 
     // Payment details
@@ -108,7 +137,13 @@ async function runTest() {
         'wait for element [class="heading-large govuk-!-margin-top-0"] to be visible',
         'screen capture f.png'
       ],
-      timeout: 70000
+      wait: 1000,
+      timeout: 70000,
+      log: {
+        debug: console.log,
+        error: console.error,
+        info: console.log
+      }
     });
 
     // console.log(pa11yResult6);
