@@ -3,7 +3,7 @@
 const pa11y = require('pa11y');
 const fs = require('fs');
 const htmlReporter = require('pa11y-reporter-html');
-const bulkScanApiCalls = require('../acceptance-tests/test/end-to-end/helpers/utils');
+// const bulkScanApiCalls = require('../acceptance-tests/test/end-to-end/helpers/utils');
 
 // Generates HTML reporter
 const generateHTMLReport = html => new Promise((resolve, reject) => {
@@ -15,9 +15,9 @@ const generateHTMLReport = html => new Promise((resolve, reject) => {
 
 async function runTest() {
   // Creates a case
-  const totalAmount = 550;
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'Cash');
-  const ccdCaseNumber = ccdAndDcn[1];
+  // const totalAmount = 550;
+  // const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'Cash');
+  // const ccdCaseNumber = ccdAndDcn[1];
 
   // Pages running the tests
   try {
@@ -40,27 +40,27 @@ async function runTest() {
       }
     });
 
-    // Case transactions
-    const pa11yResult2 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
-
-      actions: [
-        'set field #username to robreallywantsccdaccess@mailinator.com',
-        'set field #password to Testing1234',
-        'click element .button',
-        'wait for element #ccd-search to be visible',
-        `set field #ccd-search to ${ccdCaseNumber}`,
-        'click element .button',
-        'wait for element .govuk-heading-xl to be visible',
-        'screen capture b.png'
-      ],
-      wait: 1000,
-      timeout: 70000,
-      log: {
-        debug: console.log,
-        error: console.error,
-        info: console.log
-      }
-    });
+    // // Case transactions
+    // const pa11yResult2 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
+    //
+    //   actions: [
+    //     'set field #username to robreallywantsccdaccess@mailinator.com',
+    //     'set field #password to Testing1234',
+    //     'click element .button',
+    //     'wait for element #ccd-search to be visible',
+    //     `set field #ccd-search to ${ccdCaseNumber}`,
+    //     'click element .button',
+    //     'wait for element .govuk-heading-xl to be visible',
+    //     'screen capture b.png'
+    //   ],
+    //   wait: 1000,
+    //   timeout: 70000,
+    //   log: {
+    //     debug: console.log,
+    //     error: console.error,
+    //     info: console.log
+    //   }
+    // });
 
     // Reports
     const pa11yResult3 = await pa11y('https://paybubble.aat.platform.hmcts.net/payment-history/view?view=reports', {
@@ -149,7 +149,7 @@ async function runTest() {
 
     // console.log(pa11yResult6);
     // eslint-disable-next-line max-len
-    const pa11yResults = [pa11yResult1, pa11yResult2, pa11yResult3, pa11yResult4, pa11yResult5, pa11yResult6];
+    const pa11yResults = [pa11yResult1, pa11yResult3, pa11yResult4, pa11yResult5, pa11yResult6];
 
     for (let index = 0; index < pa11yResults.length; index++) {
       const pa11yResult = pa11yResults[index];
