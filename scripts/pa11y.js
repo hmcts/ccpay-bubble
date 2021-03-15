@@ -1,4 +1,5 @@
 'use strict';
+/* eslint-disable no-console */
 const pa11y = require('pa11y');
 const fs = require('fs');
 const htmlReporter = require('pa11y-reporter-html');
