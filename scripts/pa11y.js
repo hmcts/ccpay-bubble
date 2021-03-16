@@ -14,6 +14,10 @@ const generateHTMLReport = html => new Promise((resolve, reject) => {
 });
 
 async function runTest() {
+  // login credentials
+  const email = 'robreallywantsccdaccess@mailinator.com';
+  const password = 'Testing1234';
+
   // Creates a case
   const totalAmount = 550;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'Cash');
@@ -25,10 +29,10 @@ async function runTest() {
     const pa11yResult1 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
-        'set field #username to robreallywantsccdaccess@mailinator.com',
-        'set field #password to Testing1234',
+        `set field #username to ${email}`,
+        `set field #password to ${password}`,
         'click element .button',
-        'wait for url to not be https://paybubble.aat.platform.hmcts.net/',
+        'wait for element .govuk-fieldset__heading to be visible',
         'screen capture a.png'
       ],
       wait: 1000,
@@ -45,8 +49,8 @@ async function runTest() {
     const pa11yResult2 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
-        'set field #username to robreallywantsccdaccess@mailinator.com',
-        'set field #password to Testing1234',
+        `set field #username to ${email}`,
+        `set field #password to ${password}`,
         'click element .button',
         'wait for element #ccd-search to be visible',
         `set field #ccd-search to ${ccdCaseNumber}`,
@@ -55,8 +59,8 @@ async function runTest() {
         'screen capture b.png'
       ],
       wait: 1000,
-      timeout: 70000,
-      chromeLaunchConfig: { slowMo: 1500 },
+      timeout: 120000,
+      chromeLaunchConfig: { slowMo: 1000 },
       log: {
         debug: console.log,
         error: console.error,
@@ -68,8 +72,8 @@ async function runTest() {
     const pa11yResult3 = await pa11y('https://paybubble.aat.platform.hmcts.net/payment-history/view?view=reports', {
 
       actions: [
-        'set field #username to robreallywantsccdaccess@mailinator.com',
-        'set field #password to Testing1234',
+        `set field #username to ${email}`,
+        `set field #password to ${password}`,
         'click element .button',
         'wait for element .govuk-fieldset__legend--xl to be visible',
         'screen capture c.png'
@@ -87,8 +91,8 @@ async function runTest() {
     const pa11yResult4 = await pa11y('https://paybubble.aat.platform.hmcts.net/fee-search', {
 
       actions: [
-        'set field #username to robreallywantsccdaccess@mailinator.com',
-        'set field #password to Testing1234',
+        `set field #username to ${email}`,
+        `set field #password to ${password}`,
         'click element .button',
         'wait for element .heading-xlarge to be visible',
         'set field #fee-search to 10',
@@ -109,8 +113,8 @@ async function runTest() {
     const pa11yResult5 = await pa11y('https://paybubble.aat.platform.hmcts.net/addFeeDetail', {
 
       actions: [
-        'set field #username to robreallywantsccdaccess@mailinator.com',
-        'set field #password to Testing1234',
+        `set field #username to ${email}`,
+        `set field #password to ${password}`,
         'click element .button',
         'wait for element .heading-xlarge to be visible',
         'screen capture e.png'
@@ -128,8 +132,8 @@ async function runTest() {
     const pa11yResult6 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
-        'set field #username to robreallywantsccdaccess@mailinator.com',
-        'set field #password to Testing1234',
+        `set field #username to ${email}`,
+        `set field #password to ${password}`,
         'click element .button',
         'wait for element #ccd-search to be visible',
         'click element #RC',
