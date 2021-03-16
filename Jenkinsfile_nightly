@@ -51,5 +51,6 @@ withNightlyPipeline("nodejs", product, component) {
   after('build') {
     sh 'yarn ng:build'
     yarnBuilder.yarn('test:a11y')
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
 }
