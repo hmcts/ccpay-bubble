@@ -35,7 +35,7 @@ async function runTest() {
       ],
       wait: 1000,
       timeout: 70000,
-      chromeLaunchConfig: { slowMo: 250 },
+      chromeLaunchConfig: { slowMo: 500 },
       log: {
         debug: console.log,
         info: console.log
@@ -76,7 +76,7 @@ async function runTest() {
       ],
       wait: 1000,
       timeout: 70000,
-      chromeLaunchConfig: { slowMo: 250 },
+      chromeLaunchConfig: { slowMo: 500 },
       log: {
         debug: console.log,
         info: console.log
@@ -98,7 +98,7 @@ async function runTest() {
       ],
       wait: 1000,
       timeout: 70000,
-      chromeLaunchConfig: { slowMo: 250 },
+      chromeLaunchConfig: { slowMo: 500 },
       log: {
         debug: console.log,
         info: console.log
@@ -117,7 +117,7 @@ async function runTest() {
       ],
       wait: 1000,
       timeout: 70000,
-      chromeLaunchConfig: { slowMo: 250 },
+      chromeLaunchConfig: { slowMo: 500 },
       log: {
         debug: console.log,
         info: console.log
@@ -142,7 +142,7 @@ async function runTest() {
       ],
       wait: 1000,
       timeout: 70000,
-      chromeLaunchConfig: { slowMo: 250 },
+      chromeLaunchConfig: { slowMo: 500 },
       log: {
         debug: console.log,
         info: console.log
