@@ -43,9 +43,4 @@ withPipeline("nodejs", product, component) {
   after('build') {
     sh 'yarn ng:build'
   }
-  after('smokeTest:preview') {
-    onMaster {
-      yarnBuilder.yarn('test:a11y')
-    }
-  }
 }
