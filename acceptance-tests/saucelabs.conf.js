@@ -58,7 +58,7 @@ const setupConfig = {
     // MiscHelper: { require: './test/end-to-end/helpers/misc.js' },
     // NumberHelpers: { require: './test/end-to-end/helpers/number_utils.js' },
     // StringHelper: { require: './test/end-to-end/helpers/string_utils.js' },
-    UtilsHelper: { require: './test/end-to-end/helpers/utils.js' }
+    // UtilsHelper: { require: './test/end-to-end/helpers/utils.js' }
   },
   plugins: {
     retryFailedStep: {
