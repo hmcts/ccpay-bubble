@@ -52,13 +52,5 @@ withNightlyPipeline("nodejs", product, component) {
     sh 'yarn ng:build'
   }
   after('securityScan') {
-    publishHTML([
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : "reports/tests/",
-      reportFiles          : 'activescan.html',
-      reportName           : 'XUIMC ZAP Security Scan Report'
-    ])
-  }
+     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
 }
