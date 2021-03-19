@@ -51,14 +51,4 @@ withNightlyPipeline("nodejs", product, component) {
   after('build') {
     sh 'yarn ng:build'
   }
-  after('securityScan') {
-    publishHTML([
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : "reports/tests/",
-      reportFiles          : 'activescan.html',
-      reportName           : 'ccpaybubble ZAP Security Scan Report'
-    ])
-  }
 }

@@ -44,7 +44,6 @@ withPipeline("nodejs", product, component) {
   enableSlackNotifications('#cc-payments-tech')
   enableAksStagingDeployment()
   disableLegacyDeployment()
-  enableSecurityScan()
   env.TEST_URL = params.URL_TO_TEST
   after('checkout') {
     sh "yarn cache clean"
@@ -53,15 +52,4 @@ withPipeline("nodejs", product, component) {
   after('build') {
     sh 'yarn ng:build'
   }
-  after('securityScan') {
-    publishHTML([
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : "reports/tests/",
-      reportFiles          : 'activescan.html',
-      reportName           : 'paybubble ZAP Security Scan Report'
-    ])
-  }
-
 }
