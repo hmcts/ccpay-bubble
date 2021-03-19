@@ -42,13 +42,14 @@ withNightlyPipeline("nodejs", product, component) {
   env.NIGHTLY_TEST= true
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  enableFullFunctionalTest(90)
+  // enableFullFunctionalTest(90)
   enableSecurityScan()
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
   }
   after('build') {
+    sh 'mkdir -p functional-output'
     sh 'yarn ng:build'
   }
   after('securityScan') {
