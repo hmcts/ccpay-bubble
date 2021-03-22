@@ -41,7 +41,8 @@ async function getServiceToken(service) {
 async function CaseValidation(flag) {
   logger.info(`${flag} case validation`);
 
-  const paymentBaseUrl = `http://payment-api-${env}.service.core-compute-${env}.internal`;
+  // const paymentBaseUrl = `http://payment-api-${env}.service.core-compute-${env}.internal`;
+  const paymentBaseUrl = `https://payment-api-pr-743.service.core-compute-preview.internal`;
   const disablePath = `/api/ff4j/store/features/caseref-validation/${flag}`;
   // eslint-disable-next-line global-require
 
