@@ -71,7 +71,7 @@ const setupConfig = {
     }
   },
   include: {
-    // config: './e2e/config.js',
+    config: 'config.js',
     I: './test/end-to-end/pages/steps_file.js',
     CaseSearch: './test/end-to-end/pages/case_search.js',
     CaseTransaction: './test/end-to-end/pages/case_transactions.js',
