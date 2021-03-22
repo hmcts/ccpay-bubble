@@ -22,12 +22,6 @@ const supportedBrowsers = {
       platformName: LATEST_WINDOWS,
       browserVersion: 'latest',
       'sauce:options': { name: 'FeeAndPay: WIN_FIREFOX_LATEST' }
-    },
-    firefox_mac_latest: {
-      browserName: 'firefox',
-      platformName: LATEST_MAC,
-      browserVersion: 'latest',
-      'sauce:options': { name: 'FeeAndPay: MAC_FIREFOX_LATEST' }
     }
   }
 };
