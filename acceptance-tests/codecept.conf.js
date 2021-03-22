@@ -3,8 +3,6 @@ const CONF = require('config');
 
 const waitForTimeout = parseInt(CONF.e2e.waitForTimeoutValue);
 const waitForAction = parseInt(CONF.e2e.waitForActionValue);
-const smartWait = parseInt(process.env.SMART_WAIT) || 30000;
-const browser = process.env.SAUCELABS_BROWSER || 'chrome';
 
 exports.config = {
   name: 'ccpay-bubble-acceptance-tests',
