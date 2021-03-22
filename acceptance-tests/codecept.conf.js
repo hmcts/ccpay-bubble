@@ -35,17 +35,6 @@ exports.config = {
         ]
       }
     },
-    WebDriver: {
-      url: CONF.e2e.frontendUrl,
-      browser,
-      smartWait,
-      waitForTimeout,
-      cssSelectorsEnabled: 'true',
-      host: 'ondemand.eu-central-1.saucelabs.com',
-      port: 80,
-      region: 'eu',
-      capabilities: {}
-    },
     Mochawesome: { uniqueScreenshotNames: 'true' }
   },
   include: {
