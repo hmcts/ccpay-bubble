@@ -18,7 +18,7 @@ module.exports = () => actor({
   login(email, password) {
     this.amOnPage('/');
     this.wait(CCPBConstants.twoSecondWaitTime);
-    this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
+    // this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
     this.wait(CCPBConstants.twoSecondWaitTime);
     this.fillField('Email address', email);
     this.fillField('Password', password);
