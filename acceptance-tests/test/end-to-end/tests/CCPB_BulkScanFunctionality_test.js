@@ -137,6 +137,13 @@ Scenario('Exception ccd case cash payment transferred @nightly', async(I, CaseSe
     CaseTransferred.confirmPayment();
     CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Exception reference', 'Transferred');
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
+
+    // Search using receipt number
+    const receiptSearch = await CaseTransaction.getReceiptReference();
+    CaseSearch.navigateToCaseTransaction();
+    CaseSearch.searchCaseUsingPaymentRef(receiptSearch);
+    CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Exception reference', 'Transferred');
+
     I.Logout();
   }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
@@ -228,7 +235,7 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 
-Scenario('Ccd case search with exception record postal order payment shortfall payment @nightly @pipeline', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
+Scenario('Ccd case search with exception record postal order payment shortfall payment @nightly @pipeline', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   const totalAmount = 500;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA08', totalAmount, 'PostalOrder');
@@ -248,6 +255,17 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
   ConfirmAssociation.confirmPayment();
   CaseTransaction.checkBulkCaseSurplusOrShortfallSuccessPayment(ccdCaseNumberFormatted, 'CCD reference', 'Allocated', '£50.00');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
+
+  // Search using receipt number
+  const receiptSearch = await CaseTransaction.getReceiptReference();
+  CaseSearch.navigateToCaseTransaction();
+  CaseSearch.searchCaseUsingPaymentRef(receiptSearch);
+  CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'CCD reference', 'Allocated');
+  PaymentHistory.navigateToPaymentHistory();
+  CaseSearch.searchCaseUsingPaymentRef(receiptSearch);
+  PaymentHistory.validatePaymentHistoryPage();
+  PaymentHistory.navigateToReceiptRefs(receiptSearch);
+  PaymentHistory.validateCcdPaymentDetails(receiptSearch, '£500.00', dcnNumber, 'success', 'Postal order', 'FEE0002');
   I.Logout();
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
@@ -273,27 +291,6 @@ Scenario('Exception search with ccd record postal order payment surplus payment 
     ConfirmAssociation.confirmPayment();
     CaseTransaction.checkBulkCaseSurplusOrShortfallSuccessPayment(ccdCaseNumberFormatted, 'CCD reference', 'Allocated', '-£50.00');
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
-    I.Logout();
-  }
-}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
-
-Scenario('Payment reference RC search with ccd record associated with exception @pipeline, @nightly', (I, CaseSearch, CaseTransaction, PaymentHistory) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  CaseSearch.searchCaseUsingPaymentRef('RC-1611-0153-2743-2552');
-  CaseTransaction.checkBulkCaseSuccessPayment('1611-0122-8484-2170', 'CCD reference', 'Allocated');
-  PaymentHistory.navigateToPaymentHistory();
-  CaseSearch.searchCaseUsingPaymentRef('RC-1611-0153-2743-2552');
-  PaymentHistory.validatePaymentHistoryPage();
-  PaymentHistory.navigateToReceiptRefs('RC-1611-0153-2743-2552');
-  PaymentHistory.validateCcdPaymentDetails('RC-1611-0153-2743-2552', '£550.00', '700000000000100000506', 'success', 'Postal order', 'FEE0002');
-  I.Logout();
-}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
-
-Scenario('Payment reference RC search for exception @pipeline, @nightly', (I, CaseSearch, CaseTransaction) => {
-  if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-    CaseSearch.searchCaseUsingPaymentRef('RC-1611-0169-9283-4106');
-    CaseTransaction.checkBulkCaseSuccessPayment('1611-0168-3181-5167', 'Exception reference', 'Transferred');
     I.Logout();
   }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
