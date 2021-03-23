@@ -68,7 +68,6 @@ module.exports = {
     I.see('Total remissions');
     I.see('Amount due');
     I.see('Unallocated payments');
-    I.see('Unallocated payments');
     I.see('Select');
     I.see('Payment asset number (DCN)');
     I.see('Banked date');
@@ -91,7 +90,6 @@ module.exports = {
     I.see('Total remissions');
     I.see('Amount due');
     I.see('Unallocated payments');
-    I.see('Unallocated payments');
     I.see('Select');
     I.see('Payment asset number (DCN)');
     I.see('Banked date');
@@ -106,7 +104,7 @@ module.exports = {
     I.see('Amount due');
     I.see('Action');
     I.see(allocationStatus);
-    I.see('Bulk scan');
+    // I.see('Bulk scan');
     I.see('Success');
   },
 
