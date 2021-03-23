@@ -33,11 +33,11 @@ module.exports = {
     I.see(amoundDue);
   },
 
-  checkUnallocatedPayments(totalDcn, dcnNumber, amount, method) {
+  checkUnallocatedPayments(totalDcn, dcnNumber, amount) {
     I.see(totalDcn);
     I.see(dcnNumber);
     I.see(amount);
-    I.see(method);
+    // I.see(method);
   },
 
   checkIfBulkScanPaymentsAllocated(dcnNumber) {
