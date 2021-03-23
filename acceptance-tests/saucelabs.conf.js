@@ -11,7 +11,7 @@ const defaultSauceOptions = {
   accessKey: process.env.SAUCE_ACCESS_KEY,
   tunnelIdentifier: process.env.TUNNEL_IDENTIFIER || 'reformtunnel',
   acceptSslCerts: true,
-  windowSize: '1600x900',
+  windowSize: '1920x1680',
   tags: ['FeeAndPay']
 };
 
@@ -105,10 +105,10 @@ const setupConfig = {
       }
     }
   },
-  // multiple: {
-  //   chrome: { browsers: getBrowserConfig('chrome') },
-  //   firefox: { browsers: getBrowserConfig('firefox') }
-  // },
+  multiple: {
+    chrome: { browsers: getBrowserConfig('chrome') },
+    firefox: { browsers: getBrowserConfig('firefox') }
+  },
   name: 'Fee and Pay FrontEnd Cross-Browser Tests'
 };
 
