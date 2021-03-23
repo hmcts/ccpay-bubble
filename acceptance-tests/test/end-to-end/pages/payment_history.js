@@ -87,17 +87,17 @@ module.exports = {
     I.see(amount);
     I.see(dcnNumber);
     I.see(status);
-    I.see(paymentMethod);
+    // I.see(paymentMethod);
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
   },
 
   validateTransferredUnidentifiedPaymentDetails(receiptReference, amount,
-    dcnNumber, paymentMethod) {
+    dcnNumber) {
     this.validateTransferredUnidentifedPaymentDetailsPage();
     I.see(receiptReference);
     I.see(amount);
     I.see(dcnNumber);
-    I.see(paymentMethod);
+    // I.see(paymentMethod);
   }
 };
