@@ -105,10 +105,10 @@ const setupConfig = {
       }
     }
   },
-  multiple: {
-    chrome: { browsers: getBrowserConfig('chrome') },
-    firefox: { browsers: getBrowserConfig('firefox') }
-  },
+  // multiple: {
+  //   chrome: { browsers: getBrowserConfig('chrome') },
+  //   firefox: { browsers: getBrowserConfig('firefox') }
+  // },
   name: 'Fee and Pay FrontEnd Cross-Browser Tests'
 };
 
