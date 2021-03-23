@@ -11,7 +11,7 @@ const defaultSauceOptions = {
   accessKey: process.env.SAUCE_ACCESS_KEY,
   tunnelIdentifier: process.env.TUNNEL_IDENTIFIER || 'reformtunnel',
   acceptSslCerts: true,
-  windowSize: '720x480',
+  windowSize: '1600x900',
   tags: ['FeeAndPay']
 };
 
