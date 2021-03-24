@@ -38,7 +38,7 @@ function getBrowserConfig(browserGroup) {
   return browserConfig;
 }
 
-// testConfig.TestOutputDir = undefined;
+testConfig.TestOutputDir = undefined;
 const setupConfig = {
   tests: './test/end-to-end/tests/*_test.js',
   output: './output',
@@ -55,10 +55,6 @@ const setupConfig = {
       capabilities: {}
     },
     SauceLabsReportingHelper: { require: './test/end-to-end/helpers/SauceLabsReportingHelper.js' },
-    // MiscHelper: { require: './test/end-to-end/helpers/misc.js' },
-    // NumberHelpers: { require: './test/end-to-end/helpers/number_utils.js' },
-    // StringHelper: { require: './test/end-to-end/helpers/string_utils.js' },
-    // UtilsHelper: { require: './test/end-to-end/helpers/utils.js' }
   },
   plugins: {
     retryFailedStep: {
@@ -92,12 +88,12 @@ const setupConfig = {
       },
       'mocha-junit-reporter': {
         stdout: '-',
-        options: { mochaFile: 'functional-output/result.xml' }
+        options: { mochaFile: 'output/result.xml' }
       },
       mochawesome: {
-        stdout: 'functional-output/console.log',
+        stdout: 'output/console.log',
         options: {
-          reportDir: 'functional-output',
+          reportDir: 'output',
           reportName: 'index',
           reportTitle: 'Crossbrowser results',
           inlineAssets: true

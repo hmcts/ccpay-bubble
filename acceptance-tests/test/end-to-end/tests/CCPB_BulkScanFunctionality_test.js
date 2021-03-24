@@ -71,7 +71,6 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleCcdSearch(CaseSearch, I, ccdCaseNumber);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
-  // firefox failure, dcn number:
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£550.00');
   CaseTransaction.allocateToNewFee();
   AddFees.addFees('550.00', 'family', 'family_court');
