@@ -62,7 +62,7 @@ Scenario('Normal ccd case cash payment full allocation @nightly', async(I, CaseS
   }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
+Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline1 @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   const totalAmount = 550;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'Cheque');
@@ -71,7 +71,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleCcdSearch(CaseSearch, I, ccdCaseNumber);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
-  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£550.00');
+  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£550.00', 'Cheque');
   CaseTransaction.allocateToNewFee();
   AddFees.addFees('550.00', 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
