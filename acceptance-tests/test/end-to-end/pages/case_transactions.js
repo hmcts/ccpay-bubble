@@ -1,5 +1,6 @@
 'use strict';
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
+const testConfig = require('config');
 
 const { I } = inject();
 
@@ -33,11 +34,13 @@ module.exports = {
     I.see(amoundDue);
   },
 
-  checkUnallocatedPayments(totalDcn, dcnNumber, amount) {
+  checkUnallocatedPayments(totalDcn, dcnNumber, amount, method) {
     I.see(totalDcn);
     I.see(dcnNumber);
     I.see(amount);
-    // I.see(method);
+    if (testConfig.e2e.TEST_FOR_CROSS_BROWSER !== 'true') {
+      I.see(method);
+    }
   },
 
   checkIfBulkScanPaymentsAllocated(dcnNumber) {
@@ -104,7 +107,9 @@ module.exports = {
     I.see('Amount due');
     I.see('Action');
     I.see(allocationStatus);
-    // I.see('Bulk scan');
+    if (testConfig.e2e.TEST_FOR_CROSS_BROWSER !== 'true') {
+      I.see('Bulk scan');
+    }
     I.see('Success');
   },
 

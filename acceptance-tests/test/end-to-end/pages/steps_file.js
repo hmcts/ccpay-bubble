@@ -3,6 +3,8 @@ const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 // in this file you can append custom step methods to 'I' object
 // const faker = require('faker');
 
+const testConfig = require('config');
+
 const numUtils = require('../helpers/number_utils');
 
 const miscUtils = require('../helpers/misc');
@@ -18,8 +20,10 @@ module.exports = () => actor({
   login(email, password) {
     this.amOnPage('/');
     this.wait(CCPBConstants.twoSecondWaitTime);
-    // this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
-    this.wait(CCPBConstants.twoSecondWaitTime);
+    if (testConfig.e2e.TEST_FOR_CROSS_BROWSER !== 'true') {
+      this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
+      this.wait(CCPBConstants.twoSecondWaitTime);
+    }
     this.fillField('Email address', email);
     this.fillField('Password', password);
     this.wait(CCPBConstants.twoSecondWaitTime);
