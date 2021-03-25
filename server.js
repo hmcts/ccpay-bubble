@@ -90,16 +90,16 @@ module.exports = (security, appInsights) => {
     });
   }
 
-  app.use(function (req, res, next) {
+  app.use((req, res, next) => {
     // Setting headers stops pages being indexed even if indexed pages link to them.
     res.setHeader('X-Robots-Tag', 'noindex');
     next();
   });
-  
+
   // Disallow search index idexing
-  app.get('/robots.txt', function (req, res) {
+  app.get('/robots.txt', (req, res) => {
     res.type('text/plain');
-    res.send("User-agent: *\nDisallow: /");
+    res.send('User-agent: *\nDisallow: /');
   });
 
   // make all routes available via this imported module
