@@ -20,7 +20,7 @@ module.exports = () => actor({
   login(email, password) {
     this.amOnPage('/');
     this.wait(CCPBConstants.twoSecondWaitTime);
-    if (testConfig.e2e.TEST_FOR_CROSS_BROWSER !== 'true') {
+    if (TEST_FOR_CROSS_BROWSER !== 'true') {
       this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
       this.wait(CCPBConstants.twoSecondWaitTime);
     }
