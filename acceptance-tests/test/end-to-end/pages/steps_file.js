@@ -3,8 +3,6 @@ const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 // in this file you can append custom step methods to 'I' object
 // const faker = require('faker');
 
-const testConfig = require('config');
-
 const numUtils = require('../helpers/number_utils');
 
 const miscUtils = require('../helpers/misc');
