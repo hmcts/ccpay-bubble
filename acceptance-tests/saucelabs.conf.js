@@ -93,7 +93,7 @@ const setupConfig = {
       mochawesome: {
         stdout: 'output/console.log',
         options: {
-          reportDir: 'output',
+          reportDir: 'acceptance-tests/output',
           reportName: 'index',
           reportTitle: 'Crossbrowser results',
           inlineAssets: true
