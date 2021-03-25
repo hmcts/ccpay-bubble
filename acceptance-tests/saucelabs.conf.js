@@ -38,7 +38,7 @@ function getBrowserConfig(browserGroup) {
   return browserConfig;
 }
 
-// testConfig.TestOutputDir = undefined;
+testConfig.TestOutputDir = undefined;
 const setupConfig = {
   tests: './test/end-to-end/tests/*_test.js',
   output: './output',
