@@ -3,7 +3,7 @@ const requestModule = require('request-promise-native');
 
 // eslint-disable max-len
 
-const request = requestModule.defaults({ proxy: 'http://proxyout.reform.hmcts.net:8080' });
+const request = requestModule.defaults();
 
 const stringUtil = require('./string_utils.js');
 const numUtil = require('./number_utils');
