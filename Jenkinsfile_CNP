@@ -41,7 +41,6 @@ withPipeline("nodejs", product, component) {
 
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  enableSecurityScan()
   enableSlackNotifications('#cc-payments-tech')
   enableAksStagingDeployment()
   disableLegacyDeployment()
@@ -51,10 +50,6 @@ withPipeline("nodejs", product, component) {
     echo 'ccpay-bubble checked out'
   }
   after('build') {
-    sh 'mkdir -p functional-output'
     sh 'yarn ng:build'
-  }
-  after('securityScan') {
-     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
 }
