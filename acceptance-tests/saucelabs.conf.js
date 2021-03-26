@@ -52,7 +52,10 @@ const setupConfig = {
       host: 'ondemand.eu-central-1.saucelabs.com',
       port: 80,
       region: 'eu',
-      capabilities: {}
+      capabilities: {
+        extendedDebugging: true,
+        capturePerformance: true
+      }
     },
     SauceLabsReportingHelper: { require: './test/end-to-end/helpers/SauceLabsReportingHelper.js' },
   },
@@ -93,7 +96,7 @@ const setupConfig = {
       mochawesome: {
         stdout: 'output/console.log',
         options: {
-          reportDir: 'acceptance-tests/output',
+          reportDir: 'output',
           reportName: 'index',
           reportTitle: 'Crossbrowser results',
           inlineAssets: true
