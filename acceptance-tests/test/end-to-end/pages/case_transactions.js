@@ -38,7 +38,7 @@ module.exports = {
     I.see(totalDcn);
     I.see(dcnNumber);
     I.see(amount);
-    if (testConfig.e2e.TEST_FOR_CROSS_BROWSER !== 'true') {
+    if (testConfig.e2e.testForCrossbrowser !== 'true') {
       I.see(method);
     }
   },
@@ -107,7 +107,7 @@ module.exports = {
     I.see('Amount due');
     I.see('Action');
     I.see(allocationStatus);
-    if (testConfig.e2e.E2E_TEST_FOR_CROSS_BROWSER !== true) {
+    if (testConfig.e2e.testForCrossbrowser !== 'true') {
       I.see('Bulk scan');
     }
     I.see('Success');
