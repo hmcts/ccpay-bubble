@@ -41,7 +41,7 @@ function getBrowserConfig(browserGroup) {
 testConfig.TestOutputDir = undefined;
 const setupConfig = {
   tests: './test/end-to-end/tests/*_test.js',
-  output: './output',
+  output: 'output',
   helpers: {
     WebDriver: {
       url: testConfig.e2e.frontendUrl,

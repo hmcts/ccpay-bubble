@@ -52,6 +52,6 @@ withNightlyPipeline("nodejs", product, component) {
     sh 'yarn ng:build'
   }
   after('crossBrowserTest') {
-     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'output/**/*'
+     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/*'
   }
 }
