@@ -38,10 +38,9 @@ function getBrowserConfig(browserGroup) {
   return browserConfig;
 }
 
-testConfig.TestOutputDir = undefined;
 const setupConfig = {
   tests: './test/end-to-end/tests/*_test.js',
-  output: 'output',
+  output: `${process.cwd()}/output`,
   helpers: {
     WebDriver: {
       url: testConfig.e2e.frontendUrl,
@@ -88,12 +87,12 @@ const setupConfig = {
       },
       'mocha-junit-reporter': {
         stdout: '-',
-        options: { mochaFile: 'output/result.xml' }
+        options: { mochaFile: './output/result.xml' }
       },
       mochawesome: {
-        stdout: 'output/console.log',
+        stdout: './output/console.log',
         options: {
-          reportDir: 'output',
+          reportDir: './output',
           reportName: 'index',
           reportTitle: 'Crossbrowser results',
           inlineAssets: true
