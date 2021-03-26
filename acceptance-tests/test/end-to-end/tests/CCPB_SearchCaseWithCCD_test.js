@@ -51,7 +51,7 @@ Scenario('Search for a case with actual case for Telephony flow @nightly', async
   }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Amount Due case for Telephony flow @nightly @pipeline', async I => {
+Scenario('Amount Due case for Telephony flow @nightly @pipeline1', async I => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   await I.AmountDueCaseForTelephonyFlow();
   I.Logout();
