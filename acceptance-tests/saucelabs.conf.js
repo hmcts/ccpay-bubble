@@ -52,11 +52,8 @@ const setupConfig = {
       host: 'ondemand.eu-central-1.saucelabs.com',
       port: 80,
       region: 'eu',
-      capabilities: {
-        extendedDebugging: true,
-        capturePerformance: true
-      }
-    },
+      capabilities: {}
+      },
     SauceLabsReportingHelper: { require: './test/end-to-end/helpers/SauceLabsReportingHelper.js' },
   },
   plugins: {
