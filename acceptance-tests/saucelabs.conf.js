@@ -40,7 +40,7 @@ function getBrowserConfig(browserGroup) {
 
 const setupConfig = {
   tests: './test/end-to-end/tests/*_test.js',
-  output: `${process.cwd()}/output`,
+  output: './output',
   helpers: {
     WebDriver: {
       url: testConfig.e2e.frontendUrl,
