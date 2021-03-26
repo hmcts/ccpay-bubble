@@ -7,13 +7,21 @@ const supportedBrowsers = {
       browserName: 'chrome',
       platformName: LATEST_WINDOWS,
       browserVersion: 'latest',
-      'sauce:options': { name: 'FeeAndPay: WIN_CHROME_LATEST' }
+      'sauce:options': {
+        name: 'FeeAndPay: WIN_CHROME_LATEST',
+        extendedDebugging: true,
+        capturePerformance: true
+      }
     },
     chrome_mac_latest: {
       browserName: 'chrome',
       platformName: LATEST_MAC,
       browserVersion: 'latest',
-      'sauce:options': { name: 'FeeAndPay: MAC_CHROME_LATEST' }
+      'sauce:options': {
+        name: 'FeeAndPay: MAC_CHROME_LATEST',
+        extendedDebugging: true,
+        capturePerformance: true
+      }
     }
   },
   firefox: {
@@ -21,7 +29,11 @@ const supportedBrowsers = {
       browserName: 'firefox',
       platformName: LATEST_WINDOWS,
       browserVersion: 'latest',
-      'sauce:options': { name: 'FeeAndPay: WIN_FIREFOX_LATEST' }
+      'sauce:options': {
+        name: 'FeeAndPay: WIN_FIREFOX_LATEST',
+        extendedDebugging: true,
+        capturePerformance: true
+      }
     }
   }
 };
