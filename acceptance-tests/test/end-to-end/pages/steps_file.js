@@ -824,9 +824,9 @@ module.exports = () => actor({
     this.see('Divorce');
     this.see('Probate');
     this.see('Financial Remedy');
-    this.see('Which system are you using to take the payment?');
-    this.see('8x8');
-    this.see('Antenna');
+    // this.see('Which system are you using to take the payment?');
+    // this.see('8x8');
+    // this.see('Antenna');
     this.click('remove fee');
     this.see('Are you sure you want to delete this fee?');
     this.wait(CCPBConstants.fiveSecondWaitTime);
@@ -881,9 +881,9 @@ module.exports = () => actor({
     this.see('Divorce');
     this.see('Probate');
     this.see('Financial Remedy');
-    this.see('Which system are you using to take the payment?');
-    this.see('8x8');
-    this.see('Antenna');
+    // this.see('Which system are you using to take the payment?');
+    // this.see('8x8');
+    // this.see('Antenna');
   },
 
   async removeFeeFromCaseTransactionPageTelephonyFlow() {
@@ -924,9 +924,9 @@ module.exports = () => actor({
     this.see('Divorce');
     this.see('Probate');
     this.see('Financial Remedy');
-    this.see('Which system are you using to take the payment?');
-    this.see('8x8');
-    this.see('Antenna');
+    // this.see('Which system are you using to take the payment?');
+    // this.see('8x8');
+    // this.see('Antenna');
     this.click('Case Transaction');
     await miscUtils.multipleCcdSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
