@@ -43,7 +43,7 @@ withNightlyPipeline("nodejs", product, component) {
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
   enableCrossBrowserTest()
-  // enableFullFunctionalTest(90)
+  enableFullFunctionalTest(90)
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
@@ -52,6 +52,6 @@ withNightlyPipeline("nodejs", product, component) {
     sh 'yarn ng:build'
   }
   after('crossBrowserTest') {
-     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'output/**/*'
+     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/crossbrowser/reports/**/*'
   }
 }
