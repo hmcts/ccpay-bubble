@@ -5,6 +5,7 @@ const FeatureService = require('./FeatureService');
 
 const payhubUrl = config.get('payhub.url');
 const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
+const pcipalAntennaReturnUrl = config.get('pcipalantenna.url');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
 const microService = config.get('ccpaybubble.microservice');
@@ -39,6 +40,21 @@ class PayhubService {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${serviceAuthToken}`,
         'return-url': `${ccpayBubbleReturnUrl}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    });
+  }
+
+  async postPaymentAntennaToPayHub(req) {
+    const serviceAuthToken = await this.createAuthToken();
+    req.body.return_url = pcipalAntennaReturnUrl;
+    return request.post({
+      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/telephony-card-payments`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${serviceAuthToken}`,
         'Content-Type': 'application/json'
       },
       json: true

@@ -9,28 +9,40 @@ async function multipleCcdSearch(CaseSearch, I, ccdCaseNumber) {
   if (headerValue1 === 'Search for a case') {
     await bulkScanApiCalls.toggleOffCaseValidation();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    CaseSearch.searchCaseUsingCcdNumber(ccdCaseNumber);
+    const headerValue5 = await CaseSearch.getHeaderValue();
+    if (headerValue5 === 'Search for a case') {
+      CaseSearch.searchCaseUsingCcdNumber(ccdCaseNumber);
+    }
   }
 
   const headerValue2 = await CaseSearch.getHeaderValue();
   if (headerValue2 === 'Search for a case') {
     await bulkScanApiCalls.toggleOffCaseValidation();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    CaseSearch.searchCaseUsingCcdNumber(ccdCaseNumber);
+    const headerValue6 = await CaseSearch.getHeaderValue();
+    if (headerValue6 === 'Search for a case') {
+      CaseSearch.searchCaseUsingCcdNumber(ccdCaseNumber);
+    }
   }
 
   const headerValue3 = await CaseSearch.getHeaderValue();
   if (headerValue3 === 'Search for a case') {
     await bulkScanApiCalls.toggleOffCaseValidation();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    CaseSearch.searchCaseUsingCcdNumber(ccdCaseNumber);
+    const headerValue7 = await CaseSearch.getHeaderValue();
+    if (headerValue7 === 'Search for a case') {
+      CaseSearch.searchCaseUsingCcdNumber(ccdCaseNumber);
+    }
   }
 
   const headerValue4 = await CaseSearch.getHeaderValue();
   if (headerValue4 === 'Search for a case') {
     await bulkScanApiCalls.toggleOffCaseValidation();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    CaseSearch.searchCaseUsingCcdNumber(ccdCaseNumber);
+    const headerValue8 = await CaseSearch.getHeaderValue();
+    if (headerValue8 === 'Search for a case') {
+      CaseSearch.searchCaseUsingCcdNumber(ccdCaseNumber);
+    }
   }
 }
 
