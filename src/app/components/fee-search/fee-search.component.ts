@@ -21,6 +21,7 @@ export class FeeSearchComponent implements OnInit {
   selectedOption: string = null;
   bulkScanningTxt = '&isBulkScanning=Enable&isTurnOff=Enable';
   isDiscontinuedFeatureEnabled = true;
+  isSelectLinkClicked = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -49,38 +50,41 @@ export class FeeSearchComponent implements OnInit {
   }
 
   selectFee(fee: IFee) {
-    const feeType = fee.fee_type;
-    const volAmt = fee.current_version['volume_amount'];
-    const flatAmt = fee.current_version['flat_amount'];
-    const percentageAmt = fee.current_version['percentage_amount'];
-    let paymentGroup;
-    const feeDetailsComponent = new FeeDetailsComponent(null, null);
+    if (!this.isSelectLinkClicked) {
 
-    if ((feeType === 'fixed' && volAmt)
-      || (feeType === 'banded' && flatAmt)
-      || (feeType === 'rateable' && flatAmt)
-      || (feeType === 'ranged' && percentageAmt)
-      || (this.isDiscontinuedFeatureEnabled && fee.fee_versions.length > 1 && feeDetailsComponent.validOldFeesVersions(fee).length > 1)) {
-      this.preselectedFee = fee;
-      this.showFeeDetails = true;
-    } else {
-      paymentGroup = {
-        fees: [{
-          code: fee.code,
-          version: fee['current_version'].version.toString(),
-          'calculated_amount': fee['current_version'].flat_amount.amount.toString(),
-          'memo_line': fee['current_version'].memo_line,
-          'natural_account_code': fee['current_version'].natural_account_code,
-          'ccd_case_number': this.ccdNo,
-          jurisdiction1: fee.jurisdiction1['name'],
-          jurisdiction2: fee.jurisdiction2['name'],
-          description: fee.current_version.description,
-          volume: fee.fee_type === 'relational' ? null : 1,
-          fee_amount: fee['current_version'].flat_amount.amount.toString()
-        }]
-      };
-      this.sendPaymentGroup(paymentGroup);
-    }
+      const feeType = fee.fee_type;
+      const volAmt = fee.current_version['volume_amount'];
+      const flatAmt = fee.current_version['flat_amount'];
+      const percentageAmt = fee.current_version['percentage_amount'];
+      let paymentGroup;
+      const feeDetailsComponent = new FeeDetailsComponent(null, null);
+
+      if ((feeType === 'fixed' && volAmt)
+        || (feeType === 'banded' && flatAmt)
+        || (feeType === 'rateable' && flatAmt)
+        || (feeType === 'ranged' && percentageAmt)
+        || (this.isDiscontinuedFeatureEnabled && fee.fee_versions.length > 1 && feeDetailsComponent.validOldFeesVersions(fee).length > 1)) {
+        this.preselectedFee = fee;
+        this.showFeeDetails = true;
+      } else {
+        paymentGroup = {
+          fees: [{
+            code: fee.code,
+            version: fee['current_version'].version.toString(),
+            'calculated_amount': fee['current_version'].flat_amount.amount.toString(),
+            'memo_line': fee['current_version'].memo_line,
+            'natural_account_code': fee['current_version'].natural_account_code,
+            'ccd_case_number': this.ccdNo,
+            jurisdiction1: fee.jurisdiction1['name'],
+            jurisdiction2: fee.jurisdiction2['name'],
+            description: fee.current_version.description,
+            volume: fee.fee_type === 'relational' ? null : 1,
+            fee_amount: fee['current_version'].flat_amount.amount.toString()
+          }]
+        };
+        this.sendPaymentGroup(paymentGroup);
+      }
+  }
   }
 
   onGoBack() {
@@ -139,6 +143,7 @@ export class FeeSearchComponent implements OnInit {
         });
     } else {
       this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
+        this.isSelectLinkClicked = true;
         // tslint:disable-next-line:max-line-length
         let url = `/payment-history/${this.ccdNo}?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}${this.bulkScanningTxt}`;
         url = url.replace(/[\r\n]+/g, ' ');
