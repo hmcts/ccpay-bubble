@@ -21,6 +21,9 @@ async function runTest() {
   const totalAmount = 550;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'Cash');
   const ccdCaseNumber = ccdAndDcn[1];
+  const dcnNumber = ccdAndDcn[0];
+  const ccdAndDcn2 = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'Cheque');
+  const ccdCaseNumber2 = ccdAndDcn2[1];
 
   // Pages running the tests
   try {
@@ -40,33 +43,11 @@ async function runTest() {
         debug: console.log,
         info: console.log
       },
-      screenCapture: `${__dirname}/searchCasePage.png`
-    });
-
-    // Case transactions
-    const pa11yResult2 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
-
-      actions: [
-        `set field #username to ${email}`,
-        `set field #password to ${password}`,
-        'click element .button',
-        'wait for element #ccd-search to be visible',
-        `set field #ccd-search to ${ccdCaseNumber}`,
-        'click element .button',
-        'wait for element .govuk-heading-xl to be visible'
-      ],
-      wait: 1000,
-      timeout: 120000,
-      chromeLaunchConfig: { slowMo: 1000 },
-      log: {
-        debug: console.log,
-        info: console.log
-      },
-      screenCapture: `${__dirname}/caseTransactionsPage.png`
+      screenCapture: './searchCasePage.png'
     });
 
     // Reports
-    const pa11yResult3 = await pa11y('https://paybubble.aat.platform.hmcts.net/payment-history/view?view=reports', {
+    const pa11yResult2 = await pa11y('https://paybubble.aat.platform.hmcts.net/payment-history/view?view=reports', {
 
       actions: [
         `set field #username to ${email}`,
@@ -81,11 +62,11 @@ async function runTest() {
         debug: console.log,
         info: console.log
       },
-      screenCapture: `${__dirname}/reportsPage.png`
+      screenCapture: './reportsPage.png'
     });
 
     // Search for a fee
-    const pa11yResult4 = await pa11y('https://paybubble.aat.platform.hmcts.net/fee-search', {
+    const pa11yResult3 = await pa11y('https://paybubble.aat.platform.hmcts.net/fee-search', {
 
       actions: [
         `set field #username to ${email}`,
@@ -103,11 +84,11 @@ async function runTest() {
         debug: console.log,
         info: console.log
       },
-      screenCapture: `${__dirname}/searchForFeePage.png`
+      screenCapture: './searchForFeePage.png'
     });
 
     // Add fee details
-    const pa11yResult5 = await pa11y('https://paybubble.aat.platform.hmcts.net/addFeeDetail', {
+    const pa11yResult4 = await pa11y('https://paybubble.aat.platform.hmcts.net/addFeeDetail', {
 
       actions: [
         `set field #username to ${email}`,
@@ -122,11 +103,11 @@ async function runTest() {
         debug: console.log,
         info: console.log
       },
-      screenCapture: `${__dirname}/addFeeDetailPage.png`
+      screenCapture: './addFeeDetailPage.png'
     });
 
     // Payment details
-    const pa11yResult6 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
+    const pa11yResult5 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
         `set field #username to ${email}`,
@@ -147,7 +128,32 @@ async function runTest() {
         debug: console.log,
         info: console.log
       },
-      screenCapture: `${__dirname}/paymentDetailsPage.png`
+      screenCapture: './paymentDetailsPage.png'
+    });
+
+    // Case transactions
+    const pa11yResult6 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
+
+      actions: [
+        `set field #username to ${email}`,
+        `set field #password to ${password}`,
+        'click element .button',
+        'wait for element #ccd-search to be visible',
+        `set field #ccd-search to ${ccdCaseNumber}`,
+        'click element .button',
+        'click element .button',
+        'click element .button',
+        'screen capture example1.png',
+        'wait for element .govuk-heading-xl to be visible'
+      ],
+      wait: 1000,
+      timeout: 200000,
+      chromeLaunchConfig: { slowMo: 1500 },
+      log: {
+        debug: console.log,
+        info: console.log
+      },
+      screenCapture: './caseTransactionsPage.png'
     });
 
     // fee summary
@@ -160,6 +166,9 @@ async function runTest() {
         'wait for element #ccd-search to be visible',
         `set field #ccd-search to ${ccdCaseNumber}`,
         'click element .button',
+        'click element .button',
+        'click element .button',
+        'screen capture example2.png',
         'wait for element .govuk-heading-xl to be visible',
         'click element [type="submit"]',
         'wait for element .heading-xlarge to be visible',
@@ -176,11 +185,102 @@ async function runTest() {
         debug: console.log,
         info: console.log
       },
-      screenCapture: `${__dirname}/feeSummaryPage.png`
+      screenCapture: './feeSummaryPage.png'
     });
 
+    // allocate to a new fee
+    const pa11yResult8 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
+
+      actions: [
+        `set field #username to ${email}`,
+        `set field #password to ${password}`,
+        'click element .button',
+        'wait for element #ccd-search to be visible',
+        'click element #DCN',
+        `set field #dcn-search to ${dcnNumber}`,
+        'click element .button',
+        'screen capture example3.png',
+        'click element .button',
+        'click element .button',
+        'wait for element [id="\'unpaiedFee\'+i+\'\'"] to be visible',
+        'click element [id="\'unpaiedFee\'+i+\'\'"]',
+        'click element [class="button govuk-button--secondary govuk-!-margin-right-1"]',
+        'wait for element .heading-xlarge to be visible',
+        'set field #fee-search to 10',
+        'click element [class="button button-search"]',
+        'wait for element [class="govuk-button"] to be visible',
+        'click element div.govuk-width-container:nth-child(2) div.govuk-grid-row:nth-child(2) div.grid-row:nth-child(2) div.column-two-thirds table:nth-child(1) tbody:nth-child(2) tr:nth-child(1) td:nth-child(4) > a:nth-child(1)',
+        'wait for element [class="govuk-table__header govuk-!-font-weight-bold"] to be visible',
+        'click element .govuk-table button',
+        'wait for element [class="govuk-warning-text__text govuk-warning-text__custom"] to be visible'
+      ],
+      wait: 1000,
+      timeout: 120000,
+      chromeLaunchConfig: { slowMo: 1500 },
+      log: {
+        debug: console.log,
+        info: console.log
+      },
+      screenCapture: './allocateToANewFeePage.png'
+    });
+
+
+    // Mark pay as transferred
+    const pa11yResult9 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
+
+      actions: [
+        `set field #username to ${email}`,
+        `set field #password to ${password}`,
+        'click element .button',
+        'wait for element #ccd-search to be visible',
+        'click element #DCN',
+        `set field #dcn-search to ${dcnNumber}`,
+        'click element .button',
+        'click element .button',
+        'wait for element [id="\'unpaiedFee\'+i+\'\'"] to be visible',
+        'click element [id="\'unpaiedFee\'+i+\'\'"]',
+        'click element .button-grb button:nth-child(4)',
+        'wait for element [class="govuk-table__cell"] to be visible'
+      ],
+      wait: 1000,
+      timeout: 70000,
+      chromeLaunchConfig: { slowMo: 500 },
+      log: {
+        debug: console.log,
+        info: console.log
+      },
+      screenCapture: './markPayAsTransferredPage.png'
+    });
+
+    // Mark payment as unidentified
+    const pa11yResult10 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
+
+      actions: [
+        `set field #username to ${email}`,
+        `set field #password to ${password}`,
+        'click element .button',
+        'wait for element #ccd-search to be visible',
+        `set field #ccd-search to ${ccdCaseNumber2}`,
+        'click element .button',
+        'click element .button',
+        'wait for element [id="\'unpaiedFee\'+i+\'\'"] to be visible',
+        'click element [id="\'unpaiedFee\'+i+\'\'"]',
+        'click element .button-grb button:nth-child(3)',
+        'wait for element [class="govuk-table__cell"] to be visible'
+      ],
+      wait: 1000,
+      timeout: 70000,
+      chromeLaunchConfig: { slowMo: 500 },
+      log: {
+        debug: console.log,
+        info: console.log
+      },
+      screenCapture: './markPayAsUnidentifiedPage.png'
+    });
+
+
     // eslint-disable-next-line max-len
-    const pa11yResults = [pa11yResult1, pa11yResult2, pa11yResult3, pa11yResult4, pa11yResult5, pa11yResult6, pa11yResult7];
+    const pa11yResults = [pa11yResult1, pa11yResult2, pa11yResult3, pa11yResult4, pa11yResult5, pa11yResult6, pa11yResult7, pa11yResult8, pa11yResult9, pa11yResult10];
 
     for (let index = 0; index < pa11yResults.length; index++) {
       const pa11yResult = pa11yResults[index];
