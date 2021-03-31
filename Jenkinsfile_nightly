@@ -12,6 +12,7 @@ properties([
 
 def product = "ccpay"
 def component = "bubble-frontend"
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 def secrets = [
   'ccpay-${env}': [
@@ -50,6 +51,8 @@ withNightlyPipeline("nodejs", product, component) {
   }
   after('build') {
     sh 'yarn ng:build'
+    yarnBuilder.yarn('test:a11y')
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
   after('crossBrowserTest') {
      steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/crossbrowser/reports/**/*'
