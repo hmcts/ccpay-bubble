@@ -45,6 +45,7 @@ withNightlyPipeline("nodejs", product, component) {
   loadVaultSecrets(secrets)
   enableCrossBrowserTest()
   enableFullFunctionalTest(90)
+  enableMutationTest(90)
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
@@ -56,5 +57,15 @@ withNightlyPipeline("nodejs", product, component) {
   }
   after('crossBrowserTest') {
      steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/crossbrowser/reports/**/*'
+  }
+
+  after('mutationTest') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/reports/**/*'
+    publishHTML target: [
+      reportDir            : "reports/mutation/html/",
+      reportFiles          : "index.html",
+      reportName           : "PayBubble Mutation tests",
+      alwaysLinkToLastBuild: true
+    ]
   }
 }

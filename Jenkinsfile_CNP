@@ -43,4 +43,17 @@ withPipeline("nodejs", product, component) {
   after('build') {
     sh 'yarn ng:build'
   }
+
+  after('test'){
+    sh 'chmod +x bin/run-mutation-tests.sh'
+    sh 'yarn test:mutation'
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/reports/**/*'
+    publishHTML target: [
+      reportDir            : "reports/mutation/html/",
+      reportFiles          : "index.html",
+      reportName           : "PayBubble Mutation tests",
+      alwaysLinkToLastBuild: true
+    ]
+  }
+
 }
