@@ -28,7 +28,7 @@ AfterSuite(async I => {
   }
 });
 
-Scenario('Search for a case with actual case number from CCD @nightly', async I => {
+Scenario.skip('Search for a case with actual case number from CCD @nightly', async I => {
   if (nightlyTest) {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     I.see('Search for a case');
@@ -43,7 +43,7 @@ Scenario('Search for a case with actual case number from CCD @nightly', async I 
   }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Search for a case with actual case for Telephony flow @nightly @pipeline', async I => {
+Scenario.skip('Search for a case with actual case for Telephony flow @nightly @pipeline', async I => {
   if (nightlyTest) {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     await I.caseforTelephonyFlow();
@@ -51,13 +51,13 @@ Scenario('Search for a case with actual case for Telephony flow @nightly @pipeli
   }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Amount Due case for Telephony flow @nightly @pipeline', async I => {
+Scenario.skip('Amount Due case for Telephony flow @nightly @pipeline', async I => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   await I.AmountDueCaseForTelephonyFlow();
   I.Logout();
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Remove fee from case transaction page Telephony flow @nightly', async I => {
+Scenario.skip('Remove fee from case transaction page Telephony flow @nightly', async I => {
   if (nightlyTest) {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     await I.removeFeeFromCaseTransactionPageTelephonyFlow();
@@ -65,7 +65,7 @@ Scenario('Remove fee from case transaction page Telephony flow @nightly', async 
   }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Search for a case with dummy case number @nightly', async I => {
+Scenario.skip('Search for a case with dummy case number @nightly', async I => {
   if (nightlyTest) {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     const responseOn = await bulkScanApiCalls.toggleOnCaseValidation();
