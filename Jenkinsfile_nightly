@@ -52,6 +52,7 @@ withNightlyPipeline("nodejs", product, component) {
   }
   after('build') {
     sh 'yarn ng:build'
+    sh 'chmod +x bin/run-mutation-tests.sh'
     yarnBuilder.yarn('test:a11y')
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
