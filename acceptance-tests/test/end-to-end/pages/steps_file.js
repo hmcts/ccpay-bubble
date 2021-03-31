@@ -3,6 +3,8 @@ const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 // in this file you can append custom step methods to 'I' object
 // const faker = require('faker');
 
+const testConfig = require('config');
+
 const numUtils = require('../helpers/number_utils');
 
 const miscUtils = require('../helpers/misc');
@@ -18,8 +20,10 @@ module.exports = () => actor({
   login(email, password) {
     this.amOnPage('/');
     this.wait(CCPBConstants.twoSecondWaitTime);
-    this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
-    this.wait(CCPBConstants.twoSecondWaitTime);
+    if (testConfig.e2e.testForCrossbrowser !== 'true') {
+      this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
+      this.wait(CCPBConstants.twoSecondWaitTime);
+    }
     this.fillField('Email address', email);
     this.fillField('Password', password);
     this.wait(CCPBConstants.twoSecondWaitTime);
@@ -759,7 +763,7 @@ module.exports = () => actor({
     const randomNumber = numUtils.getRandomNumber(numberTwo);
     const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
-    await miscUtils.multipleCcdSearch(searchCase, this, ccdNumber);
+    await miscUtils.multipleSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
     this.see('CCD reference:');
     this.see(ccdCaseNumberFormatted);
@@ -790,7 +794,7 @@ module.exports = () => actor({
     const randomNumber = numUtils.getRandomNumber(numberTwo);
     const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
-    await miscUtils.multipleCcdSearch(searchCase, this, ccdCaseNumberFormatted);
+    await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
     this.see('Case transactions');
     this.see('CCD reference:');
     this.see(ccdCaseNumberFormatted);
@@ -838,7 +842,7 @@ module.exports = () => actor({
     const randomNumber = numUtils.getRandomNumber(numberTwo);
     const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
-    await miscUtils.multipleCcdSearch(searchCase, this, ccdCaseNumberFormatted);
+    await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
     this.see('Case transactions');
     this.see('CCD reference:');
     this.see(ccdCaseNumberFormatted);
@@ -858,7 +862,7 @@ module.exports = () => actor({
     this.see('Fee Summary');
     this.click('Case Transaction');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await miscUtils.multipleCcdSearch(searchCase, this, ccdNumber);
+    await miscUtils.multipleSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
     this.see('CCD reference:');
     this.see(ccdCaseNumberFormatted);
@@ -890,7 +894,7 @@ module.exports = () => actor({
     const randomNumber = numUtils.getRandomNumber(numberTwo);
     const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
-    await miscUtils.multipleCcdSearch(searchCase, this, ccdNumber);
+    await miscUtils.multipleSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
     this.see('CCD reference:');
     this.see(ccdCaseNumberFormatted);
@@ -928,7 +932,7 @@ module.exports = () => actor({
     // this.see('8x8');
     // this.see('Antenna');
     this.click('Case Transaction');
-    await miscUtils.multipleCcdSearch(searchCase, this, ccdNumber);
+    await miscUtils.multipleSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
     this.see('CCD reference:');
     this.see(ccdCaseNumberFormatted);
