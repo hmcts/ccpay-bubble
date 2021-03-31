@@ -36,7 +36,7 @@ AfterSuite(async I => {
 
 
 // #region Normal CCD case bulk scan functional cases
-Scenario('Normal ccd case cash payment full allocation @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
+Scenario.skip('Normal ccd case cash payment full allocation @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
   if (nightlyTest) {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     const totalAmount = 550;
@@ -62,7 +62,7 @@ Scenario('Normal ccd case cash payment full allocation @nightly', async(I, CaseS
   }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
+Scenario.skip('Normal ccd case cheque payment partial allocation 2 fees add @pipeline @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   const totalAmount = 550;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'Cheque');
@@ -94,7 +94,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline
   I.Logout();
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Normal ccd case cash payment transferred @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred, PaymentHistory) => {
+Scenario.skip('Normal ccd case cash payment transferred @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred, PaymentHistory) => {
   if (nightlyTest) {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     const totalAmount = 550;
@@ -120,7 +120,7 @@ Scenario('Normal ccd case cash payment transferred @nightly', async(I, CaseSearc
 
 // #endregion
 
-Scenario('Exception ccd case cash payment transferred @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
+Scenario.skip('Exception ccd case cash payment transferred @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
   if (nightlyTest) {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     const totalAmount = 550;
@@ -141,7 +141,7 @@ Scenario('Exception ccd case cash payment transferred @nightly', async(I, CaseSe
   }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('DCN Search for ccd case associated with exception postal order payment transferred @nightly @pipeline', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
+Scenario.skip('DCN Search for ccd case associated with exception postal order payment transferred @nightly @pipeline', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   const totalAmount = 600;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA09', totalAmount, 'PostalOrder');
@@ -160,7 +160,7 @@ Scenario('DCN Search for ccd case associated with exception postal order payment
   I.Logout();
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Normal ccd case cash payment transferred when no valid reason or site id selected @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
+Scenario.skip('Normal ccd case cash payment transferred when no valid reason or site id selected @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
   if (nightlyTest) {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     const totalAmount = 550;
@@ -183,7 +183,7 @@ Scenario('Normal ccd case cash payment transferred when no valid reason or site 
   }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Exception Case Cheque Payment Unidentified @nightly @pipeline', async(I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
+Scenario.skip('Exception Case Cheque Payment Unidentified @nightly @pipeline', async(I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   const totalAmount = 550;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'Cheque');
@@ -205,7 +205,7 @@ Scenario('Exception Case Cheque Payment Unidentified @nightly @pipeline', async(
   I.Logout();
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less investigation comment provided @nightly', async(I, CaseSearch, CaseTransaction, CaseUnidentified) => {
+Scenario.skip('Exception Case DCN Search Cheque Payment Unidentified when no or less investigation comment provided @nightly', async(I, CaseSearch, CaseTransaction, CaseUnidentified) => {
   if (nightlyTest) {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     const totalAmount = 550;
@@ -228,7 +228,7 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
 
-Scenario('Ccd case search with exception record postal order payment shortfall payment @nightly @pipeline', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
+Scenario.skip('Ccd case search with exception record postal order payment shortfall payment @nightly @pipeline', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   const totalAmount = 500;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA08', totalAmount, 'PostalOrder');
@@ -251,7 +251,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
   I.Logout();
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Exception search with ccd record postal order payment surplus payment @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
+Scenario.skip('Exception search with ccd record postal order payment surplus payment @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
   if (nightlyTest) {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     const totalAmount = 600;
@@ -289,7 +289,7 @@ Scenario('Payment reference RC search with ccd record associated with exception 
   I.Logout();
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Payment reference RC search for exception @pipeline, @nightly', (I, CaseSearch, CaseTransaction) => {
+Scenario.skip('Payment reference RC search for exception @pipeline, @nightly', (I, CaseSearch, CaseTransaction) => {
   if (nightlyTest) {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     CaseSearch.searchCaseUsingPaymentRef('RC-1611-0169-9283-4106');
@@ -298,7 +298,7 @@ Scenario('Payment reference RC search for exception @pipeline, @nightly', (I, Ca
   }
 }).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
 
-Scenario('Download reports in paybubble @nightly', (I, Reports) => {
+Scenario.skip('Download reports in paybubble @nightly', (I, Reports) => {
   if (nightlyTest) {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     Reports.navigateToReports();

@@ -53,11 +53,11 @@ module.exports = {
     config: { browsers: ['ChromeHeadless'] }
   },
   reporters: ['html', 'clear-text', 'progress'],
+  htmlReporter: { baseDir: 'functional-output/mutation-reports' },
 
   // logLevel: "all",
   timeoutMS: 600000,
   timeoutFactor: 4,
   maxConcurrentTestRunners: 4,
-  coverageAnalysis: 'off',
-  thresholds: { high: 95, low: 85, break: 45 }
+  coverageAnalysis: 'off'
 };
