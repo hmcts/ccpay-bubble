@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const HttpStatus = require('http-status-codes');
 const express = require('express');
+const session = require('express-session');
 const route = require('./express/app');
 const roles = require('./express/infrastructure/roles');
 const csurf = require('csurf');
@@ -13,6 +14,11 @@ const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 
 const app = express();
+app.use(session({
+  secret: 'Shh, its a secret!',
+  resave: false,
+  saveUninitialized: true
+}));
 
 const errorFactory = ApiErrorFactory('server.js');
 let csrfProtection = csurf({ cookie: true });
@@ -72,6 +78,10 @@ module.exports = (security, appInsights) => {
 
   // enable the dist folder to be accessed statically
   app.use(express.static('dist/ccpay-bubble'));
+
+  app.use('/makePaymentByTelephoneyProvider', (req, res) => {
+    res.status(HttpStatus.OK).send(security.pcipalForm(req, res));
+  });
 
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
