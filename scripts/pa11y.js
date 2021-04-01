@@ -20,11 +20,12 @@ async function runTest() {
   // Creates a case
   const totalAmount = 550;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'Cash');
-  const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
   const ccdAndDcn2 = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'Cheque');
-  const ccdCaseNumber2 = ccdAndDcn2[1];
+  const dcnNumber2 = ccdAndDcn2[0];
 
+  console.log(dcnNumber);
+  console.log(dcnNumber2);
   // Pages running the tests
   try {
     // Search case page
@@ -139,15 +140,13 @@ async function runTest() {
         `set field #password to ${password}`,
         'click element .button',
         'wait for element #ccd-search to be visible',
-        `set field #ccd-search to ${ccdCaseNumber}`,
+        'click element #DCN',
+        `set field #dcn-search to ${dcnNumber}`,
         'click element .button',
-        'click element .button',
-        'click element .button',
-        'screen capture example1.png',
         'wait for element .govuk-heading-xl to be visible'
       ],
       wait: 1000,
-      timeout: 200000,
+      timeout: 150000,
       chromeLaunchConfig: { slowMo: 1500 },
       log: {
         debug: console.log,
@@ -157,6 +156,7 @@ async function runTest() {
     });
 
     // fee summary
+    console.log('fee summary');
     const pa11yResult7 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
@@ -164,22 +164,20 @@ async function runTest() {
         `set field #password to ${password}`,
         'click element .button',
         'wait for element #ccd-search to be visible',
-        `set field #ccd-search to ${ccdCaseNumber}`,
+        'click element #DCN',
+        `set field #dcn-search to ${dcnNumber}`,
         'click element .button',
-        'click element .button',
-        'click element .button',
-        'screen capture example2.png',
         'wait for element .govuk-heading-xl to be visible',
         'click element [type="submit"]',
         'wait for element .heading-xlarge to be visible',
         'set field #fee-search to 10',
         'click element [class="button button-search"]',
         'wait for element [class="govuk-button"] to be visible',
-        'click element div.govuk-width-container:nth-child(2) div.govuk-grid-row:nth-child(2) div.grid-row:nth-child(2) div.column-two-thirds table:nth-child(1) tbody:nth-child(2) tr:nth-child(1) td:nth-child(4) > a:nth-child(1)',
+        'click element tr:nth-child(1) td:nth-child(4) > a:nth-child(1)',
         'wait for element [class="govuk-table__header govuk-!-font-weight-bold"] to be visible'
       ],
       wait: 1000,
-      timeout: 120000,
+      timeout: 150000,
       chromeLaunchConfig: { slowMo: 1500 },
       log: {
         debug: console.log,
@@ -188,7 +186,7 @@ async function runTest() {
       screenCapture: './feeSummaryPage.png'
     });
 
-    // allocate to a new fee
+    // Confirm association page
     const pa11yResult8 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
@@ -199,23 +197,21 @@ async function runTest() {
         'click element #DCN',
         `set field #dcn-search to ${dcnNumber}`,
         'click element .button',
-        'screen capture example3.png',
-        'click element .button',
-        'click element .button',
         'wait for element [id="\'unpaiedFee\'+i+\'\'"] to be visible',
         'click element [id="\'unpaiedFee\'+i+\'\'"]',
-        'click element [class="button govuk-button--secondary govuk-!-margin-right-1"]',
+        'click element .button-grb button:nth-child(1)',
         'wait for element .heading-xlarge to be visible',
+        'wait for element #fee-search to be visible',
         'set field #fee-search to 10',
         'click element [class="button button-search"]',
         'wait for element [class="govuk-button"] to be visible',
-        'click element div.govuk-width-container:nth-child(2) div.govuk-grid-row:nth-child(2) div.grid-row:nth-child(2) div.column-two-thirds table:nth-child(1) tbody:nth-child(2) tr:nth-child(1) td:nth-child(4) > a:nth-child(1)',
+        'click element tr:nth-child(1) td:nth-child(4) > a:nth-child(1)',
         'wait for element [class="govuk-table__header govuk-!-font-weight-bold"] to be visible',
         'click element .govuk-table button',
         'wait for element [class="govuk-warning-text__text govuk-warning-text__custom"] to be visible'
       ],
       wait: 1000,
-      timeout: 120000,
+      timeout: 150000,
       chromeLaunchConfig: { slowMo: 1500 },
       log: {
         debug: console.log,
@@ -226,6 +222,7 @@ async function runTest() {
 
 
     // Mark pay as transferred
+    console.log('Mark pay as transferred');
     const pa11yResult9 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
@@ -236,15 +233,14 @@ async function runTest() {
         'click element #DCN',
         `set field #dcn-search to ${dcnNumber}`,
         'click element .button',
-        'click element .button',
         'wait for element [id="\'unpaiedFee\'+i+\'\'"] to be visible',
         'click element [id="\'unpaiedFee\'+i+\'\'"]',
         'click element .button-grb button:nth-child(4)',
         'wait for element [class="govuk-table__cell"] to be visible'
       ],
       wait: 1000,
-      timeout: 70000,
-      chromeLaunchConfig: { slowMo: 500 },
+      timeout: 150000,
+      chromeLaunchConfig: { slowMo: 1500 },
       log: {
         debug: console.log,
         info: console.log
@@ -253,6 +249,7 @@ async function runTest() {
     });
 
     // Mark payment as unidentified
+    console.log('Mark payment as unidentified');
     const pa11yResult10 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
@@ -260,7 +257,8 @@ async function runTest() {
         `set field #password to ${password}`,
         'click element .button',
         'wait for element #ccd-search to be visible',
-        `set field #ccd-search to ${ccdCaseNumber2}`,
+        'click element #DCN',
+        `set field #dcn-search to ${dcnNumber2}`,
         'click element .button',
         'click element .button',
         'wait for element [id="\'unpaiedFee\'+i+\'\'"] to be visible',
@@ -269,8 +267,8 @@ async function runTest() {
         'wait for element [class="govuk-table__cell"] to be visible'
       ],
       wait: 1000,
-      timeout: 70000,
-      chromeLaunchConfig: { slowMo: 500 },
+      timeout: 150000,
+      chromeLaunchConfig: { slowMo: 1500 },
       log: {
         debug: console.log,
         info: console.log
