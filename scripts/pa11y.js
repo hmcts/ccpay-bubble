@@ -7,6 +7,7 @@ const bulkScanApiCalls = require('../acceptance-tests/test/end-to-end/helpers/ut
 
 const email = 'robreallywantsccdaccess@mailinator.com';
 const password = 'Testing1234';
+const totalAmount = 550;
 
 // Generates HTML reporter
 const generateHTMLReport = html => new Promise((resolve, reject) => {
@@ -18,7 +19,6 @@ const generateHTMLReport = html => new Promise((resolve, reject) => {
 
 async function runTest() {
   // Creates a case
-  const totalAmount = 550;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'Cash');
   const dcnNumber = ccdAndDcn[0];
 
@@ -39,11 +39,10 @@ async function runTest() {
       log: {
         debug: console.log,
         info: console.log
-      },
-      screenCapture: './searchCasePage.png'
+      }
     });
 
-    // Reports
+    // Reports page
     const pa11yResult2 = await pa11y('https://paybubble.aat.platform.hmcts.net/payment-history/view?view=reports', {
 
       actions: [
@@ -58,11 +57,10 @@ async function runTest() {
       log: {
         debug: console.log,
         info: console.log
-      },
-      screenCapture: './reportsPage.png'
+      }
     });
 
-    // Search for a fee
+    // Search for a fee page
     const pa11yResult3 = await pa11y('https://paybubble.aat.platform.hmcts.net/fee-search', {
 
       actions: [
@@ -80,11 +78,10 @@ async function runTest() {
       log: {
         debug: console.log,
         info: console.log
-      },
-      screenCapture: './searchForFeePage.png'
+      }
     });
 
-    // Add fee details
+    // Add fee details page
     const pa11yResult4 = await pa11y('https://paybubble.aat.platform.hmcts.net/addFeeDetail', {
 
       actions: [
@@ -99,11 +96,10 @@ async function runTest() {
       log: {
         debug: console.log,
         info: console.log
-      },
-      screenCapture: './addFeeDetailPage.png'
+      }
     });
 
-    // Payment details
+    // Payment details page
     const pa11yResult5 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
@@ -124,11 +120,10 @@ async function runTest() {
       log: {
         debug: console.log,
         info: console.log
-      },
-      screenCapture: './paymentDetailsPage.png'
+      }
     });
 
-    // Case transactions
+    // Case transactions page
     const pa11yResult6 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
@@ -147,11 +142,10 @@ async function runTest() {
       log: {
         debug: console.log,
         info: console.log
-      },
-      screenCapture: './caseTransactionsPage.png'
+      }
     });
 
-    // fee summary
+    // fee summary page
     console.log('fee summary');
     const pa11yResult7 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
@@ -178,8 +172,7 @@ async function runTest() {
       log: {
         debug: console.log,
         info: console.log
-      },
-      screenCapture: './feeSummaryPage.png'
+      }
     });
 
     // eslint-disable-next-line max-len
@@ -207,7 +200,6 @@ async function runTest() {
 
 async function runTest2() {
   // Creates a case
-  const totalAmount = 550;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'Cash');
   const dcnNumber = ccdAndDcn[0];
   const ccdAndDcn2 = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'Cheque');
@@ -245,13 +237,11 @@ async function runTest2() {
       log: {
         debug: console.log,
         info: console.log
-      },
-      screenCapture: './allocateToANewFeePage.png'
+      }
     });
 
 
-    // Mark pay as transferred
-    console.log('Mark pay as transferred');
+    // Mark pay as transferred page
     const pa11yResult2 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
@@ -273,12 +263,10 @@ async function runTest2() {
       log: {
         debug: console.log,
         info: console.log
-      },
-      screenCapture: './markPayAsTransferredPage.png'
+      }
     });
 
-    // Mark payment as unidentified
-    console.log('Mark payment as unidentified');
+    // Mark payment as unidentified page
     const pa11yResult3 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
@@ -301,8 +289,7 @@ async function runTest2() {
       log: {
         debug: console.log,
         info: console.log
-      },
-      screenCapture: './markPayAsUnidentifiedPage.png'
+      }
     });
 
 
