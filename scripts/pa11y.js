@@ -21,11 +21,7 @@ async function runTest() {
   const totalAmount = 550;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'Cash');
   const dcnNumber = ccdAndDcn[0];
-  const ccdAndDcn2 = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'Cheque');
-  const dcnNumber2 = ccdAndDcn2[0];
 
-  console.log(dcnNumber);
-  console.log(dcnNumber2);
   // Pages running the tests
   try {
     // Search case page
@@ -186,8 +182,41 @@ async function runTest() {
       screenCapture: './feeSummaryPage.png'
     });
 
+    // eslint-disable-next-line max-len
+    const pa11yResults = [pa11yResult1, pa11yResult2, pa11yResult3, pa11yResult4, pa11yResult5, pa11yResult6, pa11yResult7];
+
+    for (let index = 0; index < pa11yResults.length; index++) {
+      const pa11yResult = pa11yResults[index];
+
+      console.log(pa11yResult);
+      htmlReporter.results(pa11yResult)
+        .then(htmlResults =>
+          generateHTMLReport(htmlResults)
+            .then(response => {
+              console.log(`Url: ${pa11yResult.pageUrl}`);
+              console.log(`Number of issues: ${pa11yResult.issues.length}`);
+              console.log(`File Status: ${response.message}`);
+              console.log('--');
+            })
+            .catch(console.error));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function runTest2() {
+  // Creates a case
+  const totalAmount = 550;
+  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'Cash');
+  const dcnNumber = ccdAndDcn[0];
+  const ccdAndDcn2 = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'Cheque');
+  const dcnNumber2 = ccdAndDcn2[0];
+
+  // Pages running the tests
+  try {
     // Confirm association page
-    const pa11yResult8 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
+    const pa11yResult1 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
         `set field #username to ${email}`,
@@ -223,7 +252,7 @@ async function runTest() {
 
     // Mark pay as transferred
     console.log('Mark pay as transferred');
-    const pa11yResult9 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
+    const pa11yResult2 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
         `set field #username to ${email}`,
@@ -250,7 +279,7 @@ async function runTest() {
 
     // Mark payment as unidentified
     console.log('Mark payment as unidentified');
-    const pa11yResult10 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
+    const pa11yResult3 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
       actions: [
         `set field #username to ${email}`,
@@ -278,7 +307,7 @@ async function runTest() {
 
 
     // eslint-disable-next-line max-len
-    const pa11yResults = [pa11yResult1, pa11yResult2, pa11yResult3, pa11yResult4, pa11yResult5, pa11yResult6, pa11yResult7, pa11yResult8, pa11yResult9, pa11yResult10];
+    const pa11yResults = [pa11yResult1, pa11yResult2, pa11yResult3];
 
     for (let index = 0; index < pa11yResults.length; index++) {
       const pa11yResult = pa11yResults[index];
@@ -301,3 +330,4 @@ async function runTest() {
 }
 
 runTest();
+runTest2();
