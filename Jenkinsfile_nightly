@@ -43,9 +43,9 @@ withNightlyPipeline("nodejs", product, component) {
   env.NIGHTLY_TEST= true
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  // enableCrossBrowserTest()
-  // enableFullFunctionalTest(90)
-  // enableMutationTest(120)
+  enableCrossBrowserTest()
+  enableFullFunctionalTest(90)
+  enableMutationTest(120)
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
@@ -57,7 +57,7 @@ withNightlyPipeline("nodejs", product, component) {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
   after('crossBrowserTest') {
-     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/reports/**/*'
+     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
 
   after('mutationTest') {
