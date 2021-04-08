@@ -15,7 +15,8 @@ const constants = Object.freeze({
   SECURITY_COOKIE: '__auth-token',
   REDIRECT_COOKIE: '__redirect',
   USER_COOKIE: '__user-info',
-  CSRF_TOKEN: '_csrf'
+  CSRF_TOKEN: '_csrf',
+  PCIPAL_SECURITY_INFO: '__pcipal-info'
 });
 
 const ACCESS_TOKEN_OAUTH2 = 'access_token';
@@ -128,6 +129,20 @@ function invalidateToken(self, req) {
   return request.delete(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret);
 }
+Security.prototype.pcipalForm = function pcipalForm(req, res) {
+  const pcipalData = req.cookies[constants.PCIPAL_SECURITY_INFO];
+  let html = '';
+  html += '<body>';
+  html += `<form action='${pcipalData.url}' enctype='application/x-www-form-urlencoded; charset=utf-8' method='post' name='form1'>`;
+  html += `<input type='hidden' name='X-BEARER-TOKEN' value='${pcipalData.auth}'>`;
+  html += `<input type='hidden' name='X-REFRESH-TOKEN' value='${pcipalData.ref}'>`;
+  html += 'Loading...';
+  html += '</form>';
+  html += '<script>window.onload = function () { document.forms["form1"].submit();}</script>';
+  html += '</body>';
+  res.clearCookie(constants.PCIPAL_SECURITY_INFO);
+  return html;
+};
 
 Security.prototype.logout = function logout() {
   const self = { opts: this.opts };
@@ -145,6 +160,7 @@ Security.prototype.logout = function logout() {
       res.clearCookie(constants.USER_COOKIE);
       res.clearCookie(constants.authToken);
       res.clearCookie(constants.userInfo);
+      res.clearCookie(constants.PCIPAL_SECURITY_INFO);
       if (token) {
         res.redirect(`${self.opts.loginUrl}/logout?jwt=${token}`);
       } else {

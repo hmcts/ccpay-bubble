@@ -8,6 +8,8 @@ const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id'
 const LDprefix = config.get('environment.ldPrefix');
 const user = { key: `${LDprefix}@test.com` };
 
+const constants = Object.freeze({ PCIPAL_SECURITY_INFO: '__pcipal-info' });
+
 class PayhubController {
   constructor() {
     this.payhubService = payhubService;
@@ -68,6 +70,23 @@ class PayhubController {
       })
       .catch(error => {
         res.status(500).json({ err: error.message, success: false });
+      });
+  }
+
+  postPaymentAntennaToPayHub(req, res, appInsights) {
+    return this.payhubService.postPaymentAntennaToPayHub(req, res, appInsights)
+    // eslint-disable-next-line
+    .then(result => {
+        const pcipalData = {
+          url: result._links.next_url.href,
+          auth: result._links.next_url.accessToken,
+          ref: result._links.next_url.refreshToken
+        };
+        res.cookie(constants.PCIPAL_SECURITY_INFO, pcipalData, { httpOnly: true });
+        res.status(200).send('success');
+      })
+      .catch(error => {
+        res.status(500).json({ err: error, success: false });
       });
   }
 

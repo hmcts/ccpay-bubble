@@ -7,10 +7,13 @@ idam:
 session:
   cookieName: SESSION_ID
 environment:
-  ldPrefix: FEprod
+  ldPrefix: FElocal
 ccpaybubble:
   url: https://localhost
   defaultPort: 3000
+  microservice: ccpay_bubble
+pcipalantenna:
+  url: https://paybubble.platform.hmcts.net/ccd-search
   microservice: ccpay_bubble
 s2s:
   url: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
@@ -24,6 +27,7 @@ e2e:
   frontendUrl: https://localhost:4200/
   waitForTimeoutValue: 2600
   waitForActionValue: 2000
+  testForCrossbrowser: false
 certs:
   key: ./localhost-ssl/localhost.key
   crt: ./localhost-ssl/localhost.crt

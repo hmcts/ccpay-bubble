@@ -1,5 +1,6 @@
 'use strict';
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
+const testConfig = require('config');
 
 const { I } = inject();
 
@@ -37,7 +38,9 @@ module.exports = {
     I.see(totalDcn);
     I.see(dcnNumber);
     I.see(amount);
-    I.see(method);
+    if (testConfig.e2e.testForCrossbrowser !== 'true') {
+      I.see(method);
+    }
   },
 
   checkIfBulkScanPaymentsAllocated(dcnNumber) {
@@ -68,7 +71,6 @@ module.exports = {
     I.see('Total remissions');
     I.see('Amount due');
     I.see('Unallocated payments');
-    I.see('Unallocated payments');
     I.see('Select');
     I.see('Payment asset number (DCN)');
     I.see('Banked date');
@@ -91,7 +93,6 @@ module.exports = {
     I.see('Total remissions');
     I.see('Amount due');
     I.see('Unallocated payments');
-    I.see('Unallocated payments');
     I.see('Select');
     I.see('Payment asset number (DCN)');
     I.see('Banked date');
@@ -106,7 +107,9 @@ module.exports = {
     I.see('Amount due');
     I.see('Action');
     I.see(allocationStatus);
-    I.see('Bulk scan');
+    if (testConfig.e2e.testForCrossbrowser !== 'true') {
+      I.see('Bulk scan');
+    }
     I.see('Success');
   },
 
