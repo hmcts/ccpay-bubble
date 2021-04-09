@@ -231,8 +231,10 @@ describe('Fee search component', () => {
     spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
     spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
     await component.ngOnInit();
+    component.isSelectLinkClicked = false;
     component.selectFee(testFixedFlatFee);
     fixture.detectChanges();
+    expect(component.isSelectLinkClicked).toBeTruthy();
     expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
       fees: [{
         code: testFixedFlatFee.code,
