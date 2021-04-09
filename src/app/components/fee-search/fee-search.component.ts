@@ -55,7 +55,7 @@ export class FeeSearchComponent implements OnInit {
 
   selectFee(fee: IFee) {
     if (!this.isSelectLinkClicked) {
-
+      this.isSelectLinkClicked = true;
       const feeType = fee.fee_type;
       const volAmt = fee.current_version['volume_amount'];
       const flatAmt = fee.current_version['flat_amount'];
@@ -71,7 +71,6 @@ export class FeeSearchComponent implements OnInit {
         this.preselectedFee = fee;
         this.showFeeDetails = true;
       } else {
-        this.isSelectLinkClicked = true;
         paymentGroup = {
           fees: [{
             code: fee.code,
