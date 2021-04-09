@@ -71,6 +71,7 @@ export class FeeSearchComponent implements OnInit {
         this.preselectedFee = fee;
         this.showFeeDetails = true;
       } else {
+        this.isSelectLinkClicked = true;
         paymentGroup = {
           fees: [{
             code: fee.code,
@@ -147,13 +148,13 @@ export class FeeSearchComponent implements OnInit {
         });
     } else {
       this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
-        this.isSelectLinkClicked = true;
         // tslint:disable-next-line:max-line-length
         let url = `/payment-history/${this.ccdNo}?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}${this.bulkScanningTxt}`;
         url = url.replace(/[\r\n]+/g, ' ');
         this.router.navigateByUrl(url);
       })
         .catch(err => {
+          this.isSelectLinkClicked = false;
           this.navigateToServiceFailure();
         });
     }
