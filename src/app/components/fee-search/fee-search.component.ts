@@ -59,12 +59,13 @@ export class FeeSearchComponent implements OnInit {
     const percentageAmt = fee.current_version ? fee.current_version['percentage_amount'] : fee.fee_versions['percentage_amount'];
     let paymentGroup;
     const feeDetailsComponent = new FeeDetailsComponent(null, null);
+    alert(feeDetailsComponent.validOldFeesVersions(fee));
 
     if ((feeType === 'fixed' && volAmt)
       || (feeType === 'banded' && flatAmt)
       || (feeType === 'rateable' && flatAmt)
       || (feeType === 'ranged' && percentageAmt)
-      || (this.isDiscontinuedFeatureEnabled && fee.fee_versions.length > 1 && feeDetailsComponent.validOldFeesVersions(fee).length > 1)) {
+      || (this.isDiscontinuedFeatureEnabled && fee.fee_versions.length > 0 && feeDetailsComponent.validOldFeesVersions(fee).length > 0)) {
       this.preselectedFee = fee;
       this.showFeeDetails = true;
     } else if (fee.current_version === undefined
