@@ -15,7 +15,6 @@ export class FilterFeesPipe implements PipeTransform {
 
     if (this.isNumeric(searchFilter)) {
       filteredList = this.filterByNumber(fees, searchFilter);
-      console.log(filteredList);
     } else {
       searchFilter = searchFilter.toLowerCase();
 
@@ -42,13 +41,21 @@ export class FilterFeesPipe implements PipeTransform {
   filterByDescription(fees, filter): IFee[] {
     const filterArray = filter.split(' ');
     return fees.filter((fee: IFee) => {
+      if (this.validOldFeesVersions(fee).length > 0) {
+        fee.discontinued_list = this.validOldFeesVersions(fee);
+      }
       for (let i = 0; i < filterArray.length; i++) {
-        if (!this.isConjunction(filterArray[i])) {
+        if (!this.isConjunction(filterArray[i]) && fee.current_version !== undefined) {
           if (fee.current_version.description.toLowerCase().includes(filterArray[i])) {
             return true;
           }
         }
       }
+      if ( fee.isdiscontinued_fee !== undefined
+        && fee.isdiscontinued_fee === 1) {
+        fee.sort_value = 1;
+        return true;
+    }
       return false;
     });
   }
@@ -199,6 +206,9 @@ export class FilterFeesPipe implements PipeTransform {
 
   filterByFeeCode(fees, filter): IFee[] {
     return fees.filter((fee: IFee) => {
+      if (this.validOldFeesVersions(fee).length > 0) {
+        fee.discontinued_list = this.validOldFeesVersions(fee);
+      }
       if (fee.code !== undefined) {
         return fee.code
           .toLowerCase()
