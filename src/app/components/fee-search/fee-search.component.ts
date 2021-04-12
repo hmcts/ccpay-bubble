@@ -59,8 +59,6 @@ export class FeeSearchComponent implements OnInit {
     const percentageAmt = fee.current_version ? fee.current_version['percentage_amount'] : fee.fee_versions['percentage_amount'];
     let paymentGroup;
     const feeDetailsComponent = new FeeDetailsComponent(null, null);
-    alert(feeDetailsComponent.validOldFeesVersions(fee));
-
     if ((feeType === 'fixed' && volAmt)
       || (feeType === 'banded' && flatAmt)
       || (feeType === 'rateable' && flatAmt)
