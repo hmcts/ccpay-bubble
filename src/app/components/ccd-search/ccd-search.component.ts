@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
-import * as ls from "local-storage";
+import * as ls from 'local-storage';
 
 @Component({
   selector: 'app-ccd-search',
