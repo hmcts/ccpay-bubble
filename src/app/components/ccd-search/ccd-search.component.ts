@@ -43,9 +43,14 @@ export class CcdSearchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(() => {
-      this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'] === 'false' ? null : true ;
-    });
+    this.activatedRoute.params.subscribe(
+      {
+        next: () => {
+          this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'] === 'false' ? null : true ;
+        },
+        error: null
+      }
+ );
     this.paymentGroupService.getBSFeature().then((status) => {
       this.isBulkscanningEnable = status;
     });
@@ -107,22 +112,30 @@ export class CcdSearchComponent implements OnInit {
               this.ccdCaseNumber = '';
             }
             const validRefCheck = this.ccdCaseNumber ? this.ccdCaseNumber : this.excReference;
-            this.caseRefService.validateCaseRef(validRefCheck).subscribe(resp => {
-              ls.set<any>('ccdNumber', this.ccdCaseNumber);
-              this.caseResponse = JSON.parse(resp);
-              if (this.caseResponse.case) {
-                this.caseType = this.ccdCaseNumber ? this.caseResponse.case : this.caseResponse.exception;
-              } else {
-                this.caseType = this.caseResponse['case_type'];
+            this.caseRefService.validateCaseRef(validRefCheck).subscribe(
+              {
+                next: (resp) => {
+                  ls.set<any>('ccdNumber', this.ccdCaseNumber);
+                  this.caseResponse = JSON.parse(resp);
+                },
+                error: () => {
+                  ls.remove('ccdNumber');
+                  this.noCaseFoundInCCD = true;
+                },
+                complete: () => {
+
+                  if (this.caseResponse.case) {
+                    this.caseType = this.ccdCaseNumber ? this.caseResponse.case : this.caseResponse.exception;
+                  } else {
+                    this.caseType = this.caseResponse['case_type'];
+                  }
+                  // tslint:disable-next-line:max-line-length
+                  let url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions`;
+                  url = url.replace(/[\r\n]+/g, ' ');
+                  this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
+                }
               }
-            // tslint:disable-next-line:max-line-length
-            let url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions`;
-            url = url.replace(/[\r\n]+/g, ' ');
-            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
-          }, err => {
-            ls.remove('ccdNumber');
-            this.noCaseFoundInCCD = true;
-          });
+          );
         }
         }).catch(() => {
           ls.remove('ccdNumber');
@@ -133,69 +146,88 @@ export class CcdSearchComponent implements OnInit {
         this.ccdCaseNumber = this.removeHyphenFromString(searchValue);
         this.dcnNumber = null;
         this.caseResponse = null;
-        this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
-          this.caseResponse = JSON.parse(resp);
-          this.noCaseFoundInCCD = false;
-          // tslint:disable-next-line:max-line-length
-          let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
-          url = url.replace(/[\r\n]+/g, ' ');
-          this.paymentGroupService.getBSPaymentsByCCD(this.ccdCaseNumber).then( result => {
-
-            if (this.caseResponse.case) {
-              this.caseType = this.caseResponse.case;
-            } else {
-              this.caseType = this.caseResponse['case_type'];
-            }
-
-            this.errorMessage = this.getErrorMessage(false);
-            if (result['data'] && result['data'].exception_record_reference && result['data'].ccd_reference) {
-              if (this.caseResponse.case) {
-                this.caseType = this.caseResponse.exception;
-              }
-              this.ccdCaseNumber = result['data'].ccd_reference;
-            }
-            ls.set<any>('ccdNumber', this.ccdCaseNumber);
-            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
-          }).catch((e) => {
-            ls.remove('ccdNumber');
-            window.scrollTo(0, 0);
-            this.errorMessage = this.getErrorMessage(true);
-          });
-
-        }, err => {
-          ls.remove('ccdNumber');
-         this.noCaseFoundInCCD = true;
-        });
-      } else if (this.selectedValue.toLocaleLowerCase() === 'rc') {
-        this.caseResponse = null;
-        this.noCaseFound = false;
-        this.viewPaymentService.getPaymentDetail(searchValue).subscribe((res) => {
-          if (res['ccd_case_number'] || res['case_reference']) {
-            this.ccdCaseNumber = res['ccd_case_number'] ? res['ccd_case_number'] : res['case_reference'];
-            this.dcnNumber = null;
-            this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(resp => {
+        this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(
+          {
+            next: (resp) => {
               this.caseResponse = JSON.parse(resp);
-              this.noCaseFound = false;
-              if (this.caseResponse.case) {
-                this.caseType = res['ccd_case_number']  ? this.caseResponse.case : this.caseResponse.exception;
-              } else {
-                this.caseType = this.caseResponse['case_type'];
-              }
-              ls.set<any>('ccdNumber', this.ccdCaseNumber);
+              this.noCaseFoundInCCD = false;
+            },
+            error: () => {
+              ls.remove('ccdNumber');
+              this.noCaseFoundInCCD = true;
+            },
+            complete: () => {
+
               // tslint:disable-next-line:max-line-length
               let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
               url = url.replace(/[\r\n]+/g, ' ');
+              this.paymentGroupService.getBSPaymentsByCCD(this.ccdCaseNumber).then( result => {
+
+              if (this.caseResponse.case) {
+                this.caseType = this.caseResponse.case;
+              } else {
+                this.caseType = this.caseResponse['case_type'];
+              }
+
+              this.errorMessage = this.getErrorMessage(false);
+              if (result['data'] && result['data'].exception_record_reference && result['data'].ccd_reference) {
+                if (this.caseResponse.case) {
+                  this.caseType = this.caseResponse.exception;
+                }
+                this.ccdCaseNumber = result['data'].ccd_reference;
+              }
+              ls.set<any>('ccdNumber', this.ccdCaseNumber);
               this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
-              }, err => {
+            }).catch((e) => {
               ls.remove('ccdNumber');
-              this.noCaseFound = true;
+              window.scrollTo(0, 0);
+              this.errorMessage = this.getErrorMessage(true);
             });
+
           }
-          }, err => {
-            ls.remove('ccdNumber');
-            this.noCaseFoundInCCD = true;
+          }
+        );
+      } else if (this.selectedValue.toLocaleLowerCase() === 'rc') {
+        this.caseResponse = null;
+        this.noCaseFound = false;
+        this.viewPaymentService.getPaymentDetail(searchValue).subscribe(
+          {
+            next: (res) => {
+              if (res['ccd_case_number'] || res['case_reference']) {
+                this.ccdCaseNumber = res['ccd_case_number'] ? res['ccd_case_number'] : res['case_reference'];
+                this.dcnNumber = null;
+                this.caseRefService.validateCaseRef(this.ccdCaseNumber).subscribe(
+                  {
+                    next: (resp) => {
+                      this.caseResponse = JSON.parse(resp);
+                      this.noCaseFound = false;
+                    },
+                    error: () => {
+                      ls.remove('ccdNumber');
+                      this.noCaseFound = true;
+                    },
+                    complete: () => {
+
+                      if (this.caseResponse.case) {
+                      this.caseType = res['ccd_case_number']  ? this.caseResponse.case : this.caseResponse.exception;
+                      } else {
+                      this.caseType = this.caseResponse['case_type'];
+                      }
+                      ls.set<any>('ccdNumber', this.ccdCaseNumber);
+                      // tslint:disable-next-line:max-line-length
+                      let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+                      url = url.replace(/[\r\n]+/g, ' ');
+                      this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
+                    }
+                  });
+              }
+            },
+            error: () => {
+              ls.remove('ccdNumber');
+              this.noCaseFoundInCCD = true;
+            }
           });
-      } else  {
+    } else  {
         ls.remove('ccdNumber');
       return this.hasErrors = true;
     }

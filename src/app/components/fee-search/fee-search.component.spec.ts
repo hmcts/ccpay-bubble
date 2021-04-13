@@ -18,6 +18,7 @@ describe('Fee search component', () => {
     activatedRoute: any,
     router: Router,
     testFixedFlatFee: any,
+    testFixedFlatFee1: any,
     testFixedVolumeFee: any,
     testBandedFlatFee: any,
     testRateableFlatFee: any,
@@ -42,6 +43,62 @@ describe('Fee search component', () => {
         description: 'test-description'
       },
       'fee_versions': [
+        {
+          description: 'test fee version description',
+          status: 'approved',
+          author: '126172',
+          approvedBy: '126175',
+          version: 1,
+          valid_from: '2014-04-21T00:00:00.000+0000',
+          valid_to: '2014-04-21T00:00:00.000+0000',
+          flat_amount: {
+            'amount': 100
+          },
+          memo_line: 'test memo line',
+          statutory_instrument: 'test instrument ',
+          si_ref_id: 'test ref id',
+          natural_account_code: 'test nac',
+          fee_order_name: 'test fee order name',
+          direction: 'cost recovery'
+        }
+      ],
+      ccdCaseNumber: '1111-2222-3333-4444',
+      jurisdiction1: { name: 'test-jurisdiction1' },
+      jurisdiction2: { name: 'test-jurisdiction2' },
+    };
+
+    testFixedFlatFee1 = {
+      code: 'test-code',
+      fee_type: 'fixed',
+      'current_version': {
+        version: 1,
+        calculatedAmount: 1234,
+        memo_line: 'test-memoline',
+        natural_account_code: '1234-1234-1234-1234',
+        flat_amount: {
+          amount: '1234'
+        },
+        description: 'test-description'
+      },
+      'fee_versions': [
+        {
+          description: 'test fee version description',
+          status: 'approved',
+          author: '126172',
+          approvedBy: '126175',
+          version: 1,
+          valid_from: '2014-04-21T00:00:00.000+0000',
+          valid_to: '2014-04-21T00:00:00.000+0000',
+          flat_amount: {
+            'amount': 100
+          },
+          memo_line: 'test memo line',
+          statutory_instrument: 'test instrument ',
+          si_ref_id: 'test ref id',
+          natural_account_code: 'test nac',
+          fee_order_name: 'test fee order name',
+          direction: 'cost recovery'
+        },
         {
           description: 'test fee version description',
           status: 'approved',
@@ -183,9 +240,6 @@ describe('Fee search component', () => {
         }
       };
     activatedRoute = {
-      params: {
-        subscribe: (fun) => fun()
-      },
       snapshot: {
         queryParams: {
           ccdCaseNumber: '1234-1234-1234-1234',
