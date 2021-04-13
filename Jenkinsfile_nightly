@@ -12,6 +12,7 @@ properties([
 
 def product = "ccpay"
 def component = "bubble-frontend"
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 def secrets = [
   'ccpay-${env}': [
@@ -42,12 +43,30 @@ withNightlyPipeline("nodejs", product, component) {
   env.NIGHTLY_TEST= true
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
+  enableCrossBrowserTest()
   enableFullFunctionalTest(90)
+  enableMutationTest(120)
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
   }
   after('build') {
     sh 'yarn ng:build'
+    sh 'chmod +x bin/run-mutation-tests.sh'
+    yarnBuilder.yarn('test:a11y')
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+  }
+  after('crossBrowserTest') {
+     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+  }
+
+  after('mutationTest') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/mutation-reports/**/*'
+    publishHTML target: [
+      reportDir            : "functional-output/mutation-reports/",
+      reportFiles          : "index.html",
+      reportName           : "PayBubble Mutation tests",
+      alwaysLinkToLastBuild: true
+    ]
   }
 }
