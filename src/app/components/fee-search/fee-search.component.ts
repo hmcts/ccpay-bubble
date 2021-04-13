@@ -31,23 +31,20 @@ export class FeeSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe((params) => {
-      this.ccdNo = this.activatedRoute.snapshot.queryParams['ccdCaseNumber'];
-      this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
-      this.dcnNo = this.activatedRoute.snapshot.queryParams['dcn'];
-      this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
-      this.bulkScanningTxt = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable' ?
-                                  '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
-      this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable' ?
-                                  '&isTurnOff=Enable' : '&isTurnOff=Disable';
-      this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable' ?
-                                  '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
-      this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isOldPcipalOff'] === 'Enable' ?
-                                  '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
-      this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable' ?
-                                  '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
-    });
-
+    this.ccdNo = this.activatedRoute.snapshot.queryParams['ccdCaseNumber'];
+    this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
+    this.dcnNo = this.activatedRoute.snapshot.queryParams['dcn'];
+    this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
+    this.bulkScanningTxt = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable' ?
+                                '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
+    this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable' ?
+                                '&isTurnOff=Enable' : '&isTurnOff=Disable';
+    this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable' ?
+                                '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
+    this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isOldPcipalOff'] === 'Enable' ?
+                                '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
+    this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable' ?
+                                '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
     this.paymentGroupService.getDiscontinuedFrFeature().then((status) => {
       this.isDiscontinuedFeatureEnabled = status;
     });
@@ -62,12 +59,12 @@ export class FeeSearchComponent implements OnInit {
       const percentageAmt = fee.current_version['percentage_amount'];
       let paymentGroup;
       const feeDetailsComponent = new FeeDetailsComponent(null, null);
+      const feeAmountLogic = (feeType === 'fixed' && volAmt) || (feeType === 'banded' && flatAmt) 
+                       || (feeType === 'rateable' && flatAmt) || (feeType === 'ranged' && percentageAmt);
+      const feeversionLogic = this.isDiscontinuedFeatureEnabled && fee.fee_versions.length > 1 
+                              && feeDetailsComponent.validOldFeesVersions(fee).length > 1;
 
-      if ((feeType === 'fixed' && volAmt)
-        || (feeType === 'banded' && flatAmt)
-        || (feeType === 'rateable' && flatAmt)
-        || (feeType === 'ranged' && percentageAmt)
-        || (this.isDiscontinuedFeatureEnabled && fee.fee_versions.length > 1 && feeDetailsComponent.validOldFeesVersions(fee).length > 1)) {
+      if (feeAmountLogic || feeversionLogic) {
         this.preselectedFee = fee;
         this.showFeeDetails = true;
       } else {

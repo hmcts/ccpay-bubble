@@ -240,9 +240,6 @@ describe('Fee search component', () => {
         }
       };
     activatedRoute = {
-      params: {
-        subscribe: (fun) => fun()
-      },
       snapshot: {
         queryParams: {
           ccdCaseNumber: '1234-1234-1234-1234',
