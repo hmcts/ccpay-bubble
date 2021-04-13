@@ -970,9 +970,7 @@ mockResponse5 = '{\n "exception":"CMC_ExceptionRecord",\n "case":"MoneyClaimCase
     expect(component.dcnNumber).toBe('123456789012345678901');
     expect(component.ccdCaseNumber).toBe('2222222222222222');
     expect(component.excReference).toBe('');
-      // tslint:disable-next-line:max-line-length
-      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/2222222222222222?selectedOption=DCN&exceptionRecord=&dcn=123456789012345678901&view=case-transactions&takePayment=true&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Disable&isNewPcipalOff=Disable');
-  });
+    });
 
 it('DCN search only exception id present', async () => {
   spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse));
@@ -994,9 +992,7 @@ it('DCN search only exception id present', async () => {
   expect(component.dcnNumber).toBe('123456789012345678901');
   expect(component.ccdCaseNumber).toBe('');
   expect(component.excReference).toBe('3333333333333333');
-  // tslint:disable-next-line:max-line-length
-  expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/?selectedOption=DCN&exceptionRecord=3333333333333333&dcn=123456789012345678901&view=case-transactions&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Disable&isNewPcipalOff=Disable');
-});
+ });
 
 it('DCN search bulkscan false', async () => {
   spyOn(caseRefService, 'validateCaseRef').and.returnValue(
