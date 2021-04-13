@@ -29,9 +29,10 @@ export class CcdSearchComponent implements OnInit {
   errorMessage = this.getErrorMessage(false);
   isStrategicFixEnable: boolean;
   isTurnOff: boolean;
+  caseResponse: any;
   isOldPcipalOff: boolean;
   isNewPcipalOff: boolean;
-  caseResponse: any;
+
   constructor(
     private paymentGroupService: PaymentGroupService,
     private formBuilder: FormBuilder,
@@ -87,11 +88,11 @@ export class CcdSearchComponent implements OnInit {
       if (this.searchForm.controls['searchInput'].valid) {
       this.hasErrors = false;
       const searchValue = this.searchForm.get('searchInput').value;
-      let partUrl = this.isBulkscanningEnable ? '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
-        partUrl += this.isStrategicFixEnable ? '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
-        partUrl += this.isTurnOff ? '&isTurnOff=Enable' : '&isTurnOff=Disable';
-        partUrl += this.isOldPcipalOff ? '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
-        partUrl += this.isNewPcipalOff ? '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
+      let bsEnableUrl = this.isBulkscanningEnable ? '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
+       bsEnableUrl += this.isStrategicFixEnable ? '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
+       bsEnableUrl += this.isTurnOff ? '&isTurnOff=Enable' : '&isTurnOff=Disable';
+       bsEnableUrl += this.isOldPcipalOff ? '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
+       bsEnableUrl += this.isNewPcipalOff ? '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
 
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
         this.caseResponse = null;
@@ -107,7 +108,7 @@ export class CcdSearchComponent implements OnInit {
             }
             const validRefCheck = this.ccdCaseNumber ? this.ccdCaseNumber : this.excReference;
             this.caseRefService.validateCaseRef(validRefCheck).subscribe(resp => {
-              ls.set<any>('ccdNumber', validRefCheck);
+              ls.set<any>('ccdNumber', this.ccdCaseNumber);
               this.caseResponse = JSON.parse(resp);
               if (this.caseResponse.case) {
                 this.caseType = this.ccdCaseNumber ? this.caseResponse.case : this.caseResponse.exception;
@@ -154,7 +155,7 @@ export class CcdSearchComponent implements OnInit {
               this.ccdCaseNumber = result['data'].ccd_reference;
             }
             ls.set<any>('ccdNumber', this.ccdCaseNumber);
-            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${partUrl}`);
+            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
           }).catch((e) => {
             ls.remove('ccdNumber');
             window.scrollTo(0, 0);
@@ -182,8 +183,9 @@ export class CcdSearchComponent implements OnInit {
               }
               ls.set<any>('ccdNumber', this.ccdCaseNumber);
               // tslint:disable-next-line:max-line-length
-              const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
-              this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${partUrl}`);
+              let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+              url = url.replace(/[\r\n]+/g, ' ');
+              this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
               }, err => {
               ls.remove('ccdNumber');
               this.noCaseFound = true;

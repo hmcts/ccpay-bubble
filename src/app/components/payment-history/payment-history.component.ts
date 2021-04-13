@@ -20,6 +20,9 @@ export class PaymentHistoryComponent implements OnInit {
   isStrategicFixEnable: boolean;
   isTurnOff: boolean;
   caseType: string;
+  isOldPcipalOff: boolean;
+  isNewPcipalOff: boolean;
+
   constructor(
     private activatedRoute: ActivatedRoute
     ) { }
