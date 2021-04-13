@@ -1,4 +1,6 @@
 'use strict';
+const testConfig = require('config');
+
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 
 const PaybubbleStaticData = require('../pages/paybubble_static_data');
@@ -87,7 +89,9 @@ module.exports = {
     I.see(amount);
     I.see(dcnNumber);
     I.see(status);
-    I.see(paymentMethod);
+    if (testConfig.e2e.testForCrossbrowser !== 'true') {
+      I.see(paymentMethod);
+    }
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
   },
@@ -98,6 +102,8 @@ module.exports = {
     I.see(receiptReference);
     I.see(amount);
     I.see(dcnNumber);
-    I.see(paymentMethod);
+    if (testConfig.e2e.testForCrossbrowser !== 'true') {
+      I.see(paymentMethod);
+    }
   }
 };
