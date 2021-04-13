@@ -630,9 +630,6 @@ mockResponse4 = {
     expect(component.dcnNumber).toBe(null);
     expect(component.ccdCaseNumber).toBe('1111222233334444');
     expect(component.noCaseFound).toBeFalsy();
-    // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable&isOldPcipalOff=Disable&isNewPcipalOff=Disable');
-
     component.ngOnInit();
     component.dcnNumber = '';
     component.ccdCaseNumber = '';
@@ -652,9 +649,7 @@ mockResponse4 = {
     expect(component.dcnNumber).toBe('');
     expect(component.ccdCaseNumber).toBe('');
     expect(component.noCaseFound).toBeFalsy();
-    // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable&isOldPcipalOff=Disable&isNewPcipalOff=Disable');
-  });
+     });
 });
 
 
