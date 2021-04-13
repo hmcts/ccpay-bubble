@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
+import * as ls from "local-storage";
 
 @Component({
   selector: 'app-ccd-search',
@@ -29,6 +30,10 @@ export class CcdSearchComponent implements OnInit {
   isStrategicFixEnable: boolean;
   isTurnOff: boolean;
   caseResponse: any;
+  isOldPcipalOff: boolean;
+  isNewPcipalOff: boolean;
+
+
 
   constructor(
     private paymentGroupService: PaymentGroupService,
@@ -51,6 +56,12 @@ export class CcdSearchComponent implements OnInit {
     });
     this.paymentGroupService.getLDFeature('apportion-feature').then((status) => {
       this.isTurnOff = status;
+    });
+    this.paymentGroupService.getLDFeature('FE-pcipal-old-feature').then((status) => {
+      this.isOldPcipalOff = status;
+    });
+    this.paymentGroupService.getLDFeature('FE-pcipal-antenna-feature').then((status) => {
+      this.isNewPcipalOff = status;
     });
     this.fromValidation();
    }
@@ -80,8 +91,11 @@ export class CcdSearchComponent implements OnInit {
       this.hasErrors = false;
       const searchValue = this.searchForm.get('searchInput').value;
       let bsEnableUrl = this.isBulkscanningEnable ? '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
-        bsEnableUrl += this.isStrategicFixEnable ? '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
-        bsEnableUrl += this.isTurnOff ? '&isTurnOff=Enable' : '&isTurnOff=Disable';
+       bsEnableUrl += this.isStrategicFixEnable ? '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
+       bsEnableUrl += this.isTurnOff ? '&isTurnOff=Enable' : '&isTurnOff=Disable';
+       bsEnableUrl += this.isOldPcipalOff ? '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
+       bsEnableUrl += this.isNewPcipalOff ? '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
+
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
         this.caseResponse = null;
         this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((res) => {
@@ -96,6 +110,7 @@ export class CcdSearchComponent implements OnInit {
             }
             const validRefCheck = this.ccdCaseNumber ? this.ccdCaseNumber : this.excReference;
             this.caseRefService.validateCaseRef(validRefCheck).subscribe(resp => {
+              ls.set<any>('ccdNumber', this.ccdCaseNumber);
               this.caseResponse = JSON.parse(resp);
               if (this.caseResponse.case) {
                 this.caseType = this.ccdCaseNumber ? this.caseResponse.case : this.caseResponse.exception;
@@ -107,10 +122,12 @@ export class CcdSearchComponent implements OnInit {
             url = url.replace(/[\r\n]+/g, ' ');
             this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
           }, err => {
+            ls.remove('ccdNumber');
             this.noCaseFoundInCCD = true;
           });
         }
         }).catch(() => {
+          ls.remove('ccdNumber');
           this.noCaseFound = true;
         });
 
@@ -139,13 +156,16 @@ export class CcdSearchComponent implements OnInit {
               }
               this.ccdCaseNumber = result['data'].ccd_reference;
             }
+            ls.set<any>('ccdNumber', this.ccdCaseNumber);
             this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
           }).catch((e) => {
+            ls.remove('ccdNumber');
             window.scrollTo(0, 0);
             this.errorMessage = this.getErrorMessage(true);
           });
 
         }, err => {
+         ls.remove('ccdNumber');
          this.noCaseFoundInCCD = true;
         });
       } else if (this.selectedValue.toLocaleLowerCase() === 'rc') {
@@ -163,20 +183,25 @@ export class CcdSearchComponent implements OnInit {
               } else {
                 this.caseType = this.caseResponse['case_type'];
               }
+              ls.set<any>('ccdNumber', this.ccdCaseNumber);
               // tslint:disable-next-line:max-line-length
-              const url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+              let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+              url = url.replace(/[\r\n]+/g, ' ');
               this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
               }, err => {
               this.noCaseFound = true;
             });
           }
           }, err => {
+            ls.remove('ccdNumber');
             this.noCaseFoundInCCD = true;
           });
       } else  {
+      ls.remove('ccdNumber');
       return this.hasErrors = true;
     }
   } else {
+    ls.remove('ccdNumber');
     return this.hasErrors = true;
   }
 }

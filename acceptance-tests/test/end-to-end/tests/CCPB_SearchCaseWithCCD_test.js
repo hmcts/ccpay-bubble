@@ -10,7 +10,7 @@ const logger = Logger.getLogger('CCPB_SearchCaseWithCCD_test.js');
 
 const successResponse = 202;
 
-Feature('CC Pay Bubble Acceptance Tests');
+Feature('CC Pay Bubble Acceptance Tests').retry(CCPBATConstants.retryScenario);
 
 BeforeSuite(async I => {
   const response = await bulkScanApiCalls.toggleOffCaseValidation();
@@ -41,21 +41,21 @@ Scenario('Search for a case with actual case number from CCD @nightly', async I 
     await I.searchForCorrectCCDNumber();
     I.Logout();
   }
-}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
+});
 
-Scenario('Search for a case with actual case for Telephony flow @nightly @pipeline', async I => {
+Scenario('Search for a case with actual case for Telephony flow @nightly', async I => {
   if (nightlyTest) {
     I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
     await I.caseforTelephonyFlow();
     I.Logout();
   }
-}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
+});
 
 Scenario('Amount Due case for Telephony flow @nightly @pipeline', async I => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   await I.AmountDueCaseForTelephonyFlow();
   I.Logout();
-}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
+});
 
 Scenario('Remove fee from case transaction page Telephony flow @nightly', async I => {
   if (nightlyTest) {
@@ -63,9 +63,9 @@ Scenario('Remove fee from case transaction page Telephony flow @nightly', async 
     await I.removeFeeFromCaseTransactionPageTelephonyFlow();
     I.Logout();
   }
-}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
+});
 
-Scenario('Search for a case with dummy case number @nightly', async I => {
+Scenario('Search for a case with dummy case number @nightly @pipeline', async I => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   const responseOn = await bulkScanApiCalls.toggleOnCaseValidation();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -74,4 +74,4 @@ Scenario('Search for a case with dummy case number @nightly', async I => {
   }
   await I.searchForCCDdummydata();
   I.Logout();
-}).retry({ retries: CCPBATConstants.retryScenario, maxTimeout: CCPBATConstants.maxTimeout });
+});

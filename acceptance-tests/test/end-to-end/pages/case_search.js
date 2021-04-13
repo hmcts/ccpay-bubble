@@ -11,7 +11,7 @@ module.exports = {
     dcn_field: { xpath: '//*[@id="dcn-search"]' },
     payment_option: { xpath: '//*[@id="RC"]' },
     payment_ref_ield: { xpath: '//*[@id="RC-search"]' },
-    header: { xpath: '//h1' },
+    header: { xpath: '//h3' },
     case_transaction_link: { xpath: '//*[@id="ccd-search-link"]' }
 
   },
