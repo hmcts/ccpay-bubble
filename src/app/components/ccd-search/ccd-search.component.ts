@@ -118,7 +118,7 @@ export class CcdSearchComponent implements OnInit {
             // tslint:disable-next-line:max-line-length
             let url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions`;
             url = url.replace(/[\r\n]+/g, ' ');
-            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${partUrl}`);
+            this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
           }, err => {
             ls.remove('ccdNumber');
             this.noCaseFoundInCCD = true;

@@ -48,9 +48,6 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postPartialRemission(req, res, appInsights);
   })
 
-  .post('/payment-history/payment-groups/:paymentGroup/card-payments', (req, res) => {
-    controllers.payhubController.postPaymentGroupToPayHub(req, res, appInsights);
-  })
   .post('/payment-history/payment-groups/:paymentGroup/telephony-card-payments', (req, res) => {
     controllers.payhubController.postPaymentAntennaToPayHub(req, res, appInsights);
   })
@@ -65,13 +62,10 @@ module.exports = appInsights => express.Router()
   .post('/payment-history/payment-groups/:paymentGroup/telephony-card-payments', (req, res) => {
     controllers.payhubController.postPaymentAntennaToPayHub(req, res, appInsights);
   })
-<<<<<<< HEAD
 
   .post('/payment-history/payment-groups/:paymentGroup/bulk-scan-payments', (req, res) => {
     controllers.payhubController.postAllocatePayment(req, res, appInsights);
   })
-=======
->>>>>>> 5833bcfc6df1a1607e7029ff549a1e91a74b1e00
 
   .post('/payment-history/payment-groups/bulk-scan-payments', (req, res) => {
     controllers.payhubController.postBSPayments(req, res, appInsights);
