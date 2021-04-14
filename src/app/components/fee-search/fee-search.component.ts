@@ -61,10 +61,9 @@ export class FeeSearchComponent implements OnInit {
       const feeDetailsComponent = new FeeDetailsComponent(null, null);
       const feeAmountLogic = (feeType === 'fixed' && volAmt) || (feeType === 'banded' && flatAmt)
                        || (feeType === 'rateable' && flatAmt) || (feeType === 'ranged' && percentageAmt);
-      const feeversionLogic = this.isDiscontinuedFeatureEnabled && fee.fee_versions.length > 1
-                              && feeDetailsComponent.validOldFeesVersions(fee).length > 1;
-
-      if (feeAmountLogic || feeversionLogic) {
+      if (feeAmountLogic
+        || (this.isDiscontinuedFeatureEnabled && fee.fee_versions.length > 1
+        && feeDetailsComponent.validOldFeesVersions(fee).length > 1)) {
         this.preselectedFee = fee;
         this.showFeeDetails = true;
       } else {
