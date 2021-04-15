@@ -82,11 +82,11 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline
   Remission.confirmprocessRemission();
   FeesSummary.verifyFeeSummaryAfterRemissionBulkScan('FEE0002', '£100.00', '£450.00');
   FeesSummary.addFeeFromSummary();
-  AddFees.addFees('100.00', 'civil', 'magistrates_court');
-  FeesSummary.verifyFeeSummaryBulkScan('FEE0059');
+  AddFees.addFees('19.00', 'civil', 'magistrates_court');
+  FeesSummary.verifyFeeSummaryBulkScan('FEE0362');
   FeesSummary.allocateBulkPayment();
   ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '£550.00', '£550.00');
-  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0059', '£550.00', '£100.00');
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0362', '£550.00', '£19.00');
   ConfirmAssociation.confirmPayment();
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'CCD reference', 'Allocated');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
