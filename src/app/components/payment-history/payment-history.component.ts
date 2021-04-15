@@ -37,6 +37,8 @@ export class PaymentHistoryComponent implements OnInit {
             this.ccdCaseNumber = params['ccdCaseNumber'];
             this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
             this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
+            this.isOldPcipalOff = this.activatedRoute.snapshot.queryParams['isOldPcipalOff'] === 'Enable';
+            this.isNewPcipalOff = this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable';
             this.isTurnOff = this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable';
             this.excReference = this.activatedRoute.snapshot.queryParams['exceptionRecord'];
             this.view = this.activatedRoute.snapshot.queryParams['view'];
