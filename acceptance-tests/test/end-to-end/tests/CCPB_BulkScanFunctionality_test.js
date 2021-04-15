@@ -64,14 +64,14 @@ Scenario('Normal ccd case cash payment full allocation @nightly', async(I, CaseS
 
 Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  const totalAmount = 550;
+  const totalAmount = 469;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'Cheque');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
-  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£550.00', 'Cheque');
+  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£469.00', 'Cheque');
   CaseTransaction.allocateToNewFee();
   AddFees.addFees('550.00', 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
@@ -85,8 +85,8 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline
   AddFees.addFees('19.00', 'civil', 'magistrates_court');
   FeesSummary.verifyFeeSummaryBulkScan('FEE0362');
   FeesSummary.allocateBulkPayment();
-  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '£550.00', '£550.00');
-  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0362', '£550.00', '£19.00');
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '£469.00', '£550.00');
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0362', '£469.00', '£19.00');
   ConfirmAssociation.confirmPayment();
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'CCD reference', 'Allocated');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
