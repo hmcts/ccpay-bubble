@@ -68,8 +68,8 @@ export class FeeSearchComponent implements OnInit {
       this.showFeeDetails = true;
     } else if (fee.current_version === undefined
       && this.isDiscontinuedFeatureEnabled
-      && fee.fee_versions.length === 1
-      && feeDetailsComponent.validOldFeesVersions(fee).length === 1) {
+      && fee.fee_versions.length > 0
+      && feeDetailsComponent.validOldFeesVersions(fee).length > 0) {
       this.preselectedFee = fee;
       this.showFeeDetails = true;
     } else if (fee.current_version !== undefined) {

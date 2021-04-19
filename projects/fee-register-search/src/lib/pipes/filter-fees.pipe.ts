@@ -124,7 +124,7 @@ export class FilterFeesPipe implements PipeTransform {
     let validOldVersionArray: IVersion[] = [];
 
     if ((feesObject.current_version !== undefined && feesObject.fee_versions.length > 1)
-        || (feesObject.current_version === undefined && feesObject.fee_versions.length === 1)) {
+        || (feesObject.current_version === undefined && feesObject.fee_versions.length > 0)) {
       /* sort based on valid from */
       feesObject.fee_versions = feesObject.fee_versions.
         filter(feesVersion => feesVersion.status === 'approved')
@@ -162,7 +162,7 @@ export class FilterFeesPipe implements PipeTransform {
     }
 
   if ((feesObject.current_version !== undefined && validOldFeeVersionArray.length > 1)
-  || (feesObject.current_version === undefined && validOldFeeVersionArray.length === 1)) {
+  || (feesObject.current_version === undefined && validOldFeeVersionArray.length > 0)) {
       validOldVersionArray = validOldFeeVersionArray.filter(feesVersion => this.getValidFeeVersionsBasedOnDate(feesVersion));
       return validOldVersionArray;
     } else {

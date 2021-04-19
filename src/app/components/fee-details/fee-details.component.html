@@ -43,7 +43,47 @@
     </div>
 
 </main>
+<main *ngIf="validOldVersionArray.length > 0 && !fee.current_version">
+  dddd
+  <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
+  <p class="form-hint">{{ fee.discontinued_list[0].description }}</p>
+  <input #myInput type='hidden' id='iFrameDrivenImageValue' value='FEEVERSION'>
 
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        When was this application received?
+      </legend>
+
+      <div
+        *ngFor="let feeVersion of validOldVersionArray; index as i; let firstversion = first; let lastversion = last"
+        class="govuk-radios">
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="{{ 'fee-version' + i }}" name="fee-version" type="radio"
+            value="feeVersion" aria-describedby="fee-version-item-hint" (click)="getSelectedFeesVersion(feeVersion)">
+            <label  *ngIf="firstversion && !lastversion && validOldVersionArray.length > 0" class="govuk-label govuk-radios__label"
+            style="font-size: 16px;" for="current-version">
+            On or after {{ feeVersion.valid_from | date: 'd MMMM y' }}
+          </label>
+            <label *ngIf="!firstversion && validOldVersionArray.length > 1 && !lastversion" class="govuk-label govuk-radios__label"
+              style="font-size: 16px;" for="fee-version">
+              Between {{ feeVersion.valid_from | date: 'd MMMM'  }} and {{ feeVersion.valid_to | date: 'd MMMM y' }}
+            </label>
+              <label *ngIf="!firstversion && (validOldVersionArray.length === 1 || validOldVersionArray.length > 1) && lastversion"class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
+                Before {{ feeVersion.valid_to | date: 'd MMMM y' }}
+              </label>
+            <span id="{{ 'fee-version-item-hint' + i }}" class="govuk-hint govuk-radios__hint"
+              style="font-size: 16px;">
+              Use the old
+              £ {{ getAmountFromFeeVersion(feeVersion) }} fee
+            </span>
+        </div>
+
+      </div>
+    </fieldset>
+  </div>
+
+</main>
 <main *ngIf="validOldVersionArray.length > 0 && fee.current_version">
     <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
     <p class="form-hint">{{ fee.current_version.description }}</p>
