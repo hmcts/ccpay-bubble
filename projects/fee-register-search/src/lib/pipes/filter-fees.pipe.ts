@@ -44,6 +44,12 @@ export class FilterFeesPipe implements PipeTransform {
       if (this.validOldFeesVersions(fee).length > 0) {
         fee.discontinued_list = this.validOldFeesVersions(fee);
       }
+      if (fee.current_version !== undefined &&
+        ((fee.current_version.flat_amount && fee.current_version.flat_amount.amount)
+        || (fee.current_version.volume_amount && fee.current_version.volume_amount.amount)
+        || (fee.current_version.percentage_amount && fee.current_version.percentage_amount.percentage))) {
+        fee.isCurrentAmount_available = 1;
+      }
       for (let i = 0; i < filterArray.length; i++) {
         if (!this.isConjunction(filterArray[i]) && fee.current_version !== undefined) {
           if (fee.current_version.description.toLowerCase().includes(filterArray[i])) {
@@ -164,10 +170,23 @@ export class FilterFeesPipe implements PipeTransform {
   if ((feesObject.current_version !== undefined && validOldFeeVersionArray.length > 1)
   || (feesObject.current_version === undefined && validOldFeeVersionArray.length > 0)) {
       validOldVersionArray = validOldFeeVersionArray.filter(feesVersion => this.getValidFeeVersionsBasedOnDate(feesVersion));
-      return validOldVersionArray;
+      if (feesObject.current_version === undefined) {
+        return validOldVersionArray;
+      }
+      return this.removeCurrentFeeFromFeeversion(validOldVersionArray, feesObject.current_version);
     } else {
       return validOldVersionArray = [];
     }
+  }
+
+  removeCurrentFeeFromFeeversion(validOldFeeVersionArray, currentVersion) {
+
+    return validOldFeeVersionArray.filter(feesVersion => {
+      if (JSON.stringify(feesVersion) === JSON.stringify(currentVersion)) {
+        return false;
+      }
+      return true;
+    });
   }
 
   getValidFeeVersionsBasedOnDate(feeVersion: IVersion) {
@@ -208,6 +227,12 @@ export class FilterFeesPipe implements PipeTransform {
     return fees.filter((fee: IFee) => {
       if (this.validOldFeesVersions(fee).length > 0) {
         fee.discontinued_list = this.validOldFeesVersions(fee);
+      }
+      if (fee.current_version !== undefined &&
+        ((fee.current_version.flat_amount && fee.current_version.flat_amount.amount)
+        || (fee.current_version.volume_amount && fee.current_version.volume_amount.amount)
+        || (fee.current_version.percentage_amount && fee.current_version.percentage_amount.percentage))) {
+        fee.isCurrentAmount_available = 1;
       }
       if (fee.code !== undefined) {
         return fee.code
