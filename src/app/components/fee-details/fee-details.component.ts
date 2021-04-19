@@ -75,7 +75,7 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
   validOldFeesVersions(feesObject: any) {
     const validOldFeeVersionArray = new Array();
     if ((feesObject.current_version !== undefined && feesObject.fee_versions.length > 1)
-    || (feesObject.current_version === undefined && feesObject.fee_versions.length === 1)) {
+    || (feesObject.current_version === undefined && feesObject.fee_versions.length > 0)) {
       /* sort based on valid from */
       feesObject.fee_versions = feesObject.fee_versions.
         filter(feesVersion => feesVersion.status === 'approved')
@@ -113,7 +113,7 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
 
 
     if ((feesObject.current_version !== undefined && validOldFeeVersionArray.length > 1)
-    || (feesObject.current_version === undefined && validOldFeeVersionArray.length === 1)) {
+    || (feesObject.current_version === undefined && validOldFeeVersionArray.length > 0)) {
       this.validOldVersionArray = validOldFeeVersionArray.filter(feesVersion => this.getValidFeeVersionsBasedOnDate(feesVersion));
       return this.validOldVersionArray;
     } else {
