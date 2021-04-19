@@ -103,26 +103,45 @@ export class FilterFeesPipe implements PipeTransform {
           fee.sort_value = 1;
           return true;
       }
-
       return false;
     }).sort((a, b) => b.sort_value - a.sort_value);
   }
 
   filterBydisFee(fees, filter) {
     return fees.filter((fee: IFee) => {
-     if (fee.fee_versions && fee.fee_versions.length > 0) {
-       return fee.fee_versions.filter(oldFee => {
-        if (oldFee.flat_amount !== undefined
-          && oldFee.flat_amount.amount !== undefined) {
-            if (oldFee.flat_amount.amount === Number(filter)) {
-              fee.isdiscontinued_fee = 1;
+      if (fee.fee_versions !== undefined && fee.fee_versions.length > 0) {
+        return fee.fee_versions.filter(oldFee => {
+          if (oldFee.flat_amount !== undefined
+            && oldFee.flat_amount.amount !== undefined) {
+              if (oldFee.flat_amount.amount === Number(filter)) {
+                fee.isdiscontinued_fee = this.validOldFeesVersions(fee).length > 0 ? 1 : 0;
+                return true;
+              }
+            }
+         });
+      } else if (fee.current_version !== undefined) {
+
+        if (fee.current_version.flat_amount !== undefined
+          && fee.current_version.flat_amount.amount !== undefined) {
+            if (fee.current_version.flat_amount.amount === Number(filter)) {
               return true;
             }
           }
-       });
-    }
-  });
+          if (fee.current_version.volume_amount !== undefined
+            && fee.current_version.volume_amount.amount !== undefined) {
+              if (fee.current_version.volume_amount.amount === Number(filter)) {
+                return true;
+              }
+            }
 
+            if (fee.current_version.percentage_amount !== undefined
+              && fee.current_version.percentage_amount.percentage !== undefined) {
+                if (fee.current_version.percentage_amount.percentage === Number(filter)) {
+                  return true;
+                }
+              }
+      }
+  });
   }
 
   validOldFeesVersions(feesObject: any) {
