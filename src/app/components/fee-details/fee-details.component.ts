@@ -115,12 +115,23 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
     if ((feesObject.current_version !== undefined && validOldFeeVersionArray.length > 1)
     || (feesObject.current_version === undefined && validOldFeeVersionArray.length > 0)) {
       this.validOldVersionArray = validOldFeeVersionArray.filter(feesVersion => this.getValidFeeVersionsBasedOnDate(feesVersion));
-      return this.validOldVersionArray;
-    } else {
-      return this.validOldVersionArray = [];
-    }
-  }
 
+      if (feesObject.current_version === undefined) {
+        return this.validOldVersionArray;
+      }
+      return this.removeCurrentFeeFromFeeversion(this.validOldVersionArray, feesObject.current_version);
+    }
+    return this.validOldVersionArray = [];
+  }
+  removeCurrentFeeFromFeeversion(validOldFeeVersionArray, currentVersion) {
+    return validOldFeeVersionArray.filter(feesVersion => {
+
+      if (JSON.stringify(feesVersion) === JSON.stringify(currentVersion)) {
+        return false;
+      }
+      return true;
+    });
+  }
   getValidFeeVersionsBasedOnDate(feeVersion: IVersion) {
     const feesLimitDate = new Date();
     /* Check valid fees till 6 months  */
