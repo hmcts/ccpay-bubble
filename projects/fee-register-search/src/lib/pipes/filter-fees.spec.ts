@@ -44,7 +44,7 @@ describe('Filter fees pipe', () => {
   it('Should filter an array of fees on amount and description when it is a number also sort by amount first', () => {
     const validFees = filterFeesPipe.filterValidFee(mockFees);
     const results = filterFeesPipe.filterByNumber(validFees, '500');
-    expect(results.length).toBe(2);
+    expect(results.length).toBe(1);
     expect(results[0]).toEqual(mockFees[1]);
   });
 

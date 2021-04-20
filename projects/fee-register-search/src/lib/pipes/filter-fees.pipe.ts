@@ -27,6 +27,8 @@ export class FilterFeesPipe implements PipeTransform {
     if (filteredList && jurisdictionsFilter) {
       filteredList = this.filterByJurisdictions(filteredList, jurisdictionsFilter);
     }
+
+
     return filteredList;
   }
 
@@ -109,12 +111,12 @@ export class FilterFeesPipe implements PipeTransform {
 
   filterBydisFee(fees, filter) {
     return fees.filter((fee: IFee) => {
-      if (fee.fee_versions !== undefined && fee.fee_versions.length > 0) {
+      if (fee.fee_versions !== undefined && this.validOldFeesVersions(fee).length > 0) {
         return fee.fee_versions.filter(oldFee => {
           if (oldFee.flat_amount !== undefined
             && oldFee.flat_amount.amount !== undefined) {
               if (oldFee.flat_amount.amount === Number(filter)) {
-                fee.isdiscontinued_fee = this.validOldFeesVersions(fee).length > 0 ? 1 : 0;
+                fee.isdiscontinued_fee = 1;
                 return true;
               }
             }
@@ -253,7 +255,9 @@ export class FilterFeesPipe implements PipeTransform {
         || (fee.current_version.percentage_amount && fee.current_version.percentage_amount.percentage))) {
         fee.isCurrentAmount_available = 1;
       }
-      if (fee.code !== undefined) {
+      if (fee.code !== undefined
+        && (fee.current_version !== undefined
+        || fee.discontinued_list !== undefined)) {
         return fee.code
           .toLowerCase()
           .includes(filter);
