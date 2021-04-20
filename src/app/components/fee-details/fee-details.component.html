@@ -1,10 +1,9 @@
-<div *ngIf="validOldVersionArray.length < 2">
+<div *ngIf="validOldVersionArray.length === 0 ">
     <legend>
       <h1 class="heading-xlarge">Fee details</h1>
     </legend>
     <input #myInput type='hidden' id='iFrameDrivenImageValue' value='FEEDETAILS'>
-    <table *ngIf="fee" class="table" style="margin-bottom: 20px">
-      
+    <table *ngIf="fee && fee.current_version" class="table" style="margin-bottom: 20px">
       <caption>Fee Details</caption>
       <tbody>
         <tr>
@@ -27,8 +26,64 @@
       </tbody>
     </table>
   </div>
+  <main *ngIf="validOldVersionArray.length === 1 && !fee.current_version">
+    <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
+    <p class="form-hint">{{ fee.discontinued_list[0].description }}</p>
+    <input #myInput type='hidden' id='iFrameDrivenImageValue' value='FEEVERSION'>
+    <div class="govuk-warning-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text" style="font-size: 16px;">
+        <span class="govuk-warning-text__assistive">Warning</span>
+        This fee was retired on {{ fee.discontinued_list[0].valid_to | date: 'd MMMM y' }}
+      </strong>
+    </div>
 
-<main *ngIf="validOldVersionArray.length > 1">
+    <div class="govuk-form-group">
+      <span>You should only use this for applications received before {{ fee.discontinued_list[0].valid_to | date: 'd MMMM y' }} </span>
+    </div>
+
+</main>
+<main *ngIf="validOldVersionArray.length > 0 && !fee.current_version">
+  <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
+  <p class="form-hint">{{ fee.discontinued_list[0].description }}</p>
+  <input #myInput type='hidden' id='iFrameDrivenImageValue' value='FEEVERSION'>
+
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        When was this application received?
+      </legend>
+
+      <div
+        *ngFor="let feeVersion of validOldVersionArray; index as i; let firstversion = first; let lastversion = last"
+        class="govuk-radios">
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="{{ 'fee-version' + i }}" name="fee-version" type="radio"
+            value="feeVersion" aria-describedby="fee-version-item-hint" (click)="getSelectedFeesVersion(feeVersion)">
+            <label  *ngIf="firstversion && !lastversion && validOldVersionArray.length > 0" class="govuk-label govuk-radios__label"
+            style="font-size: 16px;" for="current-version">
+            On or after {{ feeVersion.valid_from | date: 'd MMMM y' }}
+          </label>
+            <label *ngIf="!firstversion && validOldVersionArray.length > 1 && !lastversion" class="govuk-label govuk-radios__label"
+              style="font-size: 16px;" for="fee-version">
+              Between {{ feeVersion.valid_from | date: 'd MMMM'  }} and {{ feeVersion.valid_to | date: 'd MMMM y' }}
+            </label>
+              <label *ngIf="!firstversion && (validOldVersionArray.length === 1 || validOldVersionArray.length > 1) && lastversion"class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
+                Before {{ feeVersion.valid_to | date: 'd MMMM y' }}
+              </label>
+            <span id="{{ 'fee-version-item-hint' + i }}" class="govuk-hint govuk-radios__hint"
+              style="font-size: 16px;">
+              Use the old
+              £ {{ getAmountFromFeeVersion(feeVersion) }} fee
+            </span>
+        </div>
+
+      </div>
+    </fieldset>
+  </div>
+
+</main>
+<main *ngIf="validOldVersionArray.length > 0 && fee.current_version">
     <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
     <p class="form-hint">{{ fee.current_version.description }}</p>
     <input #myInput type='hidden' id='iFrameDrivenImageValue' value='FEEVERSION'>
@@ -46,45 +101,40 @@
           When was this application received?
         </legend>
 
-        <div
-          *ngFor="let feeVersion of validOldVersionArray; index as i; let firstversion = first; let lastversion = last"
-          class="govuk-radios">
+        <div *ngIf="fee.current_version" class="govuk-radios">
 
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="fee-versions" name="fee-version" type="radio"
+              value="currentVersion" aria-describedby="fee-version-item-hint" (click)="getSelectedFeesVersion(fee.current_version)">
+            <label  class="govuk-label govuk-radios__label"
+              style="font-size: 16px;" for="current-version">
+              On or after {{ fee.current_version['valid_from'] | date: 'd MMMM y' }}
+            </label>
+            <span id="fee-version-item-hints"
+              class="govuk-hint govuk-radios__hint" style="font-size: 16px;">
+              Use the current
+              £ {{ getAmountFromFeeVersion(fee.current_version) }} fee
+            </span>
+          </div>
+        </div>
+        <div
+          *ngFor="let feeVersion of validOldVersionArray; index as i; let lastversion = last"
+          class="govuk-radios">
           <div class="govuk-radios__item">
             <input class="govuk-radios__input" id="{{ 'fee-version' + i }}" name="fee-version" type="radio"
               value="feeVersion" aria-describedby="fee-version-item-hint" (click)="getSelectedFeesVersion(feeVersion)">
-            <label *ngIf="firstversion; else oldFeeValidFrom" class="govuk-label govuk-radios__label"
-              style="font-size: 16px;" for="fee-version">
-              On or after {{ feeVersion.valid_from | date: 'd MMMM y' }}
-
-            </label>
-            <ng-template #oldFeeValidFrom>
-
-              <label *ngIf="!lastversion; else oldFeeLastFees" class="govuk-label govuk-radios__label"
+              <label *ngIf="validOldVersionArray.length > 1 && !lastversion;" class="govuk-label govuk-radios__label"
                 style="font-size: 16px;" for="fee-version">
                 Between {{ feeVersion.valid_from | date: 'd MMMM'  }} and {{ feeVersion.valid_to | date: 'd MMMM y' }}
               </label>
-
-              <ng-template #oldFeeLastFees>
-                <label class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
+                <label *ngIf="(validOldVersionArray.length === 1 || validOldVersionArray.length > 1) && lastversion;"class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
                   Before {{ feeVersion.valid_to | date: 'd MMMM y' }}
                 </label>
-
-              </ng-template>
-            </ng-template>
-
-            <span *ngIf="firstversion; else oldversion" id="{{ 'fee-version-item-hint' + i }}"
-              class="govuk-hint govuk-radios__hint" style="font-size: 16px;">
-              Use the current
-              £ {{ getAmountFromFeeVersion(feeVersion) }} fee
-            </span>
-            <ng-template #oldversion>
               <span id="{{ 'fee-version-item-hint' + i }}" class="govuk-hint govuk-radios__hint"
                 style="font-size: 16px;">
                 Use the old
                 £ {{ getAmountFromFeeVersion(feeVersion) }} fee
               </span>
-            </ng-template>
           </div>
 
         </div>
@@ -94,7 +144,7 @@
 </main>
 
 <form>
-  <div [formGroup]="feeDetailFormGroup">
+  <div [formGroup]="feeDetailFormGroup" *ngIf="fee.current_version">
     <label *ngIf="fee.current_version['volume_amount']" class="heading-small" for="volumeAmount">
       How many copies do you want?
     </label>
@@ -159,10 +209,13 @@
 
     <div class="button-grid__button">
 
-        <button *ngIf="validOldVersionArray.length <= 1" class="button margin-left-10" type="submit" (click)="submitVolume()">
+        <button *ngIf="validOldVersionArray.length === 0" class="button margin-left-10" type="submit" (click)="submitVolume()">
           Submit
         </button>
         <button *ngIf="validOldVersionArray.length > 1" class="button margin-left-10" [disabled]="!selectedFeeVersion" type="submit" (click)="submitVolume()">
+          Continue
+        </button>
+        <button *ngIf="validOldVersionArray.length === 1" class="button margin-left-10" type="submit" (click)="submitVolume()">
           Continue
         </button>
     </div>

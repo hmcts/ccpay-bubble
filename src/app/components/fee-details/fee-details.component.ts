@@ -15,41 +15,7 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
   selectedFeeVersion: IVersion;
   validOldVersionArray: IVersion[] = [];
   isDiscontinuedFeatureEnabled = true;
-  @Input() fee = {
-    code: 'test-code',
-    fee_type: 'banded',
-    fee_versions: [
-      {
-        description: 'Recovery order (section 50)',
-        status: 'approved',
-        author: '126172',
-        approvedBy: '126175',
-        version: 1,
-        valid_from: '2014-04-21T00:00:00.000+0000',
-        valid_to: '2014-04-21T00:00:00.000+0000',
-        flat_amount: {
-          'amount': 215
-        },
-        memo_line: 'RECEIPT OF FEES - Family misc private',
-        statutory_instrument: '2014 No 877 ',
-        si_ref_id: '2.1q',
-        natural_account_code: '4481102174',
-        fee_order_name: 'Family Proceedings',
-        direction: 'cost recovery'
-      }
-    ],
-    'current_version': {
-      version: 1,
-      calculatedAmount: 1234,
-      memo_line: 'test-memoline',
-      natural_account_code: '1234-1234-1234-1234',
-      flat_amount: {
-        amount: 1234
-      },
-      description: 'test-description'
-    }
-
-  };
+  @Input() fee: any;
   @Output() submitFeeVolumeEvent: EventEmitter<{ volumeAmount: number, selectedVersionEmit: IVersion }> = new EventEmitter();
   @Output() restartSearchEvent: EventEmitter<IFee> = new EventEmitter();
 
@@ -83,12 +49,18 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
   }
 
   submitVolume() {
-    if (this.fee.current_version.flat_amount !== undefined && this.fee.fee_type === 'banded') {
+    if (this.fee.current_version !== undefined && this.fee.current_version.flat_amount !== undefined && this.fee.fee_type === 'banded') {
       this.fee.current_version.flat_amount.amount = this.feeDetailFormGroup.get('feeAmountFormControl').value;
 
       if (this.selectedFeeVersion != null) {
         this.selectedFeeVersion.flat_amount.amount = this.feeDetailFormGroup.get('feeAmountFormControl').value;
       }
+    }
+
+    if (this.fee.current_version === undefined
+        && this.fee.fee_versions.length === 1
+        && this.validOldVersionArray.length === 1) {
+        this.selectedFeeVersion = this.validOldVersionArray[0];
     }
 
     this.submitFeeVolumeEvent.emit({
@@ -102,8 +74,8 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
 
   validOldFeesVersions(feesObject: any) {
     const validOldFeeVersionArray = new Array();
-
-    if (feesObject.fee_versions.length > 1) {
+    if ((feesObject.current_version !== undefined && feesObject.fee_versions.length > 1)
+    || (feesObject.current_version === undefined && feesObject.fee_versions.length > 0)) {
       /* sort based on valid from */
       feesObject.fee_versions = feesObject.fee_versions.
         filter(feesVersion => feesVersion.status === 'approved')
@@ -111,7 +83,7 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
           return <any>new Date(b.valid_from) - <any>new Date(a.valid_from);
         });
 
-      feesObject.fee_versions.forEach(function (value, i) {
+      feesObject.fee_versions.forEach((value, i) => {
         if (i !== 0) {
           // if amount is diffrent then only consider it for push need to confirm that as well
           if (this.getAmountFromFeeVersion(value) === this.getAmountFromFeeVersion(feesObject.fee_versions[i - 1])) {
@@ -125,19 +97,41 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
             value.valid_to = new_valid_to.toDateString();
           }
         }
+
+        if (feesObject.current_version === undefined && feesObject.fee_versions.length === 1) {
+          //  set valid to date if not present for fee version from previous version
+          if (value.valid_to === null) {
+            const new_valid_to = new Date(feesObject.fee_versions.valid_from);
+            new_valid_to.setDate(new_valid_to.getDate() - 1);
+            value.valid_to = new_valid_to.toDateString();
+          }
+        }
+
         validOldFeeVersionArray.push(value);
-      }.bind(this));
+      });
     }
 
 
-  if (validOldFeeVersionArray.length > 1) {
+    if ((feesObject.current_version !== undefined && validOldFeeVersionArray.length > 1)
+    || (feesObject.current_version === undefined && validOldFeeVersionArray.length > 0)) {
       this.validOldVersionArray = validOldFeeVersionArray.filter(feesVersion => this.getValidFeeVersionsBasedOnDate(feesVersion));
-      return this.validOldVersionArray;
-    } else {
-      return this.validOldVersionArray = [];
-    }
-  }
 
+      if (feesObject.current_version === undefined) {
+        return this.validOldVersionArray;
+      }
+      return this.removeCurrentFeeFromFeeversion(this.validOldVersionArray, feesObject.current_version);
+    }
+    return this.validOldVersionArray = [];
+  }
+  removeCurrentFeeFromFeeversion(validOldFeeVersionArray, currentVersion) {
+    return validOldFeeVersionArray.filter(feesVersion => {
+
+      if (JSON.stringify(feesVersion) === JSON.stringify(currentVersion)) {
+        return false;
+      }
+      return true;
+    });
+  }
   getValidFeeVersionsBasedOnDate(feeVersion: IVersion) {
     const feesLimitDate = new Date();
     /* Check valid fees till 6 months  */
