@@ -13,7 +13,7 @@ import * as ls from 'local-storage';
   styleUrls: ['./fee-search.component.scss']
 })
 export class FeeSearchComponent implements OnInit {
-  outputEmitterFeesDetails: { volumeAmount: number, selectedVersionEmit: IVersion };
+  outputEmitterFeesDetails: { volumeAmount: number, selectedVersionEmit: IVersion, isDiscontinuedFeeAvailable: boolean};
   selectedFee: any;
   ccdNo: string = null;
   dcnNo: string = null;
@@ -117,12 +117,14 @@ export class FeeSearchComponent implements OnInit {
     const percentageAmt = selectedFeeVersion['percentage_amount'];
     const fee_amount = volAmt ? volAmt.amount : (flatAmt ? flatAmt.amount : percentageAmt.percentage);
     const amount = fee_amount ? fee_amount : percentageAmt;
+    const calculatedAmt = (fee.fee_type === 'rateable' || fee.fee_type === 'ranged')
+    ? this.outputEmitterFeesDetails.volumeAmount : (fee_amount * this.outputEmitterFeesDetails.volumeAmount).toString();
     const paymentGroup = {
       fees: [{
         code: fee.code,
         version: selectedFeeVersion.version.toString(),
-        'calculated_amount': (fee.fee_type === 'rateable' || fee.fee_type === 'ranged')
-          ? this.outputEmitterFeesDetails.volumeAmount : (fee_amount * this.outputEmitterFeesDetails.volumeAmount).toString(),
+        'calculated_amount': this.outputEmitterFeesDetails.isDiscontinuedFeeAvailable
+        ? (fee_amount * this.outputEmitterFeesDetails.volumeAmount).toString() : calculatedAmt,
         'memo_line': selectedFeeVersion.memo_line,
         'natural_account_code': selectedFeeVersion.natural_account_code,
         'ccd_case_number': this.ccdNo,

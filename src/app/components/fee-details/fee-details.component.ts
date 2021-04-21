@@ -16,7 +16,7 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
   validOldVersionArray: IVersion[] = [];
   isDiscontinuedFeatureEnabled = true;
   @Input() fee: any;
-  @Output() submitFeeVolumeEvent: EventEmitter<{ volumeAmount: number, selectedVersionEmit: IVersion }> = new EventEmitter();
+  @Output() submitFeeVolumeEvent: EventEmitter<{ volumeAmount: number, selectedVersionEmit: IVersion, isDiscontinuedFeeAvailable: boolean }> = new EventEmitter();
   @Output() restartSearchEvent: EventEmitter<IFee> = new EventEmitter();
 
   feeDetailFormGroup: FormGroup;
@@ -58,13 +58,14 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
     }
 
     if (this.fee.current_version === undefined
-        && this.fee.fee_versions.length === 1
+        && this.fee.fee_versions.length > 0
         && this.validOldVersionArray.length === 1) {
         this.selectedFeeVersion = this.validOldVersionArray[0];
     }
 
     this.submitFeeVolumeEvent.emit({
-      volumeAmount: this.feeDetailFormGroup.get('feeOrVolumeControl').value, selectedVersionEmit: this.selectedFeeVersion
+      volumeAmount: this.feeDetailFormGroup.get('feeOrVolumeControl').value, selectedVersionEmit: this.selectedFeeVersion,
+      isDiscontinuedFeeAvailable: this.validOldVersionArray.length > 0 && !this.fee.current_version
     });
   }
 
