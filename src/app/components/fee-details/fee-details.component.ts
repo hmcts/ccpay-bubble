@@ -16,7 +16,8 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
   validOldVersionArray: IVersion[] = [];
   isDiscontinuedFeatureEnabled = true;
   @Input() fee: any;
-  @Output() submitFeeVolumeEvent: EventEmitter<{ volumeAmount: number, selectedVersionEmit: IVersion, isDiscontinuedFeeAvailable: boolean }> = new EventEmitter();
+  @Output() submitFeeVolumeEvent: EventEmitter<{ volumeAmount: number, selectedVersionEmit: IVersion,
+    isDiscontinuedFeeAvailable: boolean }> = new EventEmitter();
   @Output() restartSearchEvent: EventEmitter<IFee> = new EventEmitter();
 
   feeDetailFormGroup: FormGroup;
