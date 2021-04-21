@@ -99,7 +99,7 @@ describe('FeeDetailsComponent', () => {
   });
 
   it('Should  submit fee volume', () => {
-    const submitEventemmitter = Object({ volumeAmount: 1, selectedVersionEmit: undefined });
+    const submitEventemmitter = Object({ volumeAmount: 1, selectedVersionEmit: undefined, isDiscontinuedFeeAvailable: false });
     spyOn(component.submitFeeVolumeEvent, 'emit');
     component.submitVolume();
     expect(component.submitFeeVolumeEvent.emit).toHaveBeenCalledWith(submitEventemmitter);
@@ -116,7 +116,7 @@ describe('FeeDetailsComponent', () => {
         amount: '0'
       },
       description: 'test-description'
-  } });
+  }, isDiscontinuedFeeAvailable: false });
 
     component.getSelectedFeesVersion(testFeeVersions);
     component.submitVolume();
