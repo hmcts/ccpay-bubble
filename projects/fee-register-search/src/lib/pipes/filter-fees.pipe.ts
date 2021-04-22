@@ -32,15 +32,6 @@ export class FilterFeesPipe implements PipeTransform {
     return filteredList;
   }
 
-  // filterValidFee(fees: IFee[]) {
-  //   const todayDate = new Date();
-  //       return fees.filter((fee: IFee) => fee.current_version.status === 'approved' &&
-  //  <any>new Date(fee.current_version.valid_from) <= todayDate &&
-  // (fee.current_version.valid_to === '' ||
-  //  fee.current_version.valid_to === null ||
-  //  fee.current_version.valid_to === undefined ||
-  //  <any>new Date(fee.current_version.valid_to) >= todayDate));
-  // }
 
   filterValidFee(fees: IFee[]) {
     const todayDate = new Date();
@@ -212,19 +203,19 @@ export class FilterFeesPipe implements PipeTransform {
   if ((feesObject.current_version !== undefined && validOldFeeVersionArray.length > 1)
   || (feesObject.current_version === undefined && validOldFeeVersionArray.length > 0)) {
       validOldVersionArray = validOldFeeVersionArray.filter(feesVersion => this.getValidFeeVersionsBasedOnDate(feesVersion));
-      if (feesObject.current_version === undefined) {
-        return validOldVersionArray;
-      }
-      return this.removeCurrentFeeFromFeeversion(validOldVersionArray, feesObject.current_version);
+      return this.removeCurrentFeeFromFeeversion(validOldVersionArray, feesObject);
     } else {
       return validOldVersionArray = [];
     }
   }
 
-  removeCurrentFeeFromFeeversion(validOldFeeVersionArray, currentVersion) {
+  removeCurrentFeeFromFeeversion(validOldFeeVersionArray, fees) {
+
+    const todayDate = <any>new Date();
 
     return validOldFeeVersionArray.filter(feesVersion => {
-      if (JSON.stringify(feesVersion) === JSON.stringify(currentVersion)) {
+      if (fees.currentVersion!== undefined && JSON.stringify(feesVersion) === JSON.stringify(fees.currentVersion)
+       || <any>new Date(feesVersion.valid_from) > todayDate) {
         return false;
       }
       return true;
