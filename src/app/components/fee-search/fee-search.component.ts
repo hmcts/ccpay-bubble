@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
+import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
+import * as ls from 'local-storage';
 
 @Component({
   selector: 'app-fee-search',
@@ -21,6 +23,7 @@ export class FeeSearchComponent implements OnInit {
   selectedOption: string = null;
   bulkScanningTxt = '&isBulkScanning=Enable&isTurnOff=Enable';
   isDiscontinuedFeatureEnabled = true;
+  lsCcdNumber: any = ls.get<any>('ccdNumber');
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -30,22 +33,25 @@ export class FeeSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe((params) => {
-      this.ccdNo = this.activatedRoute.snapshot.queryParams['ccdCaseNumber'];
-      this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
-      this.dcnNo = this.activatedRoute.snapshot.queryParams['dcn'];
-      this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
-      this.bulkScanningTxt = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable' ?
-                                  '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
-      this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable' ?
-                                  '&isTurnOff=Enable' : '&isTurnOff=Disable';
-      this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable' ?
-                                  '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
-      this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isOldPcipalOff'] === 'Enable' ?
-                                  '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
-      this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable' ?
-                                  '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
-    });
+    this.ccdNo = this.activatedRoute.snapshot.queryParams['ccdCaseNumber'];
+    this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
+    this.dcnNo = this.activatedRoute.snapshot.queryParams['dcn'];
+    this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
+    this.bulkScanningTxt = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable' ?
+                                '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
+    this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable' ?
+                                '&isTurnOff=Enable' : '&isTurnOff=Disable';
+    this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable' ?
+                                '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
+    this.bulkScanningTxt += `&caseType=${this.activatedRoute.snapshot.queryParams['caseType']}`;
+    this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isOldPcipalOff'] === 'Enable' ?
+                                '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
+    this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable' ?
+                                '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
+
+    if (this.lsCcdNumber !== this.ccdNo) {
+      this.router.navigateByUrl('/ccd-search?takePayment=true');
+    }
 
     this.paymentGroupService.getDiscontinuedFrFeature().then((status) => {
       this.isDiscontinuedFeatureEnabled = status;
