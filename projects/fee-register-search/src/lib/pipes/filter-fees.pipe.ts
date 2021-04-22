@@ -214,7 +214,7 @@ export class FilterFeesPipe implements PipeTransform {
     const todayDate = <any>new Date();
 
     return validOldFeeVersionArray.filter(feesVersion => {
-      if (fees.currentVersion!== undefined && JSON.stringify(feesVersion) === JSON.stringify(fees.currentVersion)
+      if (fees.currentVersion !== undefined && JSON.stringify(feesVersion) === JSON.stringify(fees.currentVersion)
        || <any>new Date(feesVersion.valid_from) > todayDate) {
         return false;
       }
