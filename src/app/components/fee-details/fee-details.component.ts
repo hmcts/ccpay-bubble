@@ -66,7 +66,7 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
 
     this.submitFeeVolumeEvent.emit({
       volumeAmount: this.feeDetailFormGroup.get('feeOrVolumeControl').value, selectedVersionEmit: this.selectedFeeVersion,
-      isDiscontinuedFeeAvailable: this.validOldVersionArray.length > 0 && !this.fee.current_version
+      isDiscontinuedFeeAvailable: this.validOldVersionArray.length > 0 && (!this.fee.current_version || this.fee.current_version)
     });
   }
 
