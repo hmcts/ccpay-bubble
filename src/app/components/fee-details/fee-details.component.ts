@@ -3,9 +3,6 @@ import { IVersion } from './../../../../projects/fee-register-search/src/lib/int
 import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from '@angular/core';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { Console } from 'console';
-
-
 
 @Component({
   selector: 'app-fee-details',
