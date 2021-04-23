@@ -209,13 +209,14 @@
 
     <div class="button-grid__button">
 
-        <button *ngIf="validOldVersionArray.length === 0" class="button margin-left-10" type="submit" (click)="submitVolume()">
+        <button *ngIf="validOldVersionArray.length === 0 && fee.current_version" class="button margin-left-10" type="submit" (click)="submitVolume()">
           Submit
         </button>
-        <button *ngIf="validOldVersionArray.length > 1" class="button margin-left-10" [disabled]="!selectedFeeVersion" type="submit" (click)="submitVolume()">
+        <button *ngIf="(validOldVersionArray.length > 0 && fee.current_version) || (validOldVersionArray.length > 1 && !fee.current_version)" class="button margin-left-10" [disabled]="!selectedFeeVersion" type="submit" (click)="submitVolume()">
           Continue
         </button>
-        <button *ngIf="validOldVersionArray.length === 1" class="button margin-left-10" type="submit" (click)="submitVolume()">
+
+        <button *ngIf="validOldVersionArray.length === 1 && !fee.current_version" class="button margin-left-10" type="submit" (click)="submitVolume()">
           Continue
         </button>
     </div>
