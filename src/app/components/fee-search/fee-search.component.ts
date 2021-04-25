@@ -117,21 +117,22 @@ export class FeeSearchComponent implements OnInit {
     const percentageAmt = selectedFeeVersion['percentage_amount'];
     const fee_amount = volAmt ? volAmt.amount : (flatAmt ? flatAmt.amount : percentageAmt.percentage);
     const amount = fee_amount ? fee_amount : percentageAmt;
-    const calculatedAmt = (fee.fee_type === 'rateable' || fee.fee_type === 'ranged')
+    const feeType = fee.fee_type;
+    const calculatedAmt = ((feeType === 'rateable' && flatAmt) || (feeType === 'ranged' && percentageAmt))
     ? this.outputEmitterFeesDetails.volumeAmount : (fee_amount * this.outputEmitterFeesDetails.volumeAmount).toString();
     const paymentGroup = {
       fees: [{
         code: fee.code,
         version: selectedFeeVersion.version.toString(),
-        'calculated_amount': this.outputEmitterFeesDetails.isDiscontinuedFeeAvailable
-        ? (fee_amount * this.outputEmitterFeesDetails.volumeAmount).toString() : calculatedAmt,
+        'calculated_amount': calculatedAmt,
         'memo_line': selectedFeeVersion.memo_line,
         'natural_account_code': selectedFeeVersion.natural_account_code,
         'ccd_case_number': this.ccdNo,
         jurisdiction1: fee.jurisdiction1['name'],
         jurisdiction2: fee.jurisdiction2['name'],
         description: selectedFeeVersion.description,
-        volume: fee.fee_type === 'relational' ? null : this.outputEmitterFeesDetails.volumeAmount,
+        volume: ((feeType === 'rateable' && flatAmt) || (feeType === 'ranged' && percentageAmt))
+        ? null : this.outputEmitterFeesDetails.volumeAmount,
         fee_amount: amount
       }]
     };

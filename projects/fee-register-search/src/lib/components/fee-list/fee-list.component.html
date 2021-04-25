@@ -52,13 +52,13 @@
           </span>
 
           <span *ngIf="fee.isCurrentAmount_available === 1 && oldVersions.percentage_amount">
-            or £{{oldVersions?.percentage_amount?.percentage | number:'.2'}}
+            or {{oldVersions?.percentage_amount?.percentage | number:'.2'}}%
           </span>
           <span *ngIf="fee.isCurrentAmount_available !== 1 && i == 0 && oldVersions.percentage_amount">
-            £{{oldVersions?.percentage_amount?.percentage | number:'.2'}}
+            {{oldVersions?.percentage_amount?.percentage | number:'.2'}}%
           </span>
           <span *ngIf="fee.isCurrentAmount_available !== 1 && i > 0 && oldVersions.percentage_amount">
-            or £{{oldVersions?.percentage_amount?.percentage | number:'.2'}}
+            or {{oldVersions?.percentage_amount?.percentage | number:'.2'}}%
           </span>
         </span>
       </td>
