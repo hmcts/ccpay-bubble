@@ -4,8 +4,6 @@ import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from '@angu
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
-
-
 @Component({
   selector: 'app-fee-details',
   templateUrl: './fee-details.component.html',
@@ -16,7 +14,8 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
   validOldVersionArray: IVersion[] = [];
   isDiscontinuedFeatureEnabled = true;
   @Input() fee: any;
-  @Output() submitFeeVolumeEvent: EventEmitter<{ volumeAmount: number, selectedVersionEmit: IVersion, isDiscontinuedFeeAvailable: boolean }> = new EventEmitter();
+  @Output() submitFeeVolumeEvent: EventEmitter<{ volumeAmount: number, selectedVersionEmit: IVersion,
+    isDiscontinuedFeeAvailable: boolean }> = new EventEmitter();
   @Output() restartSearchEvent: EventEmitter<IFee> = new EventEmitter();
 
   feeDetailFormGroup: FormGroup;
@@ -65,7 +64,7 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
 
     this.submitFeeVolumeEvent.emit({
       volumeAmount: this.feeDetailFormGroup.get('feeOrVolumeControl').value, selectedVersionEmit: this.selectedFeeVersion,
-      isDiscontinuedFeeAvailable: this.validOldVersionArray.length > 0 && !this.fee.current_version
+      isDiscontinuedFeeAvailable: this.validOldVersionArray.length > 0 && (!this.fee.current_version || this.fee.current_version)
     });
   }
 
@@ -157,5 +156,4 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
       return feeVersion['percentage_amount'].percentage;
     }
   }
-
 }
