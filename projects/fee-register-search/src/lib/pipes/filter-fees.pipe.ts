@@ -86,8 +86,8 @@ export class FilterFeesPipe implements PipeTransform {
     return fees.filter((fee: IFee) => {
       validOldFeesArray = this.validOldFeesVersions(fee);
 
-      if (fee.current_version === undefined 
-        && fee.fee_versions !== undefined 
+      if (fee.current_version === undefined
+        && fee.fee_versions !== undefined
         && validOldFeesArray.length > 0
         && this.filterByFeeversion(fee.fee_versions, filter)) {
           fee.discontinued_list = validOldFeesArray;
@@ -104,7 +104,7 @@ export class FilterFeesPipe implements PipeTransform {
           }
         }
 
-        if (fee.fee_versions !== undefined 
+        if (fee.fee_versions !== undefined
         && validOldFeesArray.length > 0
         && this.filterByFeeversion(fee.fee_versions, filter)) {
           fee.discontinued_list = validOldFeesArray;
