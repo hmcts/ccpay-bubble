@@ -12,7 +12,7 @@ export class FilterFeesPipe implements PipeTransform {
     if (!searchFilter) { return fees; }
 
     let filteredList: IFee[] = [];
-
+    fees = this.filterValidFee(fees);
     if (this.isNumeric(searchFilter)) {
       filteredList = this.filterByNumber(fees, searchFilter);
     } else {
@@ -32,8 +32,24 @@ export class FilterFeesPipe implements PipeTransform {
     return filteredList;
   }
 
+
   filterValidFee(fees: IFee[]) {
-    return fees.filter(fee => fee.current_version);
+    const todayDate = new Date();
+        return fees.filter((fee: IFee) => {
+      if (fee.current_version !== undefined) {
+        if ( fee.current_version.status === 'approved' && <any>new Date(fee.current_version.valid_from) <= todayDate &&
+        (fee.current_version.valid_to === '' ||
+         fee.current_version.valid_to === null ||
+         fee.current_version.valid_to === undefined ||
+         <any>new Date(fee.current_version.valid_to) >= todayDate)) {
+          return true;
+        }
+       } else {
+        if (this.validOldFeesVersions(fee).length > 0) {
+          return true;
+        }
+       }
+    });
   }
 
   filterValidDiscontinuedFee(fees: IFee[]) {
@@ -45,6 +61,7 @@ export class FilterFeesPipe implements PipeTransform {
     return fees.filter((fee: IFee) => {
       if (this.validOldFeesVersions(fee).length > 0) {
         fee.discontinued_list = this.validOldFeesVersions(fee);
+        fee.sort_value = 1;
       }
       if (fee.current_version !== undefined &&
         ((fee.current_version.flat_amount && fee.current_version.flat_amount.amount)
@@ -59,91 +76,62 @@ export class FilterFeesPipe implements PipeTransform {
           }
         }
       }
-      if ( fee.isdiscontinued_fee !== undefined
-        && fee.isdiscontinued_fee === 1) {
-        fee.sort_value = 1;
-        return true;
-    }
       return false;
     });
   }
 
   filterByNumber(fees, filter): IFee[] {
     const regExactWord = new RegExp(`\\b${filter}\\b`);
-    const filteredFees = this.filterBydisFee(fees, filter);
-    return filteredFees.filter((fee: IFee) => {
-      if (this.validOldFeesVersions(fee).length > 0) {
-        fee.discontinued_list = this.validOldFeesVersions(fee);
-      }
+    let validOldFeesArray = [];
+    return fees.filter((fee: IFee) => {
+      validOldFeesArray = this.validOldFeesVersions(fee);
 
-      if (fee.current_version !== undefined &&
-        ((fee.current_version.flat_amount && fee.current_version.flat_amount.amount)
-        || (fee.current_version.volume_amount && fee.current_version.volume_amount.amount)
-        || (fee.current_version.percentage_amount && fee.current_version.percentage_amount.percentage))) {
+      if (fee.current_version === undefined 
+        && fee.fee_versions !== undefined 
+        && validOldFeesArray.length > 0
+        && this.filterByFeeversion(fee.fee_versions, filter)) {
+          fee.discontinued_list = validOldFeesArray;
+          fee.isdiscontinued_fee = 1;
+          return true;
+      }
+       if (fee.current_version !== undefined) {
         fee.isCurrentAmount_available = 1;
-      }
+        if (fee.current_version.flat_amount !== undefined
+          && fee.current_version.flat_amount.amount !== undefined) {
+          if (fee.current_version.flat_amount.amount === Number(filter)) {
+            fee.sort_value = 1;
+            return true;
+          }
+        }
 
-      if (fee.current_version !== undefined
-        && fee.current_version.flat_amount !== undefined
-        && fee.current_version.flat_amount.amount !== undefined) {
-        if (fee.current_version.flat_amount.amount === Number(filter)) {
-          fee.sort_value = 1;
+        if (fee.fee_versions !== undefined 
+        && validOldFeesArray.length > 0
+        && this.filterByFeeversion(fee.fee_versions, filter)) {
+          fee.discontinued_list = validOldFeesArray;
+          fee.isdiscontinued_fee = 1;
           return true;
         }
-      }
-
-      if (fee.current_version !== undefined
-        && fee.current_version.description !== undefined) {
-        if (regExactWord.test(fee.current_version.description)) {
-          fee.sort_value = 0;
-          return true;
+        if (fee.current_version.description !== undefined) {
+          if (regExactWord.test(fee.current_version.description)) {
+            fee.sort_value = 0;
+            return true;
+          }
         }
-      }
-
-      if ( fee.isdiscontinued_fee !== undefined
-          && fee.isdiscontinued_fee === 1) {
-          fee.sort_value = 1;
-          return true;
       }
       return false;
     }).sort((a, b) => b.sort_value - a.sort_value);
   }
 
-  filterBydisFee(fees, filter) {
-    return fees.filter((fee: IFee) => {
-      if (fee.fee_versions !== undefined && this.validOldFeesVersions(fee).length > 0) {
-        return fee.fee_versions.filter(oldFee => {
-          if (oldFee.flat_amount !== undefined
-            && oldFee.flat_amount.amount !== undefined) {
-              if (oldFee.flat_amount.amount === Number(filter)) {
-                fee.isdiscontinued_fee = 1;
-                return true;
-              }
-            }
-         });
-      } else if (fee.current_version !== undefined) {
-
-        if (fee.current_version.flat_amount !== undefined
-          && fee.current_version.flat_amount.amount !== undefined) {
-            if (fee.current_version.flat_amount.amount === Number(filter)) {
-              return true;
-            }
-          }
-          if (fee.current_version.volume_amount !== undefined
-            && fee.current_version.volume_amount.amount !== undefined) {
-              if (fee.current_version.volume_amount.amount === Number(filter)) {
-                return true;
-              }
-            }
-
-            if (fee.current_version.percentage_amount !== undefined
-              && fee.current_version.percentage_amount.percentage !== undefined) {
-                if (fee.current_version.percentage_amount.percentage === Number(filter)) {
-                  return true;
-                }
-              }
-      }
-  });
+  filterByFeeversion(feeVersion, filter) {
+   let matchValue = false;
+    feeVersion.forEach(oldFee => {
+        if (oldFee.flat_amount !== undefined
+          && oldFee.flat_amount.amount !== undefined
+          && oldFee.flat_amount.amount === Number(filter)) {
+            matchValue = true;
+        }
+    });
+    return matchValue;
   }
 
   validOldFeesVersions(feesObject: any) {
@@ -191,19 +179,19 @@ export class FilterFeesPipe implements PipeTransform {
   if ((feesObject.current_version !== undefined && validOldFeeVersionArray.length > 1)
   || (feesObject.current_version === undefined && validOldFeeVersionArray.length > 0)) {
       validOldVersionArray = validOldFeeVersionArray.filter(feesVersion => this.getValidFeeVersionsBasedOnDate(feesVersion));
-      if (feesObject.current_version === undefined) {
-        return validOldVersionArray;
-      }
-      return this.removeCurrentFeeFromFeeversion(validOldVersionArray, feesObject.current_version);
+      return this.removeCurrentFeeFromFeeversion(validOldVersionArray, feesObject);
     } else {
       return validOldVersionArray = [];
     }
   }
 
-  removeCurrentFeeFromFeeversion(validOldFeeVersionArray, currentVersion) {
+  removeCurrentFeeFromFeeversion(validOldFeeVersionArray, fees) {
+
+    const todayDate = <any>new Date();
 
     return validOldFeeVersionArray.filter(feesVersion => {
-      if (JSON.stringify(feesVersion) === JSON.stringify(currentVersion)) {
+      if (fees.current_version !== undefined && JSON.stringify(feesVersion) === JSON.stringify(fees.current_version)
+       || <any>new Date(feesVersion.valid_from) > todayDate) {
         return false;
       }
       return true;

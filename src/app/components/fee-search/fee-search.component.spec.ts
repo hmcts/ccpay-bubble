@@ -18,6 +18,7 @@ describe('Fee search component', () => {
     activatedRoute: any,
     router: Router,
     testFixedFlatFee: any,
+    testFixedFlatFee1: any,
     testFixedVolumeFee: any,
     testBandedFlatFee: any,
     testRateableFlatFee: any,
@@ -42,6 +43,62 @@ describe('Fee search component', () => {
         description: 'test-description'
       },
       'fee_versions': [
+        {
+          description: 'test fee version description',
+          status: 'approved',
+          author: '126172',
+          approvedBy: '126175',
+          version: 1,
+          valid_from: '2014-04-21T00:00:00.000+0000',
+          valid_to: '2014-04-21T00:00:00.000+0000',
+          flat_amount: {
+            'amount': 100
+          },
+          memo_line: 'test memo line',
+          statutory_instrument: 'test instrument ',
+          si_ref_id: 'test ref id',
+          natural_account_code: 'test nac',
+          fee_order_name: 'test fee order name',
+          direction: 'cost recovery'
+        }
+      ],
+      ccdCaseNumber: '1111-2222-3333-4444',
+      jurisdiction1: { name: 'test-jurisdiction1' },
+      jurisdiction2: { name: 'test-jurisdiction2' },
+    };
+
+    testFixedFlatFee1 = {
+      code: 'test-code',
+      fee_type: 'fixed',
+      'current_version': {
+        version: 1,
+        calculatedAmount: 1234,
+        memo_line: 'test-memoline',
+        natural_account_code: '1234-1234-1234-1234',
+        flat_amount: {
+          amount: '1234'
+        },
+        description: 'test-description'
+      },
+      'fee_versions': [
+        {
+          description: 'test fee version description',
+          status: 'approved',
+          author: '126172',
+          approvedBy: '126175',
+          version: 1,
+          valid_from: '2014-04-21T00:00:00.000+0000',
+          valid_to: '2014-04-21T00:00:00.000+0000',
+          flat_amount: {
+            'amount': 100
+          },
+          memo_line: 'test memo line',
+          statutory_instrument: 'test instrument ',
+          si_ref_id: 'test ref id',
+          natural_account_code: 'test nac',
+          fee_order_name: 'test fee order name',
+          direction: 'cost recovery'
+        },
         {
           description: 'test fee version description',
           status: 'approved',
@@ -183,9 +240,6 @@ describe('Fee search component', () => {
         }
       };
     activatedRoute = {
-      params: {
-        subscribe: (fun) => fun()
-      },
       snapshot: {
         queryParams: {
           ccdCaseNumber: '1234-1234-1234-1234',
@@ -258,7 +312,7 @@ describe('Fee search component', () => {
     expect(component.dcnNo).toBe('11');
     expect(component.selectedOption).toBe('test');
     // tslint:disable-next-line:max-line-length
-    expect(component.bulkScanningTxt).toBe('&isBulkScanning=Enable&isTurnOff=Enable&isStFixEnable=Disable&isOldPcipalOff=Disable&isNewPcipalOff=Disable');
+    expect(component.bulkScanningTxt).toBe('&isBulkScanning=Enable&isTurnOff=Enable&isStFixEnable=Disable&caseType=undefined&isOldPcipalOff=Disable&isNewPcipalOff=Disable');
   });
 
   it('Should reset preselected fee and show fee details ongoback', () => {
@@ -277,7 +331,7 @@ describe('Fee search component', () => {
     component.selectFee(testFixedFlatFee);
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
+    expect(router.navigateByUrl).toHaveBeenCalledTimes(3);
   });
 
 
@@ -481,7 +535,7 @@ describe('Fee search component', () => {
           jurisdiction1: testRateableFlatFee.jurisdiction1.name,
           jurisdiction2: testRateableFlatFee.jurisdiction2.name,
           description: testRateableFlatFee.current_version.description,
-          volume: null,
+          volume: 2,
           fee_amount: testRateableFlatFee.current_version.flat_amount.amount
         }]
       });
@@ -511,7 +565,7 @@ describe('Fee search component', () => {
           jurisdiction1: testRangedPercentFee.jurisdiction1.name,
           jurisdiction2: testRangedPercentFee.jurisdiction2.name,
           description: testRangedPercentFee.current_version.description,
-          volume: null,
+          volume: 2,
           fee_amount: testRangedPercentFee.current_version.percentage_amount.percentage
         }]
       });
