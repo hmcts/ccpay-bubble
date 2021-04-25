@@ -16,11 +16,11 @@ describe('Filter fees pipe', () => {
   it('Should filter an array of fees on description', () => {
     const validFees = filterFeesPipe.filterValidFee(mockFees);
     const results = filterFeesPipe.filterByDescription(validFees, 'test');
-    expect(results.length).toBe(2);
-    expect(results[0]).toEqual(validFees[0]);
+    expect(results.length).toBe(1);
+    expect(results[0]).toEqual(validFees[1]);
 
     const results2 = filterFeesPipe.filterByDescription(validFees, 'civil money');
-    expect(results2.length).toBe(2);
+    expect(results2.length).toBe(1);
     expect(results2[0]).toEqual(validFees[0]);
 
     const results3 = filterFeesPipe.filterByDescription(validFees, 'test civil money');
@@ -44,7 +44,7 @@ describe('Filter fees pipe', () => {
   it('Should filter an array of fees on amount and description when it is a number also sort by amount first', () => {
     const validFees = filterFeesPipe.filterValidFee(mockFees);
     const results = filterFeesPipe.filterByNumber(validFees, '500');
-    expect(results.length).toBe(1);
+    expect(results.length).toBe(2);
     expect(results[0]).toEqual(mockFees[1]);
   });
 

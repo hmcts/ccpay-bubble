@@ -535,7 +535,7 @@ describe('Fee search component', () => {
           jurisdiction1: testRateableFlatFee.jurisdiction1.name,
           jurisdiction2: testRateableFlatFee.jurisdiction2.name,
           description: testRateableFlatFee.current_version.description,
-          volume: 2,
+          volume: null,
           fee_amount: testRateableFlatFee.current_version.flat_amount.amount
         }]
       });
@@ -565,7 +565,7 @@ describe('Fee search component', () => {
           jurisdiction1: testRangedPercentFee.jurisdiction1.name,
           jurisdiction2: testRangedPercentFee.jurisdiction2.name,
           description: testRangedPercentFee.current_version.description,
-          volume: 2,
+          volume: null,
           fee_amount: testRangedPercentFee.current_version.percentage_amount.percentage
         }]
       });
