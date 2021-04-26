@@ -813,7 +813,7 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Fee Summary');
     this.see('FEE0002');
-    this.see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
+    this.see('Filing an application for a divorce, nullity or civil partnership dissolution');
     this.see('Fee amount');
     this.see('Volume');
     this.see('Fee total');
@@ -870,7 +870,7 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Fee Summary');
     this.see('FEE0002');
-    this.see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
+    this.see('Filing an application for a divorce, nullity or civil partnership dissolution');
     this.see('Fee amount');
     this.see('Volume');
     this.see('Fee total');
@@ -913,7 +913,7 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Fee Summary');
     this.see('FEE0002');
-    this.see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
+    this.see('Filing an application for a divorce, nullity or civil partnership dissolution');
     this.see('Fee amount');
     this.see('Volume');
     this.see('Fee total');
@@ -953,7 +953,7 @@ module.exports = () => actor({
     this.see('£548.50');
     this.see('£1.50');
     this.see('FEE0002');
-    this.see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
+    this.see('Filing an application for a divorce, nullity or civil partnership dissolution');
     this.see('RM-1599-0020-0986-6832');
     this.see('02 Sep 2020 00:13:29');
     this.see('HWF-A1B-23C');
@@ -980,7 +980,7 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Fee Summary');
     this.see('FEE0002');
-    this.see('Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
+    this.see('Filing an application for a divorce, nullity or civil partnership dissolution');
     this.see('Fee amount');
     this.see('Volume');
     this.see('Fee total');
