@@ -21,7 +21,6 @@ export class FeeSearchComponent implements OnInit {
   selectedOption: string = null;
   bulkScanningTxt = '&isBulkScanning=Enable&isTurnOff=Enable';
   isDiscontinuedFeatureEnabled = true;
-  lsCcdNumber: any = ls.get<any>('ccdNumber');
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -46,11 +45,6 @@ export class FeeSearchComponent implements OnInit {
                                 '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
     this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable' ?
                                 '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
-
-    if (this.lsCcdNumber !== this.ccdNo) {
-      this.router.navigateByUrl('/ccd-search?takePayment=true');
-    }
-
     this.paymentGroupService.getDiscontinuedFrFeature().then((status) => {
       this.isDiscontinuedFeatureEnabled = status;
     });
