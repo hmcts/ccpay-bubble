@@ -108,24 +108,22 @@ export class CcdSearchComponent implements OnInit {
             this.caseRefService.validateCaseRef(validRefCheck).subscribe(
               {
                 next: (resp) => {
-                  ls.set<any>('ccdNumber', this.ccdCaseNumber);
                   this.caseResponse = JSON.parse(resp);
-                },
-                error: () => {
-                  ls.remove('ccdNumber');
-                  this.noCaseFoundInCCD = true;
-                },
-                complete: () => {
-
                   if (this.caseResponse.case) {
                     this.caseType = this.ccdCaseNumber ? this.caseResponse.case : this.caseResponse.exception;
                   } else {
                     this.caseType = this.caseResponse['case_type'];
                   }
+                  ls.set<any>('ccdNumber', this.ccdCaseNumber);
+
                   // tslint:disable-next-line:max-line-length
                   let url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions`;
                   url = url.replace(/[\r\n]+/g, ' ');
                   this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
+                },
+                error: () => {
+                  ls.remove('ccdNumber');
+                  this.noCaseFoundInCCD = true;
                 }
               }
           );
