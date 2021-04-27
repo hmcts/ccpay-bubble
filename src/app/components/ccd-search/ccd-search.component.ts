@@ -105,6 +105,7 @@ export class CcdSearchComponent implements OnInit {
               this.ccdCaseNumber = '';
             }
             const validRefCheck = this.ccdCaseNumber ? this.ccdCaseNumber : this.excReference;
+            ls.set<any>('ccdNumber', validRefCheck);
             this.caseRefService.validateCaseRef(validRefCheck).subscribe(
               {
                 next: (resp) => {
@@ -114,8 +115,6 @@ export class CcdSearchComponent implements OnInit {
                   } else {
                     this.caseType = this.caseResponse['case_type'];
                   }
-                  ls.set<any>('ccdNumber', this.ccdCaseNumber);
-
                   // tslint:disable-next-line:max-line-length
                   let url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions`;
                   url = url.replace(/[\r\n]+/g, ' ');
