@@ -24,6 +24,7 @@ export class FeeSearchComponent implements OnInit {
   bulkScanningTxt = '&isBulkScanning=Enable&isTurnOff=Enable';
   isDiscontinuedFeatureEnabled = true;
   lsCcdNumber: any = ls.get<any>('ccdNumber');
+  isSelectLinkClicked = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -59,42 +60,45 @@ export class FeeSearchComponent implements OnInit {
   }
 
   selectFee(fee: IFee) {
-    const feeType = fee.fee_type;
-    const volAmt = fee.current_version ? fee.current_version['volume_amount'] : fee.fee_versions['volume_amount'];
-    const flatAmt = fee.current_version ? fee.current_version['flat_amount'] : fee.fee_versions['flat_amount'];
-    const percentageAmt = fee.current_version ? fee.current_version['percentage_amount'] : fee.fee_versions['percentage_amount'];
-    let paymentGroup;
-    const feeDetailsComponent = new FeeDetailsComponent(null, null);
-    if ((feeType === 'fixed' && volAmt)
-      || (feeType === 'banded' && flatAmt)
-      || (feeType === 'rateable' && flatAmt)
-      || (feeType === 'ranged' && percentageAmt)
-      || (this.isDiscontinuedFeatureEnabled && fee.fee_versions.length > 0 && feeDetailsComponent.validOldFeesVersions(fee).length > 0)) {
-      this.preselectedFee = fee;
-      this.showFeeDetails = true;
-    } else if (fee.current_version === undefined
-      && this.isDiscontinuedFeatureEnabled
-      && fee.fee_versions.length > 0
-      && feeDetailsComponent.validOldFeesVersions(fee).length > 0) {
-      this.preselectedFee = fee;
-      this.showFeeDetails = true;
-    } else if (fee.current_version !== undefined) {
-      paymentGroup = {
-        fees: [{
-          code: fee.code,
-          version: fee['current_version'].version.toString(),
-          'calculated_amount': fee['current_version'].flat_amount.amount.toString(),
-          'memo_line': fee['current_version'].memo_line,
-          'natural_account_code': fee['current_version'].natural_account_code,
-          'ccd_case_number': this.ccdNo,
-          jurisdiction1: fee.jurisdiction1['name'],
-          jurisdiction2: fee.jurisdiction2['name'],
-          description: fee.current_version.description,
-          volume: fee.fee_type === 'relational' ? null : 1,
-          fee_amount: fee['current_version'].flat_amount.amount.toString()
-        }]
-      };
-      this.sendPaymentGroup(paymentGroup);
+    if (!this.isSelectLinkClicked) {
+      this.isSelectLinkClicked = true;
+      const feeType = fee.fee_type;
+      const volAmt = fee.current_version ? fee.current_version['volume_amount'] : fee.fee_versions['volume_amount'];
+      const flatAmt = fee.current_version ? fee.current_version['flat_amount'] : fee.fee_versions['flat_amount'];
+      const percentageAmt = fee.current_version ? fee.current_version['percentage_amount'] : fee.fee_versions['percentage_amount'];
+      let paymentGroup;
+      const feeDetailsComponent = new FeeDetailsComponent(null, null);
+      if ((feeType === 'fixed' && volAmt)
+        || (feeType === 'banded' && flatAmt)
+        || (feeType === 'rateable' && flatAmt)
+        || (feeType === 'ranged' && percentageAmt)
+        || (this.isDiscontinuedFeatureEnabled && fee.fee_versions.length > 0 && feeDetailsComponent.validOldFeesVersions(fee).length > 0)) {
+        this.preselectedFee = fee;
+        this.showFeeDetails = true;
+      } else if (fee.current_version === undefined
+        && this.isDiscontinuedFeatureEnabled
+        && fee.fee_versions.length > 0
+        && feeDetailsComponent.validOldFeesVersions(fee).length > 0) {
+        this.preselectedFee = fee;
+        this.showFeeDetails = true;
+      } else if (fee.current_version !== undefined) {
+        paymentGroup = {
+          fees: [{
+            code: fee.code,
+            version: fee['current_version'].version.toString(),
+            'calculated_amount': fee['current_version'].flat_amount.amount.toString(),
+            'memo_line': fee['current_version'].memo_line,
+            'natural_account_code': fee['current_version'].natural_account_code,
+            'ccd_case_number': this.ccdNo,
+            jurisdiction1: fee.jurisdiction1['name'],
+            jurisdiction2: fee.jurisdiction2['name'],
+            description: fee.current_version.description,
+            volume: fee.fee_type === 'relational' ? null : 1,
+            fee_amount: fee['current_version'].flat_amount.amount.toString()
+          }]
+        };
+        this.sendPaymentGroup(paymentGroup);
+      }
     }
   }
 
@@ -163,6 +167,7 @@ export class FeeSearchComponent implements OnInit {
         this.router.navigateByUrl(url);
       })
         .catch(err => {
+          this.isSelectLinkClicked = false;
           this.navigateToServiceFailure();
         });
     }
@@ -171,5 +176,4 @@ export class FeeSearchComponent implements OnInit {
   navigateToServiceFailure() {
     this.router.navigateByUrl('/service-failure');
   }
-
 }

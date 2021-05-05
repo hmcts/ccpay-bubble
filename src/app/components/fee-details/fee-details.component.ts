@@ -156,5 +156,4 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
       return feeVersion['percentage_amount'].percentage;
     }
   }
-
 }
