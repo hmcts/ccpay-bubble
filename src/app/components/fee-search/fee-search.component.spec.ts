@@ -336,7 +336,7 @@ describe('Fee search component', () => {
     expect(component.dcnNo).toBe('11');
     expect(component.selectedOption).toBe('test');
     // tslint:disable-next-line:max-line-length
-    expect(component.bulkScanningTxt).toBe('&isBulkScanning=Enable&isTurnOff=Enable&isStFixEnable=Disable&isOldPcipalOff=Disable&isNewPcipalOff=Disable');
+    expect(component.bulkScanningTxt).toBe('&isBulkScanning=Enable&isTurnOff=Enable&isStFixEnable=Disable&caseType=undefined&isOldPcipalOff=Disable&isNewPcipalOff=Disable');
   });
 
   it('Should reset preselected fee and show fee details ongoback', () => {
@@ -413,7 +413,7 @@ describe('Fee search component', () => {
     it('should call backend with correct fee details', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
       spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
-      const emitSelectEvent = { volumeAmount: 2, selectedVersionEmit: null };
+      const emitSelectEvent = { volumeAmount: 2, selectedVersionEmit: null, isDiscontinuedFeeAvailable: false };
       component.selectFee(testFixedVolumeFee);
       component.selectPreselectedFeeWithVolume(emitSelectEvent);
       await fixture.whenStable();
@@ -465,7 +465,7 @@ describe('Fee search component', () => {
     it('should call backend with correct fee details', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
       spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
-      const emitted_value = { volumeAmount: 2, selectedVersionEmit: null };
+      const emitted_value = { volumeAmount: 2, selectedVersionEmit: null, isDiscontinuedFeeAvailable: false };
 
       component.selectFee(testBandedFlatFee);
       component.selectPreselectedFeeWithVolume(emitted_value);
@@ -543,7 +543,7 @@ describe('Fee search component', () => {
     it('should call backend with rateable fee and flat amount', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
       spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
-      const emitted_value = { volumeAmount: 2, selectedVersionEmit: null };
+      const emitted_value = { volumeAmount: 2, selectedVersionEmit: null, isDiscontinuedFeeAvailable: false };
 
       component.selectFee(testRateableFlatFee);
       component.selectPreselectedFeeWithVolume(emitted_value);
@@ -573,7 +573,7 @@ describe('Fee search component', () => {
       spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
       await component.ngOnInit();
 
-      const emitted_value = { volumeAmount: 2, selectedVersionEmit: null };
+      const emitted_value = { volumeAmount: 2, selectedVersionEmit: null, isDiscontinuedFeeAvailable: false };
 
       component.selectFee(testRangedPercentFee);
       component.selectPreselectedFeeWithVolume(emitted_value);
