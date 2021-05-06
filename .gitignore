@@ -45,6 +45,8 @@ Reset
 express/mvc/views/index.pug
 package-lock.json
 /reports/*
+mochawesome-report/
+functional-output/
 
 # System Files
 .DS_Store
