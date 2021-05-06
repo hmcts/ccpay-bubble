@@ -105,7 +105,7 @@ const setupConfig = {
     chrome: { browsers: getBrowserConfig('chrome') },
     firefox: { browsers: getBrowserConfig('firefox') }
   },
-  name: 'Fee and Pay FrontEnd Cross-Browser Tests'
+  name: 'Fee and Pay Paybubble FrontEnd Cross-Browser Tests'
 };
 
 exports.config = setupConfig;

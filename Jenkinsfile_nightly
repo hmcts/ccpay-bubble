@@ -57,7 +57,7 @@ withNightlyPipeline("nodejs", product, component) {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
   after('crossBrowserTest') {
-     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'mochawesome-report/**/*'
   }
 
   after('mutationTest') {
