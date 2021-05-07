@@ -29,14 +29,14 @@ module.exports = {
     '!src/app/models/**/*.spec.ts',
     '!src/app/models/FeeModel.ts',
     //  Route-Guards
-    'src/app/route-guards/**/*.ts',
+    '!src/app/route-guards/**/*.ts',
     '!src/app/route-guards/**/*.spec.ts',
     //  Services
     'src/app/services/**/*.ts',
     '!src/app/services/**/*.spec.ts',
     '!src/app/services/caseref/caseref.service.ts',
     //  Shared
-    'src/app/shared/**/*.ts',
+    '!src/app/shared/**/*.ts',
     '!src/app/shared/**/*.spec.ts',
     '!src/app/shared/interceptors/auth.dev.interceptor.ts',
     '!src/app/shared/validators/help-with-fees.validator.ts',
