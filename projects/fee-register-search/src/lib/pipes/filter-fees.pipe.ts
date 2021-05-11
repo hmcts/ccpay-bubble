@@ -32,7 +32,7 @@ export class FilterFeesPipe implements PipeTransform {
     return filteredList;
   }
 
- 
+
   filterValidFee(fees: IFee[]) {
     const todayDate = new Date();
         return fees.filter((fee: IFee) => {
