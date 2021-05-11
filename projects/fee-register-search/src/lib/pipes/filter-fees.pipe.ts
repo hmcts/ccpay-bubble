@@ -129,3 +129,4 @@ export class FilterFeesPipe implements PipeTransform {
     return conjuctions.find((str) => str === word);
   }
 }
+
