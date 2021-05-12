@@ -339,10 +339,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@hmcts/ccpay-web-component@4.0.0-beta199":
-  version "4.0.0-beta199"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta199.tgz#497075db74d6758426ca4a80c8425a41c80eb398"
-  integrity sha512-nCzlBGD184WDp6HdwPZ9lDRmmXdtLpJy6vruEcSryc3sZBoYRWoNAEiW5Tx4+0nSKj53uUNeWTmvKYf+iy9T4g==
+"@hmcts/ccpay-web-component@4.0.0-beta212":
+  version "4.0.0-beta212"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta212.tgz#62d6dcfb37398e52c625b5fffa2f4c491535b2ed"
+  integrity sha512-WTQAe1WKFf26tiOTfzRlkLjVHc9SICLV8rmPjFoKvuJyA0AFNsPr2TkQTTtOhRuhopPw/LAOYfXe4qKJl4fGDA==
   dependencies:
     tslib "^1.9.0"
 
@@ -11611,14 +11611,7 @@ sshpk@^1.7.0:
     safer-buffer "^2.0.2"
     tweetnacl "~0.14.0"
 
-ssri@^6.0.0, ssri@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/ssri/-/ssri-6.0.1.tgz#2a3c41b28dd45b62b63676ecb74001265ae9edd8"
-  integrity sha512-3Wge10hNcT1Kur4PDFwEieXSCMCJs/7WvSACcrMYrNp+b8kDL1/0wJch5Ni2WrtwEa2IO8OsVfeKIciKCDx/QA==
-  dependencies:
-    figgy-pudding "^3.5.1"
-
-ssri@^8.0.0:
+"ssri@>=6.0.2 <7.0.0 || >=8.0.1", ssri@^6.0.0, ssri@^6.0.1, ssri@^8.0.0:
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/ssri/-/ssri-8.0.1.tgz#638e4e439e2ffbd2cd289776d5ca457c4f51a2af"
   integrity sha512-97qShzy1AiyxvPNIkLWoGua7xoQzzPjQ0HAH4B0rWKo7SZ6USuPcrUiAFrws0UH8RrbWmgq3LMTObhPIHbbBeQ==
