@@ -22,17 +22,27 @@ module.exports = {
   ],
   mutate: [
     // Components
-    'src/app/components/**/*.ts',
+    'src/app/components/**/add-fee-detail.component.ts',
+    'src/app/components/**/ccd-search.component.spec.ts',
+    'src/app/components/**/confirmation.component.ts',
+    'src/app/components/**/fee-details.component.ts',
+    'src/app/components/**/fee-search.component.ts',
+    'src/app/components/**/payment-history.component.ts',
+    'src/app/components/**/review-fee-detail.component.ts',
+    'src/app/components/**/view-payment.component.ts',
     '!src/app/components/**/*.spec.ts',
     //  Models
-    'src/app/models/**/*.ts',
+    'src/app/models/**/PaymentModel.ts',
+    'src/app/models/**/RemissionModel.ts',
     '!src/app/models/**/*.spec.ts',
     '!src/app/models/FeeModel.ts',
     //  Route-Guards
     '!src/app/route-guards/**/*.ts',
     '!src/app/route-guards/**/*.spec.ts',
     //  Services
-    'src/app/services/**/*.ts',
+    'src/app/services/**/add-fee-detail.service.ts',
+    'src/app/services/**/paybubble.http.client.ts',
+    'src/app/services/**/payment-group.service.ts',
     '!src/app/services/**/*.spec.ts',
     '!src/app/services/caseref/caseref.service.ts',
     //  Shared
