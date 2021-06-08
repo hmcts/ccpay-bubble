@@ -3,7 +3,6 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {FeeDetailsComponent} from './fee-details.component';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { IVersion } from 'fee-register-search/lib/interfaces';
 import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
 import { instance, mock, anyFunction } from 'ts-mockito';
 import { HttpClient } from '@angular/common/http';
@@ -46,6 +45,40 @@ describe('FeeDetailsComponent', () => {
     fixture = TestBed.createComponent(FeeDetailsComponent);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
     component = fixture.componentInstance;
+    component.fee = {
+      code: 'test-code',
+      fee_type: 'banded',
+      fee_versions: [
+        {
+          description: 'Recovery order (section 50)',
+          status: 'approved',
+          author: '126172',
+          approvedBy: '126175',
+          version: 1,
+          valid_from: '2014-04-21T00:00:00.000+0000',
+          valid_to: '2014-04-21T00:00:00.000+0000',
+          flat_amount: {
+            'amount': 215
+          },
+          memo_line: 'RECEIPT OF FEES - Family misc private',
+          statutory_instrument: '2014 No 877 ',
+          si_ref_id: '2.1q',
+          natural_account_code: '4481102174',
+          fee_order_name: 'Family Proceedings',
+          direction: 'cost recovery'
+        }
+      ],
+      current_version: {
+        version: 1,
+        calculatedAmount: 1234,
+        memo_line: 'test-memoline',
+        natural_account_code: '1234-1234-1234-1234',
+        flat_amount: {
+          amount: 1234
+        },
+        description: 'test-description'
+      }
+    };
     fixture.detectChanges();
   });
 
@@ -66,13 +99,14 @@ describe('FeeDetailsComponent', () => {
   });
 
   it('Should  submit fee volume', () => {
-    const submitEventemmitter = Object({ volumeAmount: 1, selectedVersionEmit: undefined });
+    const submitEventemmitter = Object({ volumeAmount: 1, selectedVersionEmit: undefined, isDiscontinuedFeeAvailable: false });
     spyOn(component.submitFeeVolumeEvent, 'emit');
     component.submitVolume();
     expect(component.submitFeeVolumeEvent.emit).toHaveBeenCalledWith(submitEventemmitter);
   });
   it('Should  submit fee volume with feeversion', () => {
     spyOn(component.submitFeeVolumeEvent, 'emit');
+
     const submitEventemmitter = Object({ volumeAmount: 1, selectedVersionEmit: {
       version: 1,
       calculatedAmount: 0,
@@ -82,7 +116,7 @@ describe('FeeDetailsComponent', () => {
         amount: '0'
       },
       description: 'test-description'
-  } });
+  }, isDiscontinuedFeeAvailable: false });
 
     component.getSelectedFeesVersion(testFeeVersions);
     component.submitVolume();
@@ -149,6 +183,7 @@ describe('FeeDetailsComponent', () => {
   });
 
   it('Should return true if  valid_to has value and no valid_from value', () => {
+
     const feeVersion4: any  = {
       version: 1,
       calculatedAmount: 0,
@@ -165,6 +200,7 @@ describe('FeeDetailsComponent', () => {
   });
 
   it('Should return true if valid_from has value and no valid_to value', () => {
+
     const feeVersion5: any  = {
       version: 1,
       calculatedAmount: 0,
@@ -182,6 +218,7 @@ describe('FeeDetailsComponent', () => {
   });
 
   it('Should return false if valid_from  and no valid_to has nore than six month value', () => {
+
     const feeVersion6: any  = {
       version: 1,
       calculatedAmount: 0,
@@ -263,8 +300,8 @@ describe('FeeDetailsComponent', () => {
             'author': 'a',
             'approvedBy': 'approvedBy4',
             'version': 6,
-            'valid_from': '2019-11-30T00:00:00.000+0000',
-            'valid_to': '2019-12-30T00:00:00.000+0000',
+            'valid_from': '2020-11-30T00:00:00.000+0000',
+            'valid_to': '2020-12-30T00:00:00.000+0000',
             'flat_amount': {
                'amount': 150.00
             },
@@ -288,6 +325,120 @@ describe('FeeDetailsComponent', () => {
       }
    };
     const result7 = component.validOldFeesVersions(component.fee);
-    expect(result7.length).toBe(2);
+    expect(result7.length).toBe(1);
+  });
+
+  it('Should return true if current version is undefined', () => {
+    component.fee = {
+      'code': 'FEE0001',
+      'fee_type': 'banded',
+      'fee_versions': [
+         {
+            'description': 'description1',
+            'status': 'approved',
+            'author': 'author1',
+            'approvedBy': 'approvedBy1',
+            'version': 1,
+            'valid_from': '2020-11-04T13:18:31.550+0000',
+            'valid_to': '2021-02-04T13:18:31.550+0000',
+            'flat_amount': {
+               'amount': 0.50
+            },
+            'memo_line': 'memoline1',
+            'statutory_instrument': '2014 No 874',
+            'si_ref_id': '4.1a',
+            'natural_account_code': '4481102150',
+            'fee_order_name': 'Civil Proceedings',
+            'direction': 'enhanced'
+         }
+      ]
+   };
+   component.validOldFeesVersions(component.fee);
+   component.submitVolume();
+   expect(component.fee.fee_versions.length).toBe(1);
+   expect(component.fee.current_version).toBeUndefined();
+   expect(component.validOldVersionArray.length).toBe(1);
+  });
+
+  it('Should return true if current version is undefined1', () => {
+    component.fee = {
+      'code': 'FEE0001',
+      'fee_type': 'banded',
+      'fee_versions': [
+         {
+            'description': 'description1',
+            'status': 'approved',
+            'author': 'author1',
+            'approvedBy': 'approvedBy1',
+            'version': 1,
+            'valid_from': '2020-11-04T13:18:31.550+0000',
+            'valid_to': null,
+            'flat_amount': {
+               'amount': 0.50
+            },
+            'memo_line': 'memoline1',
+            'statutory_instrument': '2014 No 874',
+            'si_ref_id': '4.1a',
+            'natural_account_code': '4481102150',
+            'fee_order_name': 'Civil Proceedings',
+            'direction': 'enhanced'
+         }
+      ]
+   };
+   component.validOldFeesVersions(component.fee);
+   component.submitVolume();
+   expect(component.fee.fee_versions.length).toBe(1);
+   expect(component.fee.current_version).toBeUndefined();
+   expect(component.validOldVersionArray.length).toBe(0);
+  });
+
+  it('Should return true if current version is undefined2', () => {
+    component.fee = {
+      'code': 'FEE0001',
+      'fee_type': 'banded',
+      'fee_versions': [
+         {
+            'description': 'description1',
+            'status': 'approved',
+            'author': 'author1',
+            'approvedBy': 'approvedBy1',
+            'version': 1,
+            'valid_from': '2020-11-04T13:18:31.550+0000',
+            'valid_to': null,
+            'flat_amount': {
+               'amount': 0.50
+            },
+            'memo_line': 'memoline1',
+            'statutory_instrument': '2014 No 874',
+            'si_ref_id': '4.1a',
+            'natural_account_code': '4481102150',
+            'fee_order_name': 'Civil Proceedings',
+            'direction': 'enhanced'
+         },
+         {
+          'description': 'description1',
+          'status': 'approved',
+          'author': 'author1',
+          'approvedBy': 'approvedBy1',
+          'version': 1,
+          'valid_from': '2020-11-04T13:18:31.550+0000',
+          'valid_to': null,
+          'flat_amount': {
+             'amount': 0.50
+          },
+          'memo_line': 'memoline1',
+          'statutory_instrument': '2014 No 874',
+          'si_ref_id': '4.1a',
+          'natural_account_code': '4481102150',
+          'fee_order_name': 'Civil Proceedings',
+          'direction': 'enhanced'
+       }
+      ]
+   };
+   component.validOldFeesVersions(component.fee);
+   component.submitVolume();
+   expect(component.fee.fee_versions.length).toBe(2);
+   expect(component.fee.current_version).toBeUndefined();
   });
 });
+
