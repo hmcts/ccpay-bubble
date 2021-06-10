@@ -303,6 +303,19 @@ class PayhubService {
     const regFeature = features.find(feature => feature.uid === CASE_REF_VALIDATION_ENABLED);
     return regFeature ? regFeature.enable : false;
   }
+
+  getPartyDetails(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${payhubUrl}/case-payment-orders?case_ids=${req.query['case-ids']}`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      responseType: 'blob',
+      json: true
+    }));
+  }
 }
 
 module.exports = PayhubService;
