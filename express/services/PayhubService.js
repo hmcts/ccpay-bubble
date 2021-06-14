@@ -291,6 +291,7 @@ class PayhubService {
   }
 
   getPartyDetails(req) {
+    Logger.getLogger('getPartyDetails').info(req.query['case-ids']);
     return this.createAuthToken().then(token => request.get({
       uri: `${payhubUrl}/case-payment-orders?case_ids=${req.query['case-ids']}`,
       headers: {

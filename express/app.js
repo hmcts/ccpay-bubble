@@ -133,6 +133,7 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.ccpayWebComponentIntegration(req, res);
   })
   .get('/payment-history/case-payment-orders?*', (req, res) => {
+    Logger.getLogger('getPartyDetails controller').info(req.query['case-ids']);
     controllers.payhubController.getPartyDetails(req, res);
   })
   .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('secrets.ccpay.AppInsightsInstrumentationKey') }))
