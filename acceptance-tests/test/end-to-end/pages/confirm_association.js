@@ -24,7 +24,7 @@ module.exports = {
 
   },
   verifyConfirmAssociationFullPayment(feeCode, totalAmount, amount) {
-    I.see('Confirm association');
+    I.see('Confirm allocation');
     I.see('Amount to be allocated: '.concat(totalAmount));
     I.see('Code');
     I.see('Description');
@@ -40,7 +40,7 @@ module.exports = {
   },
 
   verifyConfirmAssociationShortfallPayment(feeCode, amount, shortfallAmount) {
-    I.see('Confirm association');
+    I.see('Confirm allocation');
     I.see('Amount to be allocated: '.concat(amount));
     I.see('Code');
     I.see('Description');

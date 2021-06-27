@@ -15,7 +15,7 @@ module.exports = {
   verifyRemissionPage(feeCode) {
     I.see('Add remission');
     I.see('Enter remission for reference. For example: HWF-A1B-23C');
-    I.see(`Add remission to ${feeCode}:${PaybubbleStaticData.fee_description[feeCode]}`);
+    I.see(`Add remission to ${feeCode}: ${PaybubbleStaticData.fee_description[feeCode]}`);
     I.see('How much does the applicant need to pay?');
     I.see('Submit');
   },

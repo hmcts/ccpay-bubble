@@ -10,6 +10,7 @@ const { I } = inject();
 module.exports = {
   // done
   navigateToPaymentHistory() {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click('Payment history');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
@@ -63,11 +64,11 @@ module.exports = {
   },
 
   validateTransferredUnidentifedPaymentDetailsPage() {
-    I.see('Payment details');
+    // I.see('Payment details');
     I.see('Payment reference');
     I.see('Payment amount');
-    I.see('Payment asset number(DCN)');
-    I.see('Banked date');
+    // I.see('Payment asset number(DCN)');
+    // I.see('Banked date');
     I.dontSee('Fee and remission details');
     I.dontSee('Description');
     I.dontSee('Fee code');
@@ -78,8 +79,11 @@ module.exports = {
     I.see('Type');
     I.dontSee('Payment status history');
     I.dontSee('Amount');
-    I.dontSee('Status');
+    I.see('Status');
     I.dontSee('Date');
+    I.see('Allocaton Status');
+    I.see('Unidentified');
+    I.see('bulk scan');
   },
 
 
@@ -101,7 +105,7 @@ module.exports = {
     this.validateTransferredUnidentifedPaymentDetailsPage();
     I.see(receiptReference);
     I.see(amount);
-    I.see(dcnNumber);
+    // I.see(dcnNumber);
     if (testConfig.e2e.testForCrossbrowser !== 'true') {
       I.see(paymentMethod);
     }

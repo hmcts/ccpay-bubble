@@ -7,32 +7,34 @@ const { I } = inject();
 module.exports = {
 
   verifyFeeSummaryBulkScan(feeCode) {
-    I.see('Fee Summary');
-    I.see(feeCode);
+    I.see('Summary');
+    // I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
-    I.see('Fee amount');
-    I.see('Volume');
-    I.see('Fee total');
-    I.see('Remission amount');
-    I.see('Total after remission');
-    I.see('Total payment');
-    I.see('Total outstanding amount');
-    I.dontSee('What service is this fee for?');
+    I.see('Amount');
+    I.see('Quantity');
+    I.see('Total to pay');
+    I.see('Remove');
+    I.see('Add help with fees or remission');
+    I.see('Add fee');
+    I.see('Allocate payment');
+    I.dontSee('case reference');
   },
 
   verifyFeeSummaryAfterRemissionBulkScan(feeCode, remissionAmount, totalAfterRemission) {
-    I.see('Fee Summary');
-    I.see(feeCode);
+    I.see('Summary');
+    // I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
-    I.see('Fee amount');
-    I.see('Volume');
-    I.see('Fee total');
-    I.see('Remission amount');
-    I.see('HWF-A1B-23C');
-    I.see('Total after remission');
+    I.see('Amount');
+    // I.see('Volume');
+    // I.see('Fee total');
+    // I.see('Remission amount');
+    I.see('Description');
+    I.see('Quantity');
+    I.see('Remission,HWF-A1B-23C');
+    // I.see('Total after remission');
     I.see(remissionAmount);
-    I.see('Total payment');
-    I.see('Total outstanding amount');
+    I.see('Total to pay:');
+    // I.see('Total outstanding amount');
     I.see(totalAfterRemission);
     I.dontSee('What service is this fee for?');
   },
@@ -43,12 +45,13 @@ module.exports = {
   },
 
   addFeeFromSummary() {
-    I.click('Add a new fee');
+    I.click('Add fee');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  deductRemission(feeCode) {
-    I.click({ xpath: `//ccpay-fee-summary//*[text()='${feeCode}']/../td[4]//*[text()=' Deduct remission ']` });
+  deductRemission() {
+    I.click('Add help with fees or remission');
+    // I.click({ xpath: `//ccpay-fee-summary//*[text()='${feeCode}']/../td[4]//*[text()=' Deduct remission ']` });
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
