@@ -112,7 +112,7 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
     }
 
 
-    if ((feesObject.current_version !== undefined && validOldFeeVersionArray.length > 1)
+    if ((feesObject.current_version !== undefined && validOldFeeVersionArray.length > 0)
     || (feesObject.current_version === undefined && validOldFeeVersionArray.length > 0)) {
       this.validOldVersionArray = validOldFeeVersionArray.filter(feesVersion => this.getValidFeeVersionsBasedOnDate(feesVersion));
 
