@@ -1,5 +1,6 @@
 <div class="govuk-width-container">
   <form [formGroup]="feeDetailForm">
+    
     <legend><h1 class="heading-xlarge">Add fee details</h1></legend>
 
     <div class="form-group" [ngClass]="showErrors && feeDetailForm.get('serviceType').errors ? 'form-group-error': ''">
