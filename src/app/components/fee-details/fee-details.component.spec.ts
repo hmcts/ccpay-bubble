@@ -325,7 +325,7 @@ describe('FeeDetailsComponent', () => {
       }
    };
     const result7 = component.validOldFeesVersions(component.fee);
-    expect(result7.length).toBe(0);
+    expect(result7.length).toBe(1);
   });
 
   it('Should return true if current version is undefined', () => {
