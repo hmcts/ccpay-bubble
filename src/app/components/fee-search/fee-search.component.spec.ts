@@ -285,8 +285,10 @@ describe('Fee search component', () => {
     spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
     spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
     await component.ngOnInit();
+    component.isSelectLinkClicked = false;
     component.selectFee(testFixedFlatFee);
     fixture.detectChanges();
+    expect(component.isSelectLinkClicked).toBeTruthy();
     expect(paymentGroupService.postPaymentGroup).toHaveBeenCalledWith({
       fees: [{
         code: testFixedFlatFee.code,
@@ -302,6 +304,28 @@ describe('Fee search component', () => {
         fee_amount: testFixedFlatFee.current_version.flat_amount.amount
       }]
     });
+  });
+
+  it('Should not allow multiple click', async () => {
+    spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+    await component.ngOnInit();
+    component.isSelectLinkClicked = true;
+    component.selectFee(testFixedFlatFee);
+    fixture.detectChanges();
+    expect(component.isSelectLinkClicked).toBeTruthy();
+  });
+
+  it('Should check what happen if fee version more than one', async () => {
+    spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+    await component.ngOnInit();
+    component.isSelectLinkClicked = false;
+    component.selectFee(testFixedFlatFee1);
+    fixture.detectChanges();
+    expect(component.isSelectLinkClicked).toBeTruthy();
   });
 
   it('Should set ccd number from URL', async () => {
