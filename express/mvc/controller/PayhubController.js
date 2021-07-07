@@ -7,7 +7,6 @@ const HttpStatusCodes = require('http-status-codes');
 const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
 const LDprefix = config.get('environment.ldPrefix');
 const user = { key: `${LDprefix}@test.com` };
-
 const constants = Object.freeze({ PCIPAL_SECURITY_INFO: '__pcipal-info' });
 
 class PayhubController {
@@ -69,7 +68,7 @@ class PayhubController {
         }
       })
       .catch(error => {
-        res.status(500).json({ err: error.message, success: false });
+        res.status(error.statusCode).json({ err: error.message, success: false });
       });
   }
 
@@ -347,6 +346,21 @@ class PayhubController {
         res.status(500).json({ err: error, success: false });
       });
   }
+
+  getPartyDetails(req, res) {
+    return this.payhubService.getPartyDetails(req)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json(error.message);
+        } else {
+          res.status(500).json(error);
+        }
+      });
+  }
+
   bulkScanToggleFeature(req, res) {
     return this.payhubService.getBSfeature(req)
       .then(result => {
