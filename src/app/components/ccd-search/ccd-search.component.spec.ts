@@ -29,6 +29,8 @@ describe('CCD search component with takePayment is equal to true', () => {
     mockResponse: any,
     mockResponse1: any,
     mockResponse2: any,
+    mockResponse3: any,
+    mockResponse4: any,
     activatedRoute;
   const formBuilder: FormBuilder = new FormBuilder();
   beforeEach(() => {
@@ -132,6 +134,7 @@ describe('CCD search component with takePayment is equal to true', () => {
           }
         ]
   };
+  mockResponse3 = '{\n "exception":"CMC_ExceptionRecord",\n "case":"MoneyClaimCase"}';
 
   mockResponse2 = {
     amount: 550,
@@ -170,6 +173,15 @@ describe('CCD search component with takePayment is equal to true', () => {
         status: 'Initiated'
       }
     ]
+};
+mockResponse4 = {
+  data: {
+     ccd_reference: '1111222299990000',
+     exception_record_reference: '1111222233334444',
+     responsible_service_id: 'AA08',
+     all_payments_status: 'INCOMPLETE'
+  },
+  success: true
 };
     fixture = TestBed.createComponent(CcdSearchComponent);
     component = fixture.componentInstance;
@@ -233,7 +245,9 @@ describe('CCD search component with takePayment is equal to true', () => {
   });
 
   it('Search form should be valid if a correct format string has been entered', async () => {
-    spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+    spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+      of(mockResponse3)
+    );
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
     spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
@@ -244,7 +258,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.hasErrors).toBeFalsy();
     expect(component.dcnNumber).toBe(null);
     expect(component.ccdCaseNumber).toBe('1111222233334444');
-  });
+     });
 
   it('Should remove hyphems from ccd_case_number', () => {
     let ccd_case_number = '1111-2222-3333-4444';
@@ -261,6 +275,9 @@ describe('CCD search component with takePayment is equal to true', () => {
   });
    it('Should get dcn details', async () => {
     spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+      of(mockResponse3)
+    );
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
     spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
@@ -304,6 +321,9 @@ describe('CCD search component with takePayment is equal to true', () => {
   it('Should get dcn details', async () => {
     mockResponse['data'].ccd_reference = null;
     spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+      of(mockResponse3)
+    );
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
     component.ngOnInit();
@@ -339,6 +359,9 @@ describe('CCD search component with takePayment is equal to true', () => {
   it('Should get go to correct navigation', async () => {
     mockResponse['data'].ccd_reference = null;
     spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse));
+    spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+      of(mockResponse3)
+    );
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
     component.ngOnInit();
@@ -377,8 +400,9 @@ describe('CCD search component with takePayment is equal to true', () => {
     );
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
-    spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
-
+    spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+      of(mockResponse3)
+    );
     component.ngOnInit();
     component.dcnNumber = '';
     component.ccdCaseNumber = '';
@@ -421,7 +445,9 @@ describe('CCD search component with takePayment is equal to true', () => {
     );
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
-    spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+    spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+      of(mockResponse3)
+    );
 
     component.ngOnInit();
     component.dcnNumber = '';
@@ -465,7 +491,9 @@ describe('CCD search component with takePayment is equal to true', () => {
     );
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
-    spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+    spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+      of(mockResponse3)
+    );
 
     component.ngOnInit();
     component.dcnNumber = '';
@@ -491,7 +519,9 @@ describe('CCD search component with takePayment is equal to true', () => {
     );
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
-    spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+    spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+      of(mockResponse3)
+    );
 
     component.ngOnInit();
     component.dcnNumber = '';
@@ -512,7 +542,7 @@ describe('CCD search component with takePayment is equal to true', () => {
    });
    it('Should get prn details if validateCaseRef return error', async () => {
     spyOn(viewPaymentService, 'getPaymentDetail').and.returnValue(
-      of(mockResponse2)
+      of(mockResponse3)
     );
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
@@ -532,8 +562,8 @@ describe('CCD search component with takePayment is equal to true', () => {
     component.searchFees();
     await fixture.whenStable();
     expect(component.selectedValue).toBe('RC');
-    expect(component.ccdCaseNumber).toBe('1111222233334444');
-    expect(component.noCaseFound).toBeTruthy();
+    expect(component.ccdCaseNumber).toBe('');
+    expect(component.noCaseFound).toBeFalsy();
    });
    it('Should get prn details if getPaymentDetail return error', async () => {
     spyOn(viewPaymentService, 'getPaymentDetail').and.returnValue(throwError(new Error('Test error')));
@@ -576,7 +606,9 @@ describe('CCD search component with takePayment is equal to true', () => {
     );
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
-    spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+    spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+      of(mockResponse3)
+    );
 
     component.ngOnInit();
     component.dcnNumber = '';
@@ -585,6 +617,8 @@ describe('CCD search component with takePayment is equal to true', () => {
     component.isBulkscanningEnable = true;
     component.isStrategicFixEnable = true;
     component.isTurnOff = true;
+    component.isOldPcipalOff = true;
+    component.isNewPcipalOff = true;
 
     component.onSelectionChange('RC');
     expect(component.selectedValue).toBe('RC');
@@ -596,9 +630,6 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.dcnNumber).toBe(null);
     expect(component.ccdCaseNumber).toBe('1111222233334444');
     expect(component.noCaseFound).toBeFalsy();
-    // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable&isOldPcipalOff=Disable&isNewPcipalOff=Disable');
-
     component.ngOnInit();
     component.dcnNumber = '';
     component.ccdCaseNumber = '';
@@ -606,6 +637,8 @@ describe('CCD search component with takePayment is equal to true', () => {
     component.isBulkscanningEnable = false;
     component.isStrategicFixEnable = false;
     component.isTurnOff = false;
+    component.isOldPcipalOff = false;
+    component.isNewPcipalOff = false;
     component.onSelectionChange('RC');
     expect(component.selectedValue).toBe('RC');
     spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('RC');
@@ -616,9 +649,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.dcnNumber).toBe('');
     expect(component.ccdCaseNumber).toBe('');
     expect(component.noCaseFound).toBeFalsy();
-    // tslint:disable-next-line:max-line-length
-    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/1111222233334444?selectedOption=RC&dcn=null&view=case-transactions&takePayment=true&isBulkScanning=Enable&isStFixEnable=Enable&isTurnOff=Enable&isOldPcipalOff=Disable&isNewPcipalOff=Disable');
-  });
+     });
 });
 
 
@@ -628,7 +659,11 @@ describe('ccd search component without takePayment option', () => {
     caseRefService: CaseRefService,
     paymentGroupService: PaymentGroupService,
     viewPaymentService: ViewPaymentService,
-    activatedRoute;
+    activatedRoute,
+    mockResponse: any,
+    mockResponse1: any,
+    mockResponse4: any;
+
   const formBuilder: FormBuilder = new FormBuilder();
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -664,6 +699,17 @@ describe('ccd search component without takePayment option', () => {
         }
       ]
     });
+    mockResponse = '{\n "exception":"CMC_ExceptionRecord",\n "case":"MoneyClaimCase"}';
+    mockResponse1 = '{"case_type":"MoneyClaimCase"}';
+    mockResponse4 = {
+      data: {
+         ccd_reference: '1111222299990000',
+         exception_record_reference: '1111222233334444',
+         responsible_service_id: 'AA08',
+         all_payments_status: 'INCOMPLETE'
+      },
+      success: true
+    };
     fixture = TestBed.createComponent(CcdSearchComponent);
     component = fixture.componentInstance;
     component.searchForm = formBuilder.group({
@@ -692,7 +738,10 @@ describe('ccd search component without takePayment option', () => {
   });
 
   it('Search form should be valid if a correct format string has been entered', async () => {
-    spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+    spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+      of(mockResponse)
+    );
+    spyOn(paymentGroupService, 'getBSPaymentsByCCD').and.callFake(() => Promise.resolve(mockResponse4));
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
     spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
@@ -703,7 +752,31 @@ describe('ccd search component without takePayment option', () => {
     expect(component.hasErrors).toBeFalsy();
     expect(component.dcnNumber).toBe(null);
     expect(component.ccdCaseNumber).toBe('1111222233334444');
+    expect(component.caseResponse.case).toBe('MoneyClaimCase');
+    expect(component.caseType).toBe(null);
+    expect(component.caseResponse.exception).toBe('CMC_ExceptionRecord');
   });
+
+it('Search form should be valid if a correct format string has been entered1', async () => {
+  spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+    of(mockResponse1)
+  );
+  spyOn(paymentGroupService, 'getBSPaymentsByCCD').and.callFake(() => Promise.resolve(mockResponse4));
+  spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
+  spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
+  spyOn(viewPaymentService, 'getPaymentDetail').and.callFake(() => of({}));
+  await component.ngOnInit();
+  await component.searchForm.controls['searchInput'].setValue('1111-2222-3333-4444');
+  component.searchFees();
+  fixture.detectChanges();
+  expect(component.hasErrors).toBeFalsy();
+  expect(component.dcnNumber).toBe(null);
+  expect(component.ccdCaseNumber).toBe('1111222233334444');
+  expect(component.caseResponse.case).toBeUndefined();
+  expect(component.caseResponse.exception).toBeUndefined();
+  expect(component.caseResponse['case_type']).toBe('MoneyClaimCase');
+  expect(component.caseType).toBe(null);
+});
 });
 
 
@@ -717,7 +790,8 @@ describe('CCD search component with takePayment is equal to true', () => {
     mockResponse1: any,
     mockResponse2: any,
     mockResponse3: any,
-    mockResponse4: any;
+    mockResponse4: any,
+    mockResponse5: any;
   const formBuilder: FormBuilder = new FormBuilder();
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -862,7 +936,7 @@ mockResponse4 = {
   },
   success: true
 };
-
+mockResponse5 = '{\n "exception":"CMC_ExceptionRecord",\n "case":"MoneyClaimCase"}';
     fixture = TestBed.createComponent(CcdSearchComponent);
     component = fixture.componentInstance;
     component.searchForm = formBuilder.group({
@@ -895,9 +969,7 @@ mockResponse4 = {
     expect(component.dcnNumber).toBe('123456789012345678901');
     expect(component.ccdCaseNumber).toBe('2222222222222222');
     expect(component.excReference).toBe('');
-      // tslint:disable-next-line:max-line-length
-      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/2222222222222222?selectedOption=DCN&exceptionRecord=&dcn=123456789012345678901&view=case-transactions&takePayment=true&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Disable&isNewPcipalOff=Disable');
-  });
+    });
 
 it('DCN search only exception id present', async () => {
   spyOn(paymentGroupService, 'getBSPaymentsByDCN').and.callFake(() => Promise.resolve(mockResponse));
@@ -919,12 +991,12 @@ it('DCN search only exception id present', async () => {
   expect(component.dcnNumber).toBe('123456789012345678901');
   expect(component.ccdCaseNumber).toBe('');
   expect(component.excReference).toBe('3333333333333333');
-  // tslint:disable-next-line:max-line-length
-  expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/payment-history/?selectedOption=DCN&exceptionRecord=3333333333333333&dcn=123456789012345678901&view=case-transactions&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Disable&isNewPcipalOff=Disable');
-});
+ });
 
 it('DCN search bulkscan false', async () => {
-  spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+  spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+    of(mockResponse5)
+  );
   spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
   spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
 
@@ -945,7 +1017,9 @@ it('Should get RC details', async () => {
   );
   spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
   spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
-  spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+  spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+    of(mockResponse5)
+  );
 
   component.ngOnInit();
   component.takePayment = false;
@@ -969,7 +1043,9 @@ it('Should get RC details', async () => {
   );
   spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
   spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
-  spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+  spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+    of(mockResponse5)
+  );
 
   component.ngOnInit();
   component.takePayment = false;
@@ -987,7 +1063,9 @@ it('Should get RC details', async () => {
   expect(component.noCaseFound).toBeFalsy();
 });
 it('Should use ccd number if user search with excption which has ccd assinged', async () => {
-  spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+  spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+    of(mockResponse5)
+  );
   spyOn(paymentGroupService, 'getBSPaymentsByCCD').and.callFake(() => Promise.resolve(mockResponse4));
   spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
   spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
@@ -1002,7 +1080,9 @@ it('Should use ccd number if user search with excption which has ccd assinged', 
 });
 
 it('Should use ccd number if user search with excption which has ccd assinged', async () => {
-  spyOn(caseRefService, 'validateCaseRef').and.callFake(() => of({}));
+  spyOn(caseRefService, 'validateCaseRef').and.returnValue(
+    of(mockResponse5)
+  );
   spyOn(paymentGroupService, 'getBSPaymentsByCCD').and.callFake(() => Promise.reject({ message: 'failure' }));
   spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
   spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));

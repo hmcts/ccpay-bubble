@@ -42,7 +42,7 @@ async function multipleSearch(CaseSearch, I, searchOption) {
       searchSpecificOption(searchItem, CaseSearch, searchOption);
     }
   }
-
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   const headerValue2 = await CaseSearch.getHeaderValue();
   if (headerValue2 === 'What do you want to search for?') {
     await bulkScanApiCalls.toggleOffCaseValidation();
@@ -52,7 +52,7 @@ async function multipleSearch(CaseSearch, I, searchOption) {
       searchSpecificOption(searchItem, CaseSearch, searchOption);
     }
   }
-
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   const headerValue3 = await CaseSearch.getHeaderValue();
   if (headerValue3 === 'What do you want to search for?') {
     await bulkScanApiCalls.toggleOffCaseValidation();
@@ -62,7 +62,7 @@ async function multipleSearch(CaseSearch, I, searchOption) {
       searchSpecificOption(searchItem, CaseSearch, searchOption);
     }
   }
-
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   const headerValue4 = await CaseSearch.getHeaderValue();
   if (headerValue4 === 'What do you want to search for?') {
     await bulkScanApiCalls.toggleOffCaseValidation();
