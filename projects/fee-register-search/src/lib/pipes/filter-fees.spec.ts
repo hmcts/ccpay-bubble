@@ -51,6 +51,7 @@ describe('Filter fees pipe', () => {
   it('Should filter an array of fees on jurisdiction tribunal to be empty', () => {
     const validFees = filterFeesPipe.filterValidFee(mockFees);
     const jurisdiction = new Jurisdictions();
+
     jurisdiction.jurisdiction1 = 'tribunal';
     jurisdiction.jurisdiction2 = 'test';
     const results = filterFeesPipe.filterByJurisdictions(validFees, jurisdiction);
