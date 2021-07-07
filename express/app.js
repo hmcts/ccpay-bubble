@@ -40,25 +40,27 @@ module.exports = appInsights => express.Router()
   .post('/payment-groups/:paymentGroup/fees/:feeId/remissions', (req, res) => {
     controllers.payhubController.postPartialRemission(req, res, appInsights);
   })
+  .post('/payment-history/payment-groups/:paymentGroup/card-payments', (req, res) => {
+    controllers.payhubController.postPaymentGroupToPayHub(req, res, appInsights);
+  })
 
   .post('/payment-history/payment-groups/:paymentGroup/fees/:feeId/remissions', (req, res) => {
     controllers.payhubController.postPartialRemission(req, res, appInsights);
   })
 
-  .post('/payment-history/payment-groups/:paymentGroup/card-payments', (req, res) => {
-    controllers.payhubController.postPaymentGroupToPayHub(req, res, appInsights);
-  })
-
   .post('/payment-history/payment-groups/:paymentGroup/telephony-card-payments', (req, res) => {
     controllers.payhubController.postPaymentAntennaToPayHub(req, res, appInsights);
   })
-
   .post('/payment-history/payment-groups/:paymentGroup/bulk-scan-payments-strategic', (req, res) => {
     controllers.payhubController.postStrategicPayment(req, res, appInsights);
   })
 
   .post('/payment-history/payment-groups/bulk-scan-payments-strategic', (req, res) => {
     controllers.payhubController.postWoPGStrategicPayment(req, res, appInsights);
+  })
+
+  .post('/payment-history/payment-groups/:paymentGroup/telephony-card-payments', (req, res) => {
+    controllers.payhubController.postPaymentAntennaToPayHub(req, res, appInsights);
   })
 
   .post('/payment-history/payment-groups/:paymentGroup/bulk-scan-payments', (req, res) => {
@@ -125,6 +127,9 @@ module.exports = appInsights => express.Router()
   })
   .get('/payment-history/report/data?*', (req, res) => {
     controllers.payhubController.getSelectedReport(req, res);
+  })
+  .get('/payment-history/case-payment-orders?*', (req, res) => {
+    controllers.payhubController.getPartyDetails(req, res);
   })
   // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {
