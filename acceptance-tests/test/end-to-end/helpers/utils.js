@@ -11,7 +11,8 @@ const numUtil = require('./number_utils');
 const logger = Logger.getLogger('helpers/utils.js');
 
 const env = process.env.RUNNING_ENV || 'aat';
-
+const prenv = process.env.RUNNING_ENV || 'pr-803';
+const prev = process.env.RUNNING_ENV || 'preview';
 
 async function getServiceToken(service) {
   logger.info('Getting Service Token');
@@ -41,7 +42,7 @@ async function getServiceToken(service) {
 async function CaseValidation(flag) {
   logger.info(`${flag} case validation`);
 
-  const paymentBaseUrl = `http://payment-api-${env}.service.core-compute-${env}.internal`;
+  const paymentBaseUrl = `http://payment-api-${prenv}.service.core-compute-${prev}.internal`;
   const disablePath = `/api/ff4j/store/features/caseref-validation/${flag}`;
   // eslint-disable-next-line global-require
 
