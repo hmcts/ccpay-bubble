@@ -7,7 +7,7 @@ idam:
 session:
   cookieName: SESSION_ID
 environment:
-  ldPrefix: FElocal
+  ldPrefix: FEprod
 ccpaybubble:
   url: https://localhost
   defaultPort: 3000
@@ -27,7 +27,6 @@ e2e:
   frontendUrl: https://localhost:4200/
   waitForTimeoutValue: 2600
   waitForActionValue: 2000
-  testForCrossbrowser: false
 certs:
   key: ./localhost-ssl/localhost.key
   crt: ./localhost-ssl/localhost.crt
