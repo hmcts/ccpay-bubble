@@ -11,7 +11,8 @@ const numUtil = require('./number_utils');
 const logger = Logger.getLogger('helpers/utils.js');
 
 const env = process.env.RUNNING_ENV || 'aat';
-
+// const prenv = process.env.RUNNING_ENV || 'pr-803';
+// const prev = process.env.RUNNING_ENV || 'preview';
 
 async function getServiceToken(service) {
   logger.info('Getting Service Token');

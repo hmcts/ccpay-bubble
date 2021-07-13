@@ -32,6 +32,7 @@ export class FilterFeesPipe implements PipeTransform {
     return filteredList;
   }
 
+
   filterValidFee(fees: IFee[]) {
     const todayDate = new Date();
         return fees.filter((fee: IFee) => {
@@ -41,6 +42,10 @@ export class FilterFeesPipe implements PipeTransform {
          fee.current_version.valid_to === null ||
          fee.current_version.valid_to === undefined ||
          <any>new Date(fee.current_version.valid_to) >= todayDate)) {
+          return true;
+        }
+       } else {
+        if (this.validOldFeesVersions(fee).length > 0) {
           return true;
         }
        }
