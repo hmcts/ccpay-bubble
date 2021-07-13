@@ -6,7 +6,7 @@ Please note this project uses yarn
 
 ## Installation
 
-to install all the libraries into the node module run `yarn install` on the terminal
+to install all the libraries into the node module run `yarn install` on the terminal.
 
 ## Build
 
