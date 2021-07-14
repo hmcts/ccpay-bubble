@@ -80,6 +80,7 @@
     "request-promise-native": "^1.0.5",
     "rxjs": "~6.4.0",
     "rxjs-compat": "^6.5.2",
+    "tsickle": "^0.43.0",
     "superagent": "4.1.0",
     "supertest": "^3.4.2",
     "ts-mockito": "^2.3.1",
