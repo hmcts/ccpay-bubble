@@ -1,0 +1,43 @@
+security:
+  referrerPolicy: origin
+idam:
+  client_id: paybubble
+  login_url: https://idam-web-public.aat.platform.hmcts.net
+  api_url: https://idam-api.aat.platform.hmcts.net
+session:
+  cookieName: SESSION_ID
+environment:
+  ldPrefix: FEprod
+ccpaybubble:
+  url: https://localhost
+  defaultPort: 3000
+  microservice: ccpay_bubble
+pcipalantenna:
+  url: https://paybubble.platform.hmcts.net/ccd-search
+  microservice: ccpay_bubble
+s2s:
+  url: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+payhub:
+  url: http://payment-api-prod.service.core-compute-prod.internal
+bulkscan:
+  url: http://ccpay-bulkscanning-api-prod.service.core-compute-prod.internal
+appInsights:
+  roleName: paybubble
+e2e:
+  frontendUrl: https://localhost:4200/
+  waitForTimeoutValue: 2600
+  waitForActionValue: 2000
+certs:
+  key: ./localhost-ssl/localhost.key
+  crt: ./localhost-ssl/localhost.crt
+fee:
+  feeRegistrationUrl: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register/fees
+  feeJurisdictionUrl: http://fees-register-api-aat.service.core-compute-aat.internal/jurisdictions
+ccd:
+  url: http://localhost:23443
+secrets:
+  ccpay:
+    paybubble-s2s-secret: PAYBUBBLE-S2S-SECRET-KEY
+    paybubble-idam-client-secret: PAYBUBBLE-IDAM-CLIENT-SECRET-KEY
+    launch-darkly-client-id: PAYBUBBLE-LD-CLIENT-ID
+    AppInsightsInstrumentationKey: some-key
