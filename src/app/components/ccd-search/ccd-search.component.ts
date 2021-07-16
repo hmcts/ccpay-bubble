@@ -108,7 +108,7 @@ export class CcdSearchComponent implements OnInit {
             this.caseRefService.validateCaseRef(validRefCheck).subscribe(
               {
                 next: (resp) => {
-                  ls.set<any>('ccdNumber', this.ccdCaseNumber);
+                  ls.set<any>('ccdNumber', this.ccdCaseNumber ? this.ccdCaseNumber : this.excReference);
                   this.caseResponse = JSON.parse(resp);
                 },
                 error: () => {
