@@ -37,7 +37,7 @@ ccd:
   url: http://localhost:23443
 secrets:
   ccpay:
-    paybubble-s2s-secret: [paybubble-s2s-secret]
-    paybubble-idam-client-secret: [paybubble-idam-client-secret]
-    launch-darkly-client-id: [launch-darkly-client-id]
+    paybubble-s2s-secret: PAYBUBBLE-S2S-SECRET-KEY
+    paybubble-idam-client-secret: PAYBUBBLE-IDAM-CLIENT-SECRET-KEY
+    launch-darkly-client-id: PAYBUBBLE-LD-CLIENT-ID
     AppInsightsInstrumentationKey: some-key
