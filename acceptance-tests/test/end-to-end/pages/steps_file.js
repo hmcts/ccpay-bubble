@@ -821,13 +821,13 @@ module.exports = () => actor({
     this.see('Total after remission');
     this.see('Total payment');
     this.see('Total outstanding amount');
-    this.see('What service is this fee for?');
+    // this.see('What service is this fee for?');
     this.see('£550.00');
-    this.click({ css: '#responsibleOffice' });
-    this.see('Please select');
-    this.see('Divorce');
-    this.see('Probate');
-    this.see('Financial Remedy');
+    // this.click({ css: '#responsibleOffice' });
+    // this.see('Please select');
+    // this.see('Divorce');
+    // this.see('Probate');
+    // this.see('Financial Remedy');
     // this.see('Which system are you using to take the payment?');
     // this.see('8x8');
     // this.see('Antenna');
@@ -871,13 +871,13 @@ module.exports = () => actor({
     this.see('Summary');
     // this.see('FEE0002');
     this.see('Filing an application for a divorce, nullity or civil partnership dissolution');
-    this.see('Amount');
-    // this.see('Volume');
-    this.see('Total to pay:');
-    // this.see('Remission amount');
-    // this.see('Total after remission');
-    // this.see('Total payment');
-    // this.see('Total outstanding amount');
+    this.see('Fee amount');
+    this.see('Volume');
+    this.see('Fee total');
+    this.see('Remission amount');
+    this.see('Total after remission');
+    this.see('Total payment');
+    this.see('Total outstanding amount');
     // this.see('What service is this fee for?');
     this.see('£550.00');
     // this.click({ css: '#responsibleOffice' });
@@ -885,9 +885,10 @@ module.exports = () => actor({
     // this.see('Divorce');
     // this.see('Probate');
     // this.see('Financial Remedy');
-    this.see('Select payment service');
+    this.see('Which system are you using to take the payment?');
     this.see('8x8');
     this.see('Antenna');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   async removeFeeFromCaseTransactionPageTelephonyFlow() {
@@ -921,13 +922,13 @@ module.exports = () => actor({
     this.see('Total after remission');
     this.see('Total payment');
     this.see('Total outstanding amount');
-    this.see('What service is this fee for?');
+    // this.see('What service is this fee for?');
     this.see('£550.00');
-    this.click({ css: '#responsibleOffice' });
-    this.see('Please select');
-    this.see('Divorce');
-    this.see('Probate');
-    this.see('Financial Remedy');
+    // this.click({ css: '#responsibleOffice' });
+    // this.see('Please select');
+    // this.see('Divorce');
+    // this.see('Probate');
+    // this.see('Financial Remedy');
     // this.see('Which system are you using to take the payment?');
     // this.see('8x8');
     // this.see('Antenna');

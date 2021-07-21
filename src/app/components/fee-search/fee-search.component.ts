@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
-import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 import * as ls from 'local-storage';
 
 @Component({
@@ -49,11 +48,9 @@ export class FeeSearchComponent implements OnInit {
     this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable' ?
                                 '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
 
-
     if (this.lsCcdNumber !== this.ccdNo) {
       this.router.navigateByUrl('/ccd-search?takePayment=true');
     }
-
 
     this.paymentGroupService.getDiscontinuedFrFeature().then((status) => {
       this.isDiscontinuedFeatureEnabled = status;

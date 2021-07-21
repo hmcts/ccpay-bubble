@@ -1,31 +1,45 @@
-<div *ngIf="validOldVersionArray.length < 2">
-    <legend>
-      <h1 class="heading-xlarge">Fee details</h1>
-    </legend>
-    <input #myInput type='hidden' id='iFrameDrivenImageValue' value='FEEDETAILS'>
-    <table *ngIf="fee" class="table" style="margin-bottom: 20px">
-      
-      <caption>Fee Details</caption>
-      <tbody>
-        <tr>
-          <th class="bold" width="80px" scope="col">Fee code</th>
-          <th class="bold" width="620px" scope="col">Description</th>
-          <th class="bold" width="80px" scope="col">Current amount</th>
-        </tr>
-        <tr>
-          <td>{{ fee.code }}</td>
-          <td>{{ fee.current_version.description }}</td>
-          <td *ngIf="fee.current_version['percentage_amount']; else volumeOrFlat">
-            {{fee.current_version['percentage_amount'].percentage}}%</td>
-          <ng-template #volumeOrFlat>
-            <td>
-              £{{ fee.current_version['volume_amount']? fee.current_version['volume_amount'].amount : fee.current_version['flat_amount'].amount}}
-            </td>
-          </ng-template>
+<div *ngIf="validOldVersionArray.length === 0 ">
+  <legend>
+    <h1 class="heading-xlarge">Fee details</h1>
+  </legend>
+  <input #myInput type='hidden' id='iFrameDrivenImageValue' value='FEEDETAILS'>
+  <table *ngIf="fee && fee.current_version" class="table" style="margin-bottom: 20px">
+    <caption>Fee Details</caption>
+    <tbody>
+      <tr>
+        <th class="bold" width="80px" scope="col">Fee code</th>
+        <th class="bold" width="620px" scope="col">Description</th>
+        <th class="bold" width="80px" scope="col">Current amount</th>
+      </tr>
+      <tr>
+        <td>{{ fee.code }}</td>
+        <td>{{ fee.current_version.description }}</td>
+        <td *ngIf="fee.current_version['percentage_amount']; else volumeOrFlat">
+          {{fee.current_version['percentage_amount'].percentage}}%</td>
+        <ng-template #volumeOrFlat>
+          <td>
+            £{{ fee.current_version['volume_amount']? fee.current_version['volume_amount'].amount : fee.current_version['flat_amount'].amount}}
+          </td>
+        </ng-template>
 
-        </tr>
-      </tbody>
-    </table>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<main *ngIf="validOldVersionArray.length === 1 && !fee.current_version">
+  <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
+  <p class="form-hint">{{ fee.discontinued_list[0].description }}</p>
+  <input #myInput type='hidden' id='iFrameDrivenImageValue' value='FEEVERSION'>
+  <div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text" style="font-size: 16px;">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      This fee was retired on {{ fee.discontinued_list[0].valid_to | date: 'd MMMM y' }}
+    </strong>
+  </div>
+
+  <div class="govuk-form-group">
+    <span>You should only use this for applications received before {{ fee.discontinued_list[0].valid_to | date: 'd MMMM y' }} </span>
   </div>
 
 <main *ngIf="validOldVersionArray.length > 1">
