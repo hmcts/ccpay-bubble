@@ -372,7 +372,7 @@ class PayhubController {
         }
       });
   }
-  
+
   getPartyDetails(req, res) {
     return this.payhubService.getPartyDetails(req)
       .then(result => {
