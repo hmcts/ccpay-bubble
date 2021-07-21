@@ -152,6 +152,32 @@ module.exports = {
     }
     I.see('Success');
   },
+
+  validateTransactionPageForShortFallPayment(caseNumber) {
+    I.see(caseNumber);
+    I.see('Total payments');
+    I.see('Total remissions');
+    I.see('Amount due');
+    I.see('Unallocated payments');
+    I.see('Payment requests');
+    I.see('Status');
+    I.see('Not paid');
+    I.see('Amount');
+    I.see('Party');
+    I.see('Request reference');
+    // I.see('View details');
+    // I.see('Description');
+    I.see('Create payment request and pay');
+    I.see('Payments');
+    I.see('Date allocated');
+    I.see('Request reference');
+    // I.see('Action');
+    // I.see(allocationStatus);
+    if (testConfig.e2e.testForCrossbrowser !== 'true') {
+      I.see('Not paid');
+    }
+    I.see('Success');
+  },
   validateTransactionPageForRemission(remissionCode, feeCode, remissionAmount) {
     I.click(this.locators.view_details_for_status_paid);
     I.see(remissionCode);
