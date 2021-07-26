@@ -30,11 +30,11 @@ module.exports = {
     '!src/app/models/FeeModel.ts',
     //  Route-Guards
     '!src/app/route-guards/**/*.ts',
-    '!src/app/route-guards/**/*.spec.ts',
+    '!src/app/route-guards/**/*.spec.ts'
     //  Services
-    'src/app/services/**/*.ts',
-    '!src/app/services/**/*.spec.ts',
-    '!src/app/services/caseref/caseref.service.ts'
+    // 'src/app/services/**/*.ts',
+    // '!src/app/services/**/*.spec.ts',
+    // '!src/app/services/caseref/caseref.service.ts'
     //  Shared
     // '!src/app/shared/**/*.ts',
     // '!src/app/shared/**/*.spec.ts',
