@@ -9,6 +9,7 @@ import {ActivatedRoute} from '@angular/router';
 export class PaymentHistoryComponent implements OnInit {
   apiRoot: string;
   bulkscanapiRoot: string;
+  refundsapiRoot: string;
   view: string;
   takePayment: boolean;
   ccdCaseNumber: string;
@@ -34,6 +35,7 @@ export class PaymentHistoryComponent implements OnInit {
           next: (params) => {
             this.apiRoot = 'api/payment-history';
             this.bulkscanapiRoot = 'api/bulk-scan';
+            this.refundsapiRoot = 'api/refund';
             this.ccdCaseNumber = params['ccdCaseNumber'];
             this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
             this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
