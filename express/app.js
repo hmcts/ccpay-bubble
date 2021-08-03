@@ -129,6 +129,12 @@ module.exports = appInsights => express.Router()
   .get('/payment-history/case-payment-orders?*', (req, res) => {
     controllers.payhubController.getPartyDetails(req, res);
   })
+
+  //refund services
+  .get('/refund/reasons', (req, res) => {
+    controllers.refundController.getRefundReason(req, res);
+  })
+
   // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {
     controllers.payhubController.ccpayWebComponentIntegration(req, res);
