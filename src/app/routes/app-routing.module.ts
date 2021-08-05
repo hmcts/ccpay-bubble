@@ -52,6 +52,10 @@ const routes: Routes = [
     component: CcdSearchComponent
   },
   {
+    path: 'service-requests',
+    component: CcdSearchComponent
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'ccd-search'

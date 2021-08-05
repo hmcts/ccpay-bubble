@@ -20,11 +20,14 @@
             <a id="fee-search-link" class="logout-btn" href="/fee-search">{{ 'Fee Search' }}</a>
         </li> -->
         <li>
-          <a id="ccd-search-link" class="logout-btn" href="/ccd-search?takePayment=true">{{ 'Case Transaction' }}</a>
+          <a id="ccd-search-link" class="logout-btn" href="/ccd-search?takePayment=true&servicerequest=false">{{ 'Case Transaction' }}</a>
       </li>
       <li>
-          <a id="ccd-payment-link" class="logout-btn" href="/payment-history?takePayment=false">{{ 'Payment history' }}</a>
+          <a id="ccd-payment-link" class="logout-btn" href="/payment-history?takePayment=false&servicerequest=false">{{ 'Payment history' }}</a>
       </li>
+      <li>
+        <a id="ccd-payment-link" class="logout-btn" href="/service-requests?takePayment=false&servicerequest=true">{{ 'Service Requests' }}</a>
+    </li>
       <li *ngIf="isBulkscanningEnable">
         <a class="ccd-reports-link" href="/payment-history/view?view=reports">{{ 'Reports' }}</a>
       </li>
