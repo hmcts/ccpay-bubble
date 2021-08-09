@@ -316,6 +316,47 @@ class PayhubService {
       json: true
     }));
   }
+
+  //refunds
+  postRefundsReason(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/refund-for-payment`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
+  postPaymentGroupWithRetroRemissions(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/fees/${req.params.feeId}/retro-remission`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
+  postRefundRetroRemission(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/refund-retro-remission`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
 }
 
 module.exports = PayhubService;

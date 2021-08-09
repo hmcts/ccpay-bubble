@@ -130,9 +130,29 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.getPartyDetails(req, res);
   })
 
+  .post('/payment-history/payment-groups/:paymentGroup/fees/:feeId/retro-remission', (req, res) => {
+    controllers.payhubController.postPaymentGroupWithRetroRemissions(req, res);
+  })
+
+  .post('/payment-history/refund-retro-remission ', (req, res) => {
+    controllers.payhubController.postRefundRetroRemission(req, res);
+  })
+
   //refund services
   .get('/refund/reasons', (req, res) => {
     controllers.refundController.getRefundReason(req, res);
+  })
+
+  .post('/refund/refund', (req, res) => {
+    controllers.refundController.postIssueRefund(req, res);
+  })
+
+  .post('/payment-history/refund-for-payment', (req, res) => {
+    controllers.payhubController.postRefundsReason(req, res);
+  })
+
+  .post('/payment-history/refund-retro-remisstion', (req, res) => {
+    controllers.payhubController.postRefundRetroRemission(req, res);
   })
 
   // @hmcts/ccpay-web-component integration point

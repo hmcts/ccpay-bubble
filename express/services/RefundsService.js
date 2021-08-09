@@ -19,6 +19,19 @@ class RefundsService {
     }));
   }
 
+  postIssueRefund(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${refundsUrl}/refund`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
   createAuthToken() {
     const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
     const serviceAuthRequest = {
