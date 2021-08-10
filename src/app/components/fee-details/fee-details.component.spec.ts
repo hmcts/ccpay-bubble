@@ -359,7 +359,7 @@ describe('FeeDetailsComponent', () => {
    component.submitVolume();
    expect(component.fee.fee_versions.length).toBe(1);
    expect(component.fee.current_version).toBeUndefined();
-   expect(component.validOldVersionArray.length).toBe(1);
+   expect(component.validOldVersionArray.length).toBe(0);
   });
 
   it('Should return true if current version is undefined1', () => {
