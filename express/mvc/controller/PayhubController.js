@@ -403,9 +403,9 @@ postRefundsReason(req, res, appInsights) {
     })
     .catch(error => {
       if (error.statusCode) {
-        res.status(error.statusCode).json(error.message);
+        res.status(error.statusCode).json({ err: error.message, success: false });
       } else {
-        res.status(500).json(error);
+        res.status(500).json({ err: error, success: false });
       }
     });
 }
@@ -418,9 +418,9 @@ postPaymentGroupWithRetroRemissions(req, res, appInsights) {
   })
   .catch(error => {
     if (error.statusCode) {
-      res.status(error.statusCode).json(error.message);
+      res.status(error.statusCode).json({ err: error.message, success: false });
     } else {
-      res.status(500).json(error);
+      res.status(500).json({ err: error, success: false });
     }
   });
 }
@@ -433,9 +433,9 @@ postRefundRetroRemission(req, res, appInsights) {
   })
   .catch(error => {
     if (error.statusCode) {
-      res.status(error.statusCode).json(error.message);
+      res.status(error.statusCode).json({ err: error.message, success: false });
     } else {
-      res.status(500).json(error);
+      res.status(500).json({ err: error, success: false });
     }
   });
 }
