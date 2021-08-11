@@ -350,10 +350,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@hmcts/ccpay-web-component@4.0.0-beta354":
-  version "4.0.0-beta354"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta354.tgz#f7f96ea78cf50fdbe322bea04ee99637db33c26b"
-  integrity sha512-WqEBKuPg/jxQnb9yOQitQC7PicOCMa/bL5L8wVJmBu4nNMJRNxjTrvDiRECIDp1ksFUu8h10M+4D5LMo7noScg==
+"@hmcts/ccpay-web-component@4.0.0-beta355":
+  version "4.0.0-beta355"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta355.tgz#122d0cb7c67fb345a84450dd130823aa29b35bda"
+  integrity sha512-2N2iu+Ob8XSpFGtpJ74EBBbzjA0yozdCRSccSZ/RIKBHYcNjh9K1SGzcr14y3oXCN6rDURS6uEn0HSXMqqaxMg==
   dependencies:
     tslib "^1.9.0"
 
@@ -13827,10 +13827,10 @@ url-parse-lax@^1.0.0:
   dependencies:
     prepend-http "^1.0.1"
 
-url-parse@^1.4.3:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.1.tgz#d5fa9890af8a5e1f274a2c98376510f6425f6e3b"
-  integrity sha512-HOfCOUJt7iSYzEx/UqgtwKRMC6EU91NFhsCHMv9oM03VJcVo2Qrp8T8kI9D7amFf1cu+/3CEhgb3rF9zL7k85Q==
+url-parse@>=1.5.2, url-parse@^1.4.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.3.tgz#71c1303d38fb6639ade183c2992c8cc0686df862"
+  integrity sha512-IIORyIQD9rvj0A4CLWsHkBBJuNqWpFQe224b6j9t/ABmquIS0qDU2pY6kl6AuOrL5OkCXHMCFNe1jBcuAggjvQ==
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
