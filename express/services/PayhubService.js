@@ -317,7 +317,7 @@ class PayhubService {
     }));
   }
 
-  //refunds
+  // refunds
   postRefundsReason(req) {
     return this.createAuthToken().then(token => request.post({
       uri: `${payhubUrl}/refund-for-payment`,
@@ -356,7 +356,6 @@ class PayhubService {
       json: true
     }));
   }
-
 }
 
 module.exports = PayhubService;

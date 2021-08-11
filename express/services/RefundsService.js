@@ -1,6 +1,7 @@
 const config = require('config');
 const otp = require('otp');
 const request = require('request-promise-native');
+
 const refundsUrl = config.get('refunds.url');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
@@ -44,7 +45,6 @@ class RefundsService {
       json: true
     });
   }
-  
 }
 
 module.exports = RefundsService;
