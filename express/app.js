@@ -138,7 +138,7 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postRefundRetroRemission(req, res);
   })
 
-  //refund services
+  // efund services
   .get('/refund/reasons', (req, res) => {
     controllers.refundController.getRefundReason(req, res);
   })

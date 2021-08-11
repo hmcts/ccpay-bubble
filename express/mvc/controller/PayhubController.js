@@ -394,51 +394,51 @@ class PayhubController {
       });
   }
 
-// refunds
-postRefundsReason(req, res, appInsights) {
-  return this.payhubService.postRefundsReason(req, res, appInsights)
-  // eslint-disable-next-line
-  .then(result => {
-    res.status(200).json(result);
-    })
-    .catch(error => {
-      if (error.statusCode) {
-        res.status(error.statusCode).json({ err: error.message, success: false });
-      } else {
-        res.status(500).json({ err: error, success: false });
-      }
-    });
-}
+  // refunds
+  postRefundsReason(req, res, appInsights) {
+    return this.payhubService.postRefundsReason(req, res, appInsights)
+    // eslint-disable-next-line
+    .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json({ err: error.message, success: false });
+        } else {
+          res.status(500).json({ err: error, success: false });
+        }
+      });
+  }
 
-postPaymentGroupWithRetroRemissions(req, res, appInsights) {
-  return this.payhubService.postPaymentGroupWithRetroRemissions(req, res, appInsights)
-  // eslint-disable-next-line
-  .then(result => {
-    res.status(200).json(result);
-  })
-  .catch(error => {
-    if (error.statusCode) {
-      res.status(error.statusCode).json({ err: error.message, success: false });
-    } else {
-      res.status(500).json({ err: error, success: false });
-    }
-  });
-}
+  postPaymentGroupWithRetroRemissions(req, res, appInsights) {
+    return this.payhubService.postPaymentGroupWithRetroRemissions(req, res, appInsights)
+    // eslint-disable-next-line
+    .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json({ err: error.message, success: false });
+        } else {
+          res.status(500).json({ err: error, success: false });
+        }
+      });
+  }
 
-postRefundRetroRemission(req, res, appInsights) {
-  return this.payhubService.postRefundRetroRemission(req, res, appInsights)
-  // eslint-disable-next-line
-  .then(result => {
-    res.status(200).json(result);
-  })
-  .catch(error => {
-    if (error.statusCode) {
-      res.status(error.statusCode).json({ err: error.message, success: false });
-    } else {
-      res.status(500).json({ err: error, success: false });
-    }
-  });
-}
+  postRefundRetroRemission(req, res, appInsights) {
+    return this.payhubService.postRefundRetroRemission(req, res, appInsights)
+    // eslint-disable-next-line
+    .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json({ err: error.message, success: false });
+        } else {
+          res.status(500).json({ err: error, success: false });
+        }
+      });
+  }
 }
 
 module.exports = PayhubController;
