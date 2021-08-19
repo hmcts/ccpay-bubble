@@ -35,17 +35,17 @@ class RefundsService {
   }
 
 
- getUserDetails(req) {
-  return this.createAuthToken().then(token => request.get({
-    uri: `${idamurl}/details`,
-    headers: {
-      Authorization: `Bearer ${req.authToken}`,
-      ServiceAuthorization: `${token}`,
-      'Content-Type': 'application/json'
-    },
-    json: true
-  }));
-}
+  getUserDetails(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${idamurl}/details`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
 
   createAuthToken() {
     const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
