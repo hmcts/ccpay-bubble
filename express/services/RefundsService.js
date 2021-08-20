@@ -36,8 +36,6 @@ class RefundsService {
 
 
   getUserDetails(req) {
-    console.log(req.authToken);
-    console.log('santosh');
     return this.createAuthToken().then(token => request.get({
       uri: `${idamurl}/details/${req.authToken}`,
       headers: {
