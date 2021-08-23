@@ -62,8 +62,8 @@ const routes: Routes = [
     redirectTo: 'ccd-search'
   },
   {
-    path: 'refund-list/:ccdCaseNumber',
-    component: RefundListComponent
+    path: 'refund-list',
+    component: PaymentHistoryComponent
   },
   {
     path: 'payment-history/:ccdCaseNumber',
