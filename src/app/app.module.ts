@@ -24,6 +24,8 @@ import {SanitizeHtmlPipe} from 'src/app/shared/pipes/sanitize-html.pipe';
 import {ViewPaymentModule} from 'view-payment';
 import {FeeRegisterSearchModule} from 'fee-register-search';
 import {PaymentHistoryComponent} from './components/payment-history/payment-history.component';
+import {RefundListComponent} from './components/refund-list/refund-list.component';
+
 import {PaymentLibModule} from '@hmcts/ccpay-web-component';
 import {WindowUtil} from './services/window-util/window-util';
 import {CcdSearchComponent} from './components/ccd-search/ccd-search.component';
@@ -53,6 +55,7 @@ const nonProductionProviders = [{
     HeaderComponent,
     NavigationComponent,
     PaymentHistoryComponent,
+    RefundListComponent,
     FeeSearchComponent,
     CcdSearchComponent,
     FeeDetailsComponent
@@ -73,6 +76,7 @@ const nonProductionProviders = [{
     HttpClient,
     FeeSearchComponent,
     PaymentHistoryComponent,
+    RefundListComponent,
     CaseRefService,
     WindowUtil,
     !environment.production ? nonProductionProviders : [],
