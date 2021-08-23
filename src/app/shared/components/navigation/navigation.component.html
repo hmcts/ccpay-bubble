@@ -28,6 +28,9 @@
       <li>
         <a id="ccd-payment-link" class="logout-btn" href="/service-requests?takePayment=false&servicerequest=true">{{ 'Service Requests' }}</a>
     </li>
+    <li>
+      <a id="ccd-payment-link" class="logout-btn" href="/refund-list?takePayment=false&refundlist=true">{{ 'Refund List' }}</a>
+  </li>
       <li *ngIf="isBulkscanningEnable">
         <a class="ccd-reports-link" href="/payment-history/view?view=reports">{{ 'Reports' }}</a>
       </li>

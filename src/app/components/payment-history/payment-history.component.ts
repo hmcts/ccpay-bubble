@@ -24,6 +24,7 @@ export class PaymentHistoryComponent implements OnInit {
   isOldPcipalOff: boolean;
   isNewPcipalOff: boolean;
   servicerequest: string;
+  refundlist: string;
 
   constructor(
     private activatedRoute: ActivatedRoute
@@ -51,6 +52,7 @@ export class PaymentHistoryComponent implements OnInit {
             this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
             this.caseType = this.activatedRoute.snapshot.queryParams['caseType'];
             this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'];
+            this.refundlist = this.activatedRoute.snapshot.queryParams['refundlist'];
           }
     });
   }
