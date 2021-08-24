@@ -25,8 +25,8 @@ class RefundsService {
     return this.createAuthToken().then(token => request.get({
       uri: `${refundsUrl}/refund&status=${req.query.refundstatus}&selfExclusive=true`,
       headers: {
-        Authorization: `${req.authToken}`,
-        ServiceAuthorization: `${token}`,
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       json: true
