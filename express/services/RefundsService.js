@@ -21,6 +21,18 @@ class RefundsService {
     }));
   }
 
+  getRefundList(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${refundsUrl}/refund&status=${req.query.refundstatus}&selfExclusive=true`,
+      headers: {
+        Authorization: `${req.authToken}`,
+        ServiceAuthorization: `${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
   postIssueRefund(req) {
     return this.createAuthToken().then(token => request.post({
       uri: `${refundsUrl}/refund`,
@@ -51,6 +63,9 @@ class RefundsService {
   // }
 
   getUserDetails(req) {
+    Logger.getLogger('Refundservice: enter').info(req);
+    Logger.getLogger('Refundservice1: enter').info(req.authToken);
+    Logger.getLogger('Refundservice2: enter').info(req.headers);
     return this.createAuthToken().then(() => request.get({
       uri: `${idamurl}/details`,
       headers: {
