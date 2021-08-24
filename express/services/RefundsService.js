@@ -40,7 +40,6 @@ class RefundsService {
       uri: `${idamurl}/details`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `${token}`,
         'Content-Type': 'application/json'
       },
       json: true
