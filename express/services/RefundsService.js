@@ -35,15 +35,26 @@ class RefundsService {
   }
 
 
+  // getUserDetails(req) {
+  //   Logger.getLogger('Refundservice: enter').info(req);
+  //   Logger.getLogger('Refundservice1: enter').info(req.cookies('__auth-token'));
+  //   Logger.getLogger('Refundservice2: enter').info(req.header('Auth-Dev'));
+  //   Logger.getLogger('Refundservice3').info('About to call user details endpoint');
+  //   return this.createAuthToken().then(() => request.get({
+  //     uri: `${idamurl}/details`,
+  //     headers: {
+  //       Authorization: `Bearer ${req.cookies('__auth-token')}`,
+  //       'Content-Type': 'application/json'
+  //     },
+  //     json: true
+  //   }));
+  // }
+
   getUserDetails(req) {
-    Logger.getLogger('Refundservice: enter').info(req);
-    Logger.getLogger('Refundservice1: enter').info(req.cookies('__auth-token'));
-    Logger.getLogger('Refundservice2: enter').info(req.header('Auth-Dev'));
-    Logger.getLogger('Refundservice3').info('About to call user details endpoint');
     return this.createAuthToken().then(() => request.get({
       uri: `${idamurl}/details`,
       headers: {
-        Authorization: `Bearer ${req.cookies('__auth-token')}`,
+        Authorization: `Bearer ${req.authToken}`,
         'Content-Type': 'application/json'
       },
       json: true
