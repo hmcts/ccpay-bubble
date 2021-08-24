@@ -143,7 +143,7 @@ module.exports = appInsights => express.Router()
     controllers.refundController.getRefundReason(req, res);
   })
 
-  .get('/refund/get-refund-ist', (req, res) => {
+  .get('/refund/get-refund-list', (req, res) => {
     controllers.refundController.getRefundList(req, res);
   })
 

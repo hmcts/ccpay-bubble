@@ -23,7 +23,7 @@ class RefundsService {
 
   getRefundList(req) {
     return this.createAuthToken().then(token => request.get({
-      uri: `${refundsUrl}/refund&status=${req.query.refundstatus}&selfExclusive=true`,
+      uri: `${refundsUrl}/refund&status=${req.query.status}&selfExclusive=${req.query.selfexclusive}`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
