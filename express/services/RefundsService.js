@@ -36,7 +36,7 @@ class RefundsService {
 
 
   getUserDetails(req) {
-    return this.createAuthToken().then(token => request.get({
+    return this.createAuthToken().then(() => request.get({
       uri: `${idamurl}/details`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
