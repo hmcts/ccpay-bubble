@@ -13,7 +13,7 @@ class RefundsService {
     return this.createAuthToken().then(token => request.get({
       uri: `${refundsUrl}/refund/reasons`,
       headers: {
-        Authorization: `${req.authToken}`,
+        Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `${token}`,
         'Content-Type': 'application/json'
       },
