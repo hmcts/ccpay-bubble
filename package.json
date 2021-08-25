@@ -45,7 +45,7 @@
   },
   "private": true,
   "dependencies": {
-    "@hmcts/ccpay-web-component": "4.0.0-beta377",
+    "@hmcts/ccpay-web-component": "4.0.0-beta388",
     "@hmcts/frontend": "^0.0.34-alpha",
     "@hmcts/nodejs-healthcheck": "^1.5.1",
     "@hmcts/nodejs-logging": "^3.0.0",
@@ -188,6 +188,7 @@
     "pug": ">=3.0.1",
     "nwmatcher": ">=1.4.4",
     "**/**/**/path-parse":">=1.0.7",
+    "ng-packagr":">=10.1.1",
     "**/**/**/url-parse":">=1.5.2"
   }
 }

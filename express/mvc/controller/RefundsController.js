@@ -45,6 +45,20 @@ class RefundsController {
   }
   patchRefundAction(req, res) {
     return this.refundsService.patchRefundAction(req)
+    .then(result => {
+      res.status(200).json({ data: result, success: true });
+    })
+    .catch(error => {
+      if (error.statusCode) {
+        res.status(error.statusCode).json({ err: error.message, success: false });
+      } else {
+        res.status(500).json({ err: error, success: false });
+      }
+    });
+}
+
+  getRefundList(req, res) {
+    return this.refundsService.getRefundList(req)
       .then(result => {
         res.status(200).json({ data: result, success: true });
       })
