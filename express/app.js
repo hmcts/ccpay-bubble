@@ -151,6 +151,10 @@ module.exports = appInsights => express.Router()
   .patch('/refund/:id/action/*', (req, res) => {
     controllers.refundController.patchRefundAction(req, res);
   })
+  .get('/refund/get-refund-list', (req, res) => {
+    controllers.refundController.getRefundList(req, res);
+  })
+
   .post('/refund/refund', (req, res) => {
     controllers.refundController.postIssueRefund(req, res);
   })
