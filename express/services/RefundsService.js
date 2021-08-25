@@ -21,6 +21,42 @@ class RefundsService {
     }));
   }
 
+  getRefundAction(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${refundsUrl}/refund/${req.params.id}/actions`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
+  getRefundRejectReason(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${refundsUrl}/refund/rejection-reasons`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
+  patchRefundAction(req) {
+    return this.createAuthToken().then(token => request.patch({
+      uri: `${refundsUrl}/refund/${req.params.id}/action/${req.params[0]}`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
   getRefundList(req) {
     return this.createAuthToken().then(token => request.get({
       uri: `${refundsUrl}/refund?status=${req.query.status}&selfExclusive=${req.query.selfExclusive}`,
