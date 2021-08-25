@@ -38,7 +38,7 @@ class RefundsService {
       uri: `${refundsUrl}/refund`,
       body: req.body,
       headers: {
-        Authorization: `${req.authToken}`,
+        Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `${token}`,
         'Content-Type': 'application/json'
       },
