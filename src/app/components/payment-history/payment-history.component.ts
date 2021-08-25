@@ -25,15 +25,15 @@ export class PaymentHistoryComponent implements OnInit {
   isNewPcipalOff: boolean;
   servicerequest: string;
   refundlist: string;
-  LOGGEDINUSERROLES:any[];
-  LOGGEDINUSEREMAIL:string;
+  LOGGEDINUSERROLES: any[];
+  LOGGEDINUSEREMAIL: string;
 
   userRoles =  [
-    "IDAM_SUPER_USER",
-    "caseworker-probate-authorize",
-    "caseworker",
-    "caseworker-divorce",
-    "payments"
+    'IDAM_SUPER_USER',
+    'caseworker-probate-authorize',
+    'caseworker',
+    'caseworker-divorce',
+    'payments'
   ];
 
   constructor(
@@ -63,8 +63,8 @@ export class PaymentHistoryComponent implements OnInit {
             this.caseType = this.activatedRoute.snapshot.queryParams['caseType'];
             this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'];
             this.refundlist = this.activatedRoute.snapshot.queryParams['refundlist'];
-            this.LOGGEDINUSEREMAIL ="kishanki@gmail.com";
-            this.LOGGEDINUSERROLES= this.userRoles;
+            this.LOGGEDINUSEREMAIL = 'kishanki@gmail.com';
+            this.LOGGEDINUSERROLES = this.userRoles;
           }
     });
   }
