@@ -142,7 +142,15 @@ module.exports = appInsights => express.Router()
   .get('/refund/reasons', (req, res) => {
     controllers.refundController.getRefundReason(req, res);
   })
-
+  .get('/refund/:id/actions', (req, res) => {
+    controllers.refundController.getRefundAction(req, res);
+  })
+  .get('/refund/rejection-reasons', (req, res) => {
+    controllers.refundController.getRefundRejectReason(req, res);
+  })
+  .patch('/refund/:id/action/*', (req, res) => {
+    controllers.refundController.patchRefundAction(req, res);
+  })
   .get('/refund/get-refund-list', (req, res) => {
     controllers.refundController.getRefundList(req, res);
   })
