@@ -46,7 +46,10 @@ class RefundsService {
   }
 
   patchRefundAction(req) {
-    return this.createAuthToken().then(token => request.patch({
+    return this.createAuthToken().then(token => {
+      Logger.getLogger('service token').info(token);
+      Logger.getLogger('access token').info(req.authToken);
+      return request.patch({
       uri: `${refundsUrl}/refund/${req.params.id}/action/${req.params[0]}`,
       body: req.body,
       headers: {
@@ -55,7 +58,8 @@ class RefundsService {
         'Content-Type': 'application/json'
       },
       json: true
-    }));
+    });
+  });
   }
   getRefundList(req) {
     return this.createAuthToken().then(token => request.get({
