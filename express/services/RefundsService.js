@@ -46,6 +46,8 @@ class RefundsService {
   }
 
   patchRefundAction(req) {
+          Logger.getLogger('govindu1').info(req.authToken);
+
     return this.createAuthToken().then(token => {
       Logger.getLogger('govindu').info(req.authToken);
       return request.patch({
