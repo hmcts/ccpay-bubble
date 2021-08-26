@@ -50,16 +50,16 @@ class RefundsService {
       Logger.getLogger('service token').info(token);
       Logger.getLogger('access token').info(req.authToken);
       return request.patch({
-      uri: `${refundsUrl}/refund/${req.params.id}/action/${req.params[0]}`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
+        uri: `${refundsUrl}/refund/${req.params.id}/action/${req.params[0]}`,
+        body: req.body,
+        headers: {
+          Authorization: `Bearer ${req.authToken}`,
+          ServiceAuthorization: `${token}`,
+          'Content-Type': 'application/json'
+        },
+        json: true
+      });
     });
-  });
   }
   getRefundList(req) {
     return this.createAuthToken().then(token => request.get({
