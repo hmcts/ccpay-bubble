@@ -46,21 +46,17 @@ class RefundsService {
   }
 
   patchRefundAction(req) {
-          Logger.getLogger('govindu1').info(req.authToken);
-
-    return this.createAuthToken().then(token => {
-      Logger.getLogger('govindu').info(req.authToken);
-      return request.patch({
-        uri: `${refundsUrl}/refund/${req.params.id}/action/${req.params[0]}`,
-        body: req.body,
-        headers: {
-          Authorization: `Bearer ${req.authToken}`,
-          ServiceAuthorization: `${token}`,
-          'Content-Type': 'application/json'
-        },
-        json: true
-      });
-    });
+    Logger.getLogger('govindu1').info(req.authToken);
+    return this.createAuthToken().then(token => request.patch({
+      uri: `${refundsUrl}/refund/${req.params.id}/action/${req.params[0]}`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
   }
   getRefundList(req) {
     return this.createAuthToken().then(token => request.get({
