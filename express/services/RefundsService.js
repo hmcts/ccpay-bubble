@@ -2,6 +2,7 @@ import { Meta } from '@angular/platform-browser';
 const config = require('config');
 const otp = require('otp');
 const request = require('request-promise-native');
+
 const refundsUrl = config.get('refunds.url');
 const idamurl = config.get('idam.api_url');
 const s2sUrl = config.get('s2s.url');
@@ -49,7 +50,6 @@ class RefundsService {
 
   patchRefundAction(req) {
     return this.createAuthToken().then(token => {
-
       Logger.getLogger('kumar -> csrf token').info(csrfToken.content);
       Logger.getLogger('access token').info(req.authToken);
       return request.patch({
