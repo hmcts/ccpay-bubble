@@ -108,7 +108,6 @@ module.exports = (security, appInsights) => {
   // fallback to this route (so that Angular will handle all routing)
   app.get('**', security.protectWithAnyOf(roles.allRoles, ['/assets/']), csrfProtection,
     (req, res) => {
-      Logger.getLogger('PATCH: NEXT.js -> req').info(req.csrfToken());
       res.render('index', { csrfToken: req.csrfToken() });
     });
 
