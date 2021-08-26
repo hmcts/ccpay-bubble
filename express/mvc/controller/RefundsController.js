@@ -23,7 +23,7 @@ class RefundsController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if ( error.statusCode !== 403 && error.statusCode !== 500 ) {
+        if (error.statusCode !== '403' && error.statusCode !== '500') {
           res.status(error.statusCode).json({
             err: error.message,
             statuCode: error.statusCode,
@@ -40,7 +40,7 @@ class RefundsController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if ( error.statusCode !== 403 && error.statusCode !== 500 ) {
+        if (error.statusCode !== '403' && error.statusCode !== '500') {
           res.status(error.statusCode).json({
             err: error.message,
             statuCode: error.statusCode,
@@ -57,7 +57,7 @@ class RefundsController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if ( error.statusCode !== 403 && error.statusCode !== 500 ) {
+        if (error.statusCode !== '403' && error.statusCode !== '500') {
           res.status(error.statusCode).json({
             err: error.message,
             statuCode: error.statusCode,
