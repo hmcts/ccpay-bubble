@@ -92,12 +92,8 @@ module.exports = (security, appInsights) => {
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"
   if (process.env.NODE_ENV === 'development') {
-    Logger.getLogger('PATCH: server.js -> error').info(process.env.NODE_ENV);
 
     app.use('/api', (req, res, next) => {
-      Logger.getLogger('PATCH: server.js -> RES').info(req);
-      Logger.getLogger('PATCH: server.js -> REQ').info(res);
-
       res.set('Access-Control-Allow-Origin', '*');
       res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
       res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Auth-Dev, CSRF-Token');
@@ -113,8 +109,7 @@ module.exports = (security, appInsights) => {
   // fallback to this route (so that Angular will handle all routing)
   app.get('**', security.protectWithAnyOf(roles.allRoles, ['/assets/']), csrfProtection,
     (req, res) => {
-      Logger.getLogger('PATCH: NEXT.js -> RES').info(req);
-      Logger.getLogger('PATCH: NEXT.js -> REQ').info(res);
+      Logger.getLogger('PATCH: NEXT.js -> req').info(req.csrfToken());
       res.render('index', { csrfToken: req.csrfToken() });
     });
 
