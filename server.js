@@ -92,7 +92,6 @@ module.exports = (security, appInsights) => {
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"
   if (process.env.NODE_ENV === 'development') {
-
     app.use('/api', (req, res, next) => {
       res.set('Access-Control-Allow-Origin', '*');
       res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
