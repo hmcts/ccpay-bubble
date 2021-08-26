@@ -53,7 +53,8 @@ class RefundsService {
         body: req.body,
         headers: {
           Authorization: `Bearer ${req.authToken}`,
-          ServiceAuthorization: `${token}`
+          ServiceAuthorization: `${token}`,
+          'Content-Type': 'application/json'
         },
         json: true
       });
