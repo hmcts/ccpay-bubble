@@ -8,8 +8,6 @@ const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
 const microService = config.get('ccpaybubble.microservice');
 
-
-
 class RefundsService {
   getRefundReason(req) {
     return this.createAuthToken().then(token => request.get({
@@ -55,7 +53,7 @@ class RefundsService {
         body: req.body,
         headers: {
           Authorization: `Bearer ${req.authToken}`,
-          ServiceAuthorization: `${token}`,
+          ServiceAuthorization: `${token}`
         },
         json: true
       });
