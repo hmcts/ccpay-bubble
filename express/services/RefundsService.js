@@ -1,4 +1,3 @@
-import { Meta } from '@angular/platform-browser';
 const config = require('config');
 const otp = require('otp');
 const request = require('request-promise-native');
@@ -8,7 +7,7 @@ const idamurl = config.get('idam.api_url');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
 const microService = config.get('ccpaybubble.microservice');
-const csrfToken = Meta.getTag('name=csrf-token');
+
 
 
 class RefundsService {
@@ -50,17 +49,13 @@ class RefundsService {
 
   patchRefundAction(req) {
     return this.createAuthToken().then(token => {
-      Logger.getLogger('kumar -> csrf token').info(csrfToken.content);
-      Logger.getLogger('access token').info(req.authToken);
+      Logger.getLogger('govindu').info(req.authToken);
       return request.patch({
         uri: `${refundsUrl}/refund/${req.params.id}/action/${req.params[0]}`,
         body: req.body,
         headers: {
           Authorization: `Bearer ${req.authToken}`,
           ServiceAuthorization: `${token}`,
-          'X-Requested-With': 'XMLHttpRequest',
-          'CSRF-Token': `${csrfToken.content}`,
-          'Content-Type': 'application/json'
         },
         json: true
       });
