@@ -24,7 +24,6 @@ Run
 
 Run `yarn start`. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
@@ -50,7 +49,6 @@ Please see (https://github.com/hmcts/ccpay-bubble/tree/master/projects/fee-regis
 
 To get more help on thee Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 # ccpay-bubble
-
 
 # Preview Environment
 We get a fully functional environment in Azure Kubernetes (AKS) per pull request. For more info see: https://tools.hmcts.net/confluence/display/ROC/AKS+-+Azure+Managed+Kubernetes
@@ -89,5 +87,3 @@ fee:
 ```  
 
    Run the following commands: `yarn start:angular-dev` and `yarn start:express:dev`
-
-
