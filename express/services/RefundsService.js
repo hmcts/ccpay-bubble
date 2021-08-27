@@ -71,7 +71,7 @@ class RefundsService {
 
   getRefundList1(req) {
     return this.createAuthToken().then(token => request.get({
-      uri: `${refundsUrl}/refund`,
+      uri: `${refundsUrl}/refund?ccdCaseNumber=${req.query.ccdCaseNumber}`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
