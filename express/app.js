@@ -152,10 +152,10 @@ module.exports = appInsights => express.Router()
     controllers.refundController.patchRefundAction(req, res);
   })
   .get('/refund/get-refund-status-list', (req, res) => {
-    controllers.refundController.getRefundList(req, res);
+    controllers.refundController.getRefundStatusList(req, res);
   })
   .get('/refund/get-refund-list', (req, res) => {
-    controllers.refundController.getRefundStatusList(req, res);
+    controllers.refundController.getRefundList(req, res);
   })
 
   .post('/refund/refund', (req, res) => {
