@@ -69,7 +69,7 @@ class RefundsService {
     }));
   }
 
-  getRefundList1(req) {
+  getRefundStatusList(req) {
     return this.createAuthToken().then(token => request.get({
       uri: `${refundsUrl}/refund?ccdCaseNumber=${req.query.ccdCaseNumber}`,
       headers: {
