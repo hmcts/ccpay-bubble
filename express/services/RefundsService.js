@@ -69,6 +69,18 @@ class RefundsService {
     }));
   }
 
+  getRefundList1(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${refundsUrl}/refund`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
   postIssueRefund(req) {
     return this.createAuthToken().then(token => request.post({
       uri: `${refundsUrl}/refund`,
