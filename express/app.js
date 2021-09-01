@@ -165,7 +165,7 @@ module.exports = appInsights => express.Router()
   .post('/refund/get-user-details', (req, res) => {
     controllers.refundController.getUserDetails(req, res);
   })
-  .get('/refund/reference/:id/status-history', (req, res) => {
+  .get('/refund/:reference/status-history', (req, res) => {
     controllers.refundController.getRefundStatusHistory(req, res);
   })
 
