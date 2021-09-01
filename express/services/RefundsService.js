@@ -69,6 +69,17 @@ class RefundsService {
     }));
   }
 
+  getRefundStatusHistory(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${refundsUrl}/refund/reference/${req.query.Id}/status-history`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
   getRefundStatusList(req) {
     return this.createAuthToken().then(token => request.get({
       uri: `${refundsUrl}/refund?ccdCaseNumber=${req.query.ccdCaseNumber}`,
