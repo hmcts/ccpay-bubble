@@ -71,7 +71,7 @@ class RefundsService {
 
   getRefundStatusHistory(req) {
     return this.createAuthToken().then(token => request.get({
-      uri: `${refundsUrl}/refund/reference/${req.params.Id}/status-history`,
+      uri: `${refundsUrl}/refund/${req.params.reference}/status-history`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
