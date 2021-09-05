@@ -137,7 +137,6 @@ class RefundsController {
         }
       });
   }
-  
 
   getUserDetails(req, res, appInsights) {
     Logger.getLogger('Get-User-Details').info(req);
