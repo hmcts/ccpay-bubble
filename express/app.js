@@ -174,7 +174,7 @@ module.exports = appInsights => express.Router()
   })
 
   .patch('/refund/refernce/:reference', (req, res) => {
-    controllers.payhubController.postResubmitRefund(req, res);
+    controllers.refundController.postResubmitRefund(req, res);
   })
 
 
