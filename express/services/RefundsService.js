@@ -105,6 +105,19 @@ class RefundsService {
     }));
   }
 
+  postResubmitRefund(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${refundsUrl}/refund/refernce/${req.params.reference}`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
 
   // getUserDetails(req) {
   //   Logger.getLogger('Refundservice: enter').info(req);
