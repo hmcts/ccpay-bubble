@@ -124,6 +124,20 @@ class RefundsController {
         }
       });
   }
+  postResubmitRefund(req, res, appInsights) {
+    return this.refundsService.postResubmitRefund(req, res, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json({ err: error.message, success: false });
+        } else {
+          res.status(500).json({ err: error, success: false });
+        }
+      });
+  }
+  
 
   getUserDetails(req, res, appInsights) {
     Logger.getLogger('Get-User-Details').info(req);
