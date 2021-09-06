@@ -33,7 +33,8 @@ export class PaymentHistoryComponent implements OnInit {
     'caseworker-probate-authorize',
     'caseworker',
     'caseworker-divorce',
-    'payments'
+    'payments',
+    'payments-refund-approver'
   ];
 
   constructor(
