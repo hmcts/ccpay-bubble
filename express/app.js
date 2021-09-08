@@ -173,10 +173,13 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postRefundsReason(req, res);
   })
 
-  .patch('/refund/refernce/:reference', (req, res) => {
-    controllers.refundController.postResubmitRefund(req, res);
+  .patch('/refund/resubmit/:refund_reference', (req, res) => {
+    controllers.refundController.patchResubmitRefund(req, res);
   })
 
+  .patch('/resubmit/:refund_reference', (req, res) => {
+    controllers.refundController.patchResubmitRefund(req, res);
+  })
 
   .post('/payment-history/refund-retro-remisstion', (req, res) => {
     controllers.payhubController.postRefundRetroRemission(req, res);
