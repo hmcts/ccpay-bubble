@@ -125,8 +125,8 @@ class RefundsController {
         }
       });
   }
-  postResubmitRefund(req, res, appInsights) {
-    return this.refundsService.postResubmitRefund(req, res, appInsights)
+  patchResubmitRefund(req, res) {
+    return this.refundsService.patchResubmitRefund(req)
       .then(result => {
         res.status(200).json({ data: result, success: true });
       })
