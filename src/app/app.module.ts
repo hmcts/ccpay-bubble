@@ -31,6 +31,7 @@ import {AuthDevInterceptor} from './shared/interceptors/auth.dev.interceptor';
 import {environment} from '../environments/environment';
 import { CaseRefService } from './services/caseref/caseref.service';
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
+import { IdamDetails } from './services/idam-details/idam-details';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -74,6 +75,7 @@ const nonProductionProviders = [{
     FeeSearchComponent,
     PaymentHistoryComponent,
     CaseRefService,
+    IdamDetails,
     WindowUtil,
     !environment.production ? nonProductionProviders : [],
     PaymentGroupService,
