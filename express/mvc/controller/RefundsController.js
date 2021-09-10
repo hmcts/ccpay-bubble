@@ -72,6 +72,7 @@ class RefundsController {
   }
 
   getRefundList(req, res) {
+    Logger.getLogger('getRefundList').info(req.roles);
     return this.refundsService.getRefundList(req)
       .then(result => {
         res.status(200).json({ data: result, success: true });
