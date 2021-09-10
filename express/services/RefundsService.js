@@ -105,9 +105,9 @@ class RefundsService {
     }));
   }
 
-  postResubmitRefund(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${refundsUrl}/refund/refernce/${req.params.reference}`,
+  patchResubmitRefund(req) {
+    return this.createAuthToken().then(token => request.patch({
+      uri: `${refundsUrl}/refund/resubmit/${req.params.refund_reference}`,
       body: req.body,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
