@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { IdamDetails } from '../../services/idam-details/idam-details';
 
 @Component({
   selector: 'app-payment-history',
@@ -25,48 +26,52 @@ export class PaymentHistoryComponent implements OnInit {
   isNewPcipalOff: boolean;
   servicerequest: string;
   refundlist: string;
-  LOGGEDINUSERROLES: any[];
   LOGGEDINUSEREMAIL: string;
+  LOGGEDINUSERROLES: string[];
 
-  userRoles =  [
+  userRoles = [
     'IDAM_SUPER_USER',
     'caseworker-probate-authorize',
     'caseworker',
     'caseworker-divorce',
     'payments',
-    'payments-refund-approver'
+    'payments-refund-approver',
+    'payments-refund'
   ];
 
   constructor(
-    private activatedRoute: ActivatedRoute
-    ) { }
+    private activatedRoute: ActivatedRoute,
+    private idamDetails: IdamDetails
+  ) { }
 
   ngOnInit() {
+    this.idamDetails.getUserDetails().subscribe(roles => this.LOGGEDINUSERROLES = roles);
 
-      this.activatedRoute.params.subscribe(
-        {
-          next: (params) => {
-            this.apiRoot = 'api/payment-history';
-            this.bulkscanapiRoot = 'api/bulk-scan';
-            this.refundsapiRoot = 'api/refund';
-            this.ccdCaseNumber = params['ccdCaseNumber'];
-            this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
-            this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
-            this.isOldPcipalOff = this.activatedRoute.snapshot.queryParams['isOldPcipalOff'] === 'Enable';
-            this.isNewPcipalOff = this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable';
-            this.isTurnOff = this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable';
-            this.excReference = this.activatedRoute.snapshot.queryParams['exceptionRecord'];
-            this.view = this.activatedRoute.snapshot.queryParams['view'];
-            this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
-            this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
-            this.dcnNumber = this.activatedRoute.snapshot.queryParams['dcn'];
-            this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
-            this.caseType = this.activatedRoute.snapshot.queryParams['caseType'];
-            this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'];
-            this.refundlist = this.activatedRoute.snapshot.queryParams['refundlist'];
-            this.LOGGEDINUSEREMAIL = 'kishanki@gmail.com';
-            this.LOGGEDINUSERROLES = this.userRoles;
-          }
-    });
+    this.activatedRoute.params.subscribe(
+      {
+        next: (params) => {
+          this.apiRoot = 'api/payment-history';
+          this.bulkscanapiRoot = 'api/bulk-scan';
+          this.refundsapiRoot = 'api/refund';
+          this.ccdCaseNumber = params['ccdCaseNumber'];
+          this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
+          this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
+          this.isOldPcipalOff = this.activatedRoute.snapshot.queryParams['isOldPcipalOff'] === 'Enable';
+          this.isNewPcipalOff = this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable';
+          this.isTurnOff = this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable';
+          this.excReference = this.activatedRoute.snapshot.queryParams['exceptionRecord'];
+          this.view = this.activatedRoute.snapshot.queryParams['view'];
+          this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
+          this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
+          this.dcnNumber = this.activatedRoute.snapshot.queryParams['dcn'];
+          this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
+          this.caseType = this.activatedRoute.snapshot.queryParams['caseType'];
+          this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'];
+          this.refundlist = this.activatedRoute.snapshot.queryParams['refundlist'];
+          this.LOGGEDINUSEREMAIL = 'kishanki@gmail.com';
+          this.LOGGEDINUSERROLES = this.LOGGEDINUSERROLES;
+        }
+      });
+    console.log("LOGGEDINUSERROLES :outside", this.LOGGEDINUSERROLES);
   }
 }
