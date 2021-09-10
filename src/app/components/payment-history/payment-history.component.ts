@@ -72,6 +72,5 @@ export class PaymentHistoryComponent implements OnInit {
           this.LOGGEDINUSERROLES = this.LOGGEDINUSERROLES;
         }
       });
-    console.log("LOGGEDINUSERROLES :outside", this.LOGGEDINUSERROLES);
   }
 }

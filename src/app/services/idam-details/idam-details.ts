@@ -12,7 +12,7 @@ export class IdamDetails {
     ) { }
 
     getUserDetails(): Observable<any> {
-        this.http.get('/api/user-roles').subscribe(res =>{
+        this.http.get('/api/user-roles').subscribe(res => {
             this.loggedInUserRolesBehavioralSubject$.next(JSON.parse(res));
         });
         return this.loggedInUserRolesBehavioralSubject$.asObservable();
