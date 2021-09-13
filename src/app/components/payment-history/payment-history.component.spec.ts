@@ -5,11 +5,11 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Subject, of, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
-import { IdamDetails } from '../../services/idam-details/idam-details'
+import { IdamDetails } from '../../services/idam-details/idam-details';
 import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
 import { instance, mock } from 'ts-mockito';
 
-let roles: string[] = ['caseworker', 'payments'];
+const roles: string[] = ['caseworker', 'payments'];
 
 describe('Payment History case transaction component', () => {
   let component: PaymentHistoryComponent,
@@ -130,7 +130,7 @@ describe('Payment History component fee-summary', () => {
       }, {
         provide: IdamDetails,
         useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
-      },],
+      }, ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -187,7 +187,7 @@ describe('Payment History component Reports', () => {
       }, {
         provide: IdamDetails,
         useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
-      },],
+      }, ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
