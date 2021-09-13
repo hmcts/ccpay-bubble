@@ -45,7 +45,7 @@ export class PaymentHistoryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.idamDetails.getUserDetails().subscribe(roles => this.LOGGEDINUSERROLES = roles);
+    this.idamDetails.getUserRoles().subscribe(roles => this.LOGGEDINUSERROLES = roles);
 
     this.activatedRoute.params.subscribe(
       {
