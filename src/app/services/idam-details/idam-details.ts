@@ -11,7 +11,7 @@ export class IdamDetails {
         private http: PaybubbleHttpClient,
     ) { }
 
-    getUserDetails(): Observable<any> {
+    getUserRoles(): Observable<any> {
         this.http.get('/api/user-roles').subscribe(res => {
             this.loggedInUserRolesBehavioralSubject$.next(JSON.parse(res));
         });
