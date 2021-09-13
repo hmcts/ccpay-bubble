@@ -1059,7 +1059,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     spyOn(caseRefService, 'validateCaseRef').and.returnValue(
       of(mockResponse5)
     );
-
+    spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     component.ngOnInit();
     component.takePayment = false;
     component.isBulkscanningEnable = true;
