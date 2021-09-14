@@ -2,6 +2,8 @@ const config = require('config');
 const otp = require('otp');
 const request = require('request-promise-native');
 
+const { Logger } = require('@hmcts/nodejs-logging');
+
 const refundsUrl = config.get('refunds.url');
 const idamurl = config.get('idam.api_url');
 const s2sUrl = config.get('s2s.url');
@@ -58,15 +60,17 @@ class RefundsService {
     }));
   }
   getRefundList(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${refundsUrl}/refund?status=${req.query.status}&excludeCurrentUser=${req.query.selfExclusive}`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+    Logger.getLogger('result-BUBBLE: user').info(req.roles);
+    return this.createAuthToken().then(token =>
+      request.get({
+        uri: `${refundsUrl}/refund?status=${req.query.status}&excludeCurrentUser=${req.query.selfExclusive}`,
+        headers: {
+          Authorization: `Bearer ${req.authToken}`,
+          ServiceAuthorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        json: true
+      }));
   }
 
   getRefundStatusHistory(req) {
@@ -81,20 +85,34 @@ class RefundsService {
     }));
   }
   getRefundStatusList(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${refundsUrl}/refund?ccdCaseNumber=${req.query.ccdCaseNumber}`,
+    return this.createAuthToken().then(token =>
+      request.get({
+        uri: `${refundsUrl}/refund?ccdCaseNumber=${req.query.ccdCaseNumber}`,
+        headers: {
+          Authorization: `Bearer ${req.authToken}`,
+          ServiceAuthorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        json: true
+      }));
+  }
+
+  postIssueRefund(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${refundsUrl}/refund`,
+      body: req.body,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
+        ServiceAuthorization: `${token}`,
         'Content-Type': 'application/json'
       },
       json: true
     }));
   }
 
-  postIssueRefund(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${refundsUrl}/refund`,
+  patchResubmitRefund(req) {
+    return this.createAuthToken().then(token => request.patch({
+      uri: `${refundsUrl}/refund/resubmit/${req.params.refund_reference}`,
       body: req.body,
       headers: {
         Authorization: `Bearer ${req.authToken}`,

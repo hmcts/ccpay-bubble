@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { IdamDetails } from '../../services/idam-details/idam-details';
 
 @Component({
   selector: 'app-payment-history',
@@ -25,23 +26,26 @@ export class PaymentHistoryComponent implements OnInit {
   isNewPcipalOff: boolean;
   servicerequest: string;
   refundlist: string;
-  LOGGEDINUSERROLES: any[];
   LOGGEDINUSEREMAIL: string;
+  LOGGEDINUSERROLES: string[];
 
-  userRoles =  [
+  userRoles = [
     'IDAM_SUPER_USER',
     'caseworker-probate-authorize',
     'caseworker',
     'caseworker-divorce',
-    'payments'
+    'payments',
+    'payments-refund-approver',
+    'payments-refund'
   ];
 
   constructor(
-    private activatedRoute: ActivatedRoute
-    ) { }
+    private activatedRoute: ActivatedRoute,
+    private idamDetails: IdamDetails
+  ) { }
 
   ngOnInit() {
-
+    this.idamDetails.getUserRoles().subscribe(roles => {
       this.activatedRoute.params.subscribe(
         {
           next: (params) => {
@@ -64,8 +68,11 @@ export class PaymentHistoryComponent implements OnInit {
             this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'];
             this.refundlist = this.activatedRoute.snapshot.queryParams['refundlist'];
             this.LOGGEDINUSEREMAIL = 'kishanki@gmail.com';
-            this.LOGGEDINUSERROLES = this.userRoles;
+            this.LOGGEDINUSERROLES = roles;
           }
+        });
     });
+
+
   }
 }
