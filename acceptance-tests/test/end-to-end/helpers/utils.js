@@ -7,12 +7,71 @@ const request = requestModule.defaults();
 
 const stringUtil = require('./string_utils.js');
 const numUtil = require('./number_utils');
+const testConfig = require('../tests/config/CCPBConfig.js');
 
 const logger = Logger.getLogger('helpers/utils.js');
 
 const env = process.env.RUNNING_ENV || 'aat';
 // const prenv = process.env.RUNNING_ENV || 'pr-803';
 // const prev = process.env.RUNNING_ENV || 'preview';
+
+async function getIDAMToken() {
+  const username = testConfig.TestCaseWorkerUserName;
+  const password = testConfig.TestCaseWorkerPassword;
+
+  const idamClientID = testConfig.TestClientID;
+  const idamClientSecret = testConfig.TestClientSecret;
+  const redirectUri = testConfig.TestRedirectURI;
+  const scope = 'openid profile roles';
+  const grantType = 'password';
+  console.log("The value of the User Name "+username);
+  console.log("The value of the Password "+password);
+  console.log("The value of the Client Id : "+idamClientID);
+  console.log("The value of the Client Secret : "+idamClientSecret);
+  console.log("The value of the Redirect URI : "+redirectUri);
+  console.log("The value of the grant Type : "+grantType);
+  console.log("The value of the scope : "+scope);
+
+  const s2sBaseUrl = `https://idam-api.${env}.platform.hmcts.net`;
+  const idamTokenPath = `/o/token`;
+
+  const idamTokenResponse = await request({
+      method: 'POST',
+      uri: `${s2sBaseUrl}`+ idamTokenPath,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`
+    },(error, response) => {
+        statusCode = response.statusCode;
+    }).catch(error => {
+        console.log(error);
+    });
+    logger.debug(idamTokenPath);
+    return JSON.parse(idamTokenResponse)['access_token'];;
+}
+
+async function getServiceTokenForSecret(service, serviceSecret) {
+  logger.info('Getting Service Token');
+  console.log('Getting Service Token'+service);
+  console.log('Getting Service Token'+serviceSecret);
+
+  const s2sBaseUrl = `http://rpe-service-auth-provider-${env}.service.core-compute-${env}.internal`;
+  const s2sAuthPath = '/testing-support/lease';
+  // eslint-disable-next-line global-require
+  const oneTimePassword = require('otp')({ secret: serviceSecret }).totp();
+  console.log('Getting The one time password'+oneTimePassword);
+  console.log('Getting The one time password :'+s2sBaseUrl);
+  const serviceToken = await request({
+    method: 'POST',
+    uri: s2sBaseUrl + s2sAuthPath,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      microservice: service
+    })
+  });
+  logger.debug(serviceToken);
+  console.log(serviceToken)
+  return serviceToken;
+}
 
 async function getServiceToken(service) {
   logger.info('Getting Service Token');
@@ -23,19 +82,18 @@ async function getServiceToken(service) {
   const s2sAuthPath = '/testing-support/lease';
   // eslint-disable-next-line global-require
   const oneTimePassword = require('otp')({ secret: serviceSecret }).totp();
-
   const serviceToken = await request({
     method: 'POST',
     uri: s2sBaseUrl + s2sAuthPath,
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify({
-      microservice: service,
-      oneTimePassword
+      microservice: 'ccpay_bubble'
     })
   });
 
   logger.debug(serviceToken);
-
   return serviceToken;
 }
 
@@ -69,6 +127,66 @@ async function toggleOnCaseValidation() {
   const response = await CaseValidation('enable');
   return Promise.all([response]);
 }
+
+async function createAPBAPayment(amount) {
+
+  logger.info('Creating bulk a PBA Payment...');
+  console.log('Creating bulk a PBA Payment...');
+  const creditAccountPaymentUrl = `http://payment-api-${env}.service.core-compute-${env}.internal`;
+  const creditAccountPaymentEndPoint = '/credit-account-payments';
+  const microservice = 'cmc'
+  const idamToken = await getIDAMToken();
+  const test_cmc_secret =  testConfig.TestCMCSecret;
+  console.log("The value of the IDAM Token" + idamToken);
+  console.log("The value of the cmc secret " + test_cmc_secret);
+  const serviceToken = await getServiceTokenForSecret(microservice,test_cmc_secret);
+  console.log("The value of the Service Token " + serviceToken);
+  const account_number = testConfig.TestAccountNumberActive;
+  const ccd_case_number = numUtil.randomInt(0, 9999999999999999);
+  console.log("The value of the CCD Case Number : " + ccd_case_number);
+
+  const saveBody = {
+    account_number: `${account_number}`,
+      amount: 215,
+      case_reference: "1253656",
+      ccd_case_number: `${ccd_case_number}`,
+      currency: 'GBP',
+      customer_reference: 'string',
+      description: 'string',
+      fees: [
+        {
+          calculated_amount: 215,
+          code: 'FEE0226',
+          fee_amount: 215,
+          version: '3',
+          volume: 1
+        }
+      ],
+      organisation_name: 'string',
+      service: 'PROBATE',
+      site_id: 'AA08'
+  };
+  console.log('The value of the Body'+JSON.stringify(saveBody));
+  const createAPBAPaymentOptions = {
+    method: 'POST',
+    uri: creditAccountPaymentUrl + creditAccountPaymentEndPoint,
+    headers: {
+      Authorization : `${idamToken}`,
+      ServiceAuthorization: `Bearer ${serviceToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(saveBody)
+  };
+
+  const saveCaseResponse = await request(createAPBAPaymentOptions, (error, response) => {
+      statusCode = response.statusCode;
+      console.log(statusCode);
+    }).catch(error => {
+      console.log(error);
+    });
+    console.log(saveCaseResponse);
+    return ccd_case_number;
+  }
 
 async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
   bankedDate, dcnNumber, paymentMethod) {
@@ -248,5 +366,5 @@ async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
 
 module.exports = {
   bulkScanNormalCcd, bulkScanExceptionCcd, bulkScanCcdLinkedToException,
-  toggleOffCaseValidation, toggleOnCaseValidation
+  toggleOffCaseValidation, toggleOnCaseValidation, createAPBAPayment
 };
