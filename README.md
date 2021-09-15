@@ -69,7 +69,7 @@ auth.provider.service.client.baseUrl=http://localhost:23443
 
    Run the app with local config by setting up this environment variable: `spring_profiles_active=local`
 
-3. in **ccpay-bubble** project `default.yaml` make the following changes:
+3. in **ccpay-bubble** project `default.yaml` make the following changes :
 ```
 idam:
   client_id: paybubble
