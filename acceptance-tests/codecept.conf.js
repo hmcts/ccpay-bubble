@@ -16,7 +16,7 @@ exports.config = {
       waitForAction,
       // waitForNavigation: 'networkidle0',
       waitForNavigation: 'domcontentloaded',
-      show: false,
+      show: true,
       restart: true,
       keepCookies: false,
       keepBrowserState: true,
@@ -46,6 +46,8 @@ exports.config = {
     CaseUnidentified: './test/end-to-end/pages/case_unidentified.js',
     Remission: './test/end-to-end/pages/remission.js',
     PaymentHistory: './test/end-to-end/pages/payment_history.js',
+    InitiateRefunds: './test/end-to-end/pages/initiate_refunds.js',
+    RefundsList: './test/end-to-end/pages/refunds_list.js',
     Reports: './test/end-to-end/pages/reports.js'
   },
   mocha: {
