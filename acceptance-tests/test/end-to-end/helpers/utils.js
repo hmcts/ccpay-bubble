@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const { Logger } = require('@hmcts/nodejs-logging');
 const requestModule = require('request-promise-native');
 
@@ -24,73 +25,71 @@ async function getIDAMToken() {
   const redirectUri = testConfig.TestRedirectURI;
   const scope = 'openid profile roles';
   const grantType = 'password';
-  console.log("The value of the User Name "+username);
-  console.log("The value of the Password "+password);
-  console.log("The value of the Client Id : "+idamClientID);
-  console.log("The value of the Client Secret : "+idamClientSecret);
-  console.log("The value of the Redirect URI : "+redirectUri);
-  console.log("The value of the grant Type : "+grantType);
-  console.log("The value of the scope : "+scope);
+  logger.log(`The value of the User Name ${username}`);
+  logger.log(`The value of the Password ${password}`);
+  logger.log(`The value of the Client Id : ${idamClientID}`);
+  logger.log(`The value of the Client Secret : ${idamClientSecret}`);
+  logger.log(`The value of the Redirect URI : ${redirectUri}`);
+  logger.log(`The value of the grant Type : ${grantType}`);
+  logger.log(`The value of the scope : ${scope}`);
 
   const s2sBaseUrl = `https://idam-api.${env}.platform.hmcts.net`;
-  const idamTokenPath = `/o/token`;
+  const idamTokenPath = '/o/token';
 
   const idamTokenResponse = await request({
-      method: 'POST',
-      uri: `${s2sBaseUrl}`+ idamTokenPath,
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`
-    },(error, response) => {
-        statusCode = response.statusCode;
-    }).catch(error => {
-        console.log(error);
-    });
-    logger.debug(idamTokenPath);
-    return JSON.parse(idamTokenResponse)['access_token'];;
+    method: 'POST',
+    uri: `${s2sBaseUrl}${idamTokenPath}`,
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`
+  }, (_error, response) => {
+    statusCode = response.statusCode;
+  }).catch(error => {
+    logger.log(error);
+  });
+  logger.debug(idamTokenPath);
+  return JSON.parse(idamTokenResponse).access_token;
 }
 
 async function getServiceTokenForSecret(service, serviceSecret) {
   logger.info('Getting Service Token');
-  console.log('Getting Service Token'+service);
-  console.log('Getting Service Token'+serviceSecret);
+  logger.log(`Getting Service Token${service}`);
+  logger.log(`Getting Service Token${serviceSecret}`);
 
   const s2sBaseUrl = `http://rpe-service-auth-provider-${env}.service.core-compute-${env}.internal`;
   const s2sAuthPath = '/testing-support/lease';
   // eslint-disable-next-line global-require
   const oneTimePassword = require('otp')({ secret: serviceSecret }).totp();
-  console.log('Getting The one time password'+oneTimePassword);
-  console.log('Getting The one time password :'+s2sBaseUrl);
+
+  logger.log(`Getting The one time password${oneTimePassword}`);
+  logger.log(`Getting The one time password :${s2sBaseUrl}`);
   const serviceToken = await request({
     method: 'POST',
     uri: s2sBaseUrl + s2sAuthPath,
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      microservice: service
-    })
+    body: JSON.stringify({ microservice: service })
   });
   logger.debug(serviceToken);
-  console.log(serviceToken)
+  logger.log(serviceToken);
   return serviceToken;
 }
 
-async function getServiceToken(service) {
+// eslint-disable-next-line no-unused-vars
+async function getServiceToken(_service) {
   logger.info('Getting Service Token');
 
   const serviceSecret = process.env.CCD_SUBMIT_S2S_SECRET;
 
   const s2sBaseUrl = `http://rpe-service-auth-provider-${env}.service.core-compute-${env}.internal`;
   const s2sAuthPath = '/testing-support/lease';
-  // eslint-disable-next-line global-require
+
+  // eslint-disable-next-line no-unused-vars
   const oneTimePassword = require('otp')({ secret: serviceSecret }).totp();
+
   const serviceToken = await request({
     method: 'POST',
     uri: s2sBaseUrl + s2sAuthPath,
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      microservice: 'ccpay_bubble'
-    })
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ microservice: 'ccpay_bubble' })
   });
 
   logger.debug(serviceToken);
@@ -109,7 +108,7 @@ async function CaseValidation(flag) {
     uri: paymentBaseUrl + disablePath,
     headers: { 'Content-Type': 'application/json' }
   },
-  (error, response) => {
+  (_error, response) => {
     statusCode = response.statusCode;
   }).catch(error => {
     logger.log(error);
@@ -128,65 +127,66 @@ async function toggleOnCaseValidation() {
   return Promise.all([response]);
 }
 
-async function createAPBAPayment(amount) {
-
+// eslint-disable-next-line no-unused-vars
+async function createAPBAPayment(_amount) {
   logger.info('Creating bulk a PBA Payment...');
-  console.log('Creating bulk a PBA Payment...');
+  logger.log('Creating bulk a PBA Payment...');
   const creditAccountPaymentUrl = `http://payment-api-${env}.service.core-compute-${env}.internal`;
   const creditAccountPaymentEndPoint = '/credit-account-payments';
-  const microservice = 'cmc'
+  const microservice = 'cmc';
   const idamToken = await getIDAMToken();
-  const test_cmc_secret =  testConfig.TestCMCSecret;
-  console.log("The value of the IDAM Token" + idamToken);
-  console.log("The value of the cmc secret " + test_cmc_secret);
-  const serviceToken = await getServiceTokenForSecret(microservice,test_cmc_secret);
-  console.log("The value of the Service Token " + serviceToken);
-  const account_number = testConfig.TestAccountNumberActive;
-  const ccd_case_number = numUtil.randomInt(0, 9999999999999999);
-  console.log("The value of the CCD Case Number : " + ccd_case_number);
+  const testCmcSecret = testConfig.TestCMCSecret;
+  logger.log(`The value of the IDAM Token${idamToken}`);
+  logger.log(`The value of the cmc secret ${testCmcSecret}`);
+  const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
+  logger.log(`The value of the Service Token ${serviceToken}`);
+  const accountNumber = testConfig.TestAccountNumberActive;
+  // eslint-disable-next-line no-magic-numbers
+  const ccdCaseNumber = numUtil.randomInt(0, 9999999999999999);
+  logger.log(`The value of the CCD Case Number : ${ccdCaseNumber}`);
 
   const saveBody = {
-    account_number: `${account_number}`,
-      amount: 215,
-      case_reference: "1253656",
-      ccd_case_number: `${ccd_case_number}`,
-      currency: 'GBP',
-      customer_reference: 'string',
-      description: 'string',
-      fees: [
-        {
-          calculated_amount: 215,
-          code: 'FEE0226',
-          fee_amount: 215,
-          version: '3',
-          volume: 1
-        }
-      ],
-      organisation_name: 'string',
-      service: 'PROBATE',
-      site_id: 'AA08'
+    account_number: `${accountNumber}`,
+    amount: 215,
+    case_reference: '1253656',
+    ccd_case_number: `${ccdCaseNumber}`,
+    currency: 'GBP',
+    customer_reference: 'string',
+    description: 'string',
+    fees: [
+      {
+        calculated_amount: 215,
+        code: 'FEE0226',
+        fee_amount: 215,
+        version: '3',
+        volume: 1
+      }
+    ],
+    organisation_name: 'string',
+    service: 'PROBATE',
+    site_id: 'AA08'
   };
-  console.log('The value of the Body'+JSON.stringify(saveBody));
+  logger.log(`The value of the Body${JSON.stringify(saveBody)}`);
   const createAPBAPaymentOptions = {
     method: 'POST',
     uri: creditAccountPaymentUrl + creditAccountPaymentEndPoint,
     headers: {
-      Authorization : `${idamToken}`,
+      Authorization: `${idamToken}`,
       ServiceAuthorization: `Bearer ${serviceToken}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(saveBody)
   };
 
-  const saveCaseResponse = await request(createAPBAPaymentOptions, (error, response) => {
-      statusCode = response.statusCode;
-      console.log(statusCode);
-    }).catch(error => {
-      console.log(error);
-    });
-    console.log(saveCaseResponse);
-    return ccd_case_number;
-  }
+  const saveCaseResponse = await request(createAPBAPaymentOptions, (_error, response) => {
+    statusCode = response.statusCode;
+    logger.log(statusCode);
+  }).catch(error => {
+    logger.log(error);
+  });
+  logger.log(saveCaseResponse);
+  return ccddCaseNumber;
+}
 
 async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
   bankedDate, dcnNumber, paymentMethod) {
@@ -213,7 +213,7 @@ async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
     body: JSON.stringify(saveBody)
   };
 
-  const saveCaseResponse = await request(saveCaseOptions, (error, response) => {
+  const saveCaseResponse = await request(saveCaseOptions, (_error, response) => {
     statusCode = response.statusCode;
   }
   ).catch(error => {
@@ -248,7 +248,7 @@ async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, except
   };
 
   const saveCaseResponse = await request(saveCaseOptions
-    , (error, response) => {
+    , (_error, response) => {
       statusCode = response.statusCode;
     }
   ).catch(error => {
@@ -280,7 +280,7 @@ async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNum
   };
 
   const saveCaseResponse = await request(saveCaseOptions
-    , (error, response) => {
+    , (_error, response) => {
       statusCode = response.statusCode;
     }
   ).catch(error => {
