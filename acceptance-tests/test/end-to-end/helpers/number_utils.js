@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 // eslint-disable max-len
 const stringUtil = require('./string_utils.js');
 
