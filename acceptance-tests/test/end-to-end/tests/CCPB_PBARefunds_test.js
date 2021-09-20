@@ -1,6 +1,7 @@
 const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 
-// const nightlyTest = process.env.NIGHTLY_TEST;
+// eslint-disable-next-line no-unused-vars
+const nightlyTest = process.env.NIGHTLY_TEST;
 
 const bulkScanApiCalls = require('../helpers/utils');
 
