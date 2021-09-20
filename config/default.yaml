@@ -16,7 +16,7 @@ pcipalantenna:
   url: https://paybubble.platform.hmcts.net/ccd-search
   microservice: ccpay_bubble
 s2s:
-  url: http://localhost:8085
+  url: http://localhost:23443
 payhub:
   url: http://localhost:8091
 bulkscan:
