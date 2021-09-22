@@ -6,7 +6,7 @@ const { I } = inject();
 module.exports = {
 
   locators: {
-    service_requests_review: { xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]' }
+    service_requests_review: { xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]' },
     payment_success_review: { xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]' }
   },
 
@@ -51,7 +51,7 @@ module.exports = {
       I.see(paymentReference);
       I.waitForText('Payment Amount','£'+paymentAmount);
       I.click('Submit refund');
-    }
+    },
 
     verifyRefundConfirmationPage(paymentAmount) {
       I.waitForText('Refund Submitted','5');
@@ -59,7 +59,7 @@ module.exports = {
       I.see('A refund request for £'+paymentAmount+'has been passed to a team leader to approve');
       I.see('Return to case');
       I.click('Return to case');
-    }
+    },
 
     verifyServiceRequestPage() {
       I.waitForText('Service request','5');
@@ -68,7 +68,7 @@ module.exports = {
       I.see('Payments');
       I.see('Total left to pay: £')
       I.click('Issue refund');
-    }
+    },
 
     verifyServiceRequestPage() {
       I.waitForText('Service request','5');
@@ -77,7 +77,7 @@ module.exports = {
       I.see('Payments');
       I.see('Total left to pay: £')
       I.click('Issue refund');
-    }
+    },
 
     verifyProcessRemissionHWFCodePage(ccd_case_number, hwfReference) {
       I.waitForText('Process remission','5');
@@ -86,7 +86,7 @@ module.exports = {
       I.see('For example: HWF-A1B-23C');
       this.fillField('textarea[id="remissionCode"]', hwfReference);
       I.click('Continue');
-    }
+    },
 
     verifyProcessRemissionAmountPage(ccd_case_number,remissionAmount) {
         I.waitForText('Process remission','5');
@@ -94,7 +94,7 @@ module.exports = {
         I.see('Enter the amount to be refunded')
         this.fillField('textarea[id="amount"]', remissionAmount);
         I.click('Continue');
-    }
+    },
 
     verifyCheckYourAnswersPageForAddRemission(paymentReference, paymentAmount, hwfReference, refundAmount) {
 
@@ -119,7 +119,7 @@ module.exports = {
         verifyProcessRemissionAmountPage('','10.00')
         I.click('Add remission');
 
-    }
+    },
 
     verifyProcessRemissionAmountPage(ccd_case_number,remissionAmount) {
         I.waitForText('Process remission','5');
@@ -127,7 +127,7 @@ module.exports = {
         I.see('Enter the amount to be refunded')
         this.fillField('textarea[id="amount"]', remissionAmount);
         I.click('Continue');
-    }
+    },
 
     issueRefundJourney(entrypoint) {
 
@@ -136,7 +136,7 @@ module.exports = {
       verifyProcessRefundPage();
       verifyCheckYourAnswersPageForIssueRefund();
       verifyRefundConfirmationPage();
-   }
+   },
 
    addRemissionRefundJourney(entrypoint) {
       verifyCaseTransactionPage(entrypoint);
