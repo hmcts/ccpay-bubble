@@ -9,11 +9,11 @@ const { Logger } = require('@hmcts/nodejs-logging');
 
 const logger = Logger.getLogger('CCPB_PBARefunds_test.js');
 
-// const successResponse = 202;
+const successResponse = 202;
 
 Feature('CC Pay Bubble Acceptance Tests For Refunds and Remissions').retry(CCPBATConstants.retryScenario);
 
-/* BeforeSuite(async I => {
+/*BeforeSuite(async I => {
   const response = await bulkScanApiCalls.toggleOffCaseValidation();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   if (response === successResponse) {
@@ -30,9 +30,10 @@ AfterSuite(async I => {
 });*/
 
 Scenario.skip('Refund a Successful PBA Payment through the Payments', async I => {
-  logger.log('Starting the PBA Payment');
-  const ccdCaseNumber = await bulkScanApiCalls.createAPBAPayment('90.00');
-  logger.log(`CCD Case Number : ${ccdCaseNumber}`);
+
+  console.log('Starting the PBA Payment');
+  const ccd_case_number = await bulkScanApiCalls.createAPBAPayment("90.00");
+  console.log('CCD Case Number : ' + ccd_case_number);`
 
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   await miscUtils.multipleSearch(CaseSearch, I, ccd_case_number);
@@ -40,9 +41,10 @@ Scenario.skip('Refund a Successful PBA Payment through the Payments', async I =>
 });
 
 Scenario.skip('Refund a Successful PBA Payment through the Service Requests', async I => {
-  logger.log('Starting the PBA Payment');
-  const ccdCaseNumber = await bulkScanApiCalls.createAPBAPayment('90.00');
-  logger.log(`CCD Case Number : ${ccdCaseNumber}`);
+
+  console.log('Starting the PBA Payment');
+  const ccd_case_number = await bulkScanApiCalls.createAPBAPayment("90.00");
+  console.log('CCD Case Number : ' + ccd_case_number);`
 
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   await miscUtils.multipleSearch(CaseSearch, I, ccd_case_number);
@@ -50,23 +52,27 @@ Scenario.skip('Refund a Successful PBA Payment through the Service Requests', as
 });
 
 Scenario.skip('Refund List Page and Review Refund Journey', async I => {
-  logger.log('Starting the PBA Payment');
-  const ccdCaseNumber = await bulkScanApiCalls.createAPBAPayment('90.00');
-  logger.log(`CCD Case Number : ${ccdCaseNumber}`);
+
+  console.log('Starting the PBA Payment');
+  const ccd_case_number = await bulkScanApiCalls.createAPBAPayment("90.00");
+  console.log('CCD Case Number : ' + ccd_case_number);`
 
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   await miscUtils.multipleSearch(CaseSearch, I, ccd_case_number);
-  const refundReference = InitiateRefunds.issueRefundJourney();
-  RefundsList.reviewRefundJourney(refundReference);
+  const refund_reference = InitiateRefunds.issueRefundJourney();
+  RefundsList.reviewRefundJourney(refund_reference);
 });
 
 Scenario.skip('Refund List Page and Approver Journey', async I => {
-  logger.log('Starting the PBA Payment');
-  const ccdCaseNumber = await bulkScanApiCalls.createAPBAPayment('90.00');
-  logger.log(`CCD Case Number : ${ccdCaseNumber}`);
+
+  console.log('Starting the PBA Payment');
+  const ccd_case_number = await bulkScanApiCalls.createAPBAPayment("90.00");
+  console.log('CCD Case Number : ' + ccd_case_number);`
 
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   await miscUtils.multipleSearch(CaseSearch, I, ccd_case_number);
-  const refundReference = InitiateRefunds.issueRefundJourney();
-  RefundsList.approveRefundJourney(refundReference);
+  const refund_reference = InitiateRefunds.issueRefundJourney();
+  RefundsList.approveRefundJourney(refund_reference);
 });
+
+
