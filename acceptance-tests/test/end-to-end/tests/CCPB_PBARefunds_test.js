@@ -73,5 +73,3 @@ Scenario.skip('Refund List Page and Approver Journey', async I => {
   const refund_reference = InitiateRefunds.issueRefundJourney();
   RefundsList.approveRefundJourney(refund_reference);
 });
-
-
