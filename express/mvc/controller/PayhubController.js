@@ -302,16 +302,16 @@ class PayhubController {
 
   getPbaAccountList(req, res) {
     return this.payhubService.getPbaAccountList(req)
-    .then(result => {
-      res.status(200).json(result);
-    })
-    .catch(error => {
-      if (error.statusCode) {
-        res.status(error.statusCode).json(error.message);
-      } else {
-        res.status(500).json(error);
-      }
-    });
+      .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json(error.message);
+        } else {
+          res.status(500).json(error);
+        }
+      });
   }
 
   getPaymentGroup(req, res) {
