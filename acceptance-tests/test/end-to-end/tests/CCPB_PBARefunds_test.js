@@ -29,12 +29,13 @@ AfterSuite(async I => {
   }
 });*/
 
-Scenario.skip('Refund a Successful PBA Payment through the Payments', async I => {
+Scenario('Refund a Successful PBA Payment through the Payments', async I => {
   logger.log('Starting the PBA Payment');
-  const ccdCaseNumber = await bulkScanApiCalls.createAPBAPayment('90.00');
-  logger.log(`CCD Case Number : ${ccdCaseNumber}`);
+  const paymentDetails = await bulkScanApiCalls.createAPBAPayment('90.00');
+  const ccdCaseNumber = `${paymentDetails.ccd_case_number}`;
+  logger.info(ccdCaseNumber);
 
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  I.login('probaterequest1@mailnesia.com', 'LevelAt12');
   await miscUtils.multipleSearch(CaseSearch, I, ccd_case_number);
   InitiateRefunds.issueRefundJourney('Payments');
 });
