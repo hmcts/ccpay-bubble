@@ -339,7 +339,6 @@ class PayhubController {
   }
 
   postPBAAccountPayment(req, res, appInsights) {
-
     return this.payhubService.postPBAAccountPayment(req, appInsights)
       .then(result => {
         res.status(200).json({ data: result, success: true });
@@ -348,7 +347,7 @@ class PayhubController {
         if (error.statusCode) {
           res.status(error.statusCode).json({ err: error.message, success: false });
         } else {
-          res.status(500).json({ err: error.message, success: false});
+          res.status(500).json({ err: error.message, success: false });
         }
       });
   }
@@ -361,7 +360,7 @@ class PayhubController {
         if (error.statusCode) {
           res.status(error.statusCode).json({
             err: error.message,
-            success: false 
+            success: false
           });
         } else {
           res.status(500).json({ err: error, success: false });

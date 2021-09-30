@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IdamDetails } from '../../services/idam-details/idam-details';
-import * as ls from "local-storage";
+import * as ls from 'local-storage';
 import {Router} from '@angular/router';
 
 
@@ -77,9 +77,9 @@ export class PaymentHistoryComponent implements OnInit {
         });
 
     });
-    if(this.lsCcdNumber !== this.ccdCaseNumber) {
+    if ( this.lsCcdNumber !== this.ccdCaseNumber ) {
       this.router.navigateByUrl(`/ccd-search?takePayment=true`);
-    } 
+    }
 
   }
 
