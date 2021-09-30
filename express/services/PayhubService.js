@@ -222,6 +222,30 @@ class PayhubService {
       json: true
     }));
   }
+  postPBAAccountPayment(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/order/${req.params.serviceRef}/credit-account-payment`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+  postWays2PayCardPayment(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/service-request/${req.params.serviceRef}/card-payments`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
 
   getApportionPaymentGroup(req) {
     return this.createAuthToken().then(token => request.get({
