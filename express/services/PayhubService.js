@@ -224,7 +224,7 @@ class PayhubService {
   }
   postPBAAccountPayment(req) {
     return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/order/${req.params.serviceRef}/credit-account-payment`,
+      uri: `${payhubUrl}/service-request/${req.params.serviceRef}/pba-payments`,
       body: req.body,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
