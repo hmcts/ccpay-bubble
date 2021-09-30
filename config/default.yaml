@@ -18,7 +18,7 @@ pcipalantenna:
 s2s:
   url: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
 payhub:
-  url: http://payment-api-prod.service.core-compute-prod.internal
+  url: https://payment-api-pr-1004.service.core-compute-preview.internal
 bulkscan:
   url: http://ccpay-bulkscanning-api-prod.service.core-compute-prod.internal
 appInsights:
