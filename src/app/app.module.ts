@@ -32,6 +32,8 @@ import {environment} from '../environments/environment';
 import { CaseRefService } from './services/caseref/caseref.service';
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
 import { IdamDetails } from './services/idam-details/idam-details';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -66,7 +68,9 @@ const nonProductionProviders = [{
     HttpClientModule,
     ViewPaymentModule,
     FeeRegisterSearchModule,
-    PaymentLibModule
+    PaymentLibModule,
+    NoopAnimationsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     PaybubbleHttpClient,
