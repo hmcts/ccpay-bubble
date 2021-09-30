@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PaymentHistoryComponent } from './payment-history.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subject, of, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
@@ -10,6 +10,10 @@ import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.cl
 import { instance, mock } from 'ts-mockito';
 
 const roles: string[] = ['caseworker', 'payments'];
+
+const routerMock = {
+  navigateByUrl: jasmine.createSpy('navigateByUrl')
+};
 
 describe('Payment History case transaction component', () => {
   let component: PaymentHistoryComponent,
@@ -33,6 +37,7 @@ describe('Payment History case transaction component', () => {
             }
           }
         },
+        { provide: Router, useValue: routerMock },
         {
           provide: IdamDetails,
           useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
@@ -82,7 +87,9 @@ describe('Payment History component case-transations', () => {
             }
           }
         }
-      }, {
+      },
+      { provide: Router, useValue: routerMock },
+      {
         provide: IdamDetails,
         useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
       }],
@@ -127,7 +134,9 @@ describe('Payment History component fee-summary', () => {
             queryParams: { view: 'fee-summary', paymentGroupRef: '123' }
           }
         }
-      }, {
+      },
+      { provide: Router, useValue: routerMock },
+      {
         provide: IdamDetails,
         useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
       }, ],
@@ -184,7 +193,9 @@ describe('Payment History component Reports', () => {
             queryParams: { view: '' }
           }
         }
-      }, {
+      },
+      { provide: Router, useValue: routerMock },
+      {
         provide: IdamDetails,
         useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
       }, ],
