@@ -143,7 +143,7 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postPaymentGroupWithRetroRemissions(req, res);
   })
 
-  .post('/payment-history/order/:serviceRef/credit-account-payment', (req, res) => {
+  .post('/payment-history/service-request/:serviceRef/pba-payments', (req, res) => {
     controllers.payhubController.postPBAAccountPayment(req, res);
   })
   .post('/payment-history/service-request/:serviceRef/card-payments', (req, res) => {
