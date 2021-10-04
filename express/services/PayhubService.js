@@ -225,13 +225,14 @@ class PayhubService {
   }
   postPBAAccountPayment(req) {
     const idempotencyKey = this.getIdempotencyKey();
+    
     return this.createAuthToken().then(token => request.post({
       uri: `${payhubUrl}/service-request/${req.params.serviceRef}/pba-payments`,
       body: req.body,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
-        idempotency_key: idempotencyKey,
+        idempotency_key: `${idempotencyKey}`,
         'Content-Type': 'application/json'
       },
       json: true
