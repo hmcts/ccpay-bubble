@@ -350,10 +350,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@hmcts/ccpay-web-component@4.0.1-beta9":
-  version "4.0.1-beta9"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.1-beta9.tgz#ca8b8f34ce8e9b5794b0acef57301fef7d064855"
-  integrity sha512-zmohNCbvlTW2zOOQB1tjKMmAdOSrkmPQSOZ0hItNSQkt4WXUcOYscIi+zuZWpNziNAKU7vQ/YUt3LYaIi45zPg==
+"@hmcts/ccpay-web-component@4.0.1-beta10":
+  version "4.0.1-beta10"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.1-beta10.tgz#72d660e5658be82ea28fc2ceefb4cd6a16d47b4b"
+  integrity sha512-5ZQvlZS1hPtC/IS0V0tMyk0IlAqI0/VCOa+CsFXSWMkET7VrsQRIaMj1RP4SPFo2L3015jvQQzyE4Y4uQBQwSQ==
   dependencies:
     tslib "^1.9.0"
 
@@ -6305,7 +6305,7 @@ humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
-i@0.3.7, i@^0.3.7:
+i@^0.3.7:
   version "0.3.7"
   resolved "https://registry.yarnpkg.com/i/-/i-0.3.7.tgz#2a7437a923d59c14b17243dc63a549af24d85799"
   integrity sha512-FYz4wlXgkQwIPqhzC5TdNMLSE5+GS1IIDJZY/1ZiEPCT2S3COUVZeT5OW4BmW4r5LHLQuOosSwsvnroG9GR59Q==
