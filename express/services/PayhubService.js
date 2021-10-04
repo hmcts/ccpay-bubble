@@ -6,6 +6,7 @@ const FeatureService = require('./FeatureService');
 
 const payhubUrl = config.get('payhub.url');
 const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
+const waystopayReturnUrl = config.get('waystopay.url');
 const pcipalAntennaReturnUrl = config.get('pcipalantenna.url');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
@@ -244,6 +245,7 @@ class PayhubService {
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
+        'return-url': `${waystopayReturnUrl}`,
         'Content-Type': 'application/json'
       },
       json: true

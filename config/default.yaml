@@ -23,6 +23,8 @@ refunds:
   url: http://localhost:8084
 bulkscan:
   url: http://ccpay-bulkscanning-api-prod.service.core-compute-prod.internal
+waystopay:
+  url: https://paybubble.platform.hmcts.net/ccd-search
 appInsights:
   roleName: paybubble
 e2e:
