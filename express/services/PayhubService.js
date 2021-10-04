@@ -231,7 +231,7 @@ class PayhubService {
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
-        'idempotency_key': idempotencyKey,
+        idempotency_key: idempotencyKey,
         'Content-Type': 'application/json'
       },
       json: true
