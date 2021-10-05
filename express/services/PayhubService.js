@@ -1,6 +1,7 @@
 const config = require('config');
 const otp = require('otp');
-const UUID = require('uuid/v4');
+const UUID = require('uuid/v4')
+const { Logger } = require('@hmcts/nodejs-logging');
 const request = require('request-promise-native');
 const FeatureService = require('./FeatureService');
 
