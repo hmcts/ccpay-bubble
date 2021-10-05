@@ -353,16 +353,13 @@ class PayhubController {
       });
   }
   postWays2PayCardPayment(req, res, appInsights) {
-    Logger.getLogger('req').info(req);
-    Logger.getLogger('res').info(res);
-
     return this.payhubService.postWays2PayCardPayment(req, appInsights)
       .then(result => {
-        Logger.getLogger('result').info(result);
+        Logger.getLogger('result==========================================>').info(result);
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        Logger.getLogger('error').info(error);
+        Logger.getLogger('error=========================================?>').info(error);
         if (error.statusCode) {
           res.status(error.statusCode).json({
             err: error.message,
