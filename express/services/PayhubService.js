@@ -240,7 +240,6 @@ class PayhubService {
     }));
   }
   postWays2PayCardPayment(req) {
-
     Logger.getLogger('Get-retuen-url').info(waystopayReturnUrl);
     Logger.getLogger('Authorization').info(req.authToken);
     return this.createAuthToken().then(token => {
@@ -255,8 +254,8 @@ class PayhubService {
           'Content-Type': 'application/json'
         },
         json: true
-      })
-    } );
+      });
+    });
   }
 
   getApportionPaymentGroup(req) {
