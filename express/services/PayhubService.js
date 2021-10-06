@@ -240,16 +240,13 @@ class PayhubService {
     }));
   }
   postWays2PayCardPayment(req) {
-    Logger.getLogger('Get-retuen-url').info(waystopayReturnUrl);
-    Logger.getLogger('Authorization').info(req.authToken);
     return this.createAuthToken().then(token => {
-      Logger.getLogger('ServiceAuthorization').info(token);
       return request.post({
         uri: `${payhubUrl}/service-request/${req.params.serviceRef}/card-payments`,
         body: req.body,
         headers: {
           Authorization: `Bearer ${req.authToken}`,
-          ServiceAuthorization: `Bearer ${token}`,
+          ServiceAuthorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbWMiLCJleHAiOjE2MzM1NzU5Mjh9.8Dc2TI-GQOeF7lP8QNL4cUQHVNnrFvh8qo0DUUpuFT80Z2gTBY1ASbMRGfjihzJJPClKtowVj2wzXtBj9IUqew`,
           'return-url': `${waystopayReturnUrl}`,
           'Content-Type': 'application/json'
         },
