@@ -5,7 +5,6 @@ import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/h
 
 import {AppRoutingModule} from './routes/app-routing.module';
 import {AppComponent} from './app.component';
-import {AddFeeDetailComponent} from './components/add-fee-detail/add-fee-detail.component';
 import {ReviewFeeDetailComponent} from './components/review-fee-detail/review-fee-detail.component';
 import {FeeSearchComponent} from './components/fee-search/fee-search.component';
 import {ConfirmationComponent} from './components/confirmation/confirmation.component';
@@ -44,7 +43,6 @@ const nonProductionProviders = [{
 @NgModule({
   declarations: [
     AppComponent,
-    AddFeeDetailComponent,
     PhaseBannerComponent,
     ReviewFeeDetailComponent,
     FeeListTableComponent,
