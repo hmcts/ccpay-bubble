@@ -6,7 +6,7 @@ const waitForAction = parseInt(CONF.e2e.waitForActionValue);
 
 exports.config = {
   name: 'ccpay-bubble-acceptance-tests',
-  tests: './test/end-to-end/tests/*_test.js',
+  tests: './test/end-to-end/tests/CCPB_PBARefunds_test.js',
   timeout: 10000,
   output: './output',
   helpers: {
@@ -16,7 +16,7 @@ exports.config = {
       waitForAction,
       // waitForNavigation: 'networkidle0',
       waitForNavigation: 'domcontentloaded',
-      show: false,
+      show: true,
       restart: true,
       keepCookies: false,
       keepBrowserState: true,
@@ -34,6 +34,10 @@ exports.config = {
       }
     },
     Mochawesome: { uniqueScreenshotNames: 'true' }
+  },
+  plugins: {
+    pauseOnFail: {},
+    retryFailedStep: { enabled: false }
   },
   include: {
     I: './test/end-to-end/pages/steps_file.js',

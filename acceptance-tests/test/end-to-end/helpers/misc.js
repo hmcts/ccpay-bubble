@@ -16,6 +16,30 @@ function searchSpecificOption(searchItem, CaseSearch, searchOption) {
   }
 }
 
+async function multipleSearchForRefunds(CaseSearch, CaseTransaction, I, searchOption) {
+  let searchItem = '';
+  const searchOptionLen = searchOption.toString().length;
+  const ccdNumberLen = 16;
+  const ccdNumberFormatLen = 19;
+  const dcnLen = 21;
+  const rcLen = 22;
+  if ((searchOptionLen === ccdNumberLen) || (searchOptionLen === ccdNumberFormatLen)) {
+    searchItem = 'CCD Search';
+  } else if (searchOptionLen === dcnLen) {
+    searchItem = 'DCN Search';
+  } else if (searchOptionLen === rcLen) {
+    searchItem = 'RC Search';
+  }
+
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  searchSpecificOption(searchItem, CaseSearch, searchOption);
+  /* const totalPaymentsValue = await CaseTransaction.getTotalPaymentsValue();
+  if ( totalPaymentsValue != '£215.00') {
+    console.log('The value of the Total Payments :'+totalPaymentsValue);
+    throw 'Total Payments value is not the Expected Amount';
+  }*/
+}
+
 async function multipleSearch(CaseSearch, I, searchOption) {
   let searchItem = '';
   const searchOptionLen = searchOption.toString().length;
@@ -110,4 +134,4 @@ async function ccdSearchEnabledValidation(CaseSearch, I, ccdCaseNumber) {
   }
 }
 
-module.exports = { multipleSearch, ccdSearchEnabledValidation };
+module.exports = { multipleSearch, multipleSearchForRefunds, ccdSearchEnabledValidation };
