@@ -160,6 +160,10 @@ module.exports = {
     I.see('Amount');
     I.see(`£${checkYourAnswersData.refundAmount}`);
     // I.seeElement('[Add remission]:disabled') Check to see disabled button not working for now....
+    I.see('Total reductions: ');
+    I.see(`£${checkYourAnswersData.refundAmount}`);
+    I.see('Total fees to pay: ');
+    I.see('£15.00');
     I.see('Add refund');
     I.click('Add refund');
   },

@@ -122,7 +122,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
 
 Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Service Requests',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
-    // logger.log('Starting the PBA Payment');
+   logger.log('Starting the PBA Payment');
     console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment('90.00');
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
@@ -146,7 +146,6 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const checkYourAnswersData = checkYourAnswers(paymentReference, 'HWF-A1B-23C', '200.00');
     console.log('The value of the check your answers ' + `${checkYourAnswersData.paymentReference}`);
-    pause();
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // Adding a Remission Finally and Submitting the Refund Request.
@@ -154,6 +153,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//div[@class=\'paymentrequest\']//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
+    //pause();
     InitiateRefunds.verifyHelpWithFeesSectionOnPaymentDetailsPage(checkYourAnswersData, 'Service request');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyCheckYourAnswersPageForAddOrInitiateRefund(checkYourAnswersData, 'Retrospective remission');
@@ -168,7 +168,8 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyRefundDetailsPage(caseTransactionsData);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    pause();
+    logger.info('Test Completed....');
+    I.Logout();
   });
 
 
