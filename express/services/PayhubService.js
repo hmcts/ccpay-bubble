@@ -244,7 +244,7 @@ class PayhubService {
       body: req.body,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbWMiLCJleHAiOjE2MzM1NzY2NTh9.3O40joGX7pXTGvyqkxUeusmaBIMtDrtTD6BY_xYda8OdJ7sOBFlNDefi3b7vHBPB9WdO1ThmZr4FR5_Gm4lujA',
+        ServiceAuthorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbWMiLCJleHAiOjE2MzM1NzcxNDl9.7UsXZ0nf_ktmiFE-qicH2-Rf5ZJAht_3mMG3gpsvpBode38DC6w8E_oZ6ZhRcoi_iuMUttxqhJcsPJnOcz-W0w',
         'return-url': `${waystopayReturnUrl}`,
         'Content-Type': 'application/json'
       },
