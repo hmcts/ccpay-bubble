@@ -239,17 +239,17 @@ class PayhubService {
     }));
   }
   postWays2PayCardPayment(req) {
-    return request.post({
+    return this.createAuthToken().then(token => request.post({
       uri: `${payhubUrl}/service-request/${req.params.serviceRef}/card-payments`,
       body: req.body,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbWMiLCJleHAiOjE2MzM1NzcxNDl9.7UsXZ0nf_ktmiFE-qicH2-Rf5ZJAht_3mMG3gpsvpBode38DC6w8E_oZ6ZhRcoi_iuMUttxqhJcsPJnOcz-W0w',
+        ServiceAuthorization: `Bearer ${token}`,
         'return-url': `${waystopayReturnUrl}`,
         'Content-Type': 'application/json'
       },
       json: true
-    });
+    }));
   }
 
   getApportionPaymentGroup(req) {
