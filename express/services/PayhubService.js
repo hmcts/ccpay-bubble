@@ -1,7 +1,6 @@
 const config = require('config');
 const otp = require('otp');
 const UUID = require('uuid/v4');
-const { Logger } = require('@hmcts/nodejs-logging');
 const request = require('request-promise-native');
 const FeatureService = require('./FeatureService');
 
@@ -240,18 +239,16 @@ class PayhubService {
     }));
   }
   postWays2PayCardPayment(req) {
-    return this.createAuthToken().then(token => {
-      return request.post({
-        uri: `${payhubUrl}/service-request/${req.params.serviceRef}/card-payments`,
-        body: req.body,
-        headers: {
-          Authorization: `Bearer ${req.authToken}`,
-          ServiceAuthorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbWMiLCJleHAiOjE2MzM1NzU5Mjh9.8Dc2TI-GQOeF7lP8QNL4cUQHVNnrFvh8qo0DUUpuFT80Z2gTBY1ASbMRGfjihzJJPClKtowVj2wzXtBj9IUqew`,
-          'return-url': `${waystopayReturnUrl}`,
-          'Content-Type': 'application/json'
-        },
-        json: true
-      });
+    return request.post({
+      uri: `${payhubUrl}/service-request/${req.params.serviceRef}/card-payments`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbWMiLCJleHAiOjE2MzM1NzY2NTh9.3O40joGX7pXTGvyqkxUeusmaBIMtDrtTD6BY_xYda8OdJ7sOBFlNDefi3b7vHBPB9WdO1ThmZr4FR5_Gm4lujA',
+        'return-url': `${waystopayReturnUrl}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
     });
   }
 
