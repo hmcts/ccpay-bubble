@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddFeeDetailComponent } from '../components/add-fee-detail/add-fee-detail.component';
 import { ReviewFeeDetailComponent } from '../components/review-fee-detail/review-fee-detail.component';
 import { ReviewFeeDetailRouteGuard } from 'src/app/components/review-fee-detail/route-guards/review-fee-detail.service';
 import { ConfirmationComponent } from 'src/app/components/confirmation/confirmation.component';
@@ -13,10 +12,6 @@ import { CcdSearchComponent } from '../components/ccd-search/ccd-search.componen
 import { MVPGuard } from '../route-guards/mvp-guard.service';
 
 const routes: Routes = [
-  {
-    path: 'addFeeDetail',
-    component: AddFeeDetailComponent
-  },
   {
     path: 'reviewFeeDetail',
     component: ReviewFeeDetailComponent,
