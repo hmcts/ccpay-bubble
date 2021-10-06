@@ -8,8 +8,4 @@ import { Router } from '@angular/router';
 })
 export class ServiceFailureComponent {
   constructor(private router: Router) {}
-
-  goToAddFeeDetail() {
-    return this.router.navigate(['/addFeeDetail']);
-  }
 }
