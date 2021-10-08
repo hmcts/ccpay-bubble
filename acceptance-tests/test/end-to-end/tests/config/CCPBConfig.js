@@ -7,6 +7,7 @@ module.exports = {
   TestClientSecret: process.env.CLIENT_SECRET,
   TestRedirectURI: process.env.CLIENT_REDIRECT_URI,
   TestAccountNumberActive: process.env.PBA_ACCOUNT_NUMBER_ACTIVE,
+  TestAccountNumberInActive: process.env.PBA_ACCOUNT_NUMBER_INACTIVE,
   TestCMCSecret: process.env.CMC_S2S_SERVICE_SECRET,
   TestRunningEnvironment: process.env.RUNNING_ENV
 };

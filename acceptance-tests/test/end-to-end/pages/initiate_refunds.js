@@ -4,17 +4,20 @@
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const stringUtils = require('../helpers/string_utils');
 
-const { I } = inject();
+const {I} = inject();
 
 module.exports = {
 
   locators: {
-    service_requests_review: { xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]' },
-    payment_success_review: { xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]' },
+    service_requests_review: {xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]'},
+    payment_success_review: {xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]'},
 
-    remission_code_field: { xpath: '//*[@id="remissionCode"]' },
-    amount_field: { xpath: '//*[@id="amount"]' },
-    refund_reference_field: { xpath: '//strong[starts-with(text(),\'Refund reference:\')]' }
+    remission_code_field: {xpath: '//*[@id="remissionCode"]'},
+    amount_field: {xpath: '//*[@id="amount"]'},
+    refund_reference_field: {xpath: '//strong[starts-with(text(),\'Refund reference:\')]'},
+
+    reasons_drop_down: {xpath: "//select[@id='sort']"},
+    reasons_text: {xpath: "//input[@id='reason']"}
   },
 
   async getHeaderValue() {
@@ -22,16 +25,18 @@ module.exports = {
     return headerValue;
   },
 
-  verifyCaseTransactionPage(entrypoint) {
-    I.waitForText('Case transactions', '5');
-    I.see('Payments');
-    I.see('Refunds');
-    if (entrypoint === 'Payments') {
-      I.click(this.locator.payment_success_review);
-    } else {
-      I.click(service_requests_review);
-    }
-    I.wait(CCPBConstants.twoSecondWaitTime);
+  verifyServiceRequestPage(typeOfRefund, feeDescription, feeAmount) {
+    I.waitForText('Service request', '5');
+    I.see('Fee');
+    I.see(feeDescription);
+    I.see('Amount');
+    I.see(`1 X ${feeAmount}`);
+    I.see('Total');
+    I.see(`${feeAmount}`);
+    I.see('No help with fees or remissions.');
+    I.see(`Total fees: ${feeAmount}`);
+    I.see(typeOfRefund);
+    I.click(typeOfRefund);
   },
 
   verifyPaymentDetailsPage(typeOfRefund) {
@@ -41,14 +46,38 @@ module.exports = {
     I.waitForText('Fee and remission details', '5');
     I.see('Add remission');
     I.click(typeOfRefund);
-    I.wait(CCPBConstants.twoSecondWaitTime);
   },
 
-  verifyProcessRefundPage() {
+  verifyProcessRefundPageFromTheDropDownReasons(ccdCaseNumber, dropDownReason, reasonText) {
     I.waitForText('Process refund', '5');
-    I.see('Why are you making this refund', '5');
-    // I.selectOption('','Amended claim');
+    I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
+    I.see('Why are you making this refund');
+    I.selectOption(this.locators.reasons_drop_down, 'Other - CoP');
+    I.fillField(this.locators.reasons_text, reasonText);
     I.click('Continue');
+  },
+
+  verifyProcessRefundPageFromTheRadioButtonReasons(ccdCaseNumber,reasonId) {
+    I.waitForText('Process refund', '5');
+    I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
+    I.see('Why are you making this refund');
+    I.checkOption("//input[@id='"+reasonId +"']");
+    I.click('Continue');
+  },
+
+  verifyCheckYourAnswersPageForIssueRefund(reasonForRefund, paymentReference, paymentAmount, changeRequiredFlag) {
+    I.waitForText('Check your answers', '5');
+    I.see('Reason for refund');
+    I.see(reasonForRefund);
+    I.see('Payment reference');
+    I.see(paymentReference);
+    I.see('Payment amount');
+    I.see(paymentAmount);
+    if (changeRequiredFlag) {
+      I.click('Change');
+    } else {
+      I.click('Submit refund');
+    }
   },
 
   verifyCheckYourAnswersPageForRefund(reasonForRefund, paymentReference, paymentAmount) {
@@ -62,22 +91,6 @@ module.exports = {
     I.waitForText('Payment Amount', `£${paymentAmount}`);
     I.click('Submit refund');
   },
-
-  /* async verifyRefundConfirmationPage(paymentAmount) {
-    I.waitForText('Refund Submitted', '5');
-    I.see('Refund reference:RF-');
-    I.see(`A refund request for £${paymentAmount}has been passed to a team leader to approve`);
-    I.see('Return to case');
-  },
-
-  verifyServiceRequestPage() {
-    I.waitForText('Service request', '5');
-    I.see('Total reductions: £');
-    I.see('Total fees to pay: £');
-    I.see('Payments');
-    I.see('Total left to pay: £');
-    I.click('Issue refund');
-  },*/
 
   verifyProcessRemissionHWFCodePage(ccdCaseNumber, hwfReference) {
     I.waitForText('Process remission', '5');
@@ -114,10 +127,10 @@ module.exports = {
     if (changeHWFCodeFlag) {
       console.log('Inside the HWF Code');
       // pause();
-      I.click({ xpath: '//tr[5]//a[.="Change"]' });
+      I.click({xpath: '//tr[5]//a[.="Change"]'});
     } else if (changeRefundAmountFlag) {
       console.log('Inside the Changed Refund Amount');
-      I.click({ xpath: '//tr[6]//a[.="Change"]' });
+      I.click({xpath: '//tr[6]//a[.="Change"]'});
     } else {
       I.click('Add remission');
     }
@@ -205,16 +218,8 @@ module.exports = {
     I.dontSee('Approve Refund');
     I.click('Back');
   },
-  issueRefundJourney(entrypoint) {
-    verifyCaseTransactionPage(entrypoint);
-    verifyPaymentDetailsPage('Issue Refund');
-    verifyProcessRefundPage();
-    verifyCheckYourAnswersPageForIssueRefund();
-    verifyRefundConfirmationPage();
-  },
 
-  addRemissionRefundJourney(entrypoint) {
-    verifyCaseTransactionPage(entrypoint);
-    verifyPaymentDetailsPage('Add remission');
+  verifyNoAddRemissionOnPaymentDetailsPage() {
+    I.dontSee('Add remission');
   }
 };
