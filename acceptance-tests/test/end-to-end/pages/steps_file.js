@@ -13,8 +13,6 @@ const searchCase = require('../pages/case_search');
 
 const stringUtils = require('../helpers/string_utils');
 
-const bulkScanApiCalls = require('../helpers/utils');
-
 const numberTwo = 2;
 
 module.exports = () => actor({
@@ -1011,9 +1009,9 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Remove');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-  },
+  }
 
-  async setUpRefund() {
+  /* async setUpRefund() {
     console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment('90.00');
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
@@ -1024,5 +1022,5 @@ module.exports = () => actor({
     this.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(5);
     return paymentDetails;
-  }
+  }*/
 });

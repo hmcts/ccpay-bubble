@@ -16,7 +16,7 @@ function searchSpecificOption(searchItem, CaseSearch, searchOption) {
   }
 }
 
-async function multipleSearchForRefunds(CaseSearch, CaseTransaction, I, searchOption) {
+function multipleSearchForRefunds(CaseSearch, CaseTransaction, I, searchOption) {
   let searchItem = '';
   const searchOptionLen = searchOption.toString().length;
   const ccdNumberLen = 16;
@@ -33,11 +33,6 @@ async function multipleSearchForRefunds(CaseSearch, CaseTransaction, I, searchOp
 
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   searchSpecificOption(searchItem, CaseSearch, searchOption);
-  /* const totalPaymentsValue = await CaseTransaction.getTotalPaymentsValue();
-  if ( totalPaymentsValue != '£215.00') {
-    console.log('The value of the Total Payments :'+totalPaymentsValue);
-    throw 'Total Payments value is not the Expected Amount';
-  }*/
 }
 
 async function multipleSearch(CaseSearch, I, searchOption) {

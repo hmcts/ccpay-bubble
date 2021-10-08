@@ -31,22 +31,22 @@ module.exports = {
 
   async checkPaymentsValues() {
     const totalPaymentsValue = await I.grabTextFrom(this.locators.total_payments_text);
-    console.log(`The value of the Total Payments Text : ${totalPaymentsValue}`);
-    if (totalPaymentsValue != '£215.00') {
-      throw 'The total payments value is not expected';
+    // console.log(`The value of the Total Payments Text : ${totalPaymentsValue}`);
+    if (totalPaymentsValue !== '£215.00') {
+      throw new Error('The total payments value is not expected');
     }
     const unallocatedPaymentsValue = await I.grabTextFrom(this.locators.unallocated_payments_text);
-    if (unallocatedPaymentsValue != '0') {
-      throw 'The unallocated value is not expected';
+    if (unallocatedPaymentsValue !== '0') {
+      throw new Error('The unallocated value is not expected');
     }
 
     const totalRemissionsValue = await I.grabTextFrom(this.locators.total_remissions_text);
-    if (totalRemissionsValue != '£0.00') {
-      throw 'The total remissions value is not expected';
+    if (totalRemissionsValue !== '£0.00') {
+      throw new Error('The total remissions value is not expected');
     }
     const amountDueValue = await I.grabTextFrom(this.locators.amount_due_text);
-    if (totalRemissionsValue != '£0.00') {
-      throw 'The Amount Due value is not expected';
+    if (amountDueValue !== '£0.00') {
+      throw new Error('The Amount Due value is not expected');
     }
   },
 
@@ -116,7 +116,7 @@ module.exports = {
   },
 
   async validateCaseTransactionPageForRefunds(ccdCaseNumber) {
-    console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
+    // console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
     I.see('Total payments');
@@ -128,7 +128,7 @@ module.exports = {
   },
 
   validateCaseTransactionPageForRefundsAfterApplyingRefund(ccdCaseNumber, caseTransactions) {
-    console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
+    // console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
     I.see('Total payments');

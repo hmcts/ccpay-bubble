@@ -1,23 +1,22 @@
 /* eslint-disable max-len */
 /* eslint-disable no-dupe-keys */
 'use strict';
-const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const stringUtils = require('../helpers/string_utils');
 
-const {I} = inject();
+const { I } = inject();
 
 module.exports = {
 
   locators: {
-    service_requests_review: {xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]'},
-    payment_success_review: {xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]'},
+    service_requests_review: { xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]' },
+    payment_success_review: { xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]' },
 
-    remission_code_field: {xpath: '//*[@id="remissionCode"]'},
-    amount_field: {xpath: '//*[@id="amount"]'},
-    refund_reference_field: {xpath: '//strong[starts-with(text(),\'Refund reference:\')]'},
+    remission_code_field: { xpath: '//*[@id="remissionCode"]' },
+    amount_field: { xpath: '//*[@id="amount"]' },
+    refund_reference_field: { xpath: '//strong[starts-with(text(),\'Refund reference:\')]' },
 
-    reasons_drop_down: {xpath: "//select[@id='sort']"},
-    reasons_text: {xpath: "//input[@id='reason']"}
+    reasons_drop_down: { xpath: '//select[@id=\'sort\']' },
+    reasons_text: { xpath: '//input[@id=\'reason\']' }
   },
 
   async getHeaderValue() {
@@ -57,11 +56,11 @@ module.exports = {
     I.click('Continue');
   },
 
-  verifyProcessRefundPageFromTheRadioButtonReasons(ccdCaseNumber,reasonId) {
+  verifyProcessRefundPageFromTheRadioButtonReasons(ccdCaseNumber, reasonId) {
     I.waitForText('Process refund', '5');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
     I.see('Why are you making this refund');
-    I.checkOption("//input[@id='"+reasonId +"']");
+    I.checkOption(`//input[@id='${reasonId}']`);
     I.click('Continue');
   },
 
@@ -125,12 +124,12 @@ module.exports = {
     I.see(`${checkYourAnswersData.refundAmount}`);
 
     if (changeHWFCodeFlag) {
-      console.log('Inside the HWF Code');
+      // console.log('Inside the HWF Code');
       // pause();
-      I.click({xpath: '//tr[5]//a[.="Change"]'});
+      I.click({ xpath: '//tr[5]//a[.="Change"]' });
     } else if (changeRefundAmountFlag) {
-      console.log('Inside the Changed Refund Amount');
-      I.click({xpath: '//tr[6]//a[.="Change"]'});
+      // console.log('Inside the Changed Refund Amount');
+      I.click({ xpath: '//tr[6]//a[.="Change"]' });
     } else {
       I.click('Add remission');
     }
@@ -188,7 +187,7 @@ module.exports = {
     I.see('Payment reference');
     I.see(`${checkYourAnswersData.paymentReference}`);
     I.see('Refund amount');
-    I.see('£' + `${checkYourAnswersData.refundAmount}`);
+    I.see(`£${checkYourAnswersData.refundAmount}`);
     I.see('Fee code');
     I.see(`${checkYourAnswersData.feeCode}`);
     I.see('Fee amount');
