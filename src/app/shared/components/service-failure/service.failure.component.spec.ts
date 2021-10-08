@@ -8,9 +8,4 @@ describe('Service failure component', () => {
     router = { navigate: jasmine.createSpy('navigate')};
     component = new ServiceFailureComponent(router);
   });
-
-  it('Should navigate back to add fee detail', () => {
-    component.goToAddFeeDetail();
-    expect(router.navigate).toHaveBeenCalledWith(['/addFeeDetail']);
-  });
 });
