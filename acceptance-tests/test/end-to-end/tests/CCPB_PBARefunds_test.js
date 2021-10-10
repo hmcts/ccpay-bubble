@@ -82,7 +82,7 @@ BeforeSuite(async I => {
     pause();
   });*/
 
-Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments',
+Scenario.skip('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -149,7 +149,7 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
     I.Logout();
   });
 
-Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Service Request page',
+Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Service Request page',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -206,7 +206,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.Logout();
   });
 
-Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment Details page',
+Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment Details page',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -282,7 +282,7 @@ Scenario.skip('Add a Remissions for a failed Payment',
     I.wait(CCPBATConstants.twoSecondWaitTime);
   });
 
-Scenario('Issue a Refund for a PBA Payment',
+Scenario.skip('Issue a Refund for a PBA Payment through the Payment Details Page',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -302,6 +302,51 @@ Scenario('Issue a Refund for a PBA Payment',
     I.click('//div[3]//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyPaymentDetailsPage('Issue refund');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    InitiateRefunds.verifyProcessRefundPageFromTheRadioButtonReasons(
+      ccdCaseNumber, 'System/technical error');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    InitiateRefunds.verifyCheckYourAnswersPageForIssueRefund(
+      'System/technical error', paymentReference, '£215', true);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    InitiateRefunds.verifyProcessRefundPageFromTheDropDownReasons(
+      ccdCaseNumber, 'Other - CoP', 'COP Reason...');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    InitiateRefunds.verifyCheckYourAnswersPageForIssueRefund(
+      'COP Reason...', paymentReference, '£215', false);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('215.00');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    const caseTransactionsData = getCaseTransactionsData(paymentReference, '£215.00',
+      'Sent for approval', refundReference, 'CoP-COP Reason...');
+    CaseTransaction.validateCaseTransactionPageForRefundsAfterApplyingRefund(
+      ccdCaseNumber, caseTransactionsData);
+    I.click('//ccpay-refund-status[1]//a[.=\'Review\']');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    InitiateRefunds.verifyRefundDetailsPage(caseTransactionsData);
+    I.Logout();
+  });
+
+Scenario.only('Issue a Refund for a PBA Payment through the Service Request Page',
+  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+    logger.log('Starting the PBA Payment');
+    // console.log('Starting the PBA Payment');
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
+    const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
+    const paymentReference = `${paymentDetails.paymentReference}`;
+    // console.info(ccdCaseNumber);
+    // console.info(paymentReference);
+    // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
+    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    // Takes you to the Service Request Page...
+    I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    InitiateRefunds.verifyServiceRequestPage('Issue refund', 'Personal Application for grant of Probate', '£215');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyProcessRefundPageFromTheRadioButtonReasons(
       ccdCaseNumber, 'System/technical error');
