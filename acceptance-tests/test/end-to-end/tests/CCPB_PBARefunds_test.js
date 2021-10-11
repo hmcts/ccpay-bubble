@@ -82,7 +82,7 @@ BeforeSuite(async I => {
     pause();
   });*/
 
-Scenario.skip('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments',
+Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -149,7 +149,7 @@ Scenario.skip('Add a Remissions and Add Refunds for a Successful PBA Payment thr
     I.Logout();
   });
 
-Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Service Request page',
+Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Service Request page',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -206,7 +206,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
     I.Logout();
   });
 
-Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment Details page',
+Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment Details page',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -282,7 +282,7 @@ Scenario.skip('Add a Remissions for a failed Payment',
     I.wait(CCPBATConstants.twoSecondWaitTime);
   });
 
-Scenario.skip('Issue a Refund for a PBA Payment through the Payment Details Page',
+Scenario('Issue a Refund for a PBA Payment through the Payment Details Page',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -327,7 +327,7 @@ Scenario.skip('Issue a Refund for a PBA Payment through the Payment Details Page
     I.Logout();
   });
 
-Scenario.only('Issue a Refund for a PBA Payment through the Service Request Page',
+Scenario('Issue a Refund for a PBA Payment through the Service Request Page',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
