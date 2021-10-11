@@ -16,7 +16,9 @@ module.exports = {
     refund_reference_field: { xpath: '//strong[starts-with(text(),\'Refund reference:\')]' },
 
     reasons_drop_down: { xpath: '//select[@id=\'sort\']' },
-    reasons_text: { xpath: '//input[@id=\'reason\']' }
+    reasons_text: { xpath: '//input[@id=\'reason\']' },
+
+    users_drop_down: { xpath: '//ccpay-refund-list[1]/div[3]//select[@id=\'sort\']' }
   },
 
   async getHeaderValue() {
@@ -220,5 +222,22 @@ module.exports = {
 
   verifyNoAddRemissionOnPaymentDetailsPage() {
     I.dontSee('Add remission');
+  },
+
+  verifyRefundsListPage() {
+    I.see('Refund list');
+    I.see('Refunds to be approved');
+    I.see('Filter by caseworker:');
+    I.see('Case ID');
+    I.see('Refund reference');
+    I.see('Reason');
+    I.see('Submitted by');
+    I.see('Date updated');
+    I.see('Action');
+    I.see('Refunds returned to caseworker');
+    I.selectOption(this.locators.users_drop_down, 'Probate Request Request');
+    I.click('Date updated');
+    I.click('Date updated');
+    // mat-cell[contains(.,'RF-1633-5257-1827-6313')]
   }
 };
