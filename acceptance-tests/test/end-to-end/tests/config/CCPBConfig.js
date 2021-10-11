@@ -10,6 +10,5 @@ module.exports = {
   TestAccountNumberInActive: process.env.PBA_ACCOUNT_NUMBER_INACTIVE || 'PBAFUNC12350',
   TestCMCSecret: process.env.CMC_S2S_SERVICE_SECRET,
   TestRunningEnvironment: process.env.RUNNING_ENV || 'aat',
-  TestRunningEnvironment: process.env.IDAM_ENV || 'aat',
-
+  TestIDAMEnvironment: process.env.IDAM_ENV || 'aat'
 };
