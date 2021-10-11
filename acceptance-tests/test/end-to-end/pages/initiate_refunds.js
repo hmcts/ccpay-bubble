@@ -238,6 +238,6 @@ module.exports = {
     I.selectOption(this.locators.users_drop_down, 'Probate Request Request');
     I.click('Date updated');
     I.click('Date updated');
-    //I.click('//mat-cell[contains(.,"RF-1633-5257-1827-6313")]/following-sibling::mat-cell/a[.="View"][1]');
+    // I.click('//mat-cell[contains(.,"RF-1633-5257-1827-6313")]/following-sibling::mat-cell/a[.="View"][1]');
   }
 };
