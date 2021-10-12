@@ -88,6 +88,6 @@ fee:
   feeJurisdictionUrl: http://localhost:23443/jurisdictions
 ```  
 
-   Run the following commands: `yarn start:angular-dev` and `yarn start:express:dev`
+   Run the following commands: `yarn start:angular-dev` and `yarn start:express-dev`
 
 
