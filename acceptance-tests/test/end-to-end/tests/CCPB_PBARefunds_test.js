@@ -408,13 +408,13 @@ Scenario('Approve action a  Refund for a Rejection',
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('215.00');
     logger.log(refundReference);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    /* const caseTransactionsData = getCaseTransactionsData(paymentReference, '£215.00',
-          'Sent for approval', refundReference, 'CoP-COP Reason...');*/
+    const caseTransactionsData = getCaseTransactionsData(paymentReference, '£215.00',
+          'Sent for approval', refundReference, 'CoP-COP Reason...');
     I.Logout();
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.login('approveraattest1@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('Refund List');
-    // InitiateRefunds.verifyRefundsListPage();
+    InitiateRefunds.verifyRefundsListPage();
     pause();
   });

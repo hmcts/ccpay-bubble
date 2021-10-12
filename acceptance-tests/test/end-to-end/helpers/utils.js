@@ -12,11 +12,17 @@ const testConfig = require('../tests/config/CCPBConfig.js');
 
 const logger = Logger.getLogger('helpers/utils.js');
 
+/*
 const env = process.env.IDAM_ENV;
 const environment = process.env.RUNNING_ENV;
 const prNumber = process.env.PR_NUMBER;
+*/
 // const prenv = process.env.RUNNING_ENV || 'pr-803';
 // const prev = process.env.RUNNING_ENV || 'preview';
+
+const env = testConfig.TestIDAMEnvironment;
+const environment = testConfig.TestRunningEnvironment;
+const prNumber = testConfig.TestPrNumber;
 
 async function getIDAMToken() {
   const username = testConfig.TestCaseWorkerUserName;
