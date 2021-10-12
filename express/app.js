@@ -158,11 +158,14 @@ module.exports = appInsights => express.Router()
   .patch('/refund/:id/action/*', (req, res) => {
     controllers.refundController.patchRefundAction(req, res);
   })
-  .get('/refund/get-refund-status-list', (req, res) => {
+  .get('/refund?*', (req, res) => {
     controllers.refundController.getRefundStatusList(req, res);
   })
-  .get('/refund/get-refund-list', (req, res) => {
-    Logger.getLogger('sdfghj').info(req.roles);
+  // .get('/refund?status=${req.query.status}&excludeCurrentUser=${req.query.selfExclusive}', (req, res) => {
+  //   Logger.getLogger('sdfghj').info(req.roles);
+  //   controllers.refundController.getRefundList(req, res);
+  // })
+  .get('/refund?*', (req, res) => {
     controllers.refundController.getRefundList(req, res);
   })
 

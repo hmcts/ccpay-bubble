@@ -22,7 +22,7 @@ class RefundsController {
   getRefundAction(req, res) {
     return this.refundsService.getRefundAction(req)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode !== '403' && error.statusCode !== '500') {
@@ -39,7 +39,7 @@ class RefundsController {
   getRefundRejectReason(req, res) {
     return this.refundsService.getRefundRejectReason(req)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode !== '403' && error.statusCode !== '500') {
@@ -74,7 +74,7 @@ class RefundsController {
   getRefundList(req, res) {
     return this.refundsService.getRefundList(req)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode) {
@@ -87,7 +87,7 @@ class RefundsController {
   getRefundStatusHistory(req, res) {
     return this.refundsService.getRefundStatusHistory(req)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode) {
@@ -101,7 +101,7 @@ class RefundsController {
   getRefundStatusList(req, res) {
     return this.refundsService.getRefundStatusList(req)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode) {
