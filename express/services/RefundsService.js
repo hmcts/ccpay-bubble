@@ -1,3 +1,4 @@
+/* eslint-disable no-undefined */
 const config = require('config');
 const otp = require('otp');
 const request = require('request-promise-native');
@@ -85,11 +86,11 @@ class RefundsService {
     }));
   }
   getRefundStatusList(req) {
-    let url;
-    if(req.query.ccdCaseNumber !== undefined && req.query.ccdCaseNumber !== '') {
-       url = `${refundsUrl}/refund?ccdCaseNumber=${req.query.ccdCaseNumber}`;
-    } else if(req.query.status !== undefined && req.query.status !== ''){
-       url =  `${refundsUrl}/refund?status=${req.query.status}&excludeCurrentUser=${req.query.selfExclusive}`;
+    let url = '';
+    if (req.query.ccdCaseNumber !== undefined && req.query.ccdCaseNumber !== '') {
+      url = `${refundsUrl}/refund?ccdCaseNumber=${req.query.ccdCaseNumber}`;
+    } else if (req.query.status !== undefined && req.query.status !== '') {
+      url = `${refundsUrl}/refund?status=${req.query.status}&excludeCurrentUser=${req.query.selfExclusive}`;
     } else {
       url = `${refundsUrl}/refund${req.params[0]}`;
     }
@@ -103,7 +104,6 @@ class RefundsService {
         },
         json: true
       }));
-    
   }
 
   postIssueRefund(req) {
