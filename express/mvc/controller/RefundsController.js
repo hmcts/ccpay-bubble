@@ -53,8 +53,8 @@ class RefundsController {
         }
       });
   }
-  patchRefundAction(req, res) {
-    return this.refundsService.patchRefundAction(req)
+  patchRefundAction(req, res, appInsights) {
+    return this.refundsService.patchRefundAction(req, appInsights)
       .then(result => {
         res.status(200).json(result);
       })
@@ -124,8 +124,8 @@ class RefundsController {
         }
       });
   }
-  patchResubmitRefund(req, res) {
-    return this.refundsService.patchResubmitRefund(req)
+  patchResubmitRefund(req, res, appInsights) {
+    return this.refundsService.patchResubmitRefund(req, appInsights)
       .then(result => {
         res.status(200).json({ data: result, success: true });
       })

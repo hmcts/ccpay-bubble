@@ -156,7 +156,7 @@ module.exports = appInsights => express.Router()
     controllers.refundController.getRefundRejectReason(req, res);
   })
   .patch('/refund/:id/action/*', (req, res) => {
-    controllers.refundController.patchRefundAction(req, res);
+    controllers.refundController.patchRefundAction(req, res, appInsights);
   })
   .get('/refund?*', (req, res) => {
     controllers.refundController.getRefundStatusList(req, res);
@@ -185,11 +185,11 @@ module.exports = appInsights => express.Router()
   })
 
   .patch('/refund/resubmit/:refund_reference', (req, res) => {
-    controllers.refundController.patchResubmitRefund(req, res);
+    controllers.refundController.patchResubmitRefund(req, res, appInsights);
   })
 
   .patch('/resubmit/:refund_reference', (req, res) => {
-    controllers.refundController.patchResubmitRefund(req, res);
+    controllers.refundController.patchResubmitRefund(req, res, appInsights);
   })
 
   .post('/payment-history/refund-retro-remisstion', (req, res) => {
