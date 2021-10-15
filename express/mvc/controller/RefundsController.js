@@ -9,7 +9,7 @@ class RefundsController {
   getRefundReason(req, res) {
     return this.refundsService.getRefundReason(req)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode) {
@@ -56,7 +56,7 @@ class RefundsController {
   patchRefundAction(req, res) {
     return this.refundsService.patchRefundAction(req)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode !== '403' && error.statusCode !== '500') {
