@@ -1,3 +1,4 @@
+/* eslint-disable no-undefined */
 const config = require('config');
 const otp = require('otp');
 const request = require('request-promise-native');
@@ -63,7 +64,7 @@ class RefundsService {
     Logger.getLogger('result-BUBBLE: user').info(req.roles);
     return this.createAuthToken().then(token =>
       request.get({
-        uri: `${refundsUrl}/refund?status=${req.query.status}&excludeCurrentUser=${req.query.selfExclusive}`,
+        uri: `${refundsUrl}?status=${req.query.status}&excludeCurrentUser=${req.query.selfExclusive}`,
         headers: {
           Authorization: `Bearer ${req.authToken}`,
           ServiceAuthorization: `Bearer ${token}`,
@@ -75,7 +76,7 @@ class RefundsService {
 
   getRefundStatusHistory(req) {
     return this.createAuthToken().then(token => request.get({
-      uri: `${refundsUrl}/refund/${req.params.reference}/status-history`,
+      uri: `${refundsUrl}/${req.params.reference}/status-history`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
@@ -85,9 +86,17 @@ class RefundsService {
     }));
   }
   getRefundStatusList(req) {
+    let url = '';
+    if (req.query.ccdCaseNumber !== undefined && req.query.ccdCaseNumber !== '') {
+      url = `${refundsUrl}/refund?ccdCaseNumber=${req.query.ccdCaseNumber}`;
+    } else if (req.query.status !== undefined && req.query.status !== '') {
+      url = `${refundsUrl}/refund?status=${req.query.status}&excludeCurrentUser=${req.query.selfExclusive}`;
+    } else {
+      url = `${refundsUrl}/refund${req.params[0]}`;
+    }
     return this.createAuthToken().then(token =>
       request.get({
-        uri: `${refundsUrl}/refund?ccdCaseNumber=${req.query.ccdCaseNumber}`,
+        uri: url,
         headers: {
           Authorization: `Bearer ${req.authToken}`,
           ServiceAuthorization: `Bearer ${token}`,
