@@ -29,6 +29,17 @@ module.exports = {
     I.see('No refunds recorded');
   },
 
+  checkRejectedRefundsSection() {
+    I.see('Refunds');
+    I.see('Status');
+    I.see('Rejected');
+    I.see('Amount');
+    I.see('Date');
+    I.see('Refund reference');
+    I.see('Reason');
+    I.see('No refunds recorded');
+  },
+
   async checkPaymentsValues() {
     const totalPaymentsValue = await I.grabTextFrom(this.locators.total_payments_text);
     // console.log(`The value of the Total Payments Text : ${totalPaymentsValue}`);
@@ -128,7 +139,6 @@ module.exports = {
   },
 
   validateCaseTransactionPageForRefundsAfterApplyingRefund(ccdCaseNumber, caseTransactions) {
-    // console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
     I.see('Total payments');

@@ -2,6 +2,7 @@
 /* eslint-disable no-dupe-keys */
 'use strict';
 const stringUtils = require('../helpers/string_utils');
+const CCPBATConstants = require('../tests/CCPBAcceptanceTestConstants');
 
 const { I } = inject();
 
@@ -18,7 +19,10 @@ module.exports = {
     reasons_drop_down: { xpath: '//select[@id=\'sort\']' },
     reasons_text: { xpath: '//input[@id=\'reason\']' },
 
-    users_drop_down: { xpath: '//ccpay-refund-list[1]/div[3]//select[@id=\'sort\']' }
+    users_drop_down_for_refunds_to_be_approved: { xpath: '//ccpay-refund-list[1]/div[3]//select[@id=\'sort\']' },
+
+    users_drop_down_for_refunds_returned_to_case_worker: { xpath: '//div[5]//select[@id=\'sort\']' },
+    date_updated_for_refunds_returned_to_case_worker: { xpath: '//mat-header-cell[@class=\'mat-header-cell ng-tns-c19-3 cdk-column-date_updated mat-column-date_updated ng-star-inserted\']//button[@class=\'mat-sort-header-button\'][contains(text(),\' Date updated \')]' }
   },
 
   async getHeaderValue() {
@@ -165,7 +169,6 @@ module.exports = {
   verifyHelpWithFeesSectionOnPaymentDetailsPage(checkYourAnswersData, pageTitle) {
     I.waitForText(pageTitle, '5');
     I.see('Help with fees or remission code');
-    // pause();
     I.see(`${checkYourAnswersData.hwfReference}`);
     I.see('Reference');
     // I.see(`${checkYourAnswersData.paymentReference}`);
@@ -215,16 +218,59 @@ module.exports = {
     I.see('Users');
     I.see('Notes');
     I.see('Refund initiated');
-    I.dontSee('Process Refund');
+    I.dontSee('Resubmit Refund');
     I.dontSee('Approve Refund');
     I.click('Back');
+  },
+
+  verifyRefundDetailsPageForResubmitRefund(caseTransactionsData) {
+    I.see('Refund details');
+    I.see('Refund reference');
+    I.see(`${caseTransactionsData.refundReference}`);
+    I.see('Payment to be refunded');
+    I.see(`${caseTransactionsData.paymentReference}`);
+    I.see('Reason for refund');
+    I.see(`${caseTransactionsData.refundReason}`);
+    I.see('Amount refunded');
+    I.see(`${caseTransactionsData.refundAmount}`);
+    I.see('Refund status history');
+    I.see('Status');
+    I.see(`${caseTransactionsData.refundStatus}`);
+    I.see('Sent for approval');
+    I.see('Date and time');
+    I.see('Users');
+    I.see('Notes');
+    I.see('Refund initiated');
+    I.see('Test Reason Only');
+    I.see('Resubmit refund');
+    I.click('Resubmit refund');
+  },
+
+  verifyReviewAndResubmitRefundPage(caseTransactionsData, sendBackReason, changeRequired) {
+    I.see('Review and resubmit refund');
+    I.see('Reason for rejection');
+    I.see(sendBackReason);
+    I.see('Refund reference');
+    I.see(`${caseTransactionsData.refundReference}`);
+    I.see('Reason for refund');
+    I.see(`${caseTransactionsData.refundReason}`);
+    I.see('Change');
+    I.see('Payment reference');
+    I.see(`${caseTransactionsData.paymentReference}`);
+    I.see('Payment amount');
+    I.see(`${caseTransactionsData.paymentAmount}`);
+    if (changeRequired) {
+      I.click('//a[.=\'Change\']');
+    } else {
+      I.click('Submit refund');
+    }
   },
 
   verifyNoAddRemissionOnPaymentDetailsPage() {
     I.dontSee('Add remission');
   },
 
-  verifyRefundsListPage() {
+  verifyRefundsListPage(refundReference) {
     I.see('Refund list');
     I.see('Refunds to be approved');
     I.see('Filter by caseworker:');
@@ -235,9 +281,59 @@ module.exports = {
     I.see('Date updated');
     I.see('Action');
     I.see('Refunds returned to caseworker');
-    I.selectOption(this.locators.users_drop_down, 'Probate Request Request');
+    I.selectOption(this.locators.users_drop_down_for_refunds_to_be_approved, 'Probate Request Request');
+    // Double Clicking For Sort By Descending....
     I.click('Date updated');
     I.click('Date updated');
-    // I.click('//mat-cell[contains(.,"RF-1633-5257-1827-6313")]/following-sibling::mat-cell/a[.="View"][1]');
+    I.click(`//mat-cell[contains(.,'${refundReference}')]/following-sibling::mat-cell/a[.='Process refund'][1]`);
+  },
+
+  verifyReviewRefundsDetailsPage(caseTransactionsData, refundApprovalRequest) {
+    I.see('Review refund details');
+    I.see('Payment to be refunded');
+    // console.log(`${caseTransactionsData.refundReference} (${caseTransactionsData.refundAmount})`);
+    I.see(`${caseTransactionsData.refundReference} (${caseTransactionsData.refundAmount})`);
+    I.see('Reason for refund');
+    I.see(`${caseTransactionsData.refundReason}`);
+    I.see('Amount to be refunded');
+    I.see(`${caseTransactionsData.refundAmount}`);
+    I.see('Submitted by');
+    // console.log(`The value of the Refund Submitted By : ${caseTransactionsData.refundSubmittedBy}`);
+    I.see(`${caseTransactionsData.refundSubmittedBy}`);
+    I.see('Date submitted');
+    I.see('What do you want to do with this refund?');
+    I.see('Approve');
+    I.see('Send to middle office');
+    I.see('Reject');
+    I.see('Return to caseworker');
+    if (refundApprovalRequest === 'Reject') {
+      I.checkOption('//input[@id=\'refundAction-1\']');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.checkOption('//input[@id=\'refundRejectReason-2\']');
+    } else if (refundApprovalRequest === 'Approve') {
+      I.checkOption('//input[@id=\'refundAction-0\']');
+    } else if (refundApprovalRequest === 'Return to caseworker') {
+      I.checkOption('//input[@id=\'refundAction-2\']');
+      I.fillField('//textarea[@id=\'sendmeback\']', 'Test Reason Only');
+    }
+    I.click({ xpath: '//button[contains(text(),\'Submit\')]' });
+  },
+
+  verifyRefundApprovedPage(refundApprovalRequest) {
+    if (refundApprovalRequest === 'Reject') {
+      I.see('Refund rejected');
+    } else if (refundApprovalRequest === 'Approve') {
+      I.see('Refund approved');
+    } else if (refundApprovalRequest === 'Return to caseworker') {
+      I.see('Refund returned to caseworker');
+    }
+  },
+
+  operateRefundsReturnedToCaseWorker(refundReference) {
+    I.selectOption(this.locators.users_drop_down_for_refunds_returned_to_case_worker, 'Probate Request Request');
+    // Double Clicking For Sort By Descending....
+    I.click(this.locators.date_updated_for_refunds_returned_to_case_worker);
+    I.click(this.locators.date_updated_for_refunds_returned_to_case_worker);
+    I.click(`//mat-cell[contains(.,'${refundReference}')]/following-sibling::mat-cell/a[.='Review refund']`);
   }
 };

@@ -312,7 +312,7 @@ async function createAPBAPayment() {
     service: 'PROBATE',
     site_id: 'AA08'
   };
-  // //console.log(`The value of the Body ${JSON.stringify(saveBody)}`);
+  // console.log(`The value of the Body ${JSON.stringify(saveBody)}`);
   const createAPBAPaymentOptions = {
     method: 'POST',
     uri: creditAccountPaymentUrl + creditAccountPaymentEndPoint,
@@ -336,7 +336,7 @@ async function createAPBAPayment() {
     idamToken, serviceToken, ccdCaseNumber);
   await rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
 
-  // //console.log(saveCaseResponse);
+  // console.log(saveCaseResponse);
   const paymentDetails = {
     ccdCaseNumber: `${ccdCaseNumber}`,
     paymentReference: `${paymentReference}`
