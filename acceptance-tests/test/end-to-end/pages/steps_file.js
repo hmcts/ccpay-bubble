@@ -494,7 +494,6 @@ module.exports = () => actor({
     this.fillField({ css: '#remissionCode' }, 'HWF-A1B-23C');
     this.fillField({ css: '#amount' }, '0.01');
     this.click({ css: 'button.button' });
-    pause();
     this.click({ css: 'button.button:nth-child(4)' });
     this.click({ css: 'button.govuk-button:nth-child(1)' });
     this.wait(CCPBConstants.fiveSecondWaitTime);

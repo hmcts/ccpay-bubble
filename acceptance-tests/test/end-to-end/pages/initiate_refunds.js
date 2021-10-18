@@ -177,10 +177,12 @@ module.exports = {
     I.see('Amount');
     I.see(`£${checkYourAnswersData.refundAmount}`);
     // I.seeElement('[Add remission]:disabled') Check to see disabled button not working for now....
-    I.see('Total reductions: ');
-    I.see(`£${checkYourAnswersData.refundAmount}`);
-    I.see('Total fees to pay: ');
-    I.see('£15.00');
+    if (pageTitle === 'Service request') {
+      I.see('Total reductions: ');
+      I.see(`£${checkYourAnswersData.refundAmount}`);
+      I.see('Total fees to pay: ');
+      I.see('£15.00');
+    }
     I.see('Add refund');
     I.click('Add refund');
   },
@@ -201,7 +203,7 @@ module.exports = {
     I.click('Submit refund');
   },
 
-  verifyRefundDetailsPage(caseTransactionsData) {
+  verifyRefundDetailsPage(caseTransactionsData, processRefundButtonVisible) {
     I.waitForText('Refund details', '5');
     I.see('Refund reference');
     I.see(`${caseTransactionsData.refundReference}`);
@@ -218,9 +220,14 @@ module.exports = {
     I.see('Users');
     I.see('Notes');
     I.see('Refund initiated');
-    I.dontSee('Resubmit Refund');
-    I.dontSee('Approve Refund');
-    I.click('Back');
+
+    if (processRefundButtonVisible === false) {
+      I.dontSee('Process refund');
+      I.click('Back');
+    } else {
+      I.see('Process refund');
+      I.click('Process refund');
+    }
   },
 
   verifyRefundDetailsPageForResubmitRefund(caseTransactionsData) {
@@ -335,5 +342,28 @@ module.exports = {
     I.click(this.locators.date_updated_for_refunds_returned_to_case_worker);
     I.click(this.locators.date_updated_for_refunds_returned_to_case_worker);
     I.click(`//mat-cell[contains(.,'${refundReference}')]/following-sibling::mat-cell/a[.='Review refund']`);
+  },
+
+  verifyPaymentHistoryPage(paymentAmount, reviewRoute) {
+    I.see('Status');
+    I.see('Amount');
+    I.see('Party');
+    I.see('Request reference');
+    I.see('Paid');
+    I.see(paymentAmount);
+
+    I.see('Payments');
+    I.see('Status');
+    I.see('Amount');
+    I.see('Date');
+    I.see('Request reference');
+    I.see('Success');
+    I.see(paymentAmount);
+
+    if (reviewRoute === 'Payments') {
+      I.click('//div[2]//a[.=\'Review\']');
+    } else {
+      I.click('//div[@class=\'govuk-grid-row govuk-grid__surplus-payments\']/div[@class=\'govuk-grid-column-full\']/table[@class=\'govuk-table\']//a[.=\'Review\']');
+    }
   }
 };
