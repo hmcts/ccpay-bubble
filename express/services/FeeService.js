@@ -1,5 +1,6 @@
 const config = require('config');
 const request = require('request-promise-native');
+
 const feeRegistrationUrl = config.get('fee.feeRegistrationUrl');
 const feeJurisdictionUrl = config.get('fee.feeJurisdictionUrl');
 
