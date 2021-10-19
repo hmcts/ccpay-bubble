@@ -48,7 +48,7 @@ Scenario('Normal ccd case cash payment full allocation @nightly', async(I, CaseS
     CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
     CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£550.00', 'Cash');
     CaseTransaction.allocateToNewFee();
-    AddFees.addFees('550.00', 'family', 'family_court');
+    AddFees.addFeesAmount('550.00', 'family', 'family_court');
     FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
     FeesSummary.allocateBulkPayment();
     ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '£550.00', '£550.00');
@@ -73,7 +73,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£469.00', 'Cheque');
   CaseTransaction.allocateToNewFee();
-  AddFees.addFees('550.00', 'family', 'family_court');
+  AddFees.addFeesAmount('550.00', 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
   FeesSummary.deductRemission('FEE0002');
   Remission.noRemissionCodeOrAmount();
@@ -247,7 +247,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£500.00', 'Postal order');
   CaseTransaction.allocateToNewFee();
-  AddFees.addFees('550.00', 'family', 'family_court');
+  AddFees.addFeesAmount('550.00', 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
   FeesSummary.allocateBulkPayment();
   ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '£500.00', '£50.00');
@@ -283,7 +283,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment 
     CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'CCD reference');
     CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£600.00', 'Postal order');
     CaseTransaction.allocateToNewFee();
-    AddFees.addFees('550.00', 'family', 'family_court');
+    AddFees.addFeesAmount('550.00', 'family', 'family_court');
     FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
     FeesSummary.allocateBulkPayment();
     ConfirmAssociation.verifyConfirmAssociationSurplusPayment('FEE0002', '£550.00', '£50.00');
