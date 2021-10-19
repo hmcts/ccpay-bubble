@@ -9,7 +9,7 @@ class RefundsController {
   getRefundReason(req, res) {
     return this.refundsService.getRefundReason(req)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode) {
@@ -53,10 +53,10 @@ class RefundsController {
         }
       });
   }
-  patchRefundAction(req, res) {
-    return this.refundsService.patchRefundAction(req)
+  patchRefundAction(req, res, appInsights) {
+    return this.refundsService.patchRefundAction(req, appInsights)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode !== '403' && error.statusCode !== '500') {
@@ -124,8 +124,8 @@ class RefundsController {
         }
       });
   }
-  patchResubmitRefund(req, res) {
-    return this.refundsService.patchResubmitRefund(req)
+  patchResubmitRefund(req, res, appInsights) {
+    return this.refundsService.patchResubmitRefund(req, appInsights)
       .then(result => {
         res.status(200).json({ data: result, success: true });
       })
