@@ -9,7 +9,7 @@ maintainers:
     email: ccpay@hmcts.net
 dependencies:
   - name: nodejs
-    version: 2.3.7
+    version: 2.3.8
     repository: '@hmctspublic'
   - name: idam-pr
     version: ~2.2.6
