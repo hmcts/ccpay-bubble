@@ -302,30 +302,6 @@ class PayhubController {
   }
 
   getPbaAccountList(req, res) {
-    // return  res.status(200).json(
-    //   {
-    //     "organisationEntityResponse": {
-    //       "name": "uhSfPkGDLe",
-    //       "organisationIdentifier": "86GFD7J",
-    //       "status": "ACTIVE",
-    //       "sraId": "IKjhXSBFOCsra-id-number1",
-    //       "sraRegulated": false,
-    //       "companyNumber": "ITclicom",
-    //       "companyUrl": "uGhMbOrqUTcompany-url",
-    //       "superUser": {
-    //         "firstName": "firstName",
-    //         "lastName": "lastName",
-    //         "email": "freg-test-user-yfunx5dkh0@prdfunctestuser.com"
-    //       },
-    //       "paymentAccount": [
-    //         "PBAQXFPKND",
-    //         "PBASBBPLPY",
-    //         "PBAMEVBCPO"
-    //       ]
-    //     }
-    //   }
-    // );
-
     return this.payhubService.getPbaAccountList(req)
       .then(result => {
         res.status(200).json(result);
@@ -355,11 +331,9 @@ class PayhubController {
   postWays2PayCardPayment(req, res, appInsights) {
     return this.payhubService.postWays2PayCardPayment(req, appInsights)
       .then(result => {
-        Logger.getLogger('result==========================================>').info(result);
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        Logger.getLogger('error=========================================?>').info(error);
         if (error.statusCode) {
           res.status(error.statusCode).json({
             err: error.message,
