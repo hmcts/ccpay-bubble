@@ -39,10 +39,12 @@ def vaultOverrides = [
 ]
 
 withNightlyPipeline("nodejs", product, component) {
+
   env.TEST_URL = params.URL_TO_TEST
   env.NIGHTLY_TEST= true
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
+  enableFortifyScan()
   enableCrossBrowserTest()
   enableFullFunctionalTest(90)
   enableMutationTest(150)
@@ -55,6 +57,9 @@ withNightlyPipeline("nodejs", product, component) {
     sh 'chmod +x bin/run-mutation-tests.sh'
     yarnBuilder.yarn('test:a11y')
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+  }
+   after('fortify-scan') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
   }
   after('crossBrowserTest') {
      steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'mochawesome-report/**/*'
