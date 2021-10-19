@@ -15,6 +15,7 @@
     "postbuild": "yarn replace file=express/mvc/views/index.pug searchValue='\\\"csrfToken\\\"' newValue='csrfToken'",
     "ng:build": "ng build view-payment && ng build fee-register-search && yarn build",
     "test:coverage": "yarn merge-lcov && yarn copy-lcov",
+    "fortifyScan": "./src/test/java/gradlew -p src/test/java fortifyScan",
     "merge-lcov": "cross-env lcov-result-merger './coverage/lcov-*.info' './coverage/lcov.info'",
     "copy-lcov": "node ./scripts/copy-lcov.js",
     "test": "yarn lint && yarn test:angular && yarn test:coverage",
@@ -45,7 +46,7 @@
   },
   "private": true,
   "dependencies": { 
-    "@hmcts/ccpay-web-component": "4.0.0-beta509",
+    "@hmcts/ccpay-web-component": "4.0.0-beta523",
     "@hmcts/frontend": "^0.0.34-alpha",
     "@hmcts/nodejs-healthcheck": "^1.5.1",
     "@hmcts/nodejs-logging": "^3.0.0",

@@ -810,6 +810,12 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.see('Add FEE0002');
+    this.see('When was this application received?');
+    this.click({ xpath: '//*[@id="fee-version0"]' });
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.click('Continue');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Fee Summary');
     this.see('FEE0002');
     this.see('Filing an application for a divorce, nullity or civil partnership dissolution');
@@ -857,6 +863,12 @@ module.exports = () => actor({
     this.click({ css: '#family_court' });
     this.click('Apply filters');
     this.click('Select');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.see('Add FEE0002');
+    this.see('When was this application received?');
+    this.click({ xpath: '//*[@id="fee-version0"]' });
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.click('Continue');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Fee Summary');
     this.click('Case Transaction');
@@ -910,6 +922,12 @@ module.exports = () => actor({
     this.click({ css: '#family_court' });
     this.click('Apply filters');
     this.click('Select');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.see('Add FEE0002');
+    this.see('When was this application received?');
+    this.click({ xpath: '//*[@id="fee-version0"]' });
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.click('Continue');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Fee Summary');
     this.see('FEE0002');
