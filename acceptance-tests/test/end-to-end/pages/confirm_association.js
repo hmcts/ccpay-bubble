@@ -18,8 +18,7 @@ module.exports = {
     no_refund_due: { xpath: '//*[@id="noRefund"]' },
     no_case: { xpath: '//*[@id="noCase"]' },
     other_explainatory: { xpath: '//*[@name="paymentExplanation" and @id="other"]' },
-    explainatory_comment: { xpath: '//*[@id="moreDetails"]' },
-    user_name: { xpath: '//*[@id="userName"]' }
+    explainatory_comment: { xpath: '//*[@id="moreDetails"]' }
 
 
   },
