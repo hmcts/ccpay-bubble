@@ -43,7 +43,7 @@ async function getIDAMToken() {
 
   const s2sBaseUrl = `https://idam-api.${env}.platform.hmcts.net`;
   const idamTokenPath = '/o/token';
-  // logger.log('The value of the IDAM URL :' + `${s2sBaseUrl}${idamTokenPath}`);
+  logger.log('The value of the IDAM URL :' + `${s2sBaseUrl}${idamTokenPath}`);
   // console.log('The value of the IDAM URL :' + `${s2sBaseUrl}${idamTokenPath}`);
 
   const idamTokenResponse = await request({
