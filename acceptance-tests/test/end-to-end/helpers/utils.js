@@ -12,9 +12,17 @@ const testConfig = require('../tests/config/CCPBConfig.js');
 
 const logger = Logger.getLogger('helpers/utils.js');
 
-const env = process.env.RUNNING_ENV || 'aat';
+/*
+const env = process.env.IDAM_ENV;
+const environment = process.env.RUNNING_ENV;
+const prNumber = process.env.PR_NUMBER;
+*/
 // const prenv = process.env.RUNNING_ENV || 'pr-803';
 // const prev = process.env.RUNNING_ENV || 'preview';
+
+const env = testConfig.TestIDAMEnvironment;
+const environment = testConfig.TestRunningEnvironment;
+const prNumber = testConfig.TestPrNumber;
 
 async function getIDAMToken() {
   const username = testConfig.TestCaseWorkerUserName;
@@ -35,6 +43,8 @@ async function getIDAMToken() {
 
   const s2sBaseUrl = `https://idam-api.${env}.platform.hmcts.net`;
   const idamTokenPath = '/o/token';
+  // logger.log('The value of the IDAM URL :' + `${s2sBaseUrl}${idamTokenPath}`);
+  // console.log('The value of the IDAM URL :' + `${s2sBaseUrl}${idamTokenPath}`);
 
   const idamTokenResponse = await request({
     method: 'POST',
@@ -45,6 +55,7 @@ async function getIDAMToken() {
     statusCode = response.statusCode;
   }).catch(error => {
     logger.log(error);
+    // console.log(error);
   });
   logger.debug(idamTokenPath);
   return JSON.parse(idamTokenResponse).access_token;
@@ -99,10 +110,9 @@ async function getServiceToken(_service) {
 async function CaseValidation(flag) {
   logger.info(`${flag} case validation`);
 
-  const paymentBaseUrl = `http://payment-api-${env}.service.core-compute-${env}.internal`;
+  const paymentBaseUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
   const disablePath = `/api/ff4j/store/features/caseref-validation/${flag}`;
   // eslint-disable-next-line global-require
-
   const saveCaseResponse = await request({
     method: 'POST',
     uri: paymentBaseUrl + disablePath,
@@ -127,23 +137,83 @@ async function toggleOnCaseValidation() {
   return Promise.all([response]);
 }
 
+async function rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(
+  idamToken, serviceToken, ccdCaseNumber) {
+  // console.log('Inside the updatePBAPaymentDateByCCDCaseNumber() method');
+  const rollbackPaymentDateByCCDNumberUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
+  const rollbackPaymentDateByCCDNumberEndPoint = `/payments/ccd_case_reference/${ccdCaseNumber}`;
+  // console.log(`The Full URL : ${rollbackPaymentDateByCCDNumberUrl}${rollbackPaymentDateByCCDNumberEndPoint}`);
+
+  const getPBAPaymentByCCDCaseNumberOptions = {
+    method: 'PATCH',
+    uri: rollbackPaymentDateByCCDNumberUrl + rollbackPaymentDateByCCDNumberEndPoint,
+    headers: {
+      ServiceAuthorization: `Bearer ${serviceToken}`,
+      'Content-Type': 'application/json'
+    }
+  };
+  await request(getPBAPaymentByCCDCaseNumberOptions,
+    (_error, response) => {
+      logger.info(response);
+      // console.log(`${statusCode}The value of the status code`);
+      // console.log(`${response}The value of the response`);
+    }).catch(error => {
+    logger.error(error);
+    // console.log(error);
+  });
+}
+
+async function getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber) {
+  // console.log('Inside the getPBAPaymentByCCDCaseNumber() method');
+  const getPaymentByCCDNumberUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
+  const getPaymentByCCDNumberEndPoint = `/reconciliation-payments?ccd_case_number=${ccdCaseNumber}`;
+  // console.log(`The Full URL : ${getPaymentByCCDNumberUrl}${getPaymentByCCDNumberEndPoint}`);
+
+  const getPBAPaymentByCCDCaseNumberOptions = {
+    method: 'GET',
+    uri: getPaymentByCCDNumberUrl + getPaymentByCCDNumberEndPoint,
+    headers: {
+      ServiceAuthorization: `Bearer ${serviceToken}`,
+      'Content-Type': 'application/json'
+    }
+  };
+
+  const paymentLookUpResponseString = await request(getPBAPaymentByCCDCaseNumberOptions,
+    (_error, response) => {
+      logger.info(response);
+      // console.log(`${statusCode}The value of the status code`);
+      // console.log(`${response}The value of the response`);
+    }).catch(error => {
+    logger.error(error);
+    // console.log(error);
+  });
+  // console.log(`The value of the PaymentLookUpResponseString : ${paymentLookUpResponseString}`);
+  const paymentLookupObject = JSON.parse(paymentLookUpResponseString);
+  const paymentReference = paymentLookupObject.payments[0].payment_reference;
+  // console.log(`The value of the payment Reference${paymentReference}`);
+  return paymentReference;
+}
+
 // eslint-disable-next-line no-unused-vars
-async function createAPBAPayment(_amount) {
-  logger.info('Creating bulk a PBA Payment...');
-  logger.log('Creating bulk a PBA Payment...');
-  const creditAccountPaymentUrl = `http://payment-api-${env}.service.core-compute-${env}.internal`;
+async function createAFailedPBAPayment() {
+  // console.log('Creating bulk a PBA Payment...');
+  // //console.log('Creating bulk a PBA Payment...');
+  const creditAccountPaymentUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
   const creditAccountPaymentEndPoint = '/credit-account-payments';
   const microservice = 'cmc';
   const idamToken = await getIDAMToken();
   const testCmcSecret = testConfig.TestCMCSecret;
-  logger.log(`The value of the IDAM Token${idamToken}`);
-  logger.log(`The value of the cmc secret ${testCmcSecret}`);
+  const accountNumber = testConfig.TestAccountNumberInActive;
+  // console.log(`The value of the inactive account number : ${accountNumber}`);
+  // console.log(`The value of the IDAM Token ${idamToken}`);
+  // console.log(`The value of the cmc secret ${testCmcSecret}`);
   const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
-  logger.log(`The value of the Service Token ${serviceToken}`);
-  const accountNumber = testConfig.TestAccountNumberActive;
+  // console.log(`The value of the Service Token ${serviceToken}`);
+
   // eslint-disable-next-line no-magic-numbers
-  const ccdCaseNumber = numUtil.randomInt(0, 9999999999999999);
-  logger.log(`The value of the CCD Case Number : ${ccdCaseNumber}`);
+  const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
+  // console.log(`The value of the CCD Case Number : ${ccdCaseNumber}`);
+  // console.log(`The Full Payment URL : ${creditAccountPaymentUrl}${creditAccountPaymentEndPoint}`);
 
   const saveBody = {
     account_number: `${accountNumber}`,
@@ -166,7 +236,7 @@ async function createAPBAPayment(_amount) {
     service: 'PROBATE',
     site_id: 'AA08'
   };
-  logger.log(`The value of the Body${JSON.stringify(saveBody)}`);
+  // //console.log(`The value of the Body ${JSON.stringify(saveBody)}`);
   const createAPBAPaymentOptions = {
     method: 'POST',
     uri: creditAccountPaymentUrl + creditAccountPaymentEndPoint,
@@ -180,12 +250,100 @@ async function createAPBAPayment(_amount) {
 
   const saveCaseResponse = await request(createAPBAPaymentOptions, (_error, response) => {
     statusCode = response.statusCode;
-    logger.log(statusCode);
+    // console.log(`The value of the response status code : ${statusCode}`);
   }).catch(error => {
-    logger.log(error);
+    logger.error(error);
+    // console.log(error);
   });
-  logger.log(saveCaseResponse);
-  return ccddCaseNumber;
+
+  // console.log(JSON.stringify(saveCaseResponse));
+  // console.log('Outside the Save Case Call');
+  const paymentReference = JSON.parse(saveCaseResponse).reference;
+  // console.log(`The Payment Reference : ${paymentReference}`);
+
+  await rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+
+  // //console.log(saveCaseResponse);
+  const paymentDetails = {
+    ccdCaseNumber: `${ccdCaseNumber}`,
+    paymentReference: `${paymentReference}`
+  };
+  // console.log(`The Payment Details Object : ${JSON.stringify(paymentDetails)}`);
+  return paymentDetails;
+}
+
+// eslint-disable-next-line no-unused-vars
+async function createAPBAPayment() {
+  // console.log('Creating bulk a PBA Payment...');
+  // //console.log('Creating bulk a PBA Payment...');
+  const creditAccountPaymentUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
+  const creditAccountPaymentEndPoint = '/credit-account-payments';
+  const microservice = 'cmc';
+  const idamToken = await getIDAMToken();
+  const testCmcSecret = testConfig.TestCMCSecret;
+  const accountNumber = testConfig.TestAccountNumberActive;
+  // console.log(`The value of the IDAM Token ${idamToken}`);
+  // console.log(`The value of the cmc secret ${testCmcSecret}`);
+  const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
+  // console.log(`The value of the Service Token ${serviceToken}`);
+
+  // eslint-disable-next-line no-magic-numbers
+  const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
+  // console.log(`The value of the CCD Case Number : ${ccdCaseNumber}`);
+  // console.log(`The Full Payment URL : ${creditAccountPaymentUrl}${creditAccountPaymentEndPoint}`);
+
+  const saveBody = {
+    account_number: `${accountNumber}`,
+    amount: 215,
+    case_reference: '1253656',
+    ccd_case_number: `${ccdCaseNumber}`,
+    currency: 'GBP',
+    customer_reference: 'string',
+    description: 'string',
+    fees: [
+      {
+        calculated_amount: 215,
+        code: 'FEE0226',
+        fee_amount: 215,
+        version: '3',
+        volume: 1
+      }
+    ],
+    organisation_name: 'string',
+    service: 'PROBATE',
+    site_id: 'AA08'
+  };
+  // console.log(`The value of the Body ${JSON.stringify(saveBody)}`);
+  const createAPBAPaymentOptions = {
+    method: 'POST',
+    uri: creditAccountPaymentUrl + creditAccountPaymentEndPoint,
+    headers: {
+      Authorization: `${idamToken}`,
+      ServiceAuthorization: `Bearer ${serviceToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(saveBody)
+  };
+
+  await request(createAPBAPaymentOptions, (_error, response) => {
+    statusCode = response.statusCode;
+    // console.log(`The value of the response status code : ${statusCode}`);
+  }).catch(error => {
+    logger.error(error);
+    // console.log(error);
+  });
+
+  const paymentReference = await getPBAPaymentByCCDCaseNumber(
+    idamToken, serviceToken, ccdCaseNumber);
+  await rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+
+  // console.log(saveCaseResponse);
+  const paymentDetails = {
+    ccdCaseNumber: `${ccdCaseNumber}`,
+    paymentReference: `${paymentReference}`
+  };
+  // console.log(`The Payment Details Object${JSON.stringify(paymentDetails)}`);
+  return paymentDetails;
 }
 
 async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
@@ -366,5 +524,5 @@ async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
 
 module.exports = {
   bulkScanNormalCcd, bulkScanExceptionCcd, bulkScanCcdLinkedToException,
-  toggleOffCaseValidation, toggleOnCaseValidation, createAPBAPayment
+  toggleOffCaseValidation, toggleOnCaseValidation, createAPBAPayment, createAFailedPBAPayment
 };
