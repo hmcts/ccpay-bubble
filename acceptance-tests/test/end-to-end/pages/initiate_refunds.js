@@ -360,6 +360,14 @@ module.exports = {
     I.see('Success');
     I.see(paymentAmount);
 
+    /* I.see('Refunds');
+    I.see('Status');
+    I.see('Amount');
+    I.see('Date');
+    I.see('Refund reference');
+    I.see('Reason');
+    I.see('Retrospective remission');*/
+
     if (reviewRoute === 'Payments') {
       I.click('//div[2]//a[.=\'Review\']');
     } else {
