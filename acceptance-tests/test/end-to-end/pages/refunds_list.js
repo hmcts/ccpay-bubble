@@ -1,6 +1,5 @@
-/* eslint-disable no-dupe-keys */
 'use strict';
-// const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
+const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 
 const { I } = inject();
 
@@ -16,7 +15,7 @@ module.exports = {
   },
 
   verifyReviewRefundDetailsPage(refundReferenceNumber, reasonForRefund, amountToBeRefunded) {
-    I.waitForText('Review Refund details', '5');
+    I.waitForText('Review Refund details', CCPBConstants.fiveSecondWaitTime);
     I.see('Payment to be refunded');
     I.see(refundReferenceNumber);
     I.see('Reason for refund');
@@ -54,18 +53,18 @@ module.exports = {
     }
   },
 
-  verifyReviewAndResubmitRefundPage(refundReferenceNumber) {
+  /* verifyReviewAndResubmitRefundPage(refund_reference_number) {
     I.waitForText('Review and resubmit refund', '5');
     I.see('Reason for rejection');
     I.see('Refund reference');
-    I.see(refundReferenceNumber);
+    I.see(refund_reference_number);
     I.see('Reason for refund');
     I.see('Change');
     // I.see(reason_for_refund);
     I.see('Payment reference');
     I.see('Payment amount');
     I.click('Change');
-  },
+  },*/
 
   verifyRefundsDetailsForResubmitRefundPage(refundReferenceNumber) {
     I.waitForText('Refund Details', '5');

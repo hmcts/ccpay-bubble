@@ -165,15 +165,18 @@ module.exports = appInsights => express.Router()
     controllers.refundController.getRefundRejectReason(req, res);
   })
   .patch('/refund/:id/action/*', (req, res) => {
-    controllers.refundController.patchRefundAction(req, res);
+    controllers.refundController.patchRefundAction(req, res, appInsights);
   })
-  .get('/refund/get-refund-status-list', (req, res) => {
+  .get('/refund?*', (req, res) => {
     controllers.refundController.getRefundStatusList(req, res);
   })
-  .get('/refund/get-refund-list', (req, res) => {
-    Logger.getLogger('sdfghj').info(req.roles);
-    controllers.refundController.getRefundList(req, res);
-  })
+  // .get('/refund?status=${req.query.status}&excludeCurrentUser=${req.query.selfExclusive}', (req, res) => {
+  //   Logger.getLogger('sdfghj').info(req.roles);
+  //   controllers.refundController.getRefundList(req, res);
+  // })
+  // .get('/refund?status=*&excludeCurrentUser=*', (req, res) => {
+  //   controllers.refundController.getRefundList(req, res);
+  // })
 
   .post('/refund/refund', (req, res) => {
     controllers.refundController.postIssueRefund(req, res);
@@ -182,20 +185,20 @@ module.exports = appInsights => express.Router()
   .post('/refund/get-user-details', (req, res) => {
     controllers.refundController.getUserDetails(req, res);
   })
-  .get('/refund/:reference/status-history', (req, res) => {
-    controllers.refundController.getRefundStatusHistory(req, res);
-  })
+  // .get('/refund/:reference/status-history', (req, res) => {
+  //   controllers.refundController.getRefundStatusHistory(req, res);
+  // })
 
   .post('/payment-history/refund-for-payment', (req, res) => {
     controllers.payhubController.postRefundsReason(req, res);
   })
 
   .patch('/refund/resubmit/:refund_reference', (req, res) => {
-    controllers.refundController.patchResubmitRefund(req, res);
+    controllers.refundController.patchResubmitRefund(req, res, appInsights);
   })
 
   .patch('/resubmit/:refund_reference', (req, res) => {
-    controllers.refundController.patchResubmitRefund(req, res);
+    controllers.refundController.patchResubmitRefund(req, res, appInsights);
   })
 
   .post('/payment-history/refund-retro-remisstion', (req, res) => {

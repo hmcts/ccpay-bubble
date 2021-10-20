@@ -494,7 +494,6 @@ module.exports = () => actor({
     this.fillField({ css: '#remissionCode' }, 'HWF-A1B-23C');
     this.fillField({ css: '#amount' }, '0.01');
     this.click({ css: 'button.button' });
-    pause();
     this.click({ css: 'button.button:nth-child(4)' });
     this.click({ css: 'button.govuk-button:nth-child(1)' });
     this.wait(CCPBConstants.fiveSecondWaitTime);
@@ -811,6 +810,12 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.see('Add FEE0002');
+    this.see('When was this application received?');
+    this.click({ xpath: '//*[@id="fee-version0"]' });
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.click('Continue');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Fee Summary');
     this.see('FEE0002');
     this.see('Filing an application for a divorce, nullity or civil partnership dissolution');
@@ -858,6 +863,12 @@ module.exports = () => actor({
     this.click({ css: '#family_court' });
     this.click('Apply filters');
     this.click('Select');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.see('Add FEE0002');
+    this.see('When was this application received?');
+    this.click({ xpath: '//*[@id="fee-version0"]' });
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.click('Continue');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Fee Summary');
     this.click('Case Transaction');
@@ -911,6 +922,12 @@ module.exports = () => actor({
     this.click({ css: '#family_court' });
     this.click('Apply filters');
     this.click('Select');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.see('Add FEE0002');
+    this.see('When was this application received?');
+    this.click({ xpath: '//*[@id="fee-version0"]' });
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.click('Continue');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Fee Summary');
     this.see('FEE0002');
@@ -1010,4 +1027,17 @@ module.exports = () => actor({
     this.click('Remove');
     this.wait(CCPBConstants.fiveSecondWaitTime);
   }
+
+  /* async setUpRefund() {
+    console.log('Starting the PBA Payment');
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('90.00');
+    const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
+    const paymentReference = `${paymentDetails.paymentReference}`;
+    console.info(ccdCaseNumber);
+    console.info(paymentReference);
+    console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
+    this.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.wait(5);
+    return paymentDetails;
+  }*/
 });
