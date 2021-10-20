@@ -132,25 +132,21 @@ module.exports = {
   selectShortfallReasonExplainatoryAndUser(reason, explainatoryNote, user = 'AutoUser') {
     this.selectReasonForShortfall(reason);
     this.selectExplainatoryNoteShortfall(explainatoryNote);
-    I.fillField(this.locators.user_name, user);
   },
 
   selectSurplusReasonExplainatoryAndUser(reason, explainatoryNote, user = 'AutoUser') {
     this.selectReasonForSurplus(reason);
     this.selectExplainatoryNoteSurplus(explainatoryNote);
-    I.fillField(this.locators.user_name, user);
   },
 
   selectShortfallReasonOtherExplainatoryAndUser(reason, explainatoryNote, explainatoryComment, user = 'AutoUser') {
     this.selectReasonForShortfall(reason);
     this.selectExplainatoryNoteShortfall(explainatoryNote, explainatoryComment);
-    I.fillField(this.locators.user_name, user);
   },
 
   selectSurplusReasonOtherExplainatoryAndUser(reason, explainatoryNote, explainatoryComment, user = 'AutoUser') {
     this.selectReasonForSurplus(reason);
     this.selectExplainatoryNoteSurplus(explainatoryNote, explainatoryComment);
-    I.fillField(this.locators.user_name, user);
   },
 
   verifyConfirmAssociationSurplusPayment(feeCode, amount, surplusAmount) {
