@@ -59,7 +59,6 @@ module.exports = {
     I.see('Provide an explanatory note');
     I.see('I have put a stop on the case and contacted the applicant requesting the balance of payment');
     I.see('I have put a stop on the case. The applicant needs to be contacted to request the balance of payment');
-    I.see('Enter your name');
     I.see('Confirm');
   },
 
@@ -177,7 +176,6 @@ module.exports = {
     I.see('Details in case notes. Refund due');
     I.see('Details in case notes. No refund due');
     I.see('No case created. Refund due');
-    I.see('Enter your name');
     I.see('Confirm');
   },
 
