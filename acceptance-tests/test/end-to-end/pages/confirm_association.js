@@ -129,22 +129,22 @@ module.exports = {
     }
   },
 
-  selectShortfallReasonExplainatoryAndUser(reason, explainatoryNote, user = 'AutoUser') {
+  selectShortfallReasonExplainatoryAndUser(reason, explainatoryNote) {
     this.selectReasonForShortfall(reason);
     this.selectExplainatoryNoteShortfall(explainatoryNote);
   },
 
-  selectSurplusReasonExplainatoryAndUser(reason, explainatoryNote, user = 'AutoUser') {
+  selectSurplusReasonExplainatoryAndUser(reason, explainatoryNote) {
     this.selectReasonForSurplus(reason);
     this.selectExplainatoryNoteSurplus(explainatoryNote);
   },
 
-  selectShortfallReasonOtherExplainatoryAndUser(reason, explainatoryNote, explainatoryComment, user = 'AutoUser') {
+  selectShortfallReasonOtherExplainatoryAndUser(reason, explainatoryNote, explainatoryComment) {
     this.selectReasonForShortfall(reason);
     this.selectExplainatoryNoteShortfall(explainatoryNote, explainatoryComment);
   },
 
-  selectSurplusReasonOtherExplainatoryAndUser(reason, explainatoryNote, explainatoryComment, user = 'AutoUser') {
+  selectSurplusReasonOtherExplainatoryAndUser(reason, explainatoryNote, explainatoryComment) {
     this.selectReasonForSurplus(reason);
     this.selectExplainatoryNoteSurplus(explainatoryNote, explainatoryComment);
   },
