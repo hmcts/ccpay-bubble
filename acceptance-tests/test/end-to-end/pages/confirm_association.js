@@ -50,7 +50,7 @@ module.exports = {
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see(amount);
-    I.see('There is a Under payment of '.concat((shortfallAmount)));
+    I.see('There is an Under payment of '.concat((shortfallAmount)));
     I.see('Provide a reason');
     I.see('Help with Fees (HWF) application declined');
     I.see('Incorrect payment received');
@@ -161,7 +161,7 @@ module.exports = {
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see(amount);
-    I.see('There is a Over payment of '.concat(surplusAmount));
+    I.see('There is an Over payment of '.concat(surplusAmount));
     I.see('Provide a reason. This will be used in the Refund process.');
     I.see('Help with Fees (HWF) awarded. Please include the HWF reference number in the explanatory note');
     I.see('Incorrect payment received');
