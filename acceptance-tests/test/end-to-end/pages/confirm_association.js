@@ -39,7 +39,7 @@ module.exports = {
   },
 
   verifyConfirmAssociationShortfallPayment(feeCode, amount, shortfallAmount) {
-    I.wait(CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Confirm association');
     I.see('Amount to be allocated: '.concat(amount));
     I.see('Code');
@@ -151,7 +151,7 @@ module.exports = {
   },
 
   verifyConfirmAssociationSurplusPayment(feeCode, amount, surplusAmount) {
-    I.wait(CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Confirm association');
     I.see('Amount to be allocated: '.concat(amount));
     I.see('Code');
