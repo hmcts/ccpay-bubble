@@ -39,6 +39,7 @@ module.exports = {
   },
 
   verifyConfirmAssociationShortfallPayment(feeCode, amount, shortfallAmount) {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Confirm association');
     I.see('Amount to be allocated: '.concat(amount));
     I.see('Code');
@@ -50,7 +51,7 @@ module.exports = {
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see(amount);
-    I.waitForText('There is an Under payment of '.concat((shortfallAmount)), CCPBATConstants.tenSecondWaitTime);
+    I.see('There is an Under payment of '.concat((shortfallAmount)));
     I.see('Provide a reason');
     I.see('Help with Fees (HWF) application declined');
     I.see('Incorrect payment received');
@@ -150,6 +151,7 @@ module.exports = {
   },
 
   verifyConfirmAssociationSurplusPayment(feeCode, amount, surplusAmount) {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Confirm association');
     I.see('Amount to be allocated: '.concat(amount));
     I.see('Code');
@@ -161,7 +163,7 @@ module.exports = {
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see(amount);
-    I.waitForText('There is an Over payment of '.concat((surplusAmount)), CCPBATConstants.tenSecondWaitTime);
+    I.see('There is an Over payment of '.concat(surplusAmount));
     I.see('Provide a reason. This will be used in the Refund process.');
     I.see('Help with Fees (HWF) awarded. Please include the HWF reference number in the explanatory note');
     I.see('Incorrect payment received');
