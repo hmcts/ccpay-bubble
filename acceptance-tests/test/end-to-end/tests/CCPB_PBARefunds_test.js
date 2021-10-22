@@ -558,7 +558,7 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly @crossbrows
     I.Logout();
   });
 
-Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Case Worker @pipeline @nightly @crossbrowser',
+Scenario.skip('Approve action a Refund Returned to Case Worker and Resubmit By Case Worker -TODO(Wording in Resubmit Journey has to change) @pipeline @nightly @crossbrowser',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
