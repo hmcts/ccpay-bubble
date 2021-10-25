@@ -3,6 +3,7 @@ const config = require('config');
 const request = require('request-promise-native');
 const LaunchDarkly = require('launchdarkly-node-client-sdk');
 const HttpStatusCodes = require('http-status-codes');
+const { Logger } = require('@hmcts/nodejs-logging');
 
 const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
 const LDprefix = config.get('environment.ldPrefix');
@@ -330,7 +331,8 @@ class PayhubController {
   postWays2PayCardPayment(req, res, appInsights) {
     return this.payhubService.postWays2PayCardPayment(req, appInsights)
       .then(result => {
-        console.log(result);
+        Logger.getLogger('Get-User-Details').info(result);
+        /* eslint-disable  no-magic-numbers */
         res.status(201).json({ data: result, success: true });
       })
       .catch(error => {
