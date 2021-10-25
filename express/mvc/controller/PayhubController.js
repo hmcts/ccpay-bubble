@@ -331,9 +331,8 @@ class PayhubController {
   postWays2PayCardPayment(req, res, appInsights) {
     return this.payhubService.postWays2PayCardPayment(req, appInsights)
       .then(result => {
-        Logger.getLogger('Get-User-Details').info(result);
-        /* eslint-disable  no-magic-numbers */
-        res.status(201).json({ data: JSON.parse({ result }), success: true });
+        Logger.getLogger('Get-User-Details').info({ result });
+        res.status(200).json({ data: { result }, success: true });
       })
       .catch(error => {
         if (error.statusCode) {
