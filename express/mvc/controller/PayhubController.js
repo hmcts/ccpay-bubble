@@ -330,7 +330,8 @@ class PayhubController {
   postWays2PayCardPayment(req, res, appInsights) {
     return this.payhubService.postWays2PayCardPayment(req, appInsights)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        console.log(result);
+        res.status(201).json({ data: result, success: true });
       })
       .catch(error => {
         if (error.statusCode) {
