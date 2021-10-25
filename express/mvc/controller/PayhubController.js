@@ -333,7 +333,7 @@ class PayhubController {
       .then(result => {
         Logger.getLogger('Get-User-Details').info(result);
         /* eslint-disable  no-magic-numbers */
-        res.status(201).json({ data: {result}, success: true });
+        res.status(201).json({ data: { result }, success: true });
       })
       .catch(error => {
         if (error.statusCode) {
