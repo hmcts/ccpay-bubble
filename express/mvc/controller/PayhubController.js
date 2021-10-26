@@ -333,7 +333,7 @@ class PayhubController {
     return this.payhubService.postWays2PayCardPayment(req, appInsights)
       .then(result => {
         Logger.getLogger('Get-User-Details').info({ result });
-        res.status(200).json({ data: { result }, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode) {
