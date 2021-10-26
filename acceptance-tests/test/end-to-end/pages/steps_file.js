@@ -494,7 +494,6 @@ module.exports = () => actor({
     this.fillField({ css: '#remissionCode' }, 'HWF-A1B-23C');
     this.fillField({ css: '#amount' }, '0.01');
     this.click({ css: 'button.button' });
-    pause();
     this.click({ css: 'button.button:nth-child(4)' });
     this.click({ css: 'button.govuk-button:nth-child(1)' });
     this.wait(CCPBConstants.fiveSecondWaitTime);
@@ -1028,4 +1027,17 @@ module.exports = () => actor({
     this.click('Remove');
     this.wait(CCPBConstants.fiveSecondWaitTime);
   }
+
+  /* async setUpRefund() {
+    console.log('Starting the PBA Payment');
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('90.00');
+    const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
+    const paymentReference = `${paymentDetails.paymentReference}`;
+    console.info(ccdCaseNumber);
+    console.info(paymentReference);
+    console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
+    this.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.wait(5);
+    return paymentDetails;
+  }*/
 });

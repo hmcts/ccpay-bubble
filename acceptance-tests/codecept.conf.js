@@ -16,7 +16,7 @@ exports.config = {
       waitForAction,
       // waitForNavigation: 'networkidle0',
       waitForNavigation: 'domcontentloaded',
-      show: true,
+      show: false,
       restart: true,
       keepCookies: false,
       keepBrowserState: true,
@@ -34,6 +34,10 @@ exports.config = {
       }
     },
     Mochawesome: { uniqueScreenshotNames: 'true' }
+  },
+  plugins: {
+    pauseOnFail: {},
+    retryFailedStep: { enabled: false }
   },
   include: {
     I: './test/end-to-end/pages/steps_file.js',
