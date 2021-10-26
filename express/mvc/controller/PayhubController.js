@@ -304,6 +304,7 @@ class PayhubController {
   getPbaAccountList(req, res) {
     return this.payhubService.getPbaAccountList(req)
       .then(result => {
+        Logger.getLogger('Get-User-Details').info({ result });
         res.status(200).json(result);
       })
       .catch(error => {
