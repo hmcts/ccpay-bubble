@@ -50,7 +50,7 @@ function storeRedirectCookie(req, res, continueUrl, state) {
       { secure: true, httpOnly: true });
   } else {
     res.cookie(constants.REDIRECT_COOKIE, JSON.stringify(cookieValue),
-      { httpOnly: true });
+      { httpOnly: true,  secure: true });
   }
 }
 
