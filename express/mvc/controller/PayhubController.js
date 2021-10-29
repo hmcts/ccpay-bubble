@@ -81,7 +81,7 @@ class PayhubController {
           auth: result._links.next_url.accessToken,
           ref: result._links.next_url.refreshToken
         };
-        res.cookie(constants.PCIPAL_SECURITY_INFO, pcipalData, { httpOnly: true });
+        res.cookie(constants.PCIPAL_SECURITY_INFO, pcipalData, { secure: true, httpOnly: true });
         res.status(200).send('success');
       })
       .catch(error => {
