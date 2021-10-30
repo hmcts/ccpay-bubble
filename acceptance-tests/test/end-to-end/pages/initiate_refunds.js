@@ -20,9 +20,10 @@ module.exports = {
     reasons_text: { xpath: '//input[@id=\'reason\']' },
 
     users_drop_down_for_refunds_to_be_approved: { xpath: '//ccpay-refund-list[1]/div[3]//select[@id=\'sort\']' },
+    date_updated_for_refunds_to_be_approved_by_case_worker: { xpath: '//body[1]/app-root[1]/div[1]/div[1]/app-payment-history[1]/ccpay-payment-lib[1]/ccpay-refund-list[1]/div[3]/ccpay-table[1]/div[1]/div[2]/mat-table[1]/mat-header-row[1]/mat-header-cell[5]/div[1]/button[1]' },
 
     users_drop_down_for_refunds_returned_to_case_worker: { xpath: '//div[5]//select[@id=\'sort\']' },
-    date_updated_for_refunds_returned_to_case_worker: { xpath: '//mat-header-cell[@class=\'mat-header-cell ng-tns-c19-3 cdk-column-date_updated mat-column-date_updated ng-star-inserted\']//button[@class=\'mat-sort-header-button\'][contains(text(),\' Date updated \')]' }
+    date_updated_for_refunds_returned_to_case_worker: { xpath: '//body[1]/app-root[1]/div[1]/div[1]/app-payment-history[1]/ccpay-payment-lib[1]/ccpay-refund-list[1]/div[5]/ccpay-table[1]/div[1]/div[2]/mat-table[1]/mat-header-row[1]/mat-header-cell[5]/div[1]/button[1]' }
   },
 
   async getHeaderValue() {
@@ -48,6 +49,14 @@ module.exports = {
     I.waitForText('Payment details', '5');
     I.waitForText('Payment status history', '5');
     I.see('Issue refund');
+    I.waitForText('Fee and remission details', '5');
+    I.see('Add remission');
+    I.click(typeOfRefund);
+  },
+
+  verifyPaymentDetailsPageForFailedPayment(typeOfRefund) {
+    I.waitForText('Payment details', '5');
+    I.waitForText('Payment status history', '5');
     I.waitForText('Fee and remission details', '5');
     I.see('Add remission');
     I.click(typeOfRefund);
@@ -114,6 +123,14 @@ module.exports = {
     I.click('Continue');
   },
 
+  verifyProcessRemissionAmountPageForFailedPayment(ccdCaseNumber, remissionAmount) {
+    I.waitForText('Process remission', '5');
+    I.see(`#${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
+    I.see('Enter the remission amount');
+    I.fillField(this.locators.amount_field, remissionAmount);
+    I.click('Continue');
+  },
+
   verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, changeHWFCodeFlag, changeRefundAmountFlag) {
     I.waitForText('Check your answers', '5');
     I.see('Payment reference');
@@ -141,6 +158,33 @@ module.exports = {
     }
   },
 
+  verifyCheckYourAnswersPageForAddRemissionForFailedPayment(checkYourAnswersData, changeHWFCodeFlag, changeRefundAmountFlag) {
+    I.waitForText('Check your answers', '5');
+    I.see('Payment reference');
+    I.see(`${checkYourAnswersData.paymentReference}`);
+    I.see('Payment amount');
+    I.see(`${checkYourAnswersData.paymentAmount}`);
+    I.see('Payment status');
+    I.see('Failed');
+    I.see('Fee');
+    I.see(`${checkYourAnswersData.feeDescription}`);
+    I.see('Help with fees or remission reference');
+    I.see(`${checkYourAnswersData.hwfReference}`);
+    I.see('Remission amount');
+    I.see(`${checkYourAnswersData.refundAmount}`);
+
+    if (changeHWFCodeFlag) {
+      // console.log('Inside the HWF Code');
+      // pause();
+      I.click({ xpath: '//tr[5]//a[.="Change"]' });
+    } else if (changeRefundAmountFlag) {
+      // console.log('Inside the Changed Refund Amount');
+      I.click({ xpath: '//tr[6]//a[.="Change"]' });
+    } else {
+      I.click('Add remission');
+    }
+  },
+
   verifyRemissionAddedPage(addRefundFlag, refundAmount) {
     I.waitForText('Remission added', '5');
     I.see('The amount to be refunded should be');
@@ -152,6 +196,11 @@ module.exports = {
     } else {
       I.click('Return to case');
     }
+  },
+
+  verifyRemissionAddedPageForFailedPayment() {
+    I.see('Remission added');
+    I.click('Return to case');
   },
 
   async verifyRefundSubmittedPage(refundAmount) {
@@ -253,7 +302,7 @@ module.exports = {
     I.click('Resubmit refund');
   },
 
-  verifyReviewAndResubmitRefundPage(caseTransactionsData, sendBackReason, changeRequired) {
+  verifyReviewAndResubmitRefundPage(caseTransactionsData, sendBackReason, changeRequired, issueRefund) {
     I.see('Review and resubmit refund');
     I.see('Reason for rejection');
     I.see(sendBackReason);
@@ -264,8 +313,13 @@ module.exports = {
     I.see('Change');
     I.see('Payment reference');
     I.see(`${caseTransactionsData.paymentReference}`);
-    I.see('Payment amount');
-    I.see(`${caseTransactionsData.paymentAmount}`);
+    if (issueRefund) {
+      I.see('Payment amount');
+      I.see(`${caseTransactionsData.paymentAmount}`);
+    } else {
+      I.see('Refund amount');
+      I.see(`${caseTransactionsData.refundAmount}`);
+    }
     if (changeRequired) {
       I.click('//a[.=\'Change\']');
     } else {
@@ -290,9 +344,27 @@ module.exports = {
     I.see('Refunds returned to caseworker');
     I.selectOption(this.locators.users_drop_down_for_refunds_to_be_approved, 'Probate Request Request');
     // Double Clicking For Sort By Descending....
-    I.click('Date updated');
-    I.click('Date updated');
+    // I.click('Date updated');
+    // I.click('Date updated');
+    I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
+    I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
     I.click(`//mat-cell[contains(.,'${refundReference}')]/following-sibling::mat-cell/a[.='Process refund'][1]`);
+  },
+  verifyRefundsListPageForCaseWorker(refundReference) {
+    I.see('Refund list');
+    I.dontSee('Refunds to be approved');
+    I.see('Refunds returned to caseworker');
+    I.see('Filter by caseworker:');
+    I.see('Case ID');
+    I.see('Refund reference');
+    I.see(`${refundReference}`);
+    I.see('Reason');
+    I.see('Submitted by');
+    I.see('Date updated');
+    I.see('Action');
+    // I.selectOption(this.locators.users_drop_down_for_refunds_to_be_approved, 'Probate Request Request');
+    // Double Clicking For Sort By Descending....
+    // I.click('Date updated');
   },
 
   verifyReviewRefundsDetailsPage(caseTransactionsData, refundApprovalRequest) {
