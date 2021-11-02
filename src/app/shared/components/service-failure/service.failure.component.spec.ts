@@ -9,8 +9,4 @@ describe('Service failure component', () => {
     component = new ServiceFailureComponent(router);
   });
 
-  it('Should navigate back to add fee detail', () => {
-    component.goToAddFeeDetail();
-    expect(router.navigate).toHaveBeenCalledWith(['/addFeeDetail']);
-  });
 });
