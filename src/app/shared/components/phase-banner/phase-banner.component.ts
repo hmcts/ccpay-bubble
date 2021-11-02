@@ -12,9 +12,10 @@ export class PhaseBannerComponent {
 
   myFunction () {
     const myInput = (document.getElementById('iFrameDrivenImageValue') as HTMLInputElement).value;
+    var validateUrl = new RegExp(/^(http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/)
     const myURL = 'https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=';
 	if ((myInput != null) || (myInput.length !== 0) || (myURL.length !== 0)) {
-		window.open( myURL + myInput, '_blank');
+		window.open( myURL.match(validateUrl) + myInput, '_blank');
 	}
   }
 }
