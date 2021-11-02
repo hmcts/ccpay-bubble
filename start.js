@@ -25,5 +25,5 @@ if (process.env.NODE_ENV === 'development') {
     key = fs.readFileSync(keyLocation);
   https.createServer({ key, cert }, app).listen(port);
 } else {
-  http.createServer(app).listen(port);
+  https.createServer(app).listen(port);
 }
