@@ -21,7 +21,7 @@ const app = require('./server')(security(appInsights), appInsights),
 if (process.env.NODE_ENV === 'development') {
   const crtLocation = config.get('certs.crt'),
     keyLocation = config.get('certs.key'),
-    secureProtocol: 'TLSv1_2_method',
+    secureProtocol = 'TLSv1_2_method',
     cert = fs.readFileSync(crtLocation),
     key = fs.readFileSync(keyLocation);
   https.createServer({ key, cert }, app).listen(port);
