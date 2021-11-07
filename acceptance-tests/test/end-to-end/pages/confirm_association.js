@@ -18,8 +18,7 @@ module.exports = {
     no_refund_due: { xpath: '//*[@id="noRefund"]' },
     no_case: { xpath: '//*[@id="noCase"]' },
     other_explainatory: { xpath: '//*[@name="paymentExplanation" and @id="other"]' },
-    explainatory_comment: { xpath: '//*[@id="moreDetails"]' },
-    user_name: { xpath: '//*[@id="userName"]' }
+    explainatory_comment: { xpath: '//*[@id="moreDetails"]' }
 
 
   },
@@ -40,6 +39,7 @@ module.exports = {
   },
 
   verifyConfirmAssociationShortfallPayment(feeCode, amount, shortfallAmount) {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Confirm association');
     I.see('Amount to be allocated: '.concat(amount));
     I.see('Code');
@@ -51,7 +51,7 @@ module.exports = {
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see(amount);
-    I.see('There is a shortfall of '.concat((shortfallAmount)));
+    I.see('There is an Under payment of '.concat((shortfallAmount)));
     I.see('Provide a reason');
     I.see('Help with Fees (HWF) application declined');
     I.see('Incorrect payment received');
@@ -59,7 +59,6 @@ module.exports = {
     I.see('Provide an explanatory note');
     I.see('I have put a stop on the case and contacted the applicant requesting the balance of payment');
     I.see('I have put a stop on the case. The applicant needs to be contacted to request the balance of payment');
-    I.see('Enter your name');
     I.see('Confirm');
   },
 
@@ -131,31 +130,28 @@ module.exports = {
     }
   },
 
-  selectShortfallReasonExplainatoryAndUser(reason, explainatoryNote, user = 'AutoUser') {
+  selectShortfallReasonExplainatoryAndUser(reason, explainatoryNote) {
     this.selectReasonForShortfall(reason);
     this.selectExplainatoryNoteShortfall(explainatoryNote);
-    I.fillField(this.locators.user_name, user);
   },
 
-  selectSurplusReasonExplainatoryAndUser(reason, explainatoryNote, user = 'AutoUser') {
+  selectSurplusReasonExplainatoryAndUser(reason, explainatoryNote) {
     this.selectReasonForSurplus(reason);
     this.selectExplainatoryNoteSurplus(explainatoryNote);
-    I.fillField(this.locators.user_name, user);
   },
 
-  selectShortfallReasonOtherExplainatoryAndUser(reason, explainatoryNote, explainatoryComment, user = 'AutoUser') {
+  selectShortfallReasonOtherExplainatoryAndUser(reason, explainatoryNote, explainatoryComment) {
     this.selectReasonForShortfall(reason);
     this.selectExplainatoryNoteShortfall(explainatoryNote, explainatoryComment);
-    I.fillField(this.locators.user_name, user);
   },
 
-  selectSurplusReasonOtherExplainatoryAndUser(reason, explainatoryNote, explainatoryComment, user = 'AutoUser') {
+  selectSurplusReasonOtherExplainatoryAndUser(reason, explainatoryNote, explainatoryComment) {
     this.selectReasonForSurplus(reason);
     this.selectExplainatoryNoteSurplus(explainatoryNote, explainatoryComment);
-    I.fillField(this.locators.user_name, user);
   },
 
   verifyConfirmAssociationSurplusPayment(feeCode, amount, surplusAmount) {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Confirm association');
     I.see('Amount to be allocated: '.concat(amount));
     I.see('Code');
@@ -167,7 +163,7 @@ module.exports = {
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see(amount);
-    I.see('There is a surplus of '.concat(surplusAmount));
+    I.see('There is an Over payment of '.concat(surplusAmount));
     I.see('Provide a reason. This will be used in the Refund process.');
     I.see('Help with Fees (HWF) awarded. Please include the HWF reference number in the explanatory note');
     I.see('Incorrect payment received');
@@ -177,7 +173,6 @@ module.exports = {
     I.see('Details in case notes. Refund due');
     I.see('Details in case notes. No refund due');
     I.see('No case created. Refund due');
-    I.see('Enter your name');
     I.see('Confirm');
   },
 
