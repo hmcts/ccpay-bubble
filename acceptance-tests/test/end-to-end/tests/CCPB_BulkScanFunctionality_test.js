@@ -303,7 +303,7 @@ Scenario('Download reports in paybubble @nightly', (I, Reports) => {
     Reports.selectReportAndDownload('Data loss');
     Reports.selectReportAndDownload('Unprocessed transactions');
     Reports.selectReportAndDownload('Processed unallocated');
-    Reports.selectReportAndDownload('Shortfalls and surplus');
+    Reports.selectReportAndDownload('Under payment and Over payment');
     I.Logout();
   }
 });
