@@ -197,7 +197,7 @@ async function getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumb
 // eslint-disable-next-line no-unused-vars
 async function createAFailedPBAPayment() {
   // console.log('Creating bulk a PBA Payment...');
-  // //console.log('Creating bulk a PBA Payment...');
+  // console.log('Creating bulk a PBA Payment...');
   const creditAccountPaymentUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
   const creditAccountPaymentEndPoint = '/credit-account-payments';
   const microservice = 'cmc';
@@ -236,7 +236,7 @@ async function createAFailedPBAPayment() {
     service: 'PROBATE',
     site_id: 'AA08'
   };
-  // //console.log(`The value of the Body ${JSON.stringify(saveBody)}`);
+  // console.log(`The value of the Body ${JSON.stringify(saveBody)}`);
   const createAPBAPaymentOptions = {
     method: 'POST',
     uri: creditAccountPaymentUrl + creditAccountPaymentEndPoint,
@@ -248,8 +248,11 @@ async function createAFailedPBAPayment() {
     body: JSON.stringify(saveBody)
   };
 
-  const saveCaseResponse = await request(createAPBAPaymentOptions, (_error, response) => {
+  let paymentReference = '';
+  await request(createAPBAPaymentOptions, (_error, response) => {
     statusCode = response.statusCode;
+    paymentReference = JSON.parse(response.body).reference;
+    // console.log('Response Body : '+ JSON.stringify(response.body));
     // console.log(`The value of the response status code : ${statusCode}`);
   }).catch(error => {
     logger.error(error);
@@ -258,12 +261,12 @@ async function createAFailedPBAPayment() {
 
   // console.log(JSON.stringify(saveCaseResponse));
   // console.log('Outside the Save Case Call');
-  const paymentReference = JSON.parse(saveCaseResponse).reference;
+  // const paymentReference = JSON.parse(saveCaseResponse).reference;
   // console.log(`The Payment Reference : ${paymentReference}`);
 
   await rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
 
-  // //console.log(saveCaseResponse);
+  // console.log(saveCaseResponse);
   const paymentDetails = {
     ccdCaseNumber: `${ccdCaseNumber}`,
     paymentReference: `${paymentReference}`
