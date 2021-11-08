@@ -61,6 +61,27 @@ module.exports = {
     }
   },
 
+  async checkPaymentsValuesForAFailedPayments() {
+    const totalPaymentsValue = await I.grabTextFrom(this.locators.total_payments_text);
+    // console.log(`The value of the Total Payments Text : ${totalPaymentsValue}`);
+    if (totalPaymentsValue !== '£0.00') {
+      throw new Error('The total payments value is not expected');
+    }
+    const unallocatedPaymentsValue = await I.grabTextFrom(this.locators.unallocated_payments_text);
+    if (unallocatedPaymentsValue !== '0') {
+      throw new Error('The unallocated value is not expected');
+    }
+
+    const totalRemissionsValue = await I.grabTextFrom(this.locators.total_remissions_text);
+    if (totalRemissionsValue !== '£0.00') {
+      throw new Error('The total remissions value is not expected');
+    }
+    /* const amountDueValue = await I.grabTextFrom(this.locators.amount_due_text);
+    if (amountDueValue !== '£0.00') {
+      throw new Error('The Amount Due value is not expected');
+    }*/
+  },
+
   checkRefundsSectionOfCaseTransactionsPage(caseTransactions) {
     I.see('Refunds');
     I.see('Status');
@@ -126,7 +147,7 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  async validateCaseTransactionPageForRefunds(ccdCaseNumber) {
+  async validateCaseTransactionPageForRefunds(ccdCaseNumber, paymentStatus) {
     // console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
@@ -134,7 +155,11 @@ module.exports = {
     I.see('Unallocated payments');
     I.see('Total remissions');
     I.see('Amount due');
-    await this.checkPaymentsValues();
+    if (paymentStatus) {
+      await this.checkPaymentsValues();
+    } else {
+      await this.checkPaymentsValuesForAFailedPayments();
+    }
     this.checkEmptyRefundsSection();
   },
 
