@@ -21,7 +21,7 @@ nodejs:
     CCPAY_BUBBLE_URL:  https://ccpay-bubble-frontend-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     PCIPAL_ANTENNA_URL:  https://paybubble.{{ .Values.global.environment }}.platform.hmcts.net/ccd-search
     WAYS_TO_PAY_RETURN_URL: https://ccpay-paymentoutcome-web-pr-7.service.core-compute-preview.internal/payment
-    PAYHUB_API_URL: http://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    PAYHUB_API_URL: http://payment-api-pr-1033.service.core-compute-preview.internal
     CCPAY_BULKSCAN_API_URL: http://ccpay-bulkscanning-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     CCPAY_REFUNDS_API_URL: http://ccpay-refunds-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
