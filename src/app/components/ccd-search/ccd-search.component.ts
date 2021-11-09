@@ -30,6 +30,7 @@ export class CcdSearchComponent implements OnInit {
   isStrategicFixEnable: boolean;
   isTurnOff: boolean;
   caseResponse: any;
+
   isOldPcipalOff: boolean;
   isNewPcipalOff: boolean;
 
