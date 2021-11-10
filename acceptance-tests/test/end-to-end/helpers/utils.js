@@ -122,6 +122,7 @@ async function CaseValidation(flag) {
     statusCode = response.statusCode;
   }).catch(error => {
     logger.log(error);
+    // console.log(error);
   });
   logger.info(saveCaseResponse);
   return statusCode;
