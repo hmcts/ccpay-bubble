@@ -433,16 +433,8 @@ class PayhubController {
       })
       .catch(error => {
         if (error.statusCode) {
-          if (error.statusCode) {
-            res.status(error.statusCode).json({
-              err: error.message,
-              statuCode: error.statusCode,
-              success: false
-            });
-          }
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+          res.status(400).json(error);
+        } 
       });
   }
 }
