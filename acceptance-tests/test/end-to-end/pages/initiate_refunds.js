@@ -313,10 +313,10 @@ module.exports = {
     I.see('Change');
     I.see('Payment reference');
     I.see(`${caseTransactionsData.paymentReference}`);
-    console.log(`The value of the change required flag ${changeRequired}`)
-    console.log(`The value of the issue refund flag ${issueRefund}`)
-    console.log(`The value of the payment amount ${caseTransactionsData.paymentAmount}`)
-    console.log(`The value of the refund amount ${caseTransactionsData.refundAmount}`)
+    // console.log(`The value of the change required flag ${changeRequired}`);
+    // console.log(`The value of the issue refund flag ${issueRefund}`);
+    // console.log(`The value of the payment amount ${caseTransactionsData.paymentAmount}`);
+    // console.log(`The value of the refund amount ${caseTransactionsData.refundAmount}`);
     if (issueRefund) {
       I.see('Payment amount');
       I.see(`${caseTransactionsData.paymentAmount}`);

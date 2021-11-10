@@ -122,7 +122,7 @@ async function CaseValidation(flag) {
     statusCode = response.statusCode;
   }).catch(error => {
     logger.log(error);
-    console.log(error);
+    // console.log(error);
   });
   logger.info(saveCaseResponse);
   return statusCode;
@@ -156,11 +156,11 @@ async function rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(
   await request(getPBAPaymentByCCDCaseNumberOptions,
     (_error, response) => {
       logger.info(response);
-       console.log(`${statusCode}The value of the status code`);
-       console.log(`${response}The value of the response`);
+      // console.log(`${statusCode}The value of the status code`);
+      // console.log(`${response}The value of the response`);
     }).catch(error => {
     logger.error(error);
-     console.log(error);
+    // console.log(error);
   });
 }
 
@@ -331,10 +331,10 @@ async function createAPBAPayment() {
 
   await request(createAPBAPaymentOptions, (_error, response) => {
     statusCode = response.statusCode;
-     console.log(`The value of the response status code : ${statusCode}`);
+    // console.log(`The value of the response status code : ${statusCode}`);
   }).catch(error => {
     logger.error(error);
-     console.log(error);
+    // console.log(error);
   });
 
   const paymentReference = await getPBAPaymentByCCDCaseNumber(
