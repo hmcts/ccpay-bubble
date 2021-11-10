@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 const { payhubService } = require('../../services');
 const config = require('config');
 const request = require('request-promise-native');
@@ -434,7 +435,7 @@ class PayhubController {
       .catch(error => {
         if (error.statusCode) {
           res.status(400).json(error);
-        } 
+        }
       });
   }
 }
