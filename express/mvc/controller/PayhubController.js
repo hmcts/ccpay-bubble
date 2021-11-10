@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 const { payhubService } = require('../../services');
 const config = require('config');
 const request = require('request-promise-native');
