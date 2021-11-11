@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 const { payhubService } = require('../../services');
 const config = require('config');
 const request = require('request-promise-native');
@@ -450,9 +451,7 @@ class PayhubController {
       })
       .catch(error => {
         if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
+          res.status(400).json(error);
         }
       });
   }
@@ -480,9 +479,7 @@ class PayhubController {
       })
       .catch(error => {
         if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
+          res.status(400).json(error);
         }
       });
   }
