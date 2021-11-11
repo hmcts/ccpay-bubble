@@ -81,7 +81,6 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    pause();
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
