@@ -52,7 +52,9 @@ function getCaseTransactionsData(
 Feature('CC Pay Bubble Acceptance Tests For Refunds and Remissions').retry(CCPBATConstants.retryScenario);
 
 BeforeSuite(async I => {
+  // console.log('Before Suite');
   const response = await bulkScanApiCalls.toggleOffCaseValidation();
+  // console.log('After Response');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   if (response === successResponse) {
     logger.info('Disabled CCD validation');
@@ -67,7 +69,7 @@ AfterSuite(async I => {
   }
 });
 
-Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments @pipeline @nightly @crossbrowser',
+Scenario.only('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments @pipeline @nightly @crossbrowser',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -79,6 +81,7 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    pause();
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -248,7 +251,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.Logout();
   });
 
-Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly @crossbrowser',
+Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly @crossbrowser',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
