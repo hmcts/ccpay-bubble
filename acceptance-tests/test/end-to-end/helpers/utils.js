@@ -279,7 +279,7 @@ async function createAFailedPBAPayment() {
 // eslint-disable-next-line no-unused-vars
 async function createAPBAPayment() {
   // console.log('Creating bulk a PBA Payment...');
-  // //console.log('Creating bulk a PBA Payment...');
+  // console.log('Creating bulk a PBA Payment...');
   const creditAccountPaymentUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
   const creditAccountPaymentEndPoint = '/credit-account-payments';
   const microservice = 'cmc';
