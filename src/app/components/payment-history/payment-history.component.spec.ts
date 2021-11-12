@@ -12,7 +12,8 @@ import { instance, mock } from 'ts-mockito';
 const roles: string[] = ['caseworker', 'payments'];
 
 const routerMock = {
-  navigateByUrl: jasmine.createSpy('navigateByUrl')
+  navigateByUrl: jasmine.createSpy('navigateByUrl'),
+  url: '/test?test=view'
 };
 
 describe('Payment History case transaction component', () => {
