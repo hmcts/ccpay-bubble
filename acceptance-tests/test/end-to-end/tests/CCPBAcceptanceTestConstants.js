@@ -3,7 +3,7 @@ module.exports = {
   windowsSizeY: 1200,
   twoSecondWaitTime: 2,
   fiveSecondWaitTime: 5,
-  sevenSecondWaitTime: 5,
+  sevenSecondWaitTime: 7,
   tenSecondWaitTime: 10,
   twentySecondWaitTime: 20,
   thirtySecondWaitTime: 30,
