@@ -11,5 +11,6 @@ module.exports = {
   TestCMCSecret: process.env.CMC_S2S_SERVICE_SECRET,
   TestRunningEnvironment: process.env.RUNNING_ENV || 'preview',
   TestIDAMEnvironment: process.env.IDAM_ENV || 'aat',
-  TestPrNumber: process.env.PR_NUMBER || 'pr-972'
+  TestPrNumber: process.env.PR_NUMBER || 'pr-972',
+  TestNightlyFlag : process.env.NIGHTLY_TEST || false
 };
