@@ -142,7 +142,6 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    if (testConfig.TestNightlyFlag) {
       const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
       const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
       const paymentReference = `${paymentDetails.paymentReference}`;
@@ -194,7 +193,6 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
       InitiateRefunds.verifyNoAddRemissionOnPaymentDetailsPage();
       logger.info('Test Completed....');*/
       I.Logout();
-    }
   });
 
 Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment Details page @pipeline @nightly @crossbrowser',
@@ -256,7 +254,6 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
 
 Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly @crossbrowser',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
-    if (testConfig.TestNightlyFlag) {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
       const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -303,7 +300,6 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
       await InitiateRefunds.verifyRefundSubmittedPage('200.00');
       I.wait(CCPBATConstants.twoSecondWaitTime);
       I.Logout();
-    }
   });
 
 Scenario('Add a Remissions for a failed Payment @pipeline @nightly @crossbrowser',
@@ -389,7 +385,6 @@ Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pip
 
 Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nightly @crossbrowser',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
-    if (testConfig.TestNightlyFlag) {
       logger.log('Starting the PBA Payment');
       // console.log('Starting the PBA Payment');
       const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -431,13 +426,11 @@ Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nig
       I.wait(CCPBATConstants.twoSecondWaitTime);
       InitiateRefunds.verifyRefundDetailsPage(caseTransactionsData, false);
       I.Logout();
-    }
   });
 
 
 Scenario('Approve action a  Refund for a Rejection @nightly @crossbrowser',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
-    if (testConfig.TestNightlyFlag) {
       logger.log('Starting the PBA Payment');
       // console.log('Starting the PBA Payment');
       const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -499,7 +492,6 @@ Scenario('Approve action a  Refund for a Rejection @nightly @crossbrowser',
         ccdCaseNumber, caseTransactionsDataForRejectedRefund);
       I.wait(CCPBATConstants.twoSecondWaitTime);
       I.Logout();
-    }
   });
 
 
@@ -572,7 +564,6 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly @crossbrows
 
 Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Case Transaction Page Refunds Review Section @nightly @crossbrowser',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
-    if (testConfig.TestNightlyFlag) {
       logger.log('Starting the PBA Payment');
       // console.log('Starting the PBA Payment');
       const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -663,7 +654,6 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
         RefundException(`The initial refundReference : ${refundReference.trim()} is not equals to the resubmitted refund reference : ${refundReferenceFromResubmit.trim()}`);
       }
       I.Logout();
-    }
   });
 
 Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Refunds List Page @pipeline @nightly @crossbrowser',
