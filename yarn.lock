@@ -350,10 +350,10 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.2.tgz#30aa825f11d438671d585bd44e7fd564535fc210"
   integrity sha512-82cpyJyKRoQoRi+14ibCeGPu0CwypgtBAdBhq1WfvagpCZNKqwXbKwXllYSMG91DhmG4jt9gN8eP6lGOtozuaw==
 
-"@hmcts/ccpay-web-component@4.0.0-beta550":
-  version "4.0.0-beta550"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta550.tgz#2ce271788f1991d9ed2aec35301ef704675e8814"
-  integrity sha512-SAf81rEc7Gn2c2YhjMfI2yvNDufUAZbx2qBKIEVZM6bgIl894ldWd+AwHP9IJvQkzsmAiE0ch+xA0RhXR1CRuw==
+"@hmcts/ccpay-web-component@4.0.0-beta601":
+  version "4.0.0-beta601"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-4.0.0-beta601.tgz#479bd245889a811a51f16101627c54f280d573f4"
+  integrity sha512-NhCPhTuuhuYHXS8YHZwhttECRBNqCekPdJU9ZcytQAenCUqA+JAQMjRwoViLDPoZ+x8LwFyc/qauNcGY/kXq6A==
   dependencies:
     tslib "^1.9.0"
 
@@ -2154,11 +2154,11 @@ browserslist@^4.0.0, browserslist@^4.12.0, browserslist@^4.4.1:
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.17.3.tgz#2844cd6eebe14d12384b0122d217550160d2d624"
   integrity sha512-59IqHJV5VGdcJZ+GZ2hU5n4Kv3YiASzW6Xk5g9tf5a/MAzGeFwgGWU39fVzNIOVcgB3+Gp+kiQu0HEfTVU/3VQ==
   dependencies:
-    caniuse-lite "^1.0.30001265"
-    electron-to-chromium "^1.3.867"
+    caniuse-lite "^1.0.30001264"
+    electron-to-chromium "^1.3.857"
     escalade "^3.1.1"
-    node-releases "^2.0.0"
-    picocolors "^1.0.0"
+    node-releases "^1.1.77"
+    picocolors "^0.2.1"
 
 browserslist@^4.7.0:
   version "4.17.6"
@@ -2456,10 +2456,15 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001274:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001278.tgz#51cafc858df77d966b17f59b5839250b24417fff"
   integrity sha512-mpF9KeH8u5cMoEmIic/cr7PNS+F5LWBk0t2ekGT60lFf0Wq+n9LspAj0g3P+o7DQhD3sUdlMln4YFAWhFYn9jg==
 
-caniuse-lite@^1.0.30000929, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001264:
+caniuse-lite@^1.0.30000929, caniuse-lite@^1.0.30001109:
   version "1.0.30001265"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001265.tgz#0613c9e6c922e422792e6fcefdf9a3afeee4f8c3"
   integrity sha512-YzBnspggWV5hep1m9Z6sZVLOt7vrju8xWooFAgN6BA5qvy98qPAPb7vNUzypFaoh2pb3vlfzbDO8tB57UPGbtw==
+
+caniuse-lite@^1.0.30001265:
+  version "1.0.30001283"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001283.tgz#8573685bdae4d733ef18f78d44ba0ca5fe9e896b"
+  integrity sha512-9RoKo841j1GQFSJz/nCXOj0sD7tHBtlowjYlrqIUS812x9/emfBLBt6IyMz1zIaYc/eRL8Cs6HPUVi2Hzq4sIg==
 
 canonical-path@1.0.0:
   version "1.0.0"
