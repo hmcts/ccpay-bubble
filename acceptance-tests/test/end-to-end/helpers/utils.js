@@ -278,10 +278,10 @@ async function createAPBAPayment() {
   const idamToken = await getIDAMToken();
   const testCmcSecret = testConfig.TestCMCSecret;
   const accountNumber = testConfig.TestAccountNumberActive;
-  console.log(`The value of the IDAM Token ${idamToken}`);
-  console.log(`The value of the cmc secret ${testCmcSecret}`);
+  // console.log(`The value of the IDAM Token ${idamToken}`);
+  // console.log(`The value of the cmc secret ${testCmcSecret}`);
   const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
-  console.log(`The value of the Service Token ${serviceToken}`);
+  // console.log(`The value of the Service Token ${serviceToken}`);
 
   // eslint-disable-next-line no-magic-numbers
   const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
