@@ -90,7 +90,7 @@ class RefundsService {
     if (req.query.ccdCaseNumber !== undefined && req.query.ccdCaseNumber !== '') {
       url = `${refundsUrl}/refund?ccdCaseNumber=${req.query.ccdCaseNumber}`;
     } else if (req.query.status !== undefined && req.query.status !== '') {
-      url = `${refundsUrl}/refund?status=${req.query.status}&excludeCurrentUser=${req.query.selfExclusive}`;
+      url = `${refundsUrl}/refund?status=${req.query.status}&excludeCurrentUser=${req.query.excludeCurrentUser}`;
     } else {
       url = `${refundsUrl}/refund${req.params[0]}`;
     }
