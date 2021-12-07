@@ -52,7 +52,9 @@ function getCaseTransactionsData(
 Feature('CC Pay Bubble Acceptance Tests For Refunds and Remissions').retry(CCPBATConstants.retryScenario);
 
 BeforeSuite(async I => {
+  // console.log('Before Suite');
   const response = await bulkScanApiCalls.toggleOffCaseValidation();
+  // console.log('After Response');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   if (response === successResponse) {
     logger.info('Disabled CCD validation');
@@ -248,7 +250,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.Logout();
   });
 
-Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly @crossbrowser',
+Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly @crossbrowser',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -425,7 +427,7 @@ Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nig
   });
 
 
-Scenario('Approve action a  Refund for a Rejection @pipeline @nightly @crossbrowser',
+Scenario('Approve action a  Refund for a Rejection @nightly @crossbrowser',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -558,7 +560,7 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly @crossbrows
   });
 
 
-Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Case Transaction Page Refunds Review Section -TODO (Wording in Resubmit Journey has to change) @pipeline @nightly @crossbrowser',
+Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Case Transaction Page Refunds Review Section @nightly @crossbrowser',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -819,7 +821,7 @@ Scenario('Add a Remissions Apply for Refund and Process Refunds As an Approver f
     I.Logout();
   });
 
-Scenario(' Check Page Access for a Refund Requestor @pipeline @nightly @crossbrowser',
+Scenario('Check Page Access for a Refund Requestor @pipeline @nightly @crossbrowser',
   (I, InitiateRefunds) => {
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
