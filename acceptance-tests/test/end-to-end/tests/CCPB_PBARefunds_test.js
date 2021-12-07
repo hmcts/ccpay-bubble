@@ -910,7 +910,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Casewo
     I.wait(CCPBATConstants.twoSecondWaitTime);
     caseTransactionsDataForSentBackRefundOnResubmitRefund = getCaseTransactionsData(paymentReference, '£215.00',
       'sentback', refundReference,
-      'COPReason-ResubmitRefund', 'Probate Request Request');
+      'Other - CoP', 'Probate Request Request');
     InitiateRefunds.verifyReviewAndResubmitRefundPage(caseTransactionsDataForSentBackRefundOnResubmitRefund, 'Test Reason Only', false, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const refundReferenceFromResubmit = await InitiateRefunds.verifyRefundSubmittedPage('215.00');
