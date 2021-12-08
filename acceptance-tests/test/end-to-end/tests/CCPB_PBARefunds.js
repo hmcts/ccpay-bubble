@@ -8,7 +8,7 @@ const bulkScanApiCalls = require('../helpers/utils');
 
 const { Logger } = require('@hmcts/nodejs-logging');
 
-const logger = Logger.getLogger('CCPB_PBARefunds_test.js');
+const logger = Logger.getLogger('CCPB_PBARefunds.js');
 
 const successResponse = 202;
 
