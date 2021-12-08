@@ -52,7 +52,6 @@ module.exports = {
     I.see('Search for a case');
     I.see('Case Transaction');
     I.see('Payment history');
-    I.see('Refund List');
     I.see('Reports');
     I.see('Logout');
   },
