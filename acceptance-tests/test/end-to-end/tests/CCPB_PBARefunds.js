@@ -8,7 +8,8 @@ const bulkScanApiCalls = require('../helpers/utils');
 
 const { Logger } = require('@hmcts/nodejs-logging');
 
-const logger = Logger.getLogger('CCPB_PBARefunds_test.js');
+const logger = Logger.getLogger('CCPB_PBARefunds.js');
+
 const successResponse = 202;
 
 // const successResponse = 202;
@@ -69,7 +70,7 @@ AfterSuite(async I => {
   }
 });
 
-Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments @pipeline @nightly @crossbrowser',
+Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -81,7 +82,7 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//div[3]//a[.=\'Review\']');
@@ -119,7 +120,7 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
     InitiateRefunds.verifyRemissionAddedPage(true, '115.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('115.00');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     // console.log(`The Refund Reference :${refundReference}`);
     const caseTransactionsData = getCaseTransactionsData(paymentReference, '£115.00',
       'sent for approval', refundReference, 'Retrospective remission', 'Probate Request Request');
@@ -136,7 +137,7 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
     I.Logout();
   });
 
-Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Service Request page @nightly @crossbrowser',
+Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Service Request page @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -148,7 +149,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
@@ -161,7 +162,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const checkYourAnswersData = checkYourAnswers(paymentReference,
       'HWF-A1B-23C', '200.00');
-    // console.log(`The value of the paymentReference : ${checkYourAnswersData.paymentReference}`);
+      // console.log(`The value of the paymentReference : ${checkYourAnswersData.paymentReference}`);
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(
       checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -177,7 +178,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
       checkYourAnswersData, 'Retrospective remission');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('200.00');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     // console.log(`The Refund Reference :${refundReference}`);
     const caseTransactionsData = getCaseTransactionsData(
       paymentReference, '£200', 'sent for approval', refundReference, 'Retrospective remission', 'Probate Request Request');
@@ -187,13 +188,13 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyRefundDetailsPage(caseTransactionsData, false);
     /* I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.click('//div[3]//a[.=\'Review\']');
-    InitiateRefunds.verifyNoAddRemissionOnPaymentDetailsPage();
-    logger.info('Test Completed....');*/
+      I.click('//div[3]//a[.=\'Review\']');
+      InitiateRefunds.verifyNoAddRemissionOnPaymentDetailsPage();
+      logger.info('Test Completed....');*/
     I.Logout();
   });
 
-Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment Details page @pipeline @nightly @crossbrowser',
+Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment Details page @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -206,7 +207,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // Takes you to the Payment Details Page...
@@ -235,7 +236,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
       checkYourAnswersData, 'Retrospective remission');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('200.00');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     // console.log(`The Refund Reference :${refundReference}`);
     const caseTransactionsData = getCaseTransactionsData(paymentReference, '£200',
       'sent for approval', refundReference, 'Retrospective remission', 'Probate Request Request');
@@ -250,7 +251,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.Logout();
   });
 
-Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly @crossbrowser',
+Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -265,7 +266,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     logger.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
@@ -278,7 +279,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const checkYourAnswersData = checkYourAnswers(paymentReference,
       'HWF-A1B-23C', '200.00');
-    // console.log(`The value of the paymentReference : ${checkYourAnswersData.paymentReference}`);
+      // console.log(`The value of the paymentReference : ${checkYourAnswersData.paymentReference}`);
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(
       checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -300,7 +301,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.Logout();
   });
 
-Scenario('Add a Remissions for a failed Payment @pipeline @nightly @crossbrowser',
+Scenario('Add a Remissions for a failed Payment @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -313,7 +314,7 @@ Scenario('Add a Remissions for a failed Payment @pipeline @nightly @crossbrowser
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // Takes you to the Payment Details Page...
@@ -335,7 +336,7 @@ Scenario('Add a Remissions for a failed Payment @pipeline @nightly @crossbrowser
   });
 
 
-Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pipeline @nightly @crossbrowser',
+Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -348,7 +349,7 @@ Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pip
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // Takes you to the Payment Details Page...
@@ -369,7 +370,7 @@ Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pip
       'COP Reason...', paymentReference, '£215', false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('215.00');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const caseTransactionsData = getCaseTransactionsData(paymentReference, '£215.00',
       'sent for approval', refundReference, 'CoP-COP Reason...', 'Probate Request Request');
     CaseTransaction.validateCaseTransactionPageForRefundsAfterApplyingRefund(
@@ -381,7 +382,7 @@ Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pip
   });
 
 
-Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nightly @crossbrowser',
+Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -394,7 +395,7 @@ Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nig
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // Takes you to the Service Request Page...
@@ -415,7 +416,7 @@ Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nig
       'COP Reason...', paymentReference, '£215', false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('215.00');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const caseTransactionsData = getCaseTransactionsData(paymentReference, '£215.00',
       'sent for approval', refundReference, 'CoP-COP Reason...', 'Probate Request Request');
     CaseTransaction.validateCaseTransactionPageForRefundsAfterApplyingRefund(
@@ -427,7 +428,7 @@ Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nig
   });
 
 
-Scenario('Approve action a  Refund for a Rejection @nightly @crossbrowser',
+Scenario('Approve action a  Refund for a Rejection @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -440,7 +441,7 @@ Scenario('Approve action a  Refund for a Rejection @nightly @crossbrowser',
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // Takes you to the Service Request Page...
@@ -483,7 +484,7 @@ Scenario('Approve action a  Refund for a Rejection @nightly @crossbrowser',
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const caseTransactionsDataForRejectedRefund = getCaseTransactionsData(paymentReference, '£215.00',
       'rejected', refundReference, 'CoP-COP Reason...', 'Probate Request Request');
     CaseTransaction.validateCaseTransactionPageForRefundsAfterApplyingRefund(
@@ -493,7 +494,7 @@ Scenario('Approve action a  Refund for a Rejection @nightly @crossbrowser',
   });
 
 
-Scenario('Approve action a Refund for an Approval @pipeline @nightly @crossbrowser',
+Scenario('Approve action a Refund for an Approval @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -549,7 +550,7 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly @crossbrows
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const caseTransactionsDataForApprovedRefund = getCaseTransactionsData(paymentReference, '£215.00',
       'sent to middle office', refundReference,
       'CoP-COP Reason...', 'Probate Request Request');
@@ -560,7 +561,7 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly @crossbrows
   });
 
 
-Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Case Transaction Page Refunds Review Section @nightly @crossbrowser',
+Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Case Transaction Page Refunds Review Section @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -573,7 +574,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
@@ -615,7 +616,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const caseTransactionsDataForSentBackRefund = getCaseTransactionsData(paymentReference, '£215.00',
       'sent back', refundReference,
       'CoP-COP Reason...',
@@ -640,7 +641,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
     const caseTransactionsDataForSentBackRefundOnResubmitRefundAfterChange = getCaseTransactionsData(paymentReference, '£215.00',
       'sentback', refundReference,
       'System/technical error', 'Probate Request Request');
-    // console.log(`The value of the Case Transaction Data after Change on resubmit : ${JSON.stringify(caseTransactionsDataForSentBackRefundOnResubmitRefundAfterChange)}`);
+      // console.log(`The value of the Case Transaction Data after Change on resubmit : ${JSON.stringify(caseTransactionsDataForSentBackRefundOnResubmitRefundAfterChange)}`);
     InitiateRefunds.verifyReviewAndResubmitRefundPage(
       caseTransactionsDataForSentBackRefundOnResubmitRefundAfterChange,
       'Test Reason Only', false, true);
@@ -654,7 +655,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
     I.Logout();
   });
 
-Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Refunds List Page @pipeline @nightly @crossbrowser',
+Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Refunds List Page @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -668,7 +669,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // Takes you to the Payment Details Page...
@@ -745,7 +746,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
     I.Logout();
   });
 
-Scenario('Add a Remissions Apply for Refund and Process Refunds As an Approver from the Payment Details Page @pipeline @nightly @crossbrowser',
+Scenario('Add a Remissions Apply for Refund and Process Refunds As an Approver from the Payment Details Page @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -760,7 +761,7 @@ Scenario('Add a Remissions Apply for Refund and Process Refunds As an Approver f
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // Takes you to the Payment Details Page...
@@ -789,7 +790,7 @@ Scenario('Add a Remissions Apply for Refund and Process Refunds As an Approver f
       checkYourAnswersData, 'Retrospective remission');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('200.00');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     // console.log(`The Refund Reference :${refundReference}`);
     const caseTransactionsData = getCaseTransactionsData(paymentReference, '£200',
       'sent for approval', refundReference, 'Retrospective remission', 'Probate Request Request');
@@ -803,7 +804,7 @@ Scenario('Add a Remissions Apply for Refund and Process Refunds As an Approver f
     I.login('approveraattest1@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const caseTransactionsDataForSentForApprovalRefund = getCaseTransactionsData(paymentReference, '£200.00',
       'sent for approval', refundReference,
       'Retrospective remission', 'Probate Request Request');
@@ -821,7 +822,7 @@ Scenario('Add a Remissions Apply for Refund and Process Refunds As an Approver f
     I.Logout();
   });
 
-Scenario('Check Page Access for a Refund Requestor @pipeline @nightly @crossbrowser',
+Scenario('Check Page Access for a Refund Requestor @pipeline @nightly',
   (I, InitiateRefunds) => {
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
@@ -833,7 +834,7 @@ Scenario('Check Page Access for a Refund Requestor @pipeline @nightly @crossbrow
     I.Logout();
   });
 
-Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Caseworker @pipeline @nightly @crossbrowser',
+Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Caseworker @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -846,7 +847,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Casewo
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
@@ -890,7 +891,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Casewo
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     // await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//ccpay-refund-status[1]//a[.=\'Review\']');
@@ -909,7 +910,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Casewo
     I.wait(CCPBATConstants.twoSecondWaitTime);
     caseTransactionsDataForSentBackRefundOnResubmitRefund = getCaseTransactionsData(paymentReference, '£215.00',
       'sentback', refundReference,
-      'COPReason-ResubmitRefund', 'Probate Request Request');
+      'Other - CoP', 'Probate Request Request');
     InitiateRefunds.verifyReviewAndResubmitRefundPage(caseTransactionsDataForSentBackRefundOnResubmitRefund, 'Test Reason Only', false, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const refundReferenceFromResubmit = await InitiateRefunds.verifyRefundSubmittedPage('215.00');

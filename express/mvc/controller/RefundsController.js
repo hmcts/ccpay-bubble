@@ -56,7 +56,7 @@ class RefundsController {
   patchRefundAction(req, res, appInsights) {
     return this.refundsService.patchRefundAction(req, appInsights)
       .then(result => {
-        res.status(200).json(result);
+        res.status(200).send(result);
       })
       .catch(error => {
         if (error.statusCode !== '403' && error.statusCode !== '500') {

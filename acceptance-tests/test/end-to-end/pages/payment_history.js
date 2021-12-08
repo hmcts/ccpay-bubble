@@ -46,8 +46,8 @@ module.exports = {
     I.see('Payment details');
     I.see('Payment reference');
     I.see('Payment amount');
-    I.see('Payment asset number(DCN)');
-    I.see('Banked date');
+    // I.see('Payment asset number(DCN)');
+    // I.see('Banked date');
     I.see('Fee and remission details');
     I.see('Description');
     I.see('Fee code');
@@ -57,17 +57,17 @@ module.exports = {
     I.see('Method');
     I.see('Type');
     I.see('Payment status history');
-    I.see('Amount');
-    I.see('Status');
-    I.see('Date');
+    // I.see('Amount');
+    // I.see('Status');
+    // I.see('Date');
   },
 
   validateTransferredUnidentifedPaymentDetailsPage() {
     I.see('Payment details');
     I.see('Payment reference');
     I.see('Payment amount');
-    I.see('Payment asset number(DCN)');
-    I.see('Banked date');
+    // I.see('Payment asset number(DCN)');
+    // I.see('Banked date');
     I.dontSee('Fee and remission details');
     I.dontSee('Description');
     I.dontSee('Fee code');
@@ -77,9 +77,9 @@ module.exports = {
     I.see('Method');
     I.see('Type');
     I.dontSee('Payment status history');
-    I.dontSee('Amount');
-    I.dontSee('Status');
-    I.dontSee('Date');
+    // I.dontSee('Amount');
+    // I.dontSee('Status');
+    // I.dontSee('Date');
   },
 
 
@@ -87,7 +87,7 @@ module.exports = {
     this.validateCCDPaymentDetailsPage();
     I.see(receiptReference);
     I.see(amount);
-    I.see(dcnNumber);
+    // I.see(dcnNumber);
     I.see(status);
     if (testConfig.e2e.testForCrossbrowser !== 'true') {
       I.see(paymentMethod);
@@ -101,7 +101,7 @@ module.exports = {
     this.validateTransferredUnidentifedPaymentDetailsPage();
     I.see(receiptReference);
     I.see(amount);
-    I.see(dcnNumber);
+    // I.see(dcnNumber);
     if (testConfig.e2e.testForCrossbrowser !== 'true') {
       I.see(paymentMethod);
     }
