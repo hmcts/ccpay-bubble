@@ -137,13 +137,11 @@ Scenario('Exception ccd case cash payment transferred @nightly', async(I, CaseSe
     CaseTransferred.confirmPayment();
     CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Exception reference', 'Transferred');
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
-
     // Search using receipt number
     const receiptSearch = await CaseTransaction.getReceiptReference();
     CaseSearch.navigateToCaseTransaction();
     await miscUtils.multipleSearch(CaseSearch, I, receiptSearch);
     CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Exception reference', 'Transferred');
-
     I.Logout();
   }
 });
