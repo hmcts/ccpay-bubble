@@ -13,8 +13,8 @@ const testConfig = require('../tests/config/CCPBConfig.js');
 const logger = Logger.getLogger('helpers/utils.js');
 
 const env = testConfig.TestIDAMEnvironment;
-const environment = testConfig.TestRunningEnvironment;
-const prNumber = testConfig.TestPrNumber;
+// const environment = testConfig.TestRunningEnvironment;
+// const prNumber = testConfig.TestPrNumber;
 
 async function getIDAMToken() {
   const username = testConfig.TestCaseWorkerUserName;
@@ -102,7 +102,7 @@ async function getServiceToken(_service) {
 async function CaseValidation(flag) {
   logger.info(`${flag} case validation`);
 
-  const paymentBaseUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
+  const paymentBaseUrl = `http://payment-api-${env}.service.core-compute-${env}.internal`;
   const disablePath = `/api/ff4j/store/features/caseref-validation/${flag}`;
   // eslint-disable-next-line global-require
   const saveCaseResponse = await request({
@@ -133,7 +133,7 @@ async function toggleOnCaseValidation() {
 async function rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(
   idamToken, serviceToken, ccdCaseNumber) {
   // console.log('Inside the updatePBAPaymentDateByCCDCaseNumber() method');
-  const rollbackPaymentDateByCCDNumberUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
+  const rollbackPaymentDateByCCDNumberUrl = `http://payment-api-${env}.service.core-compute-${env}.internal`;
   const rollbackPaymentDateByCCDNumberEndPoint = `/payments/ccd_case_reference/${ccdCaseNumber}`;
   // console.log(`The Full URL : ${rollbackPaymentDateByCCDNumberUrl}${rollbackPaymentDateByCCDNumberEndPoint}`);
 
@@ -158,7 +158,7 @@ async function rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(
 
 async function getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber) {
   // console.log('Inside the getPBAPaymentByCCDCaseNumber() method');
-  const getPaymentByCCDNumberUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
+  const getPaymentByCCDNumberUrl = `http://payment-api-${env}.service.core-compute-${env}.internal`;
   const getPaymentByCCDNumberEndPoint = `/reconciliation-payments?ccd_case_number=${ccdCaseNumber}`;
   // console.log(`The Full URL : ${getPaymentByCCDNumberUrl}${getPaymentByCCDNumberEndPoint}`);
 
@@ -191,7 +191,7 @@ async function getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumb
 async function createAFailedPBAPayment() {
   // console.log('Creating bulk a PBA Payment...');
   // console.log('Creating bulk a PBA Payment...');
-  const creditAccountPaymentUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
+  const creditAccountPaymentUrl = `http://payment-api-${env}.service.core-compute-${env}.internal`;
   const creditAccountPaymentEndPoint = '/credit-account-payments';
   const microservice = 'cmc';
   const idamToken = await getIDAMToken();
@@ -272,7 +272,7 @@ async function createAFailedPBAPayment() {
 async function createAPBAPayment() {
   // console.log('Creating bulk a PBA Payment...');
   // console.log('Creating bulk a PBA Payment...');
-  const creditAccountPaymentUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
+  const creditAccountPaymentUrl = `http://payment-api-${env}.service.core-compute-${env}.internal`;
   const creditAccountPaymentEndPoint = '/credit-account-payments';
   const microservice = 'cmc';
   const idamToken = await getIDAMToken();
