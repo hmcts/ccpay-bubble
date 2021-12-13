@@ -127,7 +127,6 @@ class PayhubController {
         })
         .catch(err => {
           res.status(500).json({ err, success: false });
-       
         });
     }
     return Promise.reject(new Error('Missing url parameter')).catch(err => {

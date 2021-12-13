@@ -62,7 +62,7 @@ class RefundsController {
         if (error.statusCode !== '403' && error.statusCode !== '500') {
           res.status(error.statusCode).send(error);
         } else {
-          res.status(500).send(error);;
+          res.status(500).send(error);
         }
       });
   }
@@ -139,7 +139,6 @@ class RefundsController {
         } else {
           res.status(500).send(error);
         }
-        
       });
   }
 
