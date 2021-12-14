@@ -9,7 +9,6 @@ module.exports = {
   TestAccountNumberActive: process.env.PBA_ACCOUNT_NUMBER_ACTIVE || 'PBAFUNC12345',
   TestAccountNumberInActive: process.env.PBA_ACCOUNT_NUMBER_INACTIVE || 'PBAFUNC12350',
   TestCMCSecret: process.env.CMC_S2S_SERVICE_SECRET,
-  TestPaybubbleS2SSecret: process.env.PAYBUBBLE_S2S_SERVICE_SECRET,
   TestRunningEnvironment: process.env.RUNNING_ENV || 'preview',
   TestIDAMEnvironment: process.env.IDAM_ENV || 'aat',
   TestPrNumber: process.env.PR_NUMBER || 'pr-972'

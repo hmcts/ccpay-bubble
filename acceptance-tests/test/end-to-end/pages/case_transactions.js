@@ -44,8 +44,8 @@ module.exports = {
 
   async checkPaymentsValues() {
     const totalPaymentsValue = await I.grabTextFrom(this.locators.total_payments_text);
-    // console.log(`The value of the Total Payments Text : ${totalPaymentsValue}`);
-    if (totalPaymentsValue !== '£215.00') {
+    console.log(`The value of the Total Payments Text : ${totalPaymentsValue}`);
+    if (totalPaymentsValue !== '£0.00') {
       throw new Error('The total payments value is not expected');
     }
     const unallocatedPaymentsValue = await I.grabTextFrom(this.locators.unallocated_payments_text);
@@ -58,7 +58,7 @@ module.exports = {
       throw new Error('The total remissions value is not expected');
     }
     const amountDueValue = await I.grabTextFrom(this.locators.amount_due_text);
-    if (amountDueValue !== '£0.00') {
+    if (amountDueValue !== '£100.00') {
       throw new Error('The Amount Due value is not expected');
     }
   },

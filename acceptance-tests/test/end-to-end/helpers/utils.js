@@ -1,5 +1,5 @@
 /* eslint-disable no-alert, no-console */
-const { Logger } = require('@hmcts/nodejs-logging');
+const {Logger} = require('@hmcts/nodejs-logging');
 const requestModule = require('request-promise-native');
 
 // eslint-disable max-len
@@ -41,7 +41,7 @@ async function getIDAMToken() {
   const idamTokenResponse = await request({
     method: 'POST',
     uri: `${s2sBaseUrl}${idamTokenPath}`,
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     body: `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`
   }, (_error, response) => {
     statusCode = response.statusCode;
@@ -61,15 +61,15 @@ async function getServiceTokenForSecret(service, serviceSecret) {
   const s2sBaseUrl = `http://rpe-service-auth-provider-${env}.service.core-compute-${env}.internal`;
   const s2sAuthPath = '/testing-support/lease';
   // eslint-disable-next-line global-require
-  const oneTimePassword = require('otp')({ secret: serviceSecret }).totp();
+  const oneTimePassword = require('otp')({secret: serviceSecret}).totp();
 
   logger.log(`Getting The one time password${oneTimePassword}`);
   logger.log(`Getting The one time password :${s2sBaseUrl}`);
   const serviceToken = await request({
     method: 'POST',
     uri: s2sBaseUrl + s2sAuthPath,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ microservice: service })
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({microservice: service})
   });
   logger.debug(serviceToken);
   logger.log(serviceToken);
@@ -91,8 +91,8 @@ async function getServiceToken(_service) {
   const serviceToken = await request({
     method: 'POST',
     uri: s2sBaseUrl + s2sAuthPath,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ microservice: 'ccpay_bubble' })
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({microservice: 'ccpay_bubble'})
   });
 
   logger.debug(serviceToken);
@@ -106,13 +106,13 @@ async function CaseValidation(flag) {
   const disablePath = `/api/ff4j/store/features/caseref-validation/${flag}`;
   // eslint-disable-next-line global-require
   const saveCaseResponse = await request({
-    method: 'POST',
-    uri: paymentBaseUrl + disablePath,
-    headers: { 'Content-Type': 'application/json' }
-  },
-  (_error, response) => {
-    statusCode = response.statusCode;
-  }).catch(error => {
+      method: 'POST',
+      uri: paymentBaseUrl + disablePath,
+      headers: {'Content-Type': 'application/json'}
+    },
+    (_error, response) => {
+      statusCode = response.statusCode;
+    }).catch(error => {
     logger.log(error);
     // console.log(error);
   });
@@ -268,6 +268,72 @@ async function createAFailedPBAPayment() {
   return paymentDetails;
 }
 
+async function createAServiceRequest(hmctsorgid) {
+
+  const baseURI = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
+  const createServiceRequestEndPoint = '/service-request';
+  const idamToken = await getIDAMToken();
+  const testPaybubbleS2SSecret = testConfig.TestPaybubbleS2SSecret;
+  const microservice = 'ccpay_bubble';
+  const serviceToken = await getServiceTokenForSecret(microservice, testPaybubbleS2SSecret);
+
+  // eslint-disable-next-line no-magic-numbers
+  const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
+  console.log(`The value of the CCD Case Number : ${ccdCaseNumber}`);
+  console.log(`The Full Payment URL : ${baseURI}${createServiceRequestEndPoint}`);
+  console.log(`The value of the IDAM Token ${idamToken}`);
+  console.log(`The value of the Service Token ${serviceToken}`);
+
+  const saveBody = {
+
+    call_back_url: "http://callback.hmcts.net",
+    case_payment_request: {
+      action: "Action 1",
+      responsible_party: "Party 1"
+    },
+    case_reference: "123245677",
+    ccd_case_number: `${ccdCaseNumber}`,
+    fees: [
+      {
+        calculated_amount: 100.00,
+        code: "FEE312",
+        version: "1",
+        volume: 1
+      }
+    ],
+    hmcts_org_id: `${hmctsorgid}`
+  }
+
+  const createAServiceRequestOptions = {
+    method: 'POST',
+    uri: baseURI + createServiceRequestEndPoint,
+    headers: {
+      Authorization: `${idamToken}`,
+      ServiceAuthorization: `Bearer ${serviceToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(saveBody)
+  };
+
+  const createServiceRequestResponseString = await request(createAServiceRequestOptions, (_error, response) => {
+    statusCode = response.statusCode;
+    console.log(`The value of the response status code : ${statusCode}`);
+  }).catch(error => {
+    logger.error(error);
+    console.log(error);
+  });
+
+  const createServiceRequestLookupObject = JSON.parse(createServiceRequestResponseString);
+  const serviceRequestReference = createServiceRequestLookupObject.service_request_reference;
+  console.log(`The value of the service Request Reference ${serviceRequestReference}`);
+  const serviceRequestResponseDetails = {
+    ccdCaseNumber: `${ccdCaseNumber}`,
+    serviceRequestReference: `${serviceRequestReference}`
+  };
+  // console.log(`The Payment Details Object${JSON.stringify(paymentDetails)}`);
+  return serviceRequestResponseDetails;
+}
+
 // eslint-disable-next-line no-unused-vars
 async function createAPBAPayment() {
   // console.log('Creating bulk a PBA Payment...');
@@ -343,7 +409,7 @@ async function createAPBAPayment() {
 }
 
 async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
-  bankedDate, dcnNumber, paymentMethod) {
+                                   bankedDate, dcnNumber, paymentMethod) {
   logger.info('Creating bulk Excela Case');
   const bulkApiUrl = `http://ccpay-bulkscanning-api-${env}.service.core-compute-${env}.internal`;
   const bulkendPoint = '/bulk-scan-payment';
@@ -421,7 +487,7 @@ async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNum
   const bulkendPoint = '/bulk-scan-payments';
   const query = `?exception_reference=${exceptionCCDNumber}`;
 
-  const saveBody = { ccd_case_number: `${ccdNumber}` };
+  const saveBody = {ccd_case_number: `${ccdNumber}`};
 
   const saveCaseOptions = {
     method: 'PUT',
@@ -520,5 +586,5 @@ async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
 
 module.exports = {
   bulkScanNormalCcd, bulkScanExceptionCcd, bulkScanCcdLinkedToException,
-  toggleOffCaseValidation, toggleOnCaseValidation, createAPBAPayment, createAFailedPBAPayment
+  toggleOffCaseValidation, toggleOnCaseValidation, createAPBAPayment, createAFailedPBAPayment, createAServiceRequest
 };
