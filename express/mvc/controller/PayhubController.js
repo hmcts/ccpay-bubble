@@ -479,7 +479,7 @@ class PayhubController {
       })
       .catch(error => {
         if (error.statusCode) {
-          res.status(400).json(error);
+          res.status(400).send(error);
         }
       });
   }

@@ -54,12 +54,12 @@ module.exports = {
     I.see('Fee amount');
     I.see('Allocated amount');
     I.see('Payment method');
-    I.see('Method');
-    I.see('Type');
+    // I.see('Method');
+    // I.see('Type');
     I.see('Payment status history');
-    I.see('Amount');
-    I.see('Status');
-    I.see('Date');
+    // I.see('Amount');
+    // I.see('Status');
+    // I.see('Date');
   },
 
   validateTransferredUnidentifedPaymentDetailsPage() {
@@ -74,12 +74,12 @@ module.exports = {
     I.dontSee('Fee amount');
     I.dontSee('Allocated amount');
     I.see('Payment method');
-    I.see('Method');
-    I.see('Type');
+    // I.see('Method');
+    // I.see('Type');
     I.dontSee('Payment status history');
-    I.dontSee('Amount');
-    I.dontSee('Status');
-    I.dontSee('Date');
+    // I.dontSee('Amount');
+    // I.dontSee('Status');
+    // I.dontSee('Date');
   },
 
 
@@ -87,7 +87,7 @@ module.exports = {
     this.validateCCDPaymentDetailsPage();
     I.see(receiptReference);
     I.see(amount);
-    I.see(dcnNumber);
+    // I.see(dcnNumber);
     I.see(status);
     if (testConfig.e2e.testForCrossbrowser !== 'true') {
       I.see(paymentMethod);
@@ -101,7 +101,7 @@ module.exports = {
     this.validateTransferredUnidentifedPaymentDetailsPage();
     I.see(receiptReference);
     I.see(amount);
-    I.see(dcnNumber);
+    // I.see(dcnNumber);
     if (testConfig.e2e.testForCrossbrowser !== 'true') {
       I.see(paymentMethod);
     }
