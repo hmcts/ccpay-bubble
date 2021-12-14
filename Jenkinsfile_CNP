@@ -35,7 +35,7 @@ def vaultOverrides = [
 ]
 
 withPipeline("nodejs", product, component) {
-
+  env.NIGHTLY_TEST= false
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
   enableSlackNotifications('#cc-payments-tech')

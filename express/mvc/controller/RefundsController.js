@@ -60,13 +60,9 @@ class RefundsController {
       })
       .catch(error => {
         if (error.statusCode !== '403' && error.statusCode !== '500') {
-          res.status(error.statusCode).json({
-            err: error.message,
-            statuCode: error.statusCode,
-            success: false
-          });
+          res.status(error.statusCode).send(error);
         } else {
-          res.status(500).json({ err: error, statuCode: 500, success: false });
+          res.status(500).send(error);
         }
       });
   }
@@ -95,9 +91,9 @@ class RefundsController {
       })
       .catch(error => {
         if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
+          res.status(error.statusCode).send(error);
         } else {
-          res.status(500).json({ err: error, success: false });
+          res.status(500).send(error);
         }
       });
   }
@@ -109,9 +105,13 @@ class RefundsController {
       })
       .catch(error => {
         if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
+          res.status(error.statusCode).json({
+            err: error.message,
+            statuCode: error.statusCode,
+            success: false
+          });
         } else {
-          res.status(500).json({ err: error, success: false });
+          res.status(500).send(error);
         }
       });
   }
@@ -122,9 +122,9 @@ class RefundsController {
       })
       .catch(error => {
         if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
+          res.status(error.statusCode).send(error);
         } else {
-          res.status(500).json({ err: error, success: false });
+          res.status(500).send(error);
         }
       });
   }
@@ -135,9 +135,9 @@ class RefundsController {
       })
       .catch(error => {
         if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
+          res.status(error.statusCode).send(error);
         } else {
-          res.status(500).json({ err: error, success: false });
+          res.status(500).send(error);
         }
       });
   }

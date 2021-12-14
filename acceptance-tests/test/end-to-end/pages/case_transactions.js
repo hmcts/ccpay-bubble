@@ -8,10 +8,12 @@ const { I } = inject();
 module.exports = {
   locators: {
     case_title: { xpath: '//*[@class = "heading-medium"]' },
-    unallocated_payments_count: { xpath: '//table[@class="govuk-table"]/tbody//td[4]' },
+    unallocated_payments_count: { xpath: '//table[@class="govuk-table"]/tbody//td[2]' },
+    more_details_actions: { xpath: '//*[@class = "govuk-details__summary"]' },
     unallocated_payment_select_option: { xpath: '//ccpay-app-unprocessed-payments//tbody/tr[1]//input' },
     rc_reference: { xpath: '//*[contains(text() , "RC")]' },
-
+    view_details_for_status_paid: { xpath: '//ccpay-case-transactions/div/main/div/div[2]/table/tbody/tr/td[5]/a' },
+    view_details_for_payments: { xpath: '//ccpay-case-transactions/div/main/div[5]/table/tbody/tr/td[1]/a' },
     // Case Transactions Page (Payments Values...)
     total_payments_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[1]' },
     unallocated_payments_text: { xpath: '//td[@class="govuk-table__cell case-transaction__color summary-table-font"]' },
@@ -100,22 +102,44 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateTransactionPage(caseNumber);
     I.see(caseTitle);
+    I.click(this.locators.more_details_actions);
   },
 
-  checkBulkCaseSuccessPayment(caseNumber, caseTitle, allocationStatus) {
+  checkBulkCaseSuccessPayment(caseNumber, caseTitle) {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    this.validateTransactionPageForSuccessPayment(caseNumber);
+    I.see(caseTitle);
+  },
+  checkBulkCaseSuccessPaymentNotPaid(caseNumber, caseTitle) {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    this.validateTransactionPageForSuccessPaymentNotPaid(caseNumber);
+    I.see(caseTitle);
+  },
+  checkBulkCaseNonPaidPayment(caseNumber, caseTitle, allocationStatus) {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    this.validateTransactionPageForShortFallPayment(caseNumber, allocationStatus);
+    I.see(caseTitle);
+  },
+  checkBulkCaseSurplusOrShortfallSuccessPayment(caseNumber, caseTitle,
+    allocationStatus) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateTransactionPageForSuccessPayment(caseNumber, allocationStatus);
     I.see(caseTitle);
+    // I.see(amoundDue);
   },
-
-  checkBulkCaseSurplusOrShortfallSuccessPayment(caseNumber, caseTitle,
+  checkBulkCaseSurplusOrShortfallSuccessPaymentNotPaid(caseNumber, caseTitle,
     allocationStatus, amoundDue) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    this.validateTransactionPageForSuccessPayment(caseNumber, allocationStatus);
+    this.validateTransactionPageForSuccessPaymentNotPaid(caseNumber, allocationStatus);
     I.see(caseTitle);
     I.see(amoundDue);
   },
-
+  checkBulkCaseSurplusOrShortfallPayment(caseNumber, caseTitle, allocationStatus, amoundDue) {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    this.validateTransactionPageForShortFallPayment(caseNumber, allocationStatus);
+    I.see(caseTitle);
+    I.see(amoundDue);
+  },
   checkUnallocatedPayments(totalDcn, dcnNumber, amount, method) {
     I.see(totalDcn);
     I.see(dcnNumber);
@@ -130,19 +154,20 @@ module.exports = {
   },
 
   allocateToNewFee() {
-    I.checkOption(this.locators.unallocated_payment_select_option);
-    I.click('Allocate to a new fee');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    // I.checkOption(this.locators.unallocated_payment_select_option);
+    I.click('Allocate to new service request');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   allocateToTransferred() {
-    I.checkOption(this.locators.unallocated_payment_select_option);
+    // I.checkOption(this.locators.unallocated_payment_select_option);
     I.click('Mark as transferred');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   allocateToUnidentified() {
-    I.checkOption(this.locators.unallocated_payment_select_option);
+    // I.checkOption(this.locators.unallocated_payment_select_option);
     I.click('Mark as unidentified');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
@@ -179,55 +204,109 @@ module.exports = {
     I.see('Total remissions');
     I.see('Amount due');
     I.see('Unallocated payments');
-    I.see('Select');
-    I.see('Payment asset number (DCN)');
-    I.see('Banked date');
-    I.see('Amount');
-    I.see('Method');
-    I.see('Fees');
-    I.see('Code');
-    I.see('Description');
-    I.see('Volume');
-    I.see('Fee amount');
-    I.see('Calculated amount');
+    // I.see('Select');
+    // I.see('Payment asset number (DCN)');
+    // I.see('Banked date');
+    // I.see('Amount');
+    // I.see('Method');
+    // I.see('Fees');
+    // I.see('Code');
+    // I.see('Description');
+    // I.see('Volume');
+    // I.see('Fee amount');
+    /* I.see('Calculated amount');
     I.see('Amount due');
     I.see('Action');
-    I.see('No fees recorded');
+    I.see('No fees recorded'); */
   },
 
-  validateTransactionPageForSuccessPayment(caseNumber, allocationStatus) {
+  validateTransactionPageForSuccessPayment(caseNumber) {
     I.see(caseNumber);
     I.see('Total payments');
     I.see('Total remissions');
     I.see('Amount due');
     I.see('Unallocated payments');
-    I.see('Select');
-    I.see('Payment asset number (DCN)');
-    I.see('Banked date');
-    I.see('Amount');
-    I.see('Method');
-    I.see('Fees');
-    I.see('Code');
-    I.see('Description');
-    I.see('Volume');
-    I.see('Fee amount');
-    I.see('Calculated amount');
-    I.see('Amount due');
-    I.see('Action');
-    I.see(allocationStatus);
+    // I.see('Select');
+    // I.see('Payment asset number (DCN)');
+    // I.see('Banked date');
+    // I.see('Amount');
+    // I.see('Method');
+    // I.see('Fees');
+    // I.see('Code');
+    // I.see('Description');
+    // I.see('Volume');
+    // I.see('Fee amount');
+    // I.see('Calculated amount');
+    // I.see('Amount due');
+    // I.see('Action');
+    // I.see(allocationStatus);
     if (testConfig.e2e.testForCrossbrowser !== 'true') {
-      I.see('Bulk scan');
+      I.see('Paid');
     }
     I.see('Success');
   },
-
+  validateTransactionPageForSuccessPaymentNotPaid(caseNumber) {
+    I.see(caseNumber);
+    I.see('Total payments');
+    I.see('Total remissions');
+    I.see('Amount due');
+    I.see('Unallocated payments');
+    // I.see('Select');
+    // I.see('Payment asset number (DCN)');
+    // I.see('Banked date');
+    // I.see('Amount');
+    // I.see('Method');
+    // I.see('Fees');
+    // I.see('Code');
+    // I.see('Description');
+    // I.see('Volume');
+    // I.see('Fee amount');
+    // I.see('Calculated amount');
+    // I.see('Amount due');
+    // I.see('Action');
+    // I.see(allocationStatus);
+    if (testConfig.e2e.testForCrossbrowser !== 'true') {
+      I.see('Not paid');
+    }
+    I.see('Success');
+  },
+  validateTransactionPageForShortFallPayment(caseNumber) {
+    I.see(caseNumber);
+    I.see('Total payments');
+    I.see('Total remissions');
+    I.see('Amount due');
+    I.see('Unallocated payments');
+    I.see('Payment requests');
+    I.see('Status');
+    I.see('Not paid');
+    I.see('Amount');
+    I.see('Party');
+    I.see('Request reference');
+    // I.see('View details');
+    // I.see('Description');
+    I.see('Create payment request and pay');
+    I.see('Payments');
+    I.see('Date allocated');
+    I.see('Request reference');
+    // I.see('Action');
+    // I.see(allocationStatus);
+    if (testConfig.e2e.testForCrossbrowser !== 'true') {
+      I.see('Not paid');
+    }
+    I.see('Success');
+  },
   validateTransactionPageForRemission(remissionCode, feeCode, remissionAmount) {
+    I.click(this.locators.view_details_for_status_paid);
     I.see(remissionCode);
     I.see(feeCode);
     I.see(remissionAmount);
   },
 
   async getReceiptReference() {
+    I.click(this.locators.view_details_for_status_paid);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.click(this.locators.view_details_for_payments);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     const receiptReference = await I.grabTextFrom(this.locators.rc_reference);
     return receiptReference;
   }
