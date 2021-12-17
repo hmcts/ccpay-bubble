@@ -431,7 +431,7 @@ class PayhubController {
   getPartyDetails(req, res) {
     return this.payhubService.getPartyDetails(req)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).send(result);
       })
       .catch(error => {
         if (error.statusCode) {
