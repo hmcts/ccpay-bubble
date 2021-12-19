@@ -42,40 +42,40 @@ module.exports = {
     I.see('No refunds recorded');
   },
 
-  async checkPaymentsValues() {
+  async checkPaymentsValues(checkPaymentValuesData) {
     const totalPaymentsValue = await I.grabTextFrom(this.locators.total_payments_text);
     // console.log(`The value of the Total Payments Text : ${totalPaymentsValue}`);
-    if (totalPaymentsValue !== '£215.00') {
+    if (totalPaymentsValue !== `${checkPaymentValuesData.totalPayments}`) {
       throw new Error('The total payments value is not expected');
     }
     const unallocatedPaymentsValue = await I.grabTextFrom(this.locators.unallocated_payments_text);
-    if (unallocatedPaymentsValue !== '0') {
+    if (unallocatedPaymentsValue !== `${checkPaymentValuesData.unallocatedPayments}`) {
       throw new Error('The unallocated value is not expected');
     }
 
     const totalRemissionsValue = await I.grabTextFrom(this.locators.total_remissions_text);
-    if (totalRemissionsValue !== '£0.00') {
+    if (totalRemissionsValue !== `${checkPaymentValuesData.totalRemissions}`) {
       throw new Error('The total remissions value is not expected');
     }
     const amountDueValue = await I.grabTextFrom(this.locators.amount_due_text);
-    if (amountDueValue !== '£0.00') {
+    if (amountDueValue !== `${checkPaymentValuesData.amountDue}`) {
       throw new Error('The Amount Due value is not expected');
     }
   },
 
-  async checkPaymentsValuesForAFailedPayments() {
+  async checkPaymentsValuesForAFailedPayments(checkPaymentValuesData) {
     const totalPaymentsValue = await I.grabTextFrom(this.locators.total_payments_text);
     // console.log(`The value of the Total Payments Text : ${totalPaymentsValue}`);
-    if (totalPaymentsValue !== '£0.00') {
+    if (totalPaymentsValue !== `${checkPaymentValuesData.totalPayments}`) {
       throw new Error('The total payments value is not expected');
     }
     const unallocatedPaymentsValue = await I.grabTextFrom(this.locators.unallocated_payments_text);
-    if (unallocatedPaymentsValue !== '0') {
+    if (unallocatedPaymentsValue !== `${checkPaymentValuesData.unallocatedPayments}`) {
       throw new Error('The unallocated value is not expected');
     }
 
     const totalRemissionsValue = await I.grabTextFrom(this.locators.total_remissions_text);
-    if (totalRemissionsValue !== '£0.00') {
+    if (totalRemissionsValue !== `${checkPaymentValuesData.totalRemissions}`) {
       throw new Error('The total remissions value is not expected');
     }
     /* const amountDueValue = await I.grabTextFrom(this.locators.amount_due_text);
@@ -172,7 +172,7 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  async validateCaseTransactionPageForRefunds(ccdCaseNumber, paymentStatus) {
+  async validateCaseTransactionPageForRefunds(ccdCaseNumber, paymentStatus, checkPaymentValuesData) {
     // console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
@@ -181,9 +181,9 @@ module.exports = {
     I.see('Total remissions');
     I.see('Amount due');
     if (paymentStatus) {
-      await this.checkPaymentsValues();
+      await this.checkPaymentsValues(checkPaymentValuesData);
     } else {
-      await this.checkPaymentsValuesForAFailedPayments();
+      await this.checkPaymentsValuesForAFailedPayments(checkPaymentValuesData);
     }
     this.checkEmptyRefundsSection();
   },
