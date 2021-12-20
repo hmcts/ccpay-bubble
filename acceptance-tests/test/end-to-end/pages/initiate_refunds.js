@@ -46,12 +46,32 @@ module.exports = {
   },
 
   verifyPaymentDetailsPage(typeOfRefund) {
-    I.waitForText('Payment details', '5');
-    I.waitForText('Payment status history', '5');
+    I.see('Payment details');
+    I.see('Payment status history');
     I.see('Issue refund');
     I.waitForText('Fee and remission details', '5');
     I.see('Add remission');
     I.click(typeOfRefund);
+  },
+
+  verifyPaymentDetailsPageSummarySection(checkYourDetailsSummary) {
+    I.see('Payment details');
+    //I.see('Payment reference');
+    //I.see(`${checkYourDetailsSummary.paymentReference}`);
+    I.see('Payment amount');
+    I.see(`${checkYourDetailsSummary.paymentAmount}`);
+    I.see('Payment method');
+    I.see(`${checkYourDetailsSummary.paymentMethod}`);
+    I.see('Type');
+    I.see(`${checkYourDetailsSummary.paymentType}`);
+    I.see('Channel');
+    I.see(`${checkYourDetailsSummary.paymentChannel}`);
+    I.see('PBA account name');
+    I.see(`${checkYourDetailsSummary.pbaAccountName}`);
+    I.see('PBA number');
+    I.see(`${checkYourDetailsSummary.pbaNumber}`);
+    I.see('Customer internal reference');
+    I.see(`${checkYourDetailsSummary.customerInternalReference}`);
   },
 
   verifyPaymentDetailsPageForFailedPayment(typeOfRefund) {
@@ -268,7 +288,7 @@ module.exports = {
     I.see('Date and time');
     I.see('Users');
     I.see('Notes');
-    I.see('Refund initiated');
+    I.see(`${caseTransactionsData.refundNotes}`);
 
     if (processRefundButtonVisible === false) {
       I.dontSee('Process refund');
