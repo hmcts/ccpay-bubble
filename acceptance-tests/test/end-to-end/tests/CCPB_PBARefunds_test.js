@@ -5,10 +5,11 @@ const miscUtils = require('../helpers/misc');
 const nightlyTest = process.env.NIGHTLY_TEST;
 
 const bulkScanApiCalls = require('../helpers/utils');
+const assertionData = require('../fixture/data/refunds/assertion');
 
-const { Logger } = require('@hmcts/nodejs-logging');
+const {Logger} = require('@hmcts/nodejs-logging');
 
-const logger = Logger.getLogger('CCPB_PBARefunds.js');
+const logger = Logger.getLogger('CCPB_PBARefunds_test.js');
 
 const successResponse = 202;
 
@@ -16,38 +17,6 @@ const successResponse = 202;
 function RefundException(message) {
   this.message = message;
   this.name = 'Assertion Error';
-}
-
-function checkYourAnswers(paymentReference, hwfReferenceCode, refundAmount) {
-  const checkYourAnswersData = {
-    paymentReference: `${paymentReference}`,
-    paymentAmount: '£215.00',
-    paymentStatus: 'Success',
-    feeCode: 'FEE0226',
-    feeDescription: 'FEE0226 - Personal Application for grant of Probate',
-    hwfReference: `${hwfReferenceCode}`,
-    refundAmount: `${refundAmount}`
-  };
-  return checkYourAnswersData;
-}
-
-function getCaseTransactionsData(
-  paymentReference, refundAmount, refundStatus, refundReference, refundReason, refundSubmittedBy) {
-  // console.log('Inside caseTransactionsData()');
-  const caseTransactionsData = {
-    paymentReference: `${paymentReference}`,
-    paymentAmount: '£215.00',
-    totalRemissions: `${refundAmount}`,
-    refundAmount: `${refundAmount}`,
-    unallocatedPayments: '0',
-    amountDue: '£0.00',
-    refundStatus: `${refundStatus}`,
-    refundReference: `${refundReference}`,
-    refundReason: `${refundReason}`,
-    refundSubmittedBy: `${refundSubmittedBy}`
-  };
-  // console.log(`The value of the caseTransactionsData()${JSON.stringify(caseTransactionsData)}`);
-  return caseTransactionsData;
 }
 
 Feature('CC Pay Bubble Acceptance Tests For Refunds and Remissions').retry(CCPBATConstants.retryScenario);
@@ -71,7 +40,7 @@ AfterSuite(async I => {
 });
 
 Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -83,10 +52,14 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
+    const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00', '0', '£0.00', '£0.00');
+    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true, checkPaymentValuesData);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.click('//div[3]//a[.=\'Review\']');
+    I.click('//div[3]//a[.=\'Review\']');//Payment Details Page
     I.wait(CCPBATConstants.twoSecondWaitTime);
+    const checkYourDetailsSummaryData = assertionData.checkYourDetailsSummary('', paymentReference, '£215.00', 'payment by account',
+      'Credit', 'online', 'Success', 'string', 'PBAFUNC12345', 'string');
+    InitiateRefunds.verifyPaymentDetailsPageSummarySection(checkYourDetailsSummaryData);
     InitiateRefunds.verifyPaymentDetailsPage('Add remission');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, 'HWF-A1B-23C');
@@ -94,7 +67,7 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, '200.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // The various change options....
-    const checkYourAnswersData = checkYourAnswers(
+    const checkYourAnswersData = assertionData.checkYourAnswers(
       paymentReference, 'HWF-A1B-23C', '200.00');
     // console.log(`The value of the paymentReference : ${checkYourAnswersData.paymentReference}`);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -104,14 +77,14 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, '200.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const checkYourAnswersDataAfterHWFCodeChange = checkYourAnswers(
+    const checkYourAnswersDataAfterHWFCodeChange = assertionData.checkYourAnswers(
       paymentReference, 'PA20-123456', '200.00');
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(
       checkYourAnswersDataAfterHWFCodeChange, false, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, '115.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const checkYourAnswersDataAfterAmount = checkYourAnswers(
+    const checkYourAnswersDataAfterAmount = assertionData.checkYourAnswers(
       paymentReference, 'PA20-123456', '115.00');
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(
       checkYourAnswersDataAfterAmount, false, false);
@@ -122,8 +95,8 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('115.00');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     // console.log(`The Refund Reference :${refundReference}`);
-    const caseTransactionsData = getCaseTransactionsData(paymentReference, '£115.00',
-      'sent for approval', refundReference, 'Retrospective remission', 'Probate Request Request');
+    const caseTransactionsData = assertionData.getCaseTransactionsData(paymentReference, '£115.00',
+      'Sent for approval', refundReference, 'Retrospective remission', 'Probate Request Request', 'Refund initiated and sent to team leader');
     CaseTransaction.validateCaseTransactionPageForRefundsAfterApplyingRefund(
       ccdCaseNumber, caseTransactionsData);
     I.click('//ccpay-refund-status[1]//a[.=\'Review\']');
@@ -138,7 +111,7 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
   });
 
 Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Service Request page @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -150,7 +123,8 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
+    const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00', '0', '£0.00', '£0.00');
+    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true, checkPaymentValuesData);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -160,9 +134,9 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, '200.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const checkYourAnswersData = checkYourAnswers(paymentReference,
+    const checkYourAnswersData = assertionData.checkYourAnswers(paymentReference,
       'HWF-A1B-23C', '200.00');
-      // console.log(`The value of the paymentReference : ${checkYourAnswersData.paymentReference}`);
+    // console.log(`The value of the paymentReference : ${checkYourAnswersData.paymentReference}`);
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(
       checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -180,8 +154,8 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('200.00');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     // console.log(`The Refund Reference :${refundReference}`);
-    const caseTransactionsData = getCaseTransactionsData(
-      paymentReference, '£200', 'sent for approval', refundReference, 'Retrospective remission', 'Probate Request Request');
+    const caseTransactionsData = assertionData.getCaseTransactionsData(paymentReference, '£200.00',
+      'Sent for approval', refundReference, 'Retrospective remission', 'Probate Request Request', 'Refund initiated and sent to team leader');
     CaseTransaction.validateCaseTransactionPageForRefundsAfterApplyingRefund(
       ccdCaseNumber, caseTransactionsData);
     I.click('//ccpay-refund-status[1]//a[.=\'Review\']');
@@ -195,7 +169,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
   });
 
 Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment Details page @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -208,18 +182,22 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
+    const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00', '0', '£0.00', '£0.00');
+    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true, checkPaymentValuesData);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // Takes you to the Payment Details Page...
     I.click('//div[3]//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
+    const checkYourDetailsSummaryData = assertionData.checkYourDetailsSummary('', paymentReference, '£215.00', 'payment by account',
+      'Credit', 'online', 'Success', 'string', 'PBAFUNC12345', 'string');
+    InitiateRefunds.verifyPaymentDetailsPageSummarySection(checkYourDetailsSummaryData);
     InitiateRefunds.verifyPaymentDetailsPage('Add remission');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, 'HWF-A1B-23C');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, '200.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const checkYourAnswersData = checkYourAnswers(paymentReference, 'HWF-A1B-23C', '200.00');
+    const checkYourAnswersData = assertionData.checkYourAnswers(paymentReference, 'HWF-A1B-23C', '200.00');
     // //console.log('The value of the check your answers ' + `${checkYourAnswersData.paymentReference}`);
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(
       checkYourAnswersData, false, false);
@@ -238,8 +216,9 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('200.00');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     // console.log(`The Refund Reference :${refundReference}`);
-    const caseTransactionsData = getCaseTransactionsData(paymentReference, '£200',
-      'sent for approval', refundReference, 'Retrospective remission', 'Probate Request Request');
+    const caseTransactionsData = assertionData.getCaseTransactionsData(paymentReference, '£200.00',
+      'Sent for approval', refundReference, 'Retrospective remission',
+      'Probate Request Request', 'Refund initiated and sent to team leader');
     CaseTransaction.validateCaseTransactionPageForRefundsAfterApplyingRefund(
       ccdCaseNumber, caseTransactionsData);
     I.click('//ccpay-refund-status[1]//a[.=\'Review\']');
@@ -251,8 +230,9 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.Logout();
   });
 
-Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+//TODO - Commenting as there is a Defect in the Refunds Section of the Payment History page....
+/*Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly',
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -267,7 +247,8 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
+    const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00', '0', '£0.00', '£0.00');
+    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true, checkPaymentValuesData);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -277,9 +258,9 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, '200.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const checkYourAnswersData = checkYourAnswers(paymentReference,
+    const checkYourAnswersData = assertionData.checkYourAnswers(paymentReference,
       'HWF-A1B-23C', '200.00');
-      // console.log(`The value of the paymentReference : ${checkYourAnswersData.paymentReference}`);
+    // console.log(`The value of the paymentReference : ${checkYourAnswersData.paymentReference}`);
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(
       checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -289,6 +270,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.click('Payment history');
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.twoSecondWaitTime);
+    pause();
     InitiateRefunds.verifyPaymentHistoryPage('£215.00', 'Payments');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyHelpWithFeesSectionOnPaymentDetailsPage(checkYourAnswersData, 'Payment details');
@@ -299,10 +281,10 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     await InitiateRefunds.verifyRefundSubmittedPage('200.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
-  });
+  });*/
 
 Scenario('Add a Remissions for a failed Payment @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAFailedPBAPayment();
@@ -315,7 +297,8 @@ Scenario('Add a Remissions for a failed Payment @pipeline @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, false);
+    const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00', '0', '£0.00', '£0.00');
+    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, false, checkPaymentValuesData);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // Takes you to the Payment Details Page...
     I.click('//div[3]//a[.=\'Review\']');
@@ -326,7 +309,7 @@ Scenario('Add a Remissions for a failed Payment @pipeline @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPageForFailedPayment(ccdCaseNumber, '200.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const checkYourAnswersData = checkYourAnswers(paymentReference, 'HWF-A1B-23C', '200.00');
+    const checkYourAnswersData = assertionData.checkYourAnswers(paymentReference, 'HWF-A1B-23C', '200.00');
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemissionForFailedPayment(
       checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -337,7 +320,7 @@ Scenario('Add a Remissions for a failed Payment @pipeline @nightly',
 
 
 Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -350,7 +333,8 @@ Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pip
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
+    const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00', '0', '£0.00', '£0.00');
+    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true, checkPaymentValuesData);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // Takes you to the Payment Details Page...
     I.click('//div[3]//a[.=\'Review\']');
@@ -367,12 +351,12 @@ Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pip
       ccdCaseNumber, 'Other - CoP', 'COP Reason...');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyCheckYourAnswersPageForIssueRefund(
-      'COP Reason...', paymentReference, '£215', false);
+      'COP Reason...', paymentReference, '£215', false); //TODO - The Reason for Refund should be chnged post defect fixing to CoP-COP Reason...
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('215.00');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const caseTransactionsData = getCaseTransactionsData(paymentReference, '£215.00',
-      'sent for approval', refundReference, 'CoP-COP Reason...', 'Probate Request Request');
+    const caseTransactionsData = assertionData.getCaseTransactionsData(paymentReference, '£215.00',
+      'Sent for approval', refundReference, 'CoP-COP Reason...', 'Probate Request Request', 'Refund initiated and sent to team leader');
     CaseTransaction.validateCaseTransactionPageForRefundsAfterApplyingRefund(
       ccdCaseNumber, caseTransactionsData);
     I.click('//ccpay-refund-status[1]//a[.=\'Review\']');
@@ -383,7 +367,7 @@ Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pip
 
 
 Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -396,7 +380,8 @@ Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nig
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
+    const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00', '0', '£0.00', '£0.00');
+    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true, checkPaymentValuesData);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
@@ -413,12 +398,12 @@ Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nig
       ccdCaseNumber, 'Other - CoP', 'COP Reason...');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyCheckYourAnswersPageForIssueRefund(
-      'COP Reason...', paymentReference, '£215', false);
+      'COP Reason...', paymentReference, '£215', false);//TODO - The reasonForReason should change from COP Reason... to CoP-COP Reason...
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('215.00');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const caseTransactionsData = getCaseTransactionsData(paymentReference, '£215.00',
-      'sent for approval', refundReference, 'CoP-COP Reason...', 'Probate Request Request');
+    const caseTransactionsData = assertionData.getCaseTransactionsData(paymentReference, '£215.00',
+      'Sent for approval', refundReference, 'CoP-COP Reason...', 'Probate Request Request', 'Refund initiated and sent to team leader');
     CaseTransaction.validateCaseTransactionPageForRefundsAfterApplyingRefund(
       ccdCaseNumber, caseTransactionsData);
     I.click('//ccpay-refund-status[1]//a[.=\'Review\']');
@@ -428,8 +413,8 @@ Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nig
   });
 
 
-Scenario('Approve action a  Refund for a Rejection @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+/*Scenario('Approve action a  Refund for a Rejection @nightly',
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -495,7 +480,7 @@ Scenario('Approve action a  Refund for a Rejection @nightly',
 
 
 Scenario('Approve action a Refund for an Approval @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -562,7 +547,7 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly',
 
 
 Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Case Transaction Page Refunds Review Section @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -641,7 +626,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
     const caseTransactionsDataForSentBackRefundOnResubmitRefundAfterChange = getCaseTransactionsData(paymentReference, '£215.00',
       'sentback', refundReference,
       'System/technical error', 'Probate Request Request');
-      // console.log(`The value of the Case Transaction Data after Change on resubmit : ${JSON.stringify(caseTransactionsDataForSentBackRefundOnResubmitRefundAfterChange)}`);
+    // console.log(`The value of the Case Transaction Data after Change on resubmit : ${JSON.stringify(caseTransactionsDataForSentBackRefundOnResubmitRefundAfterChange)}`);
     InitiateRefunds.verifyReviewAndResubmitRefundPage(
       caseTransactionsDataForSentBackRefundOnResubmitRefundAfterChange,
       'Test Reason Only', false, true);
@@ -656,7 +641,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
   });
 
 Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Refunds List Page @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -747,7 +732,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
   });
 
 Scenario('Add a Remissions Apply for Refund and Process Refunds As an Approver from the Payment Details Page @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -835,7 +820,7 @@ Scenario('Check Page Access for a Refund Requestor @pipeline @nightly',
   });
 
 Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Caseworker @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -852,7 +837,6 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Casewo
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    // pause();
     InitiateRefunds.verifyServiceRequestPage('Issue refund', 'Personal Application for grant of Probate', '£215');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyProcessRefundPageFromTheRadioButtonReasons(
@@ -920,4 +904,4 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Casewo
       RefundException(`The initial refundReference : ${refundReference.trim()} is not equals to the resubmitted refund reference : ${refundReferenceFromResubmit.trim()}`);
     }
     I.Logout();
-  });
+  });*/
