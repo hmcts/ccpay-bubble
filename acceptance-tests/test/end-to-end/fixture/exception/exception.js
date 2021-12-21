@@ -1,7 +1,10 @@
-const { Logger } = require('@hmcts/nodejs-logging');
-const logger = Logger.getLogger('fixture/exception/exception.js');
+/* eslint-disable no-alert, no-console */
+// const { Logger } = require('@hmcts/nodejs-logging');
 
-function checkPaymentValues(totalPaymentsValue, unallocatedPaymentsValue, totalRemissionsValue, amountDueValue) {
+// const logger = Logger.getLogger('fixture/exception/exception.js');
+
+function checkPaymentValues(totalPaymentsValue, unallocatedPaymentsValue,
+  totalRemissionsValue, amountDueValue) {
   const checkPaymentValuesData = {
     totalPayments: `${totalPaymentsValue}`,
     unallocatedPayments: `${unallocatedPaymentsValue}`,
@@ -11,8 +14,10 @@ function checkPaymentValues(totalPaymentsValue, unallocatedPaymentsValue, totalR
   return checkPaymentValuesData;
 }
 
-function checkYourDetailsSummary(serviceReference, paymentReference, paymentAmount, paymentMethod,
-                                 paymentType, paymentChannel, paymentStatus, PBAAccountName, PBANumber, customerInternalReference) {
+function checkYourDetailsSummary(serviceReference, paymentReference,
+  paymentAmount, paymentMethod,
+  paymentType, paymentChannel, paymentStatus,
+  PBAAccountName, PBANumber, customerInternalReference) {
   // console.log('Inside checkYourDetailsSummary()');
   const checkYourDetailsSummaryData = {
     serviceReference: `${serviceReference}`,
@@ -44,7 +49,8 @@ function checkYourAnswers(paymentReference, hwfReferenceCode, refundAmount) {
 }
 
 function getCaseTransactionsData(
-  paymentReference, refundAmount, refundStatus, refundReference, refundReason, refundSubmittedBy, refundNotes) {
+  paymentReference, refundAmount, refundStatus, refundReference,
+  refundReason, refundSubmittedBy, refundNotes) {
   // console.log('Inside caseTransactionsData()');
   const caseTransactionsData = {
     paymentReference: `${paymentReference}`,
@@ -64,5 +70,6 @@ function getCaseTransactionsData(
 }
 
 module.exports = {
-  checkPaymentValues, checkYourDetailsSummary, checkYourAnswers, getCaseTransactionsData
+  checkPaymentValues, checkYourDetailsSummary,
+  checkYourAnswers, getCaseTransactionsData
 };
