@@ -172,7 +172,8 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  async validateCaseTransactionPageForRefunds(ccdCaseNumber, paymentStatus, checkPaymentValuesData) {
+  async validateCaseTransactionPageForRefunds(ccdCaseNumber,
+    paymentStatus, checkPaymentValuesData) {
     // console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
