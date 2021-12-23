@@ -312,12 +312,12 @@ module.exports = {
     I.see('Refund status history');
     I.see('Status');
     I.see(`${caseTransactionsData.refundStatus}`);
-    I.see('sent for approval');
+    I.see('Update required');
     I.see('Date and time');
     I.see('Users');
     I.see('Notes');
     I.see('Refund initiated');
-    I.see('Test Reason Only');
+    I.see(`${caseTransactionsData.refundNotes}`);
     I.see('Resubmit refund');
     I.click('Resubmit refund');
   },
@@ -359,17 +359,14 @@ module.exports = {
     I.see('Refund list');
     I.see('Refunds to be approved');
     I.see('Filter by caseworker:');
-    I.see('Case ID');
+    I.see('Case reference');
     I.see('Refund reference');
-    I.see('Reason');
     I.see('Submitted by');
-    I.see('Date updated');
+    I.see('Date created');
+    I.see('Last updated');
     I.see('Action');
     I.see('Refunds returned to caseworker');
     I.selectOption(this.locators.users_drop_down_for_refunds_to_be_approved, 'Probate Request Request');
-    // Double Clicking For Sort By Descending....
-    // I.click('Date updated');
-    // I.click('Date updated');
     I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
     I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
     I.click(`//mat-cell[contains(.,'${refundReference}')]/following-sibling::mat-cell/a[.='Process refund'][1]`);
@@ -457,7 +454,7 @@ module.exports = {
     I.see('Reason');
 
     if (reviewRoute === 'Payments') {
-      I.click('//a[.=\'Review\']');
+      I.click('//div[2]//a[.=\'Review\']');
     } else {
       I.click('//div[@class=\'govuk-grid-row govuk-grid__surplus-payments\']/div[@class=\'govuk-grid-column-full\']/table[@class=\'govuk-table\']//a[.=\'Review\']');
     }
