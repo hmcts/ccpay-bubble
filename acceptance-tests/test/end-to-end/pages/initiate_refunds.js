@@ -454,7 +454,7 @@ module.exports = {
     I.see('Reason');
 
     if (reviewRoute === 'Payments') {
-      I.click('//a[.=\'Review\']');
+      I.click('//div[2]//a[.=\'Review\']');
     } else {
       I.click('//div[@class=\'govuk-grid-row govuk-grid__surplus-payments\']/div[@class=\'govuk-grid-column-full\']/table[@class=\'govuk-table\']//a[.=\'Review\']');
     }
