@@ -10,6 +10,8 @@ const {Logger} = require('@hmcts/nodejs-logging');
 
 const logger = Logger.getLogger('CCPB_PBARefunds.js');
 
+const name = require('../content/multiple_pba.json');
+
 const successResponse = 202;
 
 // const successResponse = 202;
@@ -112,6 +114,7 @@ Scenario.only('A Service Request for a Solicitor @pipeline @nightly',
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
+    console.log(name); // output 'testing'
     I.login('testways2payuser1@mailnesia.com', 'Testing1234');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
