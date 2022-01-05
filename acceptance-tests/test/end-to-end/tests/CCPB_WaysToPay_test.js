@@ -112,7 +112,7 @@ Scenario.only('A Service Request for a Solicitor @pipeline @nightly',
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('waystopayoneorgoneuser1@mailnesia.com', 'LevelAt12');
+    I.login('testways2payuser1@mailnesia.com', 'Testing1234');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
