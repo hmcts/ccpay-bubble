@@ -52,7 +52,7 @@ function getCaseTransactionsData(
   return caseTransactionsData;
 }
 
-Feature('CC Pay Bubble Acceptance Tests For Refunds and Remissions').retry(CCPBATConstants.retryScenario);
+Feature('CC Pay Bubble Acceptance Tests For the Ways To Pay feature').retry(CCPBATConstants.retryScenario);
 
 BeforeSuite(async I => {
   // console.log('Before Suite');
@@ -101,7 +101,6 @@ Scenario('A Service Request for a Case Worker @pipeline @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    //pause();
     //ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,'','£100.00');
     I.Logout();
   });
@@ -119,7 +118,7 @@ Scenario.only('A Service Request for a Solicitor @pipeline @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
+    await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber, true);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
@@ -134,8 +133,13 @@ Scenario.only('A Service Request for a Solicitor @pipeline @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    //pause();
     //ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,'','£100.00');
+    I.click('//a[.=\'Back\']');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.click('//a[contains(.,\'Pay now\')]');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyPayFeePage('£100');
+    //pause();
     I.Logout();
   });
 

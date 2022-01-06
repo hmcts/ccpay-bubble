@@ -9,21 +9,7 @@ const { I } = inject();
 module.exports = {
 
   locators: {
-    service_requests_review: { xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]' },
-    payment_success_review: { xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]' },
-
-    remission_code_field: { xpath: '//*[@id="remissionCode"]' },
-    amount_field: { xpath: '//*[@id="amount"]' },
-    refund_reference_field: { xpath: '//strong[starts-with(text(),\'Refund reference:\')]' },
-
-    reasons_drop_down: { xpath: '//select[@id=\'sort\']' },
-    reasons_text: { xpath: '//input[@id=\'reason\']' },
-
-    users_drop_down_for_refunds_to_be_approved: { xpath: '//ccpay-refund-list[1]/div[3]//select[@id=\'sort\']' },
-    date_updated_for_refunds_to_be_approved_by_case_worker: { xpath: '//body[1]/app-root[1]/div[1]/div[1]/app-payment-history[1]/ccpay-payment-lib[1]/ccpay-refund-list[1]/div[3]/ccpay-table[1]/div[1]/div[2]/mat-table[1]/mat-header-row[1]/mat-header-cell[5]/div[1]/button[1]' },
-
-    users_drop_down_for_refunds_returned_to_case_worker: { xpath: '//div[5]//select[@id=\'sort\']' },
-    date_updated_for_refunds_returned_to_case_worker: { xpath: '//body[1]/app-root[1]/div[1]/div[1]/app-payment-history[1]/ccpay-payment-lib[1]/ccpay-refund-list[1]/div[5]/ccpay-table[1]/div[1]/div[2]/mat-table[1]/mat-header-row[1]/mat-header-cell[5]/div[1]/button[1]' }
+    service_requests_review: { xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]' }
   },
 
   async getHeaderValue() {
@@ -62,5 +48,13 @@ module.exports = {
     I.see('Total');
     I.see(`${feeAmount}`);
     I.see(`Total fees: ${feeAmount}`);
+  },
+
+  verifyPayFeePage(feeAmount) {
+    I.see('Pay fee using Payment by Account (PBA)');
+    I.see('Amount to pay');
+    I.see(`${feeAmount}`);
+    I.see('Select a PBA');
+    I.selectOption(this.locators.reasons_drop_down, 'Other - CoP');
   }
 };

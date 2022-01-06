@@ -188,6 +188,21 @@ module.exports = {
     this.checkEmptyRefundsSection();
   },
 
+  async validateCaseTransactionPageWithoutRefunds(ccdCaseNumber, paymentStatus) {
+    // console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
+    I.see('Case reference:');
+    I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
+    I.see('Total payments');
+    I.see('Unallocated payments');
+    I.see('Total remissions');
+    I.see('Amount due');
+    if (paymentStatus) {
+      await this.checkPaymentsValues();
+    } else {
+      await this.checkPaymentsValuesForAFailedPayments();
+    }
+  },
+
   validateCaseTransactionPageForRefundsAfterApplyingRefund(ccdCaseNumber, caseTransactions) {
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
