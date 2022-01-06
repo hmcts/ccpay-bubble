@@ -56,8 +56,9 @@ module.exports = {
 
   verifyPaymentDetailsPageSummarySection(checkYourDetailsSummary) {
     I.see('Payment details');
-    // I.see('Payment reference');
-    // I.see(`${checkYourDetailsSummary.paymentReference}`);
+    I.see('Service request reference');
+    I.see('Payment reference');
+    I.see(`${checkYourDetailsSummary.paymentReference}`);
     I.see('Payment amount');
     I.see(`${checkYourDetailsSummary.paymentAmount}`);
     I.see('Payment method');

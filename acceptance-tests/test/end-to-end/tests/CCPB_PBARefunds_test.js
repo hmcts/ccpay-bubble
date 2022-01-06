@@ -40,7 +40,7 @@ AfterSuite(async I => {
   }
 });
 
-Scenario.only('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments @pipeline @nightly',
+Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -60,8 +60,8 @@ Scenario.only('Add a Remissions and Add Refunds for a Successful PBA Payment thr
     // Payment Details Page
     I.click('//div[3]//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const checkYourDetailsSummaryData = assertionData.checkYourDetailsSummary('', paymentReference, '£215.00', 'payment by account',
-      'Credit', 'online', 'Success', 'string', 'PBAFUNC12345', 'string');
+    const checkYourDetailsSummaryData = assertionData.checkYourDetailsSummary('', paymentReference, '£215.00', 'Payment by account',
+      'Credit', 'Online', 'Success', 'string', 'PBAFUNC12345', 'string');
     InitiateRefunds.verifyPaymentDetailsPageSummarySection(checkYourDetailsSummaryData);
     InitiateRefunds.verifyPaymentDetailsPage('Add remission');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -195,8 +195,8 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     // Takes you to the Payment Details Page...
     I.click('//div[3]//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const checkYourDetailsSummaryData = assertionData.checkYourDetailsSummary('', paymentReference, '£215.00', 'payment by account',
-      'Credit', 'online', 'Success', 'string', 'PBAFUNC12345', 'string');
+    const checkYourDetailsSummaryData = assertionData.checkYourDetailsSummary('', paymentReference, '£215.00', 'Payment by account',
+      'Credit', 'Online', 'Success', 'string', 'PBAFUNC12345', 'string');
     InitiateRefunds.verifyPaymentDetailsPageSummarySection(checkYourDetailsSummaryData);
     InitiateRefunds.verifyPaymentDetailsPage('Add remission');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -237,7 +237,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     I.Logout();
   });
 
-Scenario.only('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly',
+Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -311,11 +311,11 @@ Scenario('Add a Remissions for a failed Payment @pipeline @nightly',
     // Takes you to the Payment Details Page...
     I.click('//div[3]//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const checkYourDetailsSummaryData = assertionData.checkYourDetailsSummary('', paymentReference, '£215.00', 'payment by account',
-      'Credit', 'online', 'Failed', 'string', 'PBAFUNC12350', 'string');
+    const checkYourDetailsSummaryData = assertionData.checkYourDetailsSummary('', paymentReference, '£215.00', 'Payment by account',
+      'Credit', 'Online', 'Failed', 'string', 'PBAFUNC12350', 'string');
     InitiateRefunds.verifyPaymentDetailsPageSummarySection(checkYourDetailsSummaryData);
     InitiateRefunds.verifyPaymentDetailsPageForFailedPayment('Add remission');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.twoSecondWaitTime)
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, 'HWF-A1B-23C');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPageForFailedPayment(ccdCaseNumber, '200.00');
@@ -352,8 +352,8 @@ Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pip
     // Takes you to the Payment Details Page...
     I.click('//div[3]//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const checkYourDetailsSummaryData = assertionData.checkYourDetailsSummary('', paymentReference, '£215.00', 'payment by account',
-      'Credit', 'online', 'Success', 'string', 'PBAFUNC12345', 'string');
+    const checkYourDetailsSummaryData = assertionData.checkYourDetailsSummary('', paymentReference, '£215.00', 'Payment by account',
+      'Credit', 'Online', 'Success', 'string', 'PBAFUNC12345', 'string');
     InitiateRefunds.verifyPaymentDetailsPageSummarySection(checkYourDetailsSummaryData);
     InitiateRefunds.verifyPaymentDetailsPage('Issue refund');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -396,7 +396,7 @@ Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nig
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.sevenSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00',
       '0', '£0.00', '£0.00');
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber,
@@ -503,8 +503,7 @@ Scenario('Approve action a  Refund for a Rejection @nightly',
     I.Logout();
   });
 
-// TO DO - Refund Approved banner not appearing but 'Sent back to middle office'
-Scenario.only('Approve action a Refund for an Approval @pipeline @nightly',
+Scenario('Approve action a Refund for an Approval @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -517,7 +516,7 @@ Scenario.only('Approve action a Refund for an Approval @pipeline @nightly',
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.sevenSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00',
       '0', '£0.00', '£0.00');
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber,
@@ -556,9 +555,7 @@ Scenario.only('Approve action a Refund for an Approval @pipeline @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyReviewRefundsDetailsPage(caseTransactionsData, 'Approve');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    pause();
     InitiateRefunds.verifyRefundApprovedPage('Approve');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
@@ -566,7 +563,7 @@ Scenario.only('Approve action a Refund for an Approval @pipeline @nightly',
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const caseTransactionsDataForApprovedRefund = assertionData.getCaseTransactionsData(paymentReference, '£215.00',
-      'Sent to middle office', refundReference,
+      'Approved', refundReference,
       'CoP-COP Reason...', 'Probate Request Request', 'Sent to middle office');
     CaseTransaction.validateCaseTransactionPageForRefundsAfterApplyingRefund(ccdCaseNumber,
       caseTransactionsDataForApprovedRefund);
@@ -698,8 +695,8 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
     // Takes you to the Payment Details Page...
     I.click('//div[3]//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const checkYourDetailsSummaryData = assertionData.checkYourDetailsSummary('', paymentReference, '£215.00', 'payment by account',
-      'Credit', 'online', 'Success', 'string', 'PBAFUNC12345', 'string');
+    const checkYourDetailsSummaryData = assertionData.checkYourDetailsSummary('', paymentReference, '£215.00', 'Payment by account',
+      'Credit', 'Online', 'Success', 'string', 'PBAFUNC12345', 'string');
     InitiateRefunds.verifyPaymentDetailsPageSummarySection(checkYourDetailsSummaryData);
     InitiateRefunds.verifyPaymentDetailsPage('Add remission');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -796,8 +793,8 @@ Scenario('Add a Remissions Apply for Refund and Process Refunds As an Approver f
     // Takes you to the Payment Details Page...
     I.click('//div[3]//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const checkYourDetailsSummaryData = assertionData.checkYourDetailsSummary('', paymentReference, '£215.00', 'payment by account',
-      'Credit', 'online', 'Success', 'string', 'PBAFUNC12345', 'string');
+    const checkYourDetailsSummaryData = assertionData.checkYourDetailsSummary('', paymentReference, '£215.00', 'Payment by account',
+      'Credit', 'Online', 'Success', 'string', 'PBAFUNC12345', 'string');
     InitiateRefunds.verifyPaymentDetailsPageSummarySection(checkYourDetailsSummaryData);
     InitiateRefunds.verifyPaymentDetailsPage('Add remission');
     I.wait(CCPBATConstants.twoSecondWaitTime);
