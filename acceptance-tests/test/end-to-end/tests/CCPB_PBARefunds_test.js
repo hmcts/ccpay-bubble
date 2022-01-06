@@ -315,7 +315,7 @@ Scenario('Add a Remissions for a failed Payment @pipeline @nightly',
       'Credit', 'Online', 'Failed', 'string', 'PBAFUNC12350', 'string');
     InitiateRefunds.verifyPaymentDetailsPageSummarySection(checkYourDetailsSummaryData);
     InitiateRefunds.verifyPaymentDetailsPageForFailedPayment('Add remission');
-    I.wait(CCPBATConstants.twoSecondWaitTime)
+    I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, 'HWF-A1B-23C');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPageForFailedPayment(ccdCaseNumber, '200.00');
