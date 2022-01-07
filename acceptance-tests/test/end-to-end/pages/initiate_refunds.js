@@ -207,15 +207,18 @@ module.exports = {
   },
 
   verifyRemissionAddedPage(addRefundFlag, refundAmount) {
-    I.waitForText('Remission added', '5');
+    I.see('Remission added');
     I.see('The amount to be refunded should be');
     I.see(`£${refundAmount}`);
     I.see('Submit refund');
-    I.see('Return to case');
+    I.wait(2);
+    I.clickLink('Return to case');
     if (addRefundFlag) {
       I.click('Submit refund');
     } else {
-      I.click('Return to case');
+      I.click({ xpath:"//a[.='Return to case']"});
+      //a[contains(text(),'Return to case')]
+      //I.click({ xpath:"//a[contains(text(),'Return to case')]"});
     }
   },
 
