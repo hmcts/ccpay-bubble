@@ -123,7 +123,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
     // console.info(ccdCaseNumber);
     // console.info(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    //pause();
+    // pause();
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
