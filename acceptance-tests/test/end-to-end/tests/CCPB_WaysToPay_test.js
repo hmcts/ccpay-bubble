@@ -74,7 +74,7 @@ AfterSuite(async I => {
 });
 */
 
-Scenario('A Service Request for a Case Worker @pipeline @nightly',
+Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6')
@@ -105,8 +105,9 @@ Scenario('A Service Request for a Case Worker @pipeline @nightly',
     I.Logout();
   });
 
-Scenario.only('A Service Request for a Solicitor @pipeline @nightly',
+Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA Payment @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, ServiceRequests) => {
+
     logger.log('Creating the Service Request');
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6')
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
@@ -138,8 +139,52 @@ Scenario.only('A Service Request for a Solicitor @pipeline @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[contains(.,\'Pay now\')]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyPayFeePage('£100');
-    //pause();
+    ServiceRequests.verifyPayFeePage('£100.00','PBA0085262','Test Reference');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyConfirmedBanner('Payment successful')
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyServiceRequestTabPage('Paid', serviceRequestReference,'','£100.00', false);
     I.Logout();
   });
 
+Scenario.only('A Service Request for a Solicitor For a General Technical Error during PBA Payment @pipeline @nightly',
+  async (I, CaseSearch, CaseTransaction, ServiceRequests) => {
+
+    logger.log('Creating the Service Request');
+    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6')
+    const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
+    const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
+    console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
+    // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
+    console.log(name); // output 'testing'
+    I.login('testways2payuser1@mailnesia.com', 'Testing1234');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber, true);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    // Takes you to the Service Request Page...
+    I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,'','£100.00');
+    I.see('Service Requests');
+    I.click('Service Requests');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,'','£100.00', true);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.click('//a[.=\'Review\']');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    //ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,'','£100.00');
+    I.click('//a[.=\'Back\']');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.click('//a[contains(.,\'Pay now\')]');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyPayFeePage('£100.00','PBA0085262','Test Reference');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyWTPGeneralPBAErrorPage(false);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,'','£100.00', false);
+    I.Logout();
+  });
