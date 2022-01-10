@@ -44,7 +44,7 @@ module.exports = {
 
   async checkPaymentsValues() {
     const totalPaymentsValue = await I.grabTextFrom(this.locators.total_payments_text);
-    console.log(`The value of the Total Payments Text : ${totalPaymentsValue}`);
+    // console.log(`The value of the Total Payments Text : ${totalPaymentsValue}`);
     if (totalPaymentsValue !== '£0.00') {
       throw new Error('The total payments value is not expected');
     }

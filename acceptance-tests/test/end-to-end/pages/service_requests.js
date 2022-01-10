@@ -1,16 +1,13 @@
 /* eslint-disable max-len */
 /* eslint-disable no-dupe-keys */
 'use strict';
-const stringUtils = require('../helpers/string_utils');
-const CCPBATConstants = require('../tests/CCPBAcceptanceTestConstants');
-
-const {I} = inject();
+const { I } = inject();
 
 module.exports = {
 
   locators: {
-    pba_account_number_select: {xpath: '//select[@id=\'pbaAccountNumber\']'},
-    pba_reference_text_field: {xpath:'//input[@id=\'pbaAccountRef\']'}
+    pba_account_number_select: { xpath: '//select[@id=\'pbaAccountNumber\']' },
+    pba_reference_text_field: { xpath: '//input[@id=\'pbaAccountRef\']' }
   },
 
   async getHeaderValue() {
@@ -24,7 +21,7 @@ module.exports = {
     I.see('Party');
     I.see('Request reference');
     I.see('Review');
-    if (!financeManagerFlag) {
+    if (financeManagerFlag === false) {
       I.dontSee('Pay now');
     } else {
       I.see('Pay now');
@@ -43,7 +40,7 @@ module.exports = {
     I.see('Date created');
     I.see('CCD event');
     I.see('Fee');
-    //I.see(feeDescription);
+    // I.see(feeDescription);
     I.see('Amount');
     I.see(`1 X ${feeAmount}`);
     I.see('Total');
@@ -60,24 +57,24 @@ module.exports = {
     I.wait(1);
     I.see('Enter a reference for your PBA account statements');
     I.see('This should be your own unique reference to identify the case. It will appear on your statements.');
-    I.fillField(this.locators.pba_reference_text_field,`${reference}`);
+    I.fillField(this.locators.pba_reference_text_field, `${reference}`);
     I.wait(1);
     I.click('Continue');
   },
 
-  verifyConfirmedBanner (bannerValue) {
+  verifyConfirmedBanner(bannerValue) {
     I.see(`${bannerValue}`);
     I.see('Your payment reference is');
     I.see('RC-');
-    I.click('View service request')
+    I.click('View service request');
   },
 
-  verifyWTPGeneralPBAErrorPage (payByCardFlag) {
+  verifyWTPGeneralPBAErrorPage(payByCardFlag) {
     pause();
     I.see('Sorry, there is a problem with the service');
     I.see('Try again later.');
     I.see('you can also pay by credit or debit card.');
-    if (!payByCardFlag) {
+    if (payByCardFlag === false) {
       I.click('View service request');
     } else {
       I.click('Pay by card');
