@@ -136,20 +136,9 @@ module.exports = appInsights => express.Router()
   .get('/payment-history/case-payment-orders?*', (req, res) => {
     controllers.payhubController.getPartyDetails(req, res);
   })
-  .get('/payment-history/pba-accounts', (req, res) => {
-    controllers.payhubController.getPbaAccountList(req, res);
-  })
   .post('/payment-history/payment-groups/:paymentGroup/fees/:feeId/retro-remission', (req, res) => {
     controllers.payhubController.postPaymentGroupWithRetroRemissions(req, res);
   })
-
-  .post('/payment-history/service-request/:serviceRef/pba-payments', (req, res) => {
-    controllers.payhubController.postPBAAccountPayment(req, res);
-  })
-  .post('/payment-history/service-request/:serviceRef/card-payments', (req, res) => {
-    controllers.payhubController.postWays2PayCardPayment(req, res);
-  })
-
   .post('/payment-history/refund-retro-remission ', (req, res) => {
     controllers.payhubController.postRefundRetroRemission(req, res);
   })

@@ -26,13 +26,9 @@ class RefundsController {
       })
       .catch(error => {
         if (error.statusCode !== '403' && error.statusCode !== '500') {
-          res.status(error.statusCode).json({
-            err: error.message,
-            statuCode: error.statusCode,
-            success: false
-          });
+          res.status(error.statusCode).send(error);
         } else {
-          res.status(500).json({ err: error, statuCode: 500, success: false });
+          res.status(500).send(error);
         }
       });
   }
@@ -43,30 +39,22 @@ class RefundsController {
       })
       .catch(error => {
         if (error.statusCode !== '403' && error.statusCode !== '500') {
-          res.status(error.statusCode).json({
-            err: error.message,
-            statuCode: error.statusCode,
-            success: false
-          });
+          res.status(error.statusCode).send(error);
         } else {
-          res.status(500).json({ err: error, statuCode: 500, success: false });
+          res.status(500).send(error);
         }
       });
   }
   patchRefundAction(req, res, appInsights) {
     return this.refundsService.patchRefundAction(req, appInsights)
       .then(result => {
-        res.status(200).send(result);
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode !== '403' && error.statusCode !== '500') {
-          res.status(error.statusCode).json({
-            err: error.message,
-            statuCode: error.statusCode,
-            success: false
-          });
+          res.status(error.statusCode).send(error);
         } else {
-          res.status(500).json({ err: error, statuCode: 500, success: false });
+          res.status(500).send(error);
         }
       });
   }
@@ -78,13 +66,9 @@ class RefundsController {
       })
       .catch(error => {
         if (error.statusCode) {
-          res.status(error.statusCode).json({
-            err: error.message,
-            statuCode: error.statusCode,
-            success: false
-          });
+          res.status(error.statusCode).send(error);
         } else {
-          res.status(500).json({ err: error, success: false });
+          res.status(500).send(error);
         }
       });
   }
@@ -95,9 +79,9 @@ class RefundsController {
       })
       .catch(error => {
         if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
+          res.status(error.statusCode).send(error);
         } else {
-          res.status(500).json({ err: error, success: false });
+          res.status(500).send(error);
         }
       });
   }
@@ -109,9 +93,9 @@ class RefundsController {
       })
       .catch(error => {
         if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
+          res.status(error.statusCode).send(error);
         } else {
-          res.status(500).json({ err: error, success: false });
+          res.status(500).send(error);
         }
       });
   }
@@ -122,9 +106,9 @@ class RefundsController {
       })
       .catch(error => {
         if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
+          res.status(error.statusCode).send(error);
         } else {
-          res.status(500).json({ err: error, success: false });
+          res.status(500).send(error);
         }
       });
   }
@@ -135,9 +119,9 @@ class RefundsController {
       })
       .catch(error => {
         if (error.statusCode) {
-          res.status(error.statusCode).json(error);
+          res.status(error.statusCode).send(error);
         } else {
-          res.status(500).json({ err: error, success: false });
+          res.status(500).send(error);
         }
       });
   }
@@ -146,11 +130,7 @@ class RefundsController {
     Logger.getLogger('Get-User-Details').info(req);
     return this.refundsService.getUserDetails(req, res, appInsights)
       .then(result => {
-        Logger.getLogger('Get-User-Details1').info(result.body);
-        // res.cookie(constants.USER_COOKIE, JSON.stringify(result));
-        Logger.getLogger('Get-User-Details1').info(JSON.stringify(result.body));
         res.status(200).json({ data: JSON.stringify(result.body), success: true });
-        // res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
         if (error.statusCode) {

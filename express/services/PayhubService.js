@@ -1,12 +1,10 @@
 const config = require('config');
 const otp = require('otp');
-const UUID = require('uuid/v4');
 const request = require('request-promise-native');
 const FeatureService = require('./FeatureService');
 
 const payhubUrl = config.get('payhub.url');
 const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
-const waystopayReturnUrl = config.get('waystopay.url');
 const pcipalAntennaReturnUrl = config.get('pcipalantenna.url');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
@@ -213,44 +211,6 @@ class PayhubService {
       json: true
     }));
   }
-  getPbaAccountList(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/pba-accounts`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
-  postPBAAccountPayment(req) {
-    const idempotencyKey = this.getIdempotencyKey();
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/service-request/${req.params.serviceRef}/pba-payments`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        idempotency_key: `${idempotencyKey}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
-  postWays2PayCardPayment(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/service-request/${req.params.serviceRef}/card-payments`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'return-url': `${waystopayReturnUrl}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
 
   getApportionPaymentGroup(req) {
     return this.createAuthToken().then(token => request.get({
@@ -346,7 +306,7 @@ class PayhubService {
 
   getPartyDetails(req) {
     return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/case-payment-orders?case_ids=${req.query['case-ids']}`,
+      uri: `${payhubUrl}/case-payment-orders?case_ids=${req.query.case_ids}`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,

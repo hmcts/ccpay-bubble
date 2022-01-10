@@ -6,8 +6,8 @@ const waitForAction = parseInt(CONF.e2e.waitForActionValue);
 
 exports.config = {
   name: 'ccpay-bubble-acceptance-tests',
-  // tests: './test/end-to-end/tests/CCPB_PBARefunds.js',
-  tests: './test/end-to-end/tests/CCPB_WaysToPay_test.js',
+  tests: './test/end-to-end/tests/CCPB_PBARefunds_test.js',
+  // tests: './test/end-to-end/tests/*_test.js',
   timeout: 10000,
   output: './output',
   helpers: {
@@ -19,6 +19,7 @@ exports.config = {
       waitForNavigation: 'domcontentloaded',
       show: true,
       restart: true,
+      windowSize: '1024x768',
       keepCookies: false,
       keepBrowserState: true,
       networkIdleTimeout: 5000,
@@ -30,8 +31,10 @@ exports.config = {
           '--no-sandbox',
           // '--proxy-server=proxyout.reform.hmcts.net:8080',
           // '--proxy-bypass-list=*beta*LB.reform.hmcts.net',
-          '--start-maximized'
-        ]
+          '--start-maximized',
+          '--window-size=1024,768'
+        ],
+        defaultViewport: null
       }
     },
     Mochawesome: { uniqueScreenshotNames: 'true' }
