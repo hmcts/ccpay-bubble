@@ -19,7 +19,7 @@ exports.config = {
       waitForNavigation: 'domcontentloaded',
       show: false,
       restart: true,
-      windowSize : '1024x768',
+      windowSize: '1024x768',
       keepCookies: false,
       keepBrowserState: true,
       networkIdleTimeout: 5000,
@@ -34,10 +34,6 @@ exports.config = {
           '--start-maximized',
           '--window-size=1024,768'
         ],
-        /*defaultViewport: {
-          width: 1024,
-          height: 768
-        }*/
         defaultViewport: null
       }
     },
