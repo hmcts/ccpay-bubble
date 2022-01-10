@@ -211,13 +211,11 @@ module.exports = {
     I.see('The amount to be refunded should be');
     I.see(`£${refundAmount}`);
     I.see('Submit refund');
-    I.clickLink('Return to case');
+    I.see('Return to case');
     if (addRefundFlag) {
       I.click('Submit refund');
     } else {
-      I.click({ xpath: '//a[.=\'Return to case\']' });
-      // a[contains(text(),'Return to case')]
-      // I.click({ xpath:"//a[contains(text(),'Return to case')]"});
+      I.click('Return to case');
     }
   },
 

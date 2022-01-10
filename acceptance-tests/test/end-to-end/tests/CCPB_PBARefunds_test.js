@@ -40,7 +40,7 @@ AfterSuite(async I => {
   }
 });
 
-Scenario.skip('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments @pipeline @nightly',
+Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -113,7 +113,7 @@ Scenario.skip('Add a Remissions and Add Refunds for a Successful PBA Payment thr
     I.Logout();
   });
 
-Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Service Request page @nightly',
+Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Service Request page @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -174,7 +174,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
     I.Logout();
   });
 
-Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment Details page @pipeline @nightly',
+Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment Details page @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -238,7 +238,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
     I.Logout();
   });
 
-Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly',
+Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -290,7 +290,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
     I.Logout();
   });
 
-Scenario.skip('Add a Remissions for a failed Payment @pipeline @nightly',
+Scenario('Add a Remissions for a failed Payment @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -384,7 +384,7 @@ Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pip
   });
 
 
-Scenario.skip('Issue a Refund for a PBA Payment through the Service Request Page @nightly',
+Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -434,7 +434,7 @@ Scenario.skip('Issue a Refund for a PBA Payment through the Service Request Page
   });
 
 
-Scenario.skip('Approve action a  Refund for a Rejection @nightly',
+Scenario('Approve action a  Refund for a Rejection @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -573,7 +573,7 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly',
   });
 
 
-Scenario.skip('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Case Transaction Page Refunds Review Section @nightly',
+Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Case Transaction Page Refunds Review Section @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -673,7 +673,7 @@ Scenario.skip('Approve action a Refund Returned to Case Worker and Resubmit By A
     I.Logout();
   });
 
-Scenario.skip('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Refunds List Page @pipeline @nightly',
+Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Refunds List Page @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -770,7 +770,7 @@ Scenario.skip('Approve action a Refund Returned to Case Worker and Resubmit By A
     I.Logout();
   });
 
-Scenario.skip('Add a Remissions Apply for Refund and Process Refunds As an Approver from the Payment Details Page @pipeline @nightly',
+Scenario('Add a Remissions Apply for Refund and Process Refunds As an Approver from the Payment Details Page @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
@@ -864,7 +864,7 @@ Scenario('Check Page Access for a Refund Requestor @pipeline @nightly',
     I.Logout();
   });
 
-Scenario.skip('Approve action a Refund Returned to Case Worker and Resubmit By Caseworker @pipeline @nightly',
+Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Caseworker @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
