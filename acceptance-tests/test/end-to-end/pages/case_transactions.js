@@ -58,11 +58,7 @@ module.exports = {
       throw new Error('The total remissions value is not expected');
     }
     const amountDueValue = await I.grabTextFrom(this.locators.amount_due_text);
-<<<<<<< HEAD
-    if (amountDueValue !== '£100.00') {
-=======
     if (amountDueValue !== `${checkPaymentValuesData.amountDue}`) {
->>>>>>> 7ba9f8e03e56c928dc2f764e752b1d29672d50f7
       throw new Error('The Amount Due value is not expected');
     }
   },
