@@ -145,7 +145,6 @@ module.exports = appInsights => express.Router()
   .post('/payment-history/service-request/:serviceRef/card-payments', (req, res) => {
     controllers.payhubController.postWays2PayCardPayment(req, res);
   })
-  
   .post('/payment-history/payment-groups/:paymentGroup/fees/:feeId/retro-remission', (req, res) => {
     controllers.payhubController.postPaymentGroupWithRetroRemissions(req, res);
   })
