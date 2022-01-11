@@ -6,7 +6,7 @@ const waitForAction = parseInt(CONF.e2e.waitForActionValue);
 
 exports.config = {
   name: 'ccpay-bubble-acceptance-tests',
-  tests: './test/end-to-end/tests/CCPB_PBARefunds_test.js',
+  tests: './test/end-to-end/tests/CCPB_WaysToPay_test.js',
   // tests: './test/end-to-end/tests/*_test.js',
   timeout: 10000,
   output: './output',
