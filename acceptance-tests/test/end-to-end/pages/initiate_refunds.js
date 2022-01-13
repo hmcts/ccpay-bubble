@@ -215,7 +215,7 @@ module.exports = {
     if (addRefundFlag) {
       I.click('Submit refund');
     } else {
-      I.click('Return to case');
+      I.click({ xpath: '//a[.=\'Return to case\']' });
     }
   },
 
