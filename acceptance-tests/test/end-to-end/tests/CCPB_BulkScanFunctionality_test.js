@@ -57,7 +57,7 @@ Scenario('Normal ccd case cash payment full allocation @nightly', async(I, CaseS
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
     const receiptReference = await CaseTransaction.getReceiptReference();
     PaymentHistory.navigateToReceiptRefs(receiptReference);
-    PaymentHistory.validateCcdPaymentDetails(receiptReference, '£550.00', dcnNumber, 'success', 'cash', 'FEE0002');
+    PaymentHistory.validateCcdPaymentDetails(receiptReference, '£550.00', dcnNumber, 'success', 'Cash', 'FEE0002');
     I.Logout();
   }
 });
@@ -113,7 +113,7 @@ Scenario('Normal ccd case cash payment transferred @nightly', async(I, CaseSearc
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
     const receiptReference = await CaseTransaction.getReceiptReference();
     PaymentHistory.navigateToReceiptRefs(receiptReference);
-    PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£550.00', dcnNumber, 'cash');
+    PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£550.00', dcnNumber, 'Cash');
     I.Logout();
   }
 });
@@ -206,7 +206,7 @@ Scenario('Exception Case Cheque Payment Unidentified @nightly @pipeline', async(
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
   PaymentHistory.navigateToReceiptRefs(receiptReference);
-  PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£550.00', dcnNumber, 'cheque');
+  PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£550.00', dcnNumber, 'Cheque');
   I.Logout();
 });
 
