@@ -43,10 +43,9 @@ module.exports = {
   },
 
   async checkPaymentsValues(checkPaymentValuesData) {
-
     const totalPaymentsValue = await I.grabTextFrom(this.locators.total_payments_text);
-    console.log(`The value of the Total Payments Text : ${totalPaymentsValue}`);
-    console.log(`The value of the Total Payments Text  Input : ${checkPaymentValuesData.totalPayments}`);
+    // console.log(`The value of the Total Payments Text : ${totalPaymentsValue}`);
+    // console.log(`The value of the Total Payments Text  Input : ${checkPaymentValuesData.totalPayments}`);
     if (totalPaymentsValue !== `${checkPaymentValuesData.totalPayments}`) {
       throw new Error('The total payments value is not expected');
     }
@@ -193,7 +192,8 @@ module.exports = {
     this.checkEmptyRefundsSection();
   },
 
-  async validateCaseTransactionPageWithoutRefunds(ccdCaseNumber, paymentStatus, checkPaymentValuesData) {
+  async validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
+    paymentStatus, checkPaymentValuesData) {
     // console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));

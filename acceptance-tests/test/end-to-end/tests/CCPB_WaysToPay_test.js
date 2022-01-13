@@ -9,31 +9,13 @@ const bulkScanApiCalls = require('../helpers/utils');
 const { Logger } = require('@hmcts/nodejs-logging');
 
 const logger = Logger.getLogger('CCPB_PBARefunds.js');
+const assertionData = require('../fixture/data/refunds/assertion');
 
 // const name = require('../content/multiple_pba.json');
 
 const successResponse = 202;
 
 // const successResponse = 202;
-
-function getCaseTransactionsData(
-  paymentReference, paymentAmount, unallocatedPayments, amountDue, refundAmount, refundStatus, refundReference, refundReason, refundSubmittedBy) {
-  // console.log('Inside caseTransactionsData()');
-  const caseTransactionsData = {
-    paymentReference: `${paymentReference}`,
-    paymentAmount: `${paymentAmount}`,
-    totalRemissions: `${refundAmount}`,
-    refundAmount: `${refundAmount}`,
-    unallocatedPayments: `${unallocatedPayments}`,
-    amountDue: `${amountDue}`,
-    refundStatus: `${refundStatus}`,
-    refundReference: `${refundReference}`,
-    refundReason: `${refundReason}`,
-    refundSubmittedBy: `${refundSubmittedBy}`
-  };
-  // console.log(`The value of the caseTransactionsData()${JSON.stringify(caseTransactionsData)}`);
-  return caseTransactionsData;
-}
 
 Feature('CC Pay Bubble Acceptance Tests For the Ways To Pay feature').retry(CCPBATConstants.retryScenario);
 
@@ -84,7 +66,7 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,'','£100.00');
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£100.00');
     I.Logout();
   });
 
@@ -142,9 +124,10 @@ Scenario.only('A Service Request for a Solicitor For a General Technical Error d
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const caseTransactionsData = getCaseTransactionsData('','£0.00','0','£100.00','','','','','');
-    pause();
-    await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber, true, caseTransactionsData);
+    const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
+      '0', '£0.00', '£100.00');
+    await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
+      true, checkPaymentValuesData);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
@@ -161,8 +144,8 @@ Scenario.only('A Service Request for a Solicitor For a General Technical Error d
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,'','£100.00');
     I.click('//a[.=\'Back\']');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.click('//a[contains(.,\'Pay now\')]');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click({ xpath: '//a[contains(text(),\'Pay now\')]' });
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyPayFeePage('£100.00', 'PBA0085262', 'Test Reference');
     I.wait(CCPBATConstants.twoSecondWaitTime);
