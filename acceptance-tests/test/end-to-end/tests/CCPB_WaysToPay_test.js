@@ -16,6 +16,25 @@ const successResponse = 202;
 
 // const successResponse = 202;
 
+function getCaseTransactionsData(
+  paymentReference, paymentAmount, unallocatedPayments, amountDue, refundAmount, refundStatus, refundReference, refundReason, refundSubmittedBy) {
+  // console.log('Inside caseTransactionsData()');
+  const caseTransactionsData = {
+    paymentReference: `${paymentReference}`,
+    paymentAmount: `${paymentAmount}`,
+    totalRemissions: `${refundAmount}`,
+    refundAmount: `${refundAmount}`,
+    unallocatedPayments: `${unallocatedPayments}`,
+    amountDue: `${amountDue}`,
+    refundStatus: `${refundStatus}`,
+    refundReference: `${refundReference}`,
+    refundReason: `${refundReason}`,
+    refundSubmittedBy: `${refundSubmittedBy}`
+  };
+  // console.log(`The value of the caseTransactionsData()${JSON.stringify(caseTransactionsData)}`);
+  return caseTransactionsData;
+}
+
 Feature('CC Pay Bubble Acceptance Tests For the Ways To Pay feature').retry(CCPBATConstants.retryScenario);
 
 BeforeSuite(async I => {
@@ -65,7 +84,7 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    // ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,'','£100.00');
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,'','£100.00');
     I.Logout();
   });
 
@@ -123,7 +142,9 @@ Scenario.only('A Service Request for a Solicitor For a General Technical Error d
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber, true);
+    const caseTransactionsData = getCaseTransactionsData('','£0.00','0','£100.00','','','','','');
+    pause();
+    await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber, true, caseTransactionsData);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
