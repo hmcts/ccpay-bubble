@@ -149,7 +149,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     // Adding a Remission Finally and Submitting the Refund Request.
     InitiateRefunds.verifyRemissionAddedPage(false, '200.00');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click('//div[@class=\'paymentrequest\']//a[.=\'Review\']');
+    I.click('Review');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyHelpWithFeesSectionOnPaymentDetailsPage(
       checkYourAnswersData, 'Service request');
