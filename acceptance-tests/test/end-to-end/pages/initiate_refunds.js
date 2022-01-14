@@ -24,7 +24,7 @@ module.exports = {
 
     users_drop_down_for_refunds_returned_to_case_worker: { xpath: '//div[5]//select[@id=\'sort\']' },
     date_updated_for_refunds_returned_to_case_worker: { xpath: '//body[1]/app-root[1]/div[1]/div[1]/app-payment-history[1]/ccpay-payment-lib[1]/ccpay-refund-list[1]/div[5]/ccpay-table[1]/div[1]/div[2]/mat-table[1]/mat-header-row[1]/mat-header-cell[5]/div[1]/button[1]' },
-    return_to_case: { xpath: '//a[@id=\'returntocase\']' },
+    return_to_case: { xpath: '//a[@id=\'returntocase\']' }
   },
 
   async getHeaderValue() {
@@ -220,7 +220,7 @@ module.exports = {
       //  I.click({ xpath: '//a[@id=\'returntocase\']'});
       //  I.click(`//a[@id="returntocase"`);
       // I.click('(//a[contains(text(),"Return to case")])[2]');
-      //I.click(return_to_case);
+      //  I.click(return_to_case);
       //  I.click(`//a[@id="returntocase"`);
     }
   },
