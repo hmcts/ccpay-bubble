@@ -111,7 +111,7 @@ Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA
     I.Logout();
   });
 
-Scenario.only('A Service Request for a Solicitor For a General Technical Error during PBA Payment @pipeline @nightly',
+Scenario('A Service Request for a Solicitor For a General Technical Error during PBA Payment @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6');
@@ -153,4 +153,24 @@ Scenario.only('A Service Request for a Solicitor For a General Technical Error d
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£100.00', false);
     I.Logout();
+  });
+
+Scenario.only('Test with Mocked Data... @pipeline @nightly',
+  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+    logger.log('Creating the Service Request');
+    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6');
+    const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
+    const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
+    // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
+    // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
+    // console.log(name); // output 'testing'
+    I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
+      '0', '£0.00', '£100.00');
+    await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
+      true, checkPaymentValuesData);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
   });
