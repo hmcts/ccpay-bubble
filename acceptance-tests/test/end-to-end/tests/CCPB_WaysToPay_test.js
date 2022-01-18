@@ -164,6 +164,7 @@ Scenario.only('Test with Mocked Data... @pipeline @nightly',
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     // console.log(name); // output 'testing'
+    pause();
     I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
@@ -172,5 +173,7 @@ Scenario.only('Test with Mocked Data... @pipeline @nightly',
       '0', '£0.00', '£100.00');
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
       true, checkPaymentValuesData);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£100.00');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
   });
