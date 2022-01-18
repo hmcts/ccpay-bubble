@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable no-dupe-keys */
 'use strict';
+const CCPBATConstants = require('../tests/CCPBAcceptanceTestConstants');
 const { I } = inject();
 
 module.exports = {
@@ -54,11 +55,13 @@ module.exports = {
     I.see(`${feeAmount}`);
     I.see('Select a PBA');
     I.selectOption(this.locators.pba_account_number_select, `${accountNumber}`);
-    I.wait(1);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.see('Enter a reference for your PBA account statements');
     I.see('This should be your own unique reference to identify the case. It will appear on your statements.');
     I.fillField(this.locators.pba_reference_text_field, `${reference}`);
-    I.wait(1);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.click('//label[contains(text(),\'Enter a reference for your PBA account statements\')]');
+    I.wait(CCPBATConstants.oneSecondWaitTime);
     I.click('Continue');
   },
 
@@ -70,12 +73,11 @@ module.exports = {
   },
 
   verifyWTPGeneralPBAErrorPage(payByCardFlag) {
-    pause();
     I.see('Sorry, there is a problem with the service');
     I.see('Try again later.');
     I.see('you can also pay by credit or debit card.');
     if (payByCardFlag === false) {
-      I.click('View service request');
+      I.click('//button[contains(text(),\'View Service Request\')]');
     } else {
       I.click('Pay by card');
     }

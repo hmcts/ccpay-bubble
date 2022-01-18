@@ -6,7 +6,7 @@ const nightlyTest = process.env.NIGHTLY_TEST;
 
 const bulkScanApiCalls = require('../helpers/utils');
 
-const { Logger } = require('@hmcts/nodejs-logging');
+const {Logger} = require('@hmcts/nodejs-logging');
 
 const logger = Logger.getLogger('CCPB_PBARefunds.js');
 const assertionData = require('../fixture/data/refunds/assertion');
@@ -40,7 +40,7 @@ AfterSuite(async I => {
 */
 
 Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+  async (I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6');
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
@@ -51,7 +51,10 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
+    const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
+      '0', '£0.00', '£100.00');
+    await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
+      true, checkPaymentValuesData);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
@@ -71,7 +74,7 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
   });
 
 Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA Payment @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+  async (I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6');
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
@@ -79,11 +82,14 @@ Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     // console.log(name); // output 'testing'
-    I.login('testways2payuser1@mailnesia.com', 'Testing1234');
+    I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber, true);
+    const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
+      '0', '£0.00', '£100.00');
+    await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
+      true, checkPaymentValuesData);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
@@ -103,7 +109,7 @@ Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[contains(.,\'Pay now\')]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyPayFeePage('£100.00', 'PBA0085262', 'Test Reference');
+    ServiceRequests.verifyPayFeePage('£100.00', 'PBAFUNC345', 'Test Reference');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyConfirmedBanner('Payment successful');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -112,7 +118,7 @@ Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA
   });
 
 Scenario('A Service Request for a Solicitor For a General Technical Error during PBA Payment @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+  async (I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6');
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
@@ -120,7 +126,7 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     // console.log(name); // output 'testing'
-    I.login('testways2payuser1@mailnesia.com', 'Testing1234');
+    I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -142,21 +148,22 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    // ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,'','£100.00');
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£100.00');
     I.click('//a[.=\'Back\']');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click({ xpath: '//a[contains(text(),\'Pay now\')]' });
+    I.click({xpath: '//a[contains(text(),\'Pay now\')]'});
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyPayFeePage('£100.00', 'PBA0085262', 'Test Reference');
+    ServiceRequests.verifyPayFeePage('£100.00', 'PBAFUNC360', 'Test Reference');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyWTPGeneralPBAErrorPage(false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£100.00', false);
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£100.00', true);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
   });
 
-Scenario.only('Test with Mocked Data... @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+/*Scenario('Test with Mocked Data... @pipeline @nightly',
+  async (I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6');
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
@@ -164,7 +171,7 @@ Scenario.only('Test with Mocked Data... @pipeline @nightly',
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     // console.log(name); // output 'testing'
-    pause();
+    //pause();
     I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
@@ -176,4 +183,4 @@ Scenario.only('Test with Mocked Data... @pipeline @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£100.00');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-  });
+  });*/
