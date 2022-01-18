@@ -6,7 +6,7 @@ const nightlyTest = process.env.NIGHTLY_TEST;
 
 const bulkScanApiCalls = require('../helpers/utils');
 
-const {Logger} = require('@hmcts/nodejs-logging');
+const { Logger } = require('@hmcts/nodejs-logging');
 
 const logger = Logger.getLogger('CCPB_PBARefunds.js');
 const assertionData = require('../fixture/data/refunds/assertion');
@@ -118,7 +118,7 @@ Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA
   });
 
 Scenario('A Service Request for a Solicitor For a General Technical Error during PBA Payment @pipeline @nightly',
-  async (I, CaseSearch, CaseTransaction, ServiceRequests) => {
+  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6');
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
@@ -151,7 +151,7 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£100.00');
     I.click('//a[.=\'Back\']');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click({xpath: '//a[contains(text(),\'Pay now\')]'});
+    I.click({ xpath: '//a[contains(text(),\'Pay now\')]' });
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyPayFeePage('£100.00', 'PBAFUNC360', 'Test Reference');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -162,7 +162,7 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
     I.Logout();
   });
 
-/*Scenario('Test with Mocked Data... @pipeline @nightly',
+/* Scenario('Test with Mocked Data... @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6');

@@ -2,6 +2,7 @@
 /* eslint-disable no-dupe-keys */
 'use strict';
 const CCPBATConstants = require('../tests/CCPBAcceptanceTestConstants');
+
 const { I } = inject();
 
 module.exports = {
