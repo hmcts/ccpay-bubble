@@ -53,6 +53,11 @@ Scenario('Search for a case with actual case for Telephony flow @nightly', async
 
 Scenario('Amount Due case for Telephony flow @nightly @pipeline @crossbrowser', async I => {
   I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  const responseoff = await bulkScanApiCalls.toggleOffCaseValidation();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  if (responseoff === successResponse) {
+    logger.info('Disabled CCD validation');
+  }
   await I.AmountDueCaseForTelephonyFlow();
   I.Logout();
 });
