@@ -40,7 +40,7 @@ AfterSuite(async I => {
 */
 
 Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
-  async (I, CaseSearch, CaseTransaction, ServiceRequests) => {
+  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6');
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
@@ -74,7 +74,7 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
   });
 
 Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA Payment @pipeline @nightly',
-  async (I, CaseSearch, CaseTransaction, ServiceRequests) => {
+  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6');
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
