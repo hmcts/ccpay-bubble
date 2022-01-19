@@ -33,6 +33,15 @@ module.exports = {
     I.see(`${serviceRequestReference}`);
   },
 
+  verifyPBAPaymentErrorPage(pbaAccountNumber, errorMessage) {
+    I.see('There is a problem');
+    I.see(`Your PBA account (${pbaAccountNumber}} ${errorMessage}`);
+    I.see('Should you need any further advice');
+    I.see('Email MiddleOffice.DDservices@liberata.com or call 01633 652 125 (option 3) to try to fix the issue.');
+    I.see('you can also pay by credit or debit card.');
+    I.click('Pay by card');
+  },
+
   verifyServiceRequestPage(paymentStatus, serviceRequestReference, feeDescription, feeAmount) {
     I.see('Service request');
     I.see('Status');

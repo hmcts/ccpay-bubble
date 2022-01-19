@@ -294,9 +294,9 @@ async function createAServiceRequest(hmctsorgid) {
     ccd_case_number: `${ccdCaseNumber}`,
     fees: [
       {
-        calculated_amount: 100.00,
-        code: 'FEE312',
-        version: '1',
+        calculated_amount: 593.00,
+        code: 'FEE0002',
+        version: '6',
         volume: 1
       }
     ],

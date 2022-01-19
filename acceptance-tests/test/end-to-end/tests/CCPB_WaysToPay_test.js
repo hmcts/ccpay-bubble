@@ -52,24 +52,24 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
-      '0', '£0.00', '£100.00');
+      '0', '£0.00', '£593.00');
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
       true, checkPaymentValuesData);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£100.00');
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£593.00');
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£100.00', false);
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£593.00', false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£100.00');
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£593.00');
     I.Logout();
   });
 
@@ -87,33 +87,33 @@ Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
-      '0', '£0.00', '£100.00');
+      '0', '£0.00', '£593.00');
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
       true, checkPaymentValuesData);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£100.00');
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£593.00');
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£100.00', true);
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£593.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    // ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,'','£100.00');
+    // ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,'','£593.00');
     I.click('//a[.=\'Back\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[contains(.,\'Pay now\')]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyPayFeePage('£100.00', 'PBAFUNC345', 'Test Reference');
+    ServiceRequests.verifyPayFeePage('£593.00', 'PBAFUNC345', 'Test Reference');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyConfirmedBanner('Payment successful');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Paid', serviceRequestReference, '', '£100.00', false);
+    ServiceRequests.verifyServiceRequestTabPage('Paid', serviceRequestReference, '', '£593.00', false);
     I.Logout();
   });
 
@@ -131,38 +131,38 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
-      '0', '£0.00', '£100.00');
+      '0', '£0.00', '£593.00');
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
       true, checkPaymentValuesData);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£100.00');
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£593.00');
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£100.00', true);
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£593.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£100.00');
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£593.00');
     I.click('//a[.=\'Back\']');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click({ xpath: '//a[contains(text(),\'Pay now\')]' });
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyPayFeePage('£100.00', 'PBAFUNC360', 'Test Reference');
+    ServiceRequests.verifyPayFeePage('£593.00', 'PBAFUNC360', 'Test Reference');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyWTPGeneralPBAErrorPage(false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£100.00', true);
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£593.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
   });
 
-/* Scenario('Test with Mocked Data... @pipeline @nightly',
+Scenario.only('A Service Request for a Solicitor if an Account is Deleted for PBA Payment @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6');
@@ -171,16 +171,35 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     // console.log(name); // output 'testing'
-    //pause();
     I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
-      '0', '£0.00', '£100.00');
+      '0', '£0.00', '£593.00');
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
       true, checkPaymentValuesData);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£100.00');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-  });*/
+    // Takes you to the Service Request Page...
+    I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£593.00');
+    I.see('Service Requests');
+    I.click('Service Requests');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£593.00', true);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.click('//a[.=\'Review\']');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, '', '£593.00');
+    I.click('//a[.=\'Back\']');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click({ xpath: '//a[contains(text(),\'Pay now\')]' });
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyPayFeePage('£593.00', 'PBAFUNC350', 'Test Reference');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyPBAPaymentErrorPage('PBAFUNC350','no longer exists.');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+  });
