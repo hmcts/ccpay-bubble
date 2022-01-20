@@ -19,6 +19,8 @@ def secrets = [
     secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET'),
     secret('paybubble-idam-client-secret', 'IDAM_CLIENT_SECRET'),
     secret('launch-darkly-client-id', 'LD_CLIENT_ID'),
+    secret('citizen-oauth-client-secret', 'OAUTH2_CLIENT_SECRET'),
+    secret('cmc-service-secret', 'CMC_S2S_SERVICE_SECRET'),
     secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
   ]
 ]
@@ -46,7 +48,7 @@ withNightlyPipeline("nodejs", product, component) {
   loadVaultSecrets(secrets)
   enableFortifyScan()
   enableCrossBrowserTest()
-  enableFullFunctionalTest(90)
+  enableFullFunctionalTest(180)
   enableMutationTest(150)
   after('checkout') {
     sh "yarn cache clean"
