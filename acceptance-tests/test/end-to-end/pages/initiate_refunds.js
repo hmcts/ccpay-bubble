@@ -208,7 +208,7 @@ module.exports = {
     }
   },
 
-  verifyRemissionAddedPage(addRefundFlag, refundAmount) {
+  async verifyRemissionAddedPage(addRefundFlag, refundAmount) {
     I.see('Remission added');
     I.see('The amount to be refunded should be');
     I.see(`£${refundAmount}`);
@@ -217,7 +217,7 @@ module.exports = {
     if (addRefundFlag) {
       I.click('Submit refund');
     } else {
-      I.click('Return to case');
+      await I.click({ xpath: '//a[contains(.,\'Return to case\')]' });
     }
   },
 
