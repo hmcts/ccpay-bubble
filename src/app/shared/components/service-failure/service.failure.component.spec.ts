@@ -8,4 +8,5 @@ describe('Service failure component', () => {
     router = { navigate: jasmine.createSpy('navigate')};
     component = new ServiceFailureComponent(router);
   });
+
 });

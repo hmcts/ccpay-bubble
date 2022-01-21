@@ -17,7 +17,6 @@ describe('Paybubble client', () => {
     http = instance(mock(HttpClient));
     httpClient = new PaybubbleHttpClient(http, meta);
     spyOn(http, 'post').and.callFake(mockPost);
-    spyOn(http, 'patch').and.callFake(mockPost);
     spyOn(http, 'put').and.callFake(mockPost);
     spyOn(meta, 'getTag').and.returnValue(<any>{ content: 'this-is-a-token' });
   });
@@ -71,21 +70,6 @@ describe('Paybubble client', () => {
 
   it('Should add headers with options body to a put request', () => {
     httpClient.put('www.mock.com', {'test-prop': 'value'}, [{responseType: 'text'}, {responseType: 'text'}]).subscribe(response => {
-      expect(response['headers'].get('X-Requested-With')).toBe('XMLHttpRequest');
-    });
-  });
-  it('Should add headers to a patch request', () => {
-    httpClient.patch('www.mock.com', { 'test-prop': 'value'}, {}).subscribe(response => {
-      expect(response['headers'].get('X-Requested-With')).toBe('XMLHttpRequest');
-    });
-  });
-  it('Should add headers and option to a patch request', () => {
-    httpClient.patch('www.mock.com', {'test-prop': 'value'}, {responseType: 'text'}).subscribe(response => {
-      expect(response['headers'].get('X-Requested-With')).toBe('XMLHttpRequest');
-    });
-  });
-  it('Should add headers with options body to a patch request', () => {
-    httpClient.patch('www.mock.com', {'test-prop': 'value'}, [{responseType: 'text'}, {responseType: 'text'}]).subscribe(response => {
       expect(response['headers'].get('X-Requested-With')).toBe('XMLHttpRequest');
     });
   });

@@ -1,10 +1,8 @@
-/* eslint-disable no-magic-numbers */
 const { payhubService } = require('../../services');
 const config = require('config');
 const request = require('request-promise-native');
 const LaunchDarkly = require('launchdarkly-node-client-sdk');
 const HttpStatusCodes = require('http-status-codes');
-const { Logger } = require('@hmcts/nodejs-logging');
 
 const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
 const LDprefix = config.get('environment.ldPrefix');
@@ -161,7 +159,6 @@ class PayhubController {
         }
       });
   }
-
   postWoPGStrategicPayment(req, res, appInsights) {
     return this.payhubService.postWoPGStrategicPayment(req, res, appInsights)
       .then(result => {
@@ -175,7 +172,6 @@ class PayhubController {
         }
       });
   }
-
   postPaymentGroup(req, res, appInsights) {
     return this.payhubService.postPaymentGroup(req, res, appInsights)
       .then(result => {
@@ -245,7 +241,6 @@ class PayhubController {
         }
       });
   }
-
   postBSPayments(req, res, appInsights) {
     return this.payhubService.postBSPayments(req, appInsights)
       .then(result => {
@@ -259,7 +254,6 @@ class PayhubController {
         }
       });
   }
-
   postPaymentAllocations(req, res, appInsights) {
     return this.payhubService.postPaymentAllocations(req, appInsights)
       .then(result => {
@@ -296,52 +290,6 @@ class PayhubController {
       .catch(error => {
         if (error.statusCode) {
           res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
-      });
-  }
-
-  getPbaAccountList(req, res) {
-    return this.payhubService.getPbaAccountList(req)
-      .then(result => {
-        Logger.getLogger('Get-User-Details').info({ result });
-        res.status(200).json(result);
-      })
-      .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json(error.message);
-        } else {
-          res.status(500).json(error);
-        }
-      });
-  }
-
-  postPBAAccountPayment(req, res, appInsights) {
-    return this.payhubService.postPBAAccountPayment(req, appInsights)
-      .then(result => {
-        res.status(200).json({ data: result, success: true });
-      })
-      .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error.message, success: false });
-        }
-      });
-  }
-  postWays2PayCardPayment(req, res, appInsights) {
-    return this.payhubService.postWays2PayCardPayment(req, appInsights)
-      .then(result => {
-        Logger.getLogger('Get-User-Details').info({ result });
-        res.status(200).json(result);
-      })
-      .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({
-            err: error.message,
-            success: false
-          });
         } else {
           res.status(500).json({ err: error, success: false });
         }
@@ -389,7 +337,6 @@ class PayhubController {
         }
       });
   }
-
   getSelectedReport(req, res) {
     return this.payhubService.getSelectedReport(req)
       .then(result => {
@@ -399,7 +346,6 @@ class PayhubController {
         res.status(500).json({ err: error, success: false });
       });
   }
-
   bulkScanToggleFeature(req, res) {
     return this.payhubService.getBSfeature(req)
       .then(result => {
@@ -413,7 +359,6 @@ class PayhubController {
         }
       });
   }
-
   validateCaseReference(req, res) {
     return this.payhubService.validateCaseReference(req)
       .then(result => {
@@ -424,62 +369,6 @@ class PayhubController {
           res.status(error.statusCode).json(error.message);
         } else {
           res.status(500).json(error);
-        }
-      });
-  }
-
-  getPartyDetails(req, res) {
-    return this.payhubService.getPartyDetails(req)
-      .then(result => {
-        res.status(200).send(result);
-      })
-      .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json(error.message);
-        } else {
-          res.status(500).json(error);
-        }
-      });
-  }
-
-  // refunds
-  postRefundsReason(req, res, appInsights) {
-    return this.payhubService.postRefundsReason(req, res, appInsights)
-    // eslint-disable-next-line
-    .then(result => {
-        res.status(200).json(result);
-      })
-      .catch(error => {
-        if (error.statusCode) {
-          res.status(400).json(error);
-        }
-      });
-  }
-
-  postPaymentGroupWithRetroRemissions(req, res, appInsights) {
-    return this.payhubService.postPaymentGroupWithRetroRemissions(req, res, appInsights)
-    // eslint-disable-next-line
-    .then(result => {
-        res.status(200).json(result);
-      })
-      .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
-      });
-  }
-
-  postRefundRetroRemission(req, res, appInsights) {
-    return this.payhubService.postRefundRetroRemission(req, res, appInsights)
-    // eslint-disable-next-line
-    .then(result => {
-        res.status(200).json(result);
-      })
-      .catch(error => {
-        if (error.statusCode) {
-          res.status(400).send(error);
         }
       });
   }

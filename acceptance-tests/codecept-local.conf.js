@@ -14,7 +14,6 @@ exports.config = {
       url: CONF.e2e.frontendUrl,
       waitForTimeout,
       waitForAction,
-      browser: 'chrome',
       // waitForNavigation: 'networkidle0',
       waitForNavigation: 'domcontentloaded',
       show: false,
@@ -24,7 +23,6 @@ exports.config = {
       networkIdleTimeout: 5000,
       waitUntil: 'networkidle',
       timeout: 3000000,
-      windowSize: '1440x800',
       chrome: { ignoreHTTPSErrors: 'true' }
     },
     Mochawesome: { uniqueScreenshotNames: 'true' }
