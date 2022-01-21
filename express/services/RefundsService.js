@@ -148,6 +148,20 @@ class RefundsService {
   //   }));
   // }
 
+  putResendOrEdit(req) {
+    console.log(req.query, req.params);
+    return this.createAuthToken().then(token => request.put({
+      uri: `${refundsUrl}/resend/notification/${req.params.id}?notificationType=${req.query.notificationType}`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
   getUserDetails(req) {
     Logger.getLogger('Refundservice: enter').info(req);
     Logger.getLogger('Refundservice1: enter').info(req.authToken);
