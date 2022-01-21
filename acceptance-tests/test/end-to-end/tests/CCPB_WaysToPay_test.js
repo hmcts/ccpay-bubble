@@ -37,10 +37,10 @@ AfterSuite(async I => {
   }
 });
 
-Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
+Scenario.only('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
-    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6');
+    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6',593.00,'FEE0002','1',1);
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
@@ -169,15 +169,15 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
   });
 
 Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Payment @pipeline @nightly',
-  async (I, CaseSearch, CaseTransaction, ServiceRequests) => {
-    console.log('Creating the Service Request');
-    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6');
+  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+    // console.log('Creating the Service Request');
+    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6',593.00,'FEE0002','6',1);
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     // console.log(name); // output 'testing'
-    console.log('Before Log In');
+    // console.log('Before Log In');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -210,16 +210,16 @@ Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Pay
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     ServiceRequests.verifyPayFeePage('£593.00', 'PBAFUNC350', 'Test Reference');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyPBAPaymentErrorPage('PBAFUNC350','no longer exists.');
+    ServiceRequests.verifyPBAPaymentErrorPage('PBAFUNC350', 'no longer exists.');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details','£593.00');
+    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£593.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const paymentCardValues = assertionData.getPaymentCardValues('4444333322221111','01',
-      '26','123','Mr Test','1','Smith Street','Rotherham','SA1 1XW',
+    const paymentCardValues = assertionData.getPaymentCardValues('4444333322221111', '01',
+      '26', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
       'Testcardpayment@mailnesia.com');
     ServiceRequests.populateCardDetails(paymentCardValues);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment','£593.00');
+    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£593.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -232,15 +232,15 @@ Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Pay
   });
 
 Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Payment @pipeline @nightly',
-  async (I, CaseSearch, CaseTransaction, ServiceRequests) => {
-    console.log('Creating the Service Request');
+  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+    // console.log('Creating the Service Request');
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6');
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     // console.log(name); // output 'testing'
-    console.log('Before Log In');
+    // console.log('Before Log In');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -274,12 +274,12 @@ Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Pay
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     ServiceRequests.verifyPayFeePage('£593.00', 'PBAFUNC355', 'Test Reference');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyPBAPaymentErrorPage('PBAFUNC355','no longer exists.');
+    ServiceRequests.verifyPBAPaymentErrorPage('PBAFUNC355', 'no longer exists.');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details','£593.00');
+    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£593.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const paymentCardValues = assertionData.getPaymentCardValues('4000000000000002','01',
-      '26','123','Mr Test','1','Smith Street','Rotherham','SA1 1XW',
+    const paymentCardValues = assertionData.getPaymentCardValues('4000000000000002', '01',
+      '26', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
       'Testcardpayment@mailnesia.com');
     ServiceRequests.populateCardDetails(paymentCardValues);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -291,7 +291,7 @@ Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Pay
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
       true, checkPaymentValuesData);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    let statuses =  ['Initiated', 'Failed'];
+    const statuses = ['Initiated', 'Failed'];
     CaseTransaction.verifyPaymentStatusOnCaseTransactionPage(statuses);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');

@@ -48,7 +48,8 @@ function checkYourAnswers(paymentReference, hwfReferenceCode, refundAmount) {
   return checkYourAnswersData;
 }
 
-function getPaymentCardValues(cardNumber, expiryMonth, expiryYear, cvc, name, houseNumber, addressLine, townOrCity, postcode, email) {
+function getPaymentCardValues(cardNumber, expiryMonth, expiryYear,
+  cvc, name, houseNumber, addressLine, townOrCity, postcode, email) {
   const paymentCardValues = {
     cardNumber: `${cardNumber}`,
     expiryMonth: `${expiryMonth}`,
