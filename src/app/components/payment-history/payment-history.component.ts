@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { IdamDetails } from '../../services/idam-details/idam-details';
-
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-payment-history',
@@ -11,7 +9,6 @@ import { IdamDetails } from '../../services/idam-details/idam-details';
 export class PaymentHistoryComponent implements OnInit {
   apiRoot: string;
   bulkscanapiRoot: string;
-  refundsapiRoot: string;
   view: string;
   takePayment: boolean;
   ccdCaseNumber: string;
@@ -25,34 +22,18 @@ export class PaymentHistoryComponent implements OnInit {
   caseType: string;
   isOldPcipalOff: boolean;
   isNewPcipalOff: boolean;
-  servicerequest: string;
-  refundlist: string;
-  LOGGEDINUSEREMAIL: string;
-  LOGGEDINUSERROLES: string[];
-  userRoles = [
-    'IDAM_SUPER_USER',
-    'caseworker-probate-authorize',
-    'caseworker',
-    'caseworker-divorce',
-    'payments',
-    'payments-refund-approver',
-    'payments-refund'
-  ];
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private idamDetails: IdamDetails
-  ) { }
+    private activatedRoute: ActivatedRoute
+    ) { }
 
   ngOnInit() {
 
-    this.idamDetails.getUserRoles().subscribe(roles => {
       this.activatedRoute.params.subscribe(
         {
           next: (params) => {
             this.apiRoot = 'api/payment-history';
             this.bulkscanapiRoot = 'api/bulk-scan';
-            this.refundsapiRoot = 'api/refund';
             this.ccdCaseNumber = params['ccdCaseNumber'];
             this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
             this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
@@ -66,14 +47,7 @@ export class PaymentHistoryComponent implements OnInit {
             this.dcnNumber = this.activatedRoute.snapshot.queryParams['dcn'];
             this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
             this.caseType = this.activatedRoute.snapshot.queryParams['caseType'];
-            this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'];
-            this.refundlist = this.activatedRoute.snapshot.queryParams['refundlist'];
-            this.LOGGEDINUSEREMAIL = '';
-            this.LOGGEDINUSERROLES = roles;
           }
-        });
-
     });
   }
-
 }
