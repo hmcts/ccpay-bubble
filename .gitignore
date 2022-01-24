@@ -8,9 +8,6 @@
 # wiremock
 wire-mock/wiremock*jar
 
-# sonar
-/.scannerwork
-
 # dependencies
 /node_modules
 
