@@ -23,6 +23,8 @@ bulkscan:
   url: http://localhost:8071
 refunds:
   url: http://localhost:8084
+waystopay:
+  url: https://paymentoutcome-web.demo.platform.hmcts.net/payment
 appInsights:
   roleName: paybubble
 e2e:
