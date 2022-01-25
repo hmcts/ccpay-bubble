@@ -24,9 +24,10 @@ module.exports = {
 
   addFeesAmount(amount, jurisdiction1, jurisdiction2) {
     I.see('Search for a fee');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.fillField(this.locators.fee_search, amount);
     I.click('Search');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.wait(CCPBConstants.tenSecondWaitTime);
     I.click('Jurisdiction 1');
     I.click({ css: '#'.concat(jurisdiction1) });
     I.click('Jurisdiction 2');
