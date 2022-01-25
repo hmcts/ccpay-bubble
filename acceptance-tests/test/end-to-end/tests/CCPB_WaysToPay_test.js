@@ -40,7 +40,8 @@ AfterSuite(async I => {
 Scenario.only('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
-    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6',593.00,'FEE0002','1',1);
+    const calculatedAmount = 593.00;
+    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6', calculatedAmount, 'FEE0002', '1', 1);
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
@@ -171,7 +172,8 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
 Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Payment @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     // console.log('Creating the Service Request');
-    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6',593.00,'FEE0002','6',1);
+    const calculatedAmount = 593.00;
+    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6', calculatedAmount, 'FEE0002', '6', 1);
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
