@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IdamDetails } from '../../services/idam-details/idam-details';
-
+import * as ls from 'local-storage';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-payment-history',
@@ -29,6 +30,7 @@ export class PaymentHistoryComponent implements OnInit {
   refundlist: string;
   LOGGEDINUSEREMAIL: string;
   LOGGEDINUSERROLES: string[];
+  lsCcdNumber: any = ls.get<any>('ccdNumber');
   userRoles = [
     'IDAM_SUPER_USER',
     'caseworker-probate-authorize',
@@ -39,7 +41,7 @@ export class PaymentHistoryComponent implements OnInit {
     'payments-refund'
   ];
 
-  constructor(
+  constructor(private router: Router,
     private activatedRoute: ActivatedRoute,
     private idamDetails: IdamDetails
   ) { }
@@ -74,6 +76,11 @@ export class PaymentHistoryComponent implements OnInit {
         });
 
     });
+    const currenturl = (this.router.url).split('?', 1);
+    if ( this.lsCcdNumber !== this.ccdCaseNumber
+      && !(currenturl[0] === '/refund-list' || currenturl[0] === '/payment-history/view')) {
+      this.router.navigateByUrl('/ccd-search?takePayment=true');
+    }
   }
 
 }
