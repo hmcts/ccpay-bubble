@@ -1,4 +1,3 @@
-/* eslint-disable no-mixed-operators */
 // eslint-disable max-len
 const stringUtil = require('./string_utils.js');
 
@@ -14,9 +13,5 @@ module.exports = {
     number = (number + ms).toString().substring(0, n);
     if (replace) return number.replace(number[0], '9');
     return number;
-  },
-
-  randomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 };

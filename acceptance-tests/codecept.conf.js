@@ -6,7 +6,6 @@ const waitForAction = parseInt(CONF.e2e.waitForActionValue);
 
 exports.config = {
   name: 'ccpay-bubble-acceptance-tests',
-  // tests: './test/end-to-end/tests/CCPB_PBARefunds_test.js',
   tests: './test/end-to-end/tests/*_test.js',
   timeout: 10000,
   output: './output',
@@ -19,7 +18,6 @@ exports.config = {
       waitForNavigation: 'domcontentloaded',
       show: false,
       restart: true,
-      windowSize: '1024x768',
       keepCookies: false,
       keepBrowserState: true,
       networkIdleTimeout: 5000,
@@ -31,17 +29,11 @@ exports.config = {
           '--no-sandbox',
           // '--proxy-server=proxyout.reform.hmcts.net:8080',
           // '--proxy-bypass-list=*beta*LB.reform.hmcts.net',
-          '--start-maximized',
-          '--window-size=1024,768'
-        ],
-        defaultViewport: null
+          '--start-maximized'
+        ]
       }
     },
     Mochawesome: { uniqueScreenshotNames: 'true' }
-  },
-  plugins: {
-    pauseOnFail: {},
-    retryFailedStep: { enabled: false }
   },
   include: {
     I: './test/end-to-end/pages/steps_file.js',
@@ -54,8 +46,6 @@ exports.config = {
     CaseUnidentified: './test/end-to-end/pages/case_unidentified.js',
     Remission: './test/end-to-end/pages/remission.js',
     PaymentHistory: './test/end-to-end/pages/payment_history.js',
-    InitiateRefunds: './test/end-to-end/pages/initiate_refunds.js',
-    RefundsList: './test/end-to-end/pages/refunds_list.js',
     Reports: './test/end-to-end/pages/reports.js'
   },
   mocha: {
