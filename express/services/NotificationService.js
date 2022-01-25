@@ -2,6 +2,7 @@
 const config = require('config');
 const otp = require('otp');
 const request = require('request-promise-native');
+
 const notificationUrl = config.get('notification.url');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');

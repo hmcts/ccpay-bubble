@@ -119,7 +119,7 @@ module.exports = appInsights => express.Router()
   .patch('/payment-history/bulk-scan-payments/:id/status/*', (req, res) => {
     controllers.bulkScanController.patchBSChangeStatus(req, res, appInsights);
   })
-  //Notification service
+  // Notification service
   .get('/notification/notifications/:id', (req, res) => {
     controllers.notificationController.getRefundNotification(req, res);
   })
