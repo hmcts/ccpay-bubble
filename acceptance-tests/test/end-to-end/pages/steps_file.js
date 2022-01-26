@@ -897,9 +897,9 @@ module.exports = () => actor({
     // this.see('Divorce');
     // this.see('Probate');
     // this.see('Financial Remedy');
-    this.see('Which system are you using to take the payment?');
-    this.see('8x8');
-    this.see('Antenna');
+    // this.see('Which system are you using to take the payment?');
+    // this.see('8x8');
+    // this.see('Antenna');
     this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 

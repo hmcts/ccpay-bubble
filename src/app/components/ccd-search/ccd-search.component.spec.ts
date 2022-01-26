@@ -617,8 +617,6 @@ mockResponse4 = {
     component.isBulkscanningEnable = true;
     component.isStrategicFixEnable = true;
     component.isTurnOff = true;
-    component.isOldPcipalOff = true;
-    component.isNewPcipalOff = true;
 
     component.onSelectionChange('RC');
     expect(component.selectedValue).toBe('RC');
@@ -637,8 +635,6 @@ mockResponse4 = {
     component.isBulkscanningEnable = false;
     component.isStrategicFixEnable = false;
     component.isTurnOff = false;
-    component.isOldPcipalOff = false;
-    component.isNewPcipalOff = false;
     component.onSelectionChange('RC');
     expect(component.selectedValue).toBe('RC');
     spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('RC');
