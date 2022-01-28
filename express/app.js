@@ -2,16 +2,9 @@ const express = require('express');
 const controllers = require('./mvc/controller');
 const config = require('config');
 const HttpStatus = require('http-status-codes');
-const { Logger } = require('@hmcts/nodejs-logging');
 
 module.exports = appInsights => express.Router()
 
-  /* idam roles*/
-  .get('/user-roles', (req, res,) => {
-    Logger.getLogger('user-roles ::').info(req.roles);
-    res.status(200).send(req.roles);
-  })
-  /* payments */
   .post('/send-to-payhub-url', (req, res) => {
     controllers.payhubController.sendToPayhubWithUrl(req, res, appInsights);
   })
@@ -133,6 +126,7 @@ module.exports = appInsights => express.Router()
   .get('/payment-history/report/data?*', (req, res) => {
     controllers.payhubController.getSelectedReport(req, res);
   })
+
   .get('/payment-history/case-payment-orders?*', (req, res) => {
     controllers.payhubController.getPartyDetails(req, res);
   })

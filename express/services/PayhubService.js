@@ -342,62 +342,6 @@ class PayhubService {
     const regFeature = features.find(feature => feature.uid === CASE_REF_VALIDATION_ENABLED);
     return regFeature ? regFeature.enable : false;
   }
-
-  getPartyDetails(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/case-payment-orders?case_ids=${req.query.case_ids}`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      responseType: 'blob',
-      json: true
-    }));
-  }
-
-  // refunds
-  postRefundsReason(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/refund-for-payment`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
-
-  postPaymentGroupWithRetroRemissions(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/fees/${req.params.feeId}/retro-remission`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
-
-  postRefundRetroRemission(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/refund-retro-remission`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
-  getIdempotencyKey() {
-    return UUID();
-  }
 }
 
 module.exports = PayhubService;
