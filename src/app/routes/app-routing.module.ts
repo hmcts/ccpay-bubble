@@ -47,9 +47,17 @@ const routes: Routes = [
     component: CcdSearchComponent
   },
   {
+    path: 'service-requests',
+    component: CcdSearchComponent
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'ccd-search'
+  },
+  {
+    path: 'refund-list',
+    component: PaymentHistoryComponent
   },
   {
     path: 'payment-history/:ccdCaseNumber',
