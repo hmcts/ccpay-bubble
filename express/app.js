@@ -123,8 +123,11 @@ module.exports = appInsights => express.Router()
   .get('/notification/notifications/:id', (req, res) => {
     controllers.notificationController.getRefundNotification(req, res);
   })
-  .get('/refund/resend/notification/:id?*', (req, res) => {
+  .put('/refund/resend/notification/:id?*', (req, res) => {
     controllers.refundController.putResendOrEdit(req, res);
+  })
+  .get('/notification/search/places/v1?*', (req, res) => {
+    controllers.notificationController.getaddressByPostcode(req, res);
   })
   // Bulk scanning services
   .get('/bulk-scan/cases/:id', (req, res) => {

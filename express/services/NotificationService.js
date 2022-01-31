@@ -20,7 +20,17 @@ class NotificationService {
       json: true
     }));
   }
-
+  getaddressByPostcode(req) {
+    return request.get({
+      uri: `https://api.os.uk/search/places/v1`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    });
+  }
   createAuthToken() {
     const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
     const serviceAuthRequest = {
