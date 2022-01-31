@@ -69,25 +69,8 @@ auth.provider.service.client.baseUrl=http://localhost:23443
 
    Run the app with local config by setting up this environment variable: `spring_profiles_active=local`
 
-3. in **ccpay-bubble** project `default.yaml` make the following changes:
-```
-idam:
-  client_id: paybubble
-  client_secret: NVYEC2X7XFSRENTU
-  login_url: http://localhost:23443/login
-  api_url: http://localhost:23443
-...
-s2s:
-  key: G5XTFNBUW4P6ZP4F
-  url: http://localhost:23443
-payhub:
-  url: http://localhost:8080
-...
-fee:
-  feeRegistrationUrl: http://localhost:23443/fees
-  feeJurisdictionUrl: http://localhost:23443/jurisdictions
-```  
 
-   Run the following commands: `yarn start:angular-dev` and `yarn start:express:dev`  
+   Run the following commands: `yarn start:angular-dev` and `yarn start:express:dev`
+
 
 
