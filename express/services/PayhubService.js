@@ -1,5 +1,6 @@
 const config = require('config');
 const otp = require('otp');
+const UUID = require('uuid/v4');
 const request = require('request-promise-native');
 const FeatureService = require('./FeatureService');
 
@@ -9,6 +10,7 @@ const pcipalAntennaReturnUrl = config.get('pcipalantenna.url');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
 const microService = config.get('ccpaybubble.microservice');
+const waystopayReturnUrl = config.get('waystopay.url');
 const ccdUrl = config.get('ccd.url');
 const CASE_REF_VALIDATION_ENABLED = 'caseref-validation';
 
@@ -211,7 +213,44 @@ class PayhubService {
       json: true
     }));
   }
-
+  getPbaAccountList(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${payhubUrl}/pba-accounts`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+  postPBAAccountPayment(req) {
+    const idempotencyKey = this.getIdempotencyKey();
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/service-request/${req.params.serviceRef}/pba-payments`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        idempotency_key: `${idempotencyKey}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+  postWays2PayCardPayment(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/service-request/${req.params.serviceRef}/card-payments`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'return-url': `${waystopayReturnUrl}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
   getApportionPaymentGroup(req) {
     return this.createAuthToken().then(token => request.get({
       uri: `${payhubUrl}/payment-groups/fee-pay-apportion/${req.params.id}`,
@@ -302,6 +341,62 @@ class PayhubService {
   isCaseRefValidationEnabled(features) {
     const regFeature = features.find(feature => feature.uid === CASE_REF_VALIDATION_ENABLED);
     return regFeature ? regFeature.enable : false;
+  }
+
+  getPartyDetails(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${payhubUrl}/case-payment-orders?case_ids=${req.query.case_ids}`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      responseType: 'blob',
+      json: true
+    }));
+  }
+
+  // refunds
+  postRefundsReason(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/refund-for-payment`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
+  postPaymentGroupWithRetroRemissions(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/fees/${req.params.feeId}/retro-remission`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
+  postRefundRetroRemission(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/refund-retro-remission`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+  getIdempotencyKey() {
+    return UUID();
   }
 }
 

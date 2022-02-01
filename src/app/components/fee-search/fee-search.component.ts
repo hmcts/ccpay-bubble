@@ -48,9 +48,11 @@ export class FeeSearchComponent implements OnInit {
     this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable' ?
                                 '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
 
+
     if (this.lsCcdNumber !== this.ccdNo) {
       this.router.navigateByUrl('/ccd-search?takePayment=true');
     }
+
 
     this.paymentGroupService.getDiscontinuedFrFeature().then((status) => {
       this.isDiscontinuedFeatureEnabled = status;

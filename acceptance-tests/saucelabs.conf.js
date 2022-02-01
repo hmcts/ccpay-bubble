@@ -76,6 +76,7 @@ const setupConfig = {
     ConfirmAssociation: './test/end-to-end/pages/confirm_association.js',
     CaseTransferred: './test/end-to-end/pages/case_transferred.js',
     CaseUnidentified: './test/end-to-end/pages/case_unidentified.js',
+    InitiateRefunds: './test/end-to-end/pages/initiate_refunds.js',
     Remission: './test/end-to-end/pages/remission.js',
     PaymentHistory: './test/end-to-end/pages/payment_history.js',
     Reports: './test/end-to-end/pages/reports.js'

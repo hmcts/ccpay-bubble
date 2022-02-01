@@ -14,7 +14,7 @@ module.exports = {
 
   verifyRemissionPage(feeCode) {
     I.see('Add remission');
-    I.see('Enter remission for reference. For example: HWF-A1B-23C');
+    I.see('Enter remission for reference. For example: HWF-A1B-23C OR PA21-123456');
     I.see(`Add remission to ${feeCode}:${PaybubbleStaticData.fee_description[feeCode]}`);
     I.see('How much does the applicant need to pay?');
     I.see('Submit');
@@ -34,7 +34,7 @@ module.exports = {
   },
 
   processRemission(feeCode, amount) {
-    this.verifyRemissionPage(feeCode);
+    // this.verifyRemissionPage(feeCode);
     I.fillField(this.locators.remission_code, 'HWF-A1B-23C');
     I.fillField(this.locators.amount, amount);
     I.click('Submit');
@@ -69,6 +69,7 @@ module.exports = {
     I.fillField(this.locators.amount, amount);
     I.click('Submit');
     I.see('The remission amount must be less than the total fee');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   }
 
 

@@ -11,16 +11,14 @@ module.exports = {
     dcn_field: { xpath: '//*[@id="dcn-search"]' },
     payment_option: { xpath: '//*[@id="RC"]' },
     payment_ref_ield: { xpath: '//*[@id="RC-search"]' },
-    header: { xpath: '//h3' },
+    header: { xpath: '//h1' },
     case_transaction_link: { xpath: '//*[@id="ccd-search-link"]' }
-
   },
 
   async getHeaderValue() {
     const headerValue = await I.grabTextFrom(this.locators.header);
     return headerValue;
   },
-
 
   // done
   searchCaseUsingCcdNumber(caseNumber) {
@@ -52,15 +50,14 @@ module.exports = {
 
   validateSearchPage() {
     I.see('Search for a case');
-    I.see('Search');
     I.see('Case Transaction');
     I.see('Payment history');
+    I.see('Reports');
+    I.see('Logout');
   },
 
   navigateToCaseTransaction() {
     I.click(this.locators.case_transaction_link);
     I.wait(CCPBConstants.fiveSecondWaitTime);
   }
-
-
 };
