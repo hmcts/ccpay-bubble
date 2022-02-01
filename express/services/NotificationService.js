@@ -22,7 +22,7 @@ class NotificationService {
   }
   getaddressByPostcode(req) {
     return request.get({
-      uri: `https://api.os.uk/search/places/v1`,
+      uri: 'https://api.os.uk/search/places/v1',
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `${token}`,
