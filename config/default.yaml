@@ -24,7 +24,7 @@ bulkscan:
 refunds:
   url: http://ccpay-refunds-api-prod.service.core-compute-prod.internal
 notification:
-  url: http://ccpay-notifications-service-api-prod.service.core-compute-prod.internal
+  url: http://ccpay-notifications-service-pr-30.service.core-compute-preview.internal
 appInsights:
   roleName: paybubble
 e2e:
