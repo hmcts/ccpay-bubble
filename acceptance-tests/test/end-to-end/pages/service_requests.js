@@ -44,8 +44,11 @@ module.exports = {
     I.see(`${paymentCardValues.name}`);
     I.see('Billing address');
     // console.log(`${paymentCardValues.houseNumber}, ${paymentCardValues.addressLine}, ${paymentCardValues.townOrCity}, ${paymentCardValues.postcode}, United`);
-    I.see(`${paymentCardValues.houseNumber}, ${paymentCardValues.addressLine},
-          ${paymentCardValues.townOrCity}, ${paymentCardValues.postcode}, United`);
+    I.see(`${paymentCardValues.houseNumber}`);
+    I.see(`${paymentCardValues.addressLine}`);
+    I.see(`${paymentCardValues.townOrCity}`);
+    I.see(`${paymentCardValues.postcode}`);
+    I.see('United');
     I.see('Kingdom');
     I.see('Confirmation email');
     I.see(`${paymentCardValues.email}`);
@@ -90,6 +93,17 @@ module.exports = {
     I.see(`${serviceRequestReference}`);
   },
 
+  verifyNotEnoughFundsPage() {
+    I.see('There is a problem');
+    //I.see('You don\'t have enough funds in your PBA account to pay for this fee or your PBA account');
+    //I.see('has been put on hold.');
+    I.see('If you have already topped up your PBA account, wait up to 24 hours for the new balance to');
+    I.see('become available.');
+    I.see('Should you need any further advice');
+    I.see('Email MiddleOffice.DDservices@liberata.comor call 01633 652 125 (option 3)');
+    I.see('to try to fix the issue.');
+    I.see('you can also pay by credit or debit card.');
+  },
 
   verifyPBAPaymentErrorPage(pbaAccountNumber, errorMessage) {
     I.see('There is a problem');
