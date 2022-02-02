@@ -95,8 +95,8 @@ module.exports = {
 
   verifyNotEnoughFundsPage() {
     I.see('There is a problem');
-    //I.see('You don\'t have enough funds in your PBA account to pay for this fee or your PBA account');
-    //I.see('has been put on hold.');
+    // I.see('You don\'t have enough funds in your PBA account to pay for this fee or your PBA account');
+    // I.see('has been put on hold.');
     I.see('If you have already topped up your PBA account, wait up to 24 hours for the new balance to');
     I.see('become available.');
     I.see('Should you need any further advice');

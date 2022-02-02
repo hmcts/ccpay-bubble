@@ -210,7 +210,7 @@ Scenario('A Service Request for a Solicitor if a PBA Payment amount is over the 
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£35,000.00');
     I.click('//a[.=\'Back\']');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click({ xpath: '//a[contains(text(),\'Pay now\')]'});
+    I.click({ xpath: '//a[contains(text(),\'Pay now\')]' });
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     ServiceRequests.verifyPayFeePage('£35,000.00', 'PBAFUNC345', 'Test Reference');
     I.wait(CCPBATConstants.twoSecondWaitTime);

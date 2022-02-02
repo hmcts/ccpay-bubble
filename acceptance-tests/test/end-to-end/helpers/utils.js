@@ -298,7 +298,7 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
         calculated_amount: calculatedAmount,
         code: `${feeCode}`,
         version: `${version}`,
-        volume: volume
+        volume
       }
     ],
     hmcts_org_id: `${hmctsorgid}`
