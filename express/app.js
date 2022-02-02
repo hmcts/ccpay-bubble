@@ -119,7 +119,16 @@ module.exports = appInsights => express.Router()
   .patch('/payment-history/bulk-scan-payments/:id/status/*', (req, res) => {
     controllers.bulkScanController.patchBSChangeStatus(req, res, appInsights);
   })
-
+  // Notification service
+  .get('/notification/notifications/:id', (req, res) => {
+    controllers.notificationController.getRefundNotification(req, res);
+  })
+  .put('/refund/resend/notification/:id?*', (req, res) => {
+    controllers.refundController.putResendOrEdit(req, res);
+  })
+  .get('/notification/search/places/v1?*', (req, res) => {
+    controllers.notificationController.getaddressByPostcode(req, res);
+  })
   // Bulk scanning services
   .get('/bulk-scan/cases/:id', (req, res) => {
     controllers.bulkScanController.getPaymentDetailsForCcd(req, res);
