@@ -21,6 +21,10 @@ payhub:
   url: http://payment-api-prod.service.core-compute-prod.internal
 bulkscan:
   url: http://ccpay-bulkscanning-api-prod.service.core-compute-prod.internal
+refunds:
+  url: http://ccpay-refunds-api-prod.service.core-compute-prod.internal
+notification:
+  url: http://ccpay-notifications-service-demo.service.core-compute-demo.internal
 appInsights:
   roleName: paybubble
 e2e:

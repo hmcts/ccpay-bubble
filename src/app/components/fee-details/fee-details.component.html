@@ -2,9 +2,9 @@
   <legend>
     <h1 class="heading-xlarge">Fee details</h1>
   </legend>
+  
   <input #myInput type='hidden' id='iFrameDrivenImageValue' value='FEEDETAILS'>
-  <table *ngIf="fee && fee.current_version" class="table" style="margin-bottom: 20px">
-    <caption>Fee Details</caption>
+  <table aria-describedby="Fee details" *ngIf="fee && fee.current_version" class="table" style="margin-bottom: 20px">
     <tbody>
       <tr>
         <th class="bold" width="80px" scope="col">Fee code</th>
@@ -161,11 +161,13 @@
       <span class="form-hint">You select the fee for the first 10 pages. It costs £10 for the first 10 pages (£10 x 3 = 30).</span>
     <p>
       <span class="form-hint">You’d need to enter 3 copies.</span>
+
     <p>
       <span class="form-hint">You select the fee for the additional pages. It costs 50p for each subsequent page.</span>
     <p>
       <span class="form-hint">Step 1: £10 x 3 copies = £30</span>
     <p>
+
       <span class="form-hint">Step 2: Select the fee for the additional pages (if more than 10 pages). For example, 10 additional pages at 50p = £5.</span>
     <p>
       <span class="form-hint">Step 3: £5 x 3 copies = £15. You’ll need to enter this against the new fee</span>
