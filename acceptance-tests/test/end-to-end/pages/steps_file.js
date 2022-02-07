@@ -16,6 +16,15 @@ const stringUtils = require('../helpers/string_utils');
 const numberTwo = 2;
 
 module.exports = () => actor({
+
+  returnBackToSite() {
+    this.amOnPage('/');
+    this.wait(CCPBConstants.twoSecondWaitTime);
+    if (testConfig.e2e.testForCrossbrowser !== 'true') {
+      this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
+      this.wait(CCPBConstants.twoSecondWaitTime);
+    }
+  },
   // done
   login(email, password) {
     this.amOnPage('/');

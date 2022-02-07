@@ -25,6 +25,8 @@ refunds:
   url: http://ccpay-refunds-api-prod.service.core-compute-prod.internal
 notification:
   url: http://ccpay-notifications-service-demo.service.core-compute-demo.internal
+waystopay:
+  url: https://paymentoutcome-web.demo.platform.hmcts.net/payment
 appInsights:
   roleName: paybubble
 e2e:

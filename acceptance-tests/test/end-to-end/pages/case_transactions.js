@@ -13,7 +13,7 @@ module.exports = {
     unallocated_payment_select_option: { xpath: '//ccpay-app-unprocessed-payments//tbody/tr[1]//input' },
     rc_reference: { xpath: '//*[contains(text() , "RC")]' },
     view_details_for_status_paid: { xpath: '//ccpay-case-transactions/div/main/div/div[2]/table/tbody/tr/td[5]/a' },
-    view_details_for_payments: { xpath: '//ccpay-service-request/div[5]/table/tbody/tr/td[1]/a' },
+    view_details_for_payments: { xpath: '//ccpay-case-transactions/div/main/div[5]/table/tbody/tr/td[1]/a' },
     // Case Transactions Page (Payments Values...)
     total_payments_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[1]' },
     unallocated_payments_text: { xpath: '//td[@class="govuk-table__cell case-transaction__color summary-table-font"]' },
@@ -45,9 +45,11 @@ module.exports = {
   async checkPaymentsValues(checkPaymentValuesData) {
     const totalPaymentsValue = await I.grabTextFrom(this.locators.total_payments_text);
     // console.log(`The value of the Total Payments Text : ${totalPaymentsValue}`);
+    // console.log(`The value of the Total Payments Text  Input : ${checkPaymentValuesData.totalPayments}`);
     if (totalPaymentsValue !== `${checkPaymentValuesData.totalPayments}`) {
       throw new Error('The total payments value is not expected');
     }
+
     const unallocatedPaymentsValue = await I.grabTextFrom(this.locators.unallocated_payments_text);
     if (unallocatedPaymentsValue !== `${checkPaymentValuesData.unallocatedPayments}`) {
       throw new Error('The unallocated value is not expected');
@@ -57,6 +59,7 @@ module.exports = {
     if (totalRemissionsValue !== `${checkPaymentValuesData.totalRemissions}`) {
       throw new Error('The total remissions value is not expected');
     }
+
     const amountDueValue = await I.grabTextFrom(this.locators.amount_due_text);
     if (amountDueValue !== `${checkPaymentValuesData.amountDue}`) {
       throw new Error('The Amount Due value is not expected');
@@ -187,6 +190,28 @@ module.exports = {
       await this.checkPaymentsValuesForAFailedPayments(checkPaymentValuesData);
     }
     this.checkEmptyRefundsSection();
+  },
+
+  async validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
+    paymentStatus, checkPaymentValuesData) {
+    // console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
+    I.see('Case reference:');
+    I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
+    I.see('Total payments');
+    I.see('Unallocated payments');
+    I.see('Total remissions');
+    I.see('Amount due');
+    if (paymentStatus) {
+      await this.checkPaymentsValues(checkPaymentValuesData);
+    } else {
+      await this.checkPaymentsValuesForAFailedPayments(checkPaymentValuesData);
+    }
+  },
+
+  verifyPaymentStatusOnCaseTransactionPage(statuses) {
+    for (let i = 0; i < statuses.length; i++) {
+      I.see(`${statuses[i]}`);
+    }
   },
 
   validateCaseTransactionPageForRefundsAfterApplyingRefund(ccdCaseNumber, caseTransactions) {
