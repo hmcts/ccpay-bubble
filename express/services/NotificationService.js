@@ -4,6 +4,9 @@ const otp = require('otp');
 const request = require('request-promise-native');
 
 const notificationUrl = config.get('notification.url');
+const postcodeLookupUrl = config.get('postcodelookup.url');
+const postcodeLookupKey = config.get('postcodelookup.key');
+
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
 const microService = config.get('ccpaybubble.microservice');
@@ -22,10 +25,8 @@ class NotificationService {
   }
   getaddressByPostcode(req) {
     return request.get({
-      uri: 'https://api.os.uk/search/places/v1',
+      uri: `${postcodeLookupUrl}/postcode?postcode=${req.query.postcode}&KEY=${postcodeLookupKey}`,
       headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `${token}`,
         'Content-Type': 'application/json'
       },
       json: true
