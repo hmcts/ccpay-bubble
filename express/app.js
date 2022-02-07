@@ -126,7 +126,7 @@ module.exports = appInsights => express.Router()
   .put('/refund/resend/notification/:id?*', (req, res) => {
     controllers.refundController.putResendOrEdit(req, res);
   })
-  .get('/notification/search/places/v1?*', (req, res) => {
+  .get('/notification/search/places/v1/postcode?*', (req, res) => {
     controllers.notificationController.getaddressByPostcode(req, res);
   })
   // Bulk scanning services
