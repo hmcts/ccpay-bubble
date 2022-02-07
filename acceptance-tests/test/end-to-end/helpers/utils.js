@@ -1,5 +1,5 @@
 /* eslint-disable no-alert, no-console */
-const {Logger} = require('@hmcts/nodejs-logging');
+const { Logger } = require('@hmcts/nodejs-logging');
 const requestModule = require('request-promise-native');
 
 // eslint-disable max-len
@@ -41,7 +41,7 @@ async function getIDAMToken() {
   const idamTokenResponse = await request({
     method: 'POST',
     uri: `${s2sBaseUrl}${idamTokenPath}`,
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`
   }, (_error, response) => {
     statusCode = response.statusCode;
@@ -61,15 +61,15 @@ async function getServiceTokenForSecret(service, serviceSecret) {
   const s2sBaseUrl = `http://rpe-service-auth-provider-${env}.service.core-compute-${env}.internal`;
   const s2sAuthPath = '/testing-support/lease';
   // eslint-disable-next-line global-require
-  const oneTimePassword = require('otp')({secret: serviceSecret}).totp();
+  const oneTimePassword = require('otp')({ secret: serviceSecret }).totp();
 
   logger.log(`Getting The one time password${oneTimePassword}`);
   logger.log(`Getting The one time password :${s2sBaseUrl}`);
   const serviceToken = await request({
     method: 'POST',
     uri: s2sBaseUrl + s2sAuthPath,
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({microservice: service})
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ microservice: service })
   });
   logger.debug(serviceToken);
   logger.log(serviceToken);
@@ -91,8 +91,8 @@ async function getServiceToken(_service) {
   const serviceToken = await request({
     method: 'POST',
     uri: s2sBaseUrl + s2sAuthPath,
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({microservice: 'ccpay_bubble'})
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ microservice: 'ccpay_bubble' })
   });
 
   logger.debug(serviceToken);
@@ -106,13 +106,13 @@ async function CaseValidation(flag) {
   const disablePath = `/api/ff4j/store/features/caseref-validation/${flag}`;
   // eslint-disable-next-line global-require
   const saveCaseResponse = await request({
-      method: 'POST',
-      uri: paymentBaseUrl + disablePath,
-      headers: {'Content-Type': 'application/json'}
-    },
-    (_error, response) => {
-      statusCode = response.statusCode;
-    }).catch(error => {
+    method: 'POST',
+    uri: paymentBaseUrl + disablePath,
+    headers: { 'Content-Type': 'application/json' }
+  },
+  (_error, response) => {
+    statusCode = response.statusCode;
+  }).catch(error => {
     logger.log(error);
     // console.log(error);
   });
@@ -267,7 +267,7 @@ async function createAFailedPBAPayment() {
   // console.log(`The Payment Details Object : ${JSON.stringify(paymentDetails)}`);
   return paymentDetails;
 }
-
+// eslint-disable-next-line no-unused-vars
 async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, version, volume) {
   const baseURI = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
   const createServiceRequestEndPoint = '/service-request';
@@ -406,9 +406,8 @@ async function createAPBAPayment() {
   // console.log(`The Payment Details Object${JSON.stringify(paymentDetails)}`);
   return paymentDetails;
 }
-
-async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
-                                   bankedDate, dcnNumber, paymentMethod) {
+// eslint-disable-next-line max-len
+async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber, bankedDate, dcnNumber, paymentMethod) {
   logger.info('Creating bulk Excela Case');
   const bulkApiUrl = `http://ccpay-bulkscanning-api-${env}.service.core-compute-${env}.internal`;
   const bulkendPoint = '/bulk-scan-payment';
@@ -433,8 +432,8 @@ async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
   };
 
   const saveCaseResponse = await request(saveCaseOptions, (_error, response) => {
-      statusCode = response.statusCode;
-    }
+    statusCode = response.statusCode;
+  }
   ).catch(error => {
     logger.log(error);
   });
@@ -486,7 +485,7 @@ async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNum
   const bulkendPoint = '/bulk-scan-payments';
   const query = `?exception_reference=${exceptionCCDNumber}`;
 
-  const saveBody = {ccd_case_number: `${ccdNumber}`};
+  const saveBody = { ccd_case_number: `${ccdNumber}` };
 
   const saveCaseOptions = {
     method: 'PUT',

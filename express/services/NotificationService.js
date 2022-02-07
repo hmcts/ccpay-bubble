@@ -26,9 +26,7 @@ class NotificationService {
   getaddressByPostcode(req) {
     return request.get({
       uri: `${postcodeLookupUrl}/postcode?postcode=${req.query.postcode}&KEY=${postcodeLookupKey}`,
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       json: true
     });
   }
