@@ -27,6 +27,9 @@ notification:
   url: http://ccpay-notifications-service-demo.service.core-compute-demo.internal
 waystopay:
   url: https://paymentoutcome-web.demo.platform.hmcts.net/payment
+postcodelookup:
+  url: https://api.os.uk/search/places/v1
+  key: 'NEED APP KEY'
 appInsights:
   roleName: paybubble
 e2e:
