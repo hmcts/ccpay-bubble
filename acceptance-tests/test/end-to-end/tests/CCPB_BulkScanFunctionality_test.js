@@ -10,7 +10,7 @@ const miscUtils = require('../helpers/misc');
 
 const stringUtils = require('../helpers/string_utils');
 
-const testConfig = require('config/CCPBConfig');
+const testConfig = require('./config/CCPBConfig');
 
 const nightlyTest = process.env.NIGHTLY_TEST;
 
