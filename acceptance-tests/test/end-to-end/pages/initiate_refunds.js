@@ -31,12 +31,14 @@ module.exports = {
     return headerValue;
   },
 
+
   verifyServiceRequestPage(typeOfRefund, serviceRequestReference, feeDescription, feeAmount) {
     I.see('Service request');
     I.see('Service request reference');
     I.see(`${serviceRequestReference}`);
     I.see('Fee');
     I.see(`${feeDescription}`);
+
     I.see('Amount');
     I.see(`1 X ${feeAmount}`);
     I.see('Total');

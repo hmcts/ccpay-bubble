@@ -13,6 +13,7 @@ export class PaymentHistoryComponent implements OnInit {
   apiRoot: string;
   bulkscanapiRoot: string;
   refundsapiRoot: string;
+
   notificationapiRoot: string;
   view: string;
   takePayment: boolean;
@@ -31,7 +32,9 @@ export class PaymentHistoryComponent implements OnInit {
   refundlist: string;
   LOGGEDINUSEREMAIL: string;
   LOGGEDINUSERROLES: string[];
+
   lsCcdNumber: any = ls.get<any>('ccdNumber');
+
   userRoles = [
     'IDAM_SUPER_USER',
     'caseworker-probate-authorize',
@@ -41,6 +44,7 @@ export class PaymentHistoryComponent implements OnInit {
     'payments-refund-approver',
     'payments-refund'
   ];
+
 
   constructor(private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -55,7 +59,9 @@ export class PaymentHistoryComponent implements OnInit {
           next: (params) => {
             this.apiRoot = 'api/payment-history';
             this.bulkscanapiRoot = 'api/bulk-scan';
+
             this.notificationapiRoot = 'api/notification';
+
             this.refundsapiRoot = 'api/refund';
             this.ccdCaseNumber = params['ccdCaseNumber'];
             this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';

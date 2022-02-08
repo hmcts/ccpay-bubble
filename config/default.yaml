@@ -2,8 +2,8 @@ security:
   referrerPolicy: origin
 idam:
   client_id: paybubble
-  login_url: https://idam-web-public.aat.platform.hmcts.net
-  api_url: https://idam-api.aat.platform.hmcts.net
+  login_url: http://localhost:23443
+  api_url: http://localhost:23443
 session:
   cookieName: SESSION_ID
 environment:
@@ -16,6 +16,7 @@ pcipalantenna:
   url: https://paybubble.platform.hmcts.net/ccd-search
   microservice: ccpay_bubble
 s2s:
+
   url: http://localhost:23443
 payhub:
   url: http://localhost:8089
@@ -27,6 +28,7 @@ waystopay:
   url: https://paymentoutcome-web.demo.platform.hmcts.net/payment
 notification:
   url: http://ccpay-notifications-service-demo.service.core-compute-demo.internal
+
 appInsights:
   roleName: paybubble
 e2e:
@@ -37,8 +39,8 @@ certs:
   key: ./localhost-ssl/localhost.key
   crt: ./localhost-ssl/localhost.crt
 fee:
-  feeRegistrationUrl: http://fees-register-api-aat.service.core-compute-aat.internal/fees-register/fees
-  feeJurisdictionUrl: http://fees-register-api-aat.service.core-compute-aat.internal/jurisdictions
+  feeRegistrationUrl: http://localhost:23443/fees-register/fees
+  feeJurisdictionUrl: http://localhost:23443/jurisdictions
 ccd:
   url: http://localhost:23443
 secrets:

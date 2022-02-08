@@ -148,6 +148,7 @@ class RefundsService {
   //   }));
   // }
 
+
   putResendOrEdit(req) {
     return this.createAuthToken().then(token => request.put({
       uri: `${refundsUrl}/resend/notification/${req.params.id}${req.params[0]}?notificationType=${req.query.notificationType}`,

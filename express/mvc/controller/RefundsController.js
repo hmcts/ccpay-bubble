@@ -85,6 +85,7 @@ class RefundsController {
         }
       });
   }
+
   putResendOrEdit(req, res, appInsights) {
     return this.refundsService.putResendOrEdit(req, res, appInsights)
       .then(result => {
@@ -98,6 +99,7 @@ class RefundsController {
         }
       });
   }
+
   getRefundStatusList(req, res) {
     return this.refundsService.getRefundStatusList(req)
       .then(result => {

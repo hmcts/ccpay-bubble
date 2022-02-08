@@ -76,6 +76,7 @@ async function getServiceTokenForSecret(service, serviceSecret) {
   return serviceToken;
 }
 
+
 // eslint-disable-next-line no-unused-vars
 async function getServiceToken(_service) {
   logger.info('Getting Service Token');
@@ -87,6 +88,7 @@ async function getServiceToken(_service) {
 
   // eslint-disable-next-line no-unused-vars
   // const oneTimePassword = require('otp')({ secret: serviceSecret }).totp();
+
 
   const serviceToken = await request({
     method: 'POST',
@@ -268,6 +270,7 @@ async function createAFailedPBAPayment() {
   return paymentDetails;
 }
 
+
 async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, version, volume) {
   const baseURI = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
   const createServiceRequestEndPoint = '/service-request';
@@ -333,6 +336,7 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
   // console.log(`The Payment Details Object${JSON.stringify(paymentDetails)}`);
   return serviceRequestResponseDetails;
 }
+
 
 // eslint-disable-next-line no-unused-vars
 async function createAPBAPayment() {
@@ -586,6 +590,8 @@ async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
 
 module.exports = {
   bulkScanNormalCcd, bulkScanExceptionCcd, bulkScanCcdLinkedToException,
+
   toggleOffCaseValidation, toggleOnCaseValidation, createAPBAPayment,
   createAFailedPBAPayment, createAServiceRequest
+
 };

@@ -13,13 +13,16 @@ module.exports = {
     unallocated_payment_select_option: { xpath: '//ccpay-app-unprocessed-payments//tbody/tr[1]//input' },
     rc_reference: { xpath: '//*[contains(text() , "RC")]' },
     view_details_for_status_paid: { xpath: '//ccpay-case-transactions/div/main/div/div[2]/table/tbody/tr/td[5]/a' },
+
     view_details_for_payments: { xpath: '//ccpay-case-transactions/div/main/div[5]/table/tbody/tr/td[1]/a' },
+
     // Case Transactions Page (Payments Values...)
     total_payments_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[1]' },
     unallocated_payments_text: { xpath: '//td[@class="govuk-table__cell case-transaction__color summary-table-font"]' },
     total_remissions_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[3]' },
     amount_due_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[4]' }
   },
+
 
   checkEmptyRefundsSection() {
     I.see('Refunds');
@@ -99,6 +102,7 @@ module.exports = {
     I.see('Reason');
     I.see(`${caseTransactions.refundReason}`);
   },
+
 
   // done
   checkBulkCase(caseNumber, caseTitle) {
@@ -192,6 +196,7 @@ module.exports = {
     this.checkEmptyRefundsSection();
   },
 
+
   async validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
     paymentStatus, checkPaymentValuesData) {
     // console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
@@ -213,6 +218,7 @@ module.exports = {
       I.see(`${statuses[i]}`);
     }
   },
+
 
   validateCaseTransactionPageForRefundsAfterApplyingRefund(ccdCaseNumber, caseTransactions) {
     I.see('Case reference:');

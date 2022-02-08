@@ -48,6 +48,7 @@ function checkYourAnswers(paymentReference, hwfReferenceCode, refundAmount) {
   return checkYourAnswersData;
 }
 
+
 function getPaymentCardValues(cardNumber, expiryMonth, expiryYear,
   cvc, name, houseNumber, addressLine, townOrCity, postcode, email) {
   const paymentCardValues = {
@@ -88,6 +89,8 @@ function getCaseTransactionsData(
 
 module.exports = {
   checkPaymentValues, checkYourDetailsSummary,
+
   checkYourAnswers, getCaseTransactionsData,
   getPaymentCardValues
+
 };
