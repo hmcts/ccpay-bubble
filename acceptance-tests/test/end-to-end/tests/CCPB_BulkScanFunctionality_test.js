@@ -10,6 +10,8 @@ const miscUtils = require('../helpers/misc');
 
 const stringUtils = require('../helpers/string_utils');
 
+const testConfig = require('/config/CCPBConfig.js');
+
 const nightlyTest = process.env.NIGHTLY_TEST;
 
 const successResponse = 202;
@@ -38,7 +40,7 @@ AfterSuite(async I => {
 // #region Normal CCD case bulk scan functional cases
 Scenario('Normal ccd case cash payment full allocation @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
     const totalAmount = 550;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
     const ccdCaseNumber = ccdAndDcn[1];

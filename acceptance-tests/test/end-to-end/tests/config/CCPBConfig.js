@@ -1,6 +1,6 @@
 module.exports = {
-  TestCaseWorkerUserName: process.env.CASE_WORKER_USER_NAME,
-  TestCaseWorkerPassword: process.env.CASE_WORKER_PASSWORD,
+  TestProbateCaseWorkerUserName: process.env.PROBATE_CASE_WORKER_USER_NAME,
+  TestProbateCaseWorkerPassword: process.env.PROBATE_CASE_WORKER_PASSWORD,
   TestRefundsApproverUserName: process.env.REFUNDS_APPROVER_USER_NAME,
   TestRefundsApproverPassword: process.env.REFUNDS_APPROVER_PASSWORD,
   TestClientID: process.env.CLIENT_ID || 'cmc_citizen',
