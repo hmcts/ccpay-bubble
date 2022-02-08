@@ -46,12 +46,33 @@ module.exports = {
   },
 
   verifyPaymentDetailsPage(typeOfRefund) {
-    I.waitForText('Payment details', '5');
-    I.waitForText('Payment status history', '5');
+    I.see('Payment details');
+    I.see('Payment status history');
     I.see('Issue refund');
     I.waitForText('Fee and remission details', '5');
     I.see('Add remission');
     I.click(typeOfRefund);
+  },
+
+  verifyPaymentDetailsPageSummarySection(checkYourDetailsSummary) {
+    I.see('Payment details');
+    I.see('Service request reference');
+    I.see('Payment reference');
+    I.see(`${checkYourDetailsSummary.paymentReference}`);
+    I.see('Payment amount');
+    I.see(`${checkYourDetailsSummary.paymentAmount}`);
+    I.see('Payment method');
+    I.see(`${checkYourDetailsSummary.paymentMethod}`);
+    I.see('Type');
+    I.see(`${checkYourDetailsSummary.paymentType}`);
+    I.see('Channel');
+    I.see(`${checkYourDetailsSummary.paymentChannel}`);
+    I.see('PBA account name');
+    I.see(`${checkYourDetailsSummary.pbaAccountName}`);
+    I.see('PBA number');
+    I.see(`${checkYourDetailsSummary.pbaNumber}`);
+    I.see('Customer internal reference');
+    I.see(`${checkYourDetailsSummary.customerInternalReference}`);
   },
 
   verifyPaymentDetailsPageForFailedPayment(typeOfRefund) {
@@ -185,8 +206,8 @@ module.exports = {
     }
   },
 
-  verifyRemissionAddedPage(addRefundFlag, refundAmount) {
-    I.waitForText('Remission added', '5');
+  async verifyRemissionAddedPage(addRefundFlag, refundAmount) {
+    I.see('Remission added');
     I.see('The amount to be refunded should be');
     I.see(`£${refundAmount}`);
     I.see('Submit refund');
@@ -194,7 +215,7 @@ module.exports = {
     if (addRefundFlag) {
       I.click('Submit refund');
     } else {
-      I.click('Return to case');
+      await I.click({ xpath: '//a[contains(.,\'Return to case\')]' });
     }
   },
 
@@ -268,7 +289,7 @@ module.exports = {
     I.see('Date and time');
     I.see('Users');
     I.see('Notes');
-    I.see('Refund initiated');
+    I.see(`${caseTransactionsData.refundNotes}`);
 
     if (processRefundButtonVisible === false) {
       I.dontSee('Process refund');
@@ -292,12 +313,12 @@ module.exports = {
     I.see('Refund status history');
     I.see('Status');
     I.see(`${caseTransactionsData.refundStatus}`);
-    I.see('sent for approval');
+    I.see('Update required');
     I.see('Date and time');
     I.see('Users');
     I.see('Notes');
     I.see('Refund initiated');
-    I.see('Test Reason Only');
+    I.see(`${caseTransactionsData.refundNotes}`);
     I.see('Resubmit refund');
     I.click('Resubmit refund');
   },
@@ -339,17 +360,14 @@ module.exports = {
     I.see('Refund list');
     I.see('Refunds to be approved');
     I.see('Filter by caseworker:');
-    I.see('Case ID');
+    I.see('Case reference');
     I.see('Refund reference');
-    I.see('Reason');
     I.see('Submitted by');
-    I.see('Date updated');
+    I.see('Date created');
+    I.see('Last updated');
     I.see('Action');
     I.see('Refunds returned to caseworker');
     I.selectOption(this.locators.users_drop_down_for_refunds_to_be_approved, 'Probate Request Request');
-    // Double Clicking For Sort By Descending....
-    // I.click('Date updated');
-    // I.click('Date updated');
     I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
     I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
     I.click(`//mat-cell[contains(.,'${refundReference}')]/following-sibling::mat-cell/a[.='Process refund'][1]`);
@@ -437,7 +455,7 @@ module.exports = {
     I.see('Reason');
 
     if (reviewRoute === 'Payments') {
-      I.click('//a[.=\'Review\']');
+      I.click('//div[2]//a[.=\'Review\']');
     } else {
       I.click('//div[@class=\'govuk-grid-row govuk-grid__surplus-payments\']/div[@class=\'govuk-grid-column-full\']/table[@class=\'govuk-table\']//a[.=\'Review\']');
     }

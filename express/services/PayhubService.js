@@ -306,7 +306,7 @@ class PayhubService {
 
   getPartyDetails(req) {
     return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/case-payment-orders?case_ids=${req.query['case-ids']}`,
+      uri: `${payhubUrl}/case-payment-orders?case_ids=${req.query.case_ids}`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
@@ -355,6 +355,9 @@ class PayhubService {
       },
       json: true
     }));
+  }
+  getIdempotencyKey() {
+    return UUID();
   }
 }
 

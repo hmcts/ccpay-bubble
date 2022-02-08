@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IdamDetails } from '../../services/idam-details/idam-details';
 
+
 @Component({
   selector: 'app-payment-history',
   templateUrl: './payment-history.component.html',
@@ -28,7 +29,6 @@ export class PaymentHistoryComponent implements OnInit {
   refundlist: string;
   LOGGEDINUSEREMAIL: string;
   LOGGEDINUSERROLES: string[];
-
   userRoles = [
     'IDAM_SUPER_USER',
     'caseworker-probate-authorize',
@@ -45,6 +45,7 @@ export class PaymentHistoryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.idamDetails.getUserRoles().subscribe(roles => {
       this.activatedRoute.params.subscribe(
         {
@@ -71,8 +72,8 @@ export class PaymentHistoryComponent implements OnInit {
             this.LOGGEDINUSERROLES = roles;
           }
         });
+
     });
-
-
   }
+
 }

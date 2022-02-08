@@ -136,11 +136,9 @@ module.exports = appInsights => express.Router()
   .get('/payment-history/case-payment-orders?*', (req, res) => {
     controllers.payhubController.getPartyDetails(req, res);
   })
-
   .post('/payment-history/payment-groups/:paymentGroup/fees/:feeId/retro-remission', (req, res) => {
     controllers.payhubController.postPaymentGroupWithRetroRemissions(req, res);
   })
-
   .post('/payment-history/refund-retro-remission ', (req, res) => {
     controllers.payhubController.postRefundRetroRemission(req, res);
   })
