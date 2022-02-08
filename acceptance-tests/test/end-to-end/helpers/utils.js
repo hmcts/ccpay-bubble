@@ -81,13 +81,11 @@ async function getServiceToken(_service) {
   logger.info('Getting Service Token');
 
   // const serviceSecret = process.env.CCD_SUBMIT_S2S_SECRET;
-
   const s2sBaseUrl = `http://rpe-service-auth-provider-${env}.service.core-compute-${env}.internal`;
   const s2sAuthPath = '/testing-support/lease';
 
   // eslint-disable-next-line no-unused-vars
   // const oneTimePassword = require('otp')({ secret: serviceSecret }).totp();
-
   const serviceToken = await request({
     method: 'POST',
     uri: s2sBaseUrl + s2sAuthPath,
@@ -332,7 +330,6 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
   // console.log(`The Payment Details Object${JSON.stringify(paymentDetails)}`);
   return serviceRequestResponseDetails;
 }
-
 // eslint-disable-next-line no-unused-vars
 async function createAPBAPayment() {
   // console.log('Creating bulk a PBA Payment...');

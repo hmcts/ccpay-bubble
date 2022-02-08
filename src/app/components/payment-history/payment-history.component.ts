@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { IdamDetails } from '../../services/idam-details/idam-details';
 import * as ls from 'local-storage';
 import {Router} from '@angular/router';
-
 @Component({
   selector: 'app-payment-history',
   templateUrl: './payment-history.component.html',

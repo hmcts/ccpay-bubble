@@ -98,6 +98,7 @@ class RefundsController {
         }
       });
   }
+
   getRefundStatusList(req, res) {
     return this.refundsService.getRefundStatusList(req)
       .then(result => {
