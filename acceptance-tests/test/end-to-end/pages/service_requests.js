@@ -27,6 +27,12 @@ module.exports = {
     return headerValue;
   },
 
+  verifyServiceRequestNotFoundErrorPage() {
+    I.see('If you are expecting tom pay and are not');
+    I.see('able to see a service request');
+    I.see('please refresh and try in sometime.');
+  },
+
   verifyYourPaymentHasBeenDeclinedPage() {
     I.see('Your payment has been declined');
     I.see('No money has been taken from your account. Contact your');
@@ -95,12 +101,11 @@ module.exports = {
 
   verifyNotEnoughFundsPage() {
     I.see('There is a problem');
-    // I.see('You don\'t have enough funds in your PBA account to pay for this fee or your PBA account');
-    // I.see('has been put on hold.');
+    I.see('You don\'t have enough funds in your PBA account to pay for this fee.');
     I.see('If you have already topped up your PBA account, wait up to 24 hours for the new balance to');
     I.see('become available.');
     I.see('Should you need any further advice');
-    I.see('Email MiddleOffice.DDservices@liberata.comor call 01633 652 125 (option 3)');
+    I.see('Email MiddleOffice.DDservices@liberata.com or call 01633 652 125 (option 3)');
     I.see('to try to fix the issue.');
     I.see('you can also pay by credit or debit card.');
   },
@@ -109,7 +114,7 @@ module.exports = {
     I.see('There is a problem');
     I.see(`Your PBA account (${pbaAccountNumber}) ${errorMessage}`);
     I.see('Should you need any further advice');
-    I.see('Email MiddleOffice.DDservices@liberata.comor call 01633 652 125 (option 3)');
+    I.see('Email MiddleOffice.DDservices@liberata.com or call 01633 652 125 (option 3)');
     I.see('to try to fix the issue.');
     I.see('you can also pay by credit or debit card.');
     I.click('Pay by card');
@@ -130,6 +135,25 @@ module.exports = {
     I.see('Total');
     I.see(`${feeAmount}`);
     I.see(`Total fees: ${feeAmount}`);
+  },
+
+  verifyNoPBAFoundPage() {
+    I.see('You don’t have a registered PBA.');
+    I.see('Pay by credit or debit card');
+    I.see('We recommend that you apply to get a new PBA to pay for fees.');
+    I.see('you can also pay by credit or debit card if you need to pay now');
+    I.see('Pay by card');
+    I.see('Register an existing PBA with MyHMCTS');
+    I.see('You may find it easier in future to pay by PBA, your organisation administrator will need to');
+    I.see('email MyHMCTSsupport@justice.gov.uk to ask for your PBA to be registered with your');
+    I.see('MyHMCTS account. You should include your organisation name and PBA number.');
+    I.see('It can then take up to 3 days for your account to be updated. You’ll need to start your claim');
+    I.see('again to pay the fee.');
+    I.see('Apply to get a new PBA');
+    I.see('You’ll need to provide details for you and your organisation, including the required credit');
+    I.see('limit for your account.');
+    I.see('Once your account has been registered, you’ll need to start your claim again to pay the fee.');
+    I.see('Read more information on registering for PBA.');
   },
 
   verifyPayFeePage(feeAmount, accountNumber, reference) {

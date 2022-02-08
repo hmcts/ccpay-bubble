@@ -72,6 +72,55 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     I.Logout();
   });
 
+Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
+  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+    logger.log('Creating the Service Request');
+    const calculatedAmount = 593.00;
+    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6', calculatedAmount, 'FEE0002', '1', 1);
+    const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
+    const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
+    // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
+    // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
+    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
+      '0', '£0.00', '£593.00');
+    await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
+      true, checkPaymentValuesData);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    // Takes you to the Service Request Page...
+    I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
+    I.see('Service Requests');
+    I.click('Service Requests');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£593.00', false);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.click('//a[.=\'Review\']');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
+    I.Logout();
+  });
+
+/*Scenario.only('A Service Request Not available for Ways to Pay @pipeline @nightly',
+  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+
+    const ccdCaseNumber = '1234123412341234';
+    I.see('Service Requests');
+    I.click('Service Requests');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    ServiceRequests.verifyServiceRequestNotFoundErrorPage();
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.Logout();
+  });*/
+
 Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA Payment @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
@@ -288,7 +337,7 @@ Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Pay
     I.Logout();
   });
 
-Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Payment and the Card Payment Fails @pipeline @nightly',
+Scenario.skip('A Service Request for a Solicitor if an Account is On hold for PBA Payment and the Card Payment Fails @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     // console.log('Creating the Service Request');
     const calculatedAmount = 593.00;
