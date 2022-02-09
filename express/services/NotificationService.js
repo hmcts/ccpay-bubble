@@ -25,7 +25,7 @@ class NotificationService {
     }));
   }
   getaddressByPostcode(req) {
-    console.log(postcodeLookupKey);
+    Logger.getLogger('postcode: user').info(postcodeLookupKey);
     return request.get({
       uri: `${postcodeLookupUrl}/postcode?postcode=${req.query.postcode}&KEY=${postcodeLookupKey}`,
       headers: {
