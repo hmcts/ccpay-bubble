@@ -21,6 +21,7 @@ def secrets = [
     secret('launch-darkly-client-id', 'LD_CLIENT_ID'),
     secret('citizen-oauth-client-secret', 'OAUTH2_CLIENT_SECRET'),
     secret('cmc-service-secret', 'CMC_S2S_SERVICE_SECRET'),
+    secret('postcode-lookup-key', 'POSTCODE_LOOKUP_ID'),
     secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
   ]
 ]
