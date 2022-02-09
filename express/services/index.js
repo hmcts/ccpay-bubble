@@ -10,5 +10,4 @@ module.exports = {
   bulkScanService: new BulkScanService(),
   refundsService: new RefundsService(),
   notificationService: new NotificationService()
-
 };

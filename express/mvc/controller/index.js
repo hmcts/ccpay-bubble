@@ -10,7 +10,6 @@ const {
   BulkScanService,
   RefundsService,
   NotificationService
-
 } = require('./../../services');
 
 module.exports = {

@@ -160,7 +160,6 @@ class RefundsService {
       json: true
     }));
   }
-
   getUserDetails(req) {
     Logger.getLogger('Refundservice: enter').info(req);
     Logger.getLogger('Refundservice1: enter').info(req.authToken);
