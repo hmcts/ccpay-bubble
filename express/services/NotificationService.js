@@ -28,9 +28,7 @@ class NotificationService {
     Logger.getLogger('postcode: user').info(postcodeLookupKey);
     return request.get({
       uri: `${postcodeLookupUrl}/postcode?postcode=${req.query.postcode}&KEY=${postcodeLookupKey}`,
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       json: true
     });
   }
