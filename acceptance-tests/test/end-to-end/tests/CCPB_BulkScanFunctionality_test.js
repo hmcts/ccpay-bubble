@@ -148,7 +148,7 @@ Scenario('Exception ccd case cash payment transferred @nightly', async(I, CaseSe
   }
 });
 
-Scenario.skip('DCN Search for ccd case associated with exception postal order payment transferred @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
+Scenario('DCN Search for ccd case associated with exception postal order payment transferred @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
   if (nightlyTest) {
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const totalAmount = 600;
@@ -192,7 +192,7 @@ Scenario('Normal ccd case cash payment transferred when no valid reason or site 
   }
 });
 
-Scenario.skip('Exception Case Cheque Payment Unidentified @nightly', async(I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
+Scenario('Exception Case Cheque Payment Unidentified @nightly', async(I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
   if (nightlyTest) {
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const totalAmount = 550;
@@ -239,7 +239,7 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
 });
 
 
-Scenario.skip('Ccd case search with exception record postal order payment shortfall payment @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
+Scenario('Ccd case search with exception record postal order payment shortfall payment @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
   if (nightlyTest) {
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const totalAmount = 500;
