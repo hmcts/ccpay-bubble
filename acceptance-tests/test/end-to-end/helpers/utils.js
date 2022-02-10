@@ -75,7 +75,6 @@ async function getServiceTokenForSecret(service, serviceSecret) {
   logger.log(serviceToken);
   return serviceToken;
 }
-
 // eslint-disable-next-line no-unused-vars
 async function getServiceToken(_service) {
   logger.info('Getting Service Token');
@@ -87,7 +86,6 @@ async function getServiceToken(_service) {
 
   // eslint-disable-next-line no-unused-vars
   // const oneTimePassword = require('otp')({ secret: serviceSecret }).totp();
-
   const serviceToken = await request({
     method: 'POST',
     uri: s2sBaseUrl + s2sAuthPath,
@@ -333,7 +331,6 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
   // console.log(`The Payment Details Object${JSON.stringify(paymentDetails)}`);
   return serviceRequestResponseDetails;
 }
-
 // eslint-disable-next-line no-unused-vars
 async function createAPBAPayment() {
   // console.log('Creating bulk a PBA Payment...');

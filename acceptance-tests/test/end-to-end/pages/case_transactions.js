@@ -20,7 +20,6 @@ module.exports = {
     total_remissions_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[3]' },
     amount_due_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[4]' }
   },
-
   checkEmptyRefundsSection() {
     I.see('Refunds');
     I.see('Status');
@@ -213,7 +212,6 @@ module.exports = {
       I.see(`${statuses[i]}`);
     }
   },
-
   validateCaseTransactionPageForRefundsAfterApplyingRefund(ccdCaseNumber, caseTransactions) {
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
