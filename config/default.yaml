@@ -26,7 +26,7 @@ refunds:
 notification:
   url: http://ccpay-notifications-service-demo.service.core-compute-demo.internal
 postcodelookup:
-  url: https://api.os.uk/search/places/v1
+  url: URL
   key: POSTCODE_LOOKUP_ID
 appInsights:
   roleName: paybubble
