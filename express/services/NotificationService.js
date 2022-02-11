@@ -2,7 +2,7 @@
 const config = require('config');
 const otp = require('otp');
 const request = require('request-promise-native');
-const { Logger } = require('@hmcts/nodejs-logging');
+// const { Logger } = require('@hmcts/nodejs-logging');
 
 const notificationUrl = config.get('notification.url');
 const postcodeLookupUrl = config.get('postcodelookup.url');
