@@ -27,10 +27,15 @@ module.exports = {
     return headerValue;
   },
 
-  verifyServiceRequestNotFoundErrorPage() {
-    I.see('If you are expecting tom pay and are not');
+  verifyServiceRequestNotFoundErrorPage(isCaseWorker) {
+
+    I.see('If you are expecting to pay and are not');
     I.see('able to see a service request');
-    I.see('please refresh and try in sometime.');
+    I.see('please refresh and try in some time.');
+    if (isCaseWorker === true) {
+      I.see('Refunds');
+      I.see('No refunds recorded');
+    }
   },
 
   verifyYourPaymentHasBeenDeclinedPage() {
@@ -138,7 +143,7 @@ module.exports = {
   },
 
   verifyNoPBAFoundPage() {
-    I.see('You don’t have a registered PBA.');
+    // I.see('You don'/'t have a registered PBA.');
     I.see('Pay by credit or debit card');
     I.see('We recommend that you apply to get a new PBA to pay for fees.');
     I.see('you can also pay by credit or debit card if you need to pay now');
