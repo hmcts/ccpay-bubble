@@ -7,6 +7,7 @@ const { Logger } = require('@hmcts/nodejs-logging');
 const notificationUrl = config.get('notification.url');
 const postcodeLookupUrl = config.get('postcodelookup.url');
 const postcodeLookupKey = config.get('postcodelookup.key');
+const postcodeLookupKey1 = config.get('secrets.ccpay.postcode-address-lookup-id');
 
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
@@ -27,7 +28,7 @@ class NotificationService {
   getaddressByPostcode(req) {
     Logger.getLogger('key').info(postcodeLookupKey);
     Logger.getLogger('url').info(postcodeLookupUrl);
-    Logger.getLogger('ccdurl').info(notificationUrl);
+    Logger.getLogger('kkey').info(postcodeLookupKey1);
 
 
     return request.get({

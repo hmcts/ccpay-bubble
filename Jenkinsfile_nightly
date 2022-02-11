@@ -22,6 +22,7 @@ def secrets = [
     secret('citizen-oauth-client-secret', 'OAUTH2_CLIENT_SECRET'),
     secret('cmc-service-secret', 'CMC_S2S_SERVICE_SECRET'),
     secret('postcode-lookup-key', 'POSTCODE_LOOKUP_ID'),
+    secret('postcode-address-lookup-id', 'POSTCODE_ADDRESS_LOOKUP_ID'),
     secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
   ]
 ]
