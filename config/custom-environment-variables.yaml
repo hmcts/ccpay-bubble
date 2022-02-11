@@ -25,7 +25,6 @@ notification:
   url: CCPAY_NOTIFICATION_API_URL
 postcodelookup:
   url: POSTCODE_LOOKUP_URL
-  key: POSTCODE_LOOKUP_ID
 certs:
   key: CERTS_KEY
   crt: CERTS_CRT
