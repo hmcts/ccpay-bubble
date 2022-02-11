@@ -29,9 +29,6 @@ module.exports = {
 
   verifyServiceRequestNotFoundErrorPage(isCaseWorker) {
     I.see('If you are expecting to pay and are not');
-  verifyServiceRequestNotFoundErrorPage(isCaseWorker) {
-
-    I.see('If you are expecting to pay and are not');
     I.see('able to see a service request');
     I.see('please refresh and try in some time.');
     if (isCaseWorker === true) {
