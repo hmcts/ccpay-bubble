@@ -5,8 +5,6 @@ const request = require('request-promise-native');
 const { Logger } = require('@hmcts/nodejs-logging');
 
 const notificationUrl = config.get('notification.url');
-const ccdurl = config.get('ccd.url');
-
 const postcodeLookupUrl = config.get('postcodelookup.url');
 const postcodeLookupKey = config.get('postcodelookup.key');
 
@@ -29,7 +27,7 @@ class NotificationService {
   getaddressByPostcode(req) {
     Logger.getLogger('key').info(postcodeLookupKey);
     Logger.getLogger('url').info(postcodeLookupUrl);
-    Logger.getLogger('ccdurl').info(ccdurl);
+    Logger.getLogger('ccdurl').info(notificationUrl);
 
 
     return request.get({
