@@ -109,7 +109,6 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
 
 Scenario('A Service Request Not available for Ways to Pay @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
-
     const ccdCaseNumber = '1234123412341234';
     I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.see('Service Requests');
