@@ -27,7 +27,6 @@ waystopay:
   url: WAYS_TO_PAY_RETURN_URL
 postcodelookup:
   url: POSTCODE_LOOKUP_URL
-  key: POSTCODE_LOOKUP_ID
 certs:
   key: CERTS_KEY
   crt: CERTS_CRT
@@ -49,5 +48,6 @@ secrets:
   ccpay:
     paybubble-s2s-secret: S2S_KEY
     paybubble-idam-client-secret: IDAM_CLIENT_SECRET
+    postcode-address-lookup-id: POSTCODE_ADDRESS_LOOKUP_ID
     launch-darkly-client-id: LD_CLIENT_ID
     AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY

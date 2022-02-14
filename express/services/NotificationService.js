@@ -6,7 +6,7 @@ const { Logger } = require('@hmcts/nodejs-logging');
 
 const notificationUrl = config.get('notification.url');
 const postcodeLookupUrl = config.get('postcodelookup.url');
-const postcodeLookupKey = config.get('postcodelookup.key');
+const postcodeLookupKey = config.get('secrets.ccpay.postcode-address-lookup-id');
 
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
