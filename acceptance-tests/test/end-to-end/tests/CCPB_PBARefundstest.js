@@ -12,6 +12,8 @@ const { Logger } = require('@hmcts/nodejs-logging');
 
 const logger = Logger.getLogger('CCPB_PBARefunds_test.js');
 
+const testConfig = require('./config/CCPBConfig');
+
 const successResponse = 202;
 
 // const successResponse = 202;
@@ -50,7 +52,7 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
     // console.info(ccdCaseNumber);
     // console.info(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00', '0', '£0.00', '£0.00');
@@ -123,7 +125,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
     // console.info(ccdCaseNumber);
     // console.info(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00',
@@ -184,7 +186,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     // console.info(ccdCaseNumber);
     // console.info(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -251,7 +253,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
     logger.log(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     logger.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00', '0', '£0.00', '£0.00');
@@ -300,7 +302,7 @@ Scenario('Add a Remissions for a failed Payment @pipeline @nightly',
     // console.info(ccdCaseNumber);
     // console.info(paymentReference);
     //  console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -341,7 +343,7 @@ Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pip
     // console.info(ccdCaseNumber);
     // console.info(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -394,7 +396,7 @@ Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nig
     // console.info(ccdCaseNumber);
     // console.info(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.sevenSecondWaitTime);
@@ -444,7 +446,7 @@ Scenario('Approve action a  Refund for a Rejection @nightly',
     // console.info(`The value of the CCD Case Number : ${ccdCaseNumber}`);
     // console.info(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -480,7 +482,7 @@ Scenario('Approve action a  Refund for a Rejection @nightly',
       ccdCaseNumber, caseTransactionsData);
     I.Logout();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.login('approveraattest1@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.twentySecondWaitTime);
@@ -492,7 +494,7 @@ Scenario('Approve action a  Refund for a Rejection @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -514,7 +516,7 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly',
     // console.info(`The value of the CCD Case Number : ${ccdCaseNumber}`);
     // console.info(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.sevenSecondWaitTime);
@@ -548,7 +550,7 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly',
       'Sent for approval', refundReference, 'CoP-COP Reason...', 'Probate Request Request', 'Refund initiated and sent to team leader');
     I.Logout();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.login('approveraattest1@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.twentySecondWaitTime);
@@ -559,7 +561,7 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly',
     InitiateRefunds.verifyRefundApprovedPage('Approve');
     I.Logout();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -583,7 +585,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
     // console.info(`The value of the CCD Case Number : ${ccdCaseNumber}`);
     // console.info(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -618,7 +620,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
       caseTransactionsData);
     I.Logout();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.login('approveraattest1@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.twentySecondWaitTime);
@@ -630,7 +632,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -683,7 +685,7 @@ Scenario.skip('Approve action a Refund Returned to Case Worker and Resubmit By A
     // console.info(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -726,7 +728,7 @@ Scenario.skip('Approve action a Refund Returned to Case Worker and Resubmit By A
       'Sent for approval', refundReference, 'Retrospective remission', 'Probate Request Request', 'Test Reason Only');
     I.Logout();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.login('approveraattest1@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -781,7 +783,7 @@ Scenario.skip('Add a Remissions Apply for Refund and Process Refunds As an Appro
     logger.log(paymentReference);
     // console.info(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -830,7 +832,7 @@ Scenario.skip('Add a Remissions Apply for Refund and Process Refunds As an Appro
     InitiateRefunds.verifyRefundDetailsPage(caseTransactionsData, false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
-    I.login('approveraattest1@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -854,7 +856,7 @@ Scenario.skip('Add a Remissions Apply for Refund and Process Refunds As an Appro
 Scenario('Check Page Access for a Refund Requestor @pipeline @nightly',
   (I, InitiateRefunds) => {
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -873,7 +875,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Casewo
     // console.info(`The value of the CCD Case Number : ${ccdCaseNumber}`);
     // console.info(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -906,7 +908,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Casewo
       'Sent for approval', refundReference, 'CoP-COP Reason...', 'Probate Request Request', 'Refund initiated and sent to team leader');
     I.Logout();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.login('approveraattest1@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -919,7 +921,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Casewo
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);

@@ -17,8 +17,8 @@ const environment = testConfig.TestRunningEnvironment;
 const prNumber = testConfig.TestPrNumber;
 
 async function getIDAMToken() {
-  const username = testConfig.TestCaseWorkerUserName;
-  const password = testConfig.TestCaseWorkerPassword;
+  const username = testConfig.TestProbateCaseWorkerUserName;
+  const password = testConfig.TestProbateCaseWorkerPassword;
 
   const idamClientID = testConfig.TestClientID;
   const idamClientSecret = testConfig.TestClientSecret;

@@ -8,6 +8,8 @@ const { Logger } = require('@hmcts/nodejs-logging');
 
 const logger = Logger.getLogger('CCPB_SearchCaseWithCCD_test.js');
 
+const testConfig = require('./config/CCPBConfig');
+
 const successResponse = 202;
 
 Feature('CC Pay Bubble Acceptance Tests').retry(CCPBATConstants.retryScenario);
@@ -30,7 +32,7 @@ AfterSuite(async I => {
 
 Scenario('Search for a case with actual case number from CCD @nightly', async I => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     I.see('Search for a case');
     I.see('What do you want to search for?');
     I.see('CCD case reference or exception record');
@@ -45,7 +47,7 @@ Scenario('Search for a case with actual case number from CCD @nightly', async I 
 
 Scenario('Search for a case with actual case for Telephony flow @nightly', async I => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     await I.caseforTelephonyFlow();
     I.Logout();
   }
@@ -53,7 +55,7 @@ Scenario('Search for a case with actual case for Telephony flow @nightly', async
 
 Scenario('Amount Due case for Telephony flow @nightly @crossbrowser', async I => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const responseoff = await bulkScanApiCalls.toggleOffCaseValidation();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     if (responseoff === successResponse) {
@@ -66,14 +68,14 @@ Scenario('Amount Due case for Telephony flow @nightly @crossbrowser', async I =>
 
 Scenario('Remove fee from case transaction page Telephony flow @nightly', async I => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     await I.removeFeeFromCaseTransactionPageTelephonyFlow();
     I.Logout();
   }
 });
 
 Scenario('Search for a case with dummy case number @nightly @pipeline', async I => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const responseOn = await bulkScanApiCalls.toggleOnCaseValidation();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   if (responseOn === successResponse) {
