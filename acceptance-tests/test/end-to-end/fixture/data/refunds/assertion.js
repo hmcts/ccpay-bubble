@@ -64,7 +64,6 @@ function getPaymentCardValues(cardNumber, expiryMonth, expiryYear,
   };
   return paymentCardValues;
 }
-
 function getCaseTransactionsData(
   paymentReference, refundAmount, refundStatus,
   refundReference, refundReason, refundSubmittedBy, refundNotes) {
