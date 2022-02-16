@@ -3,6 +3,7 @@ const otp = require('otp');
 const UUID = require('uuid/v4');
 const request = require('request-promise-native');
 const FeatureService = require('./FeatureService');
+
 const payhubUrl = config.get('payhub.url');
 const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
 const pcipalAntennaReturnUrl = config.get('pcipalantenna.url');
@@ -223,7 +224,6 @@ class PayhubService {
     }));
   }
   postPBAAccountPayment(req) {
-    const idempotencyKey = this.getIdempotencyKey();
     return this.createAuthToken().then(token => request.post({
       uri: `${payhubUrl}/service-request/${req.params.serviceRef}/pba-payments`,
       body: req.body,
