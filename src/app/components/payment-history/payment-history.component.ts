@@ -30,7 +30,9 @@ export class PaymentHistoryComponent implements OnInit {
   refundlist: string;
   LOGGEDINUSEREMAIL: string;
   LOGGEDINUSERROLES: string[];
+  currentEnvironment: string;
   lsCcdNumber: any = ls.get<any>('ccdNumber');
+
   userRoles = [
     'IDAM_SUPER_USER',
     'caseworker-probate-authorize',
