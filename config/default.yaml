@@ -8,6 +8,7 @@ session:
   cookieName: SESSION_ID
 environment:
   ldPrefix: FEprod
+  currentEnv: CURRENT_ENVIRONMENT
 ccpaybubble:
   url: https://localhost
   defaultPort: 3000

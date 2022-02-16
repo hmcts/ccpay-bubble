@@ -1,6 +1,9 @@
 const config = require('@hmcts/properties-volume').addTo(require('config'));
 const security = require('./express/infrastructure/security-factory');
 const { enable } = require('./app-insights');
+const ls = require('local-storage');
+
+ls.set('currentEnv', config.environment.currentEnv);
 
 // App Insights needs to be enabled as early as possible as it monitors other libraries as well
 const appInsights = enable();
@@ -16,14 +19,13 @@ const app = require('./server')(security(appInsights), appInsights),
   port = process.env.PORT || defaultPort,
   https = require('https'),
   http = require('http');
-
 // reverse proxy handles tls in non local environments
-if (process.env.NODE_ENV === 'development') {
-  const crtLocation = config.get('certs.crt'),
-    keyLocation = config.get('certs.key'),
-    cert = fs.readFileSync(crtLocation),
-    key = fs.readFileSync(keyLocation);
-  https.createServer({ key, cert }, app).listen(port);
-} else {
-  http.createServer(app).listen(port);
-}
+  if (process.env.NODE_ENV === 'development') {
+    const crtLocation = config.get('certs.crt'),
+      keyLocation = config.get('certs.key'),
+      cert = fs.readFileSync(crtLocation),
+      key = fs.readFileSync(keyLocation);
+    https.createServer({ key, cert }, app).listen(port);
+  } else {
+    http.createServer(app).listen(port);
+  }
