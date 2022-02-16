@@ -30,6 +30,7 @@ session:
   cookieName: JWT_PAYBUBBLE
 environment:
   ldPrefix: LD_FLAG_PREFIX
+  currentEnv: CURRENT_ENVIRONMENT
 e2e:
   frontendUrl: E2E_FRONTEND_URL
   waitForTimeoutValue: E2E_WAIT_FOR_TIMEOUT_VALUE

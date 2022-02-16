@@ -3,14 +3,12 @@ const otp = require('otp');
 const UUID = require('uuid/v4');
 const request = require('request-promise-native');
 const FeatureService = require('./FeatureService');
-
 const payhubUrl = config.get('payhub.url');
 const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
 const pcipalAntennaReturnUrl = config.get('pcipalantenna.url');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
 const microService = config.get('ccpaybubble.microservice');
-const waystopayReturnUrl = config.get('waystopay.url');
 const ccdUrl = config.get('ccd.url');
 const CASE_REF_VALIDATION_ENABLED = 'caseref-validation';
 
@@ -232,7 +230,6 @@ class PayhubService {
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
-        idempotency_key: `${idempotencyKey}`,
         'Content-Type': 'application/json'
       },
       json: true
@@ -245,7 +242,6 @@ class PayhubService {
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
-        'return-url': `${waystopayReturnUrl}`,
         'Content-Type': 'application/json'
       },
       json: true
