@@ -3,7 +3,7 @@ const security = require('./express/infrastructure/security-factory');
 const { enable } = require('./app-insights');
 const ls = require('local-storage');
 
-ls.set('currentEnv', config.environment.currentEnv);
+ls.set('currentEnv', config.get('environment.currentEnv'));
 
 // App Insights needs to be enabled as early as possible as it monitors other libraries as well
 const appInsights = enable();
