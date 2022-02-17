@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IdamDetails } from '../../services/idam-details/idam-details';
+import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import * as ls from 'local-storage';
 import {Router} from '@angular/router';
 
@@ -44,12 +45,16 @@ export class PaymentHistoryComponent implements OnInit {
   ];
 
   constructor(private router: Router,
+    private paymentGroupService: PaymentGroupService,
     private activatedRoute: ActivatedRoute,
     private idamDetails: IdamDetails
   ) { }
 
   ngOnInit() {
 
+    this.paymentGroupService.getEnvironment().then(env => {
+      this.currentEnvironment = env;
+    });
     this.idamDetails.getUserRoles().subscribe(roles => {
       this.activatedRoute.params.subscribe(
         {
@@ -58,7 +63,7 @@ export class PaymentHistoryComponent implements OnInit {
             this.bulkscanapiRoot = 'api/bulk-scan';
             this.refundsapiRoot = 'api/refund';
             this.ccdCaseNumber = params['ccdCaseNumber'];
-            this.currentEnvironment = 'demo';
+            this.currentEnvironment = this.currentEnvironment;
             this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
             this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
             this.isOldPcipalOff = this.activatedRoute.snapshot.queryParams['isOldPcipalOff'] === 'Enable';

@@ -145,6 +145,16 @@ describe('Payment group service', () => {
       });
   });
 
+
+  it('Should call get environment details', () => {
+
+    spyOn(http, 'get').and.callFake(() => of('current-environment'));
+    paymentGroupService.getEnvironment()
+      .then((response) => {
+        expect(response).toBe('current-environment');
+      });
+  });
+
     it('Should call get bulk scanning Payment details', () => {
     const paymentGroup = <any>{
         ccd_reference: '1111222233334444',
