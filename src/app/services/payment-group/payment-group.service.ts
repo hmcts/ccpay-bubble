@@ -49,7 +49,7 @@ export class PaymentGroupService {
 
   getEnvironment(): Promise<any> {
     return this.http.get('api/get-environment').toPromise().then(env => {
-      return JSON.parse(env);
+      return env;
     });
   }
    getDiscontinuedFrFeature(): Promise<any> {
