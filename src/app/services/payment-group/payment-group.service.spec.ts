@@ -2,7 +2,7 @@ import {PaybubbleHttpClient} from 'src/app/services/httpclient/paybubble.http.cl
 import {Meta} from '@angular/platform-browser';
 import {instance, mock} from 'ts-mockito/lib/ts-mockito';
 import {HttpClient} from '@angular/common/http';
-import {of} from 'rxjs';
+import {of, BehaviorSubject} from 'rxjs';
 import {PaymentModel} from 'src/app/models/PaymentModel';
 import {PaymentGroupService} from './payment-group.service';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
@@ -148,10 +148,10 @@ describe('Payment group service', () => {
 
   it('Should call get environment details', () => {
 
-    spyOn(http, 'get').and.callFake(() => of('current-environment'));
+    spyOn(http, 'get').and.callFake(() => new BehaviorSubject(''));
     paymentGroupService.getEnvironment()
-      .then((response) => {
-        expect(response).toBe('current-environment');
+      .subscribe((response) => {
+        expect(response).toBe('');
       });
   });
 

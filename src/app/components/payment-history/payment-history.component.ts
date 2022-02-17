@@ -51,8 +51,7 @@ export class PaymentHistoryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    this.paymentGroupService.getEnvironment().then(env => {
+    this.paymentGroupService.getEnvironment().subscribe(env => {
       this.currentEnvironment = env;
       this.idamDetails.getUserRoles().subscribe(roles => {
         this.activatedRoute.params.subscribe(

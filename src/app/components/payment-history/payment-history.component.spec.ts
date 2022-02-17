@@ -69,15 +69,14 @@ describe('Payment History case transaction component', () => {
   });
 
   it('Component variable should get correct value based on parameter', () => {
+    spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => new BehaviorSubject('demo'));
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    spyOn(paymentGroupService, 'getEnvironment').and.callFake(async () => 'demo');
-
     component.ngOnInit();
     component.lsCcdNumber = '1111-2222-3333-4441';
     component.ccdCaseNumber = '1111-2222-3333-4444';
     component.checkValidUser();
 
-    expect(component.apiRoot).toBe('api/payment-history');
+    expect(component.currentEnvironment).toBe('demo');
     // expect(component.view).toBe('case-transations');
     expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
     expect(component.takePayment).toBe(true);
@@ -129,12 +128,11 @@ describe('Payment History component case-transations', () => {
   });
 
   it('Component variable should get correct value based on parameter', () => {
+    spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => new BehaviorSubject('demo'));
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    spyOn(paymentGroupService, 'getEnvironment').and.callFake(async () => 'demo');
-
     component.ngOnInit();
 
-    expect(component.apiRoot).toBe('api/payment-history');
+    expect(component.currentEnvironment).toBe('demo');
     //  expect(component.view).toBe('case-transations');
     expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
     expect(component.takePayment).toBe(true);
@@ -184,7 +182,7 @@ describe('Payment History component fee-summary', () => {
 
   it('make sure the ngOnInit assign variables from activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    spyOn(paymentGroupService, 'getEnvironment').and.callFake(async () => 'demo');
+    spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => new BehaviorSubject('demo'));
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -196,7 +194,7 @@ describe('Payment History component fee-summary', () => {
 
   it('check if queryparam is undefined or not activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    spyOn(paymentGroupService, 'getEnvironment').and.callFake(async () => 'demo');
+    spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => new BehaviorSubject('demo'));
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -250,7 +248,7 @@ describe('Payment History component Reports', () => {
 
   it('make sure the ngOnInit assign variables from activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    spyOn(paymentGroupService, 'getEnvironment').and.callFake(async () => new BehaviorSubject('demo'));
+    spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => new BehaviorSubject('demo'));
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -260,7 +258,7 @@ describe('Payment History component Reports', () => {
 
   it('check if queryparam is undefined or not activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    spyOn(paymentGroupService, 'getEnvironment').and.callFake(async () => new BehaviorSubject('demo') );
+    spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => new BehaviorSubject('demo'));
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
