@@ -80,8 +80,8 @@ export class PaymentHistoryComponent implements OnInit {
             }
           });
       });
+      this.checkValidUser();
     });
-  this.checkValidUser();
   }
 
   checkValidUser() {
