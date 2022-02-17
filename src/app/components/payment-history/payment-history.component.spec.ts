@@ -16,7 +16,10 @@ const routerMock = {
   navigateByUrl: jasmine.createSpy('navigateByUrl'),
   url: '/test?test=view'
 };
-
+const routerMock1 = {
+  navigateByUrl: jasmine.createSpy('navigateByUrl'),
+  url: 'http://google.com/payment-history/view'
+};
 describe('Payment History case transaction component', () => {
   let component: PaymentHistoryComponent,
     fixture: ComponentFixture<PaymentHistoryComponent>,
@@ -41,7 +44,7 @@ describe('Payment History case transaction component', () => {
             }
           }
         },
-        { provide: Router, useValue: routerMock },
+        { provide: Router, useValue: routerMock1 },
         {
           provide: IdamDetails,
           useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
@@ -70,6 +73,9 @@ describe('Payment History case transaction component', () => {
     spyOn(paymentGroupService, 'getEnvironment').and.callFake(async () => 'demo');
 
     component.ngOnInit();
+    component.lsCcdNumber = '1111-2222-3333-4441';
+    component.ccdCaseNumber = '1111-2222-3333-4444';
+    component.checkValidUser();
 
     expect(component.apiRoot).toBe('api/payment-history');
     // expect(component.view).toBe('case-transations');
@@ -244,7 +250,7 @@ describe('Payment History component Reports', () => {
 
   it('make sure the ngOnInit assign variables from activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    spyOn(paymentGroupService, 'getEnvironment').and.callFake(async () => 'demo');
+    spyOn(paymentGroupService, 'getEnvironment').and.callFake(async () => new BehaviorSubject('demo'));
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -254,7 +260,7 @@ describe('Payment History component Reports', () => {
 
   it('check if queryparam is undefined or not activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    spyOn(paymentGroupService, 'getEnvironment').and.callFake(async () => 'demo');
+    spyOn(paymentGroupService, 'getEnvironment').and.callFake(async () => new BehaviorSubject('demo') );
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();

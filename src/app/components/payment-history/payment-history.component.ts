@@ -84,11 +84,14 @@ export class PaymentHistoryComponent implements OnInit {
         });
 
     });
+  this.checkValidUser();
+  }
+
+  checkValidUser() {
     const currenturl = (this.router.url).split('?', 1);
     if ( this.lsCcdNumber !== this.ccdCaseNumber
       && !(currenturl[0] === '/refund-list' || currenturl[0] === '/payment-history/view')) {
       this.router.navigateByUrl('/ccd-search?takePayment=true');
     }
   }
-
 }
