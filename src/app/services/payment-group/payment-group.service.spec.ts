@@ -150,7 +150,7 @@ describe('Payment group service', () => {
 
     spyOn(http, 'get').and.callFake(() => new BehaviorSubject(''));
     paymentGroupService.getEnvironment()
-      .subscribe((response) => {
+      .then((response) => {
         expect(response).toBe('');
       });
   });

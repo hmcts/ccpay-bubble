@@ -47,11 +47,10 @@ export class PaymentGroupService {
     });
   }
 
-  getEnvironment(): Observable<any> {
-    this.http.get('api/get-environment').subscribe(env => {
-      this.currentEnvironment$.next(JSON.parse(env));
+  getEnvironment(): Promise<any> {
+    return this.http.get('api/get-environment').toPromise().then(env => {
+      return JSON.parse(env);
     });
-    return this.currentEnvironment$.asObservable();
   }
    getDiscontinuedFrFeature(): Promise<any> {
       return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
