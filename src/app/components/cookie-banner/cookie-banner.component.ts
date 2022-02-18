@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { CookieService } from '../../services/cookie/cookie.service';
-// import { windowToken } from '../../window';
+ import { windowToken } from '../../window';
 
 @Component({
     selector: 'app-cookie-banner',
-    templateUrl: './cookie-banner.component.html'
+    templateUrl: './cookie-banner.component.html',
+   
 })
 
 export class CookieBannerComponent implements OnInit {
@@ -18,7 +19,7 @@ export class CookieBannerComponent implements OnInit {
 
   constructor(
     private readonly cookieService: CookieService,
-  //  @Inject(windowToken) window: any,
+   @Inject(windowToken) window: any,
   ) {
     this.window = window as Window;
   }
