@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {PaybubbleHttpClient} from '../httpclient/paybubble.http.client';
+import { Observable, BehaviorSubject } from 'rxjs';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
 import { IBSPayments } from '@hmcts/ccpay-web-component/lib/interfaces/IBSPayments';
 
@@ -9,6 +10,7 @@ const DISCONTINUED_FEES_FEATURE_ENABLED = 'discontinued-fees-feature';
 
 @Injectable()
 export class PaymentGroupService {
+  currentEnvironment$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor(
     private http: PaybubbleHttpClient
@@ -45,6 +47,11 @@ export class PaymentGroupService {
     });
   }
 
+  getEnvironment(): Promise<any> {
+    return this.http.get('api/get-environment').toPromise().then(env => {
+      return env;
+    });
+  }
    getDiscontinuedFrFeature(): Promise<any> {
       return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
         const regFeature = JSON.parse(features).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);

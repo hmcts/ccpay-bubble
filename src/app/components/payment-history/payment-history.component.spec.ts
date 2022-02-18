@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { IdamDetails } from '../../services/idam-details/idam-details';
 import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
+import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { instance, mock } from 'ts-mockito';
 
 const roles: string[] = ['caseworker', 'payments'];
@@ -15,11 +16,16 @@ const routerMock = {
   navigateByUrl: jasmine.createSpy('navigateByUrl'),
   url: '/test?test=view'
 };
-
+const routerMock1 = {
+  navigateByUrl: jasmine.createSpy('navigateByUrl'),
+  url: 'http://google.com/payment-history/view'
+};
 describe('Payment History case transaction component', () => {
   let component: PaymentHistoryComponent,
     fixture: ComponentFixture<PaymentHistoryComponent>,
-    idamDetails: IdamDetails;
+    idamDetails: IdamDetails,
+    paymentGroupService: PaymentGroupService;
+
   let activatedRoute: ActivatedRoute;
 
 
@@ -38,11 +44,14 @@ describe('Payment History case transaction component', () => {
             }
           }
         },
-        { provide: Router, useValue: routerMock },
+        { provide: Router, useValue: routerMock1 },
         {
           provide: IdamDetails,
           useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
         },
+        { provide: PaymentGroupService,
+          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+         }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -51,6 +60,8 @@ describe('Payment History case transaction component', () => {
     component = fixture.componentInstance;
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
     idamDetails = fixture.debugElement.injector.get(IdamDetails);
+    paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
+
   });
 
   it('Should create', () => {
@@ -58,20 +69,25 @@ describe('Payment History case transaction component', () => {
   });
 
   it('Component variable should get correct value based on parameter', () => {
+    spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     component.ngOnInit();
+    component.lsCcdNumber = '1111-2222-3333-4441';
+    component.ccdCaseNumber = '1111-2222-3333-4444';
+    component.checkValidUser();
 
-    expect(component.apiRoot).toBe('api/payment-history');
+    expect(component.currentEnvironment).toBe(undefined);
     // expect(component.view).toBe('case-transations');
     expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
-    expect(component.takePayment).toBe(true);
+    expect(component.takePayment).toBe(undefined);
   });
 });
 
 describe('Payment History component case-transations', () => {
   let component: PaymentHistoryComponent,
     fixture: ComponentFixture<PaymentHistoryComponent>,
-    idamDetails: IdamDetails;
+    idamDetails: IdamDetails,
+    paymentGroupService: PaymentGroupService;
   let activatedRoute: ActivatedRoute;
 
   beforeEach(() => {
@@ -90,6 +106,9 @@ describe('Payment History component case-transations', () => {
         }
       },
       { provide: Router, useValue: routerMock },
+      { provide: PaymentGroupService ,
+        useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+      },
       {
         provide: IdamDetails,
         useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
@@ -101,6 +120,7 @@ describe('Payment History component case-transations', () => {
     component = fixture.componentInstance;
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
     idamDetails = fixture.debugElement.injector.get(IdamDetails);
+    paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
   });
 
   it('Should create', () => {
@@ -108,20 +128,22 @@ describe('Payment History component case-transations', () => {
   });
 
   it('Component variable should get correct value based on parameter', () => {
+    spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     component.ngOnInit();
 
-    expect(component.apiRoot).toBe('api/payment-history');
+    expect(component.currentEnvironment).toBe(undefined);
     //  expect(component.view).toBe('case-transations');
-    expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
-    expect(component.takePayment).toBe(true);
+    expect(component.ccdCaseNumber).toBe(undefined);
+    expect(component.takePayment).toBe(undefined);
   });
 });
 
 describe('Payment History component fee-summary', () => {
   let component: PaymentHistoryComponent,
     fixture: ComponentFixture<PaymentHistoryComponent>,
-    idamDetails: IdamDetails;
+    idamDetails: IdamDetails,
+    paymentGroupService: PaymentGroupService;
   let activatedRoute: ActivatedRoute;
 
   beforeEach(() => {
@@ -137,6 +159,9 @@ describe('Payment History component fee-summary', () => {
         }
       },
       { provide: Router, useValue: routerMock },
+      { provide: PaymentGroupService ,
+        useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+      },
       {
         provide: IdamDetails,
         useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
@@ -148,6 +173,7 @@ describe('Payment History component fee-summary', () => {
     component = fixture.componentInstance;
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
     idamDetails = fixture.debugElement.injector.get(IdamDetails);
+    paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
   });
 
   it('Should create', () => {
@@ -156,6 +182,7 @@ describe('Payment History component fee-summary', () => {
 
   it('make sure the ngOnInit assign variables from activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
+    spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -167,6 +194,7 @@ describe('Payment History component fee-summary', () => {
 
   it('check if queryparam is undefined or not activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
+    spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -180,7 +208,8 @@ describe('Payment History component fee-summary', () => {
 describe('Payment History component Reports', () => {
   let component: PaymentHistoryComponent,
     fixture: ComponentFixture<PaymentHistoryComponent>,
-    idamDetails: IdamDetails;
+    idamDetails: IdamDetails,
+    paymentGroupService: PaymentGroupService;
   let activatedRoute: ActivatedRoute;
 
   beforeEach(() => {
@@ -196,6 +225,9 @@ describe('Payment History component Reports', () => {
         }
       },
       { provide: Router, useValue: routerMock },
+      { provide: PaymentGroupService,
+        useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+      },
       {
         provide: IdamDetails,
         useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
@@ -207,6 +239,7 @@ describe('Payment History component Reports', () => {
     component = fixture.componentInstance;
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
     idamDetails = fixture.debugElement.injector.get(IdamDetails);
+    paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
   });
 
   it('Should create', () => {
@@ -215,6 +248,7 @@ describe('Payment History component Reports', () => {
 
   it('make sure the ngOnInit assign variables from activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
+    spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -224,6 +258,7 @@ describe('Payment History component Reports', () => {
 
   it('check if queryparam is undefined or not activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
+    spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();

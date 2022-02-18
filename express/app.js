@@ -107,7 +107,9 @@ module.exports = appInsights => express.Router()
   .get('/payment-history/LD-feature?*', (req, res) => {
     controllers.payhubController.getLDFeatures(req, res);
   })
-
+  .get('/get-environment', (req, res) => {
+    controllers.payhubController.getEnvironment(res);
+  })
   .get('/payment-history/payment-groups/fee-pay-apportion/:id', (req, res) => {
     controllers.payhubController.getApportionPaymentGroup(req, res);
   })
@@ -211,6 +213,7 @@ module.exports = appInsights => express.Router()
   .post('/payment-history/refund-retro-remission', (req, res) => {
     controllers.payhubController.postRefundRetroRemission(req, res);
   })
+
 
   // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {

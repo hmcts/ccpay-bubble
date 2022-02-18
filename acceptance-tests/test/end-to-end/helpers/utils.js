@@ -75,7 +75,6 @@ async function getServiceTokenForSecret(service, serviceSecret) {
   logger.log(serviceToken);
   return serviceToken;
 }
-
 // eslint-disable-next-line no-unused-vars
 async function getServiceToken(_service) {
   logger.info('Getting Service Token');
@@ -292,10 +291,10 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
     ccd_case_number: `${ccdCaseNumber}`,
     fees: [
       {
-        calculated_amount: 593.00,
+        calculated_amount: calculatedAmount,
         code: `${feeCode}`,
         version: `${version}`,
-        volume: 1
+        volume
       }
     ],
     hmcts_org_id: `${hmctsorgid}`
