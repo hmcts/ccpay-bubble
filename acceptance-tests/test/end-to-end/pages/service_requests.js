@@ -164,7 +164,7 @@ module.exports = {
     I.see('limit for your account.');
     I.see('Once your account has been registered, you’ll need to start your claim again to pay the fee.');
     I.see('Read more information on registering for PBA.');
-    I.click("//button[contains(text(),'Pay by card')]");
+    I.click('//button[contains(text(),\'Pay by card\')]');
   },
 
   verifyPayFeePage(feeAmount, accountNumber, reference) {
