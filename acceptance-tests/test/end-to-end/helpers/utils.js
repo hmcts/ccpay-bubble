@@ -37,6 +37,7 @@ async function getIDAMToken() {
   const idamTokenPath = '/o/token';
   // logger.log('The value of the IDAM URL :' + `${s2sBaseUrl}${idamTokenPath}`);
   // console.log('The value of the IDAM URL : ' + `${s2sBaseUrl}${idamTokenPath}`);
+  console.log(`The value of the IDAM Token payload URL : grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`);
 
   const idamTokenResponse = await request({
     method: 'POST',
