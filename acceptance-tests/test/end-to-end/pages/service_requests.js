@@ -37,6 +37,12 @@ module.exports = {
     }
   },
 
+  verifyYourPaymentHasBeenCancelledPage() {
+    I.see('Your payment has been cancelled');
+    I.see('No money has been taken from your account.');
+    I.click('Continue');
+  },
+
   verifyYourPaymentHasBeenDeclinedPage() {
     I.see('Your payment has been declined');
     I.see('No money has been taken from your account. Contact your');
@@ -158,6 +164,7 @@ module.exports = {
     I.see('limit for your account.');
     I.see('Once your account has been registered, you’ll need to start your claim again to pay the fee.');
     I.see('Read more information on registering for PBA.');
+    I.click('//button[contains(text(),\'Pay by card\')]');
   },
 
   verifyPayFeePage(feeAmount, accountNumber, reference) {
