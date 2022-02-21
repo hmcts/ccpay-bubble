@@ -12,7 +12,6 @@ nodejs:
         - paybubble-s2s-secret
         - paybubble-idam-client-secret
         - launch-darkly-client-id
-        - postcode-lookup-key
         - postcode-address-lookup-id
         - AppInsightsInstrumentationKey
   environment:
