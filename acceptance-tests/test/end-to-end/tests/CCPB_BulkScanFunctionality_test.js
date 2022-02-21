@@ -10,6 +10,8 @@ const miscUtils = require('../helpers/misc');
 
 const stringUtils = require('../helpers/string_utils');
 
+const testConfig = require('./config/CCPBConfig');
+
 const nightlyTest = process.env.NIGHTLY_TEST;
 
 const successResponse = 202;
@@ -38,7 +40,7 @@ AfterSuite(async I => {
 // #region Normal CCD case bulk scan functional cases
 Scenario('Normal ccd case cash payment full allocation @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const totalAmount = 550;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
     const ccdCaseNumber = ccdAndDcn[1];
@@ -63,7 +65,7 @@ Scenario('Normal ccd case cash payment full allocation @nightly', async(I, CaseS
 });
 
 Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline @nightly @crossbrowser', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const totalAmount = 469;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
   const ccdCaseNumber = ccdAndDcn[1];
@@ -96,7 +98,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline
 
 Scenario('Normal ccd case cash payment transferred @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred, PaymentHistory) => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const totalAmount = 550;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
     const ccdCaseNumber = ccdAndDcn[1];
@@ -122,7 +124,7 @@ Scenario('Normal ccd case cash payment transferred @nightly', async(I, CaseSearc
 
 Scenario('Exception ccd case cash payment transferred @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const totalAmount = 550;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'cheque');
     const ccdCaseNumber = ccdAndDcn[1];
@@ -146,9 +148,9 @@ Scenario('Exception ccd case cash payment transferred @nightly', async(I, CaseSe
   }
 });
 
-Scenario.skip('DCN Search for ccd case associated with exception postal order payment transferred @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
+Scenario('DCN Search for ccd case associated with exception postal order payment transferred @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const totalAmount = 600;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA09', totalAmount, 'PostalOrder');
     const dcnNumber = ccdAndDcn[0];
@@ -169,7 +171,7 @@ Scenario.skip('DCN Search for ccd case associated with exception postal order pa
 
 Scenario('Normal ccd case cash payment transferred when no valid reason or site id selected @nightly', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const totalAmount = 550;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA09', totalAmount, 'cash');
     const ccdCaseNumber = ccdAndDcn[1];
@@ -190,9 +192,9 @@ Scenario('Normal ccd case cash payment transferred when no valid reason or site 
   }
 });
 
-Scenario.skip('Exception Case Cheque Payment Unidentified @nightly', async(I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
+Scenario('Exception Case Cheque Payment Unidentified @nightly', async(I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const totalAmount = 550;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'cheque');
     const ccdCaseNumber = ccdAndDcn[1];
@@ -216,7 +218,7 @@ Scenario.skip('Exception Case Cheque Payment Unidentified @nightly', async(I, Ca
 
 Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less investigation comment provided @nightly', async(I, CaseSearch, CaseTransaction, CaseUnidentified) => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const totalAmount = 550;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA08', totalAmount, 'cheque');
     const ccdCaseNumber = ccdAndDcn[1];
@@ -237,9 +239,9 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
 });
 
 
-Scenario.skip('Ccd case search with exception record postal order payment shortfall payment @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
+Scenario('Ccd case search with exception record postal order payment shortfall payment @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const totalAmount = 500;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA08', totalAmount, 'PostalOrder');
     const dcnNumber = ccdAndDcn[0];
@@ -275,7 +277,7 @@ Scenario.skip('Ccd case search with exception record postal order payment shortf
 
 Scenario('Exception search with ccd record postal order payment surplus payment @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const totalAmount = 600;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA07', totalAmount, 'PostalOrder');
     const dcnNumber = ccdAndDcn[0];
@@ -301,7 +303,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment 
 
 Scenario('Download reports in paybubble @nightly', (I, Reports) => {
   if (nightlyTest) {
-    I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     Reports.navigateToReports();
     Reports.validateReportsPage();
     Reports.selectReportAndDownload('Data loss');
