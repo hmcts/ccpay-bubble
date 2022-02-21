@@ -76,7 +76,7 @@ describe('Payment History case transaction component', () => {
     component.ccdCaseNumber = '1111-2222-3333-4444';
     component.checkValidUser();
 
-    expect(component.currentEnvironment).toBe(undefined);
+    expect(component.cardPaymentReturnUrl).toBe(undefined);
     // expect(component.view).toBe('case-transations');
     expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
     expect(component.takePayment).toBe(undefined);
@@ -132,7 +132,7 @@ describe('Payment History component case-transations', () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     component.ngOnInit();
 
-    expect(component.currentEnvironment).toBe(undefined);
+    expect(component.cardPaymentReturnUrl).toBe(undefined);
     //  expect(component.view).toBe('case-transations');
     expect(component.ccdCaseNumber).toBe(undefined);
     expect(component.takePayment).toBe(undefined);
