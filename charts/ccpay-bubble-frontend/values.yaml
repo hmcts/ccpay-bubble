@@ -12,6 +12,7 @@ nodejs:
         - paybubble-s2s-secret
         - paybubble-idam-client-secret
         - launch-darkly-client-id
+        - postcode-address-lookup-id
         - AppInsightsInstrumentationKey
   environment:
     REFORM_TEAM: ccpay
