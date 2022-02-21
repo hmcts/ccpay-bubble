@@ -26,9 +26,9 @@ async function getIDAMToken() {
   const scope = 'openid profile roles';
   const grantType = 'password';
   console.log(`The value of the User Name ${username}`);
-  console.log(`The value of the User ${testConfig.TestCaseWorkerUserName}`);
+  console.log(`The value of the User ${testConfig.TestProbateCaseWorkerUserName}`);
   console.log(`The value of the Password ${password}`);
-  console.log(`The value of the Pass ${testConfig.TestCaseWorkerPassword}`);
+  console.log(`The value of the Pass ${testConfig.TestProbateCaseWorkerPassword}`);
   console.log(`The value of the Client Id : ${idamClientID}`);
   console.log(`The value of the Client Secret : ${idamClientSecret}`);
   console.log(`The value of the Pass ${testConfig.TestClientSecret}`);

@@ -11,6 +11,8 @@ const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('CCPB_PBARefunds.js');
 const assertionData = require('../fixture/data/refunds/assertion');
 
+const testConfig = require('./config/CCPBConfig');
+
 // const name = require('../content/multiple_pba.json');
 
 const successResponse = 202;
@@ -37,7 +39,7 @@ AfterSuite(async I => {
   }
 });
 
-Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
+Scenario.only('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     const calculatedAmount = 593.00;
@@ -46,7 +48,7 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
