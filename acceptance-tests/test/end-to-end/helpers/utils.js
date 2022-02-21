@@ -28,8 +28,10 @@ async function getIDAMToken() {
   console.log(`The value of the User Name ${username}`);
   console.log(`The value of the User ${testConfig.TestCaseWorkerUserName}`);
   console.log(`The value of the Password ${password}`);
+  console.log(`The value of the Pass ${testConfig.TestCaseWorkerPassword}`);
   console.log(`The value of the Client Id : ${idamClientID}`);
   console.log(`The value of the Client Secret : ${idamClientSecret}`);
+  console.log(`The value of the Pass ${testConfig.TestClientSecret}`);
   console.log(`The value of the Redirect URI : ${redirectUri}`);
   console.log(`The value of the grant Type : ${grantType}`);
   console.log(`The value of the scope : ${scope}`);
