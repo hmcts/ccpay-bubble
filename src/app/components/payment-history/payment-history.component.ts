@@ -31,7 +31,7 @@ export class PaymentHistoryComponent implements OnInit {
   refundlist: string;
   LOGGEDINUSEREMAIL: string;
   LOGGEDINUSERROLES: string[];
-  currentEnvironment: string;
+  cardPaymentReturnUrl: string;
   lsCcdNumber: any = ls.get<any>('ccdNumber');
 
   userRoles = [
@@ -52,7 +52,7 @@ export class PaymentHistoryComponent implements OnInit {
 
   ngOnInit() {
     this.paymentGroupService.getEnvironment().then(env => {
-      this.currentEnvironment = env;
+      this.cardPaymentReturnUrl = env;
       this.idamDetails.getUserRoles().subscribe(roles => {
         this.activatedRoute.params.subscribe(
           {

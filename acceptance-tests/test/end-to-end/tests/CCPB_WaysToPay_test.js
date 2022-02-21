@@ -11,6 +11,8 @@ const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('CCPB_PBARefunds.js');
 const assertionData = require('../fixture/data/refunds/assertion');
 
+const testConfig = require('./config/CCPBConfig');
+
 // const name = require('../content/multiple_pba.json');
 
 const successResponse = 202;
@@ -37,7 +39,7 @@ AfterSuite(async I => {
   }
 });
 
-Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
+Scenario.only('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     // eslint-disable-next-line no-magic-numbers
@@ -46,7 +48,7 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -337,7 +339,7 @@ Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Pay
     I.Logout();
   });
 
-Scenario.skip('A Service Request for a Solicitor if an Account is On hold for PBA Payment and the Card Payment Fails @pipeline @nightly',
+Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Payment and the Card Payment Fails @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     // console.log('Creating the Service Request');
     const calculatedAmount = 593.00;
@@ -354,6 +356,7 @@ Scenario.skip('A Service Request for a Solicitor if an Account is On hold for PB
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£593.00');
+    I.wait(CCPBATConstants.sevenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
       true, checkPaymentValuesData);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -381,7 +384,7 @@ Scenario.skip('A Service Request for a Solicitor if an Account is On hold for PB
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     ServiceRequests.verifyPayFeePage('£593.00', 'PBAFUNC355', 'Test Reference');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyPBAPaymentErrorPage('PBAFUNC355', 'no longer exists.');
+    ServiceRequests.verifyPBAPaymentErrorPage('PBAFUNC355', 'has been put on hold.');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£593.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -417,7 +420,7 @@ Scenario.skip('A Service Request for a Solicitor if an Account is On hold for PB
     I.Logout();
   });
 
-Scenario.only('A Service Request for a Solicitor For No Payment Account @pipeline @nightly',
+Scenario('A Service Request for a Solicitor For No Payment Account @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     const calculatedAmount = 593.00;
@@ -449,4 +452,8 @@ Scenario.only('A Service Request for a Solicitor For No Payment Account @pipelin
     I.click({ xpath: '//a[contains(text(),\'Pay now\')]' });
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     ServiceRequests.verifyNoPBAFoundPage();
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.click({ xpath: '//input[@id=\'cancel-payment\']' });
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ServiceRequests.verifyYourPaymentHasBeenCancelledPage();
   });
