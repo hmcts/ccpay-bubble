@@ -321,7 +321,7 @@ class PayhubController {
   postPBAAccountPayment(req, res, appInsights) {
     return this.payhubService.postPBAAccountPayment(req, appInsights)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode) {
