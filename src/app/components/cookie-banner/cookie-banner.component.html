@@ -1,5 +1,5 @@
 
-<div class="govuk-cookie-banner " role="region" attr.aria-label="'Cookies on {{appName}}'" *ngIf="isCookieBannerVisible">
+<div class="govuk-cookie-banner " role="region" id="cm_cookie_notification" attr.aria-label="'Cookies on {{appName}}'" *ngIf="isCookieBannerVisible">
   <div class="govuk-cookie-banner__message govuk-width-container">
 
     <div class="govuk-grid-row">
@@ -22,6 +22,24 @@
       </button>
       <a class="govuk-link" routerLink="/cookies">View cookies</a>
     </div>
+  </div>
+</div>
+
+<div class="govuk-visually-hidden govuk-cookie-banner__message govuk-width-container" id="accept-all-cookies-success">
+  <div class="govuk-width-container">
+      <div class="govuk-!-padding-top-5 govuk-!-padding-bottom-5">
+          <p class="govuk-body">You’ve accepted additional cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+          <p id="cookie-accept-all-success-banner-hide" class="govuk-body govuk-button-group"><a class="govuk-button" href="#">Hide this message</a></p>
+      </div>
+  </div>
+</div>
+
+<div class="govuk-visually-hidden theme__cookie-success-message-grey" id="reject-all-cookies-success">
+  <div class="govuk-width-container">
+      <div class="govuk-!-padding-top-5 govuk-!-padding-bottom-5">
+          <p class="govuk-body">You’ve rejected additional cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+          <p id="cookie-reject-all-success-banner-hide" class="govuk-body govuk-button-group"><a class="govuk-button" href="#">Hide this message</a></p>
+      </div>
   </div>
 </div>
 

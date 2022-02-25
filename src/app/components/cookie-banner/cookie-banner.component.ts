@@ -29,13 +29,71 @@ export class CookieBannerComponent implements OnInit {
   }
 
   public acceptCookie(): void {
-    this.cookieService.setCookie(this.identifier, 'true', this.getExpiryDate());
+    let expiryDays = '365';
+    this.cookieService.setCookie('cookies_preferences_set', 'true', this.getExpiryDate());
+    this.cookieService.setCookie('cookies_policy', '{"essential":true,"analytics":true,"apm":true}', expiryDays);
+    this.manageAPMCookie('true')
+    var element = document. getElementById('accept-all-cookies-success');
+    element.classList.remove('govuk-visually-hidden');
+
+    var element1 = document. getElementById('cm_cookie_notification');
+    element1.classList.add('govuk-visually-hidden');
+    // document.getElementById('accept-all-cookies-success').classList.remove('govuk-visually-hidden');
+    // document.getElementById('cm_cookie_notification').classList.add('govuk-visually-hidden');
     this.setState(true);
   }
 
+  public manageAPMCookie(cookieStatus) {
+    if (cookieStatus === 'false') {
+      // eslint-disable-next-line no-use-before-define
+      this.cookieService.deleteCookie('dtCookie');
+      // eslint-disable-next-line no-use-before-define
+      this.cookieService.deleteCookie('dtLatC');
+      // eslint-disable-next-line no-use-before-define
+      this.cookieService.deleteCookie('dtPC');
+      // eslint-disable-next-line no-use-before-define
+      this.cookieService.deleteCookie('dtSa');
+      // eslint-disable-next-line no-use-before-define
+      this.cookieService.deleteCookie('rxVisitor');
+      // eslint-disable-next-line no-use-before-define
+      this.cookieService.deleteCookie('rxvt');
+    }
+    // eslint-disable-next-line no-use-before-define
+    this.apmPreferencesUpdated(cookieStatus);
+  }
+
+  public apmPreferencesUpdated(cookieStatus) {
+    const dtrum = window['dtrum'];
+    // eslint-disable-next-line no-undefined
+    if (dtrum !== undefined) {
+      if (cookieStatus === 'true') {
+        dtrum.enable();
+        dtrum.enableSessionReplay();
+      } else {
+        dtrum.disableSessionReplay();
+        dtrum.disable();
+      }
+    }
+  }
+
   public rejectCookie(): void {
-    this.cookieService.setCookie(this.identifier, 'false', this.getExpiryDate());
+    let expiryDays = '365';
+    this.cookieService.setCookie('cookies_preferences_set', 'true', expiryDays);
+    this.cookieService.setCookie('cookies_policy', '{"essential":true,"analytics":false,"apm":false}', expiryDays);
+    this.manageAnalyticsCookies('false');
+    this.manageAPMCookie('false');
     this.setState(true);
+  }
+
+  public manageAnalyticsCookies(cookieStatus) {
+    if (cookieStatus === 'false') {
+      // eslint-disable-next-line no-use-before-define
+      this.cookieService.deleteCookie('_ga');
+      // eslint-disable-next-line no-use-before-define
+      this.cookieService.deleteCookie('_gid');
+      // eslint-disable-next-line no-use-before-define
+      this.cookieService.deleteCookie('_gat');
+    }
   }
 
   public setState(reload: boolean = false): void {
