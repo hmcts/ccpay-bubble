@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { CookieService } from '../../services/cookie/cookie.service';
- import { windowToken } from '../../window';
+import { windowToken } from '../../window';
+import * as cookieManager from '@hmcts/cookie-manager'
 
 @Component({
     selector: 'app-cookie-banner',
@@ -25,6 +26,34 @@ export class CookieBannerComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    cookieManager.init({
+      'user-preference-cookie-name': 'ccpay-bubble-cookie-preferences',
+      'preference-form-id': 'cm-preference-form',
+      'set-checkboxes-in-preference-form': true,
+      'cookie-banner-id': 'cm-cookie-banner',
+      'cookie-banner-visible-on-page-with-preference-form': false,
+      'cookie-banner-reject-callback': this.acceptCookie,
+      'cookie-banner-accept-callback': this.rejectCookie,
+      'cookie-banner-auto-hide': false,
+      'cookie-manifest': [
+        //TODO add additional GA cookies
+        {
+          'category-name': 'essential',
+          optional: false,
+          cookies: ['nfdiv-cookie-preferences'],
+        },
+        {
+          'category-name': 'analytics',
+          optional: true,
+          cookies: ['_ga', '_gid'],
+        },
+        {
+          'category-name': 'apm',
+          optional: true,
+          cookies: ['dtCookie', 'dtLatC', 'dtPC', 'dtSa', 'rxVisitor', 'rxvt'],
+        },
+      ],
+        });
     this.setState();
   }
 
