@@ -56,5 +56,4 @@ export class AppComponent implements OnInit {
     // DynaTrace
     this.cookieService.deleteCookieByPartialMatch('rxVisitor');
   }
-  
 }

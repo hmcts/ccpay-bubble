@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { CookieService } from '../../services/cookie/cookie.service';
 import { windowToken } from '../../window';
-import * as cookieManager from '@hmcts/cookie-manager'
+import * as cookieManager from '@hmcts/cookie-manager';
 
 @Component({
     selector: 'app-cookie-banner',
     templateUrl: './cookie-banner.component.html',
-   
 })
 
 export class CookieBannerComponent implements OnInit {
@@ -15,7 +14,7 @@ export class CookieBannerComponent implements OnInit {
   @Output() public rejectionNotifier = new EventEmitter<any>();
   @Output() public acceptanceNotifier = new EventEmitter<any>();
 
-  public isCookieBannerVisible: boolean = false;
+isCookieBannerVisible: boolean;
   private readonly window: Window;
 
   constructor(
@@ -26,6 +25,7 @@ export class CookieBannerComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.isCookieBannerVisible = false;
     cookieManager.init({
       'user-preference-cookie-name': 'ccpay-bubble-cookie-preferences',
       'preference-form-id': 'cm-preference-form',
@@ -36,7 +36,7 @@ export class CookieBannerComponent implements OnInit {
       'cookie-banner-accept-callback': this.rejectCookie,
       'cookie-banner-auto-hide': false,
       'cookie-manifest': [
-        //TODO add additional GA cookies
+        // TODO add additional GA cookies
         {
           'category-name': 'essential',
           optional: false,
@@ -58,14 +58,14 @@ export class CookieBannerComponent implements OnInit {
   }
 
   public acceptCookie(): void {
-    let expiryDays = '365';
+    const expiryDays = '365';
     this.cookieService.setCookie('cookies_preferences_set', 'true', this.getExpiryDate());
     this.cookieService.setCookie('cookies_policy', '{"essential":true,"analytics":true,"apm":true}', expiryDays);
-    this.manageAPMCookie('true')
-    var element = document. getElementById('accept-all-cookies-success');
+    this.manageAPMCookie('true');
+    const element = document. getElementById('accept-all-cookies-success');
     element.classList.remove('govuk-visually-hidden');
 
-    var element1 = document. getElementById('cm_cookie_notification');
+    const element1 = document. getElementById('cm_cookie_notification');
     element1.classList.add('govuk-visually-hidden');
     // document.getElementById('accept-all-cookies-success').classList.remove('govuk-visually-hidden');
     // document.getElementById('cm_cookie_notification').classList.add('govuk-visually-hidden');
@@ -106,7 +106,7 @@ export class CookieBannerComponent implements OnInit {
   }
 
   public rejectCookie(): void {
-    let expiryDays = '365';
+    const expiryDays = '365';
     this.cookieService.setCookie('cookies_preferences_set', 'true', expiryDays);
     this.cookieService.setCookie('cookies_policy', '{"essential":true,"analytics":false,"apm":false}', expiryDays);
     this.manageAnalyticsCookies('false');

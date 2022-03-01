@@ -10,7 +10,7 @@ export class CookiePolicyComponent {
 
   constructor(
     private readonly cookieService: CookieService
-  ){}
+  ) {}
 
   public readonly googlePurpose = 'This helps us count how many people visit the service by tracking if you\'ve visited before';
 // Ideally this would be an enum but angular can't seem to cope with enums in templates
@@ -32,17 +32,20 @@ export class CookiePolicyComponent {
       {name: '_gid', cat: this.GOOGLE, purpose: this.googlePurpose, expires: '1 day'},
       {name: '_ga', cat: this.GOOGLE, purpose: 'This stores information about your session', expires: '2 years'},
       {name: '_ga_XXXXXXXXXX', cat: this.GOOGLE, purpose: 'This stores information about your session', expires: '2 years'},
+      // tslint:disable-next-line:max-line-length
       {name: '_gat_XXXXXXXXXX', cat: this.GOOGLE, purpose: 'This is used to control the rate at which requests to the analytics software are made', expires: '1 day'},
       {name: '__userid__', cat: this.IDENTIFY, purpose: 'Your user ID', expires: 'When you close your browser'},
+      // tslint:disable-next-line:max-line-length
       {name: '__auth__', cat: this.SECURITY, purpose: 'Information about your current system authorisations', expires: 'When you close your browser'},
+      // tslint:disable-next-line:max-line-length
       {name: 'XSRF-TOKEN', cat: this.SECURITY, purpose: 'Used to protect your session against cross site scripting attacks', expires: 'When you close your browser'},
       {name: 'dtCookie', cat: this.DYNATRACE, purpose: 'Tracks a visit across multiple request', expires: 'When session ends'},
       {name: 'dtLatC', cat: this.DYNATRACE, purpose: 'Measures server latency for performance monitoring', expires: 'When session ends'},
+      // tslint:disable-next-line:max-line-length
       {name: 'dtPC', cat: this.DYNATRACE, purpose: 'dtPC	Required to identify proper endpoints for beacon transmission; includes session ID for correlation', expires: 'When session ends'},
       {name: 'dtSa', cat: this.DYNATRACE, purpose: 'Intermediate store for page-spanning actions', expires: 'When session ends'},
       {name: 'rxVisitor', cat: this.DYNATRACE, purpose: 'Visitor ID to correlate sessions', expires: '1 year'},
       {name: 'rxvt', cat: this.DYNATRACE, purpose: 'Session timeout', expires: 'When session ends'}
-   
     ];
 
   public countCookies(category: string): number {
@@ -54,12 +57,12 @@ export class CookiePolicyComponent {
   }
 
    setCookiePreference() {
-    let getAnalyticsSelectedValue = (<HTMLInputElement>document.querySelector('input[name="analytics"]:checked')).value;
-    let getApmSelectedValue = (<HTMLInputElement>document.querySelector('input[name="apm"]:checked')).value;
-    this.cookieService.setCookie('cookies_preferences_set', 'true', '365')
+    const getAnalyticsSelectedValue = (<HTMLInputElement>document.querySelector('input[name="analytics"]:checked')).value;
+    const getApmSelectedValue = (<HTMLInputElement>document.querySelector('input[name="apm"]:checked')).value;
+    this.cookieService.setCookie('cookies_preferences_set', 'true', '365');
     this.cookieService.setCookie('cookies_policy', '{"essential":true,"analytics":' + getAnalyticsSelectedValue
                                 + ',"apm:"' + getApmSelectedValue
-                                + '}', '365')
+                                + '}', '365');
     // document.getElementById("cookie-preference-success").classList.remove("govuk-visually-hidden");
     // if (document.getElementById('accept-all-cookies-successs')) {
     //   document.getElementById('accept-all-cookies-success').classList.add('govuk-visually-hidden');
