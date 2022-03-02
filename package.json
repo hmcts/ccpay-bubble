@@ -202,6 +202,9 @@
     "ansi-regex": "^5.0.1",
     "socket.io": "^2.4.0",
     "postcss": "^7.0.36",
-    "sockjs": "^0.3.20"
+    "sockjs": "^0.3.20",
+    "url-parse": "^1.5.8",
+    "json-schema": "^0.4.0"
+
   }
 }
