@@ -204,13 +204,6 @@
     "ansi-regex": "^5.0.1",
     "socket.io": "^2.4.0",
     "postcss": "^7.0.36",
-    "sockjs": "^0.3.20",
-    "follow-redirects": ">=1.14.8",
-    "shelljs": ">=0.8.5",
-    "node-fetch": ">=2.6.7",
-    "json-schema": ">=0.4.0",
-    "node-forge": ">=1.0.0",
-    "**/**/**/karma": ">=6.3.14",
-    "engine.io": ">=4.0.0"
+    "sockjs": "^0.3.20"
   }
 }
