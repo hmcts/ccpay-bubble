@@ -68,8 +68,8 @@ describe('CookiePolicyComponentTest', () => {
     expect (cc).toEqual(component.countCookies(component.SECURITY));
   });
 
-  it('should make a setCookiePreference', () => {
-    component.setCookiePreference();
-    expect(component.setCookiePreference).toHaveBeenCalled();
-});
+//   it('should make a setCookiePreference', () => {
+//     component.setCookiePreference();
+//     expect(component.setCookiePreference).toHaveBeenCalled();
+// });
 });
