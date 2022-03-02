@@ -15,7 +15,7 @@ describe('CookiePolicyComponentTest', () => {
   }
 
   @Component({
-    selector: `exui-app-host-dummy-component`,
+    selector: `app-app-host-dummy-component`,
     template: `<app-cookie-policy/>`
   })
   class TestDummyHostComponent {
