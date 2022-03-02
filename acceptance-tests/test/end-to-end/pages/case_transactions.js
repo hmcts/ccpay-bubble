@@ -191,7 +191,7 @@ module.exports = {
     this.checkEmptyRefundsSection();
   },
 
-  async validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
+  async  validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
     paymentStatus, checkPaymentValuesData) {
     // console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
     I.see('Case reference:');

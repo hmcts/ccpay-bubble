@@ -25,22 +25,19 @@ async function getIDAMToken() {
   const redirectUri = testConfig.TestRedirectURI;
   const scope = 'openid profile roles';
   const grantType = 'password';
-  console.log(`The value of the User Name ${username}`);
-  console.log(`The value of the User ${testConfig.TestProbateCaseWorkerUserName}`);
-  console.log(`The value of the Password ${password}`);
-  console.log(`The value of the Pass ${testConfig.TestProbateCaseWorkerPassword}`);
-  console.log(`The value of the Client Id : ${idamClientID}`);
-  console.log(`The value of the Client Secret : ${idamClientSecret}`);
-  console.log(`The value of the Pass ${testConfig.TestClientSecret}`);
-  console.log(`The value of the Redirect URI : ${redirectUri}`);
-  console.log(`The value of the grant Type : ${grantType}`);
-  console.log(`The value of the scope : ${scope}`);
+  // console.log(`The value of the User Name ${username}`);
+  // console.log(`The value of the Password ${password}`);
+  // console.log(`The value of the Client Id : ${idamClientID}`);
+  // console.log(`The value of the Client Secret : ${idamClientSecret}`);
+  // console.log(`The value of the Redirect URI : ${redirectUri}`);
+  // console.log(`The value of the grant Type : ${grantType}`);
+  // console.log(`The value of the scope : ${scope}`);
 
   const s2sBaseUrl = `https://idam-api.${env}.platform.hmcts.net`;
   const idamTokenPath = '/o/token';
   // logger.log('The value of the IDAM URL :' + `${s2sBaseUrl}${idamTokenPath}`);
   // console.log('The value of the IDAM URL : ' + `${s2sBaseUrl}${idamTokenPath}`);
-  console.log(`The value of the IDAM Token payload URL : grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`);
+  // console.log(`The value of the IDAM Token payload URL : grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`);
 
   const idamTokenResponse = await request({
     method: 'POST',

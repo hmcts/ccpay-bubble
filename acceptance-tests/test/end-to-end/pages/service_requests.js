@@ -168,9 +168,11 @@ module.exports = {
   },
 
   verifyPayFeePage(feeAmount, accountNumber, reference) {
-    I.see('Pay fee using Payment by Account (PBA)');
     I.see('Amount to pay');
     I.see(`${feeAmount}`);
+    I.see('Pay fee using Payment by Account (PBA)');
+    I.see('Pay by credit or debit card');
+    I.checkOption('//input[@id=\'pbaAccount\']');
     I.see('Select a PBA');
     I.selectOption(this.locators.pba_account_number_select, `${accountNumber}`);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -180,7 +182,7 @@ module.exports = {
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//label[contains(text(),\'Enter a reference for your PBA account statements\')]');
     I.wait(CCPBATConstants.oneSecondWaitTime);
-    I.click('Continue');
+    I.click('Confirm payment');
   },
 
   verifyConfirmedBanner(bannerValue) {

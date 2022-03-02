@@ -39,7 +39,7 @@ AfterSuite(async I => {
   }
 });
 
-Scenario.only('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
+Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
     const calculatedAmount = 593.00;
@@ -48,7 +48,7 @@ Scenario.only('A Service Request Journey for a Case Worker for Ways to Pay @pipe
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestRefundsApproverPassword);
+    I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -74,6 +74,7 @@ Scenario.only('A Service Request Journey for a Case Worker for Ways to Pay @pipe
     I.Logout();
   });
 
+/*
 Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     logger.log('Creating the Service Request');
@@ -108,11 +109,12 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
     I.Logout();
   });
+*/
 
 Scenario('A Service Request Not available for Ways to Pay @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
     const ccdCaseNumber = '1234123412341234';
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -159,13 +161,13 @@ Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA
     I.wait(CCPBATConstants.twoSecondWaitTime);
     // ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,'','£593.00');
     I.click('//a[.=\'Back\']');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.click('//a[contains(.,\'Pay now\')]');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click('//a[contains(text(),\'Pay now\')]');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     ServiceRequests.verifyPayFeePage('£593.00', 'PBAFUNC345', 'Test Reference');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     ServiceRequests.verifyConfirmedBanner('Payment successful');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     ServiceRequests.verifyServiceRequestTabPage('Paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00', false);
     I.Logout();
