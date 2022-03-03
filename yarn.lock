@@ -350,12 +350,17 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.2.tgz#30aa825f11d438671d585bd44e7fd564535fc210"
   integrity sha512-82cpyJyKRoQoRi+14ibCeGPu0CwypgtBAdBhq1WfvagpCZNKqwXbKwXllYSMG91DhmG4jt9gN8eP6lGOtozuaw==
 
-"@hmcts/ccpay-web-component@5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-5.0.2.tgz#bb23e6c895f9d05fc06286d5ae64e09addff31c8"
-  integrity sha512-iK0exJGDM+BQuWsByqTJHaXBynX6JR3DpzUWYsC6Rq0mBQnnEYYix5GfLQ2cjGdl5EB99sjSfE01AregwEMKAA==
+"@hmcts/ccpay-web-component@6.0.0-beta22":
+  version "6.0.0-beta22"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-6.0.0-beta22.tgz#26f696391ed14848bb41b13d6e68e3c96074b27e"
+  integrity sha512-/Ux4F1YQi75UPqoD4Fi2W7hjduNbHAQbn5E8FvoPigrhiS4/2ZDy17pIsbgPFXD0soZB9H8tvOgw4I/kgr2E5g==
   dependencies:
     tslib "^1.9.0"
+
+"@hmcts/cookie-manager@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@hmcts/cookie-manager/-/cookie-manager-0.0.4.tgz#dc7381fffd03616863d0549ae1c0169d7b0348fd"
+  integrity sha512-OScl6xMFmKyCR8b0ZJyJxYOp7pV8G492LencoTkLrw60Cd0uyKYbkR0ugffx0LyO28Tqo7yRM3aHUV9DjsErug==
 
 "@hmcts/eslint-config@^1.4.0":
   version "1.4.0"

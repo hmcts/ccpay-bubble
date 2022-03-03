@@ -20,9 +20,15 @@ s2s:
 payhub:
   url: http://localhost:8091
 bulkscan:
-  url: http://localhost:8071
+  url: http://ccpay-bulkscanning-api-prod.service.core-compute-prod.internal
 refunds:
-  url: http://localhost:8084
+  url: http://ccpay-refunds-api-prod.service.core-compute-prod.internal
+notification:
+  url: http://ccpay-notifications-service-demo.service.core-compute-demo.internal
+waystopay:
+  url: https://paymentoutcome-web.demo.platform.hmcts.net/payment
+postcodelookup:
+  url: https://api.os.uk/search/places/v1
 appInsights:
   roleName: paybubble
 e2e:
@@ -42,4 +48,5 @@ secrets:
     paybubble-s2s-secret: PAYBUBBLE-S2S-SECRET-KEY
     paybubble-idam-client-secret: PAYBUBBLE-IDAM-CLIENT-SECRET-KEY
     launch-darkly-client-id: PAYBUBBLE-LD-CLIENT-ID
+    postcode-address-lookup-id: POSTCODE_ADDRESS_LOOKUP_ID
     AppInsightsInstrumentationKey: some-key
