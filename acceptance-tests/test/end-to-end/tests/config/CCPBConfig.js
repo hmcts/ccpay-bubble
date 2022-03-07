@@ -10,7 +10,7 @@ module.exports = {
   TestWTPPBAAllAccountsUserName: process.env.FEE_PAY_WTP_PBA_ALL_ACCOUNTS_USERNAME,
   TestWTPPBAAllAccountsPasword: process.env.FEE_PAY_WTP_PBA_ALL_ACCOUNTS_PASSWORD,
   TestWTPPBANoAccountsUserName: process.env.FEE_PAY_WTP_PBA_NO_ACCOUNTS_USERNAME,
-  TestWTPPBANoAccountsPasword: process.env.FEE_PAY_WTP_NO_ALL_ACCOUNTS_PASSWORD,
+  TestWTPPBANoAccountsPasword: process.env.FEE_PAY_WTP_PBA_NO_ACCOUNTS_PASSWORD,
   TestClientID: process.env.CLIENT_ID || 'cmc_citizen',
   TestClientSecret: process.env.OAUTH2_CLIENT_SECRET,
   TestRedirectURI: process.env.CLIENT_REDIRECT_URI || 'https://cmc-citizen-frontend.service.core-compute-aat.internal/receiver',
