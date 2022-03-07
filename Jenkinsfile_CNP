@@ -23,6 +23,10 @@ def secrets = [
       secret('refunds-requestor-caseworker-password', 'REFUNDS_REQUESTOR_PASSWORD'),
       secret('refunds-approver-caseworker-username', 'REFUNDS_APPROVER_USER_NAME'),
       secret('refunds-approver-caseworker-password', 'REFUNDS_APPROVER_PASSWORD'),
+      secret('refunds-approver-caseworker-password', 'FEE_PAY_WTP_PBA_ALL_ACCOUNTS_USERNAME'),
+      secret('refunds-approver-caseworker-password', 'FEE_PAY_WTP_PBA_ALL_ACCOUNTS_PASSWORD'),
+      secret('refunds-approver-caseworker-password', 'FEE_PAY_WTP_PBA_NO_ACCOUNTS_USERNAME'),
+      secret('refunds-approver-caseworker-password', 'FEE_PAY_WTP_PBA_NO_ACCOUNTS_PASSWORD'),
       secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
   ]
 ]

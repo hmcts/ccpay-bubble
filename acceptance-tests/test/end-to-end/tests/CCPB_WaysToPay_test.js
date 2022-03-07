@@ -432,7 +432,7 @@ Scenario('A Service Request for a Solicitor For No Payment Account @pipeline @ni
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     // console.log(name); // output 'testing'
-    I.login('feeandpaynCdxFA_external@mailnesia.com', 'Password123!');
+    I.login(testConfig.TestWTPPBANoAccountsUserName, testConfig.TestWTPPBANoAccountsUserPasword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);

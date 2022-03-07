@@ -3,6 +3,8 @@ module.exports = {
   TestCaseWorkerPassword: process.env.CASE_WORKER_PASSWORD || 'Monday01',
   TestRefundsApproverUserName: process.env.REFUNDS_APPROVER_USER_NAME,
   TestRefundsApproverPassword: process.env.REFUNDS_APPROVER_PASSWORD,
+  TestRefundsApproverUserName: process.env.REFUNDS_APPROVER_USER_NAME,
+  TestRefundsApproverPassword: process.env.REFUNDS_APPROVER_PASSWORD,
   TestClientID: process.env.CLIENT_ID || 'cmc_citizen',
   TestClientSecret: process.env.OAUTH2_CLIENT_SECRET,
   TestRedirectURI: process.env.CLIENT_REDIRECT_URI || 'https://cmc-citizen-frontend.service.core-compute-aat.internal/receiver',
