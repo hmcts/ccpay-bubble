@@ -289,7 +289,7 @@ Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Pay
     // console.log(name); // output 'testing'
     // console.log('Before Log In');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
+    I.login(testConfig.TestWTPPBAAllAccountsUserName, testConfig.TestWTPPBAAllAccountsPasword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
@@ -353,7 +353,7 @@ Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Pay
     // console.log(name); // output 'testing'
     // console.log('Before Log In');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
+    I.login(testConfig.TestWTPPBAAllAccountsUserName, testConfig.TestWTPPBAAllAccountsPasword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
