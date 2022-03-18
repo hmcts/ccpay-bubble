@@ -55,7 +55,7 @@ withNightlyPipeline("nodejs", product, component) {
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
   enableFortifyScan()
-  enableCrossBrowserTest()
+  enableCrossBrowserTest(['chrome','firefox'])
   enableFullFunctionalTest(180)
   enableMutationTest(150)
   after('checkout') {
