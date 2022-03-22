@@ -22,10 +22,10 @@ nodejs:
     CCPAY_BUBBLE_URL:  https://ccpay-bubble-frontend-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     PCIPAL_ANTENNA_URL:  https://paybubble.{{ .Values.global.environment }}.platform.hmcts.net/ccd-search
     WAYS_TO_PAY_RETURN_URL: https://paymentoutcome-web.{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/payment
-    PAYHUB_API_URL: http://payment-api-pr-1137.service.core-compute-preview.internal
+    PAYHUB_API_URL: http://payment-api-pr-1152.service.core-compute-preview.internal
     CCPAY_BULKSCAN_API_URL: http://ccpay-bulkscanning-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-    CCPAY_REFUNDS_API_URL: http://ccpay-refunds-api-pr-131.service.core-compute-preview.internal
-    CCPAY_NOTIFICATION_API_URL: http://ccpay-notifications-service-pr-30.service.core-compute-preview.internal
+    CCPAY_REFUNDS_API_URL: http://ccpay-refunds-api-pr-129.service.core-compute-preview.internal
+    CCPAY_NOTIFICATION_API_URL: http://ccpay-notifications-service-pr-39.service.core-compute-preview.internal
     S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     IDAM_API_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
     IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net/login
