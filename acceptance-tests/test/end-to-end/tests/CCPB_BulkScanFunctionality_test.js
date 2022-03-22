@@ -39,27 +39,27 @@ AfterSuite(async I => {
 
 // #region Normal CCD case bulk scan functional cases
 Scenario.only('Normal ccd case cash payment full allocation @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
-    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
-    const totalAmount = 550;
-    const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
-    const ccdCaseNumber = ccdAndDcn[1];
-    const dcnNumber = ccdAndDcn[0];
-    const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
-    CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£550.00', 'cash');
-    CaseTransaction.allocateToNewFee();
-    AddFees.addFeesAmount('550.00', 'family', 'family_court');
-    FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
-    FeesSummary.allocateBulkPayment();
-    ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '£550.00', '£550.00');
-    ConfirmAssociation.confirmPayment();
-    CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
-    CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
-    const receiptReference = await CaseTransaction.getReceiptReference();
-    PaymentHistory.navigateToReceiptRefs(receiptReference);
-    PaymentHistory.validateCcdPaymentDetails(receiptReference, '£550.00', dcnNumber, 'success', 'Cash', 'FEE0002');
-    I.Logout();
+  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  const totalAmount = 550;
+  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
+  const ccdCaseNumber = ccdAndDcn[1];
+  const dcnNumber = ccdAndDcn[0];
+  const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
+  await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+  CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
+  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£550.00', 'cash');
+  CaseTransaction.allocateToNewFee();
+  AddFees.addFeesAmount('550.00', 'family', 'family_court');
+  FeesSummary.verifyFeeSummaryBulkScan('FEE0002');
+  FeesSummary.allocateBulkPayment();
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '£550.00', '£550.00');
+  ConfirmAssociation.confirmPayment();
+  CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
+  CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
+  const receiptReference = await CaseTransaction.getReceiptReference();
+  PaymentHistory.navigateToReceiptRefs(receiptReference);
+  PaymentHistory.validateCcdPaymentDetails(receiptReference, '£550.00', dcnNumber, 'success', 'Cash', 'FEE0002');
+  I.Logout();
 });
 
 Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline @nightly @crossbrowser', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
