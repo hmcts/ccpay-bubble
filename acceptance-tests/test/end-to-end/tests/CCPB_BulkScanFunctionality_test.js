@@ -38,8 +38,7 @@ AfterSuite(async I => {
 
 
 // #region Normal CCD case bulk scan functional cases
-Scenario('Normal ccd case cash payment full allocation @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
-  if (nightlyTest) {
+Scenario.only('Normal ccd case cash payment full allocation @nightly', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const totalAmount = 550;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
@@ -61,7 +60,6 @@ Scenario('Normal ccd case cash payment full allocation @nightly', async(I, CaseS
     PaymentHistory.navigateToReceiptRefs(receiptReference);
     PaymentHistory.validateCcdPaymentDetails(receiptReference, '£550.00', dcnNumber, 'success', 'Cash', 'FEE0002');
     I.Logout();
-  }
 });
 
 Scenario('Normal ccd case cheque payment partial allocation 2 fees add @pipeline @nightly @crossbrowser', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
