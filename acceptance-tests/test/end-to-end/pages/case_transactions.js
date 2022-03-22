@@ -99,7 +99,7 @@ module.exports = {
 
   // done
   checkBulkCase(caseNumber, caseTitle) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
     this.validateTransactionPage(caseNumber);
     I.see(caseTitle);
     I.click(this.locators.more_details_actions);
