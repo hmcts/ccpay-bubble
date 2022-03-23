@@ -54,16 +54,14 @@ Scenario('Search for a case with actual case for Telephony flow @nightly', async
 });
 
 Scenario('Amount Due case for Telephony flow @nightly @crossbrowser', async I => {
-  if (nightlyTest) {
-    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
-    const responseoff = await bulkScanApiCalls.toggleOffCaseValidation();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    if (responseoff === successResponse) {
-      logger.info('Disabled CCD validation');
-    }
-    await I.AmountDueCaseForTelephonyFlow();
-    I.Logout();
+  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  const responseoff = await bulkScanApiCalls.toggleOffCaseValidation();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  if (responseoff === successResponse) {
+    logger.info('Disabled CCD validation');
   }
+  await I.AmountDueCaseForTelephonyFlow();
+  I.Logout();
 });
 
 Scenario('Remove fee from case transaction page Telephony flow @nightly', async I => {
