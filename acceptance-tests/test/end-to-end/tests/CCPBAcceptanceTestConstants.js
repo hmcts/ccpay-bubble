@@ -4,8 +4,9 @@ module.exports = {
   twoSecondWaitTime: 2,
   fiveSecondWaitTime: 5,
   sevenSecondWaitTime: 7,
-  nineSecondWaitTime: 7,
+  nineSecondWaitTime: 9,
   tenSecondWaitTime: 10,
+  fifteenSecondWaitTime: 10,
   twentySecondWaitTime: 20,
   thirtySecondWaitTime: 30,
   fortySecondWaitTime: 30,
@@ -13,6 +14,6 @@ module.exports = {
   CCDCaseNumber: 16,
   minTimeout: 1000,
   maxTimeout: 3000,
-  retryScenario: 3,
+  defaultNumberOfRetries: 3,
   oneMinute: 60
 };

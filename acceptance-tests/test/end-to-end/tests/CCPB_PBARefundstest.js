@@ -22,7 +22,7 @@ function RefundException(message) {
   this.name = 'Assertion Error';
 }
 
-Feature('CC Pay Bubble Acceptance Tests For Refunds and Remissions').retry(CCPBATConstants.retryScenario);
+Feature('CC Pay Bubble Acceptance Tests For Refunds and Remissions').retry(CCPBATConstants.defaultNumberOfRetries);
 
 BeforeSuite(async I => {
   // console.log('Before Suite');
