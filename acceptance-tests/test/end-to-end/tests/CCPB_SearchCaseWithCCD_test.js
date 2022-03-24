@@ -1,7 +1,5 @@
 const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 
-const nightlyTest = process.env.NIGHTLY_TEST;
-
 const bulkScanApiCalls = require('../helpers/utils');
 
 const { Logger } = require('@hmcts/nodejs-logging');
@@ -12,7 +10,7 @@ const testConfig = require('./config/CCPBConfig');
 
 const successResponse = 202;
 
-Feature('CC Pay Bubble Acceptance Tests').retry(CCPBATConstants.retryScenario);
+Feature('CC Pay Bubble Acceptance Tests').retry(CCPBATConstants.defaultNumberOfRetries);
 
 BeforeSuite(async I => {
   const response = await bulkScanApiCalls.toggleOffCaseValidation();
