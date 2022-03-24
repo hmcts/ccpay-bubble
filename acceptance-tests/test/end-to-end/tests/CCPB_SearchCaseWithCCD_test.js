@@ -30,8 +30,8 @@ AfterSuite(async I => {
   }
 });
 
-Scenario('Search for a case with actual case number from CCD @nightly', async I => {
-  if (nightlyTest) {
+Scenario('Search for a case with actual case number from CCD', async I => {
+
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     I.see('Search for a case');
     I.see('What do you want to search for?');
@@ -42,18 +42,19 @@ Scenario('Search for a case with actual case number from CCD @nightly', async I 
     I.see('Reports');
     await I.searchForCorrectCCDNumber();
     I.Logout();
-  }
-});
 
-Scenario('Search for a case with actual case for Telephony flow @nightly', async I => {
+}).tag('@nightly');
+
+Scenario('Search for a case with actual case for Telephony flow', async I => {
   if (nightlyTest) {
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     await I.caseforTelephonyFlow();
     I.Logout();
   }
-});
+}).tag(' @nightly');
 
 Scenario('Amount Due case for Telephony flow', async I => {
+
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const responseoff = await bulkScanApiCalls.toggleOffCaseValidation();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -62,17 +63,17 @@ Scenario('Amount Due case for Telephony flow', async I => {
   }
   await I.AmountDueCaseForTelephonyFlow();
   I.Logout();
+
 }).tag('@nightly @crossbrowser');
 
-Scenario('Remove fee from case transaction page Telephony flow @nightly', async I => {
-  if (nightlyTest) {
+Scenario('Remove fee from case transaction page Telephony flow', async I => {
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     await I.removeFeeFromCaseTransactionPageTelephonyFlow();
     I.Logout();
-  }
-});
+}).tag(' @nightly');
 
-Scenario('Search for a case with dummy case number @nightly @pipeline', async I => {
+Scenario('Search for a case with dummy case number @nightly', async I => {
+
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const responseOn = await bulkScanApiCalls.toggleOnCaseValidation();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -81,4 +82,5 @@ Scenario('Search for a case with dummy case number @nightly @pipeline', async I 
   }
   await I.searchForCCDdummydata();
   I.Logout();
-});
+  
+}).tag('@pipeline');
