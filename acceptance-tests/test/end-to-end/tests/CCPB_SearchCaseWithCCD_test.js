@@ -47,7 +47,7 @@ Scenario('Search for a case with actual case for Telephony flow', async I => {
     await I.caseforTelephonyFlow();
     I.Logout();
   }
-}).tag(' @nightly');
+}).tag('@nightly');
 
 Scenario('Amount Due case for Telephony flow', async I => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
