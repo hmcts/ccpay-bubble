@@ -200,7 +200,7 @@ module.exports = {
   },
 
   validateTransactionPage(caseNumber) {
-    I.waitForNavigation('domcontentloaded');
+    I.waitForNavigation();
     I.see(caseNumber);
     I.see('Total payments');
     I.see('Total remissions');
