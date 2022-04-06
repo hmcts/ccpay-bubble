@@ -44,7 +44,7 @@ Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, Ca
   const dcnNumber = ccdAndDcn[0];
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-  I.waitInUrl('/payment-history/'+ccdCaseNumber+'?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=GrantOfRepresentation&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Enable&isNewPcipalOff=Disable',9);
+  I.waitInUrl(`/payment-history/${ccdCaseNumber}?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=GrantOfRepresentation&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Enable&isNewPcipalOff=Disable`, CCPBATConstants.nineSecondWaitTime);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£550.00', 'cash');
   CaseTransaction.allocateToNewFee();
