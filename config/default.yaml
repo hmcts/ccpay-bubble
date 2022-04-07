@@ -2,7 +2,7 @@ security:
   referrerPolicy: origin
 idam:
   client_id: paybubble
-  login_url: http://localhost:23443
+  login_url: http://localhost:23443/login
   api_url: http://localhost:23443
 session:
   cookieName: SESSION_ID
@@ -21,9 +21,9 @@ s2s:
 payhub:
   url: http://localhost:8081
 bulkscan:
-  url: http://ccpay-bulkscanning-api-prod.service.core-compute-prod.internal
+  url: http://localhost:7070
 refunds:
-  url: http://ccpay-refunds-api-prod.service.core-compute-prod.internal
+  url: http://localhost:8084
 notification:
   url: http://ccpay-notifications-service-demo.service.core-compute-demo.internal
 waystopay:
