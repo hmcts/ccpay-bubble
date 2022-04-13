@@ -40,7 +40,7 @@ function getBrowserConfig(browserGroup) {
 
 testConfig.TestOutputDir = undefined;
 const setupConfig = {
-  tests: './test/end-to-end/tests/*_test.js',
+  tests: './test/end-to-end/tests/CCPB_BulkScanFunctionality_test.js',
   output: './output',
   helpers: {
     WebDriver: {
