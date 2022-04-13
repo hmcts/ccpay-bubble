@@ -125,7 +125,7 @@ Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTr
   PaymentHistory.navigateToReceiptRefs(receiptReference);
   PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£593.00', dcnNumber, 'Cash');
   I.Logout();
-}).tag(' @nightly');
+}).tag('@nightly @crossbrowser');
 
 // #endregion
 
@@ -213,7 +213,7 @@ Scenario('Exception Case Cheque Payment Unidentified', async(I, CaseSearch, Case
   PaymentHistory.navigateToReceiptRefs(receiptReference);
   PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£593.00', dcnNumber, 'Cheque');
   I.Logout();
-}).tag('@nightly');
+}).tag('@nightly @crossbrowser');
 
 Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less investigation comment provided', async(I, CaseSearch, CaseTransaction, CaseUnidentified) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
@@ -299,7 +299,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   I.Logout();
 }).tag('@nightly');
 
-Scenario('Download reports in paybubble @nightly', (I, Reports) => {
+Scenario('Download reports in paybubble', (I, Reports) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   Reports.navigateToReports();
   Reports.validateReportsPage();
@@ -308,4 +308,4 @@ Scenario('Download reports in paybubble @nightly', (I, Reports) => {
   Reports.selectReportAndDownload('Processed unallocated');
   Reports.selectReportAndDownload('Under payment and Over payment');
   I.Logout();
-}).tag('@nightly');
+}).tag('@nightly @crossbrowser');
