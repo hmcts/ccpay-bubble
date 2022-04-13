@@ -206,6 +206,7 @@
     "json-schema": "^0.4.0",
     "node-fetch":"^2.6.7",
     "follow-redirects":"^1.14.7",
-    "moment":"^2.29.2"
+    "moment":"^2.29.2",
+    "async": "^3.2.2"
   }
 }
