@@ -47,7 +47,7 @@ Scenario('Search for a case with actual case for Telephony flow', async I => {
   I.Logout();
 }).tag('@nightly');
 
-Scenario('Amount Due case for Telephony flow', async I => {
+Scenario.only('Amount Due case for Telephony flow', async I => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const responseoff = await bulkScanApiCalls.toggleOffCaseValidation();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
