@@ -130,6 +130,37 @@ async function toggleOnCaseValidation() {
   return Promise.all([response]);
 }
 
+/* async function createACCDCaseForProbate() {
+  const idamToken = await getIDAMToken();
+  const testCmcSecret = testConfig.TestCMCSecret;
+  const accountNumber = testConfig.TestAccountNumberInActive;
+  const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
+
+  const saveBody = {
+    data: {},
+    event: {
+      id: 'createDraft',
+      summary: '',
+      description: ''
+    },
+    event_token: 'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5a3FqZ3FuZDJ2OWE4NWp2Ym5mMDE1bG9oNiIsInN1YiI6ImVjYjVlZGY0LTJmNWYtNDAzMS1hMGVjLTEyZmI3MWY0NzU4NCIsImlhdCI6MTY0NjkzNDMzOCwiZXZlbnQtaWQiOiJjcmVhdGVEcmFmdCIsImNhc2UtdHlwZS1pZCI6IkdyYW50T2ZSZXByZXNlbnRhdGlvbiIsImp1cmlzZGljdGlvbi1pZCI6IlBST0JBVEUiLCJjYXNlLXZlcnNpb24iOiJiZjIxYTllOGZiYzVhMzg0NmZiMDViNGZhMDg1OWUwOTE3YjIyMDJmIn0.N6tV9GjsAqfVEn8X33CXtL2AV4Tqe7o1o53D0DxWUco',
+    ignore_warning: false,
+    draft_id: null
+  };
+
+  // console.log(`The value of the Body ${JSON.stringify(saveBody)}`);
+  const createAPBAPaymentOptions = {
+    method: 'POST',
+    uri: creditAccountPaymentUrl + creditAccountPaymentEndPoint,
+    headers: {
+      Authorization: `${idamToken}`,
+      ServiceAuthorization: `Bearer ${serviceToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(saveBody)
+  };
+}*/
+
 async function rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(
   idamToken, serviceToken, ccdCaseNumber) {
   // console.log('Inside the updatePBAPaymentDateByCCDCaseNumber() method');
