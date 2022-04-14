@@ -17,14 +17,15 @@ exports.config = {
       waitForAction,
       // waitForNavigation: 'networkidle0',
       waitForNavigation: 'domcontentloaded',
-      show: false,
+      show: true,
       restart: true,
       windowSize: '1024x768',
       keepCookies: false,
       keepBrowserState: true,
       networkIdleTimeout: 5000,
       waitUntil: 'networkidle0',
-      timeout: 3000000,
+      timeout: 300000,
+      waitForTimeout : 300000,
       chrome: {
         ignoreHTTPSErrors: true,
         args: [
