@@ -47,7 +47,7 @@ Scenario('Search for a case with actual case for Telephony flow', async I => {
   I.Logout();
 }).tag('@nightly');
 
-Scenario.only('Amount Due case for Telephony flow', async I => {
+Scenario('Amount Due case for Telephony flow', async I => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const responseoff = await bulkScanApiCalls.toggleOffCaseValidation();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -62,7 +62,7 @@ Scenario('Remove fee from case transaction page Telephony flow', async I => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   await I.removeFeeFromCaseTransactionPageTelephonyFlow();
   I.Logout();
-}).tag(' @nightly');
+}).tag('@nightly');
 
 Scenario('Search for a case with dummy case number @nightly', async I => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
