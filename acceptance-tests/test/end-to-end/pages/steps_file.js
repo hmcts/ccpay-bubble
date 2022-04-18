@@ -780,7 +780,7 @@ module.exports = () => actor({
     const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
-    //this.waitInUrl(`/payment-history/${ccdNumber}?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Enable&isNewPcipalOff=Disable`, CCPBConstants.nineSecondWaitTime);
+    // this.waitInUrl(`/payment-history/${ccdNumber}?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Enable&isNewPcipalOff=Disable`, CCPBConstants.nineSecondWaitTime);
     this.wait(CCPBConstants.nineSecondWaitTime);
     this.see('Case transactions');
     this.see('Case reference:');
@@ -806,7 +806,7 @@ module.exports = () => actor({
     this.see('Quantity');
     this.see('Amount');
     this.see('Add fee');
-    this.see(PaybubbleStaticData.fee_description['FEE0002']);
+    this.see(PaybubbleStaticData.fee_description.FEE0002);
     this.see('£593.00');
     this.see('Total to pay: £593.00');
     this.click('Remove');
@@ -872,7 +872,6 @@ module.exports = () => actor({
   },
 
   async removeFeeFromCaseTransactionPageTelephonyFlow() {
-
     const randomNumber = numUtils.getRandomNumber(numberTwo);
     const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
@@ -900,7 +899,7 @@ module.exports = () => actor({
     this.see('Quantity');
     this.see('Amount');
     this.see('Add fee');
-    this.see(PaybubbleStaticData.fee_description['FEE0002']);
+    this.see(PaybubbleStaticData.fee_description.FEE0002);
     this.see('£593.00');
     this.see('Total to pay: £593.00');
     this.click('Case Transaction');
