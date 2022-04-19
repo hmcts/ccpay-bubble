@@ -36,7 +36,7 @@ AfterSuite(async I => {
 
 
 // #region Normal CCD case bulk scan functional cases
-Scenario.only('Normal ccd case cash payment full allocation', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
+Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
