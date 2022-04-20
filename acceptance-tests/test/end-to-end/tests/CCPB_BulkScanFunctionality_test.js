@@ -1,3 +1,4 @@
+/* eslint-disable no-alert, no-console */
 const { Logger } = require('@hmcts/nodejs-logging');
 
 const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
