@@ -99,6 +99,57 @@ async function getServiceToken(_service) {
   return serviceToken;
 }
 
+async function getUserID() {
+
+  const idamToken = await getIDAMToken();
+  const detailsBaseUrl = `https://idam-api.${env}.platform.hmcts.net`;
+  const idamDetailsPath = '/details';
+
+  const idamDetailsResponse = await request({
+    method: 'GET',
+    uri: `${detailsBaseUrl}${idamDetailsPath}`,
+    headers: { Authorization: `Bearer ${idamToken}`,
+      'Content-Type': 'application/json'}
+  }, (_error, response) => {
+    statusCode = response.statusCode;
+    // console.log(statusCode);
+  }).catch(error => {
+    logger.log(error);
+    console.log(error);
+  });
+  // console.log(idamDetailsResponse);
+  const responsePayload = JSON.parse(idamDetailsResponse);
+  const idValue = responsePayload.id;
+  return idValue;
+}
+
+async function getCREATEEvent() {
+
+  const userID = await getUserID();
+  const idamToken = await getIDAMToken();
+  const serviceAuthorizationToken = await getServiceToken();
+  const createTokenCCDEventContextBaseUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
+  const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/PROBATE/case-types/GrantOfRepresentation/event-triggers/createDraft/token`;
+
+  const createTokenResponse = await request({
+    method: 'GET',
+    uri: `${createTokenCCDEventContextBaseUrl}${createTokenCCDEventRelativeBaseUrl}`,
+    headers: { Authorization: `Bearer ${idamToken}`,
+      ServiceAuthorization: `${serviceAuthorizationToken}`,
+      'Content-Type': 'application/json'},
+  }, (_error, response) => {
+    statusCode = response.statusCode;
+    console.log(statusCode);
+  }).catch(error => {
+    logger.log(error);
+    console.log(error);
+  });
+  //  console.log(createTokenResponse);
+  const responsePayload = JSON.parse(createTokenResponse);
+  const createTokenValue = responsePayload.token;
+  return createTokenValue;
+}
+
 async function CaseValidation(flag) {
   logger.info(`${flag} case validation`);
 
@@ -106,13 +157,13 @@ async function CaseValidation(flag) {
   const disablePath = `/api/ff4j/store/features/caseref-validation/${flag}`;
   // eslint-disable-next-line global-require
   const saveCaseResponse = await request({
-    method: 'POST',
-    uri: paymentBaseUrl + disablePath,
-    headers: { 'Content-Type': 'application/json' }
-  },
-  (_error, response) => {
-    statusCode = response.statusCode;
-  }).catch(error => {
+      method: 'POST',
+      uri: paymentBaseUrl + disablePath,
+      headers: { 'Content-Type': 'application/json' }
+    },
+    (_error, response) => {
+      statusCode = response.statusCode;
+    }).catch(error => {
     logger.log(error);
     // console.log(error);
   });
@@ -130,36 +181,54 @@ async function toggleOnCaseValidation() {
   return Promise.all([response]);
 }
 
-/* async function createACCDCaseForProbate() {
-  const idamToken = await getIDAMToken();
-  const testCmcSecret = testConfig.TestCMCSecret;
-  const accountNumber = testConfig.TestAccountNumberInActive;
-  const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
+async function createACCDCaseForProbate() {
 
-  const saveBody = {
-    data: {},
-    event: {
-      id: 'createDraft',
-      summary: '',
-      description: ''
-    },
-    event_token: 'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5a3FqZ3FuZDJ2OWE4NWp2Ym5mMDE1bG9oNiIsInN1YiI6ImVjYjVlZGY0LTJmNWYtNDAzMS1hMGVjLTEyZmI3MWY0NzU4NCIsImlhdCI6MTY0NjkzNDMzOCwiZXZlbnQtaWQiOiJjcmVhdGVEcmFmdCIsImNhc2UtdHlwZS1pZCI6IkdyYW50T2ZSZXByZXNlbnRhdGlvbiIsImp1cmlzZGljdGlvbi1pZCI6IlBST0JBVEUiLCJjYXNlLXZlcnNpb24iOiJiZjIxYTllOGZiYzVhMzg0NmZiMDViNGZhMDg1OWUwOTE3YjIyMDJmIn0.N6tV9GjsAqfVEn8X33CXtL2AV4Tqe7o1o53D0DxWUco',
+  const idamToken = await getIDAMToken();
+  const serviceToken = await getServiceToken();
+  const createToken = await getCREATEEvent();
+  // const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
+
+  const createCCDCaseBody = {
+
+    data:{},event:
+    {id:'createDraft', summary:'', description:''},
+    event_token: `${createToken}`,
     ignore_warning: false,
     draft_id: null
   };
 
+  const probateCCDCreateCaseContextBaseUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
+  const probateCCDCreateCaseRelativeBaseUrl = `/case-types/GrantOfRepresentation/cases`;
+
   // console.log(`The value of the Body ${JSON.stringify(saveBody)}`);
-  const createAPBAPaymentOptions = {
+  const probateCaseCreated = {
     method: 'POST',
-    uri: creditAccountPaymentUrl + creditAccountPaymentEndPoint,
+    uri: probateCCDCreateCaseContextBaseUrl + probateCCDCreateCaseRelativeBaseUrl,
     headers: {
-      Authorization: `${idamToken}`,
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${idamToken}`,
+      ServiceAuthorization: `${serviceToken}`,
+      'Content-Type': 'application/json',
+      'experimental': true
     },
-    body: JSON.stringify(saveBody)
+    body: JSON.stringify(createCCDCaseBody)
   };
-}*/
+
+  const probateCaseCreatedResponse = await request(probateCaseCreated,
+    (_error, response) => {
+      logger.info(response);
+      // console.log(`${statusCode}The value of the status code`);
+      // console.log(`${response}The value of the response`);
+    }).catch(error => {
+    logger.error(error);
+     console.log(error);
+  });
+
+  console.log(probateCaseCreatedResponse);
+
+  const ccdCaseNumberPayload = JSON.parse(probateCaseCreatedResponse);
+  const ccdCaseNumber = ccdCaseNumberPayload.id;
+  return ccdCaseNumber;
+}
 
 async function rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(
   idamToken, serviceToken, ccdCaseNumber) {
@@ -374,7 +443,7 @@ async function createAPBAPayment() {
 }
 
 async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
-  bankedDate, dcnNumber, paymentMethod) {
+                                   bankedDate, dcnNumber, paymentMethod) {
   logger.info('Creating bulk Excela Case');
   const bulkApiUrl = `http://ccpay-bulkscanning-api-${env}.service.core-compute-${env}.internal`;
   const bulkendPoint = '/bulk-scan-payment';
@@ -399,8 +468,8 @@ async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
   };
 
   const saveCaseResponse = await request(saveCaseOptions, (_error, response) => {
-    statusCode = response.statusCode;
-  }
+      statusCode = response.statusCode;
+    }
   ).catch(error => {
     logger.log(error);
   });
@@ -514,7 +583,8 @@ async function createBulkScanRecords(siteId, amount, paymentMethod, exception, l
   if (responseDcnCode === successResponse) logger.info('DCN Created');
   else logger.info('CCD Case NOT Created');
 
-  ccdNumber = stringUtil.getTodayDateAndTimeInString() + numUtil.getRandomNumber(numberTwo);
+  //ccdNumber = stringUtil.getTodayDateAndTimeInString() + numUtil.getRandomNumber(numberTwo);
+  ccdNumber = await createACCDCaseForProbate();
   const responseCcdCode = await bulkScanRecord(serviceToken, ccdNumber, dcnNumber,
     siteId, exception).catch(error => {
     logger.log(error);
@@ -551,5 +621,6 @@ async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
 
 module.exports = {
   bulkScanNormalCcd, bulkScanExceptionCcd, bulkScanCcdLinkedToException,
-  toggleOffCaseValidation, toggleOnCaseValidation, createAPBAPayment, createAFailedPBAPayment
+  toggleOffCaseValidation, toggleOnCaseValidation, createAPBAPayment, createAFailedPBAPayment,
+  createACCDCaseForProbate
 };
