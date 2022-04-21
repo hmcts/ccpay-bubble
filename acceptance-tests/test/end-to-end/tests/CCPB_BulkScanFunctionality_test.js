@@ -328,3 +328,16 @@ Scenario('Download reports in paybubble', (I, Reports) => {
   Reports.selectReportAndDownload('Under payment and Over payment');
   I.Logout();
 }).tag('@nightly @crossbrowser');
+
+Scenario.only('Download reports in paybubble', (I, Reports) => {
+  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  bulkScanApiCalls.createACCDCaseForDivorce();
+  pause();
+  Reports.navigateToReports();
+  Reports.validateReportsPage();
+  Reports.selectReportAndDownload('Data loss');
+  Reports.selectReportAndDownload('Unprocessed transactions');
+  Reports.selectReportAndDownload('Processed unallocated');
+  Reports.selectReportAndDownload('Under payment and Over payment');
+  I.Logout();
+}).tag('@nightly @crossbrowser');
