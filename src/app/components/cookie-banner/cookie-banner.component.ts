@@ -69,7 +69,7 @@ export class CookieBannerComponent implements OnInit {
     element1.classList.add('govuk-visually-hidden');
     // document.getElementById('accept-all-cookies-success').classList.remove('govuk-visually-hidden');
     // document.getElementById('cm_cookie_notification').classList.add('govuk-visually-hidden');
-    this.setState(true);
+    this.setState(false);
   }
 
   public manageAPMCookie(cookieStatus) {
@@ -111,7 +111,8 @@ export class CookieBannerComponent implements OnInit {
     this.cookieService.setCookie('cookies_policy', '{"essential":true,"analytics":false,"apm":false}', expiryDays);
     this.manageAnalyticsCookies('false');
     this.manageAPMCookie('false');
-    this.setState(true);
+    this.isCookieBannerVisible = false;
+    this.setState(false);
   }
 
   public manageAnalyticsCookies(cookieStatus) {
