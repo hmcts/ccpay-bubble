@@ -53,6 +53,43 @@ async function getIDAMToken() {
   return JSON.parse(idamTokenResponse).access_token;
 }
 
+async function getIDAMTokenForDivorceUser() {
+  const username = testConfig.TestDivorceCaseWorkerUserName;
+  const password = testConfig.TestDivorceCaseWorkerPassword;
+
+  const idamClientID = testConfig.TestDivorceClientID;
+  const idamClientSecret = testConfig.TestDivorceClientSecret;
+  const redirectUri = testConfig.TestDivorceClientRedirectURI;
+  const scope = 'openid profile roles';
+  const grantType = 'password';
+  logger.log(`The value of the User Name ${username}`);
+  logger.log(`The value of the Password ${password}`);
+  logger.log(`The value of the Client Id : ${idamClientID}`);
+  logger.log(`The value of the Client Secret : ${idamClientSecret}`);
+  logger.log(`The value of the Redirect URI : ${redirectUri}`);
+  logger.log(`The value of the grant Type : ${grantType}`);
+  logger.log(`The value of the scope : ${scope}`);
+
+  const s2sBaseUrl = `https://idam-api.${env}.platform.hmcts.net`;
+  const idamTokenPath = '/o/token';
+  // logger.log('The value of the IDAM URL :' + `${s2sBaseUrl}${idamTokenPath}`);
+  // console.log('The value of the IDAM URL : ' + `${s2sBaseUrl}${idamTokenPath}`);
+
+  const idamTokenResponse = await request({
+    method: 'POST',
+    uri: `${s2sBaseUrl}${idamTokenPath}`,
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`
+  }, (_error, response) => {
+    statusCode = response.statusCode;
+  }).catch(error => {
+    logger.log(error);
+    console.log(error);
+  });
+  logger.debug(idamTokenPath);
+  return JSON.parse(idamTokenResponse).access_token;
+}
+
 async function getServiceTokenForSecret(service, serviceSecret) {
   logger.info('Getting Service Token');
   logger.log(`Getting Service Token${service}`);
@@ -99,9 +136,9 @@ async function getServiceToken(_service) {
   return serviceToken;
 }
 
-async function getUserID() {
+async function getUserID(idamToken) {
 
-  const idamToken = await getIDAMToken();
+  //const idamToken = await getIDAMToken();
   const detailsBaseUrl = `https://idam-api.${env}.platform.hmcts.net`;
   const idamDetailsPath = '/details';
 
@@ -123,13 +160,40 @@ async function getUserID() {
   return idValue;
 }
 
-async function getCREATEEvent() {
+async function getCREATEEventForProbate() {
 
-  const userID = await getUserID();
   const idamToken = await getIDAMToken();
+  const userID = await getUserID(idamToken);
   const serviceAuthorizationToken = await getServiceToken();
   const createTokenCCDEventContextBaseUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
   const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/PROBATE/case-types/GrantOfRepresentation/event-triggers/createDraft/token`;
+
+  const createTokenResponse = await request({
+    method: 'GET',
+    uri: `${createTokenCCDEventContextBaseUrl}${createTokenCCDEventRelativeBaseUrl}`,
+    headers: { Authorization: `Bearer ${idamToken}`,
+      ServiceAuthorization: `${serviceAuthorizationToken}`,
+      'Content-Type': 'application/json'},
+  }, (_error, response) => {
+    statusCode = response.statusCode;
+    console.log(statusCode);
+  }).catch(error => {
+    logger.log(error);
+    console.log(error);
+  });
+  //  console.log(createTokenResponse);
+  const responsePayload = JSON.parse(createTokenResponse);
+  const createTokenValue = responsePayload.token;
+  return createTokenValue;
+}
+
+async function getCREATEEventForDivorce() {
+
+  const idamTokenForDivorce = await getIDAMTokenForDivorceUser();
+  const userID = await getUserID(idamTokenForDivorce);
+  const serviceAuthorizationToken = await getServiceToken();
+  const createTokenCCDEventContextBaseUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
+  const createTokenCCDEventRelativeBaseUrl = `caseworkers/${userID}/jurisdictions/DIVORCE/case-types/DIVORCE/event-triggers/hwfCreate/token`;
 
   const createTokenResponse = await request({
     method: 'GET',
@@ -185,7 +249,7 @@ async function createACCDCaseForProbate() {
 
   const idamToken = await getIDAMToken();
   const serviceToken = await getServiceToken();
-  const createToken = await getCREATEEvent();
+  const createToken = await getCREATEEventForProbate();
   // const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
 
   const createCCDCaseBody = {
@@ -229,6 +293,13 @@ async function createACCDCaseForProbate() {
   const ccdCaseNumber = ccdCaseNumberPayload.id;
   return ccdCaseNumber;
 }
+
+async function createACCDCaseForDivorce() {
+  const idamTokenForDivorce = await getIDAMTokenForDivorceUser();
+  const serviceToken = await getServiceToken();
+  console.log('The value of the Divorce Token : ' + idamTokenForDivorce);
+  console.log('The value of the Service Token : ' + serviceToken);
+ }
 
 async function rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(
   idamToken, serviceToken, ccdCaseNumber) {
@@ -622,5 +693,5 @@ async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
 module.exports = {
   bulkScanNormalCcd, bulkScanExceptionCcd, bulkScanCcdLinkedToException,
   toggleOffCaseValidation, toggleOnCaseValidation, createAPBAPayment, createAFailedPBAPayment,
-  createACCDCaseForProbate
+  createACCDCaseForProbate, createACCDCaseForDivorce
 };
