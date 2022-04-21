@@ -19,7 +19,7 @@ const successResponse = 202;
 
 Feature('CC Pay Bubble Bulk Scan Acceptance Tests').retry(CCPBATConstants.defaultNumberOfRetries);
 
-BeforeSuite(async I => {
+/*BeforeSuite(async I => {
   const response = await bulkScanApiCalls.toggleOffCaseValidation();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   if (response === successResponse) {
@@ -33,7 +33,7 @@ AfterSuite(async I => {
   if (response === successResponse) {
     logger.info('Enabled CCD validation');
   }
-});
+});*/
 
 
 // #region Normal CCD case bulk scan functional cases
@@ -58,6 +58,7 @@ Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, Ca
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', '£593.00', '£593.00');
   ConfirmAssociation.confirmPayment();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
@@ -124,6 +125,7 @@ Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTr
   CaseTransferred.validateTransferredPage(dcnNumber, '593.00', 'Cash');
   CaseTransferred.validateAndConfirmTransferred('auto transferred reason', 'Basildon Combined Court - Crown (W802)');
   CaseTransferred.confirmPayment();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Transferred');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
@@ -149,6 +151,7 @@ Scenario('Exception ccd case cash payment transferred', async(I, CaseSearch, Cas
   CaseTransferred.validateTransferredPage(dcnNumber, '593.00', 'Cheque');
   CaseTransferred.validateAndConfirmTransferred('auto transferred reason', 'Basildon Combined Court - Crown (W802)');
   CaseTransferred.confirmPayment();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Exception reference', 'Transferred');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   // Search using receipt number
@@ -174,6 +177,7 @@ Scenario('DCN Search for ccd case associated with exception postal order payment
   CaseTransferred.validateTransferredPage(dcnNumber, '600.00', 'Postal Order');
   CaseTransferred.validateAndConfirmTransferred('auto transferred reason', 'Basildon Combined Court - Crown (W802)');
   CaseTransferred.confirmPayment();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Transferred');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   I.Logout();
@@ -196,6 +200,7 @@ Scenario('Normal ccd case cash payment transferred when no valid reason or site 
   CaseTransferred.selectSiteId('Basildon Combined Court - Crown (W802)');
   CaseTransferred.inputTransferredReason('ab');
   CaseTransferred.confirmPayment();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransferred.whenReasonLessThanLimit();
   CaseTransferred.cancelTransferredReason();
   I.Logout();
@@ -216,6 +221,7 @@ Scenario('Exception Case Cheque Payment Unidentified', async(I, CaseSearch, Case
   CaseUnidentified.validateUnidentifiedPage(dcnNumber, '593.00', 'Cheque');
   CaseUnidentified.validateAndConfirmUnidentified('auto unidentified reason');
   CaseUnidentified.confirmPayment();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Exception reference', 'Unidentified');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
@@ -270,6 +276,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     ConfirmAssociation.verifyConfirmAssociationShortfallPaymentErrorMessages();
     ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
     ConfirmAssociation.confirmPayment();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     CaseTransaction.checkBulkCaseSurplusOrShortfallSuccessPaymentNotPaid(ccdCaseNumberFormatted, 'Case reference', 'Allocated', '£100.00');
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
     // Search using receipt number
@@ -305,6 +312,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   ConfirmAssociation.verifyConfirmAssociationSurplusPayment('FEE0002', '£593.00', '£7.00');
   ConfirmAssociation.selectSurplusReasonOtherExplainatoryAndUser('Help with Fees awarded', 'Other explainatory note', 'Auto Comment');
   ConfirmAssociation.confirmPayment();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCaseSurplusOrShortfallSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   I.Logout();
