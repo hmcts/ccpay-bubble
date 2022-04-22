@@ -130,7 +130,9 @@ Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTr
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Transferred');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.navigateToReceiptRefs(receiptReference);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£593.00', dcnNumber, 'Cash');
   I.Logout();
 }).tag('@nightly @crossbrowser');
@@ -227,6 +229,7 @@ Scenario('Exception Case Cheque Payment Unidentified', async(I, CaseSearch, Case
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
   PaymentHistory.navigateToReceiptRefs(receiptReference);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£593.00', dcnNumber, 'Cheque');
   I.Logout();
 }).tag('@nightly');
