@@ -29,6 +29,9 @@ def secrets = [
     secret('refunds-requestor-caseworker-password', 'REFUNDS_REQUESTOR_PASSWORD'),
     secret('refunds-approver-caseworker-username', 'REFUNDS_APPROVER_USER_NAME'),
     secret('refunds-approver-caseworker-password', 'REFUNDS_APPROVER_PASSWORD'),
+    secret('fee-pay-divorce-client-id', 'DIVORCE_CLIENT_ID'),
+    secret('fee-pay-divorce-client-secret', 'DIVORCE_CLIENT_SECRET'),
+    secret('fee-pay-divorce-client-redirect-url', 'DIVORCE_CLIENT_REDIRECT_URI'),
     secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
   ]
 ]
