@@ -38,12 +38,12 @@ AfterSuite(async I => {
 
 // #region Normal CCD case bulk scan functional cases
 Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
+  //logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
-  // console.log(`The value of the ccdCaseNumber : ${ccdCaseNumber}`);
   // console.log(`The value of the dcnNumber : ${dcnNumber}`);
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
@@ -73,7 +73,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
-  // console.log(`The value of the ccdCaseNumber : ${ccdCaseNumber}`);
+  console.log(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
   // console.log(`The value of the dcnNumber : ${dcnNumber}`);
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
@@ -116,6 +116,7 @@ Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTr
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
+  console.log(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -251,7 +252,6 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
   I.Logout();
 }).tag('@nightly');
 
-
 Scenario('Ccd case search with exception record postal order payment shortfall payment',
   async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary,
     ConfirmAssociation, PaymentHistory) => {
@@ -260,6 +260,9 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA08', totalAmount, 'PostalOrder');
     const dcnNumber = ccdAndDcn[0];
     const ccdCaseNumber = ccdAndDcn[1];
+    console.log('The DCN Number from the Test : '+ dcnNumber);
+    console.log('The Real CCD Case Number from the Test : '+ccdCaseNumber);
+    console.log('The Exception CCD Case Number from the Test : '+ ccdAndDcn[2]);
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -283,9 +286,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     const receiptSearch = await CaseTransaction.getReceiptReference();
     CaseSearch.navigateToCaseTransaction();
     // console.log(`The value of the Payment Reference : ${receiptSearch}`);
-    await miscUtils.multipleSearch(CaseSearch, I, receiptSearch);
-    // Just put this extra Search Stage in as Sometimes
-    CaseSearch.navigateToCaseTransaction();
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, receiptSearch);
     CaseTransaction.checkBulkCaseSuccessPaymentNotPaid(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
     PaymentHistory.navigateToPaymentHistory();
@@ -318,7 +319,8 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   I.Logout();
 }).tag('@nightly');
 
-Scenario('Download reports in paybubble', (I, Reports) => {
+Scenario.only('Download reports in paybubble', async (I, Reports) => {
+  logger.info('Here is the Logger');
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   Reports.navigateToReports();
   Reports.validateReportsPage();
@@ -329,9 +331,10 @@ Scenario('Download reports in paybubble', (I, Reports) => {
   I.Logout();
 }).tag('@nightly @crossbrowser');
 
-Scenario.only('Download reports in paybubble', (I, Reports) => {
+/*Scenario.only('Download reports in paybubble', async (I, Reports) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
-  bulkScanApiCalls.createACCDCaseForDivorce();
+  const ccdCaseNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
+  console.log('The value of the Divorce Case Number : '+ccdCaseNumber);
   pause();
   Reports.navigateToReports();
   Reports.validateReportsPage();
@@ -340,4 +343,4 @@ Scenario.only('Download reports in paybubble', (I, Reports) => {
   Reports.selectReportAndDownload('Processed unallocated');
   Reports.selectReportAndDownload('Under payment and Over payment');
   I.Logout();
-}).tag('@nightly @crossbrowser');
+}).tag('@nightly @crossbrowser');*/

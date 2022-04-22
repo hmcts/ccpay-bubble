@@ -190,15 +190,18 @@ async function getCREATEEventForProbate() {
 async function getCREATEEventForDivorce() {
 
   const idamTokenForDivorce = await getIDAMTokenForDivorceUser();
+  console.log('The value of the idamTokenForDivorce '+idamTokenForDivorce);
   const userID = await getUserID(idamTokenForDivorce);
+  console.log('The value of the userID '+userID);
   const serviceAuthorizationToken = await getServiceToken();
+  console.log('The value of the service Token '+serviceAuthorizationToken);
   const createTokenCCDEventContextBaseUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
-  const createTokenCCDEventRelativeBaseUrl = `caseworkers/${userID}/jurisdictions/DIVORCE/case-types/DIVORCE/event-triggers/hwfCreate/token`;
+  const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/DIVORCE/case-types/DIVORCE/event-triggers/hwfCreate/token`;
 
   const createTokenResponse = await request({
     method: 'GET',
     uri: `${createTokenCCDEventContextBaseUrl}${createTokenCCDEventRelativeBaseUrl}`,
-    headers: { Authorization: `Bearer ${idamToken}`,
+    headers: { Authorization: `Bearer ${idamTokenForDivorce}`,
       ServiceAuthorization: `${serviceAuthorizationToken}`,
       'Content-Type': 'application/json'},
   }, (_error, response) => {
@@ -295,10 +298,59 @@ async function createACCDCaseForProbate() {
 }
 
 async function createACCDCaseForDivorce() {
+
   const idamTokenForDivorce = await getIDAMTokenForDivorceUser();
   const serviceToken = await getServiceToken();
-  console.log('The value of the Divorce Token : ' + idamTokenForDivorce);
+  const createToken = await getCREATEEventForDivorce();
+
+  const createCCDDivorceCaseBody = {
+    data:{
+      LanguagePreferenceWelsh: 'No'
+    },
+    event:{
+      id: 'hwfCreate',
+      summary: 'TESTING',
+      description: 'Testing'
+    },
+    event_token:`${createToken}`,
+    ignore_warning:false,
+    draft_id:null
+  };
+
+  const divorceCCDCreateCaseContextBaseUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
+  const divorceCCDCreateCaseRelativeBaseUrl = `/case-types/DIVORCE/cases`;
+
+  // console.log(`The value of the Body ${JSON.stringify(saveBody)}`);
+  const divorceCaseCreated = {
+    method: 'POST',
+    uri: divorceCCDCreateCaseContextBaseUrl + divorceCCDCreateCaseRelativeBaseUrl,
+    headers: {
+      Authorization: `Bearer ${idamTokenForDivorce}`,
+      ServiceAuthorization: `${serviceToken}`,
+      'Content-Type': 'application/json',
+      'experimental': true
+    },
+    body: JSON.stringify(createCCDDivorceCaseBody)
+  };
+
   console.log('The value of the Service Token : ' + serviceToken);
+  console.log('The value of the Create Token for Divorce: ' + createToken);
+
+  const divorceCaseCreatedResponse = await request(divorceCaseCreated,
+    (_error, response) => {
+      logger.info(response);
+      // console.log(`${statusCode}The value of the status code`);
+      // console.log(`${response}The value of the response`);
+    }).catch(error => {
+    logger.error(error);
+    console.log(error);
+  });
+  console.log(divorceCaseCreatedResponse);
+
+  const ccdCaseNumberPayload = JSON.parse(divorceCaseCreatedResponse);
+  const ccdCaseNumber = ccdCaseNumberPayload.id;
+  console.log('The value of the CCDCaseNumber : '+ccdCaseNumber);
+  return ccdCaseNumber;
  }
 
 async function rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(
@@ -562,6 +614,8 @@ async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, except
     site_id: `${siteId}`
   };
 
+  console.log('What is this CCDCaseNumber '+saveBody.ccd_case_number);
+
   const saveCaseOptions = {
     method: 'POST',
     uri: bulkApiUrl + bulkendPoint,
@@ -584,7 +638,6 @@ async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, except
   return statusCode;
 }
 
-
 async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNumber) {
   logger.info('Creating bulk Scan Case linked to Exception CCD');
 
@@ -592,6 +645,7 @@ async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNum
   const bulkendPoint = '/bulk-scan-payments';
   const query = `?exception_reference=${exceptionCCDNumber}`;
 
+  console.log(`This is the Actual Case Number : ${ccdNumber}`);
   const saveBody = { ccd_case_number: `${ccdNumber}` };
 
   const saveCaseOptions = {
@@ -620,9 +674,9 @@ async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNum
 async function bulkScanCcdLinkedException(exceptionCcdNumber, serviceToken) {
   const numberTwo = 2;
   const successResponse = 200;
-  let ccdNumber = 0;
-  const randomNumber = numUtil.getRandomNumber(numberTwo);
-  ccdNumber = stringUtil.getTodayDateAndTimeInString() + randomNumber;
+
+  const ccdNumber = await createACCDCaseForDivorce();
+  console.log('The value of Actual CCDCaseNumber : ' + ccdNumber);
   const responseCode = await bulkScanCcdWithException(serviceToken, ccdNumber,
     exceptionCcdNumber).catch(error => {
     logger.log(error);
@@ -655,8 +709,9 @@ async function createBulkScanRecords(siteId, amount, paymentMethod, exception, l
   else logger.info('CCD Case NOT Created');
 
   //ccdNumber = stringUtil.getTodayDateAndTimeInString() + numUtil.getRandomNumber(numberTwo);
-  ccdNumber = await createACCDCaseForProbate();
-  const responseCcdCode = await bulkScanRecord(serviceToken, ccdNumber, dcnNumber,
+  const ccdNumberExceptionRecord = await createACCDCaseForDivorce();
+  console.log('ccdNumberExceptionRecord'+ccdNumberExceptionRecord)
+  const responseCcdCode = await bulkScanRecord(serviceToken, ccdNumberExceptionRecord, dcnNumber,
     siteId, exception).catch(error => {
     logger.log(error);
   });
@@ -665,13 +720,13 @@ async function createBulkScanRecords(siteId, amount, paymentMethod, exception, l
   else logger.info('CCD Case NOT Created');
 
   if (linkedCcd) {
-    const result = Promise.all([responseDcnCode, responseCcdCode]);
-    if (result) {
-      const ccdNumberLinked = await bulkScanCcdLinkedException(ccdNumber, serviceToken);
-      return [dcnNumber, ccdNumberLinked, ccdNumber];
-    }
+   /* const result = Promise.all([responseDcnCode, responseCcdCode]);
+    if (result) {*/
+      const ccdNumberLinked = await bulkScanCcdLinkedException( ccdNumberExceptionRecord, serviceToken);
+      return [dcnNumber, ccdNumberLinked, ccdNumberExceptionRecord];
+    //}
   }
-  return [dcnNumber, ccdNumber];
+  return [dcnNumber, ccdNumberExceptionRecord];
 }
 
 async function bulkScanNormalCcd(siteId, amount, paymentMethod) {
