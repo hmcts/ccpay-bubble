@@ -131,7 +131,6 @@ Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTr
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
   PaymentHistory.navigateToPaymentHistory();
-  PaymentHistory.navigateToReceiptRefs(receiptReference);
   await miscUtils.multipleSearch(CaseSearch, I, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£593.00', dcnNumber, 'Cash');
@@ -229,7 +228,9 @@ Scenario('Exception Case Cheque Payment Unidentified', async(I, CaseSearch, Case
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Exception reference', 'Unidentified');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
-  PaymentHistory.navigateToReceiptRefs(receiptReference);
+  PaymentHistory.navigateToPaymentHistory()
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  await miscUtils.multipleSearch(CaseSearch, I, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£593.00', dcnNumber, 'Cheque');
   I.Logout();
@@ -334,17 +335,3 @@ Scenario('Download reports in paybubble', (I, Reports) => {
   Reports.selectReportAndDownload('Under payment and Over payment');
   I.Logout();
 }).tag('@nightly @crossbrowser');
-
-/* Scenario.only('Download reports in paybubble', async (I, Reports) => {
-  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
-  const ccdCaseNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
-  console.log('The value of the Divorce Case Number : '+ccdCaseNumber);
-  pause();
-  Reports.navigateToReports();
-  Reports.validateReportsPage();
-  Reports.selectReportAndDownload('Data loss');
-  Reports.selectReportAndDownload('Unprocessed transactions');
-  Reports.selectReportAndDownload('Processed unallocated');
-  Reports.selectReportAndDownload('Under payment and Over payment');
-  I.Logout();
-}).tag('@nightly @crossbrowser');*/
