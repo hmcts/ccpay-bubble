@@ -1,5 +1,5 @@
 /* eslint-disable no-alert, no-console */
-const { Logger } = require('@hmcts/nodejs-logging');
+const {Logger} = require('@hmcts/nodejs-logging');
 
 const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 
@@ -37,7 +37,7 @@ AfterSuite(async I => {
 
 
 // #region Normal CCD case bulk scan functional cases
-Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
+Scenario('Normal ccd case cash payment full allocation', async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
   // logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const totalAmount = 593;
@@ -62,12 +62,16 @@ Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, Ca
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
-  PaymentHistory.navigateToReceiptRefs(receiptReference);
+  PaymentHistory.navigateToPaymentHistory();
+  await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptReference);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  PaymentHistory.verifyPaymentHistoryPage('£593.00', receiptReference);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.validateCcdPaymentDetails(receiptReference, '£593.00', dcnNumber, 'success', 'Cash', 'FEE0002');
   I.Logout();
-}).tag('@nightly');
+}).tag('@pipeline @nightly');
 
-Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a Remission on the first Fee', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
+Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a Remission on the first Fee', async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const totalAmount = 493;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
@@ -110,7 +114,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   I.Logout();
 }).tag('@pipeline @nightly @crossbrowser');
 
-Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTransaction, CaseTransferred, PaymentHistory) => {
+Scenario('Normal ccd case cash payment transferred', async (I, CaseSearch, CaseTransaction, CaseTransferred, PaymentHistory) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
@@ -131,15 +135,17 @@ Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTr
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
   PaymentHistory.navigateToPaymentHistory();
-  await miscUtils.multipleSearch(CaseSearch, I, receiptReference);
+  await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptReference);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  PaymentHistory.verifyPaymentHistoryPage('£593.00', receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£593.00', dcnNumber, 'Cash');
   I.Logout();
-}).tag('@nightly @crossbrowser');
+}).tag('@pipeline @nightly @crossbrowser');
 
 // #endregion
 
-Scenario('Exception ccd case cash payment transferred', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
+Scenario.only('Exception ccd case cash payment transferred', async (I, CaseSearch, CaseTransaction, CaseTransferred) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'cheque');
@@ -160,12 +166,12 @@ Scenario('Exception ccd case cash payment transferred', async(I, CaseSearch, Cas
   // Search using receipt number
   const receiptSearch = await CaseTransaction.getReceiptReference();
   CaseSearch.navigateToCaseTransaction();
-  await miscUtils.multipleSearch(CaseSearch, I, receiptSearch);
+  await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Exception reference', 'Transferred');
   I.Logout();
-}).tag('@nightly');
+}).tag('@pipeline @nightly');
 
-Scenario('DCN Search for ccd case associated with exception postal order payment transferred', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
+Scenario('DCN Search for ccd case associated with exception postal order payment transferred', async (I, CaseSearch, CaseTransaction, CaseTransferred) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const totalAmount = 600;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA09', totalAmount, 'PostalOrder');
@@ -184,9 +190,9 @@ Scenario('DCN Search for ccd case associated with exception postal order payment
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Transferred');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   I.Logout();
-}).tag('@nightly');
+}).tag('@pipeline @nightly');
 
-Scenario('Normal ccd case cash payment transferred when no valid reason or site id selected', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
+Scenario('Normal ccd case cash payment transferred when no valid reason or site id selected', async (I, CaseSearch, CaseTransaction, CaseTransferred) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA09', totalAmount, 'cash');
@@ -209,7 +215,7 @@ Scenario('Normal ccd case cash payment transferred when no valid reason or site 
   I.Logout();
 }).tag('@nightly');
 
-Scenario('Exception Case Cheque Payment Unidentified', async(I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
+Scenario('Exception Case Cheque Payment Unidentified', async (I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'cheque');
@@ -230,13 +236,15 @@ Scenario('Exception Case Cheque Payment Unidentified', async(I, CaseSearch, Case
   const receiptReference = await CaseTransaction.getReceiptReference();
   PaymentHistory.navigateToPaymentHistory();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  await miscUtils.multipleSearch(CaseSearch, I, receiptReference);
+  await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptReference);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  PaymentHistory.verifyPaymentHistoryPage('£593.00', receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£593.00', dcnNumber, 'Cheque');
   I.Logout();
-}).tag('@nightly');
+}).tag('@pipeline @nightly');
 
-Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less investigation comment provided', async(I, CaseSearch, CaseTransaction, CaseUnidentified) => {
+Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less investigation comment provided', async (I, CaseSearch, CaseTransaction, CaseUnidentified) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA08', totalAmount, 'cheque');
@@ -258,8 +266,8 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
 }).tag('@nightly');
 
 Scenario('Ccd case search with exception record postal order payment shortfall payment',
-  async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary,
-    ConfirmAssociation, PaymentHistory) => {
+  async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary,
+         ConfirmAssociation, PaymentHistory) => {
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     const totalAmount = 493;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA08', totalAmount, 'PostalOrder');
@@ -292,13 +300,18 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     CaseSearch.navigateToCaseTransaction();
     // console.log(`The value of the Payment Reference : ${receiptSearch}`);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await miscUtils.multipleSearch(CaseSearch, I, receiptSearch);
+    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);
     CaseTransaction.checkBulkCaseSuccessPaymentNotPaid(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
     PaymentHistory.navigateToPaymentHistory();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    PaymentHistory.verifyPaymentHistoryPage('£493.00', receiptSearch);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
   }).tag('@nightly');
 
-Scenario('Exception search with ccd record postal order payment surplus payment', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
+Scenario('Exception search with ccd record postal order payment surplus payment', async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const totalAmount = 600;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA07', totalAmount, 'PostalOrder');
@@ -322,7 +335,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   CaseTransaction.checkBulkCaseSurplusOrShortfallSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   I.Logout();
-}).tag('@nightly');
+}).tag('@pipeline @nightly');
 
 Scenario('Download reports in paybubble', (I, Reports) => {
   logger.info('Here is the Logger');
