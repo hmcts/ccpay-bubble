@@ -130,8 +130,9 @@ Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTr
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Transferred');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  PaymentHistory.navigateToPaymentHistory();
   PaymentHistory.navigateToReceiptRefs(receiptReference);
+  await miscUtils.multipleSearch(CaseSearch, I, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£593.00', dcnNumber, 'Cash');
   I.Logout();
