@@ -228,7 +228,7 @@ Scenario('Exception Case Cheque Payment Unidentified', async(I, CaseSearch, Case
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Exception reference', 'Unidentified');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
-  PaymentHistory.navigateToPaymentHistory()
+  PaymentHistory.navigateToPaymentHistory();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   await miscUtils.multipleSearch(CaseSearch, I, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
