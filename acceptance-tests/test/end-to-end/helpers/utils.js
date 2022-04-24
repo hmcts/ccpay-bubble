@@ -249,7 +249,6 @@ async function createACCDCaseForProbate() {
   const idamToken = await getIDAMToken();
   const serviceToken = await getServiceToken();
   const createToken = await getCREATEEventForProbate();
-  // const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
 
   const createCCDCaseBody = {
 
@@ -263,7 +262,7 @@ async function createACCDCaseForProbate() {
   const probateCCDCreateCaseContextBaseUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
   const probateCCDCreateCaseRelativeBaseUrl = '/case-types/GrantOfRepresentation/cases';
 
-  logger.info(`The value of the Body ${JSON.stringify(saveBody)}`);
+  logger.info(`The value of the Body ${JSON.stringify(createCCDCaseBody)}`);
   const probateCaseCreated = {
     method: 'POST',
     uri: probateCCDCreateCaseContextBaseUrl + probateCCDCreateCaseRelativeBaseUrl,
