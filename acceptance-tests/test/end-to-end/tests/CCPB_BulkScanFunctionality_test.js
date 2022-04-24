@@ -145,7 +145,7 @@ Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTr
 
 // #endregion
 
-Scenario.only('Exception ccd case cash payment transferred', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
+Scenario('Exception ccd case cash payment transferred', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'cheque');
