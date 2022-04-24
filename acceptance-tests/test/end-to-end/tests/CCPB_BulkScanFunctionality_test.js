@@ -44,7 +44,8 @@ Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, Ca
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
-  // console.log(`The value of the dcnNumber : ${dcnNumber}`);
+  logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
+  logger.info(`The value of the dcnNumber : ${dcnNumber}`);
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
   // I.waitInUrl(`/payment-history/${ccdCaseNumber}?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Enable&isNewPcipalOff=Disable`, CCPBATConstants.nineSecondWaitTime);
@@ -77,8 +78,8 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
-  console.log(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
-  // console.log(`The value of the dcnNumber : ${dcnNumber}`);
+  logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
+  logger.info(`The value of the dcnNumber : ${dcnNumber}`);
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -120,7 +121,8 @@ Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTr
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
-  console.log(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
+  logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
+  logger.info(`The value of the dcnNumber : ${dcnNumber}`);
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -273,9 +275,9 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA08', totalAmount, 'PostalOrder');
     const dcnNumber = ccdAndDcn[0];
     const ccdCaseNumber = ccdAndDcn[1];
-    console.log(`The DCN Number from the Test : ${dcnNumber}`);
-    console.log(`The Real CCD Case Number from the Test : ${ccdCaseNumber}`);
-    console.log(`The Exception CCD Case Number from the Test : ${ccdAndDcn[2]}`);
+    logger.info(`The DCN Number from the Test : ${dcnNumber}`);
+    logger.info(`The Real CCD Case Number from the Test : ${ccdCaseNumber}`);
+    logger.info(`The Exception CCD Case Number from the Test : ${ccdAndDcn[2]}`);
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -298,7 +300,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     // Search using receipt number
     const receiptSearch = await CaseTransaction.getReceiptReference();
     CaseSearch.navigateToCaseTransaction();
-    // console.log(`The value of the Payment Reference : ${receiptSearch}`);
+    logger.info(`The value of the Payment Reference : ${receiptSearch}`);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);
     CaseTransaction.checkBulkCaseSuccessPaymentNotPaid(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
