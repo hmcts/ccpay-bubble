@@ -311,7 +311,7 @@ async function createACCDCaseForDivorce() {
   const divorceCCDCreateCaseContextBaseUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
   const divorceCCDCreateCaseRelativeBaseUrl = '/case-types/DIVORCE/cases';
 
-  logger.debug(`The value of the Body ${JSON.stringify(saveBody)}`);
+  logger.debug(`The value of the Body ${JSON.stringify(createCCDDivorceCaseBody)}`);
   const divorceCaseCreated = {
     method: 'POST',
     uri: divorceCCDCreateCaseContextBaseUrl + divorceCCDCreateCaseRelativeBaseUrl,
