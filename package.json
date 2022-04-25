@@ -46,14 +46,14 @@
     "test:stryker": "./node_modules/.bin/stryker run "
   },
   "private": true,
-  "dependencies": {
-    "@hmcts/ccpay-web-component": "5.0.2",
+  "dependencies": { 
+    "@hmcts/ccpay-web-component": "5.0.2-beta76",
     "@hmcts/frontend": "^0.0.34-alpha",
     "@hmcts/nodejs-healthcheck": "^1.5.1",
     "@hmcts/nodejs-logging": "^3.0.0",
     "@hmcts/properties-volume": "^0.0.13",
     "applicationinsights": "^1.1.0",
-    "applicationinsights-js": "^1.0.20",
+    "applicationinsights-js": "^1.0.20", 
     "client-request": "^2.3.0",
     "config": "^3.0.1",
     "cookie-parser": "^1.4.3",
@@ -87,7 +87,6 @@
     "supertest": "^3.4.2",
     "ts-mockito": "^2.3.1",
     "tslib": "^1.9.3",
-    "uuid": "3.3.2",
     "web-animations-js": "^2.3.2",
     "yargs-parser": "^20.2.7",
     "zone.js": "~0.8.29"
@@ -178,7 +177,7 @@
     "**/**/http-proxy": "^1.18.1",
     "**/**/npm-registry-fetch": "^8.1.1",
     "**/**/yargs-parser": "^18.1.2",
-    "**/**/minimist": "^1.2.3",
+    "**/**/minimist": "^1.2.6",
     "**/**/mem": "^4.0.0",
     "**/**/braces": "^2.3.1",
     "**/**/marked": "^0.7.0",
@@ -191,7 +190,7 @@
     "nwmatcher": "^1.4.4",
     "**/**/**/path-parse": "^1.0.7",
     "ng-packagr": "^10.1.1",
-    "**/**/**/url-parse": ">=1.5.2",
+    "**/**/**/url-parse": ">=1.5.9",
     "set-value": "^4.0.1",
     "tar": "^6.1.9",
     "trim-newlines": "^3.0.1",
@@ -203,6 +202,11 @@
     "ansi-regex": "^5.0.1",
     "socket.io": "^2.4.0",
     "postcss": "^7.0.36",
-    "sockjs": "^0.3.20"
+    "sockjs": "^0.3.20",
+    "json-schema": "^0.4.0",
+    "node-fetch":"^2.6.7",
+    "follow-redirects":"^1.14.7",
+    "moment":"^2.29.2",
+    "async": "^3.2.2"
   }
 }
