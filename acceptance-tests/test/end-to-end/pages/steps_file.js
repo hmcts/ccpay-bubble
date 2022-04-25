@@ -14,6 +14,8 @@ const searchCase = require('../pages/case_search');
 
 const stringUtils = require('../helpers/string_utils');
 
+const bulkScanApiCalls = require('../helpers/utils');
+
 const numberTwo = 2;
 
 module.exports = () => actor({
@@ -760,8 +762,10 @@ module.exports = () => actor({
   },
 
   async searchForCorrectCCDNumber() {
-    const randomNumber = numUtils.getRandomNumber(numberTwo);
+    /*const randomNumber = numUtils.getRandomNumber(numberTwo);
     const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
+    const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);*/
+    const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
@@ -776,8 +780,9 @@ module.exports = () => actor({
   },
 
   async caseforTelephonyFlow() {
-    const randomNumber = numUtils.getRandomNumber(numberTwo);
-    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
+    /*const randomNumber = numUtils.getRandomNumber(numberTwo);
+    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;*/
+    const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
     // this.waitInUrl(`/payment-history/${ccdNumber}?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Enable&isNewPcipalOff=Disable`, CCPBConstants.nineSecondWaitTime);
@@ -817,11 +822,12 @@ module.exports = () => actor({
   },
 
   async AmountDueCaseForTelephonyFlow() {
-    const randomNumber = numUtils.getRandomNumber(numberTwo);
-    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
+    /*const randomNumber = numUtils.getRandomNumber(numberTwo);
+    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;*/
+    const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce()
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
-    this.waitInUrl(`/payment-history/${ccdNumber}?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Enable&isNewPcipalOff=Disable`, CCPBConstants.nineSecondWaitTime);
+    // this.waitInUrl(`/payment-history/${ccdNumber}?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Enable&isNewPcipalOff=Disable`, CCPBConstants.nineSecondWaitTime);
     this.see('Case transactions');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
@@ -872,8 +878,9 @@ module.exports = () => actor({
   },
 
   async removeFeeFromCaseTransactionPageTelephonyFlow() {
-    const randomNumber = numUtils.getRandomNumber(numberTwo);
-    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
+    /*const randomNumber = numUtils.getRandomNumber(numberTwo);
+    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;*/
+    const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
     this.see('Case transaction');

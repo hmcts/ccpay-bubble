@@ -491,6 +491,10 @@ async function createAPBAPayment() {
   const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
   logger.info(`The value of the Service Token ${serviceToken}`);
 
+  /*const numberTwo = 2;
+  const randomNumber = numUtils.getRandomNumber(numberTwo);
+  const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;*/
+
   // eslint-disable-next-line no-magic-numbers
   const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
   logger.info(`The value of the CCD Case Number : ${ccdCaseNumber}`);

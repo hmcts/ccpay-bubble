@@ -12,7 +12,7 @@ const successResponse = 202;
 
 Feature('CC Pay Bubble Acceptance Tests').retry(CCPBATConstants.defaultNumberOfRetries);
 
-BeforeSuite(async I => {
+/*BeforeSuite(async I => {
   const response = await bulkScanApiCalls.toggleOffCaseValidation();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   if (response === successResponse) {
@@ -26,7 +26,7 @@ AfterSuite(async I => {
   if (response === successResponse) {
     logger.info('Enabled CCD validation');
   }
-});
+});*/
 
 Scenario('Search for a case with actual case number from CCD', async I => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
@@ -49,11 +49,11 @@ Scenario('Search for a case with actual case for Telephony flow', async I => {
 
 Scenario('Amount Due case for Telephony flow', async I => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
-  const responseoff = await bulkScanApiCalls.toggleOffCaseValidation();
+  // const responseoff = await bulkScanApiCalls.toggleOffCaseValidation();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  if (responseoff === successResponse) {
+  /*if (responseoff === successResponse) {
     logger.info('Disabled CCD validation');
-  }
+  }*/
   await I.AmountDueCaseForTelephonyFlow();
   I.Logout();
 }).tag('@nightly @crossbrowser');
