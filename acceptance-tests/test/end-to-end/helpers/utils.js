@@ -491,7 +491,7 @@ async function createAPBAPayment() {
   const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
   logger.info(`The value of the Service Token ${serviceToken}`);
 
-  /*const numberTwo = 2;
+  /* const numberTwo = 2;
   const randomNumber = numUtils.getRandomNumber(numberTwo);
   const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;*/
 
