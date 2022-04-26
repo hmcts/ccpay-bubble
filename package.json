@@ -167,7 +167,7 @@
     "tslint": "~5.12.1",
     "typescript": "3.2.4",
     "webdriverio": "^6.12.1",
-    "xlsx": "^0.15.1"
+    "xlsx": "^0.17.0"
   },
   "optionalDependencies": {
     "fsevents": "*"
