@@ -100,7 +100,7 @@ module.exports = {
   },
   // done
   checkBulkCase(caseNumber, caseTitle) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.wait(CCPBConstants.nineSecondWaitTime);
     this.validateTransactionPage(caseNumber);
     I.see(caseTitle);
     I.click(this.locators.more_details_actions);
@@ -325,7 +325,7 @@ module.exports = {
     I.see(remissionAmount);
   },
 
-  async getReceiptReference() {
+  async  getReceiptReference() {
     I.click(this.locators.view_details_for_status_paid);
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.view_details_for_payments);

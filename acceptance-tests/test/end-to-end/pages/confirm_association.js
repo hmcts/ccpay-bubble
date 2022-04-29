@@ -22,7 +22,8 @@ module.exports = {
 
 
   },
-  verifyConfirmAssociationFullPayment(feeCode, totalAmount, amount) {
+
+  verifyConfirmAssociationFullPayment(feeCode, volume, totalAmount, amount) {
     I.see('Confirm allocation');
     I.see('Amount to be allocated: '.concat(totalAmount));
     I.see('Code');
@@ -33,15 +34,17 @@ module.exports = {
     I.see('Amount Due');
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
+    I.see(volume);
     I.see(amount);
     I.see('Amount left to be allocated £0.00');
     I.see('Confirm');
   },
 
-  verifyConfirmAssociationShortfallPayment(feeCode, amount, shortfallAmount) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+  verifyConfirmAssociationShortfallPayment(feeCode, volume,
+    allocatedAmount, feeAmount, calculatedAmount, shortfallAmount) {
     I.see('Confirm allocation');
-    I.see('Amount to be allocated: '.concat(amount));
+    I.see(`Amount to be allocated: ${allocatedAmount}`);
+    // I.see('Amount to be allocated: '.concat(allocatedAmount));
     I.see('Code');
     I.see('Description');
     I.see('Volume');
@@ -50,7 +53,9 @@ module.exports = {
     I.see('Amount Due');
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
-    I.see(amount);
+    I.see(volume);
+    I.see(feeAmount);
+    I.see(calculatedAmount);
     I.see('There is an Under payment of '.concat((shortfallAmount)));
     I.see('Provide a reason');
     I.see('Help with Fees (HWF) application declined');
@@ -60,6 +65,11 @@ module.exports = {
     I.see('I have put a stop on the case and contacted the applicant requesting the balance of payment');
     I.see('I have put a stop on the case. The applicant needs to be contacted to request the balance of payment');
     I.see('Confirm');
+  },
+
+  verifyConfirmAssociationShortfallPaymentErrorMessages() {
+    I.see('Provide a reason');
+    I.see('Provide an explanatory note');
   },
 
   selectReasonForShortfall(reason) {
@@ -183,6 +193,5 @@ module.exports = {
 
   confirmPayment() {
     I.click('Confirm');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
   }
 };
