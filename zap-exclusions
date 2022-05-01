@@ -1,0 +1,5 @@
+.*idam-web-public.aat.platform.hmcts.net/*
+.*/login*
+.*fees-register-frontend-pr-*
+.*jquery-3.5.1.min.js$
+.*idam*
