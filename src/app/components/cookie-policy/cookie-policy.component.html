@@ -1,0 +1,265 @@
+
+<div class="govuk-width-container">
+  <main class="govuk-main-wrapper govuk-main-wrapper--l" id="content" role="main">
+    <div class="govuk-grid-row">
+
+        <h1 class="govuk-heading-xl" id="cookies">Cookies</h1>
+
+        <p >A cookie is a small piece of data that’s stored on your computer, tablet, or phone when
+          you visit a website. Most websites need cookies to work properly.</p>
+       <hr>
+
+        <h2 class="govuk-heading-l" id="how-cookies-are-used-in-this-service">How cookies are used in this service</h2>
+        <p>This service uses them to:</p>
+
+        <ul class="govuk-list--bullet">
+          <li>measure how you use the service so it can be improved</li>
+          <li>remember the notifications you’ve seen so that you’re not shown them again</li>
+          <li>temporarily store the answers you give</li>
+        </ul>
+        <br/>
+        <p >Find out more about <a target="_blank" href="http://www.aboutcookies.org/">how to manage
+          cookies</a>.</p>
+         <hr>
+        <ng-container *ngIf="countCookies(GOOGLE)">
+          <h2 class="govuk-heading-l" id="1-to-measure-website-usage">Cookies used to measure website usage</h2>
+          <p >We use Google Analytics software to collect information about how you use this service. We do this to help make sure the service is meeting the needs of its users and to help us make improvements, for example improving site search.</p>
+          <p >Google Analytics stores information about:</p>
+
+          <ul class="govuk-list--bullet">
+            <li>the pages you visit</li>
+            <li>how long you spend on each page</li>
+            <li>how you got to the service</li>
+            <li>what you click on while you’re visiting the service</li>
+          </ul>
+          <br/>
+          <p >We allow Google to use or share our analytics data. You can find out more about how Google use this information in their  <a target="_blank"
+                                                    href="https://www.google.com/policies/privacy/partners/">privacy
+              policy</a>.</p>
+          <p >You can <a target="_blank" href="https://tools.google.com/dlpage/gaoptout">opt out of
+            Google Analytics</a> if you do not want Google to have access to your information.</p>
+          <p >Google Analytics sets the following cookies:</p>
+          <table class="govuk-table">
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header" scope="col">
+                Cookie name</th>
+              <th class="govuk-table__header" scope="col">What this cookie is for</th>
+              <th class="govuk-table__header" scope="col">Expires after</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(GOOGLE)">
+              <td class="govuk-table__cell">{{cookie.name}}</td>
+              <td class="govuk-table__cell">{{cookie.purpose}}</td>
+              <td class="govuk-table__cell">{{cookie.expires}}</td>
+            </tr>
+            </tbody>
+          </table>
+
+          <h3 class="heading-medium">Allow cookies that measure website application performance monitoring?</h3>
+          <div class="govuk-radios govuk-radios--inline u-margin-top-30">
+            <div class="multiple-choice">
+                <input type="radio" name="analytics" id="radio-analytics-on" value="true">
+                <label for="radio-apm-on">Use cookies that measure website application performance monitoring</label>
+            </div>
+            <div class="multiple-choice">
+                 <input type="radio" name="analytics" id="radio-analytics-off" value="false" checked="checked">
+                <label for="radio-apm-off">Do not use cookies that measure website application performance monitoring</label>
+            </div>
+           
+        </div>
+ 
+        </ng-container>
+       
+        <ng-container *ngIf="countCookies(USAGE)">
+          <hr>
+          <br/>
+          <p >We also use other third party services to perform visitor analytics</p>
+
+          <table class="govuk-table">
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header" scope="col">
+                Cookie name</th>
+              <th class="govuk-table__header" scope="col">What this cookie is for</th>
+              <th class="govuk-table__header" scope="col">Expires after</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(USAGE)">
+              <td class="govuk-table__cell">{{cookie.name}}</td>
+              <td class="govuk-table__cell">{{cookie.purpose}}</td>
+              <td class="govuk-table__cell">{{cookie.expires}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </ng-container>
+       
+        <ng-container *ngIf="countCookies(INTRO)">
+          <hr>
+          <br/>
+          <h2 class="govuk-heading-l" id="2-to-turn-our-introductory-message-off">To turn our introductory message
+            off</h2>
+          <p>You may see a pop-up welcome message when you first visit the service. We’ll store a cookie so that your
+            computer knows you’ve seen it and knows not to show it again.</p>
+          <table class="govuk-table">
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header" scope="col">
+                Cookie name</th>
+              <th class="govuk-table__header" scope="col">What this cookie is for</th>
+              <th class="govuk-table__header" scope="col">Expires after</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="govuk-table__row" *ngFor="let cookie of cookiesByCat(INTRO)">
+              <td class="govuk-table__cell">{{cookie.name}}</td>
+              <td class="govuk-table__cell">{{cookie.purpose}}</td>
+              <td class="govuk-table__cell">{{cookie.expires}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </ng-container>
+       
+        <ng-container *ngIf="countCookies(SESSION)">
+          <hr>
+          <br/>
+          <h2 class="govuk-heading-l" id="3-to-store-the-answers-you-ve-given-during-your-visit-known-as-a-session-">To
+            store the answers you’ve given during your visit (known as a ‘session’)</h2>
+          <p>Session cookies are stored on your computer as you travel through a website, and let the website know what
+            you’ve seen and done so far. These are temporary cookies and are automatically deleted a short while after
+            you leave the website.</p>
+          <table class="govuk-table">
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header" scope="col">
+                Cookie name</th>
+              <th class="govuk-table__header" scope="col">What this cookie is for</th>
+              <th class="govuk-table__header" scope="col">Expires after</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="govuk-table__row" *ngFor="let cookie of cookiesByCat(SESSION)">
+              <td class="govuk-table__cell">{{cookie.name}}</td>
+              <td class="govuk-table__cell">{{cookie.purpose}}</td>
+              <td class="govuk-table__cell">{{cookie.expires}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        
+        <ng-container *ngIf="countCookies(IDENTIFY)">
+          <hr>
+          <br/>
+          <h2 class="govuk-heading-l" id="4-to-identify-you-when-you-come-back-to-the-service">To identify you when
+            you come back to the service</h2>
+          <p>We use authentication cookies to identify you when you return to the service.</p>
+          <table class="govuk-table">
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header" scope="col">
+                Cookie name</th>
+              <th class="govuk-table__header" scope="col">What this cookie is for</th>
+              <th class="govuk-table__header" scope="col">Expires after</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="govuk-table__row" *ngFor="let cookie of cookiesByCat(IDENTIFY)">
+              <td class="govuk-table__cell">{{cookie.name}}</td>
+              <td class="govuk-table__cell">{{cookie.purpose}}</td>
+              <td class="govuk-table__cell">{{cookie.expires}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </ng-container>
+       
+        <ng-container *ngIf="SECURITY">
+          <h2 class="govuk-heading-l" id="5-to-make-the-service-more-secure">To make the service more secure</h2>
+          <p>We set cookies which prevent attackers from modifying the contents of our pages and which prevent
+            unauthorised access to the service. This
+            makes the service more secure and protects your personal information.</p>
+          <table class="govuk-table">
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header" scope="col">
+                Cookie name</th>
+              <th class="govuk-table__header" scope="col">What this cookie is for</th>
+              <th class="govuk-table__header" scope="col">Expires after</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="govuk-table__row" *ngFor="let cookie of cookiesByCat(SECURITY)">
+              <td class="govuk-table__cell">{{cookie.name}}</td>
+              <td class="govuk-table__cell">{{cookie.purpose}}</td>
+              <td class="govuk-table__cell">{{cookie.expires}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <hr>
+        <ng-container *ngIf="countCookies(DYNATRACE)">
+          <h2 class="govuk-heading-l" id="1-to-measure-website-usage">Cookies used to measure application performance
+          </h2>
+          <p >We use Dynatrace Software Intelligence Platform to provide an Application Performance Monitoring Service to collect information about how you use HMCTS services. We do this to monitor HMCTS services in order to resolve issues within our services as well as collect data on how our services can be improved. HMCTS store information about:</p>
+        
+          <ul class="govuk-list--bullet">
+            <li>site performance</li>
+            <li>website usage</li>
+            <li>user behaviour</li>
+          </ul>
+
+          <p >Information is presented within the Application Performance Monitoring service for the purposes detailed above. We do not use or share the information for any other purpose. We do not allow Dynatrace to use or share the information for any other purposes.</p>
+          <table class="govuk-table">
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header" scope="col">Name</th>
+              <th class="govuk-table__header" scope="col">Purpose</th>
+              <th class="govuk-table__header" scope="col">Expires</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(DYNATRACE)">
+              <td class="govuk-table__cell">{{cookie.name}}</td>
+              <td class="govuk-table__cell">{{cookie.purpose}}</td>
+              <td class="govuk-table__cell">{{cookie.expires}}</td>
+            </tr>
+            </tbody>
+          </table>
+          <h3 class="heading-medium">Allow cookies that measure website application performance monitoring?</h3>
+          <div class="govuk-radios govuk-radios--inline u-margin-top-30">
+            <div class="multiple-choice">
+                <input type="radio" name="apm" id="radio-apm-on" value="true">
+                <label for="radio-apm-on">Use cookies that measure website application performance monitoring</label>
+            </div>
+            <div class="multiple-choice">
+                <input type="radio" name="apm" id="radio-apm-off" value="false" checked="checked">
+                <label for="radio-apm-off">Do not use cookies that measure website application performance monitoring</label>
+            </div>
+        </div>
+        </ng-container>
+      </div>
+      <div>
+        <br/> <br/>
+        <button class="button" type="submit" (click)="setCookiePreference()">Save</button>
+      </div>
+  </main>
+ 
+</div>
+
+<footer class="group js-footer" id="footer" role="contentinfo">
+  <div class="footer-wrapper">
+    <div class="footer-meta">
+      <div class="footer-meta-inner">
+        <div class="open-government-licence">
+          <p class="logo">
+            <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence</a>
+          </p>
+          <p>All content is available under the
+            <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              rel="license">Open Government Licence v3.0</a>, except where otherwise stated</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
