@@ -61,6 +61,7 @@ withNightlyPipeline("nodejs", product, component) {
   enableCrossBrowserTest(['chrome','firefox'])
   enableFullFunctionalTest(180)
   enableMutationTest(150)
+  enableSecurityScan()
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
