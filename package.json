@@ -49,6 +49,7 @@
   "dependencies": {
     "@hmcts/ccpay-web-component": "5.0.2-beta86",
     "@hmcts/frontend": "^0.0.34-alpha",
+    "@hmcts/cookie-manager":"1.0.0",
     "@hmcts/nodejs-healthcheck": "^1.5.1",
     "@hmcts/nodejs-logging": "^3.0.0",
     "@hmcts/properties-volume": "^0.0.13",
