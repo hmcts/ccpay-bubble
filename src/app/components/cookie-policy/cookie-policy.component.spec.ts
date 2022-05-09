@@ -4,18 +4,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CookiePolicyComponent } from './cookie-policy.component';
 
 describe('CookiePolicyComponentTest', () => {
-
-  @Component({selector: 'exui-app-header', template: ''})
-  class HeaderStubComponent {
-  }
-
-  @Component({selector: 'exui-app-footer', template: ''})
-  class FooterStubComponent {
-  }
-
   @Component({
-    selector: `exui-app-host-dummy-component`,
-    template: `<exui-cookie-policy/>`
+    selector: `app-host-dummy-component`,
+    template: `<app-cookie-policy/>`
   })
   class TestDummyHostComponent {
     public cookiePolicy: CookiePolicyComponent;
@@ -26,7 +17,7 @@ describe('CookiePolicyComponentTest', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderStubComponent, FooterStubComponent, CookiePolicyComponent ],
+      declarations: [ CookiePolicyComponent ],
       imports: [
         RouterTestingModule
       ]
