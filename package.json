@@ -46,8 +46,9 @@
     "test:stryker": "./node_modules/.bin/stryker run "
   },
   "private": true,
-  "dependencies": { 
+  "dependencies": {
     "@hmcts/ccpay-web-component": "5.0.2-beta86",
+    "@hmcts/cookie-manager":"^1.0.0",
     "@hmcts/frontend": "^0.0.34-alpha",
     "@hmcts/nodejs-healthcheck": "^1.5.1",
     "@hmcts/nodejs-logging": "^3.0.0",
