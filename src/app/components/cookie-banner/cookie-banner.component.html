@@ -1,48 +1,99 @@
-
-<div class="govuk-cookie-banner " role="region" id="cm_cookie_notification" attr.aria-label="'Cookies on {{appName}}'" *ngIf="isCookieBannerVisible">
-  <div class="govuk-cookie-banner__message govuk-width-container">
-
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <h2 class="govuk-cookie-banner__heading govuk-heading-m">Cookies on {{appName}}</h2>
-
-        <div class="govuk-cookie-banner__content">
-          <p>We use some essential cookies to make this service work.</p>
-          <p>We’d also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
+  <form class="cookie-preferences-form">
+  <div class="govuk-cookie-banner cookie-banner" data-nosnippet="" role="region" aria-label="Cookies on ccpay-bubble">
+    <div class="govuk-cookie-banner__message govuk-width-container cookie-banner-message">
+       <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+             <h2 class="govuk-cookie-banner__heading govuk-heading-m">Cookies on ccpay-bubble</h2>
+             <div class="govuk-cookie-banner__content">
+                <p class="govuk-body">We use some essential cookies to make this service work.</p>
+                <p class="govuk-body">We’d also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
+             </div>
+          </div>
+       </div>
+       <div class="govuk-button-group">
+          <button type="button" class="govuk-button cookie-banner-accept-button" data-module="govuk-button">
+          Accept analytics cookies
+          </button>
+          <button type="button" class="govuk-button cookie-banner-reject-button" data-module="govuk-button">
+          Reject analytics cookies
+          </button>
+          <a class="govuk-link" href="/cookies">>View cookies</a>
+       </div>
+    </div>
+    <div class="govuk-cookie-banner__message govuk-width-container cookie-banner-accept-message" role="alert" hidden="">
+       <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+             <div class="govuk-cookie-banner__content">
+                <p class="govuk-body">You’ve accepted analytics cookies. You can <a class="govuk-link" href="/cookies">>change your cookie settings</a> at any time.</p>
+             </div>
+          </div>
+       </div>
+       <div class="govuk-button-group">
+          <button class="govuk-button cookie-banner-hide-button" data-module="govuk-button">
+          Hide this message
+          </button>
+       </div>
+    </div>
+    <div class="govuk-cookie-banner__message govuk-width-container cookie-banner-reject-message" role="alert" hidden="">
+       <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+             <div class="govuk-cookie-banner__content">
+                <p class="govuk-body">You’ve rejected analytics cookies. You can <a class="govuk-link" href="/cookies">>change your cookie settings</a> at any time.</p>
+             </div>
+          </div>
+       </div>
+       <div class="govuk-button-group">
+          <button class="govuk-button cookie-banner-hide-button" data-module="govuk-button">
+          Hide this message
+          </button>
+       </div>
+    </div>
+  </div>
+  
+  <div class="govuk-form-group">
+     <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+           Allow cookies that measure website use?
+        </legend>
+        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+           <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="analytics" name="analytics" type="radio" value="on">
+              <label class="govuk-label govuk-radios__label" for="analytics">
+              Use cookies that measure my website use
+              </label>
+           </div>
+           <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="analytics-2" name="analytics" type="radio" value="off" checked="">
+              <label class="govuk-label govuk-radios__label" for="analytics-2">
+              Do not use cookies that measure my website use
+              </label>
+           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="govuk-button-group">
-      <button value="accept" type="button" name="cookies" class="govuk-button" data-module="govuk-button" (click)="acceptCookie()">
-        Accept analytics cookies
-      </button>
-      <button value="reject" type="button" name="cookies" class="govuk-button" data-module="govuk-button" (click)="rejectCookie()">
-        Reject analytics cookies
-      </button>
-      <a class="govuk-link" routerLink="/cookies">View cookies</a>
-    </div>
+     </fieldset>
   </div>
-</div>
-
-<div class="govuk-visually-hidden govuk-cookie-banner__message govuk-width-container" id="accept-all-cookies-success">
-  <div class="govuk-width-container">
-      <div class="govuk-!-padding-top-5 govuk-!-padding-bottom-5">
-          <p class="govuk-body">You’ve accepted additional cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
-          <p id="cookie-accept-all-success-banner-hide" class="govuk-body govuk-button-group"><a class="govuk-button" href="#">Hide this message</a></p>
-      </div>
+  <div class="govuk-form-group">
+     <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+           Allow cookies that measure website application performance monitoring?
+        </legend>
+        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+           <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="apm" name="apm" type="radio" value="on">
+              <label class="govuk-label govuk-radios__label" for="apm">
+              Use cookies that measure website application performance monitoring
+              </label>
+           </div>
+           <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="apm-2" name="apm" type="radio" value="off" checked="">
+              <label class="govuk-label govuk-radios__label" for="apm-2">
+              Do not use cookies that measure website application performance monitoring
+              </label>
+           </div>
+        </div>
+     </fieldset>
   </div>
-</div>
+  <button class="govuk-button" data-module="govuk-button">
+  Save
+  </button>
+</form>
 
-<div class="govuk-visually-hidden theme__cookie-success-message-grey" id="reject-all-cookies-success">
-  <div class="govuk-width-container">
-      <div class="govuk-!-padding-top-5 govuk-!-padding-bottom-5">
-          <p class="govuk-body">You’ve rejected additional cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
-          <p id="cookie-reject-all-success-banner-hide" class="govuk-body govuk-button-group"><a class="govuk-button" href="#">Hide this message</a></p>
-      </div>
-  </div>
-</div>
-
-<script>
-   <link href="/assets/stylesheets/lib/govuk-template.css" media="screen" rel="stylesheet"/>
-</script>
