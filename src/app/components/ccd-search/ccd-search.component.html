@@ -1,4 +1,5 @@
 <form [formGroup]="searchForm" >
+  
   <div class="govuk-error-summary" *ngIf='errorMessage.showError'aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
     <h2 class="govuk-error-summary__title govuk-error-summary__title-custom" id="error-summary-title">
         {{errorMessage.title}}
@@ -116,11 +117,14 @@
               <span *ngIf="hasErrors && selectedValue === 'RC'" class="error-message">Enter Payment Reference in the correct format</span>
               <span *ngIf="noCaseFound" class="error-message">No record found for this Payment Reference</span>
 
+              
         </div>
      </div> 
     </fieldset>
     <button class="button" type="submit" (click)="searchFees()">Search</button>
     <div class="nocase-message" *ngIf="noCaseFoundInCCD">No matching cases found</div>
   </div>
+  
+  
   
   </form>

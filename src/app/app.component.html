@@ -1,6 +1,13 @@
+<app-cookie-banner 
+name="paybubble"
+[appName]="'ccpay-bubble'"
+(acceptanceNotifier)="notifyAcceptance()"
+(rejectionNotifier)="notifyRejection()"
+></app-cookie-banner>
 <app-header [isBSFlagEnable] = "isBulkscanningEnable"></app-header>
 
 <div class="govuk-width-container">
+ 
   <app-phase-banner></app-phase-banner>
 
     <div class="govuk-grid-row">
