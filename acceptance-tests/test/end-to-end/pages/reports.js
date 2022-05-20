@@ -35,8 +35,8 @@ module.exports = {
     I.see('Transaction records that are still unprocessed by staff.');
     I.see('Processed unallocated');
     I.see('Payments that are marked as ‘Unidentified’ or ‘Transferred’ (Unsolicited requests)');
-    I.see('Shortfalls and surplus');
-    I.see('Requests where balances are marked as shortfall/surplus further case management. E.g: Refund approval, Customer contact');
+    I.see('Under payment and Over payment');
+    I.see('Requests where balances are marked as Under payment/Over payment further case management. E.g: Refund approval, Customer contact');
     I.see('Date from');
     I.see('Date to');
     I.see('Download report');
@@ -53,7 +53,7 @@ module.exports = {
     case 'Processed unallocated':
       I.checkOption(this.locators.processed_unallocated);
       break;
-    case 'Shortfalls and surplus':
+    case 'Under payment and Over payment':
       I.checkOption(this.locators.shortfall_and_surplus);
       break;
     default:

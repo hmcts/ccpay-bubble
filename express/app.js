@@ -2,9 +2,16 @@ const express = require('express');
 const controllers = require('./mvc/controller');
 const config = require('config');
 const HttpStatus = require('http-status-codes');
+const { Logger } = require('@hmcts/nodejs-logging');
 
 module.exports = appInsights => express.Router()
 
+  /* idam roles*/
+  .get('/user-roles', (req, res,) => {
+    Logger.getLogger('user-roles ::').info(req.roles);
+    res.status(200).send(req.roles);
+  })
+  /* payments */
   .post('/send-to-payhub-url', (req, res) => {
     controllers.payhubController.sendToPayhubWithUrl(req, res, appInsights);
   })
@@ -126,6 +133,67 @@ module.exports = appInsights => express.Router()
   .get('/payment-history/report/data?*', (req, res) => {
     controllers.payhubController.getSelectedReport(req, res);
   })
+  .get('/payment-history/case-payment-orders?*', (req, res) => {
+    controllers.payhubController.getPartyDetails(req, res);
+  })
+  .post('/payment-history/payment-groups/:paymentGroup/fees/:feeId/retro-remission', (req, res) => {
+    controllers.payhubController.postPaymentGroupWithRetroRemissions(req, res);
+  })
+  .post('/payment-history/refund-retro-remission ', (req, res) => {
+    controllers.payhubController.postRefundRetroRemission(req, res);
+  })
+
+  // refund services
+  .get('/refund/reasons', (req, res) => {
+    controllers.refundController.getRefundReason(req, res);
+  })
+  .get('/refund/:id/actions', (req, res) => {
+    controllers.refundController.getRefundAction(req, res);
+  })
+  .get('/refund/rejection-reasons', (req, res) => {
+    controllers.refundController.getRefundRejectReason(req, res);
+  })
+  .patch('/refund/:id/action/*', (req, res) => {
+    controllers.refundController.patchRefundAction(req, res, appInsights);
+  })
+  .get('/refund?*', (req, res) => {
+    controllers.refundController.getRefundStatusList(req, res);
+  })
+  // .get('/refund?status=${req.query.status}&excludeCurrentUser=${req.query.selfExclusive}', (req, res) => {
+  //   Logger.getLogger('sdfghj').info(req.roles);
+  //   controllers.refundController.getRefundList(req, res);
+  // })
+  // .get('/refund?status=*&excludeCurrentUser=*', (req, res) => {
+  //   controllers.refundController.getRefundList(req, res);
+  // })
+
+  .post('/refund/refund', (req, res) => {
+    controllers.refundController.postIssueRefund(req, res);
+  })
+
+  .post('/refund/get-user-details', (req, res) => {
+    controllers.refundController.getUserDetails(req, res);
+  })
+  // .get('/refund/:reference/status-history', (req, res) => {
+  //   controllers.refundController.getRefundStatusHistory(req, res);
+  // })
+
+  .post('/payment-history/refund-for-payment', (req, res) => {
+    controllers.payhubController.postRefundsReason(req, res);
+  })
+
+  .patch('/refund/resubmit/:refund_reference', (req, res) => {
+    controllers.refundController.patchResubmitRefund(req, res, appInsights);
+  })
+
+  .patch('/resubmit/:refund_reference', (req, res) => {
+    controllers.refundController.patchResubmitRefund(req, res, appInsights);
+  })
+
+  .post('/payment-history/refund-retro-remission', (req, res) => {
+    controllers.payhubController.postRefundRetroRemission(req, res);
+  })
+
   // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {
     controllers.payhubController.ccpayWebComponentIntegration(req, res);
