@@ -5,7 +5,6 @@ import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/h
 
 import {AppRoutingModule} from './routes/app-routing.module';
 import {AppComponent} from './app.component';
-import {AddFeeDetailComponent} from './components/add-fee-detail/add-fee-detail.component';
 import {ReviewFeeDetailComponent} from './components/review-fee-detail/review-fee-detail.component';
 import {FeeSearchComponent} from './components/fee-search/fee-search.component';
 import {ConfirmationComponent} from './components/confirmation/confirmation.component';
@@ -31,6 +30,9 @@ import {AuthDevInterceptor} from './shared/interceptors/auth.dev.interceptor';
 import {environment} from '../environments/environment';
 import { CaseRefService } from './services/caseref/caseref.service';
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
+import { IdamDetails } from './services/idam-details/idam-details';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -41,7 +43,6 @@ const nonProductionProviders = [{
 @NgModule({
   declarations: [
     AppComponent,
-    AddFeeDetailComponent,
     PhaseBannerComponent,
     ReviewFeeDetailComponent,
     FeeListTableComponent,
@@ -65,7 +66,9 @@ const nonProductionProviders = [{
     HttpClientModule,
     ViewPaymentModule,
     FeeRegisterSearchModule,
-    PaymentLibModule
+    PaymentLibModule,
+    NoopAnimationsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     PaybubbleHttpClient,
@@ -74,6 +77,7 @@ const nonProductionProviders = [{
     FeeSearchComponent,
     PaymentHistoryComponent,
     CaseRefService,
+    IdamDetails,
     WindowUtil,
     !environment.production ? nonProductionProviders : [],
     PaymentGroupService,

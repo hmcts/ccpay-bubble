@@ -19,6 +19,8 @@ payhub:
   url: PAYHUB_API_URL
 bulkscan:
   url: CCPAY_BULKSCAN_API_URL
+refunds:
+  url: CCPAY_REFUNDS_API_URL
 certs:
   key: CERTS_KEY
   crt: CERTS_CRT
