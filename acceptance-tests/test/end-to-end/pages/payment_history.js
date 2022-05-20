@@ -19,6 +19,29 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
+  verifyPaymentHistoryPage(paymentAmount, paymentReference) {
+    I.see('Payments');
+    I.see('Status');
+    I.see('Amount');
+    I.see('Date');
+    I.see('Payment reference');
+    I.see('Success');
+    I.see(paymentAmount);
+    I.see(paymentReference);
+    I.see('Review');
+
+    I.see('Refunds');
+    I.see('Status');
+    I.see('Amount');
+    I.see('Date');
+    I.see('Refund reference');
+    I.see('Reason');
+    I.see('No refunds recorded');
+
+    I.click('//a[.=\'Review\']');
+  },
+
+
   validatePaymentHistoryPage() {
     I.dontSee('Total payments');
     I.see('Unprocessed payments');
@@ -54,12 +77,12 @@ module.exports = {
     I.see('Fee amount');
     I.see('Allocated amount');
     I.see('Payment method');
-    I.see('Method');
-    I.see('Type');
+    // I.see('Method');
+    // I.see('Type');
     I.see('Payment status history');
-    I.see('Amount');
-    I.see('Status');
-    I.see('Date');
+    // I.see('Amount');
+    // I.see('Status');
+    // I.see('Date');
   },
 
   validateTransferredUnidentifedPaymentDetailsPage() {
@@ -74,12 +97,12 @@ module.exports = {
     I.dontSee('Fee amount');
     I.dontSee('Allocated amount');
     I.see('Payment method');
-    I.see('Method');
-    I.see('Type');
+    // I.see('Method');
+    // I.see('Type');
     I.dontSee('Payment status history');
-    I.dontSee('Amount');
-    I.dontSee('Status');
-    I.dontSee('Date');
+    // I.dontSee('Amount');
+    // I.dontSee('Status');
+    // I.dontSee('Date');
   },
 
 
@@ -87,7 +110,7 @@ module.exports = {
     this.validateCCDPaymentDetailsPage();
     I.see(receiptReference);
     I.see(amount);
-    I.see(dcnNumber);
+    // I.see(dcnNumber);
     I.see(status);
     if (testConfig.e2e.testForCrossbrowser !== 'true') {
       I.see(paymentMethod);
@@ -101,7 +124,7 @@ module.exports = {
     this.validateTransferredUnidentifedPaymentDetailsPage();
     I.see(receiptReference);
     I.see(amount);
-    I.see(dcnNumber);
+    // I.see(dcnNumber);
     if (testConfig.e2e.testForCrossbrowser !== 'true') {
       I.see(paymentMethod);
     }
