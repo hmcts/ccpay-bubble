@@ -353,7 +353,7 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@hmcts/ccpay-web-component@^5.0.2-beta127":
+"@hmcts/ccpay-web-component@^5.0.2-beta102":
   version "5.0.2-beta127"
   resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-5.0.2-beta127.tgz#828c7b959eed9574870b53bb1946b855814fd945"
   integrity sha512-2RYH1zKey7z025UQZTi4I7WSMAPOq/9S15SDfhYLH3Z8+YBo+clrT0vu+SAr9/bIJ0z0KwP6vTyT2RWqgNgbcg==
