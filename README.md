@@ -1,6 +1,6 @@
 # PayBubbleWeb
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.4.
+This test project for master code.This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.4.
 
 Please note this project uses yarn
 
