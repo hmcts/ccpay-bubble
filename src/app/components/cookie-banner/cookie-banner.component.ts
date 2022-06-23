@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { CookieService } from '../../services/cookie/cookie.service';
-import { windowToken } from '../../window';
+import { windowToken } from '../../../window';
 import cookieManager from '@hmcts/cookie-manager';
 
 @Component({
