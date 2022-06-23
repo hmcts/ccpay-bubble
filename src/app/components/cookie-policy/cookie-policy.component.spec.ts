@@ -14,7 +14,7 @@ describe('CookiePolicyComponentTest', () => {
   }
   const testHostComponent = TestDummyHostComponent;
   let component: CookiePolicyComponent;
-  let cookieService: CookieService;
+  const cookieService: CookieService;
   let fixture: ComponentFixture<CookiePolicyComponent>;
 
   beforeEach(async(() => {
