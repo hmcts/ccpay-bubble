@@ -43,7 +43,32 @@ describe('CookieBannerComponent', () => {
           expect(cookieService.setCookie).toHaveBeenCalled();
       });
   });
-
+  describe('manageAPMCookie()', () => {
+    it('should make a deleteCookie call', () => {
+        const cookieStatus = 'false';
+        spyOn(appComponent, 'apmPreferencesUpdated').and.returnValue();
+        appComponent.manageAPMCookie(cookieStatus);
+        expect(cookieService.deleteCookie).toHaveBeenCalled();
+    });
+    it('should not make a deleteCookie call', () => {
+        const cookieStatus = 'true';
+        spyOn(appComponent, 'apmPreferencesUpdated').and.returnValue();
+        appComponent.manageAPMCookie(cookieStatus);
+        expect(cookieService.deleteCookie).not.toHaveBeenCalled();
+    });
+});
+  describe('manageAnalyticsCookies()', () => {
+    it('should make a deleteCookie call', () => {
+        const cookieStatus = 'false';
+        appComponent.manageAnalyticsCookies(cookieStatus);
+        expect(cookieService.deleteCookie).toHaveBeenCalled();
+    });
+    it('should not make a deleteCookie call', () => {
+        const cookieStatus = 'true';
+        appComponent.manageAnalyticsCookies(cookieStatus);
+        expect(cookieService.deleteCookie).not.toHaveBeenCalled();
+    });
+  });
   describe('setState()', () => {
       it('should make a checkCookie call', () => {
           appComponent.setState();
