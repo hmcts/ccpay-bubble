@@ -279,7 +279,7 @@ module.exports = {
     I.see('Unallocated payments');
     I.see('Payment requests');
     I.see('Status');
-    I.see('Partially paid');
+    I.see('Not paid');
     I.see('Amount');
     I.see('Party');
     I.see('Request reference');
@@ -292,7 +292,7 @@ module.exports = {
     // I.see('Action');
     // I.see(allocationStatus);
     if (testConfig.e2e.testForCrossbrowser !== 'true') {
-      I.see('Partially paid');
+      I.see('Not paid');
     }
     I.see('Success');
   },
