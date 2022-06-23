@@ -77,6 +77,13 @@ describe('CookieBannerComponent', () => {
           appComponent.setState();
           expect(notifyAcceptanceSpy).toHaveBeenCalled();
       });
+
+      it('should get expiry date when we call getExpiryDate', () => {
+        // @ts-ignore:
+        appComponent.getExpiryDate();
+        // @ts-ignore:
+        expect(appComponent.getExpiryDate).not.toBeNull();
+    });
   });
 
 });
