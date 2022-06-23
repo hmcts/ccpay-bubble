@@ -74,6 +74,11 @@ describe('manageAnalyticsCookies()', () => {
         component.manageAnalyticsCookies(cookieStatus);
         expect(cookieService.deleteCookie).toHaveBeenCalled();
     });
+    it('should not make a deleteCookie call', () => {
+        const cookieStatus = 'true';
+        component.manageAnalyticsCookies(cookieStatus);
+        expect(cookieService.deleteCookie).not.toHaveBeenCalled();
+    });
 });
 
 describe('manageAPMCookie()', () => {
@@ -82,6 +87,12 @@ describe('manageAPMCookie()', () => {
         spyOn(component, 'apmPreferencesUpdated').and.returnValue();
         component.manageAPMCookie(cookieStatus);
         expect(cookieService.deleteCookie).toHaveBeenCalled();
+    });
+    it('should not make a deleteCookie call', () => {
+        const cookieStatus = 'true';
+        spyOn(component, 'apmPreferencesUpdated').and.returnValue();
+        component.manageAPMCookie(cookieStatus);
+        expect(cookieService.deleteCookie).not.toHaveBeenCalled();
     });
 });
 });
