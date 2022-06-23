@@ -56,19 +56,17 @@ export class CookieBannerComponent implements OnInit {
           }
         ]
       };
-  
+
       cookieManager.on('UserPreferencesLoaded', (preferences) => {
-        var dataLayer = dataLayer || [];
+        const dataLayer = window['dataLayer'] || [];
         dataLayer.push({'event': 'Cookie Preferences', 'cookiePreferences': preferences});
       });
       cookieManager.on('UserPreferencesSaved', (preferences) => {
-        var dataLayer = dataLayer || [];
-        var dtrum = dtrum;
-    
+        const dataLayer = window['dataLayer'] || [];
+        const dtrum = window['dtrum'];
         dataLayer.push({'event': 'Cookie Preferences', 'cookiePreferences': preferences});
-    
-        if(dtrum !== undefined) {
-          if(preferences.apm === 'on') {
+        if (dtrum !== undefined) {
+          if (preferences.apm === 'on') {
             dtrum.enable();
             dtrum.enableSessionReplay();
           } else {
@@ -176,5 +174,4 @@ export class CookieBannerComponent implements OnInit {
     now.setTime(expireTime);
     return now.toUTCString();
   }
-
 }
