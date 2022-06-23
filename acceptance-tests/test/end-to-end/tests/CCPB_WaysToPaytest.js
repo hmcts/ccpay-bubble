@@ -60,17 +60,17 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Partially paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Partially paid', serviceRequestReference, '', '£593.00', false);
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£593.00', false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Partially paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
     I.Logout();
   });
 
@@ -110,19 +110,19 @@ Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    // ServiceRequests.verifyServiceRequestPage('Partially paid', serviceRequestReference,'','£593.00');
+    // ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,'','£593.00');
     I.click('//a[.=\'Back\']');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('//a[contains(text(),\'Pay now\')]');
@@ -158,19 +158,19 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
     I.click('//a[.=\'Back\']');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -180,7 +180,7 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyWTPGeneralPBAErrorPage(false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution',
       '£593.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -210,19 +210,19 @@ Scenario('A Service Request for a Solicitor if a PBA Payment amount is over the 
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£35,000.00');
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£35,000.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£35,000.00');
     I.click('//a[.=\'Back\']');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -234,7 +234,7 @@ Scenario('A Service Request for a Solicitor if a PBA Payment amount is over the 
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//button[contains(text(),\'View Service Request\')]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution',
       '£35,000.00', true);
     I.Logout();
@@ -263,19 +263,19 @@ Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Pay
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
     I.click('//a[.=\'Back\']');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -328,20 +328,20 @@ Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Pay
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution',
       '£593.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
     I.click('//a[.=\'Back\']');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -371,14 +371,14 @@ Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Pay
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution',
       '£593.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -407,7 +407,7 @@ Scenario('A Service Request for a Solicitor For No Payment Account @pipeline @ni
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Partially paid', serviceRequestReference,
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£593.00');
     I.see('Service Requests');
     I.click('Service Requests');
