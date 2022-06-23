@@ -14,7 +14,8 @@ describe('CookiePolicyComponentTest', () => {
   }
   const testHostComponent = TestDummyHostComponent;
   let component: CookiePolicyComponent;
-  const cookieService: CookieService;
+// tslint:disable-next-line:prefer-const
+  let cookieService: CookieService;
   let fixture: ComponentFixture<CookiePolicyComponent>;
 
   beforeEach(async(() => {
