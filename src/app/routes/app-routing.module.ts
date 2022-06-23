@@ -10,6 +10,7 @@ import { FeeSearchComponent } from '../components/fee-search/fee-search.componen
 import { PaymentHistoryComponent } from '../components/payment-history/payment-history.component';
 import { CcdSearchComponent } from '../components/ccd-search/ccd-search.component';
 import { MVPGuard } from '../route-guards/mvp-guard.service';
+import { CookiePolicyComponent } from '../components/cookie-policy/cookie-policy.component';
 
 const routes: Routes = [
   {
@@ -62,6 +63,10 @@ const routes: Routes = [
   {
     path: 'payment-history/:ccdCaseNumber',
     component: PaymentHistoryComponent
+  },
+  {
+    path: 'cookies',
+    component: CookiePolicyComponent,
   }
 ];
 
