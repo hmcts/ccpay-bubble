@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
-import { windowToken } from '../../window';
+import { windowToken } from '../../../window';
 
 @Injectable({
   providedIn: 'root'

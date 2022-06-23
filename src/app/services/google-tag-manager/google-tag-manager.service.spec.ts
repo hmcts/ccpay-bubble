@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject } from 'rxjs';
-import { windowToken } from '../../window';
+import { windowToken } from '../../../window';
 import { GoogleTagManagerService } from './google-tag-manager.service';
 
 class MockTitle {
