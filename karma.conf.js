@@ -31,7 +31,7 @@ module.exports = config => {
     customLaunchers: {
       ChromeDebug: {
         base: 'Chrome',
-        flags: [ '--remote-debugging-port=9333'],
+        flags: [ '--remote-debugging-port=9333', '--headless'],
         debug: true
       }
     },
@@ -46,7 +46,7 @@ module.exports = config => {
     logLevel: config.LOG_DEBUG,
     autoWatch: false,
     browsers: [ 'ChromeDebug' ],
-    singleRun: false,
-    watch: true
+    singleRun: true,
+    watch: false
   });
 };
