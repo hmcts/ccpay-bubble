@@ -45,7 +45,6 @@ export class GoogleTagManagerService {
   }
 
   private listenForRouteChanges() {
-    debugger
     if (this.googleTagManagerKey) {
       this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
