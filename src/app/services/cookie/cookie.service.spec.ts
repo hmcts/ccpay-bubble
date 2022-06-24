@@ -16,6 +16,11 @@ describe('CookieService', () => {
     cookieService.setCookie('user', 'dummy');
     expect(mockDocument.cookie).toBe('user=dummy;');
   });
+  it('should set a cookie with expiryDate', () => {
+
+    cookieService.setCookie('user', 'dummy', 'Thu, 01 Jan 1970 00:00:01 GMT');
+    expect(mockDocument.cookie).toBe('user=dummy; expires=Thu, 01 Jan 1970 00:00:01 GMT');
+  });
 
   it('should get a cookie', () => {
 
@@ -41,7 +46,7 @@ describe('CookieService', () => {
     mockDocument.cookie = 'user=dummy';
     const result = cookieService.checkCookie('user');
     expect(result).toBeTruthy();
-    cookieService.deleteCookie('user');
+    cookieService.deleteCookie('user', null, null);
     expect(mockDocument.cookie).toBe(`user=; expires=Thu, 01 Jan 1970 00:00:01 GMT; max-age=0`);
   });
 
