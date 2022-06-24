@@ -4,12 +4,17 @@ import { CookieService } from '../../services/cookie/cookie.service';
 import { windowToken } from '../../../window';
 import { CookieBannerComponent } from './cookie-banner.component';
 
-const windowMock: Window = { location: { reload: () => {}}} as any;
+const windowMock: Window = { 
+  location: { reload: () => {}},
+  dataLayer : [],
+  dtrum: { enable: () => {},disable: () => {},enableSessionReplay: () => {},disableSessionReplay: () => {} }
+} as any;
 
 describe('CookieBannerComponent', () => {
   let appComponent: CookieBannerComponent;
   let fixture: ComponentFixture<CookieBannerComponent>;
   let cookieService: any;
+  let windowTestBed: Window;
 
   beforeEach(async(() => {
     cookieService = jasmine.createSpyObj('CookieService', ['setCookie', 'checkCookie', 'getCookie', 'deleteCookie']);
@@ -28,6 +33,7 @@ describe('CookieBannerComponent', () => {
     fixture = TestBed.createComponent(CookieBannerComponent);
     appComponent = fixture.componentInstance;
     fixture.detectChanges();
+    windowTestBed = TestBed.get(windowToken);
   });
 
   describe('acceptCookie()', () => {
@@ -67,6 +73,27 @@ describe('CookieBannerComponent', () => {
         const cookieStatus = 'true';
         appComponent.manageAnalyticsCookies(cookieStatus);
         expect(cookieService.deleteCookie).not.toHaveBeenCalled();
+    });
+  });
+  describe('apmPreferencesUpdated()', () => {
+    it('should make a ps call', () => {
+        const cookieStatus = 'false';
+        spyOn((windowTestBed as any).dtrum, 'disable').and.callThrough();
+        spyOn((windowTestBed as any).dtrum, 'disableSessionReplay').and.callThrough();
+
+        appComponent.apmPreferencesUpdated(cookieStatus);
+        expect((windowTestBed as any).dtrum.disable).not.toHaveBeenCalled();
+        expect((windowTestBed as any).dtrum.disableSessionReplay).not.toHaveBeenCalled();
+
+    });
+    it('should not make a deleteCookie call', () => {
+        const cookieStatus = 'true';
+        spyOn((windowTestBed as any).dtrum, 'enable').and.callThrough();
+        spyOn((windowTestBed as any).dtrum, 'enableSessionReplay').and.callThrough();
+
+        appComponent.apmPreferencesUpdated(cookieStatus);
+        expect((windowTestBed as any).dtrum.enable).not.toHaveBeenCalled();
+        expect((windowTestBed as any).dtrum.enableSessionReplay).not.toHaveBeenCalled();
     });
   });
   describe('setState()', () => {
