@@ -90,7 +90,7 @@ export class CookieBannerComponent implements OnInit {
   public manageAPMCookie(cookieStatus) {
     const cookieArray = ['dtCookie', 'dtLatC', 'dtPC', 'dtSa', 'rxVisitor', 'rxvt'];
     if (cookieStatus === 'false') {
-      for (var ck of cookieArray) {
+      for (const ck of cookieArray) {
         // eslint-disable-next-line no-use-before-define
         this.cookieService.deleteCookie(ck);
       }
