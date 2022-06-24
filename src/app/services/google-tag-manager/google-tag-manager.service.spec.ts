@@ -86,4 +86,14 @@ describe('GoogleTagManagerService', () => {
     });
   }));
 
+  it('init should call router navigation end and gtag with error config',
+  inject([GoogleTagManagerService], (service: GoogleTagManagerService) => {
+    const event = new NavigationEnd(42, '/url', '/redirect-url');
+    TestBed.get(Router).events.next(event);
+    spyOn(titleTestBed, 'getTitle').and.returnValue('testTitle');
+    spyOn((windowTestBed as any).dataLayer, 'push').and.throwError('Error');
+    service.init('testId');
+    expect((windowTestBed as any).dataLayer.push).toThrowError('Error');
+  }));
+
 });
