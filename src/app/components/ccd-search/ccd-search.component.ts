@@ -30,8 +30,6 @@ export class CcdSearchComponent implements OnInit {
   isStrategicFixEnable: boolean;
   isTurnOff: boolean;
   caseResponse: any;
-  isOldPcipalOff: boolean;
-  isNewPcipalOff: boolean;
   servicerequest: string;
 
   constructor(
@@ -54,12 +52,6 @@ export class CcdSearchComponent implements OnInit {
     });
     this.paymentGroupService.getLDFeature('apportion-feature').then((status) => {
       this.isTurnOff = status;
-    });
-    this.paymentGroupService.getLDFeature('FE-pcipal-old-feature').then((status) => {
-      this.isOldPcipalOff = status;
-    });
-    this.paymentGroupService.getLDFeature('FE-pcipal-antenna-feature').then((status) => {
-      this.isNewPcipalOff = status;
     });
     this.fromValidation();
    }
@@ -91,8 +83,6 @@ export class CcdSearchComponent implements OnInit {
       let bsEnableUrl = this.isBulkscanningEnable ? '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
        bsEnableUrl += this.isStrategicFixEnable ? '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
        bsEnableUrl += this.isTurnOff ? '&isTurnOff=Enable' : '&isTurnOff=Disable';
-       bsEnableUrl += this.isOldPcipalOff ? '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
-       bsEnableUrl += this.isNewPcipalOff ? '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
 
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
         this.caseResponse = null;

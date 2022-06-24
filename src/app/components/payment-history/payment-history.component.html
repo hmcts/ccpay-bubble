@@ -1,11 +1,11 @@
 <!-- ccpay-web-component integration -->
 <ccpay-payment-lib *ngIf='LOGGEDINUSERROLES.length > 0'
-    [API_ROOT]="apiRoot" 
+    [API_ROOT]="apiRoot"
     [BULKSCAN_API_ROOT]="bulkscanapiRoot"
     [REFUNDS_API_ROOT] ="refundsapiRoot"
     [CCD_CASE_NUMBER]="ccdCaseNumber"
-    [VIEW]="view" 
-    [TAKEPAYMENT]="takePayment" 
+    [VIEW]="view"
+    [TAKEPAYMENT]="takePayment"
     [SERVICEREQUEST]="servicerequest"
     [PAYMENT_GROUP_REF]="paymentGroupRef"
     [EXC_REFERENCE]="excReference"
@@ -23,4 +23,3 @@
     [LOGGEDINUSERROLES]="LOGGEDINUSERROLES"
     >
 </ccpay-payment-lib>
-
