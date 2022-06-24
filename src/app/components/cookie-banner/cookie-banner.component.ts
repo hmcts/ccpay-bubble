@@ -88,19 +88,12 @@ export class CookieBannerComponent implements OnInit {
   }
 
   public manageAPMCookie(cookieStatus) {
+    const cookieArray = ['dtCookie', 'dtLatC', 'dtPC', 'dtSa', 'rxVisitor', 'rxvt'];
     if (cookieStatus === 'false') {
-      // eslint-disable-next-line no-use-before-define
-      this.cookieService.deleteCookie('dtCookie');
-      // eslint-disable-next-line no-use-before-define
-      this.cookieService.deleteCookie('dtLatC');
-      // eslint-disable-next-line no-use-before-define
-      this.cookieService.deleteCookie('dtPC');
-      // eslint-disable-next-line no-use-before-define
-      this.cookieService.deleteCookie('dtSa');
-      // eslint-disable-next-line no-use-before-define
-      this.cookieService.deleteCookie('rxVisitor');
-      // eslint-disable-next-line no-use-before-define
-      this.cookieService.deleteCookie('rxvt');
+      for (var ck of cookieArray) {
+        // eslint-disable-next-line no-use-before-define
+        this.cookieService.deleteCookie(ck);
+      }
     }
     // eslint-disable-next-line no-use-before-define
     this.apmPreferencesUpdated(cookieStatus);
