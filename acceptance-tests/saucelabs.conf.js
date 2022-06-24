@@ -41,7 +41,7 @@ function getBrowserConfig(browserGroup) {
 testConfig.TestOutputDir = undefined;
 const setupConfig = {
   tests: './test/end-to-end/tests/*_test.js',
-  output: './output',
+  output: `${process.cwd()}/functional-output`,
   helpers: {
     WebDriver: {
       url: testConfig.e2e.frontendUrl,
@@ -88,15 +88,14 @@ const setupConfig = {
         options: { steps: true }
       },
       'mocha-junit-reporter': {
-        stdout: '-',
-        options: { mochaFile: 'output/result.xml' }
-      },
-      mochawesome: {
-        stdout: 'output/console.log',
+        stdout: './functional-output/ccpay-bubble-mocha-stdout.log',
         options: {
-          reportDir: 'output',
-          reportName: 'index',
-          reportTitle: 'Crossbrowser results',
+          mochaFile: process.env.MOCHA_JUNIT_FILE_LOCATION || './build/test-results/codeceptjs/ccpay-bubble-result.xml' }
+        },
+      mochawesome: {
+        stdout: './functional-output/ccpay-bubble-mochawesome-stdout.log',
+        options: {
+          reportDir: 'functional-output',
           inlineAssets: true
         }
       }
