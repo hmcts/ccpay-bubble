@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject } from 'rxjs';
+import { servicesVersion } from 'typescript';
 import { windowToken } from '../../../window';
 import { GoogleTagManagerService } from './google-tag-manager.service';
 
@@ -56,6 +57,18 @@ describe('GoogleTagManagerService', () => {
     service.event('eventName', params);
     expect((windowTestBed as any).dataLayer.push).toHaveBeenCalledWith({ event: 'eventName', params });
   }));
+
+  it('should get call listenForRouteChanges', inject([GoogleTagManagerService], (service: GoogleTagManagerService) => {
+    const event = new NavigationEnd(42, '/url', '/redirect-url');
+    TestBed.get(Router).events.next(event);
+    service.googleTagManagerKey = '';
+    spyOn((windowTestBed as any).dataLayer, 'push').and.callThrough();
+
+    // @ts-ignore:
+    service.listenForRouteChanges();
+    // @ts-ignore:
+    expect((windowTestBed as any).dataLayer.push).not.toHaveBeenCalled();
+}));
 
   it('init should call router navigation end and gtag with correct config',
   inject([GoogleTagManagerService], (service: GoogleTagManagerService) => {
