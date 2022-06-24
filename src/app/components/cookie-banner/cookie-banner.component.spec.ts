@@ -4,10 +4,10 @@ import { CookieService } from '../../services/cookie/cookie.service';
 import { windowToken } from '../../../window';
 import { CookieBannerComponent } from './cookie-banner.component';
 
-const windowMock: Window = { 
+const windowMock: Window = {
   location: { reload: () => {}},
   dataLayer : [],
-  dtrum: { enable: () => {},disable: () => {},enableSessionReplay: () => {},disableSessionReplay: () => {} }
+  dtrum: { enable: () => {}, disable: () => {}, enableSessionReplay: () => {}, disableSessionReplay: () => {} }
 } as any;
 
 describe('CookieBannerComponent', () => {
