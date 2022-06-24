@@ -46,8 +46,15 @@ describe('CookieService', () => {
     mockDocument.cookie = 'user=dummy';
     const result = cookieService.checkCookie('user');
     expect(result).toBeTruthy();
-    cookieService.deleteCookie('user', null, null);
+    cookieService.deleteCookie('user');
     expect(mockDocument.cookie).toBe(`user=; expires=Thu, 01 Jan 1970 00:00:01 GMT; max-age=0`);
+  });
+  it('should delete a cookie with path domain', () => {
+    mockDocument.cookie = 'user=dummy';
+    const result = cookieService.checkCookie('user');
+    expect(result).toBeTruthy();
+    cookieService.deleteCookie('user', 'PATH', 'DOMAIN');
+    expect(mockDocument.cookie).toBe(`user=; path=PATH; domain=DOMAIN; expires=Thu, 01 Jan 1970 00:00:01 GMT; max-age=0`);
   });
 
   it('should delete a cookie by partial match', () => {
