@@ -78,7 +78,7 @@ ngOnInit(): void {
                                 + ',"apm:"' + getApmSelectedValue
                                 + '}', '365');
     this.manageAnalyticsCookies(getAnalyticsSelectedValue);
-    this.manageAPMCookie(getApmSelectedValue);
+    this.cookieService.manageAPMCookie(getApmSelectedValue);
 }
 public manageAnalyticsCookies(cookieStatus) {
   if (cookieStatus === 'false') {
@@ -88,32 +88,6 @@ public manageAnalyticsCookies(cookieStatus) {
     this.cookieService.deleteCookie('_gid');
     // eslint-disable-next-line no-use-before-define
     this.cookieService.deleteCookie('_gat');
-  }
-}
-
-public manageAPMCookie(cookieStatus) {
-  const cookieArray = ['dtCookie', 'dtLatC', 'dtPC', 'dtSa', 'rxVisitor', 'rxvt'];
-  if (cookieStatus === 'false') {
-    for (const ck of cookieArray) {
-      // eslint-disable-next-line no-use-before-define
-      this.cookieService.deleteCookie(ck);
-    }
-  }
-  // eslint-disable-next-line no-use-before-define
-  this.apmPreferencesUpdated(cookieStatus);
-}
-
-public apmPreferencesUpdated(cookieStatus) {
-  const dtrum = window['dtrum'];
-  // eslint-disable-next-line no-undefined
-  if (dtrum !== undefined) {
-    if (cookieStatus === 'true') {
-      dtrum.enable();
-      dtrum.enableSessionReplay();
-    } else {
-      dtrum.disableSessionReplay();
-      dtrum.disable();
-    }
   }
 }
 }

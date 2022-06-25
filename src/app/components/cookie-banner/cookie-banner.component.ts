@@ -83,34 +83,8 @@ export class CookieBannerComponent implements OnInit {
     const expiryDays = '365';
     this.cookieService.setCookie('cookies_preferences_set', 'true', this.getExpiryDate());
     this.cookieService.setCookie('cookies_policy', '{"essential":true,"analytics":true,"apm":true}', expiryDays);
-    this.manageAPMCookie('true');
+    this.cookieService.manageAPMCookie('true');
     this.setState(false);
-  }
-
-  public manageAPMCookie(cookieStatus) {
-    const cookieArray = ['dtCookie', 'dtLatC', 'dtPC', 'dtSa', 'rxVisitor', 'rxvt'];
-    if (cookieStatus === 'false') {
-      for (const ck of cookieArray) {
-        // eslint-disable-next-line no-use-before-define
-        this.cookieService.deleteCookie(ck);
-      }
-    }
-    // eslint-disable-next-line no-use-before-define
-    this.apmPreferencesUpdated(cookieStatus);
-  }
-
-  public apmPreferencesUpdated(cookieStatus) {
-    const dtrum = window['dtrum'];
-    // eslint-disable-next-line no-undefined
-    if (dtrum !== undefined) {
-      if (cookieStatus === 'true') {
-        dtrum.enable();
-        dtrum.enableSessionReplay();
-      } else {
-        dtrum.disableSessionReplay();
-        dtrum.disable();
-      }
-    }
   }
 
   public rejectCookie(): void {
@@ -118,7 +92,7 @@ export class CookieBannerComponent implements OnInit {
     this.cookieService.setCookie('cookies_preferences_set', 'true', expiryDays);
     this.cookieService.setCookie('cookies_policy', '{"essential":true,"analytics":false,"apm":false}', expiryDays);
     this.manageAnalyticsCookies('false');
-    this.manageAPMCookie('false');
+    this.cookieService.manageAPMCookie('false');
     this.isCookieBannerVisible = false;
     this.setState(false);
   }

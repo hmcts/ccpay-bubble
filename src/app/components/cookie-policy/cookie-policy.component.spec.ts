@@ -19,7 +19,13 @@ describe('CookiePolicyComponentTest', () => {
   let fixture: ComponentFixture<CookiePolicyComponent>;
 
   beforeEach(async(() => {
-    cookieService = jasmine.createSpyObj('CookieService', ['setCookie', 'checkCookie', 'getCookie', 'deleteCookie']);
+    const ksf = ['setCookie',
+    'checkCookie',
+    'getCookie',
+    'deleteCookie',
+    'manageAPMCookie',
+    'apmPreferencesUpdated'];
+    cookieService = jasmine.createSpyObj('CookieService', ksf);
     TestBed.configureTestingModule({
       declarations: [ CookiePolicyComponent ],
       imports: [
@@ -63,7 +69,6 @@ describe('CookiePolicyComponentTest', () => {
   describe('setCookiePreference()', () => {
     it('should make a setCookie call', () => {
         spyOn(component, 'manageAnalyticsCookies').and.returnValue();
-        spyOn(component, 'manageAPMCookie').and.returnValue();
         component.setCookiePreference();
         expect(cookieService.setCookie).toHaveBeenCalled();
     });
@@ -81,18 +86,4 @@ describe('manageAnalyticsCookies()', () => {
     });
 });
 
-describe('manageAPMCookie()', () => {
-    it('should make a deleteCookie call', () => {
-        const cookieStatus = 'false';
-        spyOn(component, 'apmPreferencesUpdated').and.returnValue();
-        component.manageAPMCookie(cookieStatus);
-        expect(cookieService.deleteCookie).toHaveBeenCalled();
-    });
-    it('should not make a deleteCookie call', () => {
-        const cookieStatus = 'true';
-        spyOn(component, 'apmPreferencesUpdated').and.returnValue();
-        component.manageAPMCookie(cookieStatus);
-        expect(cookieService.deleteCookie).not.toHaveBeenCalled();
-    });
-});
 });

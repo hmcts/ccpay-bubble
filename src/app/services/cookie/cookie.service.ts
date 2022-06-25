@@ -41,4 +41,29 @@ export class CookieService {
   public checkCookie(key: string): boolean {
     return this.document.cookie.split('; ').some(item => item.trim().startsWith(`${key}=`));
   }
+  public manageAPMCookie(cookieStatus) {
+    const cookieArray = ['dtCookie', 'dtLatC', 'dtPC', 'dtSa', 'rxVisitor', 'rxvt'];
+    if (cookieStatus === 'false') {
+      for (const ck of cookieArray) {
+        // eslint-disable-next-line no-use-before-define
+        this.deleteCookie(ck);
+      }
+    }
+    // eslint-disable-next-line no-use-before-define
+    this.apmPreferencesUpdated(cookieStatus);
+  }
+
+public apmPreferencesUpdated(cookieStatus) {
+  const dtrum = window['dtrum'];
+  // eslint-disable-next-line no-undefined
+  if (dtrum !== undefined) {
+    if (cookieStatus === 'true') {
+      dtrum.enable();
+      dtrum.enableSessionReplay();
+    } else {
+      dtrum.disableSessionReplay();
+      dtrum.disable();
+    }
+  }
+}
 }
