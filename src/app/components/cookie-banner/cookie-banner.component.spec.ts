@@ -17,7 +17,13 @@ describe('CookieBannerComponent', () => {
   let windowTestBed: Window;
 
   beforeEach(async(() => {
-    cookieService = jasmine.createSpyObj('CookieService', ['setCookie', 'checkCookie', 'getCookie', 'deleteCookie']);
+    const ksf = ['setCookie',
+    'checkCookie',
+    'getCookie',
+    'deleteCookie',
+    'manageAPMCookie',
+    'apmPreferencesUpdated'];
+    cookieService = jasmine.createSpyObj('CookieService', ksf);
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [ CookieBannerComponent ],
@@ -38,6 +44,7 @@ describe('CookieBannerComponent', () => {
 
   describe('acceptCookie()', () => {
       it('should make a setCookie call', () => {
+          cookieService.manageAPMCookie.and.returnValue(true);
           appComponent.acceptCookie();
           expect(cookieService.setCookie).toHaveBeenCalled();
       });
@@ -49,20 +56,7 @@ describe('CookieBannerComponent', () => {
           expect(cookieService.setCookie).toHaveBeenCalled();
       });
   });
-  describe('manageAPMCookie()', () => {
-    it('should make a deleteCookie call', () => {
-        const cookieStatus = 'false';
-        spyOn(appComponent, 'apmPreferencesUpdated').and.returnValue();
-        appComponent.manageAPMCookie(cookieStatus);
-        expect(cookieService.deleteCookie).toHaveBeenCalled();
-    });
-    it('should not make a deleteCookie call', () => {
-        const cookieStatus = 'true';
-        spyOn(appComponent, 'apmPreferencesUpdated').and.returnValue();
-        appComponent.manageAPMCookie(cookieStatus);
-        expect(cookieService.deleteCookie).not.toHaveBeenCalled();
-    });
-});
+
   describe('manageAnalyticsCookies()', () => {
     it('should make a deleteCookie call', () => {
         const cookieStatus = 'false';
@@ -73,27 +67,6 @@ describe('CookieBannerComponent', () => {
         const cookieStatus = 'true';
         appComponent.manageAnalyticsCookies(cookieStatus);
         expect(cookieService.deleteCookie).not.toHaveBeenCalled();
-    });
-  });
-  describe('apmPreferencesUpdated()', () => {
-    it('should make a ps call', () => {
-        const cookieStatus = 'false';
-        spyOn((windowTestBed as any).dtrum, 'disable').and.callThrough();
-        spyOn((windowTestBed as any).dtrum, 'disableSessionReplay').and.callThrough();
-
-        appComponent.apmPreferencesUpdated(cookieStatus);
-        expect((windowTestBed as any).dtrum.disable).not.toHaveBeenCalled();
-        expect((windowTestBed as any).dtrum.disableSessionReplay).not.toHaveBeenCalled();
-
-    });
-    it('should not make a deleteCookie call', () => {
-        const cookieStatus = 'true';
-        spyOn((windowTestBed as any).dtrum, 'enable').and.callThrough();
-        spyOn((windowTestBed as any).dtrum, 'enableSessionReplay').and.callThrough();
-
-        appComponent.apmPreferencesUpdated(cookieStatus);
-        expect((windowTestBed as any).dtrum.enable).not.toHaveBeenCalled();
-        expect((windowTestBed as any).dtrum.enableSessionReplay).not.toHaveBeenCalled();
     });
   });
   describe('setState()', () => {
