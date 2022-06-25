@@ -64,4 +64,19 @@ describe('CookieService', () => {
     cookieService.deleteCookieByPartialMatch('user_');
     expect(mockDocument.cookie).toBe(`user_123=; expires=Thu, 01 Jan 1970 00:00:01 GMT; max-age=0`);
   });
+  it('should make a deleteCookie call', () => {
+    const cookieStatus = 'false';
+    spyOn(cookieService, 'apmPreferencesUpdated').and.callThrough();
+    spyOn(cookieService, 'deleteCookie').and.callThrough();
+    cookieService.manageAPMCookie(cookieStatus);
+    expect(cookieService.deleteCookie).toHaveBeenCalled();
+});
+it('should not make a deleteCookie call', () => {
+    const cookieStatus = 'true';
+    spyOn(cookieService, 'apmPreferencesUpdated').and.callThrough();
+    spyOn(cookieService, 'deleteCookie').and.callThrough();
+
+    cookieService.manageAPMCookie(cookieStatus);
+    expect(cookieService.deleteCookie).not.toHaveBeenCalled();
+});
 });
