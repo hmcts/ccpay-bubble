@@ -36,7 +36,7 @@
           <li>temporarily store the answers you give</li>
         </ul>
         <br/>
-        <p >Find out more about <a target="_blank" href="http://www.aboutcookies.org/">how to manage
+        <p >Find out more about <a target="_blank" href="{{ABOUTCOOKIEURLs}}">how to manage
           cookies</a>.</p>
          <hr>
         <ng-container *ngIf="countCookies(GOOGLE)">
@@ -52,9 +52,9 @@
           </ul>
           <br/>
           <p >We allow Google to use or share our analytics data. You can find out more about how Google use this information in their  <a target="_blank"
-                                                    href="https://www.google.com/policies/privacy/partners/">privacy
+                                                    href="{{GOOGLEPARTNERSURL}}">privacy
               policy</a>.</p>
-          <p >You can <a target="_blank" href="https://tools.google.com/dlpage/gaoptout">opt out of
+          <p >You can <a target="_blank" href="{{ABOUTCOOKIEURL}}">opt out of
             Google Analytics</a> if you do not want Google to have access to your information.</p>
           <p >Google Analytics sets the following cookies:</p>
           <table aria-label="cookie-details" class="govuk-table">
