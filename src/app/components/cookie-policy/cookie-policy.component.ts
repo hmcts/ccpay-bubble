@@ -49,14 +49,14 @@ export class CookiePolicyComponent implements OnInit {
         {name: 'rxvt', cat: this.DYNATRACE, purpose: 'Session timeout', expires: 'When session ends'}
       ];
 
-ngOnInit(): void {
-  cookieManager.on('PreferenceFormSubmitted', () => {
-    const message = document.querySelector('.cookie-preference-success') as HTMLElement;
-    message.style.display = 'block';
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-  });
-}
+  ngOnInit(): void {
+    cookieManager.on('PreferenceFormSubmitted', () => {
+      const message = document.querySelector('.cookie-preference-success') as HTMLElement;
+      message.style.display = 'block';
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    });
+  }
 
   public countCookies(category: string): number {
     return this.cookiesByCat(category).length;
@@ -65,5 +65,4 @@ ngOnInit(): void {
   public cookiesByCat(category: string): {name: string, cat: string, purpose: string, expires: string}[] {
     return this.cookieDetails.filter(c => c.cat === category);
   }
-
 }
