@@ -42,9 +42,9 @@ describe('CookieBannerComponent', () => {
     spyOn((windowTestBed as any).dtrum, 'enableSessionReplay').and.callThrough();
     const preference = { apm: 'on' };
 
-    appComponent.preferenceFn((windowTestBed as any).dtrum, preference)
-   expect((windowTestBed as any).dtrum.enable).toHaveBeenCalled();
-   expect((windowTestBed as any).dtrum.enableSessionReplay).toHaveBeenCalled();
+    appComponent.preferenceFn((windowTestBed as any).dtrum, preference);
+    expect((windowTestBed as any).dtrum.enable).toHaveBeenCalled();
+    expect((windowTestBed as any).dtrum.enableSessionReplay).toHaveBeenCalled();
 
   });
   it ('should make a call all disable function', () => {
@@ -52,9 +52,9 @@ describe('CookieBannerComponent', () => {
     spyOn((windowTestBed as any).dtrum, 'disable').and.callThrough();
     const preference = { apm: 'off' };
 
-    appComponent.preferenceFn((windowTestBed as any).dtrum, preference)
-   expect((windowTestBed as any).dtrum.disableSessionReplay).toHaveBeenCalled();
-   expect((windowTestBed as any).dtrum.disable).toHaveBeenCalled();
+    appComponent.preferenceFn((windowTestBed as any).dtrum, preference);
+    expect((windowTestBed as any).dtrum.disableSessionReplay).toHaveBeenCalled();
+    expect((windowTestBed as any).dtrum.disable).toHaveBeenCalled();
 
   });
 });
