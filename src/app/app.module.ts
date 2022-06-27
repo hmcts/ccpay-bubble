@@ -34,7 +34,6 @@ import { IdamDetails } from './services/idam-details/idam-details';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CookieBannerComponent } from './components/cookie-banner/cookie-banner.component';
-import { CookieService } from './services/cookie/cookie.service';
 import { GoogleTagManagerService } from './services/google-tag-manager/google-tag-manager.service';
 import { CookiePolicyComponent } from './components/cookie-policy/cookie-policy.component';
 import { windowProvider, windowToken } from '../window';
@@ -89,7 +88,6 @@ const nonProductionProviders = [{
     !environment.production ? nonProductionProviders : [],
     PaymentGroupService,
     ViewPaymentService,
-    CookieService,
     GoogleTagManagerService,
     { provide: windowToken, useFactory: windowProvider }
   ],
