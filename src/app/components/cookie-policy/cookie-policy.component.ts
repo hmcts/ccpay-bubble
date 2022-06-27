@@ -18,10 +18,6 @@ export class CookiePolicyComponent implements OnInit {
     public readonly SECURITY = 'Security';
     public readonly GOOGLE = 'Google';
     public readonly DYNATRACE = 'Dynatrace';
-    public readonly ABOUTCOOKIEURL = 'https://www.aboutcookies.org/';
-    public readonly GOOGLEPARTNERSURL = 'https://www.google.com/policies/privacy/partners/';
-    public readonly GOOGLEOPOUTURL = 'https://tools.google.com/dlpage/gaoptout';
-
 
     public cookieDetails =
       [
