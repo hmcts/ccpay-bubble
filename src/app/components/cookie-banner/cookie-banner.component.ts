@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { CookieService } from '../../services/cookie/cookie.service';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { windowToken } from '../../../window';
 import cookieManager from '@hmcts/cookie-manager';
 
@@ -12,14 +11,10 @@ import cookieManager from '@hmcts/cookie-manager';
 export class CookieBannerComponent implements OnInit {
   @Input() public identifier: string;
   @Input() public appName: string;
-  @Output() public rejectionNotifier = new EventEmitter<any>();
-  @Output() public acceptanceNotifier = new EventEmitter<any>();
 
-  public isCookieBannerVisible = false;
   private readonly window: Window;
 
   constructor(
-    private readonly cookieService: CookieService,
    @Inject(windowToken) window: any,
   ) {
     this.window = window as Window;
@@ -53,7 +48,16 @@ export class CookieBannerComponent implements OnInit {
               'rxVisitor',
               'rxvt'
             ]
-          }
+          },
+          {
+            categoryName: 'essential',
+            optional: false,
+            matchBy: 'exact',
+            cookies: [
+              '_csrf',
+              '__user-info'
+            ]
+          },
         ]
       };
 
@@ -76,69 +80,5 @@ export class CookieBannerComponent implements OnInit {
         }
       });
     cookieManager.init(config);
-    this.setState();
-  }
-
-  public acceptCookie(): void {
-    const expiryDays = '365';
-    this.cookieService.setCookie('cookies_preferences_set', 'true', this.getExpiryDate());
-    this.cookieService.setCookie('cookies_policy', '{"essential":true,"analytics":true,"apm":true}', expiryDays);
-    this.cookieService.manageAPMCookie('true');
-    this.setState(false);
-  }
-
-  public rejectCookie(): void {
-    const expiryDays = '365';
-    this.cookieService.setCookie('cookies_preferences_set', 'true', expiryDays);
-    this.cookieService.setCookie('cookies_policy', '{"essential":true,"analytics":false,"apm":false}', expiryDays);
-    this.manageAnalyticsCookies('false');
-    this.cookieService.manageAPMCookie('false');
-    this.isCookieBannerVisible = false;
-    this.setState(false);
-  }
-
-  public manageAnalyticsCookies(cookieStatus) {
-    if (cookieStatus === 'false') {
-      // eslint-disable-next-line no-use-before-define
-      this.cookieService.deleteCookie('_ga');
-      // eslint-disable-next-line no-use-before-define
-      this.cookieService.deleteCookie('_gid');
-      // eslint-disable-next-line no-use-before-define
-      this.cookieService.deleteCookie('_gat');
-    }
-  }
-
-  public setState(reload: boolean = false): void {
-    this.isCookieBannerVisible = !this.cookieService.checkCookie(this.identifier);
-
-    if (this.areCookiesAccepted()) {
-      this.notifyAcceptance();
-    } else {
-      this.notifyRejection();
-    }
-
-    if (reload) { // reload if any of the buttons are pressed
-      this.window.location.reload();
-    }
-  }
-
-  public areCookiesAccepted(): boolean {
-    return this.cookieService.checkCookie(this.identifier) && this.cookieService.getCookie(this.identifier) === 'true';
-  }
-
-  public notifyRejection(): void {
-    this.rejectionNotifier.emit();
-  }
-
-  public notifyAcceptance(): void {
-    this.acceptanceNotifier.emit();
-  }
-
-  private getExpiryDate(): string {
-    const now = new Date();
-    const time = now.getTime();
-    const expireTime = time + 31536000000;  //  in 365 days = 3600 * 1000 * 24 * 365
-    now.setTime(expireTime);
-    return now.toUTCString();
   }
 }
