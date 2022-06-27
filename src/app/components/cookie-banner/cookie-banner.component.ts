@@ -69,16 +69,20 @@ export class CookieBannerComponent implements OnInit {
         const dataLayer = window['dataLayer'] || [];
         const dtrum = window['dtrum'];
         dataLayer.push({'event': 'Cookie Preferences', 'cookiePreferences': preferences});
-        if (dtrum !== undefined) {
-          if (preferences.apm === 'on') {
-            dtrum.enable();
-            dtrum.enableSessionReplay();
-          } else {
-            dtrum.disableSessionReplay();
-            dtrum.disable();
-          }
-        }
+        this.preferenceFn(dtrum, preferences);
       });
     cookieManager.init(config);
+  }
+
+  preferenceFn(dtrum, preferences) {
+    if (dtrum !== undefined) {
+      if (preferences.apm === 'on') {
+        dtrum.enable();
+        dtrum.enableSessionReplay();
+      } else {
+        dtrum.disableSessionReplay();
+        dtrum.disable();
+      }
+    }
   }
 }
