@@ -37,5 +37,24 @@ describe('CookieBannerComponent', () => {
   it('should be created by angular', () => {
     expect(fixture).not.toBeNull();
   });
+  it ('should make a call all enable function', () => {
+    spyOn((windowTestBed as any).dtrum, 'enable').and.callThrough();
+    spyOn((windowTestBed as any).dtrum, 'enableSessionReplay').and.callThrough();
+    const preference = { apm: 'on' };
 
+    appComponent.preferenceFn((windowTestBed as any).dtrum, preference)
+   expect((windowTestBed as any).dtrum.enable).toHaveBeenCalled();
+   expect((windowTestBed as any).dtrum.enableSessionReplay).toHaveBeenCalled();
+
+  });
+  it ('should make a call all disable function', () => {
+    spyOn((windowTestBed as any).dtrum, 'disableSessionReplay').and.callThrough();
+    spyOn((windowTestBed as any).dtrum, 'disable').and.callThrough();
+    const preference = { apm: 'off' };
+
+    appComponent.preferenceFn((windowTestBed as any).dtrum, preference)
+   expect((windowTestBed as any).dtrum.disableSessionReplay).toHaveBeenCalled();
+   expect((windowTestBed as any).dtrum.disable).toHaveBeenCalled();
+
+  });
 });
