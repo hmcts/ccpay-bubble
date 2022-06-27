@@ -16,6 +16,7 @@ describe('CookiePolicyComponentTest', () => {
   let fixture: ComponentFixture<CookiePolicyComponent>;
 
   beforeEach(async(() => {
+
     TestBed.configureTestingModule({
       declarations: [ CookiePolicyComponent ],
       imports: [
@@ -36,5 +37,21 @@ describe('CookiePolicyComponentTest', () => {
   });
   it('should be created by angular', () => {
     expect(fixture).not.toBeNull();
+  });
+  it('should include 4 security cookies', () => {
+    expect(component.countCookies(component.SECURITY)).toBe(4);
+  });
+  it ('should return the __userid__ cookie as an identity cookie', () => {
+    const cookieName = component.cookiesByCat(component.IDENTIFY)[0].name;
+    expect (cookieName).toBe('__userid__');
+  });
+  it ('cookiesByCat should be consistent with countCookies', () => {
+    const cookies = component.cookiesByCat(component.SECURITY);
+    let cc = 0;
+    for (const ccc of cookies) {
+      expect(ccc.cat).toBe(component.SECURITY);
+      cc = cc + 1;
+    }
+    expect (cc).toEqual(component.countCookies(component.SECURITY));
   });
 });
