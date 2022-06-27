@@ -68,13 +68,13 @@ export class CookieBannerComponent implements OnInit {
       cookieManager.on('UserPreferencesSaved', (preferences) => {
         const dataLayer = window['dataLayer'] || [];
         const dtrum = window['dtrum'];
-        dataLayer.push({'event': 'Cookie Preferences', 'cookiePreferences': preferences});
-        this.preferenceFn(dtrum, preferences);
+        this.preferenceFn(dtrum, preferences, dataLayer);
       });
     cookieManager.init(config);
   }
 
-  preferenceFn(dtrum, preferences) {
+  preferenceFn(dtrum, preferences, dataLayer) {
+    dataLayer.push({'event': 'Cookie Preferences', 'cookiePreferences': preferences});
     if (dtrum !== undefined) {
       if (preferences.apm === 'on') {
         dtrum.enable();
