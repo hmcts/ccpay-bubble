@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CookieService } from '../../services/cookie/cookie.service';
 import { CookiePolicyComponent } from './cookie-policy.component';
 
 describe('CookiePolicyComponentTest', () => {
@@ -14,25 +13,13 @@ describe('CookiePolicyComponentTest', () => {
   }
   const testHostComponent = TestDummyHostComponent;
   let component: CookiePolicyComponent;
-// tslint:disable-next-line:prefer-const
-  let cookieService: CookieService;
   let fixture: ComponentFixture<CookiePolicyComponent>;
 
   beforeEach(async(() => {
-    const ksf = ['setCookie',
-    'checkCookie',
-    'getCookie',
-    'deleteCookie',
-    'manageAPMCookie',
-    'apmPreferencesUpdated'];
-    cookieService = jasmine.createSpyObj('CookieService', ksf);
     TestBed.configureTestingModule({
       declarations: [ CookiePolicyComponent ],
       imports: [
         RouterTestingModule
-      ],
-      providers: [
-        { provide: CookieService, useValue: cookieService },
       ]
     })
       .compileComponents();
@@ -50,40 +37,4 @@ describe('CookiePolicyComponentTest', () => {
   it('should be created by angular', () => {
     expect(fixture).not.toBeNull();
   });
-  it('should include 4 security cookies', () => {
-    expect(component.countCookies(component.SECURITY)).toBe(4);
-  });
-  it ('should return the __userid__ cookie as an identity cookie', () => {
-    const cookieName = component.cookiesByCat(component.IDENTIFY)[0].name;
-    expect (cookieName).toBe('__userid__');
-  });
-  it ('cookiesByCat should be consistent with countCookies', () => {
-    const cookies = component.cookiesByCat(component.SECURITY);
-    let cc = 0;
-    for (const ccc of cookies) {
-      expect(ccc.cat).toBe(component.SECURITY);
-      cc = cc + 1;
-    }
-    expect (cc).toEqual(component.countCookies(component.SECURITY));
-  });
-  describe('setCookiePreference()', () => {
-    it('should make a setCookie call', () => {
-        spyOn(component, 'manageAnalyticsCookies').and.returnValue();
-        component.setCookiePreference();
-        expect(cookieService.setCookie).toHaveBeenCalled();
-    });
-});
-describe('manageAnalyticsCookies()', () => {
-    it('should make a deleteCookie call', () => {
-        const cookieStatus = 'false';
-        component.manageAnalyticsCookies(cookieStatus);
-        expect(cookieService.deleteCookie).toHaveBeenCalled();
-    });
-    it('should not make a deleteCookie call', () => {
-        const cookieStatus = 'true';
-        component.manageAnalyticsCookies(cookieStatus);
-        expect(cookieService.deleteCookie).not.toHaveBeenCalled();
-    });
-});
-
 });
