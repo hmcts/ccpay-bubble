@@ -33,6 +33,7 @@ export class CcdSearchComponent implements OnInit {
 
   isOldPcipalOff: boolean;
   isNewPcipalOff: boolean;
+  servicerequest: string;
 
   constructor(
     private paymentGroupService: PaymentGroupService,
@@ -45,6 +46,7 @@ export class CcdSearchComponent implements OnInit {
 
   ngOnInit() {
     this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'] === 'false' ? null : true ;
+    this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'] ;
     this.paymentGroupService.getBSFeature().then((status) => {
       this.isBulkscanningEnable = status;
     });
@@ -124,7 +126,7 @@ export class CcdSearchComponent implements OnInit {
                     this.caseType = this.caseResponse['case_type'];
                   }
                   // tslint:disable-next-line:max-line-length
-                  let url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions`;
+                  let url = this.takePayment ? `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&exceptionRecord=${this.excReference}&dcn=${this.dcnNumber}&view=case-transactions&servicerequest=${this.servicerequest}`;
                   url = url.replace(/[\r\n]+/g, ' ');
                   this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
                 }
@@ -153,7 +155,7 @@ export class CcdSearchComponent implements OnInit {
             complete: () => {
 
               // tslint:disable-next-line:max-line-length
-              let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+              let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&servicerequest=${this.servicerequest}`;
               url = url.replace(/[\r\n]+/g, ' ');
               this.paymentGroupService.getBSPaymentsByCCD(this.ccdCaseNumber).then( result => {
 
@@ -209,7 +211,7 @@ export class CcdSearchComponent implements OnInit {
                       }
                       ls.set<any>('ccdNumber', this.ccdCaseNumber);
                       // tslint:disable-next-line:max-line-length
-                      let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions`;
+                      let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&servicerequest=${this.servicerequest}`;
                       url = url.replace(/[\r\n]+/g, ' ');
                       this.router.navigateByUrl(`/payment-history/${this.ccdCaseNumber}${url}&caseType=${this.caseType}${bsEnableUrl}`);
                     }
