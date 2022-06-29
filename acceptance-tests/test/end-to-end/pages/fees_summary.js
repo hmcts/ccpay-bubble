@@ -6,25 +6,31 @@ const { I } = inject();
 
 module.exports = {
 
-  verifyFeeSummaryBulkScan(feeCode) {
+  verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, feeCode, amount, allocatePaymentFlag) {
     I.see('Summary');
-    // I.see(feeCode);
-    I.see(PaybubbleStaticData.fee_description[feeCode]);
-    I.see('Amount');
+    I.see('Case reference:');
+    I.see(`${ccdCaseNumberFormatted}`);
+    I.see('Description');
     I.see('Quantity');
-    I.see('Total to pay');
-    I.see('Remove');
-    I.see('Add help with fees or remission');
+    I.see('Amount');
+    I.see(PaybubbleStaticData.fee_description[feeCode]);
+    I.see('1');
+    I.see(`£${amount}`);
     I.see('Add fee');
+    I.see('Total to pay:');
+    I.see(`£${amount}`);
     I.see('Allocate payment');
-    I.dontSee('case reference');
+    if (allocatePaymentFlag) {
+      I.click('Allocate payment');
+    }
   },
 
-  verifyFeeSummaryAfterRemissionBulkScan(feeCode, remissionAmount, totalAfterRemission) {
+  verifyFeeSummaryAfterRemissionBulkScan(feeCode, feeAmount, remissionAmount, totalAfterRemission) {
     I.see('Summary');
     // I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see('Amount');
+    I.see(feeAmount);
     // I.see('Volume');
     // I.see('Fee total');
     // I.see('Remission amount');
@@ -49,14 +55,8 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  /* deductRemission(feeCode) {
-    I.click({ xpath: `//ccpay-fee-summary//*[text()='${feeCode}']/../td[4]//*[text()=' Deduct remission ']` });
-    I.wait(CCPBConstants.fiveSecondWaitTime);
-  },*/
   deductRemission() {
     I.click('Add help with fees or remission');
-    // I.click({ xpath: `//ccpay-fee-summary//*[text()='${feeCode}']/../td[4]//*[text()=' Deduct remission ']` });
-    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
   removeFeesFromSummary() {
     I.click('remove fee');

@@ -22,7 +22,7 @@ function RefundException(message) {
   this.name = 'Assertion Error';
 }
 
-Feature('CC Pay Bubble Acceptance Tests For Refunds and Remissions').retry(CCPBATConstants.retryScenario);
+Feature('CC Pay Bubble Acceptance Tests For Refunds and Remissions').retry(CCPBATConstants.defaultNumberOfRetries);
 
 BeforeSuite(async I => {
   // console.log('Before Suite');
@@ -135,7 +135,6 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    pause();
     InitiateRefunds.verifyServiceRequestPage('Add remission', 'Personal Application for grant of Probate', '£215');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, 'HWF-A1B-23C');
