@@ -14,7 +14,7 @@ module.exports = {
 
   verifyRemissionPage(feeCode) {
     I.see('Add remission');
-    I.see('Enter remission for reference. For example: HWF-A1B-23C');
+    I.see('Enter remission for reference. For example: HWF-A1B-23C OR PA21-123456');
     I.see(`Add remission to ${feeCode}:${PaybubbleStaticData.fee_description[feeCode]}`);
     I.see('How much does the applicant need to pay?');
     I.see('Submit');
@@ -34,7 +34,7 @@ module.exports = {
   },
 
   processRemission(feeCode, amount) {
-    this.verifyRemissionPage(feeCode);
+    // this.verifyRemissionPage(feeCode);
     I.fillField(this.locators.remission_code, 'HWF-A1B-23C');
     I.fillField(this.locators.amount, amount);
     I.click('Submit');
@@ -47,12 +47,19 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  confirmprocessRemission() {
+  confirmProcessRemission() {
     I.click('Confirm');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  noRemissionCodeOrAmount() {
+  verifyAddRemissionPageText() {
+    I.see('Add remission');
+    I.see('Add remission to FEE0002: Filing an application for a divorce, nullity or civil partnership dissolution');
+    I.see('Enter remission for reference. For example: HWF-A1B-23C OR PA21-123456');
+    I.see('How much does the applicant need to pay?');
+  },
+
+  verifyNoRemissionCodeOrAmountErrorMessages() {
     I.click('Submit');
     I.see('Enter a remission code');
     I.see('Enter a amount');
@@ -69,6 +76,7 @@ module.exports = {
     I.fillField(this.locators.amount, amount);
     I.click('Submit');
     I.see('The remission amount must be less than the total fee');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   }
 
 

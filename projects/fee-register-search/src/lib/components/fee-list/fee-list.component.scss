@@ -25,3 +25,13 @@
 .govuk-pagination /deep/ .ngx-pagination a:hover {
   background: none;
 }
+
+.fee-discontinued-version-amount {
+  color: gray;
+  display: block;
+  word-break: break-all;
+}
+
+.fee-current-version-amount-field {
+  width: 20%;
+}

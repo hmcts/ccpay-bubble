@@ -23,10 +23,8 @@ module.exports = {
     I.see(method);
   },
 
-
   confirmPayment() {
     I.click('Confirm');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   inputTransferredReason(transferredReason) {
