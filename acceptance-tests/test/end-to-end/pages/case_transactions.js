@@ -289,7 +289,7 @@ module.exports = {
     // I.see('Action');
     // I.see(allocationStatus);
     if (testConfig.e2e.testForCrossbrowser !== 'true') {
-      I.see('Not paid');
+      I.see('Partially paid');
     }
     I.see('Success');
   },

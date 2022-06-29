@@ -59,7 +59,7 @@ withNightlyPipeline("nodejs", product, component) {
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
   enableFortifyScan()
-  enableCrossBrowserTest(['chrome','firefox'])
+  enableCrossBrowserTest()
   enableFullFunctionalTest(180)
   enableMutationTest(150)
   after('checkout') {
@@ -74,9 +74,6 @@ withNightlyPipeline("nodejs", product, component) {
   }
    after('fortify-scan') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
-  }
-  after('crossBrowserTest') {
-     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'mochawesome-report/**/*'
   }
 
   after('mutationTest') {
