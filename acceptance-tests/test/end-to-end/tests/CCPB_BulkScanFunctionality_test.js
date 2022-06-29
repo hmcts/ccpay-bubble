@@ -143,7 +143,7 @@ Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTr
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£593.00', dcnNumber, 'Cash');
   I.Logout();
-}).tag('@pipeline @nightly @crossbrowser');
+}).tag('@pipeline @nightly');
 
 // #endregion
 
@@ -349,4 +349,4 @@ Scenario('Download reports in paybubble', (I, Reports) => {
   Reports.selectReportAndDownload('Processed unallocated');
   Reports.selectReportAndDownload('Under payment and Over payment');
   I.Logout();
-}).tag('@nightly @crossbrowser');
+}).tag('@nightly');
