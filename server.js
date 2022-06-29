@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const HttpStatus = require('http-status-codes');
 const express = require('express');
+const session = require('express-session');
 const route = require('./express/app');
 const roles = require('./express/infrastructure/roles');
 const csurf = require('csurf');
@@ -13,6 +14,11 @@ const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 
 const app = express();
+app.use(session({
+  secret: 'Shh, its a secret!',
+  resave: false,
+  saveUninitialized: true
+}));
 
 const errorFactory = ApiErrorFactory('server.js');
 let csrfProtection = csurf({ cookie: true });
@@ -73,15 +79,20 @@ module.exports = (security, appInsights) => {
   // enable the dist folder to be accessed statically
   app.use(express.static('dist/ccpay-bubble'));
 
+  app.use('/makePaymentByTelephoneyProvider', (req, res) => {
+    res.status(HttpStatus.OK).send(security.pcipalForm(req, res));
+  });
+
   app.use('/logout', security.logout());
   app.use('/oauth2/callback', security.OAuth2CallbackEndpoint());
   app.use('/health/liveness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
+  app.use('/health/readiness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
   app.use('/health', healthcheck);
 
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"
   if (process.env.NODE_ENV === 'development') {
-    app.use('/api', (req, res, next) => {
+    app.use('/api', (_req, res, next) => {
       res.set('Access-Control-Allow-Origin', '*');
       res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
       res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Auth-Dev, CSRF-Token');

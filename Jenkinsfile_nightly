@@ -12,12 +12,26 @@ properties([
 
 def product = "ccpay"
 def component = "bubble-frontend"
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 def secrets = [
   'ccpay-${env}': [
     secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET'),
     secret('paybubble-idam-client-secret', 'IDAM_CLIENT_SECRET'),
     secret('launch-darkly-client-id', 'LD_CLIENT_ID'),
+    secret('citizen-oauth-client-secret', 'OAUTH2_CLIENT_SECRET'),
+    secret('cmc-service-secret', 'CMC_S2S_SERVICE_SECRET'),
+    secret('probate-caseworker-username', 'PROBATE_CASE_WORKER_USER_NAME'),
+    secret('probate-caseworker-password', 'PROBATE_CASE_WORKER_PASSWORD'),
+    secret('divorce-caseworker-username', 'DIVORCE_CASE_WORKER_USER_NAME'),
+    secret('divorce-caseworker-password', 'DIVORCE_CASE_WORKER_PASSWORD'),
+    secret('refunds-requestor-caseworker-username', 'REFUNDS_REQUESTOR_USER_NAME'),
+    secret('refunds-requestor-caseworker-password', 'REFUNDS_REQUESTOR_PASSWORD'),
+    secret('refunds-approver-caseworker-username', 'REFUNDS_APPROVER_USER_NAME'),
+    secret('refunds-approver-caseworker-password', 'REFUNDS_APPROVER_PASSWORD'),
+    secret('fee-pay-divorce-client-id', 'DIVORCE_CLIENT_ID'),
+    secret('fee-pay-divorce-client-secret', 'DIVORCE_CLIENT_SECRET'),
+    secret('fee-pay-divorce-client-redirect-url', 'DIVORCE_CLIENT_REDIRECT_URI'),
     secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
   ]
 ]
@@ -38,15 +52,36 @@ def vaultOverrides = [
 ]
 
 withNightlyPipeline("nodejs", product, component) {
+
   env.TEST_URL = params.URL_TO_TEST
+  env.NIGHTLY_TEST= true
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  enableFullFunctionalTest()
+  enableFortifyScan()
+  enableCrossBrowserTest()
+  enableFullFunctionalTest(180)
+  enableMutationTest(150)
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
   }
   after('build') {
     sh 'yarn ng:build'
+    sh 'chmod +x bin/run-mutation-tests.sh'
+    yarnBuilder.yarn('test:a11y')
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+  }
+   after('fortify-scan') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
+  }
+
+  after('mutationTest') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/mutation-reports/**/*'
+    publishHTML target: [
+      reportDir            : "functional-output/mutation-reports/",
+      reportFiles          : "index.html",
+      reportName           : "PayBubble Mutation tests",
+      alwaysLinkToLastBuild: true
+    ]
   }
 }

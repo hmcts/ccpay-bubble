@@ -6,6 +6,9 @@ export const mockFees = [
     channel_type: {
       name: 'default'
     },
+    isdiscontinued_fee: 1,
+    discontinued_list: [],
+    isCurrentAmount_available: 1,
     event_type: {
       name: 'issue'
     },
@@ -76,6 +79,9 @@ export const mockFees = [
     code: 'FEE0002',
     fee_type: 'fixed',
     sort_value: 0,
+    isdiscontinued_fee: 1,
+    discontinued_list: [],
+    isCurrentAmount_available: 1,
     channel_type: {
       name: 'default'
     },
@@ -149,6 +155,9 @@ export const mockFees = [
     code: 'FEE0003',
     fee_type: 'fixed',
     sort_value: 0,
+    isdiscontinued_fee: 1,
+    discontinued_list: [],
+    isCurrentAmount_available: 1,
     channel_type: {
       name: 'default'
     },

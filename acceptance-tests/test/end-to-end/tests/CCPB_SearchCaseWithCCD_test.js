@@ -1,29 +1,35 @@
 const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 
-Feature('CC Pay Bubble Acceptance Tests');
+const bulkScanApiCalls = require('../helpers/utils');
 
-BeforeSuite(I => {
-  I.amOnPage('/');
-  I.wait(CCPBATConstants.twoSecondWaitTime);
-  I.resizeWindow(CCPBATConstants.windowsSizeX, CCPBATConstants.windowsSizeY);
+const { Logger } = require('@hmcts/nodejs-logging');
+
+const logger = Logger.getLogger('CCPB_SearchCaseWithCCD_test.js');
+
+const testConfig = require('./config/CCPBConfig');
+
+const successResponse = 202;
+
+Feature('CC Pay Bubble Acceptance Tests').retry(CCPBATConstants.defaultNumberOfRetries);
+
+/* BeforeSuite(async I => {
+  const response = await bulkScanApiCalls.toggleOffCaseValidation();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  if (response === successResponse) {
+    logger.info('Disabled CCD validation');
+  }
 });
 
-Scenario('Search for a case with dummy case number', I => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  I.wait(CCPBATConstants.tenSecondWaitTime);
-  I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
-  I.see('Search for a case');
-  I.see('Search');
-  I.see('Case Transaction');
-  I.see('Payment history');
-  I.searchForCCDdummydata();
-  I.Logout();
-});
+AfterSuite(async I => {
+  const response = await bulkScanApiCalls.toggleOnCaseValidation();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  if (response === successResponse) {
+    logger.info('Enabled CCD validation');
+  }
+});*/
 
-Scenario('Search for a case with actual case number from CCD', I => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  I.wait(CCPBATConstants.tenSecondWaitTime);
-  I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
+Scenario('Search for a case with actual case number from CCD', async I => {
+  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   I.see('Search for a case');
   I.see('What do you want to search for?');
   I.see('CCD case reference or exception record');
@@ -31,42 +37,40 @@ Scenario('Search for a case with actual case number from CCD', I => {
   I.see('Case Transaction');
   I.see('Payment history');
   I.see('Reports');
-  I.searchForCorrectCCDNumber();
+  await I.searchForCorrectCCDNumber();
   I.Logout();
-});
+}).tag('@nightly @pipeline');
 
-Scenario('Search for a case with actual case for Telephony flow', I => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  I.wait(CCPBATConstants.tenSecondWaitTime);
-  I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
-  I.see('Search for a case');
-  I.see('Search');
-  I.see('Case Transaction');
-  I.see('Payment history');
-  I.caseforTelephonyFlow();
+Scenario('Search for a case with actual case for Telephony flow', async I => {
+  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  await I.caseforTelephonyFlow();
   I.Logout();
-});
+}).tag('@nightly @pipeline');
 
-Scenario('Amount Due case for Telephony flow', I => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  I.wait(CCPBATConstants.tenSecondWaitTime);
-  I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
-  I.see('Search for a case');
-  I.see('Search');
-  I.see('Case Transaction');
-  I.see('Payment history');
-  I.AmountDueCaseForTelephonyFlow();
+Scenario('Amount Due case for Telephony flow', async I => {
+  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  // const responseoff = await bulkScanApiCalls.toggleOffCaseValidation();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  /* if (responseoff === successResponse) {
+    logger.info('Disabled CCD validation');
+  }*/
+  await I.AmountDueCaseForTelephonyFlow();
   I.Logout();
-});
+}).tag('@nightly @pipeline @crossbrowser');
 
-Scenario('Remove fee from case transaction page Telephony flow', I => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
-  I.wait(CCPBATConstants.tenSecondWaitTime);
-  I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
-  I.see('Search for a case');
-  I.see('Search');
-  I.see('Case Transaction');
-  I.see('Payment history');
-  I.removeFeeFromCaseTransactionPageTelephonyFlow();
+Scenario('Remove fee from case transaction page Telephony flow', async I => {
+  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  await I.removeFeeFromCaseTransactionPageTelephonyFlow();
   I.Logout();
-});
+}).tag('@nightly @pipeline');
+
+Scenario('Search for a case with dummy case number @nightly', async I => {
+  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  const responseOn = await bulkScanApiCalls.toggleOnCaseValidation();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  if (responseOn === successResponse) {
+    logger.info('Enabled CCD validation');
+  }
+  await I.searchForCCDdummydata();
+  I.Logout();
+}).tag('@nightly @pipeline');

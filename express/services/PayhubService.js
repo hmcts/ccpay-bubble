@@ -5,6 +5,7 @@ const FeatureService = require('./FeatureService');
 
 const payhubUrl = config.get('payhub.url');
 const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
+const pcipalAntennaReturnUrl = config.get('pcipalantenna.url');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
 const microService = config.get('ccpaybubble.microservice');
@@ -39,6 +40,21 @@ class PayhubService {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${serviceAuthToken}`,
         'return-url': `${ccpayBubbleReturnUrl}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    });
+  }
+
+  async postPaymentAntennaToPayHub(req) {
+    const serviceAuthToken = await this.createAuthToken();
+    req.body.return_url = pcipalAntennaReturnUrl;
+    return request.post({
+      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/telephony-card-payments`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${serviceAuthToken}`,
         'Content-Type': 'application/json'
       },
       json: true
@@ -267,7 +283,10 @@ class PayhubService {
             json: true
           });
         }
-        return 'OK';
+        return {
+          exception: 'CMC_ExceptionRecord',
+          case: 'MoneyClaimCase'
+        };
       });
   }
 
@@ -283,6 +302,62 @@ class PayhubService {
   isCaseRefValidationEnabled(features) {
     const regFeature = features.find(feature => feature.uid === CASE_REF_VALIDATION_ENABLED);
     return regFeature ? regFeature.enable : false;
+  }
+
+  getPartyDetails(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${payhubUrl}/case-payment-orders?case_ids=${req.query.case_ids}`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      responseType: 'blob',
+      json: true
+    }));
+  }
+
+  // refunds
+  postRefundsReason(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/refund-for-payment`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
+  postPaymentGroupWithRetroRemissions(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/fees/${req.params.feeId}/retro-remission`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+
+  postRefundRetroRemission(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/refund-retro-remission`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+  getIdempotencyKey() {
+    return UUID();
   }
 }
 
