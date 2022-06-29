@@ -47,12 +47,19 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  confirmprocessRemission() {
+  confirmProcessRemission() {
     I.click('Confirm');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  noRemissionCodeOrAmount() {
+  verifyAddRemissionPageText() {
+    I.see('Add remission');
+    I.see('Add remission to FEE0002: Filing an application for a divorce, nullity or civil partnership dissolution');
+    I.see('Enter remission for reference. For example: HWF-A1B-23C OR PA21-123456');
+    I.see('How much does the applicant need to pay?');
+  },
+
+  verifyNoRemissionCodeOrAmountErrorMessages() {
     I.click('Submit');
     I.see('Enter a remission code');
     I.see('Enter a amount');

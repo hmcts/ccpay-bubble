@@ -19,6 +19,29 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
+  verifyPaymentHistoryPage(paymentAmount, paymentReference) {
+    I.see('Payments');
+    I.see('Status');
+    I.see('Amount');
+    I.see('Date');
+    I.see('Payment reference');
+    I.see('Success');
+    I.see(paymentAmount);
+    I.see(paymentReference);
+    I.see('Review');
+
+    I.see('Refunds');
+    I.see('Status');
+    I.see('Amount');
+    I.see('Date');
+    I.see('Refund reference');
+    I.see('Reason');
+    I.see('No refunds recorded');
+
+    I.click('//a[.=\'Review\']');
+  },
+
+
   validatePaymentHistoryPage() {
     I.dontSee('Total payments');
     I.see('Unprocessed payments');
