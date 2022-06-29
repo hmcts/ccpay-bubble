@@ -15,6 +15,17 @@ def secrets = [
       secret('launch-darkly-client-id', 'LD_CLIENT_ID'),
       secret('citizen-oauth-client-secret', 'OAUTH2_CLIENT_SECRET'),
       secret('cmc-service-secret', 'CMC_S2S_SERVICE_SECRET'),
+      secret('probate-caseworker-username', 'PROBATE_CASE_WORKER_USER_NAME'),
+      secret('probate-caseworker-password', 'PROBATE_CASE_WORKER_PASSWORD'),
+      secret('divorce-caseworker-username', 'DIVORCE_CASE_WORKER_USER_NAME'),
+      secret('divorce-caseworker-password', 'DIVORCE_CASE_WORKER_PASSWORD'),
+      secret('refunds-requestor-caseworker-username', 'REFUNDS_REQUESTOR_USER_NAME'),
+      secret('refunds-requestor-caseworker-password', 'REFUNDS_REQUESTOR_PASSWORD'),
+      secret('refunds-approver-caseworker-username', 'REFUNDS_APPROVER_USER_NAME'),
+      secret('refunds-approver-caseworker-password', 'REFUNDS_APPROVER_PASSWORD'),
+      secret('fee-pay-divorce-client-id', 'DIVORCE_CLIENT_ID'),
+      secret('fee-pay-divorce-client-secret', 'DIVORCE_CLIENT_SECRET'),
+      secret('fee-pay-divorce-client-redirect-url', 'DIVORCE_CLIENT_REDIRECT_URI'),
       secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
   ]
 ]

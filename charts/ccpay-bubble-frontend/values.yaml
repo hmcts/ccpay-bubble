@@ -12,6 +12,7 @@ nodejs:
         - paybubble-s2s-secret
         - paybubble-idam-client-secret
         - launch-darkly-client-id
+        - postcode-address-lookup-id
         - AppInsightsInstrumentationKey
   environment:
     REFORM_TEAM: ccpay
@@ -27,6 +28,8 @@ nodejs:
     IDAM_API_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
     IDAM_AUTHENTICATION_WEB_URL: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net/login
     LD_FLAG_PREFIX: FE{{ .Values.global.environment }}
+    POSTCODE_LOOKUP_URL: https://api.os.uk/search/places/v1
+    CURRENT_ENVIRONMENT: https://paymentoutcome-web.{{ .Values.global.environment }}.platform.hmcts.net
     FEE_REGISTRATION_URL: http://fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/fees-register/fees
     FEE_JURISDICTION_URL: http://fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/jurisdictions
     CCD_URL: http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
