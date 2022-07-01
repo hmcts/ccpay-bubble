@@ -39,13 +39,13 @@ Scenario('Search for a case with actual case number from CCD', async I => {
   I.see('Reports');
   await I.searchForCorrectCCDNumber();
   I.Logout();
-}).tag('@nightly @pipeline @crossbrowser');
+}).tag('@nightly @pipeline');
 
 Scenario('Search for a case with actual case for Telephony flow', async I => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   await I.caseforTelephonyFlow();
   I.Logout();
-}).tag('@nightly @pipeline @corssbrowser');
+}).tag('@nightly @pipeline');
 
 Scenario('Amount Due case for Telephony flow', async I => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
