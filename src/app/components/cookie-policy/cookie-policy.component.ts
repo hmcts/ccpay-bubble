@@ -63,9 +63,12 @@ export class CookiePolicyComponent implements OnInit {
         {name: 'rxVisitor', cat: this.DYNATRACE, purpose: 'Visitor ID to correlate sessions', expires: '1 year'},
         {name: 'rxvt', cat: this.DYNATRACE, purpose: 'Session timeout', expires: 'When session ends'},
 
-        {name: 'TSxxxxxxxx', cat: this.MORESERVICE, purpose: 'Protects your session from tampering', expires: 'When you close your browser'},
-        {name: '__state', cat: this.MORESERVICE, purpose: 'Identifies you to the service and secures your authentication', expires: 'When you close your browser'},
-        {name: 'X_CMC', cat: this.MORESERVICE, purpose: 'Helps us keep track of your session', expires: 'When you close your browser'},
+        {name: 'TSxxxxxxxx', cat: this.MORESERVICE,
+        purpose: 'Protects your session from tampering', expires: 'When you close your browser'},
+        {name: '__state', cat: this.MORESERVICE,
+        purpose: 'Identifies you to the service and secures your authentication', expires: 'When you close your browser'},
+        {name: 'X_CMC', cat: this.MORESERVICE,
+        purpose: 'Helps us keep track of your session', expires: 'When you close your browser'},
 
         {name: 'connect.sid', cat: this.FAMILY, purpose: 'Carries details of your current session', expires: 'When you close your browser'},
         {name: 'sessionKey', cat: this.FAMILY, purpose: 'rotects your session using encryption', expires: 'When you close your browser'},
