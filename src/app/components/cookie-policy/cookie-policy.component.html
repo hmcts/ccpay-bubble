@@ -293,36 +293,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="col">dtCookie</th>
-                            <td>Tracks a visit across multiple request</td>
-                            <td>When session ends</td>
-                        </tr>
-                        <tr>
-                            <th scope="col">dtLatC</th>
-                            <td>Measures server latency for performance monitoring</td>
-                            <td>When session ends</td>
-                        </tr>
-                        <tr>
-                            <th scope="col">dtPC</th>
-                            <td>Required to identify proper endpoints for beacon transmission; includes session ID for correlation</td>
-                            <td>When session ends</td>
-                        </tr>
-                        <tr>
-                            <th scope="col">dtSa</th>
-                            <td>Intermediate store for page-spanning actions</td>
-                            <td>When session ends</td>
-                        </tr>
-                        <tr>
-                            <th scope="col">rxVisitor</th>
-                            <td>Visitor ID to correlate sessions</td>
-                            <td>1 year</td>
-                        </tr>
-                        <tr>
-                            <th scope="col">rxvt</th>
-                            <td>Session timeout</td>
-                            <td>When session ends</td>
-                        </tr>
+                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(DYNATRACE)">
+                            <td class="govuk-table__cell">{{cookie.name}}</td>
+                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
+                            <td class="govuk-table__cell">{{cookie.expires}}</td>
+                          </tr>
                         </tbody>
                     </table>
                 </div>
@@ -393,11 +368,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="col">__auth-token</th>
-                            <td>Identifies you to the service</td>
-                            <td>When you close your browser</td>
-                        </tr>
+                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(AUTHTOKEN)">
+                            <td class="govuk-table__cell">{{cookie.name}}</td>
+                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
+                            <td class="govuk-table__cell">{{cookie.expires}}</td>
+                          </tr>
                         </tbody>
                     </table>
                     <h3 class="heading-medium">Cookies used to make the service more secure</h3>
@@ -452,11 +427,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="col">__auth-token</th>
-                            <td>Identifies you to the service</td>
-                            <td>When you close your browser</td>
-                        </tr>
+                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(AUTHTOKEN)">
+                            <td class="govuk-table__cell">{{cookie.name}}</td>
+                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
+                            <td class="govuk-table__cell">{{cookie.expires}}</td>
+                          </tr>
                         </tbody>
                     </table>
                     <h3 class="heading-medium">Cookies used to make the service more secure</h3>
@@ -573,11 +548,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="col">__auth-token</th>
-                            <td>Identifies you to the service</td>
-                            <td>When you close your browser</td>
-                        </tr>
+                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(AUTHTOKEN)">
+                            <td class="govuk-table__cell">{{cookie.name}}</td>
+                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
+                            <td class="govuk-table__cell">{{cookie.expires}}</td>
+                          </tr>
                         </tbody>
                     </table>
                     <h3 class="heading-medium">Cookies used to make the service more secure</h3>
