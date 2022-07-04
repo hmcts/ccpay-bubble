@@ -536,21 +536,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="col">state</th>
-                            <td>Identifies you to the service and secures your authentication</td>
-                            <td>When session ends</td>
-                        </tr>
-                        <tr>
-                            <th scope="col">ARRAfinnity</th>
-                            <td>Protects your session from tampering</td>
-                            <td>When session ends</td>
-                        </tr>
-                        <tr>
-                            <th scope="col">_csrf</th>
-                            <td>Helps protect against forgery</td>
-                            <td>When session ends</td>
-                        </tr>
+                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(SECURE)">
+                            <td class="govuk-table__cell">{{cookie.name}}</td>
+                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
+                            <td class="govuk-table__cell">{{cookie.expires}}</td>
+                          </tr>
                         </tbody>
                     </table>
                 </div>
@@ -567,16 +557,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="col">connect.sid</th>
-                            <td>Carries details of your current session</td>
-                            <td>When you close your browser</td>
-                        </tr>
-                        <tr>
-                            <th scope="col">sessionKey</th>
-                            <td>Protects your session using encryption</td>
-                            <td>When you close your browser</td>
-                        </tr>
+                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(FAMILY)">
+                            <td class="govuk-table__cell">{{cookie.name}}</td>
+                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
+                            <td class="govuk-table__cell">{{cookie.expires}}</td>
+                          </tr>
                         </tbody>
                     </table>
                     <h3 class="heading-medium">Cookies used to identify you when you come back to the service</h3>
@@ -604,21 +589,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="col">TSxxxxxxxx</th>
-                            <td>Protects your session from tampering</td>
-                            <td>When you close your browser</td>
-                        </tr>
-                        <tr>
-                            <th scope="col">__state</th>
-                            <td>Identifies you to the service and secures your authentication</td>
-                            <td>When you close your browser</td>
-                        </tr>
-                        <tr>
-                            <th scope="col">X_CMC</th>
-                            <td>Helps us keep track of your session</td>
-                            <td>When you close your browser</td>
-                        </tr>
+                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(MORESERVICE)">
+                            <td class="govuk-table__cell">{{cookie.name}}</td>
+                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
+                            <td class="govuk-table__cell">{{cookie.expires}}</td>
+                          </tr>
                         </tbody>
                     </table>
                 </div>
