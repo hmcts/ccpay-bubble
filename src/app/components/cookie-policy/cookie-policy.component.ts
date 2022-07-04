@@ -17,7 +17,8 @@ export class CookiePolicyComponent implements OnInit {
     public readonly SECURITY = 'Security';
     public readonly GOOGLE = 'Google';
     public readonly DYNATRACE = 'Dynatrace';
-    public readonly PARACONTENT = `Session cookies are stored on your computer as you travel through a website, and let the website know what you’ve seen and done so far.\n
+    public readonly PARACONTENT = `Session cookies are stored on your computer as you travel through a website,
+    and let the website know what you’ve seen and done so far.\n
     These are temporary cookies and are automatically deleted a short while after you leave the website.`;
     public readonly SECHEADING = `Cookies used to store the answers you’ve given during your visit (known as a ‘session’)`;
 
