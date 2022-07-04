@@ -17,7 +17,7 @@ export class CookiePolicyComponent implements OnInit {
     public readonly SECURITY = 'Security';
     public readonly GOOGLE = 'Google';
     public readonly DYNATRACE = 'Dynatrace';
-    isCookiePageEnabled: boolean = false;
+    isCookiePageEnabled = false;
 
     public cookieDetails =
       [
@@ -25,7 +25,10 @@ export class CookiePolicyComponent implements OnInit {
         {name: 'rxVisitor', cat: this.USAGE, purpose: 'Generated user ID for usage tracking (Dynatrace)', expires: '2 years'},
         {name: 'ai_user', cat: this.USAGE, purpose: 'Generated user ID for usage tracking (Application Insights)', expires: '6 months'},
         {name: '_oauth2_proxy', cat: this.SECURITY, purpose: 'Used to protect your login session', expires: '4 hours'},
-        {name: '_ga', cat: this.GOOGLE, purpose: 'This helps us count how many people visit the service by tracking if you’ve visited before', expires: '2 years'},
+        {name: '_ga',
+        cat: this.GOOGLE,
+        purpose: 'This helps us count how many people visit the service by tracking if you’ve visited before',
+        expires: '2 years'},
         {name: '_gat', cat: this.GOOGLE, purpose: 'Manages the rate at which page view requests are made', expires: '10 minutes'},
         {name: '_gid', cat: this.GOOGLE, purpose: 'Identifies you to the service', expires: '24 hours'},
         {name: '__userid__', cat: this.IDENTIFY, purpose: 'Your user ID', expires: 'When you close your browser'},
