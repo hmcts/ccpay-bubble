@@ -26,8 +26,7 @@ export class CookiePolicyComponent implements OnInit {
       'Cookie name',
       'What this cookie is for',
       'Expires after'
-    ]
-
+    ];
 
     public cookieDetails =
       [
