@@ -21,6 +21,7 @@ export class CookiePolicyComponent implements OnInit {
     public readonly MORESERVICE = 'Moreservice';
     public readonly FAMILY = 'Family';
     public readonly SECURE = 'Secure';
+    public readonly AUTHTOKEN = 'Authtoken'
 
 
     public readonly PARACONTENT = `Session cookies are stored on your computer as you travel through a website,
@@ -76,7 +77,10 @@ export class CookiePolicyComponent implements OnInit {
         {name: 'state', cat: this.SECURE,
         purpose: 'Identifies you to the service and secures your authentication', expires: 'When session ends'},
         {name: 'ARRAfinnity', cat: this.SECURE, purpose: 'Protects your session from tampering', expires: 'When session ends'},
-        {name: '_csrf', cat: this.SECURE, purpose: 'Helps protect against forgery', expires: 'When session ends'}
+        {name: '_csrf', cat: this.SECURE, purpose: 'Helps protect against forgery', expires: 'When session ends'},
+
+        {name: '__auth-token', cat: this.AUTHTOKEN, purpose: 'Identifies you to the service', expires: 'When you close your browser'}
+
 
       ];
 
