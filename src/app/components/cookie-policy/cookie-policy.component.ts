@@ -73,7 +73,8 @@ export class CookiePolicyComponent implements OnInit {
         {name: 'connect.sid', cat: this.FAMILY, purpose: 'Carries details of your current session', expires: 'When you close your browser'},
         {name: 'sessionKey', cat: this.FAMILY, purpose: 'rotects your session using encryption', expires: 'When you close your browser'},
 
-        {name: 'state', cat: this.SECURE, purpose: 'Identifies you to the service and secures your authentication', expires: 'When session ends'},
+        {name: 'state', cat: this.SECURE,
+        purpose: 'Identifies you to the service and secures your authentication', expires: 'When session ends'},
         {name: 'ARRAfinnity', cat: this.SECURE, purpose: 'Protects your session from tampering', expires: 'When session ends'},
         {name: '_csrf', cat: this.SECURE, purpose: 'Helps protect against forgery', expires: 'When session ends'}
 
