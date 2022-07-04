@@ -17,6 +17,12 @@ export class CookiePolicyComponent implements OnInit {
     public readonly SECURITY = 'Security';
     public readonly GOOGLE = 'Google';
     public readonly DYNATRACE = 'Dynatrace';
+
+    public readonly MORESERVICE = 'Moreservice';
+    public readonly FAMILY = 'Family';
+    public readonly SECURE = 'Secure';
+
+
     public readonly PARACONTENT = `Session cookies are stored on your computer as you travel through a website,
     and let the website know what you’ve seen and done so far.\n
     These are temporary cookies and are automatically deleted a short while after you leave the website.`;
@@ -55,7 +61,19 @@ export class CookiePolicyComponent implements OnInit {
         expires: 'When session ends'},
         {name: 'dtSa', cat: this.DYNATRACE, purpose: 'Intermediate store for page-spanning actions', expires: 'When session ends'},
         {name: 'rxVisitor', cat: this.DYNATRACE, purpose: 'Visitor ID to correlate sessions', expires: '1 year'},
-        {name: 'rxvt', cat: this.DYNATRACE, purpose: 'Session timeout', expires: 'When session ends'}
+        {name: 'rxvt', cat: this.DYNATRACE, purpose: 'Session timeout', expires: 'When session ends'},
+
+        {name: 'TSxxxxxxxx', cat: this.MORESERVICE, purpose: 'Protects your session from tampering', expires: 'When you close your browser'},
+        {name: '__state', cat: this.MORESERVICE, purpose: 'Identifies you to the service and secures your authentication', expires: 'When you close your browser'},
+        {name: 'X_CMC', cat: this.MORESERVICE, purpose: 'Helps us keep track of your session', expires: 'When you close your browser'},
+
+        {name: 'connect.sid', cat: this.FAMILY, purpose: 'Carries details of your current session', expires: 'When you close your browser'},
+        {name: 'sessionKey', cat: this.FAMILY, purpose: 'rotects your session using encryption', expires: 'When you close your browser'},
+
+        {name: 'state', cat: this.SECURE, purpose: 'Identifies you to the service and secures your authentication', expires: 'When session ends'},
+        {name: 'ARRAfinnity', cat: this.SECURE, purpose: 'Protects your session from tampering', expires: 'When session ends'},
+        {name: '_csrf', cat: this.SECURE, purpose: 'Helps protect against forgery', expires: 'When session ends'}
+
       ];
 
 
