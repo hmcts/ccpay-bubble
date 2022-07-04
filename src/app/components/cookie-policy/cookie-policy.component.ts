@@ -21,8 +21,9 @@ export class CookiePolicyComponent implements OnInit {
     public readonly MORESERVICE = 'Moreservice';
     public readonly FAMILY = 'Family';
     public readonly SECURE = 'Secure';
+    public readonly SECURE1 = 'Secure1';
     public readonly AUTHTOKEN = 'Authtoken';
-
+    public readonly MONEYCLAIM = 'Moneyclaim';
 
     public readonly PARACONTENT = `Session cookies are stored on your computer as you travel through a website,
     and let the website know what you’ve seen and done so far.\n
@@ -79,7 +80,17 @@ export class CookiePolicyComponent implements OnInit {
         {name: 'ARRAfinnity', cat: this.SECURE, purpose: 'Protects your session from tampering', expires: 'When session ends'},
         {name: '_csrf', cat: this.SECURE, purpose: 'Helps protect against forgery', expires: 'When session ends'},
 
-        {name: '__auth-token', cat: this.AUTHTOKEN, purpose: 'Identifies you to the service', expires: 'When you close your browser'}
+        {name: '__auth-token', cat: this.AUTHTOKEN, purpose: 'Identifies you to the service', expires: 'When you close your browser'},
+
+
+        {name: 'TS01842b02', cat: this.SECURE1,
+        purpose: 'Protects your session from tampering', expires: 'When you close your browser'},
+        {name: '__state', cat: this.SECURE1,
+        purpose: 'Identifies you to the service and secures your authentication', expires: 'When you close your browser'},
+        {name: '_csrf', cat: this.SECURE1, purpose: 'Helps protect against forgery', expires: 'When you close your browser'},
+
+        {name: 'session_ID', cat: this.MONEYCLAIM, purpose: 'Keeps track of your answers', expires: 'When session ends'},
+        {name: 'eligibility-check', cat: this.MONEYCLAIM, purpose: 'Stores answers to eligibility questions', expires: 'Ten minutes'}
 
 
       ];
