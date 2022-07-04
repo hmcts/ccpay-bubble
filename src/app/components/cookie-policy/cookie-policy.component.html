@@ -1,7 +1,7 @@
 
 
 <div class="govuk-width-container">
-  <main class="govuk-main-wrapper govuk-main-wrapper--l" id="content" role="main" *ngIf="!isCookiePageEnabled">
+  <main class="govuk-main-wrapper" id="content" role="main" *ngIf="!isCookiePageEnabled">
     <div class="govuk-grid-row">
       <a href="/"  class="link-back">Back</a>
       <div class="cookie-preference-success notification-banner--success">
@@ -187,7 +187,7 @@
         </ng-container>
       </div>
   </main>
-  <main class="govuk-main-wrapper govuk-main-wrapper--l" id="content" role="main" *ngIf="isCookiePageEnabled">    
+  <main id="content" role="main" *ngIf="isCookiePageEnabled">    
     <article class="content__body">
         <a href="Javascript:void(0);" (click)="hideCookiePage()" class="link-back">Back</a>
         <h1 class="heading-xlarge" id="skiplinktarget">
@@ -346,11 +346,8 @@
                 <div id="tabs-2" aria-labelledby="ui-id-5" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content">
                     <!--Appeal Benefit-->
                     <h2 class="heading-large">Appeal a benefit decision service</h2>
-                    <h3 class="heading-medium">Cookies used to store the answers you’ve given during your visit (known as a ‘session’)</h3>
-                    <p>
-                        Session cookies are stored on your computer as you travel through a website, and let the website know what you’ve seen and done so far.<br>
-                        These are temporary cookies and are automatically deleted a short while after you leave the website.
-                    </p>
+                    <h3 class="heading-medium">{{SECHEADING}}</h3>
+                    <p>{{PARACONTENT}}</p>
                     <table aria-label="cookie-details" class="govuk-table" >
                         <thead>
                         <tr>
@@ -382,11 +379,8 @@
                 <div id="tabs-3" aria-labelledby="ui-id-3" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true">
                     <!--Divorce-->
                     <h2 class="heading-large">Apply for divorce service</h2>
-                    <h3 class="heading-medium">Cookies used to store the answers you’ve given during your visit (known as a ‘session’)</h3>
-                    <p>
-                        Session cookies are stored on your computer as you travel through a website, and let the website know what you’ve seen and done so far.<br>
-                        These are temporary cookies and are automatically deleted a short while after you leave the website.
-                    </p>
+                    <h3 class="heading-medium">{{SECHEADING}}</h3>
+                    <p>{{PARACONTENT}}</p>
                     <table aria-label="cookie-details" class="govuk-table" >
                         <thead>
                         <tr>
@@ -456,11 +450,8 @@
                 <div id="tabs-4" aria-labelledby="ui-id-4" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true">
                     <!--Probate-->
                     <h2 class="heading-large">Apply for probate service</h2>
-                    <h3 class="heading-medium">Cookies used to store the answers you’ve given during your visit (known as a ‘session’)</h3>
-                    <p>
-                        Session cookies are stored on your computer as you travel through a website, and let the website know what you’ve seen and done so far.<br>
-                        These are temporary cookies and are automatically deleted a short while after you leave the website.
-                    </p>
+                    <h3 class="heading-medium">{{SECHEADING}}</h3>
+                    <p>{{PARACONTENT}}</p>
                     <table aria-label="cookie-details" class="govuk-table" >
                         <thead>
                         <tr>
@@ -529,11 +520,8 @@
                 <div id="tabs-5" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true">
                     <!-- Money Claims Service -->
                     <h2 class="heading-large">Money claims service</h2>
-                    <h3 class="heading-medium">Cookies used to store the answers you’ve given during your visit (known as a ‘session’)</h3>
-                    <p>
-                        Session cookies are stored on your computer as you travel through a website, and let the website know what you’ve seen and done so far.<br>
-                        These are temporary cookies and are automatically deleted a short while after you leave the website.
-                    </p>
+                    <h3 class="heading-medium">{{SECHEADING}}</h3>
+                    <p>{{PARACONTENT}}</p>
                     <table aria-label="cookie-details" class="govuk-table" >
                         <thead>
                         <tr>
@@ -606,11 +594,8 @@
                 <div id="tabs-6" aria-labelledby="ui-id-5" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content">
                     <!-- Family Public Law -->
                     <h2 class="heading-large">Family public law service</h2>
-                    <h3 class="heading-medium">Cookies used to store the answers you’ve given during your visit (known as a ‘session’)</h3>
-                    <p>
-                        Session cookies are stored on your computer as you travel through a website, and let the website know what you’ve seen and done so far.<br>
-                        These are temporary cookies and are automatically deleted a short while after you leave the website.
-                    </p>
+                    <h3 class="heading-medium">{{SECHEADING}}</h3>
+                    <p>{{PARACONTENT}}</p>
                     <table aria-label="cookie-details" class="govuk-table" >
                         <thead>
                         <tr>
