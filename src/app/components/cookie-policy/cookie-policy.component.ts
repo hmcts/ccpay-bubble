@@ -21,7 +21,7 @@ export class CookiePolicyComponent implements OnInit {
     public readonly MORESERVICE = 'Moreservice';
     public readonly FAMILY = 'Family';
     public readonly SECURE = 'Secure';
-    public readonly AUTHTOKEN = 'Authtoken'
+    public readonly AUTHTOKEN = 'Authtoken';
 
 
     public readonly PARACONTENT = `Session cookies are stored on your computer as you travel through a website,
