@@ -21,8 +21,12 @@ export class CookiePolicyComponent implements OnInit {
     and let the website know what you’ve seen and done so far.\n
     These are temporary cookies and are automatically deleted a short while after you leave the website.`;
     public readonly SECHEADING = `Cookies used to store the answers you’ve given during your visit (known as a ‘session’)`;
-
     isCookiePageEnabled = false;
+    labelArray = [
+      'Cookie name',
+      'What this cookie is for',
+      'Expires after'
+    ]
 
 
     public cookieDetails =
@@ -54,6 +58,7 @@ export class CookiePolicyComponent implements OnInit {
         {name: 'rxVisitor', cat: this.DYNATRACE, purpose: 'Visitor ID to correlate sessions', expires: '1 year'},
         {name: 'rxvt', cat: this.DYNATRACE, purpose: 'Session timeout', expires: 'When session ends'}
       ];
+
 
   ngOnInit(): void {
     cookieManager.on('PreferenceFormSubmitted', () => {
