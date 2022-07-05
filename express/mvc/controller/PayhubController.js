@@ -362,6 +362,20 @@ class PayhubController {
       });
   }
 
+  getPaymentFailure(req, res) {
+    return this.payhubService.getPaymentFailure(req)
+      .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json(error.message);
+        } else {
+          res.status(500).json(error);
+        }
+      });
+  }
+
   getApportionPaymentGroup(req, res) {
     return this.payhubService.getApportionPaymentGroup(req)
       .then(result => {
