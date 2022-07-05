@@ -80,11 +80,13 @@ export class CookieDetailsComponent {
         {name: 'connect.sid', cat: this.BENEFIT, purpose: 'Carries details of your current session', expires: 'When session ends'},
         {name: 'i18n', cat: this.BENEFIT, purpose: 'Identifies your preferred language', expires: 'When session ends'},
 
-        {name: 'connect.sid', cat: this.BENEFIT1, purpose: 'Carries details of your current session', expires: 'When you close your browser'},
+        {name: 'connect.sid', cat: this.BENEFIT1,
+        purpose: 'Carries details of your current session', expires: 'When you close your browser'},
         {name: 'session_ID', cat: this.BENEFIT1, purpose: 'Keeps track of your answers', expires: 'When you close your browser'},
 
         {name: 'TSxxxxxxxx', cat: this.BENEFIT2, purpose: 'Protects your session from tampering', expires: 'When you close your browser'},
-        {name: '__state', cat: this.BENEFIT2, purpose: 'Identifies you to the service and secures your authentication', expires: 'When you close your browser'}
+        {name: '__state', cat: this.BENEFIT2,
+        purpose: 'Identifies you to the service and secures your authentication', expires: 'When you close your browser'}
       ];
   public countCookies(category: string): number {
     return this.cookiesByCat(category).length;
