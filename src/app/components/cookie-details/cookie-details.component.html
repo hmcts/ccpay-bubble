@@ -126,21 +126,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="col">session</th>
-                            <td>Carries details of your current session</td>
-                            <td>When session ends</td>
-                        </tr>
-                        <tr>
-                            <th scope="col">connect.sid</th>
-                            <td>Carries details of your current session</td>
-                            <td>When session ends</td>
-                        </tr>
-                        <tr>
-                            <th scope="col">i18n</th>
-                            <td>Identifies your preferred language</td>
-                            <td>When session ends</td>
-                        </tr>
+                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(BENEFIT)">
+                            <td class="govuk-table__cell">{{cookie.name}}</td>
+                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
+                            <td class="govuk-table__cell">{{cookie.expires}}</td>
+                          </tr>
                         </tbody>
                     </table>
                 </div>
@@ -156,22 +146,16 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="col">connect.sid</th>
-                            <td>Carries details of your current session</td>
-                            <td>When you close your browser</td>
+                        <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(BENEFIT1)">
+                          <td class="govuk-table__cell">{{cookie.name}}</td>
+                          <td class="govuk-table__cell">{{cookie.purpose}}</td>
+                          <td class="govuk-table__cell">{{cookie.expires}}</td>
                         </tr>
-                        <tr>
-                            <th scope="col">session_ID</th>
-                            <td>Keeps track of your answers</td>
-                            <td>When you close your browser</td>
-                        </tr>
-
                         </tbody>
                     </table>
 
-                    <h3 class="heading-medium">Cookies used to identify you when you come back to the service</h3>
-                    <p>We use authentication cookies to identify you when you return to the service.</p>
+                    <h3 class="heading-medium">{{COOKIECONTENT}}</h3>
+                    <p>{{COOKIEPARA}}</p>
                     <table aria-label="cookie-details" class="govuk-table" >
                         <thead>
                           <tr>
@@ -195,15 +179,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="col">TSxxxxxxxx</th>
-                            <td>Protects your session from tampering</td>
-                            <td>When you close your browser</td>
-                        </tr>
-                        <tr>
-                            <th scope="col">__state</th>
-                            <td>Identifies you to the service and secures your authentication</td>
-                            <td>When you close your browser</td>
+                        <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(BENEFIT2)">
+                          <td class="govuk-table__cell">{{cookie.name}}</td>
+                          <td class="govuk-table__cell">{{cookie.purpose}}</td>
+                          <td class="govuk-table__cell">{{cookie.expires}}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -228,8 +207,8 @@
                         </tbody>
                     </table>
 
-                    <h3 class="heading-medium">Cookies used to identify you when you come back to the service</h3>
-                    <p>We use authentication cookies to identify you when you return to the service.</p>
+                    <h3 class="heading-medium">{{COOKIECONTENT}}</h3>
+                    <p>{{COOKIEPARA}}</p>
                     <table aria-label="cookie-details" class="govuk-table" >
                         <thead>
                           <tr>
@@ -280,8 +259,8 @@
                           </tr>
                         </tbody>
                     </table>
-                    <h3 class="heading-medium">Cookies used to identify you when you come back to the service</h3>
-                    <p>We use authentication cookies to identify you when you return to the service.</p>
+                    <h3 class="heading-medium">{{COOKIECONTENT}}</h3>
+                    <p>{{COOKIEPARA}}</p>
                     <table aria-label="cookie-details" class="govuk-table" >
                         <thead>
                           <tr>
@@ -332,8 +311,8 @@
                           </tr>
                         </tbody>
                     </table>
-                    <h3 class="heading-medium">Cookies used to identify you when you come back to the service</h3>
-                    <p>We use authentication cookies to identify you when you return to the service.</p>
+                    <h3 class="heading-medium">{{COOKIECONTENT}}</h3>
+                    <p>{{COOKIEPARA}}</p>
                     <table aria-label="cookie-details" class="govuk-table" >
                         <thead>
                           <tr>
