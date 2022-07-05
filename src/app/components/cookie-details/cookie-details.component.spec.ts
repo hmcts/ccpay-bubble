@@ -39,19 +39,19 @@ describe('CookieDetailsComponentTest', () => {
     expect(fixture).not.toBeNull();
   });
   it('should include 4 security cookies', () => {
-    expect(component.countCookies(component.SECURITY)).toBe(4);
+    expect(component.countCookies(component.MORESERVICE)).toBe(3);
   });
-  it ('should return the __userid__ cookie as an identity cookie', () => {
-    const cookieName = component.cookiesByCat(component.IDENTIFY)[0].name;
-    expect (cookieName).toBe('__userid__');
+  it ('should return the TSxxxxxxxx cookie as an identity cookie', () => {
+    const cookieName = component.cookiesByCat(component.MORESERVICE)[0].name;
+    expect (cookieName).toBe('TSxxxxxxxx');
   });
   it ('cookiesByCat should be consistent with countCookies', () => {
-    const cookies = component.cookiesByCat(component.SECURITY);
+    const cookies = component.cookiesByCat(component.MORESERVICE);
     let cc = 0;
     for (const ccc of cookies) {
-      expect(ccc.cat).toBe(component.SECURITY);
+      expect(ccc.cat).toBe(component.MORESERVICE);
       cc = cc + 1;
     }
-    expect (cc).toEqual(component.countCookies(component.SECURITY));
+    expect (cc).toEqual(component.countCookies(component.MORESERVICE));
   });
 });
