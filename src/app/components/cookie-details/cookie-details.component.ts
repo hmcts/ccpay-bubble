@@ -15,6 +15,7 @@ export class CookieDetailsComponent {
     public readonly SECURE1 = 'Secure1';
     public readonly AUTHTOKEN = 'Authtoken';
     public readonly MONEYCLAIM = 'Moneyclaim';
+    public readonly GOOGLE = 'Google';
 
     public readonly PARACONTENT = `Session cookies are stored on your computer as you travel through a website,
     and let the website know what you’ve seen and done so far.\n
@@ -29,6 +30,12 @@ export class CookieDetailsComponent {
 
     public cookieDetails =
       [
+        {name: '_ga',
+        cat: this.GOOGLE,
+        purpose: 'This helps us count how many people visit the service by tracking if you’ve visited before',
+        expires: '2 years'},
+        {name: '_gat', cat: this.GOOGLE, purpose: 'Manages the rate at which page view requests are made', expires: '10 minutes'},
+        {name: '_gid', cat: this.GOOGLE, purpose: 'Identifies you to the service', expires: '24 hours'},
         {name: 'TSxxxxxxxx', cat: this.MORESERVICE,
         purpose: 'Protects your session from tampering', expires: 'When you close your browser'},
         {name: '__state', cat: this.MORESERVICE,
