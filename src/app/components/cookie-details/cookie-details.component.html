@@ -117,59 +117,29 @@
 
                 <div id="tabs-2" aria-labelledby="ui-id-5" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content">
                     <h2 class="heading-large">Appeal a benefit decision service</h2>
-                    <h3 class="heading-medium">{{SECHEADING}}</h3>
-                    <p>{{PARACONTENT}}</p>
-                    <table aria-label="cookie-details" class="govuk-table" >
-                        <thead>
-                          <tr>
-                            <th scope="col" *ngFor="let label of labelArray"> {{label}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(BENEFIT)">
-                            <td class="govuk-table__cell">{{cookie.name}}</td>
-                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
-                            <td class="govuk-table__cell">{{cookie.expires}}</td>
-                          </tr>
-                        </tbody>
-                    </table>
+                    <app-cookie-table
+                    [title]="SECHEADING"
+                    [labelArray]="labelArray"
+                    [content]="PARACONTENT"
+                    [cookieObject]="cookiesByCat(BENEFIT)"
+                    ></app-cookie-table>
                 </div>
 
                 <div id="tabs-3" aria-labelledby="ui-id-3" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true">
                     <h2 class="heading-large">Apply for divorce service</h2>
-                    <h3 class="heading-medium">{{SECHEADING}}</h3>
-                    <p>{{PARACONTENT}}</p>
-                    <table aria-label="cookie-details" class="govuk-table" >
-                        <thead>
-                          <tr>
-                            <th scope="col" *ngFor="let label of labelArray"> {{label}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(BENEFIT1)">
-                          <td class="govuk-table__cell">{{cookie.name}}</td>
-                          <td class="govuk-table__cell">{{cookie.purpose}}</td>
-                          <td class="govuk-table__cell">{{cookie.expires}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <app-cookie-table
+                    [title]="SECHEADING"
+                    [labelArray]="labelArray"
+                    [content]="PARACONTENT"
+                    [cookieObject]="cookiesByCat(BENEFIT1)"
+                    ></app-cookie-table>
+                    <app-cookie-table
+                    [title]="COOKIECONTENT"
+                    [labelArray]="labelArray"
+                    [content]="COOKIEPARA"
+                    [cookieObject]="cookiesByCat(AUTHTOKEN)"
+                    ></app-cookie-table>
 
-                    <h3 class="heading-medium">{{COOKIECONTENT}}</h3>
-                    <p>{{COOKIEPARA}}</p>
-                    <table aria-label="cookie-details" class="govuk-table" >
-                        <thead>
-                          <tr>
-                            <th scope="col" *ngFor="let label of labelArray"> {{label}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(AUTHTOKEN)">
-                            <td class="govuk-table__cell">{{cookie.name}}</td>
-                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
-                            <td class="govuk-table__cell">{{cookie.expires}}</td>
-                          </tr>
-                        </tbody>
-                    </table>
                     <h3 class="heading-medium">Cookies used to make the service more secure</h3>
                     <p>We set cookies which prevent attackers from modifying the contents of the other cookies we set. This makes the service more secure and protects your personal information.</p>
                     <table aria-label="cookie-details" class="govuk-table" >
@@ -206,23 +176,13 @@
                         </tr>
                         </tbody>
                     </table>
-
-                    <h3 class="heading-medium">{{COOKIECONTENT}}</h3>
-                    <p>{{COOKIEPARA}}</p>
-                    <table aria-label="cookie-details" class="govuk-table" >
-                        <thead>
-                          <tr>
-                            <th scope="col" *ngFor="let label of labelArray"> {{label}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(AUTHTOKEN)">
-                            <td class="govuk-table__cell">{{cookie.name}}</td>
-                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
-                            <td class="govuk-table__cell">{{cookie.expires}}</td>
-                          </tr>
-                        </tbody>
-                    </table>
+                    <app-cookie-table
+                    [title]="COOKIECONTENT"
+                    [labelArray]="labelArray"
+                    [content]="COOKIEPARA"
+                    [cookieObject]="cookiesByCat(AUTHTOKEN)"
+                    ></app-cookie-table>
+  
                     <h3 class="heading-medium">Cookies used to make the service more secure</h3>
                     <p>We set cookies which prevent attackers from modifying the contents of the other cookies we set. This makes the service more secure and protects your personal information.</p>
                     <table aria-label="cookie-details" class="govuk-table" >
@@ -243,22 +203,12 @@
 
                 <div id="tabs-5" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true">
                     <h2 class="heading-large">Money claims service</h2>
-                    <h3 class="heading-medium">{{SECHEADING}}</h3>
-                    <p>{{PARACONTENT}}</p>
-                    <table aria-label="cookie-details" class="govuk-table" >
-                        <thead>
-                          <tr>
-                            <th scope="col" *ngFor="let label of labelArray"> {{label}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(MONEYCLAIM)">
-                            <td class="govuk-table__cell">{{cookie.name}}</td>
-                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
-                            <td class="govuk-table__cell">{{cookie.expires}}</td>
-                          </tr>
-                        </tbody>
-                    </table>
+                    <app-cookie-table
+                    [title]="SECHEADING"
+                    [labelArray]="labelArray"
+                    [content]="PARACONTENT"
+                    [cookieObject]="cookiesByCat(MONEYCLAIM)"
+                    ></app-cookie-table>
                     <h3 class="heading-medium">{{COOKIECONTENT}}</h3>
                     <p>{{COOKIEPARA}}</p>
                     <table aria-label="cookie-details" class="govuk-table" >
@@ -295,38 +245,19 @@
 
                 <div id="tabs-6" aria-labelledby="ui-id-5" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content">
                     <h2 class="heading-large">Family public law service</h2>
-                    <h3 class="heading-medium">{{SECHEADING}}</h3>
-                    <p>{{PARACONTENT}}</p>
-                    <table aria-label="cookie-details" class="govuk-table" >
-                        <thead>
-                          <tr>
-                            <th scope="col" *ngFor="let label of labelArray"> {{label}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(FAMILY)">
-                            <td class="govuk-table__cell">{{cookie.name}}</td>
-                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
-                            <td class="govuk-table__cell">{{cookie.expires}}</td>
-                          </tr>
-                        </tbody>
-                    </table>
-                    <h3 class="heading-medium">{{COOKIECONTENT}}</h3>
-                    <p>{{COOKIEPARA}}</p>
-                    <table aria-label="cookie-details" class="govuk-table" >
-                        <thead>
-                          <tr>
-                            <th scope="col" *ngFor="let label of labelArray"> {{label}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(AUTHTOKEN)">
-                            <td class="govuk-table__cell">{{cookie.name}}</td>
-                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
-                            <td class="govuk-table__cell">{{cookie.expires}}</td>
-                          </tr>
-                        </tbody>
-                    </table>
+                    <app-cookie-table
+                    [title]="SECHEADING"
+                    [labelArray]="labelArray"
+                    [content]="PARACONTENT"
+                    [cookieObject]="cookiesByCat(FAMILY)"
+                    ></app-cookie-table>
+                    <app-cookie-table
+                    [title]="COOKIECONTENT"
+                    [labelArray]="labelArray"
+                    [content]="COOKIEPARA"
+                    [cookieObject]="cookiesByCat(AUTHTOKEN)"
+                    ></app-cookie-table>
+
                     <h3 class="heading-medium">Cookies used to make the service more secure</h3>
                     <p>We set cookies which prevent attackers from modifying the contents of the other cookies we set. This makes the service more secure and protects your personal information.</p>
                     <table aria-label="cookie-details" class="govuk-table" >
