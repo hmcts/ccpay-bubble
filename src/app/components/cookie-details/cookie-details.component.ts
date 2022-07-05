@@ -16,6 +16,7 @@ export class CookieDetailsComponent {
     public readonly AUTHTOKEN = 'Authtoken';
     public readonly MONEYCLAIM = 'Moneyclaim';
     public readonly GOOGLE = 'Google';
+    public readonly DYNATRACE = 'Dynatrace';
 
     public readonly PARACONTENT = `Session cookies are stored on your computer as you travel through a website,
     and let the website know what you’ve seen and done so far.\n
@@ -36,6 +37,15 @@ export class CookieDetailsComponent {
         expires: '2 years'},
         {name: '_gat', cat: this.GOOGLE, purpose: 'Manages the rate at which page view requests are made', expires: '10 minutes'},
         {name: '_gid', cat: this.GOOGLE, purpose: 'Identifies you to the service', expires: '24 hours'},
+        {name: 'dtCookie', cat: this.DYNATRACE, purpose: 'Tracks a visit across multiple request', expires: 'When session ends'},
+        {name: 'dtLatC', cat: this.DYNATRACE, purpose: 'Measures server latency for performance monitoring', expires: 'When session ends'},
+        {name: 'dtPC',
+        cat: this.DYNATRACE,
+        purpose: 'dtPC	Required to identify proper endpoints for beacon transmission; includes session ID for correlation',
+        expires: 'When session ends'},
+        {name: 'dtSa', cat: this.DYNATRACE, purpose: 'Intermediate store for page-spanning actions', expires: 'When session ends'},
+        {name: 'rxVisitor', cat: this.DYNATRACE, purpose: 'Visitor ID to correlate sessions', expires: '1 year'},
+        {name: 'rxvt', cat: this.DYNATRACE, purpose: 'Session timeout', expires: 'When session ends'},
         {name: 'TSxxxxxxxx', cat: this.MORESERVICE,
         purpose: 'Protects your session from tampering', expires: 'When you close your browser'},
         {name: '__state', cat: this.MORESERVICE,
