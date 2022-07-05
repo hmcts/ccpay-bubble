@@ -18,10 +18,19 @@ export class CookieDetailsComponent {
     public readonly GOOGLE = 'Google';
     public readonly DYNATRACE = 'Dynatrace';
 
+    public readonly BENEFIT = 'Benefit';
+
+    public readonly BENEFIT1 = 'Benefit1';
+    public readonly BENEFIT2 = 'Benefit2';
+    public readonly BENEFIT3 = 'Benefit3';
+
+
     public readonly PARACONTENT = `Session cookies are stored on your computer as you travel through a website,
     and let the website know what you’ve seen and done so far.\n
     These are temporary cookies and are automatically deleted a short while after you leave the website.`;
     public readonly SECHEADING = `Cookies used to store the answers you’ve given during your visit (known as a ‘session’)`;
+    public readonly COOKIECONTENT = 'Cookies used to identify you when you come back to the service';
+    public readonly COOKIEPARA = 'We use authentication cookies to identify you when you return to the service.';
     isCookiePageEnabled = false;
     labelArray = [
       'Cookie name',
@@ -65,7 +74,17 @@ export class CookieDetailsComponent {
         purpose: 'Identifies you to the service and secures your authentication', expires: 'When you close your browser'},
         {name: '_csrf', cat: this.SECURE1, purpose: 'Helps protect against forgery', expires: 'When you close your browser'},
         {name: 'session_ID', cat: this.MONEYCLAIM, purpose: 'Keeps track of your answers', expires: 'When session ends'},
-        {name: 'eligibility-check', cat: this.MONEYCLAIM, purpose: 'Stores answers to eligibility questions', expires: 'Ten minutes'}
+        {name: 'eligibility-check', cat: this.MONEYCLAIM, purpose: 'Stores answers to eligibility questions', expires: 'Ten minutes'},
+
+        {name: 'session', cat: this.BENEFIT, purpose: 'Carries details of your current session', expires: 'When session ends'},
+        {name: 'connect.sid', cat: this.BENEFIT, purpose: 'Carries details of your current session', expires: 'When session ends'},
+        {name: 'i18n', cat: this.BENEFIT, purpose: 'Identifies your preferred language', expires: 'When session ends'},
+
+        {name: 'connect.sid', cat: this.BENEFIT1, purpose: 'Carries details of your current session', expires: 'When you close your browser'},
+        {name: 'session_ID', cat: this.BENEFIT1, purpose: 'Keeps track of your answers', expires: 'When you close your browser'},
+
+        {name: 'TSxxxxxxxx', cat: this.BENEFIT2, purpose: 'Protects your session from tampering', expires: 'When you close your browser'},
+        {name: '__state', cat: this.BENEFIT2, purpose: 'Identifies you to the service and secures your authentication', expires: 'When you close your browser'}
       ];
   public countCookies(category: string): number {
     return this.cookiesByCat(category).length;
