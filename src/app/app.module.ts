@@ -37,6 +37,7 @@ import { CookieBannerComponent } from './components/cookie-banner/cookie-banner.
 import { CookiePolicyComponent } from './components/cookie-policy/cookie-policy.component';
 import { CookieDetailsComponent } from './components/cookie-details/cookie-details.component';
 import { windowProvider, windowToken } from '../window';
+import { CookieTableComponent } from './components/cookie-table/cookie-table.component';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -63,7 +64,8 @@ const nonProductionProviders = [{
     FeeDetailsComponent,
     CookieBannerComponent,
     CookiePolicyComponent,
-    CookieDetailsComponent
+    CookieDetailsComponent,
+    CookieTableComponent
   ],
   imports: [
     BrowserModule,
