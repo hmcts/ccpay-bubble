@@ -11,6 +11,7 @@ import { PaymentHistoryComponent } from '../components/payment-history/payment-h
 import { CcdSearchComponent } from '../components/ccd-search/ccd-search.component';
 import { MVPGuard } from '../route-guards/mvp-guard.service';
 import { CookiePolicyComponent } from '../components/cookie-policy/cookie-policy.component';
+import { CookieDetailsComponent } from '../components/cookie-details/cookie-details.component';
 
 const routes: Routes = [
   {
@@ -67,6 +68,10 @@ const routes: Routes = [
   {
     path: 'cookies',
     component: CookiePolicyComponent,
+  },
+  {
+    path: 'cookies-policy',
+    component: CookieDetailsComponent,
   }
 ];
 
