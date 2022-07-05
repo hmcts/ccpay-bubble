@@ -8,6 +8,6 @@ import { Component, Input } from '@angular/core';
 export class CookieTableComponent {
     @Input() title: string;
     @Input() content: string;
-    @Input() labelArray;
-    @Input() cookieObject;
+    @Input() labelArray: any;
+    @Input() cookieObject: any;
 }
