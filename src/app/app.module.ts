@@ -35,6 +35,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CookieBannerComponent } from './components/cookie-banner/cookie-banner.component';
 import { CookiePolicyComponent } from './components/cookie-policy/cookie-policy.component';
+import { CookieDetailsComponent } from './components/cookie-details/cookie-details.component';
 import { windowProvider, windowToken } from '../window';
 
 const nonProductionProviders = [{
@@ -61,7 +62,8 @@ const nonProductionProviders = [{
     CcdSearchComponent,
     FeeDetailsComponent,
     CookieBannerComponent,
-    CookiePolicyComponent
+    CookiePolicyComponent,
+    CookieDetailsComponent
   ],
   imports: [
     BrowserModule,
