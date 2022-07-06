@@ -6,7 +6,7 @@ import { CookieTableComponent } from './cookie-table.component';
 describe('CookieTableComponentTest', () => {
   @Component({
     selector: `app-host-dummy-component`,
-    template: `<app-cookie-details/>`
+    template: `<app-cookie-table/>`
   })
   class TestDummyHostComponent {
     public cookiePolicy: CookieTableComponent;
