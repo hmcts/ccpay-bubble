@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { CookieTableComponent } from '../cookie-table/cookie-table.component';
 @Component({
   selector: 'app-cookie-details',
   templateUrl: './cookie-details.component.html',
@@ -17,7 +17,6 @@ export class CookieDetailsComponent {
     public readonly MONEYCLAIM = 'Moneyclaim';
     public readonly GOOGLE = 'Google';
     public readonly DYNATRACE = 'Dynatrace';
-
     public readonly BENEFIT = 'Benefit';
 
     public readonly BENEFIT1 = 'Benefit1';

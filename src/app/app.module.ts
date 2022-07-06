@@ -66,7 +66,7 @@ const nonProductionProviders = [{
     CookiePolicyComponent,
     CookieDetailsComponent,
     CookieTableComponent
-  ],
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,

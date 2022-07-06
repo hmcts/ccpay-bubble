@@ -6,8 +6,8 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./cookie-table.component.scss']
 })
 export class CookieTableComponent {
-    @Input() title: string;
-    @Input() content: string;
-    @Input() labelArray: any;
-    @Input() cookieObject: any;
+  @Input() title: string;
+  @Input() content: string;
+  @Input() labelArray: any;
+  @Input() cookieObject: any;
 }
