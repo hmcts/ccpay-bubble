@@ -33,6 +33,7 @@ export class CcdSearchComponent implements OnInit {
   isOldPcipalOff: boolean;
   isNewPcipalOff: boolean;
   servicerequest: string;
+  isPaymentStatusEnabled: boolean;
 
   constructor(
     private paymentGroupService: PaymentGroupService,
@@ -59,6 +60,9 @@ export class CcdSearchComponent implements OnInit {
       this.isOldPcipalOff = status;
     });
     this.paymentGroupService.getLDFeature('FE-pcipal-antenna-feature').then((status) => {
+      this.isNewPcipalOff = status;
+    });
+    this.paymentGroupService.getLDFeature('payment-status').then((status) => {
       this.isNewPcipalOff = status;
     });
     this.fromValidation();
