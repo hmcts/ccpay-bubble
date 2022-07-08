@@ -63,7 +63,7 @@ export class CcdSearchComponent implements OnInit {
       this.isNewPcipalOff = status;
     });
     this.paymentGroupService.getLDFeature('payment-status').then((status) => {
-      this.isNewPcipalOff = status;
+      this.isPaymentStatusEnabled = !status;
     });
     this.fromValidation();
    }
@@ -97,6 +97,7 @@ export class CcdSearchComponent implements OnInit {
        bsEnableUrl += this.isTurnOff ? '&isTurnOff=Enable' : '&isTurnOff=Disable';
        bsEnableUrl += this.isOldPcipalOff ? '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
        bsEnableUrl += this.isNewPcipalOff ? '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
+       bsEnableUrl += this.isPaymentStatusEnabled ? '&isPaymentStatusEnabled=Enable' : '&isPaymentStatusEnabled=Disable';
 
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
         this.caseResponse = null;
