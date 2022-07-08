@@ -51,7 +51,7 @@ function storeRedirectCookie(req, res, continueUrl, state) {
       { secure: true, httpOnly: true });
   } else {
     res.cookie(constants.REDIRECT_COOKIE, JSON.stringify(cookieValue),
-      { httpOnly: true });
+      { secure: true, httpOnly: true });
   }
 }
 
@@ -112,7 +112,7 @@ function storeCookie(req, res, token) {
   if (req.protocol === 'https') { /* SECURE */
     res.cookie(constants.SECURITY_COOKIE, req.authToken, { secure: true, httpOnly: true });
   } else {
-    res.cookie(constants.SECURITY_COOKIE, req.authToken, { httpOnly: true });
+    res.cookie(constants.SECURITY_COOKIE, req.authToken, { secure: true, httpOnly: true });
   }
 }
 
