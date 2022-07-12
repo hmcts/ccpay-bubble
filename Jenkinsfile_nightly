@@ -4,7 +4,14 @@ properties([
   pipelineTriggers([cron('0 3 * * *')]),
 
   parameters([
-    string(name: 'URL_TO_TEST', defaultValue: 'https://paybubble.aat.platform.hmcts.net', description: 'The URL you want to run these tests against')
+    string(name: 'URL_TO_TEST', defaultValue: 'https://paybubble.aat.platform.hmcts.net', description: 'The URL you want to run these tests against'),
+    string(name: 'IDAM_ENV', defaultValue: 'aat', description: 'The envt you want to run these tests against'),
+    string(name: 'RUNNING_ENV', defaultValue: 'aat', description: 'The envt you want to run these tests against '),
+    string(name: 'PR_NUMBER', defaultValue: 'aat', description: 'The PR number if you want to run these tests against PR envt'),
+    booleanParam(name: 'skipMutationTests', defaultValue: false, description: 'Tick the checkbox for skip'),
+    booleanParam(name: 'skipFullFunctionalTests', defaultValue: false, description: 'Tick the checkbox for skip'),
+    booleanParam(name: 'skipCrossBrowserTests', defaultValue: false, description: 'Tick the checkbox for skip'),
+    booleanParam(name: 'skipFortifyTests', defaultValue: true, description: 'Tick the checkbox for skip'),
   ])
 ])
 
@@ -55,12 +62,40 @@ withNightlyPipeline("nodejs", product, component) {
 
   env.TEST_URL = params.URL_TO_TEST
   env.NIGHTLY_TEST= true
+  env.IDAM_ENV = params.IDAM_ENV
+  env.RUNNING_ENV = params.RUNNING_ENV
+  env.PR_NUMBER = params.PR_NUMBER
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  enableFortifyScan()
-  enableCrossBrowserTest()
-  enableFullFunctionalTest(180)
-  enableMutationTest(150)
+
+  if (!params.skipFortifyTests) {
+    enableFortifyScan()
+    after('fortify-scan') {
+      steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
+    }
+  }
+
+  if (!params.skipCrossBrowserTests) {
+    enableCrossBrowserTest()
+  }
+
+  if (!params.skipFullFunctionalTests) {
+    enableFullFunctionalTest(180)
+  }
+
+  if (!params.skipMutationTests) {
+    enableMutationTest(150)
+    after('mutationTest') {
+      steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/mutation-reports/**/*'
+      publishHTML target: [
+        reportDir            : "functional-output/mutation-reports/",
+        reportFiles          : "index.html",
+        reportName           : "PayBubble Mutation tests",
+        alwaysLinkToLastBuild: true
+      ]
+    }
+  }
+
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
@@ -71,17 +106,5 @@ withNightlyPipeline("nodejs", product, component) {
     yarnBuilder.yarn('test:a11y')
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
-   after('fortify-scan') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
-  }
 
-  after('mutationTest') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/mutation-reports/**/*'
-    publishHTML target: [
-      reportDir            : "functional-output/mutation-reports/",
-      reportFiles          : "index.html",
-      reportName           : "PayBubble Mutation tests",
-      alwaysLinkToLastBuild: true
-    ]
-  }
 }
