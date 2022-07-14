@@ -73,7 +73,7 @@
     "local-storage": "^2.0.0",
     "mocha-junit-reporter": "^2.0.0",
     "mochawesome": "^7.0.1",
-    "moment": "2.29.2",
+    "moment": "2.29.4",
     "moment-timezone": "^0.5.23",
     "ngx-cookie-service": "^2.1.0",
     "ngx-pagination": "^3.2.1",
@@ -192,6 +192,7 @@
     "axios": "^0.21.1",
     "ejs": "^3.1.7",
     "pug": "^3.0.1",
+    "moment":"^2.29.4",
     "nwmatcher": "^1.4.4",
     "**/**/**/path-parse": "^1.0.7",
     "ng-packagr": "^10.1.1",
@@ -208,7 +209,6 @@
     "socket.io": "^2.4.0",
     "postcss": "^7.0.36",
     "sockjs": "^0.3.20",
-    "moment": "^2.29.2",
     "async": "^2.6.4"
   }
 }
