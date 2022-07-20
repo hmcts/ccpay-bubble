@@ -1,6 +1,7 @@
-let Helper = codecept_helper;
+/* eslint-disable */
+const Helper = codecept_helper;
 const testConfig = require('../tests/config/CCPBConfig.js');
-const {runAccessibility} = require('./accessibility/runner');
+const { runAccessibility } = require('./accessibility/runner');
 
 class CustomHelper extends Helper {
 

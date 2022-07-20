@@ -1,4 +1,4 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable */
 const CONF = require('config');
 
 const waitForTimeout = parseInt(CONF.e2e.waitForTimeoutValue);
