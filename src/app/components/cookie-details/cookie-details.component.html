@@ -140,22 +140,12 @@
                     [cookieObject]="cookiesByCat(AUTHTOKEN)"
                     ></app-cookie-table>
 
-                    <h3 class="heading-medium">Cookies used to make the service more secure</h3>
-                    <p>We set cookies which prevent attackers from modifying the contents of the other cookies we set. This makes the service more secure and protects your personal information.</p>
-                    <table aria-label="cookie-details" class="govuk-table" >
-                        <thead>
-                          <tr>
-                            <th scope="col" *ngFor="let label of labelArray"> {{label}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(BENEFIT2)">
-                          <td class="govuk-table__cell">{{cookie.name}}</td>
-                          <td class="govuk-table__cell">{{cookie.purpose}}</td>
-                          <td class="govuk-table__cell">{{cookie.expires}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <app-cookie-table
+                    [title]="COMMONHEADING"
+                    [labelArray]="labelArray"
+                    [content]="COMMONPARA"
+                    [cookieObject]="cookiesByCat(BENEFIT2)"
+                    ></app-cookie-table>
                 </div>
 
                 <div id="tabs-4" aria-labelledby="ui-id-4" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true">
@@ -182,22 +172,13 @@
                     [content]="COOKIEPARA"
                     [cookieObject]="cookiesByCat(AUTHTOKEN)"
                     ></app-cookie-table>
-                    <h3 class="heading-medium">Cookies used to make the service more secure</h3>
-                    <p>We set cookies which prevent attackers from modifying the contents of the other cookies we set. This makes the service more secure and protects your personal information.</p>
-                    <table aria-label="cookie-details" class="govuk-table" >
-                        <thead>
-                          <tr>
-                            <th scope="col" *ngFor="let label of labelArray"> {{label}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(SECURE1)">
-                            <td class="govuk-table__cell">{{cookie.name}}</td>
-                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
-                            <td class="govuk-table__cell">{{cookie.expires}}</td>
-                          </tr>
-                        </tbody>
-                    </table>
+
+                    <app-cookie-table
+                    [title]="COMMONHEADING"
+                    [labelArray]="labelArray"
+                    [content]="COMMONPARA"
+                    [cookieObject]="cookiesByCat(SECURE1)"
+                    ></app-cookie-table>
                 </div>
 
                 <div id="tabs-5" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" aria-hidden="true">
@@ -225,22 +206,13 @@
                         </tr>
                         </tbody>
                     </table>
-                    <h3 class="heading-medium">Cookies used to make the service more secure</h3>
-                    <p>We set cookies which prevent attackers from modifying the contents of the other cookies we set. This makes the service more secure and protects your personal information.</p>
-                    <table aria-label="cookie-details" class="govuk-table" >
-                        <thead>
-                          <tr>
-                            <th scope="col" *ngFor="let label of labelArray"> {{label}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(SECURE)">
-                            <td class="govuk-table__cell">{{cookie.name}}</td>
-                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
-                            <td class="govuk-table__cell">{{cookie.expires}}</td>
-                          </tr>
-                        </tbody>
-                    </table>
+
+                    <app-cookie-table
+                    [title]="COMMONHEADING"
+                    [labelArray]="labelArray"
+                    [content]="COMMONPARA"
+                    [cookieObject]="cookiesByCat(SECURE)"
+                    ></app-cookie-table>
                 </div>
 
                 <div id="tabs-6" aria-labelledby="ui-id-5" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content">
@@ -258,22 +230,12 @@
                     [cookieObject]="cookiesByCat(AUTHTOKEN)"
                     ></app-cookie-table>
 
-                    <h3 class="heading-medium">Cookies used to make the service more secure</h3>
-                    <p>We set cookies which prevent attackers from modifying the contents of the other cookies we set. This makes the service more secure and protects your personal information.</p>
-                    <table aria-label="cookie-details" class="govuk-table" >
-                        <thead>
-                        <tr>
-                            <th scope="col" *ngFor="let label of labelArray"> {{label}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(MORESERVICE)">
-                            <td class="govuk-table__cell">{{cookie.name}}</td>
-                            <td class="govuk-table__cell">{{cookie.purpose}}</td>
-                            <td class="govuk-table__cell">{{cookie.expires}}</td>
-                          </tr>
-                        </tbody>
-                    </table>
+                    <app-cookie-table
+                    [title]="COMMONHEADING"
+                    [labelArray]="labelArray"
+                    [content]="COMMONPARA"
+                    [cookieObject]="cookiesByCat(MORESERVICE)"
+                    ></app-cookie-table>
                 </div>
             </div>
         </div>
