@@ -22,7 +22,9 @@ export class CookieDetailsComponent {
     public readonly BENEFIT1 = 'Benefit1';
     public readonly BENEFIT2 = 'Benefit2';
     public readonly BENEFIT3 = 'Benefit3';
-
+    public readonly COMMONHEADING = 'Cookies used to make the service more secure';
+    public readonly COMMONPARA = `We set cookies which prevent attackers from modifying 
+    the contents of the other cookies we set. This makes the service more secure and protects your personal information.`;
 
     public readonly PARACONTENT = `Session cookies are stored on your computer as you travel through a website,
     and let the website know what you’ve seen and done so far.\n
