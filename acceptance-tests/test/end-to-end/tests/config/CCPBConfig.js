@@ -18,5 +18,7 @@ module.exports = {
   TestCMCSecret: process.env.CMC_S2S_SERVICE_SECRET,
   TestRunningEnvironment: process.env.RUNNING_ENV || 'aat',
   TestIDAMEnvironment: process.env.IDAM_ENV || 'aat',
-  TestPrNumber: process.env.PR_NUMBER || 'aat'
+  TestPrNumber: process.env.PR_NUMBER || 'aat',
+  TestsForAccessibility: process.env.E2E_TESTS_FOR_ACCESSIBILITY === 'true',
+  TestOutputDir: process.env.E2E_OUTPUT_DIR || './functional-output'
 };

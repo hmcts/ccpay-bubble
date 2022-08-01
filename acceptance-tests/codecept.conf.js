@@ -1,4 +1,4 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable */
 const CONF = require('config');
 
 const waitForTimeout = parseInt(CONF.e2e.waitForTimeoutValue);
@@ -37,6 +37,12 @@ exports.config = {
         defaultViewport: null
       }
     },
+    PuppeteerHelper: {
+      "require": "./test/end-to-end/helpers/PuppeteerHelper.js"
+    },
+    AccessibilityReportingHelper: {
+      require: "./test/end-to-end/helpers/AccessibilityReportingHelper.js"
+    },
     Mochawesome: { uniqueScreenshotNames: 'true' }
   },
   plugins: {
@@ -62,9 +68,9 @@ exports.config = {
     reporterOptions: {
       mochaFile: 'functional-output/result.xml',
       reportDir: 'functional-output',
-      takePassedScreenshot: false,
-      clearOldScreenshots: true,
-      shortScrFileNames: false
+      reportFilename: 'ccpay-bubble-e2e-result',
+      inlineAssets: true,
+      reportTitle: 'PayBubble E2E tests result',
     }
   },
   bootstrap: false
