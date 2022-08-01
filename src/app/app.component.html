@@ -5,7 +5,7 @@ name="paybubble"
 <app-header [isBSFlagEnable] = "isBulkscanningEnable"></app-header>
 
 <div class="govuk-width-container">
-  <app-phase-banner></app-phase-banner>
+  <app-phase-banner *ngIf="isCookieBannerEnable"></app-phase-banner>
 
     <div class="govuk-grid-row">
       <router-outlet></router-outlet>
