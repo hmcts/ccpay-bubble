@@ -30,6 +30,7 @@ AfterSuite(async I => {
 
 Scenario('Search for a case with actual case number from CCD', async I => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  await I.runAccessibilityTest();
   I.see('Search for a case');
   I.see('What do you want to search for?');
   I.see('CCD case reference or exception record');
@@ -38,6 +39,7 @@ Scenario('Search for a case with actual case number from CCD', async I => {
   I.see('Payment history');
   I.see('Reports');
   await I.searchForCorrectCCDNumber();
+  await I.runAccessibilityTest();
   I.Logout();
 }).tag('@nightly @pipeline');
 
