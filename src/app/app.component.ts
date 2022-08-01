@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { filter } from 'rxjs/operators';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { PaymentGroupService } from './services/payment-group/payment-group.service';
 
 declare var gtag;
@@ -14,8 +14,7 @@ export class AppComponent implements OnInit {
  isBulkscanningEnable = true;
  constructor (
    private router: Router,
-   private activatedRoute: ActivatedRoute,
-   private paymentGroupService: PaymentGroupService
+   private paymentGroupService: PaymentGroupService,
    ) {
    const navEndEvents = router.events.pipe (
      filter(event => event instanceof NavigationEnd)
