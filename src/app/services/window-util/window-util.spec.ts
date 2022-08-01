@@ -14,6 +14,7 @@ describe('window util', () => {
 
   it('should not activate MVP page with window href without .internal', () => {
     windowUtil.setWindowHref('www.testwith.com');
+    
     expect(windowUtil.displayMVP()).toBeFalsy();
   });
 
