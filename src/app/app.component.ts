@@ -12,7 +12,6 @@ declare var gtag;
 export class AppComponent implements OnInit {
  title = 'ccpay-bubble';
  isBulkscanningEnable = true;
- isCookieBannerEnable = false;
  constructor (
    private router: Router,
    private paymentGroupService: PaymentGroupService,
