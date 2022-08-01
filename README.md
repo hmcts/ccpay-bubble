@@ -70,5 +70,3 @@ auth.provider.service.client.baseUrl=http://localhost:23443
 
    Run the following commands: `yarn start:angular-dev` and `yarn start:express:dev`
 
-
-
