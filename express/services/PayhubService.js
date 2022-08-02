@@ -201,7 +201,7 @@ class PayhubService {
   }
   getFailureReport(req) {
     return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/payment-failures/failure-report`,
+      uri: `${payhubUrl}/payment-failures/failure-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}`,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `Bearer ${token}`,
