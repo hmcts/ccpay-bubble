@@ -199,6 +199,17 @@ class PayhubService {
       json: true
     }));
   }
+  getFailureReport(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${payhubUrl}/payment-failures/failure-report`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
   getPaymentFailure(req) {
     return this.createAuthToken().then(token => request.get({
       uri: `${payhubUrl}/payment-failures/${req.params.id}`,
