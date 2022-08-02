@@ -200,6 +200,7 @@ class PayhubService {
     }));
   }
   getFailureReport(req) {
+    console.log(req, `${payhubUrl}/payment-failures/failure-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}`);
     return this.createAuthToken().then(token => request.get({
       uri: `${payhubUrl}/payment-failures/failure-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}`,
       headers: {
