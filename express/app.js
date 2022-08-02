@@ -135,7 +135,7 @@ module.exports = appInsights => express.Router()
     controllers.bulkScanController.getSelectedReport(req, res);
   })
   .get('/bulk-scan/payment-failures/failure-report', (req, res) => {
-    controllers.payhubController .getFailureReport(req, res);
+    controllers.payhubController.getFailureReport(req, res);
   })
   .get('/payment-history/report/data?*', (req, res) => {
     controllers.payhubController.getSelectedReport(req, res);
