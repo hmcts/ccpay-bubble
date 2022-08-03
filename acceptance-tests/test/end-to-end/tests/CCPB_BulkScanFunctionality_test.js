@@ -48,6 +48,7 @@ Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, Ca
   logger.info(`The value of the dcnNumber : ${dcnNumber}`);
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+  await I.runAccessibilityTest();
   // I.waitInUrl(`/payment-history/${ccdCaseNumber}?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Enable&isNewPcipalOff=Disable`, CCPBATConstants.nineSecondWaitTime);
   // I.waitForNavigation(0,"domcontentloaded");
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -58,9 +59,11 @@ Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, Ca
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', true);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', '£593.00', '£593.00');
+  await I.runAccessibilityTest();
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
+  await I.runAccessibilityTest();
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
   PaymentHistory.navigateToPaymentHistory();
@@ -69,6 +72,7 @@ Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, Ca
   PaymentHistory.verifyPaymentHistoryPage('£593.00', receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.validateCcdPaymentDetails(receiptReference, '£593.00', dcnNumber, 'success', 'Cash', 'FEE0002');
+  await I.runAccessibilityTest();
   I.Logout();
 }).tag('@pipeline @nightly');
 
@@ -130,10 +134,12 @@ Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTr
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£593.00', 'cash');
   CaseTransaction.allocateToTransferred();
   CaseTransferred.validateTransferredPage(dcnNumber, '593.00', 'Cash');
+  await I.runAccessibilityTest();
   CaseTransferred.validateAndConfirmTransferred('auto transferred reason', 'Basildon Combined Court - Crown (W802)');
   CaseTransferred.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Transferred');
+  await I.runAccessibilityTest();
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
   PaymentHistory.navigateToPaymentHistory();
@@ -209,11 +215,13 @@ Scenario('Normal ccd case cash payment transferred when no valid reason or site 
   CaseTransferred.confirmPayment();
   CaseTransferred.whenNoReasonAndSiteid();
   CaseTransferred.selectSiteId('Basildon Combined Court - Crown (W802)');
+  await I.runAccessibilityTest();
   CaseTransferred.inputTransferredReason('ab');
   CaseTransferred.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransferred.whenReasonLessThanLimit();
   CaseTransferred.cancelTransferredReason();
+  await I.runAccessibilityTest();
   I.Logout();
 }).tag('@nightly');
 
@@ -230,10 +238,12 @@ Scenario('Exception Case Cheque Payment Unidentified', async(I, CaseSearch, Case
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£593.00', 'cheque');
   CaseTransaction.allocateToUnidentified();
   CaseUnidentified.validateUnidentifiedPage(dcnNumber, '593.00', 'Cheque');
+  await I.runAccessibilityTest();
   CaseUnidentified.validateAndConfirmUnidentified('auto unidentified reason');
   CaseUnidentified.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Exception reference', 'Unidentified');
+  await I.runAccessibilityTest();
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
   PaymentHistory.navigateToPaymentHistory();
@@ -262,6 +272,7 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
   CaseUnidentified.whenNoInvestigation();
   CaseUnidentified.inputUnidentifiedComment('ta');
   CaseUnidentified.continuePayment();
+  await I.runAccessibilityTest();
   CaseUnidentified.whenCommentLessThanLimit();
   CaseUnidentified.cancelUnidentifiedComment();
   I.Logout();
