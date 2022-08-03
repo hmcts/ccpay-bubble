@@ -63,4 +63,33 @@ withPipeline("nodejs", product, component) {
   //Sync demo,ithc and perftest with master branch
   syncBranchesWithMaster(branchesToSync)
 
+  after('functionalTest:preview') {
+
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result"
+    ]
+  }
+
+  before('functionalTest:aat') {
+    env.E2E_TESTS_FOR_ACCESSIBILITY = true
+  }
+
+  after('functionalTest:aat') {
+    env.E2E_TESTS_FOR_ACCESSIBILITY = false
+
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result"
+    ]
+  }
+
 }
