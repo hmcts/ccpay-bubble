@@ -54,6 +54,9 @@ export class CcdSearchComponent implements OnInit {
     this.paymentGroupService.getLDFeature('apportion-feature').then((status) => {
       this.isTurnOff = status;
     });
+    this.paymentGroupService.getLDFeature('payment-status-update-fe').then((status) => {
+      this.isTurnOff = status;
+    });
     this.fromValidation();
    }
 
