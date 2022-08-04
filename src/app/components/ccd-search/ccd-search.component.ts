@@ -87,7 +87,7 @@ export class CcdSearchComponent implements OnInit {
       let bsEnableUrl = this.isBulkscanningEnable ? '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
        bsEnableUrl += this.isStrategicFixEnable ? '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
        bsEnableUrl += this.isTurnOff ? '&isTurnOff=Enable' : '&isTurnOff=Disable';
-       bsEnableUrl += this.isPaymentStatusEnabled ? '&isPaymentStatusEnabled=Enable' : '&isPaymentStatusEnabled=Disable';s
+       bsEnableUrl += this.isPaymentStatusEnabled ? '&isPaymentStatusEnabled=Enable' : '&isPaymentStatusEnabled=Disable';
 
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
         this.caseResponse = null;
