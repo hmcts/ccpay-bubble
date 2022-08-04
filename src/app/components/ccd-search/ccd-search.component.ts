@@ -55,7 +55,7 @@ export class CcdSearchComponent implements OnInit {
       this.isTurnOff = status;
     });
     this.paymentGroupService.getLDFeature('payment-status-update-fe').then((status) => {
-      this.isPaymentStatusEnabled = status;
+      this.isPaymentStatusEnabled = !status;
     });
     this.fromValidation();
    }
