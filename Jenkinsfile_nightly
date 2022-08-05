@@ -69,7 +69,6 @@ withNightlyPipeline("nodejs", product, component) {
   after('build') {
     sh 'yarn ng:build'
     sh 'chmod +x bin/run-mutation-tests.sh'
-    yarnBuilder.yarn('test:a11y')
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
    after('fortify-scan') {
@@ -83,6 +82,24 @@ withNightlyPipeline("nodejs", product, component) {
       reportFiles          : "index.html",
       reportName           : "PayBubble Mutation tests",
       alwaysLinkToLastBuild: true
+    ]
+  }
+
+  before('fullFunctionalTest') {
+    env.E2E_TESTS_FOR_ACCESSIBILITY = true
+  }
+
+  after('fullFunctionalTest') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+    env.E2E_TESTS_FOR_ACCESSIBILITY = false
+
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result"
     ]
   }
 }
