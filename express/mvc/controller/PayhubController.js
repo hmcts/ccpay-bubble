@@ -362,6 +362,20 @@ class PayhubController {
       });
   }
 
+  getPaymentFailure(req, res) {
+    return this.payhubService.getPaymentFailure(req)
+      .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json(error.message);
+        } else {
+          res.status(500).json(error);
+        }
+      });
+  }
+
   getApportionPaymentGroup(req, res) {
     return this.payhubService.getApportionPaymentGroup(req)
       .then(result => {
@@ -441,7 +455,19 @@ class PayhubController {
         }
       });
   }
-
+  getFailureReport(req, res) {
+    return this.payhubService.getFailureReport(req)
+      .then(result => {
+        res.status(200).send(result);
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json(error.message);
+        } else {
+          res.status(500).json(error);
+        }
+      });
+  }
   // refunds
   postRefundsReason(req, res, appInsights) {
     return this.payhubService.postRefundsReason(req, res, appInsights)
