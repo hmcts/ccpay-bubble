@@ -27,6 +27,7 @@ export class PaymentHistoryComponent implements OnInit {
   isNewPcipalOff: boolean;
   servicerequest: string;
   refundlist: string;
+  isPaymentStatusEnabled: boolean;
   LOGGEDINUSEREMAIL: string;
   LOGGEDINUSERROLES: string[];
   userRoles = [
@@ -56,8 +57,6 @@ export class PaymentHistoryComponent implements OnInit {
             this.ccdCaseNumber = params['ccdCaseNumber'];
             this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
             this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
-            this.isOldPcipalOff = this.activatedRoute.snapshot.queryParams['isOldPcipalOff'] === 'Enable';
-            this.isNewPcipalOff = this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable';
             this.isTurnOff = this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable';
             this.excReference = this.activatedRoute.snapshot.queryParams['exceptionRecord'];
             this.view = this.activatedRoute.snapshot.queryParams['view'];
@@ -68,6 +67,7 @@ export class PaymentHistoryComponent implements OnInit {
             this.caseType = this.activatedRoute.snapshot.queryParams['caseType'];
             this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'];
             this.refundlist = this.activatedRoute.snapshot.queryParams['refundlist'];
+            this.isPaymentStatusEnabled = this.activatedRoute.snapshot.queryParams['isPaymentStatusEnabled'];
             this.LOGGEDINUSEREMAIL = '';
             this.LOGGEDINUSERROLES = roles;
           }
