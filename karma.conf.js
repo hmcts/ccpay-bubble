@@ -45,7 +45,7 @@ module.exports = config => {
     colors: true,
     logLevel: config.LOG_DEBUG,
     autoWatch: false,
-    browsers: [ 'ChromeDebug' ],
+    browsers: [ 'ChromeHeadless' ],
     singleRun: true,
     watch: false
   });
