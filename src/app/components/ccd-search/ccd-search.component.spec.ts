@@ -1022,32 +1022,6 @@ describe('CCD search component with takePayment is equal to true', () => {
 
   it('Should get RC details', async () => {
     spyOn(viewPaymentService, 'getPaymentDetail').and.returnValue(
-      of(mockResponse2)
-    );
-    spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
-    spyOn(paymentGroupService, 'getLDFeature').and.callFake(() => Promise.resolve(true));
-    spyOn(caseRefService, 'validateCaseRef').and.returnValue(
-      of(mockResponse5)
-    );
-    spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    component.ngOnInit();
-    component.takePayment = false;
-    component.isBulkscanningEnable = true;
-    component.isStrategicFixEnable = false;
-    component.onSelectionChange('RC');
-    expect(component.selectedValue).toBe('RC');
-    // spyOn(component.selectedValue, 'toLocaleLowerCase').and.returnValue('RC');
-    // component.searchForm.controls['searchInput'].setValue('RC-1599-1517-2787-5110');
-    // await component.searchFees();
-    // await fixture.whenStable();
-    // expect(component.selectedValue).toBe('RC');
-    // expect(component.dcnNumber).toBeNull();
-    // expect(component.ccdCaseNumber).toBe('1111222233334444');
-    // expect(component.noCaseFound).toBeFalsy();
-  });
-
-  it('Should get RC details', async () => {
-    spyOn(viewPaymentService, 'getPaymentDetail').and.returnValue(
       of(mockResponse3)
     );
     spyOn(paymentGroupService, 'getBSFeature').and.callFake(() => Promise.resolve(true));
