@@ -33,6 +33,12 @@ module.exports = config => {
         base: 'Chrome',
         flags: [ '--remote-debugging-port=9333', '--headless'],
         debug: true
+      },
+      HeadlessChrome:{
+        base: 'ChromeHeadless',
+        flags: [
+          '--no-sandbox'
+        ]
       }
     },
     coverageReporter: {
