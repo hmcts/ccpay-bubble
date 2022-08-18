@@ -36,9 +36,7 @@ module.exports = config => {
       },
       HeadlessChrome:{
         base: 'ChromeHeadless',
-        flags: [
-          '--no-sandbox'
-        ]
+        flags: [ '--no-sandbox' ]
       }
     },
     coverageReporter: {
