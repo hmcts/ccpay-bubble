@@ -114,6 +114,10 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.getApportionPaymentGroup(req, res);
   })
 
+  .get('/payment-history/payment-failures/:id', (req, res) => {
+    controllers.payhubController.getPaymentFailure(req, res);
+  })
+
   .delete('/payment-history/fees/:id', (req, res) => {
     controllers.payhubController.deleteFeesFromPaymentGroup(req, res, appInsights);
   })
@@ -140,6 +144,9 @@ module.exports = appInsights => express.Router()
   })
   .get('/bulk-scan/report/data?*', (req, res) => {
     controllers.bulkScanController.getSelectedReport(req, res);
+  })
+  .get('/bulk-scan/payment-failures/failure-report', (req, res) => {
+    controllers.payhubController.getFailureReport(req, res);
   })
   .get('/payment-history/report/data?*', (req, res) => {
     controllers.payhubController.getSelectedReport(req, res);

@@ -31,6 +31,7 @@ export class CcdSearchComponent implements OnInit {
   isTurnOff: boolean;
   caseResponse: any;
   servicerequest: string;
+  isPaymentStatusEnabled: boolean;
 
   constructor(
     private paymentGroupService: PaymentGroupService,
@@ -52,6 +53,9 @@ export class CcdSearchComponent implements OnInit {
     });
     this.paymentGroupService.getLDFeature('apportion-feature').then((status) => {
       this.isTurnOff = status;
+    });
+    this.paymentGroupService.getLDFeature('payment-status-update-fe').then((status) => {
+      this.isPaymentStatusEnabled = !status;
     });
     this.fromValidation();
    }
@@ -83,6 +87,7 @@ export class CcdSearchComponent implements OnInit {
       let bsEnableUrl = this.isBulkscanningEnable ? '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
        bsEnableUrl += this.isStrategicFixEnable ? '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
        bsEnableUrl += this.isTurnOff ? '&isTurnOff=Enable' : '&isTurnOff=Disable';
+       bsEnableUrl += this.isPaymentStatusEnabled ? '&isPaymentStatusEnabled=Enable' : '&isPaymentStatusEnabled=Disable';
 
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
         this.caseResponse = null;
