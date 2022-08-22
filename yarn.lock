@@ -618,11 +618,6 @@
     typed-inject "~2.2.1"
     typed-rest-client "~1.7.1"
 
-"@stryker-mutator/html-reporter@^3.0.1":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@stryker-mutator/html-reporter/-/html-reporter-3.1.0.tgz#b89692338037a0d168f9153457f5c71360c0c8c6"
-  integrity sha512-Lpn9YGt4NS9lLYhjBNZ1yZ9tCX9FWa66skR6Ieij3wMMtQvPlSswar6fmVqUiyPl/wmpTGSoptOcWDFEZ5qp8A==
-
 "@stryker-mutator/karma-runner@^3.0.1":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@stryker-mutator/karma-runner/-/karma-runner-3.3.1.tgz#b5b6024d9db252a3a197e242290c6ce4e9ce7ed7"
