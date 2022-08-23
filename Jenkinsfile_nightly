@@ -60,7 +60,7 @@ withNightlyPipeline("nodejs", product, component) {
   enableFortifyScan()
   enableCrossBrowserTest()
   enableFullFunctionalTest(180)
-  // enableMutationTest(150)
+  enableMutationTest(150)
   after('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
