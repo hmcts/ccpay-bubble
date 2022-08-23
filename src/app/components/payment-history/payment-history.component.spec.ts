@@ -11,8 +11,6 @@ import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.cl
 import { instance, mock } from 'ts-mockito';
 
 const roles: string[] = ['caseworker', 'payments'];
-const mockResponse = {"flag":true,"u":{"key":"FEaat@test.com"},"id":"5f227f4df775300ba82996da"};
-
 const routerMock = {
   navigateByUrl: jasmine.createSpy('navigateByUrl'),
   url: '/test?test=view'
