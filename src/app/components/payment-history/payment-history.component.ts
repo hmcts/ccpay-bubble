@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { IdamDetails } from '../../services/idam-details/idam-details';
 
 
@@ -42,11 +43,14 @@ export class PaymentHistoryComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private paymentGroupService: PaymentGroupService,
     private idamDetails: IdamDetails
   ) { }
 
   ngOnInit() {
-
+    this.paymentGroupService.getLDFeature('payment-status-update-fe').then((status) => {
+      this.isPaymentStatusEnabled = !status;
+    });
     this.idamDetails.getUserRoles().subscribe(roles => {
       this.activatedRoute.params.subscribe(
         {
@@ -67,7 +71,7 @@ export class PaymentHistoryComponent implements OnInit {
             this.caseType = this.activatedRoute.snapshot.queryParams['caseType'];
             this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'];
             this.refundlist = this.activatedRoute.snapshot.queryParams['refundlist'];
-            this.isPaymentStatusEnabled = this.activatedRoute.snapshot.queryParams['isPaymentStatusEnabled'];
+            this.isPaymentStatusEnabled = this.isPaymentStatusEnabled;
             this.LOGGEDINUSEREMAIL = '';
             this.LOGGEDINUSERROLES = roles;
           }
