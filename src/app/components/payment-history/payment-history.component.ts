@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { IdamDetails } from '../../services/idam-details/idam-details';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import * as ls from 'local-storage';
@@ -52,36 +53,34 @@ export class PaymentHistoryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.paymentGroupService.getEnvironment().then(env => {
-      this.cardPaymentReturnUrl = env;
-      this.idamDetails.getUserRoles().subscribe(roles => {
-        this.activatedRoute.params.subscribe(
-          {
-            next: (params) => {
-              this.apiRoot = 'api/payment-history';
-              this.bulkscanapiRoot = 'api/bulk-scan';
-              this.refundsapiRoot = 'api/refund';
-              this.notificationapiRoot = 'api/notification';
-              this.ccdCaseNumber = params['ccdCaseNumber'];
-              this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
-              this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
-              this.isTurnOff = this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable';
-              this.excReference = this.activatedRoute.snapshot.queryParams['exceptionRecord'];
-              this.view = this.activatedRoute.snapshot.queryParams['view'];
-              this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
-              this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
-              this.dcnNumber = this.activatedRoute.snapshot.queryParams['dcn'];
-              this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
-              this.caseType = this.activatedRoute.snapshot.queryParams['caseType'];
-              this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'];
-              this.refundlist = this.activatedRoute.snapshot.queryParams['refundlist'];
-              this.isPaymentStatusEnabled = this.activatedRoute.snapshot.queryParams['isPaymentStatusEnabled'];
-              this.LOGGEDINUSEREMAIL = '';
-              this.LOGGEDINUSERROLES = roles;
-            }
-          });
-      });
-      this.checkValidUser();
+    this.paymentGroupService.getLDFeature('payment-status-update-fe').then((status) => {
+      this.isPaymentStatusEnabled = !status;
+    });
+    this.idamDetails.getUserRoles().subscribe(roles => {
+      this.activatedRoute.params.subscribe(
+        {
+          next: (params) => {
+            this.apiRoot = 'api/payment-history';
+            this.bulkscanapiRoot = 'api/bulk-scan';
+            this.refundsapiRoot = 'api/refund';
+            this.ccdCaseNumber = params['ccdCaseNumber'];
+            this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
+            this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
+            this.isTurnOff = this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable';
+            this.excReference = this.activatedRoute.snapshot.queryParams['exceptionRecord'];
+            this.view = this.activatedRoute.snapshot.queryParams['view'];
+            this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
+            this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
+            this.dcnNumber = this.activatedRoute.snapshot.queryParams['dcn'];
+            this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
+            this.caseType = this.activatedRoute.snapshot.queryParams['caseType'];
+            this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'];
+            this.refundlist = this.activatedRoute.snapshot.queryParams['refundlist'];
+            this.LOGGEDINUSEREMAIL = '';
+            this.LOGGEDINUSERROLES = roles;
+          }
+        });
+
     });
   }
 

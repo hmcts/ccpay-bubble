@@ -1,17 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed } from '@angular/core/testing';
 import { PaymentHistoryComponent } from './payment-history.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject, of, BehaviorSubject } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { IdamDetails } from '../../services/idam-details/idam-details';
-import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
+import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
 import { instance, mock } from 'ts-mockito';
 
 const roles: string[] = ['caseworker', 'payments'];
-
 const routerMock = {
   navigateByUrl: jasmine.createSpy('navigateByUrl'),
   url: '/test?test=view'
@@ -25,7 +24,6 @@ describe('Payment History case transaction component', () => {
     fixture: ComponentFixture<PaymentHistoryComponent>,
     idamDetails: IdamDetails,
     paymentGroupService: PaymentGroupService;
-
   let activatedRoute: ActivatedRoute;
 
 
@@ -71,6 +69,8 @@ describe('Payment History case transaction component', () => {
   it('Component variable should get correct value based on parameter', () => {
     spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
+    spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
+
     component.ngOnInit();
     component.lsCcdNumber = '1111-2222-3333-4441';
     component.ccdCaseNumber = '1111-2222-3333-4444';
@@ -112,6 +112,10 @@ describe('Payment History component case-transations', () => {
       {
         provide: IdamDetails,
         useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+      },
+      {
+        provide: PaymentGroupService,
+        useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
       }],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -130,6 +134,7 @@ describe('Payment History component case-transations', () => {
   it('Component variable should get correct value based on parameter', () => {
     spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
+    spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
     component.ngOnInit();
 
     expect(component.cardPaymentReturnUrl).toBe(undefined);
@@ -165,7 +170,11 @@ describe('Payment History component fee-summary', () => {
       {
         provide: IdamDetails,
         useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
-      }, ],
+      },
+      {
+        provide: PaymentGroupService,
+        useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+      } ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -183,6 +192,7 @@ describe('Payment History component fee-summary', () => {
   it('make sure the ngOnInit assign variables from activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
+    spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -195,6 +205,7 @@ describe('Payment History component fee-summary', () => {
   it('check if queryparam is undefined or not activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
+    spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -210,7 +221,6 @@ describe('Payment History component Reports', () => {
     fixture: ComponentFixture<PaymentHistoryComponent>,
     idamDetails: IdamDetails,
     paymentGroupService: PaymentGroupService;
-  let activatedRoute: ActivatedRoute;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -231,13 +241,16 @@ describe('Payment History component Reports', () => {
       {
         provide: IdamDetails,
         useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
-      }, ],
+      },
+      {
+        provide: PaymentGroupService,
+        useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+      }],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(PaymentHistoryComponent);
     component = fixture.componentInstance;
-    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
     idamDetails = fixture.debugElement.injector.get(IdamDetails);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
   });
@@ -249,6 +262,8 @@ describe('Payment History component Reports', () => {
   it('make sure the ngOnInit assign variables from activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
+    spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
+
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -259,6 +274,8 @@ describe('Payment History component Reports', () => {
   it('check if queryparam is undefined or not activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
+    spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
+
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();

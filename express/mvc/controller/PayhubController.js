@@ -459,7 +459,7 @@ class PayhubController {
   getFailureReport(req, res) {
     return this.payhubService.getFailureReport(req)
       .then(result => {
-        res.status(200).send(result);
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode) {
