@@ -71,7 +71,6 @@ export class PaymentHistoryComponent implements OnInit {
             this.caseType = this.activatedRoute.snapshot.queryParams['caseType'];
             this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'];
             this.refundlist = this.activatedRoute.snapshot.queryParams['refundlist'];
-            this.isPaymentStatusEnabled = this.isPaymentStatusEnabled;
             this.LOGGEDINUSEREMAIL = '';
             this.LOGGEDINUSERROLES = roles;
           }
