@@ -66,7 +66,7 @@ describe('Payment History case transaction component', () => {
 
   it('Component variable should get correct value based on parameter', () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    spyOn(paymentGroupService, 'getLDFeature').and.callThrough();
+    spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
 
     component.ngOnInit();
 
@@ -125,7 +125,7 @@ describe('Payment History component case-transations', () => {
 
   it('Component variable should get correct value based on parameter', () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    spyOn(paymentGroupService, 'getLDFeature').and.callThrough();
+    spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
     component.ngOnInit();
 
     expect(component.apiRoot).toBe('api/payment-history');
@@ -179,7 +179,7 @@ describe('Payment History component fee-summary', () => {
 
   it('make sure the ngOnInit assign variables from activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    spyOn(paymentGroupService, 'getLDFeature').and.callThrough();
+    spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -191,7 +191,7 @@ describe('Payment History component fee-summary', () => {
 
   it('check if queryparam is undefined or not activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    spyOn(paymentGroupService, 'getLDFeature').and.callThrough();
+    spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -244,7 +244,7 @@ describe('Payment History component Reports', () => {
 
   it('make sure the ngOnInit assign variables from activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    spyOn(paymentGroupService, 'getLDFeature').and.callThrough();
+    spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
 
     component.ngOnInit();
     await fixture.whenStable();
@@ -255,7 +255,7 @@ describe('Payment History component Reports', () => {
 
   it('check if queryparam is undefined or not activatedRoute', async () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
-    spyOn(paymentGroupService, 'getLDFeature').and.callThrough();
+    spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
 
     component.ngOnInit();
     await fixture.whenStable();
