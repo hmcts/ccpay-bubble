@@ -1,11 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed } from '@angular/core/testing';
 import { PaymentHistoryComponent } from './payment-history.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject, of, BehaviorSubject } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { IdamDetails } from '../../services/idam-details/idam-details';
+import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
 import { instance, mock } from 'ts-mockito';
 
@@ -19,7 +20,8 @@ const routerMock = {
 describe('Payment History case transaction component', () => {
   let component: PaymentHistoryComponent,
     fixture: ComponentFixture<PaymentHistoryComponent>,
-    idamDetails: IdamDetails;
+    idamDetails: IdamDetails,
+    paymentGroupService: PaymentGroupService;
   let activatedRoute: ActivatedRoute;
 
 
@@ -43,6 +45,10 @@ describe('Payment History case transaction component', () => {
           provide: IdamDetails,
           useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
         },
+        {
+          provide: PaymentGroupService,
+          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -51,6 +57,8 @@ describe('Payment History case transaction component', () => {
     component = fixture.componentInstance;
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
     idamDetails = fixture.debugElement.injector.get(IdamDetails);
+    paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
+
   });
 
   it('Should create', () => {
