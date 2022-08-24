@@ -148,10 +148,10 @@ describe('Payment group service', () => {
 
   it('Should call get environment details', () => {
 
-    spyOn(http, 'get').and.callFake(() => new BehaviorSubject(''));
+    spyOn(http, 'get').and.callFake(() => new BehaviorSubject('FEprod'));
     paymentGroupService.getEnvironment()
       .then((response) => {
-        expect(response).toBe('');
+        expect(response).toBe('FEprod');
       });
   });
 
