@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { IdamDetails } from '../../services/idam-details/idam-details';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import * as ls from 'local-storage';
