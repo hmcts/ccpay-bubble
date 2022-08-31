@@ -174,7 +174,8 @@
     "xlsx": "^0.15.1"
   },
   "optionalDependencies": {
-    "fsevents": "*"
+    "fsevents": "*",
+    "node-sass": "4.14.1"
   },
   "resolutions": {
     "**/**/dot-prop": "^5.1.1",
