@@ -56,7 +56,7 @@ export class PaymentGroupService {
       return this.http.get(`api/bulk-scan/cases/${ccdCaseNumber}`)
       .toPromise()
       .then(response => {
-        return <IBSPayments>JSON.parse(JSON.stringify(response));
+        return <IBSPayments>JSON.parse(response);
       });
   }
 }
