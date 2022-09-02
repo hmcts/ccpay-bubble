@@ -209,6 +209,7 @@
     "socket.io": "^2.4.0",
     "postcss": "^7.0.36",
     "sockjs": "^0.3.20",
-    "async": "^2.6.4"
+    "async": "^2.6.4",
+    "moment-timezone": "^0.5.35"
   }
 }
