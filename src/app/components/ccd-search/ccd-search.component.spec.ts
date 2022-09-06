@@ -23,7 +23,7 @@ const roles: string[] = ['caseworker', 'payments'];
 
 const paybubbleHttpClientMock = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
 
-describe('CCD search component with takePayment is equal to true', () => {
+/*describe('CCD search component with takePayment is equal to true', () => {
   let component: CcdSearchComponent,
     fixture: ComponentFixture<CcdSearchComponent>,
     caseRefService: CaseRefService,
@@ -650,7 +650,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.ccdCaseNumber).toBe('');
     expect(component.noCaseFound).toBeFalsy();
   });
-});
+});*/
 
 
 describe('ccd search component without takePayment option', () => {
