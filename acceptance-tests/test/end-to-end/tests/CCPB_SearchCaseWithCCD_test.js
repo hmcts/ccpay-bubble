@@ -1,14 +1,14 @@
 const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 
-const bulkScanApiCalls = require('../helpers/utils');
+// const bulkScanApiCalls = require('../helpers/utils');
 
-const { Logger } = require('@hmcts/nodejs-logging');
+// const { Logger } = require('@hmcts/nodejs-logging');
 
-const logger = Logger.getLogger('CCPB_SearchCaseWithCCD_test.js');
+// const logger = Logger.getLogger('CCPB_SearchCaseWithCCD_test.js');
 
 const testConfig = require('./config/CCPBConfig');
 
-const successResponse = 202;
+// const successResponse = 202;
 
 Feature('CC Pay Bubble Acceptance Tests').retry(CCPBATConstants.defaultNumberOfRetries);
 
