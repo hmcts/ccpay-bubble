@@ -22,7 +22,7 @@ const routerMock = {
 const roles: string[] = ['caseworker', 'payments'];
 
 const paybubbleHttpClientMock = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
-/*
+
 describe('CCD search component with takePayment is equal to true', () => {
   let component: CcdSearchComponent,
     fixture: ComponentFixture<CcdSearchComponent>,
@@ -650,7 +650,7 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.ccdCaseNumber).toBe('');
     expect(component.noCaseFound).toBeFalsy();
   });
-});*/
+});
 
 
 describe('ccd search component without takePayment option', () => {
@@ -780,7 +780,7 @@ describe('ccd search component without takePayment option', () => {
   });
 });
 
-
+/*
 describe('CCD search component with takePayment is equal to true', () => {
   let component: CcdSearchComponent,
     fixture: ComponentFixture<CcdSearchComponent>,
@@ -1103,4 +1103,4 @@ describe('CCD search component with takePayment is equal to true', () => {
     expect(component.hasErrors).toBeFalsy();
     expect(component.dcnNumber).toBe(null);
   });
-});
+});*/
