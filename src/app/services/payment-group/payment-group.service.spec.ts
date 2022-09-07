@@ -6,6 +6,7 @@ import {of} from 'rxjs';
 import {PaymentModel} from 'src/app/models/PaymentModel';
 import {PaymentGroupService} from './payment-group.service';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
+import { IBSPayments } from '@hmcts/ccpay-web-component/lib/interfaces/IBSPayments';
 
 describe('Payment group service', () => {
   let paymentGroupService: PaymentGroupService;
