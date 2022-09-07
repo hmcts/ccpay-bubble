@@ -27,7 +27,7 @@ module.exports = config => {
       karmaCustomLogger
     ],
     // leave Jasmine Spec Runner output visible in browser
-    client: { clearContext: false, jasmine: { verboseDeprecations: true } },
+    client: { clearContext: false, jasmine: { verboseDeprecations: true, random: false } },
     customLaunchers: {
       ChromeDebug: {
         base: 'Chrome',
