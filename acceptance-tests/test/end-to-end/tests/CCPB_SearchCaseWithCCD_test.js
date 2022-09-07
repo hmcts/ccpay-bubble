@@ -68,13 +68,13 @@ Scenario('Remove fee from case transaction page Telephony flow', async I => {
   I.Logout();
 }).tag('@nightly @pipeline');
 
-Scenario('Search for a case with dummy case number @nightly', async I => {
-  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
-  const responseOn = await bulkScanApiCalls.toggleOnCaseValidation();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  if (responseOn === successResponse) {
-    logger.info('Enabled CCD validation');
-  }
-  await I.searchForCCDdummydata();
-  I.Logout();
-}).tag('@nightly @pipeline');
+// Scenario('Search for a case with dummy case number @nightly', async I => {
+//   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+//   const responseOn = await bulkScanApiCalls.toggleOnCaseValidation();
+//   I.wait(CCPBATConstants.fiveSecondWaitTime);
+//   if (responseOn === successResponse) {
+//     logger.info('Enabled CCD validation');
+//   }
+//   await I.searchForCCDdummydata();
+//   I.Logout();
+// }).tag('@nightly @pipeline');
