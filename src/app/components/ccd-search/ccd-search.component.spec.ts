@@ -197,6 +197,9 @@ describe('CCD search component with takePayment is equal to true', () => {
     viewPaymentService = fixture.debugElement.injector.get(ViewPaymentService);
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute);
   });
+  afterEach(() => {
+    fixture.destroy();
+  });
 
   it('Should create', () => {
     expect(component).toBeTruthy();
@@ -954,6 +957,9 @@ describe('CCD search component with takePayment is equal to true', () => {
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
     viewPaymentService = fixture.debugElement.injector.get(ViewPaymentService);
     idamDetails = fixture.debugElement.injector.get(IdamDetails);
+  });
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('Should create', () => {
