@@ -13,13 +13,14 @@ module.exports = {
     unallocated_payment_select_option: { xpath: '//ccpay-app-unprocessed-payments//tbody/tr[1]//input' },
     rc_reference: { xpath: '//*[contains(text() , "RC")]' },
     view_details_for_status_paid: { xpath: '//ccpay-case-transactions/div/main/div/div[2]/table/tbody/tr/td[5]/a' },
-    view_details_for_payments: { xpath: '//ccpay-case-transactions//a[text()="Review"]' },
+    view_details_for_payments: { xpath: '//ccpay-service-request/div[5]/table/tbody/tr/td[1]/a' },
     // Case Transactions Page (Payments Values...)
     total_payments_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[1]' },
     unallocated_payments_text: { xpath: '//td[@class="govuk-table__cell case-transaction__color summary-table-font"]' },
     total_remissions_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[3]' },
     amount_due_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[4]' }
   },
+
   checkEmptyRefundsSection() {
     I.see('Refunds');
     I.see('Status');
@@ -44,11 +45,9 @@ module.exports = {
   async checkPaymentsValues(checkPaymentValuesData) {
     const totalPaymentsValue = await I.grabTextFrom(this.locators.total_payments_text);
     // console.log(`The value of the Total Payments Text : ${totalPaymentsValue}`);
-    // console.log(`The value of the Total Payments Text  Input : ${checkPaymentValuesData.totalPayments}`);
     if (totalPaymentsValue !== `${checkPaymentValuesData.totalPayments}`) {
       throw new Error('The total payments value is not expected');
     }
-
     const unallocatedPaymentsValue = await I.grabTextFrom(this.locators.unallocated_payments_text);
     if (unallocatedPaymentsValue !== `${checkPaymentValuesData.unallocatedPayments}`) {
       throw new Error('The unallocated value is not expected');
@@ -58,7 +57,6 @@ module.exports = {
     if (totalRemissionsValue !== `${checkPaymentValuesData.totalRemissions}`) {
       throw new Error('The total remissions value is not expected');
     }
-
     const amountDueValue = await I.grabTextFrom(this.locators.amount_due_text);
     if (amountDueValue !== `${checkPaymentValuesData.amountDue}`) {
       throw new Error('The Amount Due value is not expected');
@@ -98,6 +96,7 @@ module.exports = {
     I.see('Reason');
     I.see(`${caseTransactions.refundReason}`);
   },
+
   // done
   checkBulkCase(caseNumber, caseTitle) {
     I.wait(CCPBConstants.nineSecondWaitTime);
@@ -211,6 +210,7 @@ module.exports = {
       I.see(`${statuses[i]}`);
     }
   },
+
   validateCaseTransactionPageForRefundsAfterApplyingRefund(ccdCaseNumber, caseTransactions) {
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
@@ -327,7 +327,7 @@ module.exports = {
 
   async  getReceiptReference() {
     I.click(this.locators.view_details_for_status_paid);
-    I.wait(CCPBConstants.thirtySecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.view_details_for_payments);
     I.wait(CCPBConstants.fiveSecondWaitTime);
     const receiptReference = await I.grabTextFrom(this.locators.rc_reference);

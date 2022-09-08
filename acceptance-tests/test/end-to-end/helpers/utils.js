@@ -108,16 +108,19 @@ async function getServiceTokenForSecret(service, serviceSecret) {
   logger.log(serviceToken);
   return serviceToken;
 }
+
 // eslint-disable-next-line no-unused-vars
 async function getServiceToken(_service) {
   logger.info('Getting Service Token');
 
   // const serviceSecret = process.env.CCD_SUBMIT_S2S_SECRET;
+
   const s2sBaseUrl = `http://rpe-service-auth-provider-${env}.service.core-compute-${env}.internal`;
   const s2sAuthPath = '/testing-support/lease';
 
   // eslint-disable-next-line no-unused-vars
   // const oneTimePassword = require('otp')({ secret: serviceSecret }).totp();
+
   const serviceToken = await request({
     method: 'POST',
     uri: s2sBaseUrl + s2sAuthPath,
@@ -471,6 +474,7 @@ async function createAFailedPBAPayment() {
   logger.debug(`The Payment Details Object : ${JSON.stringify(paymentDetails)}`);
   return paymentDetails;
 }
+
 // eslint-disable-next-line no-unused-vars
 async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, version, volume) {
   const baseURI = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
@@ -536,6 +540,7 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
   // console.log(`The Payment Details Object${JSON.stringify(paymentDetails)}`);
   return serviceRequestResponseDetails;
 }
+
 // eslint-disable-next-line no-unused-vars
 async function createAPBAPayment() {
   logger.debug('Creating bulk a PBA Payment...');
@@ -613,8 +618,9 @@ async function createAPBAPayment() {
   logger.debug(`The Payment Details Object${JSON.stringify(paymentDetails)}`);
   return paymentDetails;
 }
-// eslint-disable-next-line max-len
-async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber, bankedDate, dcnNumber, paymentMethod) {
+
+async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
+  bankedDate, dcnNumber, paymentMethod) {
   logger.info('Creating bulk Excela Case');
   const bulkApiUrl = `http://ccpay-bulkscanning-api-${env}.service.core-compute-${env}.internal`;
   const bulkendPoint = '/bulk-scan-payment';
