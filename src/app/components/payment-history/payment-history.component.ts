@@ -62,6 +62,7 @@ export class PaymentHistoryComponent implements OnInit {
             this.apiRoot = 'api/payment-history';
             this.bulkscanapiRoot = 'api/bulk-scan';
             this.refundsapiRoot = 'api/refund';
+            this.notificationapiRoot = 'api/notification';
             this.ccdCaseNumber = params['ccdCaseNumber'];
             this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
             this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
