@@ -781,7 +781,7 @@ describe('ccd search component without takePayment option', () => {
 });
 
 
-/*describe('CCD search component with takePayment is equal to true', () => {
+describe('CCD search component with takePayment is equal to true', () => {
   let component: CcdSearchComponent,
     fixture: ComponentFixture<CcdSearchComponent>,
     caseRefService: CaseRefService,
@@ -1103,4 +1103,4 @@ describe('ccd search component without takePayment option', () => {
     expect(component.hasErrors).toBeFalsy();
     expect(component.dcnNumber).toBe(null);
   });
-}); */
+});
