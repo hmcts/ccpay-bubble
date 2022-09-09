@@ -74,7 +74,7 @@
     "mocha-junit-reporter": "^2.0.0",
     "mochawesome": "^7.0.1",
     "moment": "2.29.4",
-    "moment-timezone": "^0.5.23",
+    "moment-timezone": "^0.5.35",
     "ngx-cookie-service": "^2.1.0",
     "ngx-pagination": "^3.2.1",
     "otp": "^0.1.3",
