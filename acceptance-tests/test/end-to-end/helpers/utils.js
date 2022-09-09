@@ -192,7 +192,7 @@ async function getCREATEEventForDivorce() {
   const serviceAuthorizationToken = await getServiceToken();
   logger.info(`The value of the service Token ${serviceAuthorizationToken}`);
   const createTokenCCDEventContextBaseUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
-  const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/DIVORCE/case-types/DIVORCE/event-triggers/hwfCreate/token`;
+  const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/DIVORCE/case-types/DIVORCE/event-triggers/createCase/token`;
 
   const createTokenResponse = await request({
     method: 'GET',
@@ -299,7 +299,7 @@ async function createACCDCaseForDivorce() {
   const createCCDDivorceCaseBody = {
     data: { LanguagePreferenceWelsh: 'No' },
     event: {
-      id: 'hwfCreate',
+      id: 'createCase',
       summary: 'TESTING',
       description: 'Testing'
     },
@@ -333,7 +333,7 @@ async function createACCDCaseForDivorce() {
       logger.debug(`${statusCode}The value of the status code`);
       logger.debug(`${response}The value of the response`);
     }).catch(error => {
-    logger.error(error);
+    console.error(error);
   });
   logger.debug(divorceCaseCreatedResponse);
 
