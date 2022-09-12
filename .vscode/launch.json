@@ -20,7 +20,7 @@
         "type": "node",
         "request": "launch",
         "name": "Launch Program",
-        "program": "${workspaceRoot}/Payment_Failure_BounceBack_test.js"
+        "program": "${workspaceFolder}/start.js"
       }
     ]
    }
