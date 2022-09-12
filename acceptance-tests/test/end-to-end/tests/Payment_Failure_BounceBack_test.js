@@ -61,17 +61,18 @@ async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, 
 
 
 
-  // Scenario.skip('Payment Failure for chargeback @pipeline @nightly',
-  // async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
-  //   // logger.log('Starting the PBA Payment');
-  //   // console.log('Starting the PBA Payment');
-  //   const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
-  //   const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
-  //   const paymentReference = `${paymentDetails.paymentReference}`;
-  //   console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
-  //   console.log('**** The value of the paymentReference - ' + paymentReference);
-  //   const paymentDetailsForChargeBack = await bulkScanApiCalls.getPaymentDetailsPBA(paymentDetailsForChargeBack);
-  //   console.log('**** payment ref - ' + paymentRef);
-  //   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
-  //   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-  // }).tag('@pipeline @nightly');
+  Scenario('Payment Failure for chargeback @pipeline @nightly',
+  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+    // logger.log('Starting the PBA Payment');
+    // console.log('Starting the PBA Payment');
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
+    const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
+    const paymentRef = `${paymentDetails.paymentReference}`;
+    console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
+    console.log('**** The value of the paymentReference - ' + paymentRef);
+    const requestBody = await bulkScanApiCalls.getPaymentDetailsPBA(ccdCaseNumber,paymentRef);
+    console.log('**** payment ref - ' + requestBody.failure_reference);
+    console.log('**** reason - ' + requestBody.reason);
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+  }).tag('@pipeline @nightly');
