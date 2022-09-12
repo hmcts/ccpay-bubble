@@ -558,12 +558,11 @@ async function createAPBAPayment() {
     idamToken, serviceToken, ccdCaseNumber);
   await rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
 
-  logger.debug(saveCaseResponse);
   const paymentDetails = {
     ccdCaseNumber: `${ccdCaseNumber}`,
     paymentReference: `${paymentReference}`
   };
-  logger.debug(`The Payment Details Object${JSON.stringify(paymentDetails)}`);
+  console.log(`The Payment Details Object${JSON.stringify(paymentDetails)}`);
   return paymentDetails;
 }
 
@@ -646,40 +645,40 @@ async function recordBouncebackFailure(serviceToken,ccdNumber, paymentRCRefernce
   return failureReference;
 }
 
-// async function recordChargeBackFailure(serviceToken,paymentDetails) {
+async function recordChargeBackFailure(serviceToken,ccdCaseNumber, paymentRef) {
   
-//   const failureReference = 'FR-367-CC14-' + numUtil.getRandomNumber(9,999999999);
-//   const saveBody = {
-//       'additional_reference': 'AR1234556',
-//       'amount': 10,
-//       'ccd_case_number': `${ccdNumber}`,
-//       'event_date_time': '2022-08-28T14:28:34.355Z',
-//       'has_amount_debited': 'Yes',
-//       'failure_reference': `${failureReference}`,
-//       'payment_reference': `${paymentRCRefernce}`,
-//       'reason': 'RR001'
-//     };
-//    console.log("*** the body for bounceback cheque failure is -" +  JSON.stringify(saveBody));
-//   logger.info('calling recordChargeBackFailure');
-//   const chargeBackUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
-//   const chargeBackEndPoint = `/payment-failures/chargeback`;
-//   console.log('*** bounceback cheque failure uri - ' + chargeBackUrl + chargeBackEndPoint);
-//   const chargeBackResponse = await request({
-//     method: 'POST',
-//     uri: `${chargeBackUrl}${chargeBackEndPoint}`,
-//     headers: {
-//       ServiceAuthorization: `Bearer ${serviceToken}`,
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(saveBody)
-//   }, (_error, response) => {
-//     statusCode = response.statusCode;
-//     logger.info(`The response Status Code for chargeBack : ${statusCode}`);
-//   }).catch(error => {
-//     logger.error(error);
-//   });
-//   return failureReference;
-// }
+  const failureReference = 'FR-367-CC14-' + numUtil.getRandomNumber(9,999999999);
+  const saveBody = {
+      'additional_reference': 'AR1234556',
+      'amount': 10,
+      'ccd_case_number': `${ccdCaseNumber}`,
+      'event_date_time': '2022-08-28T14:28:34.355Z',
+      'has_amount_debited': 'Yes',
+      'failure_reference': `${failureReference}`,
+      'payment_reference': `${paymentRef}`,
+      'reason': 'RR001'
+    };
+   console.log("*** the body for bounceback cheque failure is -" +  JSON.stringify(saveBody));
+  logger.info('calling recordChargeBackFailure');
+  const chargeBackUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
+  const chargeBackEndPoint = `/payment-failures/chargeback`;
+  console.log('*** bounceback cheque failure uri - ' + chargeBackUrl + chargeBackEndPoint);
+  const chargeBackResponse = await request({
+    method: 'POST',
+    uri: `${chargeBackUrl}${chargeBackEndPoint}`,
+    headers: {
+      ServiceAuthorization: `Bearer ${serviceToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(saveBody)
+  }, (_error, response) => {
+    statusCode = response.statusCode;
+    logger.info(`The response Status Code for chargeBack : ${statusCode}`);
+  }).catch(error => {
+    logger.error(error);
+  });
+  return saveBody;
+}
 
 async function patchFailureReference(serviceToken, failureReference) {
   const saveBody = {
@@ -707,31 +706,31 @@ async function patchFailureReference(serviceToken, failureReference) {
   });
 }
 
-// async function patchFailureReferenceStatusNo(serviceToken, failureReference) {
-//   const saveBody = {
-//     'representment_date': '2022-07-22T11:03:02.544Z',
-//     'representment_status': 'No'
-//   };
-//   console.log("*** the body patchFailureReference is -" +  JSON.stringify(saveBody));
-//   logger.info('calling patchFailureReference');
-//   const patchFailureRefUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
-//   const patchFailureRefEndPoint = `/payment-failures/${failureReference}`;
-//   console.log('*** patchFailureReference uri - ' + patchFailureRefUrl + patchFailureRefEndPoint);
-//   const patchFailureRefResponse = await request({
-//     method: 'PATCH',
-//     uri: `${patchFailureRefUrl}${patchFailureRefEndPoint}`,
-//     headers: {
-//       ServiceAuthorization: `Bearer ${serviceToken}`,
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(saveBody)
-//   }, (_error, response) => {
-//     statusCode = response.statusCode;
-//     logger.info(`The response Status Code for patchFailureReference : ${statusCode}`);
-//   }).catch(error => {
-//     logger.error(error);
-//   });
-// }
+async function patchFailureReferenceNo(serviceToken, failureReference) {
+  const saveBody = {
+    'representment_date': '2022-07-22T11:03:02.544Z',
+    'representment_status': 'No'
+  };
+  console.log("*** the body patchFailureReference is -" +  JSON.stringify(saveBody));
+  logger.info('calling patchFailureReference');
+  const patchFailureRefUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
+  const patchFailureRefEndPoint = `/payment-failures/${failureReference}`;
+  console.log('*** patchFailureReference uri - ' + patchFailureRefUrl + patchFailureRefEndPoint);
+  const patchFailureRefResponse = await request({
+    method: 'PATCH',
+    uri: `${patchFailureRefUrl}${patchFailureRefEndPoint}`,
+    headers: {
+      ServiceAuthorization: `Bearer ${serviceToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(saveBody)
+  }, (_error, response) => {
+    statusCode = response.statusCode;
+    logger.info(`The response Status Code for patchFailureReference : ${statusCode}`);
+  }).catch(error => {
+    logger.error(error);
+  });
+}
 
 
 async function recordBulkScanPayments(serviceToken,ccdCaseNumberFormatted, paymentGroupRef) {
@@ -965,13 +964,11 @@ async function getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber) {
   
 }
 
-async function getPaymentDetailsPBA(paymentDetails) {
+async function getPaymentDetailsPBA(ccdCaseNumber,paymentRef ) {
   const microservice = 'api_gw';
   const serviceToken = await getServiceToken(microservice);
   console.log ('****service token for getPaymentReferenceUsingCCDCaseNumber - ' +  serviceToken);
-  // const paymentGroupRef = await getPaymentGroupRef(serviceToken, ccdCaseNumber);
-  // const paymentRCRef = await recordBulkScanPayments(serviceToken,ccdCaseNumber, paymentGroupRef);
-  const failurereference = await recordChargebackFailure(serviceToken,ccdCaseNumber, paymentRCRef);
+  const failurereference = await recordChargeBackFailure(serviceToken,ccdCaseNumber, paymentRef);
   await patchFailureReferenceNo(serviceToken, failurereference);
   return failurereference;
 
