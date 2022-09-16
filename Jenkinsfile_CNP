@@ -73,6 +73,8 @@ withPipeline("nodejs", product, component) {
       reportFiles          : "ccpay-bubble-e2e-result.html",
       reportName           : "PayBubble E2E functional tests result"
     ]
+    sh 'yarn test:a11y'
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
 
   before('functionalTest:aat') {
