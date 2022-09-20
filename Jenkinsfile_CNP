@@ -63,12 +63,11 @@ withPipeline("nodejs", product, component) {
   //Sync demo,ithc and perftest with master branch
   syncBranchesWithMaster(branchesToSync)
 
-  after('functionalTest:preview') {
+  before('functionalTest:preview') {
     env.E2E_TESTS_FOR_ACCESSIBILITY = true
   }
 
   after('functionalTest:preview') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
     env.E2E_TESTS_FOR_ACCESSIBILITY = false
 
     publishHTML target: [
