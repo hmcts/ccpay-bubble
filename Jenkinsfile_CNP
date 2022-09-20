@@ -68,6 +68,7 @@ withPipeline("nodejs", product, component) {
   }
 
   after('functionalTest:preview') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
     env.E2E_TESTS_FOR_ACCESSIBILITY = false
 
     publishHTML target: [
