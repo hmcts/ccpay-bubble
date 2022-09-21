@@ -34,6 +34,9 @@ describe('PhaseBannerComponent', () => {
     component.myFunction();
     expect(document.getElementById).toHaveBeenCalled();
     expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue');
+    expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue2');
+    expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue3');
+    expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue4');
     expect(url).toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=test', '_blank');
 
   });
