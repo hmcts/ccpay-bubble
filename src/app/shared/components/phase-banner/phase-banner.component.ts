@@ -11,7 +11,7 @@ export class PhaseBannerComponent {
   @Input() type = 'beta';
 
   myFunction () {
-    const myInput = (document.getElementById('iFrameDrivenImageValue') as HTMLInputElement).value;
+    const myInput = (document.querySelector('iFrameDrivenImageValue') as HTMLInputElement).value;
 	if ((myInput != null) || (myInput.length !== 0)) {
 		window.open('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + myInput, '_blank');
 	}
