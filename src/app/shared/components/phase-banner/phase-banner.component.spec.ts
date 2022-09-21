@@ -33,7 +33,7 @@ describe('PhaseBannerComponent', () => {
     const url = spyOn( window, 'open' );
     component.myFunction();
     expect(document.getElementById).toHaveBeenCalled();
-    expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue');
+    expect(document.querySelector).toHaveBeenCalledWith('iFrameDrivenImageValue');
     expect(url).toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=test', '_blank');
 
   });
