@@ -32,7 +32,7 @@ export class PhaseBannerComponent {
     if ((myInput5 != null) || (myInput5.length !== 0)) {
       window.open('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + myInput, '_blank');
     }
-    if ((myInput5 != null) || (myInput5.length !== 0)) {
+    if ((myInput6 != null) || (myInput6.length !== 0)) {
       window.open('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + myInput, '_blank');
     }
   }
