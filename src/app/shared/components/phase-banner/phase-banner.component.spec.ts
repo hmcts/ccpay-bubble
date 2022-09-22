@@ -30,13 +30,13 @@ describe('PhaseBannerComponent', () => {
 
   it('Should open new window', () => {
     // spyOn(document, 'getElementById').and.returnValue(<any>{ value: 'test' });
-    spyOn(document, 'querySelector').and.returnValue(<any>{ value: 'test' });
+    spyOn(document, 'getElementsByClassName').and.returnValue(<any>{ value: 'test' });
     const url = spyOn( window, 'open' );
     component.myFunction();
     // expect(document.getElementById).toHaveBeenCalled();
     // expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue');
-    expect(document.querySelector).toHaveBeenCalled();
-    expect(document.querySelector).toHaveBeenCalledWith('iFrameDrivenImageValue');
+    expect(document.getElementsByClassName).toHaveBeenCalled();
+    expect(document.getElementsByClassName).toHaveBeenCalledWith('iFrameDrivenImageValue');
     expect(url).toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=test', '_blank');
   });
 });
