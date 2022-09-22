@@ -29,16 +29,14 @@ describe('PhaseBannerComponent', () => {
   });
 
   it('Should open new window', () => {
-    spyOn(document, 'getElementById').and.returnValue(<any>{ value: 'test' });
+    // spyOn(document, 'getElementById').and.returnValue(<any>{ value: 'test' });
+    spyOn(document, 'querySelector').and.returnValue(<any>{ value: 'test' });
     const url = spyOn( window, 'open' );
     component.myFunction();
-    expect(document.getElementById).toHaveBeenCalled();
-    expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue');
-    expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue2');
-    expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue3');
-    expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue4');
-    expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue5');
-    expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue6');
+    // expect(document.getElementById).toHaveBeenCalled();
+    // expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue');
+    expect(document.querySelector).toHaveBeenCalled();
+    expect(document.querySelector).toHaveBeenCalledWith('iFrameDrivenImageValue');
     expect(url).toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=test', '_blank');
   });
 });
