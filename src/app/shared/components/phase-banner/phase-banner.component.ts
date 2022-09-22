@@ -12,11 +12,8 @@ export class PhaseBannerComponent {
 
   myFunction () {
     // const myInput = (document.getElementById('iFrameDrivenImageValue') as HTMLInputElement).value;
-    const myInput = document.querySelectorAll('.iFrameDrivenImageValue');
-    for(let i=0; i<myInput.length; i++) {
-      if ((myInput[i] != null) || (myInput.length !== 0)) {
-        window.open('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + myInput[i], '_blank');
-      }
-    }
+    const myInput = Array.from(document.querySelectorAll('.iFrameDrivenImageValue')).forEach((value) => {
+      window.open('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + value, '_blank');
+    });
   }
 }
