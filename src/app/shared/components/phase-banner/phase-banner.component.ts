@@ -15,6 +15,8 @@ export class PhaseBannerComponent {
     const myInput2 = (document.getElementById('iFrameDrivenImageValue2') as HTMLInputElement).value;
     const myInput3 = (document.getElementById('iFrameDrivenImageValue3') as HTMLInputElement).value;
     const myInput4 = (document.getElementById('iFrameDrivenImageValue4') as HTMLInputElement).value;
+    const myInput5 = (document.getElementById('iFrameDrivenImageValue5') as HTMLInputElement).value;
+    const myInput6 = (document.getElementById('iFrameDrivenImageValue6') as HTMLInputElement).value;
     if ((myInput != null) || (myInput.length !== 0)) {
       window.open('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + myInput, '_blank');
     }
@@ -25,6 +27,12 @@ export class PhaseBannerComponent {
       window.open('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + myInput, '_blank');
     }
     if ((myInput4 != null) || (myInput4.length !== 0)) {
+      window.open('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + myInput, '_blank');
+    }
+    if ((myInput5 != null) || (myInput5.length !== 0)) {
+      window.open('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + myInput, '_blank');
+    }
+    if ((myInput5 != null) || (myInput5.length !== 0)) {
       window.open('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + myInput, '_blank');
     }
   }
