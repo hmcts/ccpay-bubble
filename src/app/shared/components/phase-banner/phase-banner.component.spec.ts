@@ -37,6 +37,8 @@ describe('PhaseBannerComponent', () => {
     expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue2');
     expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue3');
     expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue4');
+    expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue5');
+    expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue6');
     expect(url).toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=test', '_blank');
   });
 });
