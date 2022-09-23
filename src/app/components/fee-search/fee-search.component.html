@@ -10,7 +10,7 @@
 
 <legend *ngIf="!showFeeDetails">
   <h1 class="heading-xlarge">Search for a fee</h1>
-  <input type='hidden' class='iFrameDrivenImageValue-six' value='SEARCHFEES'>
+  <input #myInput type='hidden' class='iFrameDrivenImageValue' value='SEARCHFEES'>
 </legend>
 
 <pay-fee-register-search

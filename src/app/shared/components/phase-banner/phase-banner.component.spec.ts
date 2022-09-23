@@ -28,15 +28,15 @@ describe('PhaseBannerComponent', () => {
     expect(component.type).toBe('beta');
   });
 
-  // it('Should open new window', () => {
-  //   // spyOn(document, 'getElementById').and.returnValue(<any>{ value: 'test' });
-  //   spyOn(document, 'querySelectorAll').and.returnValue(<any>{ value: 'test' });
-  //   const url = spyOn( window, 'open' );
-  //   component.myFunction();
-  //   // expect(document.getElementById).toHaveBeenCalled();
-  //   // expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue');
-  //   expect(document.querySelectorAll).toHaveBeenCalled();
-  //   expect(document.querySelectorAll).toHaveBeenCalledWith('.iFrameDrivenImageValue');
-  //   // expect(url).toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=test', '_blank');
-  // });
+  it('Should open new window', () => {
+    // spyOn(document, 'getElementById').and.returnValue(<any>{ value: 'test' });
+    spyOn(document, 'getElementsByClassName').and.returnValue(<any>{ value: 'test' });
+    const url = spyOn( window, 'open' );
+    component.myFunction();
+    // expect(document.getElementById).toHaveBeenCalled();
+    // expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue');
+    expect(document.getElementsByClassName).toHaveBeenCalled();
+    expect(document.getElementsByClassName).toHaveBeenCalledWith('iFrameDrivenImageValue');
+    // expect(url).toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=test', '_blank');
+  });
 });
