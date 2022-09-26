@@ -45,7 +45,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -85,9 +84,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "./karma.conf.js",
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": [],
             "scripts": [],
             "assets": [
               "src/favicon.ico",
