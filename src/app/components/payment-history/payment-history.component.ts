@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { IdamDetails } from '../../services/idam-details/idam-details';
 
 
@@ -27,6 +28,7 @@ export class PaymentHistoryComponent implements OnInit {
   isNewPcipalOff: boolean;
   servicerequest: string;
   refundlist: string;
+  isPaymentStatusEnabled: boolean;
   LOGGEDINUSEREMAIL: string;
   LOGGEDINUSERROLES: string[];
   userRoles = [
@@ -41,11 +43,14 @@ export class PaymentHistoryComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private paymentGroupService: PaymentGroupService,
     private idamDetails: IdamDetails
   ) { }
 
   ngOnInit() {
-
+    this.paymentGroupService.getLDFeature('payment-status-update-fe').then((status) => {
+      this.isPaymentStatusEnabled = !status;
+    });
     this.idamDetails.getUserRoles().subscribe(roles => {
       this.activatedRoute.params.subscribe(
         {
@@ -56,8 +61,6 @@ export class PaymentHistoryComponent implements OnInit {
             this.ccdCaseNumber = params['ccdCaseNumber'];
             this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
             this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
-            this.isOldPcipalOff = this.activatedRoute.snapshot.queryParams['isOldPcipalOff'] === 'Enable';
-            this.isNewPcipalOff = this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable';
             this.isTurnOff = this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable';
             this.excReference = this.activatedRoute.snapshot.queryParams['exceptionRecord'];
             this.view = this.activatedRoute.snapshot.queryParams['view'];

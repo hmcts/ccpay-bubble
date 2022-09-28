@@ -130,6 +130,14 @@ module.exports = appInsights => express.Router()
   .get('/bulk-scan/report/data?*', (req, res) => {
     controllers.bulkScanController.getSelectedReport(req, res);
   })
+
+  .get('/payment-history/payment-failures/failure-report', (req, res) => {
+    controllers.payhubController.getFailureReport(req, res);
+  })
+
+  .get('/payment-history/payment-failures/:id', (req, res) => {
+    controllers.payhubController.getPaymentFailure(req, res);
+  })
   .get('/payment-history/report/data?*', (req, res) => {
     controllers.payhubController.getSelectedReport(req, res);
   })
@@ -159,13 +167,6 @@ module.exports = appInsights => express.Router()
   .get('/refund?*', (req, res) => {
     controllers.refundController.getRefundStatusList(req, res);
   })
-  // .get('/refund?status=${req.query.status}&excludeCurrentUser=${req.query.selfExclusive}', (req, res) => {
-  //   Logger.getLogger('sdfghj').info(req.roles);
-  //   controllers.refundController.getRefundList(req, res);
-  // })
-  // .get('/refund?status=*&excludeCurrentUser=*', (req, res) => {
-  //   controllers.refundController.getRefundList(req, res);
-  // })
 
   .post('/refund/refund', (req, res) => {
     controllers.refundController.postIssueRefund(req, res);
@@ -174,10 +175,6 @@ module.exports = appInsights => express.Router()
   .post('/refund/get-user-details', (req, res) => {
     controllers.refundController.getUserDetails(req, res);
   })
-  // .get('/refund/:reference/status-history', (req, res) => {
-  //   controllers.refundController.getRefundStatusHistory(req, res);
-  // })
-
   .post('/payment-history/refund-for-payment', (req, res) => {
     controllers.payhubController.postRefundsReason(req, res);
   })

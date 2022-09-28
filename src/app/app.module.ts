@@ -33,6 +33,11 @@ import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.s
 import { IdamDetails } from './services/idam-details/idam-details';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { CookieBannerComponent } from './components/cookie-banner/cookie-banner.component';
+import { CookiePolicyComponent } from './components/cookie-policy/cookie-policy.component';
+import { CookieDetailsComponent } from './components/cookie-details/cookie-details.component';
+import { windowProvider, windowToken } from '../window';
+import { CookieTableComponent } from './components/cookie-table/cookie-table.component';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -56,8 +61,12 @@ const nonProductionProviders = [{
     PaymentHistoryComponent,
     FeeSearchComponent,
     CcdSearchComponent,
-    FeeDetailsComponent
-  ],
+    FeeDetailsComponent,
+    CookieBannerComponent,
+    CookiePolicyComponent,
+    CookieDetailsComponent,
+    CookieTableComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -81,7 +90,8 @@ const nonProductionProviders = [{
     WindowUtil,
     !environment.production ? nonProductionProviders : [],
     PaymentGroupService,
-    ViewPaymentService
+    ViewPaymentService,
+    { provide: windowToken, useFactory: windowProvider }
   ],
   bootstrap: [AppComponent]
 })
