@@ -54,4 +54,13 @@ describe('PhaseBannerComponent', () => {
     expect(document.querySelector).toHaveBeenCalledWith('.iFrameDrivenImageValue');
     expect(url).not.toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=', '_blank');
   });
+
+  it('Should not open new window with a value not included in the array', () => {
+    spyOn(document, 'querySelector').and.returnValue(<any>{ value: 'TESTVALUE' });
+    const url = spyOn( window, 'open' );
+    component.myFunction();
+    expect(document.querySelector).toHaveBeenCalled();
+    expect(document.querySelector).toHaveBeenCalledWith('.iFrameDrivenImageValue');
+    expect(url).not.toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=', '_blank');
+  });
 });
