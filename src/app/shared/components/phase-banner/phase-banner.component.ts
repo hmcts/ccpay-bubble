@@ -12,9 +12,19 @@ export class PhaseBannerComponent {
 
   myFunction () {
     const myInput = (document.querySelector('.iFrameDrivenImageValue') as HTMLInputElement).value;
-    if ((myInput != null) && (myInput.length !== 0)) {
-      const strDest = 'https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + myInput;
-      window.open(strDest, '_blank');
+    const myArray = ['test', 'CCDSEARCH', 'FEEDETAILS', 'FEEVERSION', 'SEARCHFEES', 'ADDREMISSION', 'ADDREMISSIONCONFIRMATION',
+    'PROCESSADDRETROREMISSIONPAGE', 'PROCESSRETROREMISSIONPAGE', 'CHECKRETROREMISSIONCONFIRMATION', 'RETROREMISSIONCONFIRMATIONPAGE',
+    'RETROREMISSIONREFUNDCONFIRMATIONPAGE', 'ISSUEREFUNDPAGE', 'CHECKISSUEREFUNDPAGE', 'ADDREFUNDFORREMISSION', 'ALLOCATEPAYMENTS',
+    'ORDERIDDETAILS', 'FEEREMOVALCONFIRMATION_2', 'FEESUMMARY', 'FEEREMOVALCONFIRMATION_1', 'PCIPAL', 'MARKUNIDENTIFIED',
+    'UNIDENTIFIEDCONFIRMATION', 'CANCELUNIDENTIFIED', 'MARKTRANSFERRED', 'TRANSFERREDCONFIRMATION',
+    'CANCELTRANSFERRED', 'PAYMENTDETAILS', 'REPORTS', 'CASETRANSACTION'];
+    for (const valueOfMyInput of myArray) {
+      if (valueOfMyInput === myInput) {
+        if ((valueOfMyInput != null) && (valueOfMyInput.length !== 0)) {
+          const strDest = 'https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + valueOfMyInput;
+          window.open(strDest, '_blank');
+        }
+      }
     }
   }
 }
