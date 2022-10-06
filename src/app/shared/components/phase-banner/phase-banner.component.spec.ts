@@ -61,6 +61,6 @@ describe('PhaseBannerComponent', () => {
     component.myFunction();
     expect(document.querySelector).toHaveBeenCalled();
     expect(document.querySelector).toHaveBeenCalledWith('.iFrameDrivenImageValue');
-    expect(url).not.toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=', '_blank');
+    expect(url).not.toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=TESTVALUE', '_blank');
   });
 });
