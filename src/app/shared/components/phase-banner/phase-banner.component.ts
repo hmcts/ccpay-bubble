@@ -17,13 +17,12 @@ export class PhaseBannerComponent {
     'RETROREMISSIONREFUNDCONFIRMATIONPAGE', 'ISSUEREFUNDPAGE', 'CHECKISSUEREFUNDPAGE', 'ADDREFUNDFORREMISSION', 'ALLOCATEPAYMENTS',
     'ORDERIDDETAILS', 'FEEREMOVALCONFIRMATION_2', 'FEESUMMARY', 'FEEREMOVALCONFIRMATION_1', 'PCIPAL', 'MARKUNIDENTIFIED',
     'UNIDENTIFIEDCONFIRMATION', 'CANCELUNIDENTIFIED', 'MARKTRANSFERRED', 'TRANSFERREDCONFIRMATION',
-    'CANCELTRANSFERRED', 'PAYMENTDETAILS', 'REPORTS', 'CASETRANSACTION'];
+    'CANCELTRANSFERRED', 'PAYMENTDETAILS', 'REPORTS', 'CASETRANSACTION', 'CONFIRMALLOCATION_SURPLUS', 'CONFIRMALLOCATION_SHORTFALL',
+    'CONFIRMALLOCATION', ];
     for (const valueOfMyInput of myArray) {
       if (valueOfMyInput === myInput) {
-        if ((valueOfMyInput != null) && (valueOfMyInput.length !== 0)) {
-          const strDest = 'https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + valueOfMyInput;
-          window.open(strDest, '_blank');
-        }
+        const strDest = 'https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + valueOfMyInput;
+        window.open(strDest, '_blank');
       }
     }
   }
