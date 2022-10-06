@@ -13,7 +13,8 @@ export class PhaseBannerComponent {
   myFunction () {
     const myInput = (document.querySelector('.iFrameDrivenImageValue') as HTMLInputElement).value;
     if ((myInput != null) || (myInput.length !== 0)) {
-      window.open('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + myInput, '_blank');
+      let strDest = 'https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=' + myInput;
+      window.open(strDest, '_blank');
     }
   }
 }
