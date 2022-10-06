@@ -32,6 +32,8 @@ describe('PhaseBannerComponent', () => {
     spyOn(document, 'querySelector').and.returnValue(<any>{ value: 'test' });
     const url = spyOn( window, 'open' );
     component.myFunction();
+    expect(document.querySelector).toHaveBeenCalledWith('');
+    expect(document.querySelector).toHaveBeenCalledWith(null);
     expect(document.querySelector).toHaveBeenCalled();
     expect(document.querySelector).toHaveBeenCalledWith('.iFrameDrivenImageValue');
     expect(url).toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=test', '_blank');
