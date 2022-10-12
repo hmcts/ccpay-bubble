@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { Router, NavigationEnd } from '@angular/router';
 import { PaymentGroupService } from './services/payment-group/payment-group.service';
+import { DOCUMENT } from '@angular/common';
 
 declare var gtag;
 @Component({
@@ -15,6 +16,7 @@ export class AppComponent implements OnInit {
  constructor (
    private router: Router,
    private paymentGroupService: PaymentGroupService,
+   @Inject(DOCUMENT) private document: Document
    ) {
    const navEndEvents = router.events.pipe (
      filter(event => event instanceof NavigationEnd)
@@ -27,5 +29,7 @@ export class AppComponent implements OnInit {
     this.paymentGroupService.getBSFeature().then((status) => {
       this.isBulkscanningEnable = status;
     });
+
+    this.document.documentElement.lang = 'en';
   }
 }
