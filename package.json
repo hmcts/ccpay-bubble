@@ -47,7 +47,7 @@
   },
   "private": true,
   "dependencies": {
-    "@hmcts/ccpay-web-component": "5.0.8-beta10",
+    "@hmcts/ccpay-web-component": "5.0.8-beta11",
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/frontend": "^0.0.34-alpha",
     "@hmcts/nodejs-healthcheck": "^1.5.1",
@@ -197,7 +197,7 @@
     "set-value": "^4.0.1",
     "tar": "^6.1.9",
     "trim-newlines": "^3.0.1",
-    "glob-parent": "~5.1.2",
+    "glob-parent": "^5.1.2",
     "xlsx": "^0.17.0",
     "socket.io-parser": "^3.3.2",
     "xmlhttprequest-ssl": "^1.6.2",
