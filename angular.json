@@ -125,13 +125,13 @@
           "options": {
             "tsConfig": "projects/fee-register-search/tsconfig.lib.json",
             "project": "projects/fee-register-search/ng-package.json"
-          }
-        ,          "configurations": {
+          },
+          "configurations": {
             "production": {
               "tsConfig": "projects/fee-register-search/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -165,13 +165,13 @@
           "options": {
             "tsConfig": "projects/view-payment/tsconfig.lib.json",
             "project": "projects/view-payment/ng-package.json"
-          }
-        ,          "configurations": {
+          },
+          "configurations": {
             "production": {
               "tsConfig": "projects/view-payment/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -195,5 +195,8 @@
       }
     }
   },
-  "defaultProject": "ccpay-bubble"
+  "defaultProject": "ccpay-bubble",
+  "cli": {
+    "analytics": false
+  }
 }
