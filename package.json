@@ -47,7 +47,7 @@
   },
   "private": true,
   "dependencies": {
-    "@hmcts/ccpay-web-component": "5.0.8-beta10",
+    "@hmcts/ccpay-web-component": "5.0.8-beta11",
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/frontend": "^0.0.34-alpha",
     "@hmcts/nodejs-healthcheck": "^1.5.1",
@@ -118,7 +118,7 @@
     "@stryker-mutator/core": "^3.0.1",
     "@stryker-mutator/html-reporter": "^3.0.1",
     "@stryker-mutator/karma-runner": "^3.0.1",
-    "@stryker-mutator/typescript": "^3.0.1",
+    "@stryker-mutator/typescript": "^4.0.0",
     "@types/applicationinsights-js": "^1.0.9",
     "@types/file-saver": "^2.0.1",
     "@types/jasmine": "~3.3.8",
