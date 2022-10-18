@@ -49,7 +49,7 @@ export class PaymentGroupService {
 
       return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
           console.log('features ---------> ' + features);
-          const regFeature = features.find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
+          const regFeature = JSON.parse(JSON.stringify(features)).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
            return regFeature ? regFeature.enable : false;
          });
 
@@ -62,7 +62,7 @@ export class PaymentGroupService {
         if (typeof response === 'object') {
           return response;
         } else {
-          return <IBSPayments>JSON.parse(response);
+          return <IBSPayments>JSON.parse(JSON.stringify(response));
         }
       });
   }
