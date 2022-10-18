@@ -47,9 +47,16 @@ export class PaymentGroupService {
 
    getDiscontinuedFrFeature(): Promise<any> {
 
-      return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
+      return this.http.get('api/payment-history/bulk-scan-feature')
+      .toPromise()
+      .then(features => {
           console.log('features ---------> ' + features);
-          const regFeature = JSON.parse(JSON.stringify(features)).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
+          let regFeature = null;
+          if (typeof features === 'object') {
+            regFeature = features.find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
+          } else {
+            regFeature = JSON.parse(JSON.stringify(features)).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
+          }
            return regFeature ? regFeature.enable : false;
          });
 
