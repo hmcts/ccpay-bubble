@@ -47,7 +47,7 @@ export class PaymentGroupService {
 
    getDiscontinuedFrFeature(): Promise<any> {
 
-      return this.http.get('api/payment-history/bulk-scan-feature')
+       return this.http.get('api/payment-history/bulk-scan-feature')
       .toPromise()
       .then(features => {
           console.log('features ---------> ' + features);
