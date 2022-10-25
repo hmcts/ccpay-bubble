@@ -96,7 +96,11 @@ describe('Payment group service', () => {
     spyOn(features, 'find').and.returnValue(features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
 
-
+    paymentGroupService.getDiscontinuedFrFeature()
+      .then((response) => {
+        console.log('response1 ==---------> ' + response);
+        expect(response).toBe(true);
+      });
   });
 
   it('Should call get discontinued fees feature is off', () => {
@@ -114,7 +118,11 @@ describe('Payment group service', () => {
     spyOn(features, 'find').and.returnValue(features[0]);
     spyOn(http, 'get').and.callFake(() => of(features));
 
-
+    paymentGroupService.getDiscontinuedFrFeature()
+      .then((response) => {
+      console.log('response2 ==---------> ' + response);
+        expect(response).toBe(false);
+      });
   });
 
   it('Should call get LD feature on flow', () => {
