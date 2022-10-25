@@ -47,10 +47,6 @@ export class PaymentGroupService {
 
    getDiscontinuedFrFeature(): Promise<any> {
 
-      /* return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
-        const regFeature = JSON.parse(features).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
-        return regFeature ? regFeature.enable : false;
-      }); */
         return this.http.get('api/payment-history/bulk-scan-feature')
        .toPromise()
        .then(features => {
@@ -61,7 +57,13 @@ export class PaymentGroupService {
            } else {
              regFeature = JSON.parse(JSON.stringify(features)).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
            }
-            return regFeature ? regFeature.enable : false;
+           console.log('regFeature ---------> ' + (regFeature !== null));
+           console.log('regFeature.enable ---------> ' + regFeature.enable);
+           if (regFeature !== null) {
+              return regFeature.enable;
+           } else {
+              return false;
+           }
           });
 
     }
@@ -71,9 +73,10 @@ export class PaymentGroupService {
       .toPromise()
       .then(response => {
         if (typeof response === 'object') {
+        console.log('getBSPaymentsByCCD response 1---------> ' + JSON.stringify(response));
           return response;
         } else {
-        console.log('response ---------> ' + JSON.stringify(response));
+        console.log('getBSPaymentsByCCD response -2--------> ' + JSON.stringify(response));
           return <IBSPayments>JSON.parse(JSON.stringify(response));
         }
       });
