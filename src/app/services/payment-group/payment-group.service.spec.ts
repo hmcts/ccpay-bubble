@@ -93,7 +93,8 @@ describe('Payment group service', () => {
         customProperties: {}
       }
     ];
-    spyOn(features, 'find').and.returnValue(features[0]);
+
+    spyOn(features, 'find').and.returnValue(JSON.stringify(features[0]));
     spyOn(http, 'get').and.callFake(() => of(features));
 
     paymentGroupService.getDiscontinuedFrFeature()
@@ -115,7 +116,7 @@ describe('Payment group service', () => {
         customProperties: {}
       }
     ];
-    spyOn(features, 'find').and.returnValue(features[0]);
+    spyOn(features, 'find').and.returnValue(JSON.stringify(features[0]));
     spyOn(http, 'get').and.callFake(() => of(features));
 
     paymentGroupService.getDiscontinuedFrFeature()
