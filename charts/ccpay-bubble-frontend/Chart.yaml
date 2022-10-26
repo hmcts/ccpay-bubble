@@ -3,15 +3,15 @@ appVersion: "2.0"
 description: Helm chart for the HMCTS Pay bubble frontend service
 name: ccpay-bubble-frontend
 home: https://github.com/hmcts/ccpay-bubble
-version: 0.2.4
+version: 0.2.5
 maintainers:
   - name: HMCTS Fees & Payments Dev Team
     email: ccpay@hmcts.net
 dependencies:
   - name: nodejs
     version: 2.3.4
-    repository: '@hmctspublic'
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
   - name: idam-pr
     version: ~2.2.6
-    repository: '@hmctspublic'
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: idam-pr.enabled
