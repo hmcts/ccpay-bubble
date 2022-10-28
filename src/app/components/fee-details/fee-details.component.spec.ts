@@ -1,6 +1,6 @@
 import { PaymentGroupService } from './../../services/payment-group/payment-group.service';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
+import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
+import {of} from 'rxjs';
 import {FeeDetailsComponent} from './fee-details.component';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
@@ -14,14 +14,14 @@ describe('FeeDetailsComponent', () => {
   let testFeeVersions: any;
   let paymentGroupService: PaymentGroupService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FeeDetailsComponent],
       providers: [
         FormBuilder,
         {
           provide: PaymentGroupService,
-          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)))),
         }
       ],
       imports: [
@@ -93,7 +93,22 @@ describe('FeeDetailsComponent', () => {
   });
 
   it('Should set isDiscontinuedFeatureEnabled from URL', async () => {
-    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+    const features = <any>[
+        {
+          customProperties: {},
+          description: 'then requests from all services will be checked against Liberata',
+          enable: true,
+          flippingStrategy: null,
+          group: null,
+          permissions: [],
+          uid: 'check-liberata-account-for-all-services'
+        }
+      ];
+      let http: PaybubbleHttpClient;
+      http = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
+      spyOn(features, 'find').and.returnValue(features[0]);
+      spyOn(http, 'get').and.callFake(() => of(features));
+
     await component.ngOnChanges();
     expect(component.isDiscontinuedFeatureEnabled).toBeTruthy();
   });

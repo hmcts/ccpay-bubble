@@ -81,51 +81,6 @@ describe('Payment group service', () => {
       });
   });
 
-  it('Should call get discontinued fees feature is on', () => {
-    const features = <any>[
-      {
-        uid: 'discontinued-fees-feature',
-        enable: true,
-        description: 'To enable discontinued fees FeesRegister Feature',
-        group: null,
-        permissions: [],
-        flippingStrategy: null,
-        customProperties: {}
-      }
-    ];
-
-    spyOn(features, 'find').and.returnValue(JSON.stringify(features[0]));
-    spyOn(http, 'get').and.callFake(() => of(features));
-
-    paymentGroupService.getDiscontinuedFrFeature()
-      .then((response) => {
-        console.log('response1 ==---------> ' + response);
-        expect(response).toBe(true);
-      });
-  });
-
-  it('Should call get discontinued fees feature is off', () => {
-    const features = <any>[
-      {
-        uid: 'discontinued-fees-feature',
-        enable: false,
-        description: 'To enable discontinued fees FeesRegister Feature',
-        group: null,
-        permissions: [],
-        flippingStrategy: null,
-        customProperties: {}
-      }
-    ];
-    spyOn(features, 'find').and.returnValue(JSON.stringify(features[0]));
-    spyOn(http, 'get').and.callFake(() => of(features));
-
-    paymentGroupService.getDiscontinuedFrFeature()
-      .then((response) => {
-      console.log('response2 ==---------> ' + response);
-        expect(response).toBe(false);
-      });
-  });
-
   it('Should call get LD feature on flow', () => {
     const feature = <any>{
       flag: true
@@ -177,65 +132,6 @@ describe('Payment group service', () => {
       .then((response) => {
         expect(response.ccd_reference).toBe(paymentGroup.ccd_reference);
         expect(response.exception_record_reference).toBe(paymentGroup.exception_record_reference);
-      }).catch(() => {
-
-      });
-  });
-  it('Should return true is bulk scann flag is on', () => {
-    const features = <any>[
-      {
-        customProperties: {},
-        description: 'enable bulkScan payBubble check',
-        enable: true,
-        flippingStrategy: null,
-        group: null,
-        permissions: [],
-        uid: 'bulk-scan-enabling-fe'
-      }
-    ];
-    spyOn(features, 'find').and.returnValue(features[0]);
-    spyOn(http, 'get').and.callFake(() => of(features));
-    paymentGroupService.getBSFeature()
-      .then((response) => {
-        expect(response).toBe(true);
-      });
-  });
-  it('Should return false is bulk scann flag is off', () => {
-    const features = <any>[
-      {
-        customProperties: {},
-        description: 'enable bulkScan payBubble check',
-        enable: false,
-        flippingStrategy: null,
-        group: null,
-        permissions: [],
-        uid: 'bulk-scan-enabling-fe'
-      }
-    ];
-    spyOn(features, 'find').and.returnValue(features[0]);
-    spyOn(http, 'get').and.callFake(() => of(features));
-    paymentGroupService.getBSFeature()
-      .then((response) => {
-        expect(response).toBe(false);
-      });
-  });
-  it('Should return false if bulk scann flag is not available', () => {
-    const features = <any>[
-      {
-        customProperties: {},
-        description: 'then requests from all services will be checked against Liberata',
-        enable: false,
-        flippingStrategy: null,
-        group: null,
-        permissions: [],
-        uid: 'check-liberata-account-for-all-services'
-      }
-    ];
-    spyOn(features, 'find').and.returnValue(features[0]);
-    spyOn(http, 'get').and.callFake(() => of(features));
-    paymentGroupService.getBSFeature()
-      .then((response) => {
-        expect(response).toBe(false);
       });
   });
 });

@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { windowToken } from '../../../window';
 import { CookieBannerComponent } from './cookie-banner.component';
 
@@ -14,7 +14,7 @@ describe('CookieBannerComponent', () => {
   let fixture: ComponentFixture<CookieBannerComponent>;
   let windowTestBed: Window;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [ CookieBannerComponent ],

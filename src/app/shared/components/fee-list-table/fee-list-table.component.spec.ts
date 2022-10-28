@@ -1,7 +1,7 @@
 import { FeeListTableComponent } from 'src/app/shared/components/fee-list-table/fee-list-table.component';
 import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
-import { async } from '@angular/core/testing';
+import { waitForAsync } from '@angular/core/testing';
 import { FeeModel } from 'src/app/models/FeeModel';
 
 describe('Fee list table', () => {
@@ -9,7 +9,7 @@ describe('Fee list table', () => {
   let fixture: ComponentFixture<FeeListTableComponent>;
   const fee: FeeModel = new FeeModel();
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ FeeListTableComponent ]
     })

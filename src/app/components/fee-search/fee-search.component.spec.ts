@@ -1,5 +1,5 @@
 import { IVersion } from './../../../../dist/fee-register-search/lib/interfaces/IVersion.d';
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FeeSearchComponent } from './fee-search.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
@@ -271,7 +271,7 @@ describe('Fee search component', () => {
 
     fixture = TestBed.createComponent(FeeSearchComponent);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
     component = fixture.componentInstance;
     // component.ngOnInit();
   });
@@ -335,7 +335,7 @@ describe('Fee search component', () => {
   });
 
 
-  it('Should call putPaymentGroup payment group ref is existed', async(async () => {
+  it('Should call putPaymentGroup payment group ref is existed', waitForAsync(async () => {
     spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
     spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
     component.paymentGroupRef = 'paymentgroup';
