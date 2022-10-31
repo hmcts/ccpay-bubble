@@ -14,6 +14,7 @@ const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('CCPB_PBARefunds_test.js');
 
 const testConfig = require('./config/CCPBConfig');
+const { SystemJsNgModuleLoader } = require('@angular/core');
 
 const successResponse = 202;
 
@@ -44,7 +45,7 @@ AfterSuite(async I => {
 });
 
 Scenario('Payment Failure for Bounceback @pipeline @nightly',
-async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
+async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory, FailureEventDetails) => {
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
   const ccdCaseNumber = ccdAndDcn[1];
@@ -57,12 +58,20 @@ async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, 
   console.log('**** payment ref - ' + paymentRef);
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-  }).tag('@pipeline @nightly');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  await CaseTransaction.verifyDisputedPaymentHistoryTable();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  await FailureEventDetails.verifyFailureDetailsPageForBounceBack();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  await CaseTransaction.verifyDisputedPaymentHistoryInitiatedForBounceBack();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  await FailureEventDetails.verifyFailureDetailsPageForInitiatedEventForBounceBack();
+  }).tag('@pipelines');
 
 
 
   Scenario('Payment Failure for chargeback @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async(I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -75,4 +84,12 @@ async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, 
     console.log('**** reason - ' + requestBody.reason);
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-  }).tag('@pipeline @nightly');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await CaseTransaction.verifyDisputedPaymentHistory();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await FailureEventDetails.verifyFailureDetailsPage();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await CaseTransaction.verifyDisputedPaymentHistoryInitiated();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await FailureEventDetails.verifyFailureDetailsPageForInitiatedEvent();
+   }).tag('@pipelines');
