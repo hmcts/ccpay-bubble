@@ -345,8 +345,8 @@ async function createACCDCaseForDivorce() {
       logger.debug(`${statusCode}The value of the status code`);
       logger.debug(`${response}The value of the response`);
     }).catch(error => {
-      logger.error(error);
-    });
+    console.error(error);
+  });
   logger.debug(divorceCaseCreatedResponse);
 
   console.log('*****divorceCaseCreatedResponse - ' + divorceCaseCreatedResponse);
