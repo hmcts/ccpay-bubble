@@ -969,7 +969,7 @@ async function getPaymentDetailsPBA(ccdCaseNumber,paymentRef ) {
   const serviceToken = await getServiceToken(microservice);
   console.log ('****service token for getPaymentReferenceUsingCCDCaseNumber - ' +  serviceToken);
   const failurereference = await recordChargeBackFailure(serviceToken,ccdCaseNumber, paymentRef);
-  await patchFailureReferenceNo(serviceToken, failurereference);
+  await patchFailureReferenceNo(serviceToken, failurereference.failure_reference);
   return failurereference;
 
 }

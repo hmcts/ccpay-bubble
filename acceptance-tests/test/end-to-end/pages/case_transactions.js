@@ -18,7 +18,15 @@ module.exports = {
     total_payments_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[1]' },
     unallocated_payments_text: { xpath: '//td[@class="govuk-table__cell case-transaction__color summary-table-font"]' },
     total_remissions_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[3]' },
-    amount_due_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[4]' }
+    amount_due_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[4]' },
+    payments_review_button: { xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a'},
+    disputed_status: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[1]'},
+    disputed_amount: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[2]'},
+    disputed_date: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[3]'},
+    disputed_payment_reference: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[4]'},
+    disputed_event: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[5]'},
+    disputed_closed_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[1]/td[6]/a'},
+    disputed_initiated_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[2]/td[6]/a'},
   },
 
   checkEmptyRefundsSection() {
@@ -164,6 +172,48 @@ module.exports = {
     // I.checkOption(this.locators.unallocated_payment_select_option);
     I.click('Mark as transferred');
     I.wait(CCPBConstants.fiveSecondWaitTime);
+  },
+
+  async verifyDisputedPaymentHistory(){
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.click(this.locators.payments_review_button);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.see('Initiated');
+    I.see('Closed');
+    I.see('£10.00');
+    // I.see(`${Paymentreference}`);
+    I.see('28 Aug 2022');
+    I.see('22 Jul 2022');
+    I.see('Chargeback');
+    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.click(this.locators.disputed_closed_show_details);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
+  },
+
+   async verifyDisputedPaymentHistoryInitiated(){
+    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.click(this.locators.disputed_initiated_show_details);
+  },
+
+  async verifyDisputedPaymentHistoryTable(){
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.click(this.locators.payments_review_button);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.see('Initiated');
+    I.see('Closed');
+    I.see('£100.00');
+    // I.see(`${Paymentreference}`);
+    I.see('28 Aug 2022');
+    I.see('22 Jul 2022');
+    I.see('Bounced Cheque');
+    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.click(this.locators.disputed_closed_show_details);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
+  },
+
+  async verifyDisputedPaymentHistoryInitiatedForBounceBack(){
+    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.click(this.locators.disputed_initiated_show_details);
   },
 
   allocateToUnidentified() {
