@@ -45,41 +45,40 @@ AfterSuite(async I => {
 });
 
 Scenario('Payment Failure for Bounceback @pipeline @nightly',
-async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory, FailureEventDetails) => {
-  const totalAmount = 593;
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
-  const ccdCaseNumber = ccdAndDcn[1];
-  const dcnNumber = ccdAndDcn[0];
-  console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
-  console.log('**** The value of the dcnNumber - ' + dcnNumber);
-  logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
-  logger.info(`The value of the dcnNumber : ${dcnNumber}`);
-  const paymentRef = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber);
-  console.log('**** payment ref - ' + paymentRef);
-  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
-  await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  await CaseTransaction.verifyDisputedPaymentHistoryTable();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  await FailureEventDetails.verifyFailureDetailsPageForBounceBack();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  await CaseTransaction.verifyDisputedPaymentHistoryInitiatedForBounceBack();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  await FailureEventDetails.verifyFailureDetailsPageForInitiatedEventForBounceBack();
-  }).tag('@pipelines');
+  async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory, FailureEventDetails) => {
+    const totalAmount = 593;
+    const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
+    const ccdCaseNumber = ccdAndDcn[1];
+    const dcnNumber = ccdAndDcn[0];
+    console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
+    console.log('**** The value of the dcnNumber - ' + dcnNumber);
+    logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
+    logger.info(`The value of the dcnNumber : ${dcnNumber}`);
+    const paymentRef = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber);
+    console.log('**** payment ref - ' + paymentRef);
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await CaseTransaction.verifyDisputedPaymentHistoryTable();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await FailureEventDetails.verifyFailureDetailsPageForBounceBack();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await CaseTransaction.verifyDisputedPaymentHistoryInitiatedForBounceBack();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await FailureEventDetails.verifyFailureDetailsPageForInitiatedEventForBounceBack();
+  }).tag('@pipeline @nightly');
 
 
 
-  Scenario('Payment Failure for chargeback @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
-    // logger.log('Starting the PBA Payment');
-    // console.log('Starting the PBA Payment');
+Scenario('Payment Failure for chargeback @pipeline @nightly',
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
+
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentRef = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
     console.log('**** The value of the paymentReference - ' + paymentRef);
-    const requestBody = await bulkScanApiCalls.getPaymentDetailsPBA(ccdCaseNumber,paymentRef);
+    const requestBody = await bulkScanApiCalls.getPaymentDetailsPBA(ccdCaseNumber, paymentRef);
     console.log('**** payment ref - ' + requestBody.failure_reference);
     console.log('**** reason - ' + requestBody.reason);
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
@@ -92,4 +91,4 @@ async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, 
     await CaseTransaction.verifyDisputedPaymentHistoryInitiated();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await FailureEventDetails.verifyFailureDetailsPageForInitiatedEvent();
-   }).tag('@pipelines');
+  }).tag('@pipeline @nightly');

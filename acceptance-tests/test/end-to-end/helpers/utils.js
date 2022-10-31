@@ -73,7 +73,7 @@ async function getIDAMTokenForDivorceUser() {
   const s2sBaseUrl = `https://idam-api.${env}.platform.hmcts.net`;
   const idamTokenPath = '/o/token';
   logger.debug(`The value of the IDAM URL : ${s2sBaseUrl}${idamTokenPath}`);
-  console.log('****uri - ' + s2sBaseUrl + idamTokenPath );
+  console.log('****uri - ' + s2sBaseUrl + idamTokenPath);
 
   const idamTokenResponse = await request({
     method: 'POST',
@@ -81,13 +81,13 @@ async function getIDAMTokenForDivorceUser() {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`
   }
-  , (_error, response) => {
-    statusCode = response.statusCode;
-    console.log('*****statuscode - '+ statusCode);
-  }).catch(error => {
-    logger.error(error);
-    console.log('*****error - '+ error);
-  });
+    , (_error, response) => {
+      statusCode = response.statusCode;
+      console.log('*****statuscode - ' + statusCode);
+    }).catch(error => {
+      logger.error(error);
+      console.log('*****error - ' + error);
+    });
   logger.debug(idamTokenPath);
   return JSON.parse(idamTokenResponse).access_token;
 }
@@ -133,7 +133,7 @@ async function getServiceToken(_service) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ microservice: 'ccpay_bubble' })
   });
-console.log(serviceToken  + "Servive token is    ")
+  console.log(serviceToken + "Servive token is    ")
   logger.debug(serviceToken);
   return serviceToken;
 }
@@ -231,12 +231,12 @@ async function CaseValidation(flag) {
     uri: paymentBaseUrl + disablePath,
     headers: { 'Content-Type': 'application/json' }
   },
-  (_error, response) => {
-    statusCode = response.statusCode;
-    logger.info(statusCode);
-  }).catch(error => {
-    logger.error(error);
-  });
+    (_error, response) => {
+      statusCode = response.statusCode;
+      logger.info(statusCode);
+    }).catch(error => {
+      logger.error(error);
+    });
   logger.info(saveCaseResponse);
   return statusCode;
 }
@@ -259,7 +259,7 @@ async function createACCDCaseForProbate() {
   const createCCDCaseBody = {
 
     data: {}, event:
-    { id: 'createDraft', summary: '', description: '' },
+      { id: 'createDraft', summary: '', description: '' },
     event_token: `${createToken}`,
     ignore_warning: false,
     draft_id: null
@@ -287,8 +287,8 @@ async function createACCDCaseForProbate() {
       logger.info(`${statusCode}The value of the status code`);
       logger.info(`${response}The value of the response`);
     }).catch(error => {
-    logger.error(error);
-  });
+      logger.error(error);
+    });
 
   logger.debug(probateCaseCreatedResponse);
 
@@ -304,7 +304,7 @@ async function createACCDCaseForDivorce() {
   console.log('****serviceToken-' + serviceToken);
   const createToken = await getCREATEEventForDivorce();
   console.log('****createToken-' + createToken);
-  
+
 
   const createCCDDivorceCaseBody = {
     data: { LanguagePreferenceWelsh: 'No' },
@@ -334,7 +334,7 @@ async function createACCDCaseForDivorce() {
     body: JSON.stringify(createCCDDivorceCaseBody)
   };
 
- 
+
 
   logger.debug(`The value of the Service Token : ${serviceToken}`);
   logger.debug(`The value of the Create Token for Divorce: ${createToken}`);
@@ -345,8 +345,8 @@ async function createACCDCaseForDivorce() {
       logger.debug(`${statusCode}The value of the status code`);
       logger.debug(`${response}The value of the response`);
     }).catch(error => {
-    logger.error(error);
-  });
+      logger.error(error);
+    });
   logger.debug(divorceCaseCreatedResponse);
 
   console.log('*****divorceCaseCreatedResponse - ' + divorceCaseCreatedResponse);
@@ -378,8 +378,8 @@ async function rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(
       logger.info(`${statusCode}The value of the status code`);
       logger.info(`${response}The value of the response`);
     }).catch(error => {
-    logger.error(error);
-  });
+      logger.error(error);
+    });
 }
 
 async function getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber) {
@@ -403,8 +403,8 @@ async function getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumb
       logger.info(`${statusCode}The value of the status code`);
       logger.info(`${response}The value of the response`);
     }).catch(error => {
-    logger.error(error);
-  });
+      logger.error(error);
+    });
   logger.debug(`The value of the PaymentLookUpResponseString : ${paymentLookUpResponseString}`);
   const paymentLookupObject = JSON.parse(paymentLookUpResponseString);
   const paymentReference = paymentLookupObject.payments[0].payment_reference;
@@ -570,21 +570,22 @@ async function getPaymentGroupRef(serviceToken, ccdCaseNumberFormatted) {
   const ccdNumber = ccdCaseNumberFormatted;
   const saveBody = {
     'fees': [
-       {
-          'code':'FEE0239',
-          'version':'3',
-          'calculated_amount':'250',
-          'memo_line':'RECEIPT OF FEES - Family appeal other',
-          'natural_account_code':4481102170,
-          'ccd_case_number':`${ccdNumber}`,
-          'jurisdiction1':'family',
-          'jurisdiction2':'court of protection',
-          'description':'Appeal fee Article 5.',
-          'volume': 1,
-          'fee_amount': 250
-       }
-   ]};
-   console.log("*** the body for payment group ref is -" +  JSON.stringify(saveBody));
+      {
+        'code': 'FEE0239',
+        'version': '3',
+        'calculated_amount': '250',
+        'memo_line': 'RECEIPT OF FEES - Family appeal other',
+        'natural_account_code': 4481102170,
+        'ccd_case_number': `${ccdNumber}`,
+        'jurisdiction1': 'family',
+        'jurisdiction2': 'court of protection',
+        'description': 'Appeal fee Article 5.',
+        'volume': 1,
+        'fee_amount': 250
+      }
+    ]
+  };
+  console.log("*** the body for payment group ref is -" + JSON.stringify(saveBody));
   logger.info('calling getPaymentGroupRef');
   const paymentGroupsUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
   const paymentGroupsEndPoint = `/payment-groups`;
@@ -611,19 +612,19 @@ async function getPaymentGroupRef(serviceToken, ccdCaseNumberFormatted) {
   return paymentGroupRefernce;
 }
 
-async function recordBouncebackFailure(serviceToken,ccdNumber, paymentRCRefernce) {
-  
-  const failureReference = 'FR-267-CC14-' + numUtil.getRandomNumber(9,999999999);
+async function recordBouncebackFailure(serviceToken, ccdNumber, paymentRCRefernce) {
+
+  const failureReference = 'FR-267-CC14-' + numUtil.getRandomNumber(9, 999999999);
   const saveBody = {
-      'additional_reference': 'AR1234556',
-      'amount': 100,
-      'ccd_case_number': `${ccdNumber}`,
-      'event_date_time': '2022-08-28T14:28:34.355Z',
-      'failure_reference': `${failureReference}`,
-      'payment_reference': `${paymentRCRefernce}`,
-      'reason': 'RR001'
-    };
-   console.log("*** the body for bounceback cheque failure is -" +  JSON.stringify(saveBody));
+    'additional_reference': 'AR1234556',
+    'amount': 100,
+    'ccd_case_number': `${ccdNumber}`,
+    'event_date_time': '2022-08-28T14:28:34.355Z',
+    'failure_reference': `${failureReference}`,
+    'payment_reference': `${paymentRCRefernce}`,
+    'reason': 'RR001'
+  };
+  console.log("*** the body for bounceback cheque failure is -" + JSON.stringify(saveBody));
   logger.info('calling recordBouncebackFailure');
   const bouncedChequeUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
   const bouncedChequeEndPoint = `/payment-failures/bounced-cheque`;
@@ -645,20 +646,20 @@ async function recordBouncebackFailure(serviceToken,ccdNumber, paymentRCRefernce
   return failureReference;
 }
 
-async function recordChargeBackFailure(serviceToken,ccdCaseNumber, paymentRef) {
-  
-  const failureReference = 'FR-367-CC14-' + numUtil.getRandomNumber(9,999999999);
+async function recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef) {
+
+  const failureReference = 'FR-367-CC14-' + numUtil.getRandomNumber(9, 999999999);
   const saveBody = {
-      'additional_reference': 'AR1234556',
-      'amount': 10,
-      'ccd_case_number': `${ccdCaseNumber}`,
-      'event_date_time': '2022-08-28T14:28:34.355Z',
-      'has_amount_debited': 'Yes',
-      'failure_reference': `${failureReference}`,
-      'payment_reference': `${paymentRef}`,
-      'reason': 'RR001'
-    };
-   console.log("*** the body for bounceback cheque failure is -" +  JSON.stringify(saveBody));
+    'additional_reference': 'AR1234556',
+    'amount': 10,
+    'ccd_case_number': `${ccdCaseNumber}`,
+    'event_date_time': '2022-08-28T14:28:34.355Z',
+    'has_amount_debited': 'Yes',
+    'failure_reference': `${failureReference}`,
+    'payment_reference': `${paymentRef}`,
+    'reason': 'RR001'
+  };
+  console.log("*** the body for bounceback cheque failure is -" + JSON.stringify(saveBody));
   logger.info('calling recordChargeBackFailure');
   const chargeBackUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
   const chargeBackEndPoint = `/payment-failures/chargeback`;
@@ -685,7 +686,7 @@ async function patchFailureReference(serviceToken, failureReference) {
     'representment_date': '2022-07-22T11:03:02.544Z',
     'representment_status': 'Yes'
   };
-  console.log("*** the body patchFailureReference is -" +  JSON.stringify(saveBody));
+  console.log("*** the body patchFailureReference is -" + JSON.stringify(saveBody));
   logger.info('calling patchFailureReference');
   const patchFailureRefUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
   const patchFailureRefEndPoint = `/payment-failures/${failureReference}`;
@@ -711,7 +712,7 @@ async function patchFailureReferenceNo(serviceToken, failureReference) {
     'representment_date': '2022-07-22T11:03:02.544Z',
     'representment_status': 'No'
   };
-  console.log("*** the body patchFailureReference is -" +  JSON.stringify(saveBody));
+  console.log("*** the body patchFailureReference is -" + JSON.stringify(saveBody));
   logger.info('calling patchFailureReference');
   const patchFailureRefUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
   const patchFailureRefEndPoint = `/payment-failures/${failureReference}`;
@@ -733,28 +734,28 @@ async function patchFailureReferenceNo(serviceToken, failureReference) {
 }
 
 
-async function recordBulkScanPayments(serviceToken,ccdCaseNumberFormatted, paymentGroupRef) {
+async function recordBulkScanPayments(serviceToken, ccdCaseNumberFormatted, paymentGroupRef) {
   const ccdNumber = ccdCaseNumberFormatted;
   const saveBody = {
     'amount': 250,
-       'payment_method': 'CHEQUE',
-       'ccd_case_number': `${ccdNumber}`,
-       'payment_channel': {
-           'description': '',
-           'name': 'bulk scan'
-       },
-       'payment_status': {
-           'description': 'bulk scan payment completed',
-           'name': 'success'
-       },
-       'currency': 'GBP',
-       'giro_slip_no': 1234,
-       'banked_date': '2022-06-18T00:00:00.000+0000',
-       'payer_name': 'CCD User1',
-       'document_control_number': '{{payment_dcn}}',
-       'requestor': 'PROBATE',
-       'site_id': 'AA01'
-   };
+    'payment_method': 'CHEQUE',
+    'ccd_case_number': `${ccdNumber}`,
+    'payment_channel': {
+      'description': '',
+      'name': 'bulk scan'
+    },
+    'payment_status': {
+      'description': 'bulk scan payment completed',
+      'name': 'success'
+    },
+    'currency': 'GBP',
+    'giro_slip_no': 1234,
+    'banked_date': '2022-06-18T00:00:00.000+0000',
+    'payer_name': 'CCD User1',
+    'document_control_number': '{{payment_dcn}}',
+    'requestor': 'PROBATE',
+    'site_id': 'AA01'
+  };
   logger.info('calling getPaymentGroupRef');
   const recordBulkScanPaymentUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
   const recordBulkScanPaymentUrlEndPoint = `/payment-groups/${paymentGroupRef}/bulk-scan-payments`;
@@ -894,8 +895,8 @@ async function bulkScanCcdLinkedException(exceptionCcdNumber, serviceToken) {
   logger.debug(`The value of Actual CCDCaseNumber : ${ccdNumber}`);
   const responseCode = await bulkScanCcdWithException(serviceToken, ccdNumber,
     exceptionCcdNumber).catch(error => {
-    logger.log(error);
-  });
+      logger.log(error);
+    });
   if (responseCode === successResponse) logger.info('CCD link to exception created');
   else logger.info('CCD link to exception NOT created');
 
@@ -917,23 +918,23 @@ async function createBulkScanRecords(siteId, amount, paymentMethod, exception, l
   dcnNumber = stringUtil.getTodayDateAndTimeInString() + randomNumber;
   const responseDcnCode = await bulkScanExelaRecord(serviceToken, amount,
     creditSlipNumber, bankedDate, dcnNumber, paymentMethod).catch(error => {
-    logger.log(error);
-  });
-  console.log('***responseDcnCode - ' + responseDcnCode );
+      logger.log(error);
+    });
+  console.log('***responseDcnCode - ' + responseDcnCode);
 
   if (responseDcnCode === successResponse) logger.info('DCN Created');
   else logger.info('CCD Case NOT Created');
 
   // ccdNumber = stringUtil.getTodayDateAndTimeInString() + numUtil.getRandomNumber(numberTwo);
   const ccdNumberExceptionRecord = await createACCDCaseForDivorce();
-  console.log('***ccdNumberExceptionRecord - ' + ccdNumberExceptionRecord );
+  console.log('***ccdNumberExceptionRecord - ' + ccdNumberExceptionRecord);
   logger.debug(`ccdNumberExceptionRecord : ${ccdNumberExceptionRecord}`);
   const responseCcdCode = await bulkScanRecord(serviceToken, ccdNumberExceptionRecord, dcnNumber,
     siteId, exception).catch(error => {
-    logger.log(error);
-  });
+      logger.log(error);
+    });
 
-  console.log('***responseCcdCode - ' + responseCcdCode );
+  console.log('***responseCcdCode - ' + responseCcdCode);
 
   if (responseCcdCode === successResponse) logger.info('CCD Case Created');
   else logger.info('CCD Case NOT Created');
@@ -941,7 +942,7 @@ async function createBulkScanRecords(siteId, amount, paymentMethod, exception, l
   if (linkedCcd) {
     const ccdNumberLinked = await bulkScanCcdLinkedException(ccdNumberExceptionRecord,
       serviceToken);
-      console.log('***ccdNumberLinked - ' + ccdNumberLinked );
+    console.log('***ccdNumberLinked - ' + ccdNumberLinked);
     return [dcnNumber, ccdNumberLinked, ccdNumberExceptionRecord];
   }
   return [dcnNumber, ccdNumberExceptionRecord];
@@ -955,20 +956,20 @@ async function bulkScanNormalCcd(siteId, amount, paymentMethod) {
 async function getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber) {
   const microservice = 'api_gw';
   const serviceToken = await getServiceToken(microservice);
-  console.log ('****service token for getPaymentReferenceUsingCCDCaseNumber - ' +  serviceToken);
+  console.log('****service token for getPaymentReferenceUsingCCDCaseNumber - ' + serviceToken);
   const paymentGroupRef = await getPaymentGroupRef(serviceToken, ccdCaseNumber);
-  const paymentRCRef = await recordBulkScanPayments(serviceToken,ccdCaseNumber, paymentGroupRef);
-  const failurereference = await recordBouncebackFailure(serviceToken,ccdCaseNumber, paymentRCRef);
+  const paymentRCRef = await recordBulkScanPayments(serviceToken, ccdCaseNumber, paymentGroupRef);
+  const failurereference = await recordBouncebackFailure(serviceToken, ccdCaseNumber, paymentRCRef);
   await patchFailureReference(serviceToken, failurereference);
   return failurereference;
-  
+
 }
 
-async function getPaymentDetailsPBA(ccdCaseNumber,paymentRef ) {
+async function getPaymentDetailsPBA(ccdCaseNumber, paymentRef) {
   const microservice = 'api_gw';
   const serviceToken = await getServiceToken(microservice);
-  console.log ('****service token for getPaymentReferenceUsingCCDCaseNumber - ' +  serviceToken);
-  const failurereference = await recordChargeBackFailure(serviceToken,ccdCaseNumber, paymentRef);
+  console.log('****service token for getPaymentReferenceUsingCCDCaseNumber - ' + serviceToken);
+  const failurereference = await recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef);
   await patchFailureReferenceNo(serviceToken, failurereference.failure_reference);
   return failurereference;
 
