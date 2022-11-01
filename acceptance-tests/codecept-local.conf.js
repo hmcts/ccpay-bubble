@@ -20,7 +20,7 @@ exports.config = {
       show: false,
       restart: false,
       keepCookies: false,
-      keepBrowserState: true,
+      keepBrowserState: false,
       networkIdleTimeout: 5000,
       waitUntil: 'networkidle',
       timeout: 3000000,
