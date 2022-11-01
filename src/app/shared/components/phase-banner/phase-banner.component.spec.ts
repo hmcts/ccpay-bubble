@@ -29,12 +29,38 @@ describe('PhaseBannerComponent', () => {
   });
 
   it('Should open new window', () => {
-    spyOn(document, 'getElementById').and.returnValue(<any>{ value: 'test' });
+    spyOn(document, 'querySelector').and.returnValue(<any>{ value: 'test' });
     const url = spyOn( window, 'open' );
     component.myFunction();
-    expect(document.getElementById).toHaveBeenCalled();
-    expect(document.getElementById).toHaveBeenCalledWith('iFrameDrivenImageValue');
+    expect(document.querySelector).toHaveBeenCalled();
+    expect(document.querySelector).toHaveBeenCalledWith('.iFrameDrivenImageValue');
     expect(url).toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=test', '_blank');
+  });
 
+  it('Should not open new window with empty query selector', () => {
+    spyOn(document, 'querySelector').and.returnValue(<any>{ value: '' });
+    const url = spyOn( window, 'open' );
+    component.myFunction();
+    expect(document.querySelector).toHaveBeenCalled();
+    expect(document.querySelector).toHaveBeenCalledWith('.iFrameDrivenImageValue');
+    expect(url).not.toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=', '_blank');
+  });
+
+  it('Should not open new window with null query selector', () => {
+    spyOn(document, 'querySelector').and.returnValue(<any>{ value: null });
+    const url = spyOn( window, 'open' );
+    component.myFunction();
+    expect(document.querySelector).toHaveBeenCalled();
+    expect(document.querySelector).toHaveBeenCalledWith('.iFrameDrivenImageValue');
+    expect(url).not.toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=', '_blank');
+  });
+
+  it('Should not open new window with a value not included in the array', () => {
+    spyOn(document, 'querySelector').and.returnValue(<any>{ value: 'TESTVALUE' });
+    const url = spyOn( window, 'open' );
+    component.myFunction();
+    expect(document.querySelector).toHaveBeenCalled();
+    expect(document.querySelector).toHaveBeenCalledWith('.iFrameDrivenImageValue');
+    expect(url).not.toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=TESTVALUE', '_blank');
   });
 });

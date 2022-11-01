@@ -1,4 +1,5 @@
 'use strict';
+/* eslint-disable no-magic-numbers */
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 // in this file you can append custom step methods to 'I' object
 // const faker = require('faker');
@@ -38,6 +39,20 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Logout');
     this.wait(CCPBConstants.fiveSecondWaitTime);
+  },
+
+  AcceptPayBubbleCookies() {
+    this.waitForText('Cookies on ccpay-bubble', 5);
+    this.click({ css: 'button.cookie-banner-accept-button' });
+    this.click({ css: 'div.cookie-banner-accept-message > div.govuk-button-group > button' });
+    this.wait(CCPBConstants.twoSecondWaitTime);
+  },
+
+  RejectPayBubbleCookies() {
+    this.waitForText('Cookies on ccpay-bubble', 5);
+    this.click({ css: 'button.cookie-banner-reject-button' });
+    this.click({ css: 'div.cookie-banner-reject-message > div.govuk-button-group > button' });
+    this.wait(CCPBConstants.twoSecondWaitTime);
   },
 
   onefeeforpayment() {
