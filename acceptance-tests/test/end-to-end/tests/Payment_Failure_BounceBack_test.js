@@ -45,7 +45,8 @@ AfterSuite(async I => {
 });
 
 Scenario('Payment Failure for Bounceback @pipeline @nightly',
-  async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory, FailureEventDetails) => {
+  async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, 
+    PaymentHistory, FailureEventDetails) => {
     const totalAmount = 593;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
     const ccdCaseNumber = ccdAndDcn[1];
@@ -67,8 +68,6 @@ Scenario('Payment Failure for Bounceback @pipeline @nightly',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await FailureEventDetails.verifyFailureDetailsPageForInitiatedEventForBounceBack();
   }).tag('@pipeline @nightly');
-
-
 
 Scenario('Payment Failure for chargeback @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
