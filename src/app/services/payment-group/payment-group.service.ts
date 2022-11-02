@@ -41,11 +41,11 @@ export class PaymentGroupService {
   }
   getLDFeature(flagKey): Promise<any> {
     return this.http.get(`api/payment-history/LD-feature?flag=${flagKey}`).toPromise().then(features => {
-      return !JSON.parse(JSON.stringify(features)).flag;
+      return !JSON.parse(features).flag;
     });
   }
 
-  getDiscontinuedFrFeature(): Promise<any> {
+  getDiscontinuedFrFeature(): Promise<boolean> {
 
       return this.http.get('api/payment-history/bulk-scan-feature')
      .toPromise()
