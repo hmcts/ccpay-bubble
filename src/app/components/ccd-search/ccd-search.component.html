@@ -32,6 +32,7 @@
             id="CCDorException"
             class="govuk-radios__input"
             formControlName="CCDorException"
+            aria-label="Enter CCD case reference or exception"
             name="CCDorException"
             type="radio"
             value="CCDorException" 
@@ -59,7 +60,7 @@
         <div class="govuk-radios__item" *ngIf="isBulkscanningEnable">
           <input class="govuk-radios__input" 
             id="DCN"
-            aria-label ="Enter DCN"
+            aria-label ="Enter Payment Asset Number (DCN)"
             formControlName="CCDorException"
             name="CCDorException"
             type="radio"
@@ -81,7 +82,7 @@
                id="dcn-search" 
                type="text" 
                name="ccd-search" 
-               aria-label ="Enter DCN"
+               aria-label ="Enter Payment Asset Number (DCN)"
                formControlName="searchInput">
               <span *ngIf="hasErrors && selectedValue === 'DCN'" class="error-message">Enter DCN number in the correct format</span>
               <span *ngIf="noCaseFound" class="error-message">No record found for this DCN</span>
@@ -90,7 +91,7 @@
         <div class="govuk-radios__item" *ngIf="isBulkscanningEnable">
           <input class="govuk-radios__input" 
             id="RC"
-            aria-label ="Enter RC"
+            aria-label ="Enter Payment reference number (RC)"
             formControlName="CCDorException"
             name="CCDorException"
             type="radio"
@@ -99,7 +100,7 @@
            data-aria-controls="RC"
            />
            <label class="govuk-label govuk-radios__label govuk-label--m" for="RC">
-            Payment Reference (RC)
+            Payment Reference Number (RC)
               <span class="form-hint">For example: RC-XXXX-XXXX-XXXX-XXXX</span>
           </label>
         </div>
