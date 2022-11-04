@@ -47,7 +47,7 @@ module.exports = config => {
     reporters: ['spec', 'kjhtml', 'coverage-istanbul'],
     port: 9876,
     colors: true,
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_WARN,
     autoWatch: false,
     browsers: [ 'ChromeHeadless' ],
     singleRun: true,

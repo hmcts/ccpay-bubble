@@ -54,4 +54,9 @@ describe('CookiePolicyComponentTest', () => {
     }
     expect (cc).toEqual(component.countCookies(component.SECURITY));
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
 });

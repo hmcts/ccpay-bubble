@@ -35,51 +35,27 @@ export class PaymentGroupService {
   }
   getBSFeature(): Promise<any> {
     return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
-      const regFeature = JSON.parse(features).find(feature => feature.uid === BULK_SCANNING_ENABLED);
+      const regFeature = JSON.parse(JSON.stringify(features)).find(feature => feature.uid === BULK_SCANNING_ENABLED);
       return regFeature ? regFeature.enable : false;
     });
   }
   getLDFeature(flagKey): Promise<any> {
     return this.http.get(`api/payment-history/LD-feature?flag=${flagKey}`).toPromise().then(features => {
-      return !JSON.parse(features).flag;
+      return !JSON.parse(JSON.stringify(features)).flag;
     });
   }
-
-  getDiscontinuedFrFeature(): Promise<boolean> {
-
-      return this.http.get('api/payment-history/bulk-scan-feature')
-     .toPromise()
-     .then(features => {
-         console.log('features ---------> ' + JSON.stringify(features));
-         let regFeature = null;
-         if (typeof features === 'object') {
-           regFeature = features.find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
-         } else {
-           regFeature = JSON.parse(JSON.stringify(features)).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
-         }
-         console.log('regFeature ---------> ' + (regFeature !== null));
-         console.log('regFeature.enable ---------> ' + regFeature.enable);
-         if (regFeature !== null) {
-            return regFeature.enable;
-         } else {
-            return false;
-         }
-        });
+  getDiscontinuedFrFeature(): Promise<any> {
+    return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
+      const regFeature = JSON.parse(JSON.stringify(features)).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
+      return regFeature ? regFeature.enable : false;
+    });
   }
 
   getBSPaymentsByCCD(ccdCaseNumber: string): Promise<IBSPayments> {
     return this.http.get(`api/bulk-scan/cases/${ccdCaseNumber}`)
     .toPromise()
     .then(response => {
-      if (typeof response === 'object') {
-      console.log('getBSPaymentsByCCD response 1---------> ' + JSON.stringify(response));
-        return response;
-      } else {
-      console.log('getBSPaymentsByCCD response -2--------> ' + JSON.stringify(response));
-        return <IBSPayments>JSON.parse(JSON.stringify(response));
-      }
-    })
-    .catch(e => { throw e; });
-    Promise.resolve();
-  }
+      return <IBSPayments>JSON.parse(response);
+    });
+}
 }

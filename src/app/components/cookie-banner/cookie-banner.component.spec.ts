@@ -29,7 +29,7 @@ describe('CookieBannerComponent', () => {
     fixture = TestBed.createComponent(CookieBannerComponent);
     appComponent = fixture.componentInstance;
     fixture.detectChanges();
-    windowTestBed = TestBed.get(windowToken);
+    windowTestBed = TestBed.inject(windowToken) as any;
   });
   it('should create', () => {
     expect(appComponent).toBeTruthy();
@@ -71,4 +71,9 @@ describe('CookieBannerComponent', () => {
     expect((windowTestBed as any).dtrum.disableSessionReplay).not.toHaveBeenCalled();
     expect((windowTestBed as any).dtrum.disable).not.toHaveBeenCalled();
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
 });

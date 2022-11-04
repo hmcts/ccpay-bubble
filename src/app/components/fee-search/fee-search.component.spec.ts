@@ -571,4 +571,9 @@ describe('Fee search component', () => {
       });
     });
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
 });

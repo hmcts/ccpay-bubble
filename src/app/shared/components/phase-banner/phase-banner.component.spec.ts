@@ -63,4 +63,8 @@ describe('PhaseBannerComponent', () => {
     expect(document.querySelector).toHaveBeenCalledWith('.iFrameDrivenImageValue');
     expect(url).not.toHaveBeenCalledWith('https://www.smartsurvey.co.uk/s/PayBubble/?pageurl=TESTVALUE', '_blank');
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
 });

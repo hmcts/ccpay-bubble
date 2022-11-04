@@ -51,4 +51,9 @@ describe('ReviewFeeDetailComponent', () => {
     component.takeNewPayment();
     expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/addFeeDetail');
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
 });

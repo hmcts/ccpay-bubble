@@ -24,6 +24,10 @@ describe('NavigationComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   // it('should display payment history when the url has .internal', () => {
   //   const windowUtil = TestBed.get(WindowUtil);
   //   windowUtil.setWindowHref('www.testwith.internal');

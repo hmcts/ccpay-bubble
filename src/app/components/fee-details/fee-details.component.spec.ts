@@ -13,15 +13,17 @@ describe('FeeDetailsComponent', () => {
   let fixture: ComponentFixture<FeeDetailsComponent>;
   let testFeeVersions: any;
   let paymentGroupService: PaymentGroupService;
+  let http: PaybubbleHttpClient;
 
   beforeEach(waitForAsync(() => {
+    http = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     TestBed.configureTestingModule({
       declarations: [FeeDetailsComponent],
       providers: [
         FormBuilder,
         {
           provide: PaymentGroupService,
-          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)))),
+          useValue: new PaymentGroupService(http),
         }
       ],
       imports: [
@@ -94,20 +96,18 @@ describe('FeeDetailsComponent', () => {
 
   it('Should set isDiscontinuedFeatureEnabled from URL', async () => {
     const features = <any>[
-        {
-          customProperties: {},
-          description: 'then requests from all services will be checked against Liberata',
-          enable: true,
-          flippingStrategy: null,
-          group: null,
-          permissions: [],
-          uid: 'check-liberata-account-for-all-services'
-        }
-      ];
-      let http: PaybubbleHttpClient;
-      http = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
-      spyOn(features, 'find').and.returnValue(features[0]);
-      spyOn(http, 'get').and.callFake(() => of(features));
+      {
+        uid: 'discontinued-fees-feature',
+        enable: true,
+        description: 'To enable discontinued fees FeesRegister Feature',
+        group: null,
+        permissions: [],
+        flippingStrategy: null,
+        customProperties: {}
+      }
+    ];
+    spyOn(features, 'find').and.returnValue(features[0]);
+    spyOn(http, 'get').and.callFake(() => of(features));
 
     await component.ngOnChanges();
     expect(component.isDiscontinuedFeatureEnabled).toBeTruthy();
@@ -457,5 +457,12 @@ describe('FeeDetailsComponent', () => {
    expect(component.fee.fee_versions.length).toBe(2);
    expect(component.fee.current_version).toBeUndefined();
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
 });
+
+
 

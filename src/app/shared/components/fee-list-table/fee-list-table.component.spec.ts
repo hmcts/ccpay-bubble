@@ -35,4 +35,8 @@ describe('Fee list table', () => {
     fixture.detectChanges();
     expect(component.feeChangedEventEmitter.emit).toHaveBeenCalledWith(fee);
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
 });

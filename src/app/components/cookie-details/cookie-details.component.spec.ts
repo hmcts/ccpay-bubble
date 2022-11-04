@@ -56,4 +56,9 @@ describe('CookieDetailsComponentTest', () => {
     }
     expect (cc).toEqual(component.countCookies(component.MORESERVICE));
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
 });

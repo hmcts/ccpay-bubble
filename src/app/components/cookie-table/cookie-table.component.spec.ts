@@ -38,4 +38,9 @@ describe('CookieTableComponentTest', () => {
   it('should be created by angular', () => {
     expect(fixture).not.toBeNull();
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
 });
