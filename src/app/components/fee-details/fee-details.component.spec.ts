@@ -107,7 +107,7 @@ describe('FeeDetailsComponent', () => {
       }
     ];
     spyOn(features, 'find').and.returnValue(features[0]);
-    spyOn(http, 'get').and.callFake(() => of(features));
+    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
 
     await component.ngOnChanges();
     expect(component.isDiscontinuedFeatureEnabled).toBeTruthy();

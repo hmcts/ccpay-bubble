@@ -94,7 +94,7 @@ describe('Payment group service', () => {
       }
     ];
     spyOn(features, 'find').and.returnValue(features[0]);
-    spyOn(http, 'get').and.callFake(() => of(features));
+    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
 
     paymentGroupService.getDiscontinuedFrFeature()
       .then((response) => {
@@ -115,7 +115,7 @@ describe('Payment group service', () => {
       }
     ];
     spyOn(features, 'find').and.returnValue(features[0]);
-    spyOn(http, 'get').and.callFake(() => of(features));
+    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
 
     paymentGroupService.getDiscontinuedFrFeature()
       .then((response) => {
@@ -127,7 +127,7 @@ describe('Payment group service', () => {
     const feature = <any>{
       flag: true
     };
-    spyOn(http, 'get').and.callFake(() => of(feature));
+    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(feature)));
     paymentGroupService.getLDFeature('test')
       .then((response) => {
         expect(response).toBe(false);
@@ -138,7 +138,7 @@ describe('Payment group service', () => {
     const feature = <any>{
       flag: false
     };
-    spyOn(http, 'get').and.callFake(() => of(feature));
+    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(feature)));
     paymentGroupService.getLDFeature('test')
       .then((response) => {
         expect(response).toBe(true);
@@ -191,7 +191,7 @@ describe('Payment group service', () => {
       }
     ];
     spyOn(features, 'find').and.returnValue(features[0]);
-    spyOn(http, 'get').and.callFake(() => of(features));
+    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
     paymentGroupService.getBSFeature()
       .then((response) => {
         expect(response).toBe(true);
@@ -210,7 +210,7 @@ describe('Payment group service', () => {
       }
     ];
     spyOn(features, 'find').and.returnValue(features[0]);
-    spyOn(http, 'get').and.callFake(() => of(features));
+    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
     paymentGroupService.getBSFeature()
       .then((response) => {
         expect(response).toBe(false);
@@ -229,7 +229,7 @@ describe('Payment group service', () => {
       }
     ];
     spyOn(features, 'find').and.returnValue(features[0]);
-    spyOn(http, 'get').and.callFake(() => of(features));
+    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
     paymentGroupService.getBSFeature()
       .then((response) => {
         expect(response).toBe(false);
