@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 import { FeeRegisterSearchComponent } from './fee-register-search.component';
 import { FeeRegisterSearchService } from './services/fee-register-search/fee-register-search.service';
