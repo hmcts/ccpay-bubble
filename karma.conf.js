@@ -39,9 +39,9 @@ module.exports = config => {
         flags: [ '--no-sandbox' ]
       }
     },
-    coverageReporter: {
+    coverageIstanbulReporter: {
       dir: 'coverage/',
-      type: 'lcov',
+      reports: ['lcovonly'],
       fixWebpackSourcePaths: true
     },
     reporters: ['spec', 'kjhtml', 'coverage-istanbul'],
