@@ -1,5 +1,3 @@
-import { IFee } from "../interfaces/IFee";
-
 export const mockFees = <any>[
   {
     code: 'FEE0001',
