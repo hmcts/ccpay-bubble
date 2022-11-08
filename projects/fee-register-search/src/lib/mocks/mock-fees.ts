@@ -1,4 +1,6 @@
-export const mockFees = [
+import { IFee } from "../interfaces/IFee";
+
+export const mockFees = <any>[
   {
     code: 'FEE0001',
     fee_type: 'fixed',
