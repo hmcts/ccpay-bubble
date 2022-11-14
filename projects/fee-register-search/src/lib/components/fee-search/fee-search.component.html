@@ -3,6 +3,11 @@
   <span *ngIf="hasErrors" class="error-message">You must provide a search value</span>
 </label>
 <form [formGroup]="searchForm" [className]="hasErrors ? 'form-group form-group-error': 'form-group'">
-  <input #searchInput [className]="hasErrors? 'form-control form-control-error': 'form-control'" id="fee-search" type="text" name="fee-search" formControlName="searchInput">
+  <input #searchInput [className]="hasErrors? 'form-control form-control-error': 'form-control'" 
+                      id="fee-search" 
+                      type="text" 
+                      name="fee-search" 
+                      formControlName="searchInput"
+                      [attributes]="attributes">
   <button class="button button-search" (click)="searchFees()">Search</button>
 </form>
