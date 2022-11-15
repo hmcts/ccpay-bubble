@@ -33,7 +33,6 @@ class NotificationService {
     });
   }
   docPreview(req){
-    console.log('request body: ' + JSON.stringify(req.body));
     return this.createAuthToken().then(token => request.post({
       uri: `${notificationUrl}/doc-preview`,
       body: req.body,
