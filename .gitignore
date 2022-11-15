@@ -55,3 +55,5 @@ Thumbs.db
 # stryker temp files
 .stryker-tmp
 stryker.log
+start.js
+config/default.yaml

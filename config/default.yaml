@@ -2,6 +2,7 @@ security:
   referrerPolicy: origin
 idam:
   client_id: paybubble
+  client_secret: NVYEC2X7XFSRENTU
   login_url: http://localhost:23443
   api_url: http://localhost:23443
 session:
@@ -16,7 +17,7 @@ pcipalantenna:
   url: https://paybubble.platform.hmcts.net/ccd-search
   microservice: ccpay_bubble
 s2s:
-  url: http://localhost:8085
+  url: http://localhost:23443
 payhub:
   url: http://localhost:8091
 bulkscan:
@@ -39,7 +40,7 @@ ccd:
   url: http://localhost:23443
 secrets:
   ccpay:
-    paybubble-s2s-secret: PAYBUBBLE-S2S-SECRET-KEY
-    paybubble-idam-client-secret: PAYBUBBLE-IDAM-CLIENT-SECRET-KEY
-    launch-darkly-client-id: PAYBUBBLE-LD-CLIENT-ID
+    paybubble-s2s-secret: G5XTFNBUW4P6ZP4F
+    paybubble-idam-client-secret: NVYEC2X7XFSRENTU
+    launch-darkly-client-id: 5f227f4df775300ba82996dc
     AppInsightsInstrumentationKey: some-key
