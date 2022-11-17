@@ -32,6 +32,18 @@ class NotificationService {
       json: true
     });
   }
+  docPreview(req){
+    return this.createAuthToken().then(token => request.post({
+      uri: `${notificationUrl}/doc-preview`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
   createAuthToken() {
     const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
     const serviceAuthRequest = {
