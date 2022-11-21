@@ -90,7 +90,7 @@ Scenario('Payment Failure for chargeback @pipeline @nightly',
     await CaseTransaction.verifyDisputedPaymentHistoryInitiated();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await FailureEventDetails.verifyFailureDetailsPageForInitiatedEvent();
-  }).tag('@pipelines @nightly');
+  }).tag('@pipeline @nightly');
 
   Scenario('Payment Failure for chargeback with Service Request Calculation @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
