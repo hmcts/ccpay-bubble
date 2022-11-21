@@ -176,6 +176,10 @@ module.exports = {
 
   async verifyDisputedPaymentHistory() {
     I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.see('Service requests');
+    I.see('Status');
+    // I.see('Partially paid');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.payments_review_button);
     I.wait(CCPBConstants.sevenSecondWaitTime);
     I.see('Initiated');
@@ -190,12 +194,25 @@ module.exports = {
     I.wait(CCPBConstants.sevenSecondWaitTime);
   },
 
+  async verifyServiceRequestStatus() {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.see('Service requests');
+    I.see('Status');
+    // I.see('Paid');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.Logout();
+  },
+
    async verifyDisputedPaymentHistoryInitiated() {
     I.wait(CCPBConstants.sevenSecondWaitTime);
     I.click(this.locators.disputed_initiated_show_details);
   },
 
   async verifyDisputedPaymentHistoryTable() {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.see('Service requests');
+    I.see('Status');
+    // I.see('Paid');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.payments_review_button);
     I.wait(CCPBConstants.sevenSecondWaitTime);

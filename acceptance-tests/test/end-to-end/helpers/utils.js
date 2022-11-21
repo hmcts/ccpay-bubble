@@ -975,6 +975,15 @@ async function getPaymentDetailsPBA(ccdCaseNumber, paymentRef) {
 
 }
 
+async function getPaymentDetailsPBAForServiceStatus(ccdCaseNumber, paymentRef) {
+  const microservice = 'api_gw';
+  const serviceToken = await getServiceToken(microservice);
+  console.log('****service token for getPaymentReferenceUsingCCDCaseNumber - ' + serviceToken);
+  const failurereference = await recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef);
+  return failurereference;
+
+}
+
 async function bulkScanExceptionCcd(siteId, amount, paymentMethod) {
   const bulkDcnExceptionCcd = await createBulkScanRecords(siteId, amount, paymentMethod, true);
   return bulkDcnExceptionCcd;
@@ -989,5 +998,5 @@ async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
 module.exports = {
   bulkScanNormalCcd, bulkScanExceptionCcd, bulkScanCcdLinkedToException,
   toggleOffCaseValidation, toggleOnCaseValidation, createAPBAPayment, createAFailedPBAPayment,
-  createACCDCaseForProbate, createACCDCaseForDivorce, getPaymentReferenceUsingCCDCaseNumber, getPaymentDetailsPBA
+  createACCDCaseForProbate, createACCDCaseForDivorce, getPaymentReferenceUsingCCDCaseNumber, getPaymentDetailsPBA, getPaymentDetailsPBAForServiceStatus
 };
