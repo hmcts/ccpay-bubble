@@ -27,6 +27,7 @@ module.exports = {
     disputed_event: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[5]' },
     disputed_closed_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[1]/td[6]/a' },
     disputed_initiated_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[2]/td[6]/a' },
+    allocate_new_service_request: {xpath: '//*[@class="button govuk-button--secondary"]'},
   },
 
   checkEmptyRefundsSection() {
@@ -342,6 +343,14 @@ module.exports = {
       I.see('Partially paid');
     }
     I.see('Success');
+  },
+  validateTransactionPageForOverPayments() {
+    I.see('Total payments');
+    I.see('Total remissions');
+    I.see('Amount due');
+    I.see('Unallocated payments');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.click(this.locators.allocate_new_service_request);
   },
   validateTransactionPageForShortFallPayment(caseNumber) {
     I.see(caseNumber);

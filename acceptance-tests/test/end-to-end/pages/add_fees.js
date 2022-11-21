@@ -1,4 +1,5 @@
 'use strict';
+const { Console } = require('console');
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 
 
@@ -6,8 +7,15 @@ const { I } = inject();
 
 
 module.exports = {
-  locators: { fee_search: { xpath: '//*[@id="fee-search"]' } },
+  locators: {
+  fee_search: { xpath: '//*[@id="fee-search"]' }, 
   locatoramountselect: { amount_select: { xpath: '//*[@id="fee-version0"]' } },
+  search_for_fee_text: {xpath:'//*[@id="content"]//h1'},
+  allocate_payment: {xpath:'//button[@class="button govuk-!-margin-right-1"]'},
+  help_with_fee: {xpath:'//*[text()=" Help with Fees (HWF) application declined "]//../input'},
+  i_have_put_a_stop_on_case: {xpath:'//*[text()=" I have put a stop on the case and contacted the applicant requesting the balance of payment "]//../input'},
+  confirm_button: {xpath:'//button[@type="submit"]'}
+},
 
   addFees(amount, jurisdiction1, jurisdiction2) {
     I.see('Search for a fee');
@@ -37,5 +45,22 @@ module.exports = {
     I.click('Apply filters');
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
-  }
+  },
+
+  addFeesOverPayment(amount) {
+    I.see('Search for a fee');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.fillField(this.locators.fee_search, amount);
+    I.click('Search');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.click('Select');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    console.log("reached");
+    I.click(this.locators.allocate_payment);
+    console.log("reached one");
+    I.wait(CCPBConstants.fifteenSecondWaitTime);
+    I.click(this.locators.help_with_fee);
+    I.click(this.locators.i_have_put_a_stop_on_case);
+    I.click(this.locators.confirm_button);
+  },
 };

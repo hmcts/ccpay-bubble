@@ -15,6 +15,6 @@ module.exports = {
   CCDCaseNumber: 16,
   minTimeout: 1000,
   maxTimeout: 3000,
-  defaultNumberOfRetries: 3,
+  defaultNumberOfRetries: 0,
   oneMinute: 60
 };

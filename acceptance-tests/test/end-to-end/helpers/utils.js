@@ -850,8 +850,12 @@ async function recordBulkScanPayments(serviceToken, ccdCaseNumberFormatted, paym
 async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
   bankedDate, dcnNumber, paymentMethod) {
   logger.info('Creating bulk Excela Case');
-  const bulkApiUrl = `http://ccpay-bulkscanning-api-${env}.service.core-compute-${env}.internal`;
+  const bulkApiUrl = `http://ccpay-bulkscanning-api-${prNumber}.service.core-compute-${env}.internal`;
+  // const bulkApiUrl = `http://ccpay-bulkscanning-api-pr-434.service.core-compute-preview.internal`;
   const bulkendPoint = '/bulk-scan-payment';
+  console.log('****Vamshi bulk scan payments uri - ' + bulkApiUrl + bulkendPoint);
+
+  
 
   const saveBody = {
     amount,
@@ -886,8 +890,11 @@ async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
 async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, exception) {
   logger.info('Creating bulk Scan Case');
 
-  const bulkApiUrl = `http://ccpay-bulkscanning-api-${env}.service.core-compute-${env}.internal`;
+  // const bulkApiUrl = `http://ccpay-bulkscanning-api-pr-434.service.core-compute-preview.internal`;
+  const bulkApiUrl = `http://ccpay-bulkscanning-api-${prNumber}.service.core-compute-${env}.internal`;
   const bulkendPoint = '/bulk-scan-payments';
+  console.log('****Vamshi1 bulk scan payments uri - ' + bulkApiUrl + bulkendPoint);
+  
 
   const saveBody = {
     ccd_case_number: `${ccdNumber}`,
@@ -923,7 +930,7 @@ async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, except
 async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNumber) {
   logger.info('Creating bulk Scan Case linked to Exception CCD');
 
-  const bulkApiUrl = `http://ccpay-bulkscanning-api-${env}.service.core-compute-${env}.internal`;
+  const bulkApiUrl = `http://ccpay-bulkscanning-api-${prNumber}.service.core-compute-${env}.internal`;
   const bulkendPoint = '/bulk-scan-payments';
   const query = `?exception_reference=${exceptionCCDNumber}`;
 
@@ -1031,6 +1038,16 @@ async function getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber) {
 
 }
 
+async function getPaymentReferenceUsingCCDCaseNumberForOverPayments(ccdCaseNumber) {
+  const microservice = 'api_gw';
+  const serviceToken = await getServiceToken(microservice);
+  console.log('****service token for getPaymentReferenceUsingCCDCaseNumberForOverPayments - ' + serviceToken);
+  const paymentGroupRef = await getPaymentGroupRef(serviceToken, ccdCaseNumber);
+  const paymentRCRef = await recordBulkScanPayments(serviceToken, ccdCaseNumber, paymentGroupRef);
+  return paymentGroupRef;
+
+}
+
 async function getPaymentDetailsPBA(ccdCaseNumber, paymentRef) {
   const microservice = 'api_gw';
   const serviceToken = await getServiceToken(microservice);
@@ -1055,5 +1072,5 @@ async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
 module.exports = {
   bulkScanNormalCcd, bulkScanExceptionCcd, bulkScanCcdLinkedToException,
   toggleOffCaseValidation, toggleOnCaseValidation, createAPBAPayment, createAFailedPBAPayment,
-  createACCDCaseForProbate, createACCDCaseForDivorce, getPaymentReferenceUsingCCDCaseNumber, getPaymentDetailsPBA
+  createACCDCaseForProbate, createACCDCaseForDivorce, getPaymentReferenceUsingCCDCaseNumber, getPaymentDetailsPBA, getPaymentReferenceUsingCCDCaseNumberForOverPayments, rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber
 };

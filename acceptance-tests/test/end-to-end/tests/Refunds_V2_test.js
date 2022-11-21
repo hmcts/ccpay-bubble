@@ -24,7 +24,7 @@ function RefundException(message) {
   this.name = 'Assertion Error';
 }
 
-Feature('CC Pay Bubble Acceptance Tests payment failure for Bounceback and Chargeback').retry(CCPBATConstants.defaultNumberOfRetries);
+Feature('CC Pay Bubble Refunds V2 OverPayment Test').retry(CCPBATConstants.defaultNumberOfRetries);
 
 BeforeSuite(async I => {
   // console.log('Before Suite');
@@ -44,10 +44,10 @@ AfterSuite(async I => {
   }
 });
 
-Scenario('Payment Failure for Bounceback @pipeline @nightly',
+Scenario('OverPayment for Refunds V2 @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, 
     PaymentHistory, FailureEventDetails) => {
-    const totalAmount = 593;
+    const totalAmount = 500;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
     const ccdCaseNumber = ccdAndDcn[1];
     const dcnNumber = ccdAndDcn[0];
@@ -55,19 +55,24 @@ Scenario('Payment Failure for Bounceback @pipeline @nightly',
     console.log('**** The value of the dcnNumber - ' + dcnNumber);
     logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
     logger.info(`The value of the dcnNumber : ${dcnNumber}`);
-    const paymentRef = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber);
-    console.log('**** payment ref - ' + paymentRef);
+    // const paymentRef = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumberForOverPayments(ccdCaseNumber);
+    // console.log('**** payment ref - ' + paymentRef);
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.verifyDisputedPaymentHistoryTable();
+    await CaseTransaction.validateTransactionPageForOverPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await FailureEventDetails.verifyFailureDetailsPageForBounceBack();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.verifyDisputedPaymentHistoryInitiatedForBounceBack();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await FailureEventDetails.verifyFailureDetailsPageForInitiatedEventForBounceBack();
-  }).tag('@pipelines @nightly');
+    await AddFees.addFeesOverPayment('200');
+    I.wait(CCPBATConstants.fifteenSecondWaitTime);
+    //await bulkScanApiCalls.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+
+
+    // await FailureEventDetails.verifyFailureDetailsPageForBounceBack();
+    // I.wait(CCPBATConstants.fiveSecondWaitTime);
+    // await CaseTransaction.verifyDisputedPaymentHistoryInitiatedForBounceBack();
+    // I.wait(CCPBATConstants.fiveSecondWaitTime);
+    // await FailureEventDetails.verifyFailureDetailsPageForInitiatedEventForBounceBack();
+  }).tag('@pipeline @nightly');
 
 Scenario('Payment Failure for chargeback @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
