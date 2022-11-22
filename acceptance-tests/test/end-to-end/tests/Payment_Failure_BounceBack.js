@@ -91,3 +91,20 @@ Scenario('Payment Failure for chargeback @pipeline @nightly',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await FailureEventDetails.verifyFailureDetailsPageForInitiatedEvent();
   }).tag('@pipeline @nightly');
+
+  Scenario('Payment Failure for chargeback with Service Request Calculation @pipeline @nightly',
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
+
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
+    const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
+    const paymentRef = `${paymentDetails.paymentReference}`;
+    console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
+    console.log('**** The value of the paymentReference - ' + paymentRef);
+    const requestBody = await bulkScanApiCalls.getPaymentDetailsPBAForServiceStatus(ccdCaseNumber, paymentRef);
+    console.log('**** payment ref - ' + requestBody.failure_reference);
+    console.log('**** reason - ' + requestBody.reason);
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await CaseTransaction.verifyServiceRequestStatus();
+  }).tag('@pipeline @nightly');
