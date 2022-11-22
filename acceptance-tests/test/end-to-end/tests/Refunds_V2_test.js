@@ -64,7 +64,9 @@ Scenario('OverPayment for Refunds V2 @pipeline @nightly',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await AddFees.addFeesOverPayment('200');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    //await bulkScanApiCalls.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+    await bulkScanApiCalls.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber("", "", ccdCaseNumber);
+    I.wait(CCPBATConstants.fifteenSecondWaitTime);
+    I.click('Review');
 
 
     // await FailureEventDetails.verifyFailureDetailsPageForBounceBack();
@@ -72,7 +74,7 @@ Scenario('OverPayment for Refunds V2 @pipeline @nightly',
     // await CaseTransaction.verifyDisputedPaymentHistoryInitiatedForBounceBack();
     // I.wait(CCPBATConstants.fiveSecondWaitTime);
     // await FailureEventDetails.verifyFailureDetailsPageForInitiatedEventForBounceBack();
-  }).tag('@pipeline @nightly');
+  }).tag('@pipelines @nightly');
 
 Scenario('Payment Failure for chargeback @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {

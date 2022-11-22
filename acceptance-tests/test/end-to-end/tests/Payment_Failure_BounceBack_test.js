@@ -67,7 +67,7 @@ Scenario('Payment Failure for Bounceback @pipeline @nightly',
     await CaseTransaction.verifyDisputedPaymentHistoryInitiatedForBounceBack();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await FailureEventDetails.verifyFailureDetailsPageForInitiatedEventForBounceBack();
-  }).tag('@pipelines @nightly');
+  }).tag('@pipeline @nightly');
 
 Scenario('Payment Failure for chargeback @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {

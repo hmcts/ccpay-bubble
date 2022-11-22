@@ -12,8 +12,11 @@ module.exports = {
   locatoramountselect: { amount_select: { xpath: '//*[@id="fee-version0"]' } },
   search_for_fee_text: {xpath:'//*[@id="content"]//h1'},
   allocate_payment: {xpath:'//button[@class="button govuk-!-margin-right-1"]'},
-  help_with_fee: {xpath:'//*[text()=" Help with Fees (HWF) application declined "]//../input'},
-  i_have_put_a_stop_on_case: {xpath:'//*[text()=" I have put a stop on the case and contacted the applicant requesting the balance of payment "]//../input'},
+  // help_with_fee: {xpath:'//*[text()=" Help with Fees (HWF) application declined "]//../input'},
+  help_with_fee: {id:'otherDeduction'},
+  // i_have_put_a_stop_on_case: {xpath:'//*[text()=" I have put a stop on the case and contacted the applicant requesting the balance of payment "]//../input'},
+  i_have_put_a_stop_on_case: {id:'other'},
+  add_Notes: {id:'moreDetails'},
   confirm_button: {xpath:'//button[@type="submit"]'}
 },
 
@@ -56,11 +59,16 @@ module.exports = {
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     console.log("reached");
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.allocate_payment);
     console.log("reached one");
     I.wait(CCPBConstants.fifteenSecondWaitTime);
     I.click(this.locators.help_with_fee);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.i_have_put_a_stop_on_case);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.click(this.locators.add_Notes);
+    I.fillField(this.locators.add_Notes,'Test OverPayment')
     I.click(this.locators.confirm_button);
   },
 };
