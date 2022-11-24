@@ -34,7 +34,17 @@ class NotificationService {
   }
   docPreview(req) {
     /* eslint-disable no-console */
-    return this.createAuthToken().then(token => request.post({
+    // return this.createAuthToken().then(token => request.post({
+    //   uri: `${notificationUrl}/doc-preview`,
+    //   body: req.body,
+    //   headers: {
+    //     Authorization: `Bearer ${req.authToken}`,
+    //     ServiceAuthorization: `Bearer ${token}`,
+    //     'Content-Type': 'application/json'
+    //   },
+    //   json: true
+    // }));
+    return this.createAuthToken().then(token => console.log({
       uri: `${notificationUrl}/doc-preview`,
       body: req.body,
       headers: {
