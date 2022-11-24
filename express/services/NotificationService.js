@@ -33,6 +33,7 @@ class NotificationService {
     });
   }
   docPreview(req) {
+    /* eslint-disable no-console */
     return this.createAuthToken().then(token => request.post({
       uri: `${notificationUrl}/doc-preview`,
       body: req.body,
@@ -50,6 +51,7 @@ class NotificationService {
       microservice: microService,
       oneTimePassword: otpPassword
     };
+    /* eslint-disable no-console */
     console.log(otpPassword);
     console.log(serviceAuthRequest);
     return request.post({
