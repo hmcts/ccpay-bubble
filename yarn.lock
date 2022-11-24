@@ -1283,10 +1283,10 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@hmcts/ccpay-web-component@5.0.10-beta06":
-  version "5.0.10-beta06"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-5.0.10-beta06.tgz#644cfbd57f7efea25987e5b5d17313104b2ca985"
-  integrity sha512-WPgvaJ7eYfq/7o/WLQgo+HYfEDixPucvLYD3HfqJCtA5K0PxB9Mv5vJicFWj8BuRFKqMuI+zF/ZwLhDNVkh9zQ==
+"@hmcts/ccpay-web-component@5.0.10-beta07":
+  version "5.0.10-beta07"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-5.0.10-beta07.tgz#9c38d0cc95ac22e237188be74807877bf8a1ce26"
+  integrity sha512-Ith8sPTdkzwB7pXTODVmMuMuB3/vuLqL1Nx7gxLoDfT+Z8kRFMezUpK5mvsDhKzAzmArKzCrF8GQl3+FKK7BnQ==
   dependencies:
     tslib "^2.0.0"
 
