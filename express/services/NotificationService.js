@@ -50,6 +50,8 @@ class NotificationService {
       microservice: microService,
       oneTimePassword: otpPassword
     };
+    console.log(otpPassword);
+    console.log(serviceAuthRequest);
     return request.post({
       uri: `${s2sUrl}/lease`,
       body: serviceAuthRequest,

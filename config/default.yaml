@@ -25,7 +25,7 @@ bulkscan:
 refunds:
   url: http://localhost:8084
 notification:
-  url: http://ccpay-notifications-service-pr-90-java
+  url: http://ccpay-notifications-service-demo.service.core-compute-demo.internal
 waystopay:
   url: https://paymentoutcome-web.demo.platform.hmcts.net/payment
 postcodelookup:
