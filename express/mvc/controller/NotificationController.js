@@ -33,8 +33,7 @@ class NotificationController {
       });
   }
   docPreview(req, res) {
-    /* eslint-disable no-console */
-    console.log(this.notificationService.docPreview(req)
+    return this.notificationService.docPreview(req)
       .then(result => {
         res.status(200).json({ data: result, success: true });
       })
@@ -44,7 +43,7 @@ class NotificationController {
         } else {
           res.status(500).json({ err: error, success: false });
         }
-      }));
+      });
   }
 }
 
