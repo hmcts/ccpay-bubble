@@ -34,17 +34,7 @@ class NotificationService {
   }
   docPreview(req) {
     /* eslint-disable no-console */
-    // return this.createAuthToken().then(token => request.post({
-    //   uri: `${notificationUrl}/doc-preview`,
-    //   body: req.body,
-    //   headers: {
-    //     Authorization: `Bearer ${req.authToken}`,
-    //     ServiceAuthorization: `Bearer ${token}`,
-    //     'Content-Type': 'application/json'
-    //   },
-    //   json: true
-    // }));
-    return this.createAuthToken().then(token => console.log({
+    return this.createAuthToken().then(token => request.post({
       uri: `${notificationUrl}/doc-preview`,
       body: req.body,
       headers: {
@@ -61,9 +51,6 @@ class NotificationService {
       microservice: microService,
       oneTimePassword: otpPassword
     };
-    /* eslint-disable no-console */
-    console.log(otpPassword);
-    console.log(serviceAuthRequest);
     return request.post({
       uri: `${s2sUrl}/lease`,
       body: serviceAuthRequest,
