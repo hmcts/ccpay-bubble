@@ -39,7 +39,7 @@ class NotificationService {
       body: req.body,
       headers: {
         Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
+        ServiceAuthorization: `${token}`,
         'Content-Type': 'application/json'
       },
       json: true
