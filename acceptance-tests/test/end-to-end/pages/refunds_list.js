@@ -1,12 +1,17 @@
 'use strict';
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
+const CCPBATConstants = require('../tests/CCPBAcceptanceTestConstants');
 
 const { I } = inject();
 
 module.exports = {
   locators: {
     service_requests_review: { xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]' },
-    payment_success_review: { xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]' }
+    payment_success_review: { xpath: '//td[1][@class = "govuk-table__cell whitespace-inherit"]/a[text()="Review"]' },
+    review_Approved: {xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr/td[6]/a'},
+    checkbox_fee: {xpath: '//input[@name="organisation"]'},
+    amount_to_refund: {xpath: '//input[starts-with(@id, "feeAmount")]'},
+    fee_not_due: {xpath: '//*[@id="Fee not due"]'}
   },
 
   async getHeaderValue() {
@@ -53,6 +58,118 @@ module.exports = {
     }
   },
 
+  verifyRefundDetailsAfterApprovalOfRefund() {
+    I.see('Refund details');
+    I.see('Refund reference');
+    I.see('Reason for refund');
+    I.see('Amount refunded');
+    I.see('Notifications sent');
+    I.see('Date and time');
+    I.see('Sent to');
+    I.see('	Sent via');
+    // I.see(reason_for_refund);
+    I.see('Email');
+    I.see('vamshi.rudrabhatla@hmcts.net');
+    I.see('Actions');
+    I.see('Resend');
+    I.see('Edit details');
+    I.click('Resend');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.see('Notification sent');
+    I.see('Refund reference');
+    I.click('Return to case');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click(this.locators.review_Approved);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+
+  },
+  verifyRefundDetailsAfterRejectionOfOverPayment() {
+    I.see('Refund details');
+    I.see('Refund reference');
+    I.see('Reason for refund');
+    I.see('Amount refunded');
+    I.see('Overpayment');
+    I.see('£300.00');
+    I.see('RF-');
+    I.see('RC-');
+    I.see('Refund status history');
+    I.see('Status');
+    I.see('Rejected');
+    I.see('Sent for approval');
+    I.see('Users');
+    I.see('Probate Requester12');
+    I.see('Refund initiated and sent to team leader');
+    I.see('Notes');
+    I.see('Date and time');
+  },
+
+  verifyRefundDetailsAfterReturnToCaseWorkerOfFullPayment() {
+    I.see('Refund details');
+    I.see('Refund reference');
+    I.see('Reason for refund');
+    I.see('Amount refunded');
+    I.see('Fee not due');
+    I.see('£500.00');
+    I.see('RF-');
+    I.see('RC-');
+    I.see('Refund status history');
+    I.see('Status');
+    I.see('Update required');
+    I.see('Sent for approval');
+    I.see('Users');
+    I.see('Probate Requester12');
+    I.see('Refund initiated and sent to team leader');
+    I.see('Notes');
+    I.see('Test Reason Only');
+    I.see('Date and time');
+  },
+
+verifyIssueRefundPageForPartialPayments(amount){
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.see('Issue refund');
+  I.see('Payment reference:');
+  I.see('Select fees to be refunded');
+  I.see('Personal Application for grant of Probate');
+  I.see('£215.00');
+  I.see('Fee amount');
+  I.see('Total paid');
+  I.see('Quantity');
+  I.see('Amount to refund');
+  I.wait(CCPBATConstants.tenSecondWaitTime);
+  I.click(this.locators.checkbox_fee);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.click(this.locators.amount_to_refund);
+  I.clearField(this.locators.amount_to_refund);
+  I.fillField(this.locators.amount_to_refund, amount);
+},
+
+verifyIssueRefundPageForRemissions(amount){
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.see('Issue refund');
+  I.see('Payment reference:');
+  I.see('Select fees to be refunded');
+  I.see('Fee amount');
+  I.see('Total paid');
+  I.see('Quantity');
+  I.see('Amount to refund');
+  I.wait(CCPBATConstants.tenSecondWaitTime);
+  I.click(this.locators.checkbox_fee);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.click(this.locators.amount_to_refund);
+  I.clearField(this.locators.amount_to_refund);
+  I.fillField(this.locators.amount_to_refund, amount);
+},
+
+verifyProcessRefund(){
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.see('Process refund');
+  I.see('Payment reference:');
+  I.see('Why are you making this refund?');
+  I.click(this.locators.fee_not_due);
+  I.click('Continue');
+},
+
+
   /* verifyReviewAndResubmitRefundPage(refund_reference_number) {
     I.waitForText('Review and resubmit refund', '5');
     I.see('Reason for rejection');
@@ -75,7 +192,6 @@ module.exports = {
     // I.see(reason_for_refund);
     I.see('Amount refunded');
     // I.see(amount_refunded);
-
     I.see('Refund status history');
     I.see('status');
     I.see('Date and time');
@@ -121,5 +237,59 @@ module.exports = {
   approveRefundJourney(refundReferenceNumber) {
     verifyRefundsListPage('Approve Refund', refundReferenceNumber);
     verifyReviewRefundsPage();
-  }
+  },
+
+  verifyRefundDetailsAfterOverPayment() {
+    I.see('Refund details');
+    I.see('Refund reference');
+    I.see('Payment to be refunded');
+    I.see('Reason for refund');
+    I.see('£300.00');
+    I.see('Notifications sent');
+    I.see('Date and time');
+    I.see('Sent to');
+    I.see('	Sent via');
+    I.see('Email');
+    I.see('vamshi.rudrabhatla@hmcts.net');
+    I.see('Actions');
+    I.see('Resend');
+    I.see('Edit details');
+    I.click('Back');
+  },
+
+  verifyRefundDetailsAfterRemission() {
+    I.see('Refund details');
+    I.see('Refund reference');
+    I.see('Payment to be refunded');
+    I.see('Reason for refund');
+    I.see('£100.00');
+    I.see('Notifications sent');
+    I.see('Date and time');
+    I.see('Sent to');
+    I.see('	Sent via');
+    I.see('Email');
+    I.see('vamshi.rudrabhatla@hmcts.net');
+    I.see('Actions');
+    I.see('Resend');
+    I.see('Edit details');
+    I.click('Back');
+  },
+
+  verifyRefundDetailsAfterRefunds() {
+    I.see('Refund details');
+    I.see('Refund reference');
+    I.see('Payment to be refunded');
+    I.see('Reason for refund');
+    I.see('£100.00');
+    I.see('Notifications sent');
+    I.see('Date and time');
+    I.see('Sent to');
+    I.see('	Sent via');
+    I.see('Email');
+    I.see('vamshi.rudrabhatla@hmcts.net');
+    I.see('Actions');
+    I.see('Resend');
+    I.see('Edit details');
+    I.click('Back');
+  },
 };

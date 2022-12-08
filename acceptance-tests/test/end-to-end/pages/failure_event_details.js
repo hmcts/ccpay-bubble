@@ -23,10 +23,10 @@ module.exports = {
     I.see('£10.00');
     I.see('AR1234556');
     I.see('Chargeback');
-    I.see('28 Aug 2022');
+    I.see('28 Nov 2022');
     I.see('Yes');
     I.see('Failure');
-    I.see('22 Jul 2022');
+    I.see('29 Nov 2022');
     I.click(this.locators.failure_events_page_back_button);
   },
 
@@ -38,7 +38,7 @@ module.exports = {
     I.see('£10.00');
     I.see('AR1234556');
     I.see('Chargeback');
-    I.see('28 Aug 2022');
+    I.see('28 Nov 2022');
     I.see('Yes');
     I.Logout();
   },
@@ -48,12 +48,12 @@ module.exports = {
     I.see('RR001');
     I.see('RC-');
     I.see('£250.00');
-    I.see('£100.00');
+    I.see('£250.00');
     I.see('AR1234556');
     I.see('Bounced Cheque');
-    I.see('28 Aug 2022');
+    I.see('28 Nov 2022');
     I.see('Success');
-    I.see('22 Jul 2022');
+    I.see('29 Nov 2022');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.failure_events_page_back_button);
   },
@@ -63,10 +63,10 @@ module.exports = {
     I.see('RR001');
     I.see('RC-');
     I.see('£250.00');
-    I.see('£100.00');
+    I.see('£250.00');
     I.see('AR1234556');
     I.see('Bounced Cheque');
-    I.see('28 Aug 2022');
+    I.see('28 Nov 2022');
     I.Logout();
   }
 };

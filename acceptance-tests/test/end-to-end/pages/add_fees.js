@@ -70,5 +70,7 @@ module.exports = {
     I.click(this.locators.add_Notes);
     I.fillField(this.locators.add_Notes,'Test OverPayment')
     I.click(this.locators.confirm_button);
+    console.log("Exit addFeesOverPayment ");
+
   },
 };

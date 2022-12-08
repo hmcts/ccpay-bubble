@@ -28,6 +28,7 @@ module.exports = {
     disputed_closed_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[1]/td[6]/a' },
     disputed_initiated_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[2]/td[6]/a' },
     allocate_new_service_request: {xpath: '//*[@class="button govuk-button--secondary"]'},
+    click_overpayment: {xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr[1]/td[6]/a'},
   },
 
   checkEmptyRefundsSection() {
@@ -183,8 +184,8 @@ module.exports = {
     I.see('Closed');
     I.see('£10.00');
     // I.see(`${Paymentreference}`);
-    I.see('28 Aug 2022');
-    I.see('22 Jul 2022');
+    I.see('28 Nov 2022');
+    I.see('29 Nov 2022');
     I.see('Chargeback');
     I.wait(CCPBConstants.sevenSecondWaitTime);
     I.click(this.locators.disputed_closed_show_details);
@@ -202,10 +203,10 @@ module.exports = {
     I.wait(CCPBConstants.sevenSecondWaitTime);
     I.see('Initiated');
     I.see('Closed');
-    I.see('£100.00');
+    I.see('£250.00');
     // I.see(`${Paymentreference}`);
-    I.see('28 Aug 2022');
-    I.see('22 Jul 2022');
+    I.see('29 Nov 2022');
+    I.see('28 Nov 2022');
     I.see('Bounced Cheque');
     I.wait(CCPBConstants.sevenSecondWaitTime);
     I.click(this.locators.disputed_closed_show_details);
@@ -351,6 +352,27 @@ module.exports = {
     I.see('Unallocated payments');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.allocate_new_service_request);
+  },
+  validateTransactionPageForOverPaymentsRemissionsRefunds(refunds,refundRefRemissions,refundRefOverPayments) {
+    I.see(refunds);
+    I.see(refundRefRemissions);
+    I.see(refundRefOverPayments);
+    I.see('Refunds');
+    I.see('Approved');
+    I.see('£300.00');
+    I.see('£100.00');
+    I.see('Overpayment');
+    I.see('Retrospective remission');
+    I.see('Fee not due');
+    I.click(this.locators.click_overpayment);
+  },
+  validateTransactionPageForPartialPayments() {
+    I.see('Total payments');
+    I.see('215');
+    I.see('Total remissions');
+    I.see('Amount due');
+    I.see('Unallocated payments');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
   validateTransactionPageForShortFallPayment(caseNumber) {
     I.see(caseNumber);

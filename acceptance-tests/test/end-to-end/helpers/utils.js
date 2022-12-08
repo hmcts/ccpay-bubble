@@ -358,25 +358,36 @@ async function createACCDCaseForDivorce() {
 }
 
 async function rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(
-  idamToken, serviceToken, ccdCaseNumber) {
-  logger.debug('Inside the updatePBAPaymentDateByCCDCaseNumber() method');
+   ccdCaseNumber) {
+    const lag_time = 20;
+    const microservice = 'cmc';
+    const idamToken = await getIDAMToken();
+    const testCmcSecret = testConfig.TestCMCSecret;
+    const accountNumber = testConfig.TestAccountNumberInActive;
+    logger.debug(`The value of the inactive account number : ${accountNumber}`);
+    console.log(`The value of the IDAM Token ${idamToken}`);
+    logger.debug(`The value of the cmc secret ${testCmcSecret}`);
+    const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
+    console.log(`The value of the Service Token ${serviceToken}`);
   const rollbackPaymentDateByCCDNumberUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
-  const rollbackPaymentDateByCCDNumberEndPoint = `/payments/ccd_case_reference/${ccdCaseNumber}`;
-  logger.debug(`The Full URL : ${rollbackPaymentDateByCCDNumberUrl}${rollbackPaymentDateByCCDNumberEndPoint}`);
+  console.log("Reached here roll 2");
+  const rollbackPaymentDateByCCDNumberEndPoint = `/payments/ccd_case_reference/${ccdCaseNumber}/lag_time/${lag_time}`;
+ console.log(`The Full URL : ${rollbackPaymentDateByCCDNumberUrl}${rollbackPaymentDateByCCDNumberEndPoint}`);
 
   const getPBAPaymentByCCDCaseNumberOptions = {
     method: 'PATCH',
     uri: rollbackPaymentDateByCCDNumberUrl + rollbackPaymentDateByCCDNumberEndPoint,
     headers: {
-      ServiceAuthorization: `Bearer ${serviceToken}`,
+      Authorization: `Bearer ${idamToken}`,
+      ServiceAuthorization: `${serviceToken}`,
       'Content-Type': 'application/json'
     }
   };
   await request(getPBAPaymentByCCDCaseNumberOptions,
     (_error, response) => {
-      logger.info(response);
-      logger.info(`${statusCode}The value of the status code`);
-      logger.info(`${response}The value of the response`);
+      // console.log(response);
+      console.log(`${statusCode}The value of the status code`);
+      console.log(`${response}The value of the response`);
     }).catch(error => {
       logger.error(error);
     });
@@ -401,7 +412,7 @@ async function getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumb
     (_error, response) => {
       logger.info(response);
       logger.info(`${statusCode}The value of the status code`);
-      logger.info(`${response}The value of the response`);
+      // logger.info(`${response}The value of the response`);
     }).catch(error => {
       logger.error(error);
     });
@@ -683,9 +694,9 @@ async function recordBouncebackFailure(serviceToken, ccdNumber, paymentRCRefernc
   const failureReference = 'FR-267-CC14-' + numUtil.getRandomNumber(9, 999999999);
   const saveBody = {
     'additional_reference': 'AR1234556',
-    'amount': 100,
+    'amount': 250,
     'ccd_case_number': `${ccdNumber}`,
-    'event_date_time': '2022-08-28T14:28:34.355Z',
+    'event_date_time': '2022-11-28T14:28:34.355Z',
     'failure_reference': `${failureReference}`,
     'payment_reference': `${paymentRCRefernce}`,
     'reason': 'RR001'
@@ -719,7 +730,7 @@ async function recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef) 
     'additional_reference': 'AR1234556',
     'amount': 10,
     'ccd_case_number': `${ccdCaseNumber}`,
-    'event_date_time': '2022-08-28T14:28:34.355Z',
+    'event_date_time': '2022-11-28T14:28:34.355Z',
     'has_amount_debited': 'Yes',
     'failure_reference': `${failureReference}`,
     'payment_reference': `${paymentRef}`,
@@ -749,7 +760,7 @@ async function recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef) 
 
 async function patchFailureReference(serviceToken, failureReference) {
   const saveBody = {
-    'representment_date': '2022-07-22T11:03:02.544Z',
+    'representment_date': '2022-11-29T11:03:02.544Z',
     'representment_status': 'Yes'
   };
   console.log("*** the body patchFailureReference is -" + JSON.stringify(saveBody));
@@ -775,7 +786,7 @@ async function patchFailureReference(serviceToken, failureReference) {
 
 async function patchFailureReferenceNo(serviceToken, failureReference) {
   const saveBody = {
-    'representment_date': '2022-07-22T11:03:02.544Z',
+    'representment_date': '2022-11-29T11:03:02.544Z',
     'representment_status': 'No'
   };
   console.log("*** the body patchFailureReference is -" + JSON.stringify(saveBody));
@@ -983,6 +994,7 @@ async function createBulkScanRecords(siteId, amount, paymentMethod, exception, l
   const creditSlipNumber = '312312';
   const serviceToken = await getServiceToken(microservice);
   const bankedDate = stringUtil.getTodayDateInYYYYMMDD();
+  // const bankedDate = 2022-05-01;
   let dcnNumber = 0;
   // const ccdNumber = 0;
   const successResponse = 201;
