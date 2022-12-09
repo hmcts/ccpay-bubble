@@ -12,7 +12,7 @@ export class FeeSearchComponent implements OnInit {
   @Output() feeSearchEventEmitter: EventEmitter<string> = new EventEmitter();
   searchForm: FormGroup;
   hasErrors = false;
-  ariaInvalid: boolean = false;
+  ariaInvalid = false;
 
   constructor(
     private formBuilder: FormBuilder
@@ -25,9 +25,9 @@ export class FeeSearchComponent implements OnInit {
   }
 
   searchFees() {
-    if (this.searchForm.invalid) { 
+    if (this.searchForm.invalid) {
       this.ariaInvalid = true;
-      return this.hasErrors = true; 
+      return this.hasErrors = true;
     }
     this.hasErrors = false;
     this.feeSearchEventEmitter.emit(this.searchForm.get('searchInput').value);
