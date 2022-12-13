@@ -4,3 +4,8 @@ coverage/*
 output
 acceptance-tests/output
 functional-output/*
+acceptance-tests/test/end-to-end/pages/case_transactions.js
+acceptance-tests/test/end-to-end/tests/Payment_Failure_BounceBack_test.js
+acceptance-tests/test/end-to-end/helpers/utils.js
+acceptance-tests/test/end-to-end/pages/failure_event_details.js
+acceptance-tests/test/end-to-end/tests/Payment_Failure_BounceBack.js

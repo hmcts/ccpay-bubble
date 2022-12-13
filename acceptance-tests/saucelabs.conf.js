@@ -79,7 +79,8 @@ const setupConfig = {
     InitiateRefunds: './test/end-to-end/pages/initiate_refunds.js',
     Remission: './test/end-to-end/pages/remission.js',
     PaymentHistory: './test/end-to-end/pages/payment_history.js',
-    Reports: './test/end-to-end/pages/reports.js'
+    Reports: './test/end-to-end/pages/reports.js',
+    FailureEventDetails: './test/end-to-end/pages/failure_event_details.js'
   },
   mocha: {
     reporterOptions: {
