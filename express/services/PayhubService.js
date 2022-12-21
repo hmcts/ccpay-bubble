@@ -1,5 +1,6 @@
 const config = require('config');
 const otp = require('otp');
+const UUID = require('uuid/v4');
 const request = require('request-promise-native');
 const FeatureService = require('./FeatureService');
 
@@ -235,7 +236,41 @@ class PayhubService {
       json: true
     }));
   }
-
+  getPbaAccountList(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${payhubUrl}/pba-accounts`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+  postPBAAccountPayment(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/service-request/${req.params.serviceRef}/pba-payments`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+  postWays2PayCardPayment(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/service-request/${req.params.serviceRef}/card-payments`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
   getApportionPaymentGroup(req) {
     return this.createAuthToken().then(token => request.get({
       uri: `${payhubUrl}/payment-groups/fee-pay-apportion/${req.params.id}`,

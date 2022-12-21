@@ -2,7 +2,7 @@ import {PaybubbleHttpClient} from 'src/app/services/httpclient/paybubble.http.cl
 import {Meta} from '@angular/platform-browser';
 import {instance, mock} from 'ts-mockito/lib/ts-mockito';
 import {HttpClientModule, HttpClient, HttpHeaders} from '@angular/common/http';
-import {of} from 'rxjs';
+import {of, BehaviorSubject} from 'rxjs';
 import {PaymentModel} from 'src/app/models/PaymentModel';
 import {PaymentGroupService} from './payment-group.service';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
@@ -101,6 +101,26 @@ describe('Payment group service', () => {
         expect(response).toBe(true);
       });
   });
+  it('Should call get discontinued fees feature is off', () => {
+    const features = <any>[
+      {
+        uid: 'discontinued-fees-features',
+        enable: true,
+        description: 'To enable discontinued fees FeesRegister Feature',
+        group: null,
+        permissions: [],
+        flippingStrategy: null,
+        customProperties: {}
+      }
+    ];
+    spyOn(features, 'find').and.returnValue(features[0]);
+    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
+
+    paymentGroupService.getDiscontinuedFrFeature()
+      .then((response) => {
+        expect(response).toBe(false);
+      });
+  });
 
   it('Should call get discontinued fees feature is off', () => {
     const features = <any>[
@@ -145,6 +165,16 @@ describe('Payment group service', () => {
       });
   });
 
+
+  it('Should call get environment details', () => {
+
+    spyOn(http, 'get').and.callFake(() => of('FEprod'));
+    paymentGroupService.getEnvironment()
+      .then((response) => {
+        expect(response).toBe('FEprod');
+      });
+  });
+
     it('Should call get bulk scanning Payment details', () => {
     const paymentGroup = <any>{
         ccd_reference: '1111222233334444',
@@ -172,10 +202,9 @@ describe('Payment group service', () => {
     spyOn(http, 'get').and.callFake((param1: string) => of(paymentGroup));
     paymentGroupService.getBSPaymentsByDCN('1234')
       .then((response) => {
+        expect(response).toBe(paymentGroup);
         expect(response.ccd_reference).toBe(paymentGroup.ccd_reference);
         expect(response.exception_record_reference).toBe(paymentGroup.exception_record_reference);
-      }).catch(() => {
-
       });
   });
   it('Should return true is bulk scann flag is on', () => {
@@ -195,6 +224,25 @@ describe('Payment group service', () => {
     paymentGroupService.getBSFeature()
       .then((response) => {
         expect(response).toBe(true);
+      });
+  });
+  it('Should return true is bulk scann flag is off', () => {
+    const features = <any>[
+      {
+        customProperties: {},
+        description: 'enable bulkScan payBubble check',
+        enable: true,
+        flippingStrategy: null,
+        group: null,
+        permissions: [],
+        uid: 'bulk-scan-enabling-fes'
+      }
+    ];
+    spyOn(features, 'find').and.returnValue(features[0]);
+    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
+    paymentGroupService.getBSFeature()
+      .then((response) => {
+        expect(response).toBe(false);
       });
   });
   it('Should return false is bulk scann flag is off', () => {
@@ -233,6 +281,14 @@ describe('Payment group service', () => {
     paymentGroupService.getBSFeature()
       .then((response) => {
         expect(response).toBe(false);
+      });
+  });
+
+  it('Should return bulkscan case details', () => {
+    spyOn(http, 'get').and.callFake((param1: string) => of({}));
+    paymentGroupService.getBSPaymentsByCCD('1234')
+      .then((response) => {
+        expect(response).toBe({});
       });
   });
 });

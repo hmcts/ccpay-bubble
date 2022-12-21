@@ -1,6 +1,7 @@
 module.exports = {
   windowsSizeX: 1600,
   windowsSizeY: 1200,
+  oneSecondWaitTime: 1,
   twoSecondWaitTime: 2,
   fiveSecondWaitTime: 5,
   sevenSecondWaitTime: 7,
