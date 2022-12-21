@@ -131,6 +131,9 @@ module.exports = appInsights => express.Router()
   .get('/notification/search/places/v1/postcode?*', (req, res) => {
     controllers.notificationController.getaddressByPostcode(req, res);
   })
+  .post('/notification/doc-preview', (req, res) => {
+    controllers.notificationController.docPreview(req, res);
+  })
   // Bulk scanning services
   .get('/bulk-scan/cases/:id', (req, res) => {
     controllers.bulkScanController.getPaymentDetailsForCcd(req, res);
