@@ -48,6 +48,22 @@ function checkYourAnswers(paymentReference, hwfReferenceCode, refundAmount) {
   return checkYourAnswersData;
 }
 
+function getPaymentCardValues(cardNumber, expiryMonth, expiryYear,
+  cvc, name, houseNumber, addressLine, townOrCity, postcode, email) {
+  const paymentCardValues = {
+    cardNumber: `${cardNumber}`,
+    expiryMonth: `${expiryMonth}`,
+    expiryYear: `${expiryYear}`,
+    cvc: `${cvc}`,
+    name: `${name}`,
+    houseNumber: `${houseNumber}`,
+    addressLine: `${addressLine}`,
+    townOrCity: `${townOrCity}`,
+    postcode: `${postcode}`,
+    email: `${email}`
+  };
+  return paymentCardValues;
+}
 function getCaseTransactionsData(
   paymentReference, refundAmount, refundStatus,
   refundReference, refundReason, refundSubmittedBy, refundNotes) {
@@ -71,5 +87,6 @@ function getCaseTransactionsData(
 
 module.exports = {
   checkPaymentValues, checkYourDetailsSummary,
-  checkYourAnswers, getCaseTransactionsData
+  checkYourAnswers, getCaseTransactionsData,
+  getPaymentCardValues
 };

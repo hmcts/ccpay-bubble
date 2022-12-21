@@ -490,6 +490,72 @@ async function createAFailedPBAPayment() {
 }
 
 // eslint-disable-next-line no-unused-vars
+async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, version, volume) {
+  const baseURI = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
+  const createServiceRequestEndPoint = '/service-request';
+  const idamToken = await getIDAMToken();
+  const testPaybubbleS2SSecret = testConfig.TestPaybubbleS2SSecret;
+  const microservice = 'ccpay_bubble';
+  const serviceToken = await getServiceTokenForSecret(microservice, testPaybubbleS2SSecret);
+
+  // eslint-disable-next-line no-magic-numbers
+  const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
+  console.log(`The value of the CCD Case Number : ${ccdCaseNumber}`);
+  console.log(`The Full Payment URL : ${baseURI}${createServiceRequestEndPoint}`);
+  console.log(`The value of the IDAM Token ${idamToken}`);
+  console.log(`The value of the Service Token ${serviceToken}`);
+
+  const saveBody = {
+
+    call_back_url: 'http://callback.hmcts.net',
+    case_payment_request: {
+      action: 'Action 1',
+      responsible_party: 'Party 1'
+    },
+    case_reference: '123245677',
+    ccd_case_number: `${ccdCaseNumber}`,
+    fees: [
+      {
+        calculated_amount: calculatedAmount,
+        code: `${feeCode}`,
+        version: `${version}`,
+        volume
+      }
+    ],
+    hmcts_org_id: `${hmctsorgid}`
+  };
+
+  const createAServiceRequestOptions = {
+    method: 'POST',
+    uri: baseURI + createServiceRequestEndPoint,
+    headers: {
+      Authorization: `${idamToken}`,
+      ServiceAuthorization: `Bearer ${serviceToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(saveBody)
+  };
+
+  const cSRRS = await request(createAServiceRequestOptions, (_error, response) => {
+    statusCode = response.statusCode;
+    // console.log(`The value of the response status code : ${statusCode}`);
+  }).catch(error => {
+    logger.error(error);
+    console.log(error);
+  });
+
+  const createServiceRequestLookupObject = JSON.parse(cSRRS);
+  const serviceRequestReference = createServiceRequestLookupObject.service_request_reference;
+  console.log(`The value of the service Request Reference ${serviceRequestReference}`);
+  const serviceRequestResponseDetails = {
+    ccdCaseNumber: `${ccdCaseNumber}`,
+    serviceRequestReference: `${serviceRequestReference}`
+  };
+  // console.log(`The Payment Details Object${JSON.stringify(paymentDetails)}`);
+  return serviceRequestResponseDetails;
+}
+
+// eslint-disable-next-line no-unused-vars
 async function createAPBAPayment() {
   logger.debug('Creating bulk a PBA Payment...');
 

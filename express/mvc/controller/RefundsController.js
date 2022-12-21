@@ -85,6 +85,19 @@ class RefundsController {
         }
       });
   }
+  putResendOrEdit(req, res, appInsights) {
+    return this.refundsService.putResendOrEdit(req, res, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        if (error.statusCode) {
+          res.status(error.statusCode).json({ err: error.message, success: false });
+        } else {
+          res.status(500).json({ err: error, success: false });
+        }
+      });
+  }
 
   getRefundStatusList(req, res) {
     return this.refundsService.getRefundStatusList(req)

@@ -21,6 +21,7 @@ def secrets = [
     secret('launch-darkly-client-id', 'LD_CLIENT_ID'),
     secret('citizen-oauth-client-secret', 'OAUTH2_CLIENT_SECRET'),
     secret('cmc-service-secret', 'CMC_S2S_SERVICE_SECRET'),
+    secret('postcode-address-lookup-id', 'POSTCODE_ADDRESS_LOOKUP_ID'),
     secret('probate-caseworker-username', 'PROBATE_CASE_WORKER_USER_NAME'),
     secret('probate-caseworker-password', 'PROBATE_CASE_WORKER_PASSWORD'),
     secret('divorce-caseworker-username', 'DIVORCE_CASE_WORKER_USER_NAME'),
