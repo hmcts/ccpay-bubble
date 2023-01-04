@@ -263,4 +263,9 @@ describe('Payment History component Reports', () => {
     expect(component.view).toBe('');
     expect(component.bulkscanapiRoot).toBe('api/bulk-scan');
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
 });

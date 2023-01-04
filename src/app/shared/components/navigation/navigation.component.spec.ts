@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 
 import { NavigationComponent } from './navigation.component';
 import { WindowUtil } from 'src/app/services/window-util/window-util';
@@ -7,7 +7,7 @@ describe('NavigationComponent', () => {
   let component: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ NavigationComponent ],
       providers: [ WindowUtil ]
@@ -22,6 +22,10 @@ describe('NavigationComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
   });
 
   // it('should display payment history when the url has .internal', () => {

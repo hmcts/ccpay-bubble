@@ -44,16 +44,15 @@ export class PaymentGroupService {
       return !JSON.parse(features).flag;
     });
   }
+  getDiscontinuedFrFeature(): Promise<any> {
+    return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
+      const regFeature = JSON.parse(features).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
+      return regFeature ? regFeature.enable : false;
+    });
+  }
 
-   getDiscontinuedFrFeature(): Promise<any> {
-      return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
-        const regFeature = JSON.parse(features).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
-        return regFeature ? regFeature.enable : false;
-      });
-    }
-
-    getBSPaymentsByCCD(ccdCaseNumber: string): Promise<IBSPayments> {
-      return this.http.get(`api/bulk-scan/cases/${ccdCaseNumber}`)
+  getBSPaymentsByCCD(ccdCaseNumber: string): Promise<IBSPayments> {
+    return this.http.get(`api/bulk-scan/cases/${ccdCaseNumber}`)
       .toPromise()
       .then(response => {
         return <IBSPayments>JSON.parse(response);

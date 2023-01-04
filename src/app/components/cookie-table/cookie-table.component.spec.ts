@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CookieTableComponent } from './cookie-table.component';
 
@@ -15,7 +15,7 @@ describe('CookieTableComponentTest', () => {
   let component: CookieTableComponent;
   let fixture: ComponentFixture<CookieTableComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
       declarations: [ CookieTableComponent ],
@@ -38,4 +38,9 @@ describe('CookieTableComponentTest', () => {
   it('should be created by angular', () => {
     expect(fixture).not.toBeNull();
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
 });

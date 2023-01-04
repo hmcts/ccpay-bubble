@@ -1,4 +1,4 @@
-export const mockFees = [
+export const mockFees = <any>[
   {
     code: 'FEE0001',
     fee_type: 'fixed',

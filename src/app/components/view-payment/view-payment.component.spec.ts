@@ -31,7 +31,7 @@ describe('View payment component', () => {
     fixture = TestBed.createComponent(ViewPaymentComponent);
     component = fixture.componentInstance;
 
-    testBedService = TestBed.get(ActivatedRoute);
+    testBedService = TestBed.inject(ActivatedRoute);
   });
 
   it('Should get route param payment references', () => {
@@ -45,4 +45,9 @@ describe('View payment component', () => {
     fixture.detectChanges();
     expect(component.paymentRef).toBe('1111-2222-3333-4444');
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
 });

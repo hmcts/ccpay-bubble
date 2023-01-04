@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,7 +16,7 @@ describe('ReviewFeeDetailComponent', () => {
   let component: ConfirmationComponent;
   let fixture: ComponentFixture<ConfirmationComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ConfirmationComponent],
       providers: [
@@ -51,4 +51,9 @@ describe('ReviewFeeDetailComponent', () => {
     component.takeNewPayment();
     expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/addFeeDetail');
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
 });
