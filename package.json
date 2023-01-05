@@ -50,7 +50,7 @@
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/ccpay-web-component": "5.0.10",
     "@hmcts/frontend": "^0.0.34-alpha",
-    "@hmcts/nodejs-healthcheck": "^1.5.1",
+    "@hmcts/nodejs-healthcheck": "^1.8.0",
     "@hmcts/nodejs-logging": "^3.0.0",
     "@hmcts/properties-volume": "^0.0.13",
     "applicationinsights": "^1.1.0",
