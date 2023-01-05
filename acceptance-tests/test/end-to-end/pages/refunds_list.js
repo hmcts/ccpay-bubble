@@ -11,7 +11,8 @@ module.exports = {
     review_Approved: {xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr/td[6]/a'},
     checkbox_fee: {xpath: '//input[@name="organisation"]'},
     amount_to_refund: {xpath: '//input[starts-with(@id, "feeAmount")]'},
-    fee_not_due: {xpath: '//*[@id="Fee not due"]'}
+    fee_not_due: {xpath: '//*[@id="Fee not due"]'},
+    view_button: {xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-refund-status//a[3]'}
   },
 
   async getHeaderValue() {
@@ -59,6 +60,7 @@ module.exports = {
   },
 
   verifyRefundDetailsAfterApprovalOfRefund() {
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Refund details');
     I.see('Refund reference');
     I.see('Reason for refund');
@@ -81,6 +83,163 @@ module.exports = {
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click(this.locators.review_Approved);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
+
+  },
+
+  verifyRefundDetailsAfterApprovalOfRefundSendRefund() {
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.see('Refund details');
+    I.see('Refund reference');
+    I.see('Reason for refund');
+    I.see('Amount refunded');
+    I.see('Notifications sent');
+    I.see('Date and time');
+    I.see('Sent to');
+    I.see('	Sent via');
+    // I.see(reason_for_refund);
+    I.see('Email');
+    I.see('vamshi.rudrabhatla@hmcts.net');
+    I.see('Actions');
+    I.see('Resend');
+    I.see('Edit details');
+    I.see('View');
+    I.click('View');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.see('From: HM Courts and Tribunals Registrations');
+    I.see('<hm.courts.and.tribunals.registrations@notifications.service.gov.uk>');
+    I.see('To: vamshi.rudrabhatla@hmcts.net');
+    I.see('Subject: HMCTS refund request approved');
+    I.see('Dear Sir/Madam,');
+    // I.see('Our records show that case 1671126906988356 has recently been changed.');
+    I.see('These changes have been considered and you are entitled to a refund on your payment.');
+    // I.see('Refund reference: RF-****-****-****-****');
+    I.see('Refund amount: £200');
+    // I.see('Reason for refund: Overpayment');
+    I.see('Your refund will be processed and sent to the account you originally made the payment from within 14 days');
+    I.see('If you have not received the refund by this time, you need further information or you do not have a bank');
+    I.see('account, contact probate@justice.gov.uk.');
+    I.see('HM Courts & Tribunals Service');
+    I.see('This is an automated message, please don’t reply to this email.');
+    I.click('Hide');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.waitForText('View');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+
+  },
+
+  verifyRefundDetailsAfterApprovalOfRefundLetter() {
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.see('Refund details');
+    I.see('Refund reference');
+    I.see('Reason for refund');
+    I.see('Amount refunded');
+    I.see('Notifications sent');
+    I.see('Date and time');
+    I.see('Sent to');
+    I.see('	Sent via');
+    // I.see(reason_for_refund);
+    I.see('Post');
+    I.see('89 MARTINDALE ROAD HOUNSLOW');
+    I.see('LONDON BOROUGH OF HOUNSLOW');
+    I.see('United Kingdom TW4 7EZ');
+    I.see('Actions');
+    I.see('Resend');
+    I.see('Edit details');
+    I.click('Resend');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click('Return to case');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click(this.locators.review_Approved);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+
+  },
+
+  verifyRefundDetailsAfterApprovalOfRefundSendRefundWhenContacted() {
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click(this.locators.view_button);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('From:');
+    I.waitForText('From: HM Courts and Tribunals Registrations');
+    I.waitForText('<hm.courts.and.tribunals.registrations@notifications.service.gov.uk>');
+    I.see('Subject: HMCTS refund request approved');
+    I.see('Dear Sir/Madam,');
+    // I.see('Our records show that case 1671126906988356 has recently been changed.');
+    I.see('These changes have been considered and you are entitled to a refund on your payment.');
+    // I.see('Refund reference: RF-****-****-****-****');
+    I.see('Refund amount: £300');
+    I.see('Reason for refund: RR037');
+    I.see('To receive this refund, you must give us the correct bank details to process the request.');
+    I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
+    I.see('If you do not have a bank account, or if you need further information, contact specified@justice.gov.uk.');
+    I.see('HM Courts & Tribunals Service');
+    I.see('This is an automated message, please don’t reply to this email.');
+    I.click('Hide');
+    I.waitForText('View')
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.click('Back');
+
+  },
+
+  verifyRefundDetailsAfterApprovalOfRefundSendRefundWhenContactedLetter() {
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click(this.locators.view_button);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.see('89 MARTINDALE ROAD');
+    I.see('HOUNSLOW');
+    I.see('LONDON BOROUGH OF HOUNSLOW');
+    I.see('United Kingdom');
+    I.see('TW4 7EZ');
+    I.see('From');
+    I.see('ABC');
+    I.see('london');
+    I.see('UK');
+    I.see('123 436');
+    I.see('HMCTS refund request approved');
+    I.see('Dear Sir/Madam,');
+    // I.see('Our records show that case has recently been changed.');
+    I.see('These changes have been considered and you are entitled to a refund on your payment.');
+    I.see('Refund reference: RF-');
+    I.see('Refund amount: £300');
+    // I.see('Reason for refund: Over payment')
+    I.see('To receive this refund, you must give us the correct bank details to process the request.');
+    I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
+    I.see('If you do not have a bank account, or if you need further information, contact specified@justice.gov.uk.');
+    I.see('HM Courts & Tribunals Service');
+    I.click('Hide');
+    I.waitForText('View')
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.click('Back');
+
+  },
+
+  verifyRefundDetailsAfterApprovalOfRefundSendRefundLetter() {
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click(this.locators.view_button);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.see('89 MARTINDALE ROAD');
+    I.see('HOUNSLOW');
+    I.see('LONDON BOROUGH OF HOUNSLOW');
+    I.see('United Kingdom');
+    I.see('TW4 7EZ');
+    I.see('From');
+    I.see('ABC');
+    I.see('london');
+    I.see('UK');
+    I.see('123 436');
+    I.see('HMCTS refund request approved');
+    I.see('Dear Sir/Madam,');
+    // I.see('Our records show that case has recently been changed.');
+    I.see('These changes have been considered and you are entitled to a refund on your payment.');
+    I.see('Refund reference: RF-');
+    I.see('Refund amount: £200');
+    // I.see('Reason for refund: Overpayment');
+    I.see('Your refund will be processed and sent to the account you originally made the payment from within 14 days');
+    I.see('If you have not received the refund by this time, you need further information or you do not have a bank');
+    I.see('account, contact probate@justice.gov.uk.');
+    I.see('HM Courts & Tribunals Service');
+    I.click('Hide');
+    I.waitForText('View')
+    I.wait(CCPBATConstants.tenSecondWaitTime);
 
   },
   verifyRefundDetailsAfterRejectionOfOverPayment() {
