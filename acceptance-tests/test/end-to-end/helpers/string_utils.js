@@ -55,6 +55,13 @@ function getTodayDateInYYYYMMDD() {
   return `${todayDate[2]}-${todayDate[1]}-${todayDate[0]}`;
 }
 
+function getTodayDateInDDMMMYYYY() {
+  const todayDate = getDayMonthYear();
+  const newDate = new Date();
+  const month = newDate.toLocaleString('default', {month: 'short'});
+  return `${todayDate[0]} ${month} ${todayDate[2]}`;
+}
+
 function getTodayDateInDDMMYYY() {
   const todayDate = getDayMonthYear();
   return `${todayDate[0]}/${todayDate[1]}/${todayDate[2]}`;
@@ -64,8 +71,16 @@ function getCcdCaseInFormat(ccdNumber) {
   return (ccdNumber.match(/(.{1,4})/g)).join('-');
 }
 
+function getTodayDateTimeInYYYYMMDDTHHMMSSZ(){
+  const todayDate = getDayMonthYear();
+  const todayTime = getTime();
+  const timeInMS = getMillisecond();
+  console.log('todaysdate' + `${todayDate[2]}-${todayDate[1]}-${todayDate[0]}T${todayTime[0]}:${todayTime[1]}:${todayTime[2]}.${timeInMS}Z`);
+  return `${todayDate[2]}-${todayDate[1]}-${todayDate[0]}T${todayTime[0]}:${todayTime[1]}:${todayTime[2]}.${timeInMS}Z`;
+}
+
 module.exports = {
   getTodayDateAndTimeInString,
   getTodayDateInYYYYMMDD, getTodayDateInDDMMYYY,
-  getCcdCaseInFormat, getMillisecond
+  getCcdCaseInFormat, getMillisecond, getTodayDateTimeInYYYYMMDDTHHMMSSZ, getTodayDateInDDMMMYYYY
 };

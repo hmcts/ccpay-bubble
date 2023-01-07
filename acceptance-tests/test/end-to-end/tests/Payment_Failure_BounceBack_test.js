@@ -44,7 +44,7 @@ AfterSuite(async I => {
   }
 });
 
-Scenario('Payment Failure for Bounceback @pipeline @nightly',
+Scenario('Payment Failure for Bounceback SR status Paid @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, 
     PaymentHistory, FailureEventDetails) => {
     const totalAmount = 593;
@@ -55,52 +55,76 @@ Scenario('Payment Failure for Bounceback @pipeline @nightly',
     console.log('**** The value of the dcnNumber - ' + dcnNumber);
     logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
     logger.info(`The value of the dcnNumber : ${dcnNumber}`);
-    const paymentRef = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber);
-    console.log('**** payment ref - ' + paymentRef);
+    const paymentRefResult = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber, dcnNumber);
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.verifyDisputedPaymentHistoryTable();
+    console.log("the payment rc ref and date and failure ref are - " 
+    + paymentRefResult[0] + 'and' + paymentRefResult[2] + 'and' + paymentRefResult[1]);
+    await CaseTransaction.verifyDisputedPaymentHistoryTable(paymentRefResult[0], paymentRefResult[2]);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await FailureEventDetails.verifyFailureDetailsPageForBounceBack();
+    await FailureEventDetails.verifyFailureDetailsPageForBounceBack(paymentRefResult[0],
+      paymentRefResult[1],paymentRefResult[2]);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.verifyDisputedPaymentHistoryInitiatedForBounceBack();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await FailureEventDetails.verifyFailureDetailsPageForInitiatedEventForBounceBack();
+    await FailureEventDetails.verifyFailureDetailsPageForInitiatedEventForBounceBack(paymentRefResult[0],
+      paymentRefResult[1],paymentRefResult[2]);
   }).tag('@pipeline @nightly');
 
-Scenario('Payment Failure for chargeback @pipeline @nightly',
+Scenario('Payment Failure for chargeback SR status Partially Paid@pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
 
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
-    const paymentRef = `${paymentDetails.paymentReference}`;
+    const paymentRefResult = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
-    console.log('**** The value of the paymentReference - ' + paymentRef);
-    const requestBody = await bulkScanApiCalls.getPaymentDetailsPBA(ccdCaseNumber, paymentRef);
-    console.log('**** payment ref - ' + requestBody.failure_reference);
-    console.log('**** reason - ' + requestBody.reason);
+    console.log('**** The value of the paymentReference - ' + paymentRefResult);
+    const requestBody = await bulkScanApiCalls.getPaymentDetailsPBA(ccdCaseNumber, paymentRefResult);
+    console.log("the payment rc ref and date and failure ref are - " 
+    + paymentRefResult[0] + 'and' + paymentRefResult[2] + 'and' + paymentRefResult[1]);
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.verifyDisputedPaymentHistory();
+    await CaseTransaction.verifyDisputedPaymentHistory(paymentRefResult[0], paymentRefResult[2]);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await FailureEventDetails.verifyFailureDetailsPage();
+    await FailureEventDetails.verifyFailureDetailsPage(paymentRefResult[0],
+      paymentRefResult[1],paymentRefResult[2]);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.verifyDisputedPaymentHistoryInitiated();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await FailureEventDetails.verifyFailureDetailsPageForInitiatedEvent();
+    await FailureEventDetails.verifyFailureDetailsPageForInitiatedEvent(paymentRefResult[0],
+      paymentRefResult[1],paymentRefResult[2]);
   }).tag('@pipeline @nightly');
 
-  Scenario('Payment Failure for chargeback with Service Request Calculation @pipeline @nightly',
+  Scenario('Payment Failure for chargeback SR status Not Paid @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
 
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
-    const paymentRef = `${paymentDetails.paymentReference}`;
+    const paymentRefResult = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
-    console.log('**** The value of the paymentReference - ' + paymentRef);
-    const requestBody = await bulkScanApiCalls.getPaymentDetailsPBAForServiceStatus(ccdCaseNumber, paymentRef);
+    console.log('**** The value of the paymentReference - ' + paymentRefResult);
+    const requestBody = await bulkScanApiCalls.getPaymentDetailsPBAForChargebackEvent(ccdCaseNumber, paymentRefResult);
+    console.log("the payment rc ref and date and failure ref are - " 
+    + paymentRefResult[0] + 'and' + paymentRefResult[2] + 'and' + paymentRefResult[1]);
+    I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await CaseTransaction.verifyDisputedPaymentHistoryEvent(paymentRefResult[0], paymentRefResult[2]);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.Logout();
+  }).tag('@pipeline @nightly');
+
+  Scenario('Payment Failure for chargeback with SR status Disputed @pipeline @nightly',
+  async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
+
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
+    const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
+    const paymentRefResult = `${paymentDetails.paymentReference}`;
+    console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
+    console.log('**** The value of the paymentReference - ' + paymentRefResult);
+    const requestBody = await bulkScanApiCalls.getPaymentDetailsPBAForServiceStatus(ccdCaseNumber, paymentRefResult);
     console.log('**** payment ref - ' + requestBody.failure_reference);
     console.log('**** reason - ' + requestBody.reason);
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
