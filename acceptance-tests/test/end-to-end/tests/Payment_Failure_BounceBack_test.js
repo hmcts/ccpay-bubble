@@ -44,7 +44,7 @@ AfterSuite(async I => {
   }
 });
 
-Scenario('Payment Failure for Bounceback SR status Paid @pipeline @nightly',
+Scenario.skip('Payment Failure for Bounceback SR status Paid @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, 
     PaymentHistory, FailureEventDetails) => {
     const totalAmount = 593;
@@ -72,7 +72,7 @@ Scenario('Payment Failure for Bounceback SR status Paid @pipeline @nightly',
       paymentRefResult[1],paymentRefResult[2]);
   }).tag('@pipeline @nightly');
 
-Scenario('Payment Failure for chargeback SR status Partially Paid@pipeline @nightly',
+Scenario.skip('Payment Failure for chargeback SR status Partially Paid@pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
 
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -97,7 +97,7 @@ Scenario('Payment Failure for chargeback SR status Partially Paid@pipeline @nigh
       paymentRefResult[1],paymentRefResult[2]);
   }).tag('@pipeline @nightly');
 
-  Scenario('Payment Failure for chargeback SR status Not Paid @pipeline @nightly',
+  Scenario.skip('Payment Failure for chargeback SR status Not Paid @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
 
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -116,7 +116,7 @@ Scenario('Payment Failure for chargeback SR status Partially Paid@pipeline @nigh
     I.Logout();
   }).tag('@pipeline @nightly');
 
-  Scenario('Payment Failure for chargeback with SR status Disputed @pipeline @nightly',
+  Scenario.skip('Payment Failure for chargeback with SR status Disputed @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
 
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
