@@ -613,13 +613,15 @@ async function getPaymentGroupRef(serviceToken, ccdCaseNumberFormatted) {
 }
 
 async function recordBouncebackFailure(serviceToken, ccdNumber, paymentRCRefernce) {
+  console.log('*date time is' + stringUtil.getTodayDateTimeInYYYYMMDDTHHMMSSZ())
 
   const failureReference = 'FR-267-CC14-' + numUtil.getRandomNumber(9, 999999999);
   const saveBody = {
     'additional_reference': 'AR1234556',
-    'amount': 100,
+    'amount': 250,
     'ccd_case_number': `${ccdNumber}`,
-    'event_date_time': '2022-08-28T14:28:34.355Z',
+     'event_date_time': stringUtil.getTodayDateTimeInYYYYMMDDTHHMMSSZ() ,
+    //'event_date_time': '2022-08-28T14:28:34.355Z', 
     'failure_reference': `${failureReference}`,
     'payment_reference': `${paymentRCRefernce}`,
     'reason': 'RR001'
@@ -651,9 +653,44 @@ async function recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef) 
   const failureReference = 'FR-367-CC14-' + numUtil.getRandomNumber(9, 999999999);
   const saveBody = {
     'additional_reference': 'AR1234556',
-    'amount': 10,
+    'amount': 100,
     'ccd_case_number': `${ccdCaseNumber}`,
-    'event_date_time': '2022-08-28T14:28:34.355Z',
+    'event_date_time': stringUtil.getTodayDateTimeInYYYYMMDDTHHMMSSZ() ,
+    'has_amount_debited': 'Yes',
+    'failure_reference': `${failureReference}`,
+    'payment_reference': `${paymentRef}`,
+    'reason': 'RR001'
+  };
+  console.log("*** the body for bounceback cheque failure is -" + JSON.stringify(saveBody));
+  logger.info('calling recordChargeBackFailure');
+  const chargeBackUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
+  const chargeBackEndPoint = `/payment-failures/chargeback`;
+  console.log('*** bounceback cheque failure uri - ' + chargeBackUrl + chargeBackEndPoint);
+  const chargeBackResponse = await request({
+    method: 'POST',
+    uri: `${chargeBackUrl}${chargeBackEndPoint}`,
+    headers: {
+      ServiceAuthorization: `Bearer ${serviceToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(saveBody)
+  }, (_error, response) => {
+    statusCode = response.statusCode;
+    logger.info(`The response Status Code for chargeBack : ${statusCode}`);
+  }).catch(error => {
+    logger.error(error);
+  });
+  return saveBody;
+}
+
+async function recordChargeBackFailureEvent(serviceToken, ccdCaseNumber, paymentRef) {
+
+  const failureReference = 'FR-367-CC14-' + numUtil.getRandomNumber(9, 999999999);
+  const saveBody = {
+    'additional_reference': 'AR1234556',
+    'amount': 215,
+    'ccd_case_number': `${ccdCaseNumber}`,
+    'event_date_time': stringUtil.getTodayDateTimeInYYYYMMDDTHHMMSSZ() ,
     'has_amount_debited': 'Yes',
     'failure_reference': `${failureReference}`,
     'payment_reference': `${paymentRef}`,
@@ -683,7 +720,8 @@ async function recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef) 
 
 async function patchFailureReference(serviceToken, failureReference) {
   const saveBody = {
-    'representment_date': '2022-07-22T11:03:02.544Z',
+    // 'representment_date': '2022-07-22T11:03:02.544Z',
+    'representment_date': stringUtil.getTodayDateTimeInYYYYMMDDTHHMMSSZ() ,
     'representment_status': 'Yes'
   };
   console.log("*** the body patchFailureReference is -" + JSON.stringify(saveBody));
@@ -709,7 +747,7 @@ async function patchFailureReference(serviceToken, failureReference) {
 
 async function patchFailureReferenceNo(serviceToken, failureReference) {
   const saveBody = {
-    'representment_date': '2022-07-22T11:03:02.544Z',
+    'representment_date': stringUtil.getTodayDateTimeInYYYYMMDDTHHMMSSZ() ,
     'representment_status': 'No'
   };
   console.log("*** the body patchFailureReference is -" + JSON.stringify(saveBody));
@@ -734,8 +772,9 @@ async function patchFailureReferenceNo(serviceToken, failureReference) {
 }
 
 
-async function recordBulkScanPayments(serviceToken, ccdCaseNumberFormatted, paymentGroupRef) {
+async function recordBulkScanPayments(serviceToken, ccdCaseNumberFormatted, paymentGroupRef, dcnNumber) {
   const ccdNumber = ccdCaseNumberFormatted;
+  const document_control_number = dcnNumber;
   const saveBody = {
     'amount': 250,
     'payment_method': 'CHEQUE',
@@ -752,7 +791,7 @@ async function recordBulkScanPayments(serviceToken, ccdCaseNumberFormatted, paym
     'giro_slip_no': 1234,
     'banked_date': '2022-06-18T00:00:00.000+0000',
     'payer_name': 'CCD User1',
-    'document_control_number': '{{payment_dcn}}',
+    'document_control_number': `${document_control_number}`,
     'requestor': 'PROBATE',
     'site_id': 'AA01'
   };
@@ -953,15 +992,16 @@ async function bulkScanNormalCcd(siteId, amount, paymentMethod) {
   return bulkDcnCcd;
 }
 
-async function getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber) {
+async function getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber,dcnNumber) {
   const microservice = 'api_gw';
   const serviceToken = await getServiceToken(microservice);
   console.log('****service token for getPaymentReferenceUsingCCDCaseNumber - ' + serviceToken);
   const paymentGroupRef = await getPaymentGroupRef(serviceToken, ccdCaseNumber);
-  const paymentRCRef = await recordBulkScanPayments(serviceToken, ccdCaseNumber, paymentGroupRef);
+  const paymentRCRef = await recordBulkScanPayments(serviceToken, ccdCaseNumber, paymentGroupRef, dcnNumber);
   const failurereference = await recordBouncebackFailure(serviceToken, ccdCaseNumber, paymentRCRef);
   await patchFailureReference(serviceToken, failurereference);
-  return failurereference;
+  const todayDateInDDMMMYYYY =  stringUtil.getTodayDateInDDMMMYYYY();
+  return [paymentRCRef, failurereference,todayDateInDDMMMYYYY] ;
 
 }
 
@@ -971,7 +1011,19 @@ async function getPaymentDetailsPBA(ccdCaseNumber, paymentRef) {
   console.log('****service token for getPaymentReferenceUsingCCDCaseNumber - ' + serviceToken);
   const failurereference = await recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef);
   await patchFailureReferenceNo(serviceToken, failurereference.failure_reference);
-  return failurereference;
+  const todayDateInDDMMMYYYY =  stringUtil.getTodayDateInDDMMMYYYY();
+  return [paymentRef, failurereference.failure_reference,todayDateInDDMMMYYYY] ;
+
+}
+
+async function getPaymentDetailsPBAForChargebackEvent(ccdCaseNumber, paymentRef) {
+  const microservice = 'api_gw';
+  const serviceToken = await getServiceToken(microservice);
+  console.log('****service token for getPaymentReferenceUsingCCDCaseNumber - ' + serviceToken);
+  const failurereference = await recordChargeBackFailureEvent(serviceToken, ccdCaseNumber, paymentRef);
+  await patchFailureReferenceNo(serviceToken, failurereference.failure_reference);
+  const todayDateInDDMMMYYYY =  stringUtil.getTodayDateInDDMMMYYYY();
+  return [paymentRef, failurereference.failure_reference,todayDateInDDMMMYYYY] ;
 
 }
 
@@ -998,5 +1050,6 @@ async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
 module.exports = {
   bulkScanNormalCcd, bulkScanExceptionCcd, bulkScanCcdLinkedToException,
   toggleOffCaseValidation, toggleOnCaseValidation, createAPBAPayment, createAFailedPBAPayment,
-  createACCDCaseForProbate, createACCDCaseForDivorce, getPaymentReferenceUsingCCDCaseNumber, getPaymentDetailsPBA, getPaymentDetailsPBAForServiceStatus
+  createACCDCaseForProbate, createACCDCaseForDivorce, getPaymentReferenceUsingCCDCaseNumber, getPaymentDetailsPBA, getPaymentDetailsPBAForServiceStatus,
+  getPaymentDetailsPBAForChargebackEvent
 };
