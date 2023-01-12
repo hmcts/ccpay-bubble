@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 import { FeeRegisterSearchComponent } from './fee-register-search.component';
 import { FeeRegisterSearchService } from './services/fee-register-search/fee-register-search.service';
@@ -11,7 +11,7 @@ describe('FeeRegisterSearchComponent', () => {
     fixture: ComponentFixture<FeeRegisterSearchComponent>,
     feeRegisterSearchService: FeeRegisterSearchService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ FeeRegisterSearchComponent ],
       schemas: [NO_ERRORS_SCHEMA],
@@ -24,7 +24,7 @@ describe('FeeRegisterSearchComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FeeRegisterSearchComponent);
     component = fixture.componentInstance;
-    feeRegisterSearchService = TestBed.get(FeeRegisterSearchService);
+    feeRegisterSearchService = TestBed.inject(FeeRegisterSearchService);
     fixture.detectChanges();
   });
 
