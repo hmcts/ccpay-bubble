@@ -1,6 +1,6 @@
 import { PaymentGroupService } from './../../services/payment-group/payment-group.service';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
+import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
+import {of} from 'rxjs';
 import {FeeDetailsComponent} from './fee-details.component';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
@@ -13,15 +13,17 @@ describe('FeeDetailsComponent', () => {
   let fixture: ComponentFixture<FeeDetailsComponent>;
   let testFeeVersions: any;
   let paymentGroupService: PaymentGroupService;
+  let http: PaybubbleHttpClient;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
+    http = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     TestBed.configureTestingModule({
       declarations: [FeeDetailsComponent],
       providers: [
         FormBuilder,
         {
           provide: PaymentGroupService,
-          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+          useValue: new PaymentGroupService(http),
         }
       ],
       imports: [
@@ -93,7 +95,20 @@ describe('FeeDetailsComponent', () => {
   });
 
   it('Should set isDiscontinuedFeatureEnabled from URL', async () => {
-    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+    const features = <any>[
+      {
+        uid: 'discontinued-fees-feature',
+        enable: true,
+        description: 'To enable discontinued fees FeesRegister Feature',
+        group: null,
+        permissions: [],
+        flippingStrategy: null,
+        customProperties: {}
+      }
+    ];
+    spyOn(features, 'find').and.returnValue(features[0]);
+    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
+
     await component.ngOnChanges();
     expect(component.isDiscontinuedFeatureEnabled).toBeTruthy();
   });
@@ -442,5 +457,12 @@ describe('FeeDetailsComponent', () => {
    expect(component.fee.fee_versions.length).toBe(2);
    expect(component.fee.current_version).toBeUndefined();
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
 });
+
+
 

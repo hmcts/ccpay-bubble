@@ -20,7 +20,7 @@ describe('View payment component', () => {
 
     fixture = TestBed.createComponent(ViewPaymentComponent);
     component = fixture.componentInstance;
-    testBedService = TestBed.get(ViewPaymentService);
+    testBedService = TestBed.inject(ViewPaymentService);
   });
 
   it('Should assign property payment with a payment object on successful service call', () => {
