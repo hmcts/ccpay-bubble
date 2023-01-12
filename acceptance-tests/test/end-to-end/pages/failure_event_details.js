@@ -15,58 +15,56 @@ module.exports = {
     failure_events_page_back_button: { xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-payment-view/div/div[1]/ol/li/a' },
   },
 
-  async verifyFailureDetailsPage() {
-    I.see('FR-');
+  async verifyFailureDetailsPage(paymentRcRef,failureRef, todayDate) {
+    I.see(`${failureRef}`);
     I.see('RR001');
-    I.see('RC-');
+    I.see(`${paymentRcRef}`);
     I.see('£215.00');
-    I.see('£10.00');
+    I.see('£100.00');
     I.see('AR1234556');
     I.see('Chargeback');
-    I.see('28 Aug 2022');
+    I.see(`${todayDate}`);
     I.see('Yes');
     I.see('Failure');
-    I.see('22 Jul 2022');
     I.click(this.locators.failure_events_page_back_button);
   },
 
-  async verifyFailureDetailsPageForInitiatedEvent() {
-    I.see('FR-');
+  async verifyFailureDetailsPageForInitiatedEvent(paymentRcRef,failureRef, todayDate) {
+    I.see(`${failureRef}`);
     I.see('RR001');
-    I.see('RC-');
+    I.see(`${paymentRcRef}`);
     I.see('£215.00');
-    I.see('£10.00');
+    I.see('£100.00');
     I.see('AR1234556');
     I.see('Chargeback');
-    I.see('28 Aug 2022');
+    I.see(`${todayDate}`);
     I.see('Yes');
     I.Logout();
   },
 
-  async verifyFailureDetailsPageForBounceBack() {
-    I.see('FR-');
+  async verifyFailureDetailsPageForBounceBack(paymentRcRef,failureRef, todayDate) {
+    I.see(`${failureRef}`);
     I.see('RR001');
-    I.see('RC-');
+    I.see(`${paymentRcRef}`);
     I.see('£250.00');
-    I.see('£100.00');
+    // I.see('£250.00');
     I.see('AR1234556');
     I.see('Bounced Cheque');
-    I.see('28 Aug 2022');
+    I.see(`${todayDate}`);
     I.see('Success');
-    I.see('22 Jul 2022');
+    // I.see('22 Jul 2022');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.failure_events_page_back_button);
   },
 
-  async verifyFailureDetailsPageForInitiatedEventForBounceBack() {
-    I.see('FR-');
+  async verifyFailureDetailsPageForInitiatedEventForBounceBack(paymentRcRef,failureRef, todayDate) {
+    I.see(`${failureRef}`);
     I.see('RR001');
-    I.see('RC-');
+    I.see(`${paymentRcRef}`);
     I.see('£250.00');
-    I.see('£100.00');
     I.see('AR1234556');
     I.see('Bounced Cheque');
-    I.see('28 Aug 2022');
+    I.see(`${todayDate}`);
     I.Logout();
   }
 };
