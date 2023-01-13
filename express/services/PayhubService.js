@@ -325,27 +325,17 @@ class PayhubService {
     return this.createAuthToken()
       .then(token => {
         serviceToken = token;
-        return this.featureService.getFeatures(req, token);
-      })
-      .then(data => this.isCaseRefValidationEnabled(data))
-      .then(isValidationEnabled => {
-        if (isValidationEnabled) {
-          return request.get({
-            uri: `${ccdUrl}/cases/${req.params.caseref.replace(/-/g, '')}`,
-            headers: {
-              Authorization: `Bearer ${req.authToken}`,
-              ServiceAuthorization: `Bearer ${serviceToken}`,
-              experimental: 'true',
-              accept: 'application/vnd.uk.gov.hmcts.ccd-data-store-api.case.v2+json;charset=UTF-8',
-              'Content-Type': 'application/json'
-            },
-            json: true
-          });
-        }
-        return {
-          exception: 'CMC_ExceptionRecord',
-          case: 'MoneyClaimCase'
-        };
+        return request.get({
+          uri: `${ccdUrl}/cases/${req.params.caseref.replace(/-/g, '')}`,
+          headers: {
+            Authorization: `Bearer ${req.authToken}`,
+            ServiceAuthorization: `Bearer ${serviceToken}`,
+            experimental: 'true',
+            accept: 'application/vnd.uk.gov.hmcts.ccd-data-store-api.case.v2+json;charset=UTF-8',
+            'Content-Type': 'application/json'
+          },
+          json: true
+        });
       });
   }
 
