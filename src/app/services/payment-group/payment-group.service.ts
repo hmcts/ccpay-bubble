@@ -48,17 +48,16 @@ export class PaymentGroupService {
       return !JSON.parse(features).flag;
     });
   }
-
-  getEnvironment(): Promise<any> {
-    return this.http.get('api/get-environment').toPromise().then(env => {
-      return env;
-    });
-  }
-
   getDiscontinuedFrFeature(): Promise<any> {
     return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
       const regFeature = JSON.parse(features).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
       return regFeature ? regFeature.enable : false;
+    });
+  }
+
+  getEnvironment(): Promise<any> {
+    return this.http.get('api/get-environment').toPromise().then(env => {
+      return env;
     });
   }
 

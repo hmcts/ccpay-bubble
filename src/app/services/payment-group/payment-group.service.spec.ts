@@ -2,7 +2,7 @@ import {PaybubbleHttpClient} from 'src/app/services/httpclient/paybubble.http.cl
 import {Meta} from '@angular/platform-browser';
 import {instance, mock} from 'ts-mockito/lib/ts-mockito';
 import {HttpClientModule, HttpClient, HttpHeaders} from '@angular/common/http';
-import {of, BehaviorSubject} from 'rxjs';
+import {of} from 'rxjs';
 import {PaymentModel} from 'src/app/models/PaymentModel';
 import {PaymentGroupService} from './payment-group.service';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
