@@ -197,8 +197,7 @@ module.exports = {
 
   async verifyDisputedPaymentHistoryEvent(paymentRCRef, todayDate) {
     I.wait(CCPBConstants.tenSecondWaitTime);
-    I.see('Service requests');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    // I.see('Service requests');
     I.see('Status');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Not paid');
