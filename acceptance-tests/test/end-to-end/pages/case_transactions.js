@@ -175,9 +175,11 @@ module.exports = {
   },
 
   async verifyDisputedPaymentHistory(paymentRCRef, todayDate) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.wait(CCPBConstants.tenSecondWaitTime);
     I.see('Service requests');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Status');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Partially paid');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.payments_review_button);
@@ -195,7 +197,7 @@ module.exports = {
   },
 
   async verifyDisputedPaymentHistoryEvent(paymentRCRef, todayDate) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.wait(CCPBConstants.tenSecondWaitTime);
     I.see('Service requests');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Status');
@@ -217,7 +219,7 @@ module.exports = {
   },
 
   async verifyServiceRequestStatus() {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.wait(CCPBConstants.tenSecondWaitTime);
     I.see('Service requests');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Status');
@@ -233,10 +235,11 @@ module.exports = {
   },
 
   async verifyDisputedPaymentHistoryTable(paymentRCRef, todayDate) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.wait(CCPBConstants.tenSecondWaitTime);
     I.see('Service requests');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Status');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Paid');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.payments_review_button);
