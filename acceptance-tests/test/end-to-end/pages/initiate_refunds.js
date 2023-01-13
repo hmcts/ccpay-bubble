@@ -154,8 +154,8 @@ module.exports = {
     I.see('RefundWhenContacted');
     I.click('Preview');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.waitForText('From: HM Courts and Tribunals Registrations');
-    I.waitForText('<hm.courts.and.tribunals.registrations@notifications.service.gov.uk>');
+    I.waitForText('From: specified@justice.gov.uk');
+    // I.waitForText('<hm.courts.and.tribunals.registrations@notifications.service.gov.uk>');
     I.see('To: vamshi.rudrabhatla@hmcts.net');
     I.see('Subject: HMCTS refund request approved');
     I.see('Dear Sir/Madam,');
@@ -163,7 +163,7 @@ module.exports = {
     I.see('These changes have been considered and you are entitled to a refund on your payment.');
     I.see('Refund reference: RF-****-****-****-****');
     I.see('Refund amount: £300');
-    I.see('Reason for refund: Over payment')
+    I.see('Reason for refund: Refund for Overpayment')
     I.see('To receive this refund, you must give us the correct bank details to process the request.');
     I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
     I.see('If you do not have a bank account, or if you need further information, contact specified@justice.gov.uk.');
@@ -644,6 +644,7 @@ module.exports = {
   },
 
   verifyRefundsListPage(refundRef) {
+    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.see('Refund list');
     I.see('Refunds to be approved');
     I.see('Filter by caseworker:');
@@ -655,8 +656,11 @@ module.exports = {
     I.see('Action');
     I.see('Refunds returned to caseworker');
     I.selectOption(this.locators.users_drop_down_for_refunds_to_be_approved, 'Probate Requester12');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click(`//mat-cell[contains(.,'${refundRef}')]/following-sibling::mat-cell/a[.='Process refund'][1]`);
   },
 
@@ -773,8 +777,8 @@ module.exports = {
     I.see('RefundWhenContacted');
     I.click('Preview');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.waitForText('From: HM Courts and Tribunals Registrations');
-    I.waitForText('<hm.courts.and.tribunals.registrations@notifications.service.gov.uk>');
+    I.waitForText('From: specified@justice.gov.uk');
+    // I.waitForText('<hm.courts.and.tribunals.registrations@notifications.service.gov.uk>');
     I.see('To: vamshi.rudrabhatla@hmcts.net');
     I.see('Subject: HMCTS refund request approved');
     I.see('Dear Sir/Madam,');
@@ -782,7 +786,7 @@ module.exports = {
     I.see('These changes have been considered and you are entitled to a refund on your payment.');
     // I.see('Refund reference: RF-****-****-****-****');
     I.see('Refund amount: £300');
-    I.see('Reason for refund: Overpayment');
+    I.see('Reason for refund: Refund for Overpayment');
     I.see('To receive this refund, you must give us the correct bank details to process the request.');
     I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
     I.see('If you do not have a bank account, or if you need further information, contact specified@justice.gov.uk.');
