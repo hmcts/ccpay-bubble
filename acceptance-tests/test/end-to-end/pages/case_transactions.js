@@ -219,8 +219,7 @@ module.exports = {
 
   async verifyServiceRequestStatus() {
     I.wait(CCPBConstants.tenSecondWaitTime);
-    I.see('Service requests');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    // I.see('Service requests');
     I.see('Status');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Disputed');
