@@ -20,7 +20,7 @@ module.exports = {
     reasons_text: { xpath: '//input[@id=\'reason\']' },
 
     users_drop_down_for_refunds_to_be_approved: { xpath: '//ccpay-refund-list[1]/div[3]//select[@id="sort"]' },
-    date_updated_for_refunds_to_be_approved_by_case_worker: { xpath: '(//button[@aria-label="Change sorting for date_updated"])[1]'},
+    date_updated_for_refunds_to_be_approved_by_case_worker: { xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-refund-list/div[3]/ccpay-table/div/div[3]/mat-table/mat-header-row/mat-header-cell[5]/div'},
 
     users_drop_down_for_refunds_returned_to_case_worker: { xpath: '//div[5]//select[@id=\'sort\']' },
     date_updated_for_refunds_returned_to_case_worker: { xpath: '//body[1]/app-root[1]/div[1]/div[1]/app-payment-history[1]/ccpay-payment-lib[1]/ccpay-refund-list[1]/div[5]/ccpay-table[1]/div[1]/div[2]/mat-table[1]/mat-header-row[1]/mat-header-cell[5]/div[1]/button[1]' },
@@ -275,12 +275,11 @@ module.exports = {
     I.see('Preview');
     I.click('Preview');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.waitForText('From: HM Courts and Tribunals Registrations');
-    I.waitForText('<hm.courts.and.tribunals.registrations@notifications.service.gov.uk>');
+    I.waitForText('From: vamshi.rudrabhatla@hmcts.net');
     I.see('To: vamshi.rudrabhatla@hmcts.net');
     I.see('Subject: HMCTS refund request approved');
     I.see('Dear Sir/Madam,');
-    // I.see('Our records show that case 1671126906988356 has recently been changed.');
+    // I.see('Our records show that case has recently been changed.');
     I.see('These changes have been considered and you are entitled to a refund on your payment.');
     I.see('Refund reference: RF-****-****-****-****');
     I.see('Refund amount: £200');
@@ -655,7 +654,7 @@ module.exports = {
     I.see('Last updated');
     I.see('Action');
     I.see('Refunds returned to caseworker');
-    I.selectOption(this.locators.users_drop_down_for_refunds_to_be_approved, 'Probate Requester12');
+    I.selectOption(this.locators.users_drop_down_for_refunds_to_be_approved, 'Probate Request Request');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
     I.wait(CCPBATConstants.fiveSecondWaitTime);

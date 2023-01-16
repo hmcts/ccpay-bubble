@@ -320,6 +320,7 @@ async function createACCDCaseForDivorce() {
 
   const divorceCCDCreateCaseContextBaseUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
   const divorceCCDCreateCaseRelativeBaseUrl = '/case-types/DIVORCE/cases';
+  console.log("CCD ENVIRONMENT     "  +  divorceCCDCreateCaseContextBaseUrl );
 
   logger.debug(`The value of the Body ${JSON.stringify(createCCDDivorceCaseBody)}`);
   const divorceCaseCreated = {
@@ -370,7 +371,6 @@ async function rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(
     const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
     console.log(`The value of the Service Token ${serviceToken}`);
   const rollbackPaymentDateByCCDNumberUrl = `http://payment-api-${prNumber}.service.core-compute-${environment}.internal`;
-  console.log("Reached here roll 2");
   const rollbackPaymentDateByCCDNumberEndPoint = `/payments/ccd_case_reference/${ccdCaseNumber}/lag_time/${lag_time}`;
  console.log(`The Full URL : ${rollbackPaymentDateByCCDNumberUrl}${rollbackPaymentDateByCCDNumberEndPoint}`);
 
@@ -587,7 +587,8 @@ async function createAPBAPayment() {
   const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;*/
 
   // eslint-disable-next-line no-magic-numbers
-  const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
+  // const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
+  const ccdCaseNumber = await createACCDCaseForProbate();
   logger.info(`The value of the CCD Case Number : ${ccdCaseNumber}`);
   logger.debug(`The Full Payment URL : ${creditAccountPaymentUrl}${creditAccountPaymentEndPoint}`);
 

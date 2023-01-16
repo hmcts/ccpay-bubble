@@ -284,7 +284,7 @@ module.exports = {
 
 verifyIssueRefundPageForPartialPayments(amount){
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  I.see('Issue refund');
+  I.see('Process refund');
   I.see('Payment reference:');
   I.see('Select fees to be refunded');
   I.see('Personal Application for grant of Probate');

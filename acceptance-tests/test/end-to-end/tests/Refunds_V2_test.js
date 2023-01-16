@@ -119,7 +119,7 @@ Scenario('Partial Payments Refunds V2 @pipeline @nightly',
     const paymentRef = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
     console.log('**** The value of the paymentReference - ' + paymentRef);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForPartialPayments();
@@ -146,7 +146,7 @@ Scenario('Partial Payments Refunds V2 @pipeline @nightly',
     I.click('//*[@id="email"]');
     I.fillField('//*[@id="email"]', 'vamshi.rudrabhatla@hmcts.net');
     I.click('Continue');
-    await InitiateRefunds.verifyCheckYourAnswersPageForPartialPayments();
+    await InitiateRefunds.verifyCheckYourAnswersPageForPartialPaymentsSendRefundNotification();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refundRef = await InitiateRefunds.verifyRefundSubmittedPageForPartialPayments();
     I.Logout();
@@ -162,7 +162,7 @@ Scenario('Partial Payments Refunds V2 @pipeline @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr/td[6]/a');
@@ -170,7 +170,7 @@ Scenario('Partial Payments Refunds V2 @pipeline @nightly',
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefund();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
-  }).tag('@pipeline @nightly');
+  }).tag('@pipelines @nightly');
 
 Scenario('FullPayment for Refunds V2 @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
