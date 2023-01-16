@@ -26,26 +26,8 @@ function RefundException(message) {
 
 Feature('CC Pay Bubble Acceptance Tests payment failure for Bounceback and Chargeback').retry(CCPBATConstants.defaultNumberOfRetries);
 
-BeforeSuite(async I => {
-  // console.log('Before Suite');
-  const response = await bulkScanApiCalls.toggleOffCaseValidation();
-  // console.log('After Response');
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  if (response === successResponse) {
-    logger.info('Disabled CCD validation');
-  }
-});
-
-AfterSuite(async I => {
-  const response = await bulkScanApiCalls.toggleOnCaseValidation();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  if (response === successResponse) {
-    logger.info('Enabled CCD validation');
-  }
-});
-
 Scenario('Payment Failure for Bounceback SR status Paid @pipeline @nightly',
-  async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, 
+  async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
     PaymentHistory, FailureEventDetails) => {
     const totalAmount = 593;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
@@ -58,8 +40,8 @@ Scenario('Payment Failure for Bounceback SR status Paid @pipeline @nightly',
     const paymentRefResult = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber, dcnNumber);
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twentySecondWaitTime);
-    console.log("the payment rc ref and date and failure ref are - " 
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    console.log("the payment rc ref and date and failure ref are - "
     + paymentRefResult[0] + 'and' + paymentRefResult[2] + 'and' + paymentRefResult[1]);
     await CaseTransaction.verifyDisputedPaymentHistoryTable(paymentRefResult[0], paymentRefResult[2]);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -70,7 +52,7 @@ Scenario('Payment Failure for Bounceback SR status Paid @pipeline @nightly',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await FailureEventDetails.verifyFailureDetailsPageForInitiatedEventForBounceBack(paymentRefResult[0],
       paymentRefResult[1],paymentRefResult[2]);
-  }).tag('@pipelines @nightly');
+  }).tag('@pipeline @nightly');
 
 Scenario('Payment Failure for chargeback SR status Partially Paid@pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
@@ -81,11 +63,11 @@ Scenario('Payment Failure for chargeback SR status Partially Paid@pipeline @nigh
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
     console.log('**** The value of the paymentReference - ' + paymentRefResult);
     const requestBody = await bulkScanApiCalls.getPaymentDetailsPBA(ccdCaseNumber, paymentRefResult);
-    console.log("the payment rc ref and date and failure ref are - " 
+    console.log("the payment rc ref and date and failure ref are - "
     + paymentRefResult[0] + 'and' + paymentRefResult[2] + 'and' + paymentRefResult[1]);
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twentySecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.verifyDisputedPaymentHistory(paymentRefResult[0], paymentRefResult[2]);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await FailureEventDetails.verifyFailureDetailsPage(paymentRefResult[0],
@@ -95,7 +77,7 @@ Scenario('Payment Failure for chargeback SR status Partially Paid@pipeline @nigh
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await FailureEventDetails.verifyFailureDetailsPageForInitiatedEvent(paymentRefResult[0],
       paymentRefResult[1],paymentRefResult[2]);
-  }).tag('@pipelines @nightly');
+  }).tag('@pipeline @nightly');
 
   Scenario('Payment Failure for chargeback SR status Not Paid @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
@@ -106,15 +88,15 @@ Scenario('Payment Failure for chargeback SR status Partially Paid@pipeline @nigh
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
     console.log('**** The value of the paymentReference - ' + paymentRefResult);
     const requestBody = await bulkScanApiCalls.getPaymentDetailsPBAForChargebackEvent(ccdCaseNumber, paymentRefResult);
-    console.log("the payment rc ref and date and failure ref are - " 
+    console.log("the payment rc ref and date and failure ref are - "
     + paymentRefResult[0] + 'and' + paymentRefResult[2] + 'and' + paymentRefResult[1]);
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twentySecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.verifyDisputedPaymentHistoryEvent(paymentRefResult[0], paymentRefResult[2]);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
-  }).tag('@pipelines @nightly');
+  }).tag('@pipeline @nightly');
 
   Scenario('Payment Failure for chargeback with SR status Disputed @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
@@ -129,6 +111,6 @@ Scenario('Payment Failure for chargeback SR status Partially Paid@pipeline @nigh
     console.log('**** reason - ' + requestBody.reason);
     I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.twentySecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.verifyServiceRequestStatus();
-  }).tag('@pipelines @nightly');
+  }).tag('@pipeline @nightly');

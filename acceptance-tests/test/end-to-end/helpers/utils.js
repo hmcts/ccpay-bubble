@@ -510,7 +510,7 @@ async function createAPBAPayment() {
   const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;*/
 
   // eslint-disable-next-line no-magic-numbers
-  const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
+  const ccdCaseNumber = await createACCDCaseForDivorce();
   logger.info(`The value of the CCD Case Number : ${ccdCaseNumber}`);
   logger.debug(`The Full Payment URL : ${creditAccountPaymentUrl}${creditAccountPaymentEndPoint}`);
 
@@ -621,7 +621,7 @@ async function recordBouncebackFailure(serviceToken, ccdNumber, paymentRCRefernc
     'amount': 250,
     'ccd_case_number': `${ccdNumber}`,
      'event_date_time': stringUtil.getTodayDateTimeInYYYYMMDDTHHMMSSZ() ,
-    //'event_date_time': '2022-08-28T14:28:34.355Z', 
+    //'event_date_time': '2022-08-28T14:28:34.355Z',
     'failure_reference': `${failureReference}`,
     'payment_reference': `${paymentRCRefernce}`,
     'reason': 'RR001'

@@ -51,7 +51,6 @@ async function multipleSearch(CaseSearch, I, searchOption) {
   }
 
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  await bulkScanApiCalls.toggleOffCaseValidation();
   searchSpecificOption(searchItem, CaseSearch, searchOption);
   const headerValue1 = await CaseSearch.getHeaderValue();
   if (headerValue1 === 'What do you want to search for?') {
