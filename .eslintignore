@@ -14,3 +14,6 @@ acceptance-tests/test/end-to-end/pages/initiate_refunds.js
 acceptance-tests/test/end-to-end/tests/config/CCPBConfig.js
 acceptance-tests/test/end-to-end/tests/Refunds_V2_test.js
 acceptance-tests/test/end-to-end/pages/add_fees.js
+acceptance-tests/test/end-to-end/tests/Payment_Failure_BounceBack.js
+acceptance-tests/test/end-to-end/helpers/string_utils.js
+

@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { windowToken } from '../../../window';
 import { CookieBannerComponent } from './cookie-banner.component';
 
@@ -14,7 +14,7 @@ describe('CookieBannerComponent', () => {
   let fixture: ComponentFixture<CookieBannerComponent>;
   let windowTestBed: Window;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [ CookieBannerComponent ],
@@ -29,7 +29,7 @@ describe('CookieBannerComponent', () => {
     fixture = TestBed.createComponent(CookieBannerComponent);
     appComponent = fixture.componentInstance;
     fixture.detectChanges();
-    windowTestBed = TestBed.get(windowToken);
+    windowTestBed = TestBed.inject(windowToken) as any;
   });
   it('should create', () => {
     expect(appComponent).toBeTruthy();
@@ -71,4 +71,9 @@ describe('CookieBannerComponent', () => {
     expect((windowTestBed as any).dtrum.disableSessionReplay).not.toHaveBeenCalled();
     expect((windowTestBed as any).dtrum.disable).not.toHaveBeenCalled();
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
 });

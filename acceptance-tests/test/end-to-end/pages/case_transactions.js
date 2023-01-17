@@ -29,6 +29,7 @@ module.exports = {
     disputed_initiated_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[2]/td[6]/a' },
     allocate_new_service_request: {xpath: '//*[@class="button govuk-button--secondary"]'},
     click_overpayment: {xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr[1]/td[6]/a'},
+    notpaid_payment_status: { xpath: '//*[contains(text(),"Not paid")]' },
   },
 
   checkEmptyRefundsSection() {
@@ -176,20 +177,56 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  async verifyDisputedPaymentHistory() {
+  async verifyDisputedPaymentHistory(paymentRCRef, todayDate) {
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    // I.see('Service requests');
+    await I.see('Status');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    await I.see('Partially paid');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.payments_review_button);
     I.wait(CCPBConstants.sevenSecondWaitTime);
     I.see('Initiated');
     I.see('Closed');
-    I.see('£10.00');
-    // I.see(`${Paymentreference}`);
-    I.see('28 Nov 2022');
-    I.see('29 Nov 2022');
+    I.see('£100.00');
+    I.see(`${paymentRCRef}`);
+  
+    I.see(`${todayDate}`);
     I.see('Chargeback');
     I.wait(CCPBConstants.sevenSecondWaitTime);
     I.click(this.locators.disputed_closed_show_details);
     I.wait(CCPBConstants.sevenSecondWaitTime);
+  },
+
+  async verifyDisputedPaymentHistoryEvent(paymentRCRef, todayDate) {
+    // I.wait(CCPBConstants.tenSecondWaitTime);
+    // I.see('Service requests');
+    // await I.see('Status');
+    console.log("Asserting Started");
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    await I.retry(5).seeElement(this.locators.notpaid_payment_status);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.click(this.locators.payments_review_button);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.see('Initiated');
+    I.see('Closed');
+    I.see('£215.00');
+    I.see(`${paymentRCRef}`);
+    I.see(`${todayDate}`);
+    I.see('Chargeback');
+    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.click(this.locators.disputed_closed_show_details);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
+  },
+
+  async verifyServiceRequestStatus() {
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    // I.see('Service requests');
+    await I.see('Status');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.see('Disputed');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.Logout();
   },
 
    async verifyDisputedPaymentHistoryInitiated() {
@@ -197,16 +234,21 @@ module.exports = {
     I.click(this.locators.disputed_initiated_show_details);
   },
 
-  async verifyDisputedPaymentHistoryTable() {
+  async verifyDisputedPaymentHistoryTable(paymentRCRef, todayDate) {
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    await I.see('Service requests');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    await I.see('Status');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.see('Paid');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.payments_review_button);
     I.wait(CCPBConstants.sevenSecondWaitTime);
     I.see('Initiated');
     I.see('Closed');
     I.see('£250.00');
-    // I.see(`${Paymentreference}`);
-    I.see('29 Nov 2022');
-    I.see('28 Nov 2022');
+    I.see(`${paymentRCRef}`);
+    I.see(`${todayDate}`);
     I.see('Bounced Cheque');
     I.wait(CCPBConstants.sevenSecondWaitTime);
     I.click(this.locators.disputed_closed_show_details);
