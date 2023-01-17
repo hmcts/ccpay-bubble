@@ -58,11 +58,8 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    console.log("reached");
-    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.allocate_payment);
-    console.log("reached one");
-    I.wait(CCPBConstants.fifteenSecondWaitTime);
+    I.wait(CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.help_with_fee);
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.i_have_put_a_stop_on_case);
@@ -70,7 +67,6 @@ module.exports = {
     I.click(this.locators.add_Notes);
     I.fillField(this.locators.add_Notes,'Test OverPayment')
     I.click(this.locators.confirm_button);
-    console.log("Exit addFeesOverPayment ");
 
   },
 };

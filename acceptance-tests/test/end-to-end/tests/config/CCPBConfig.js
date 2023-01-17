@@ -1,6 +1,4 @@
 module.exports = {
-  TestProbateCaseWorkerNewUserName: process.env.PROBATE_NEW_CASE_WORKER_USER_NAME,
-  TestProbateCaseWorkerNewPassword: process.env.PROBATE_NEW_CASE_WORKER_PASSWORD,
   TestProbateCaseWorkerUserName: process.env.PROBATE_CASE_WORKER_USER_NAME,
   TestProbateCaseWorkerPassword: process.env.PROBATE_CASE_WORKER_PASSWORD,
   TestDivorceCaseWorkerUserName: process.env.DIVORCE_CASE_WORKER_USER_NAME,

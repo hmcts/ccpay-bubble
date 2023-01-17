@@ -60,21 +60,22 @@ Scenario('OverPayment for Refunds V2 @pipeline @nightly',
     logger.info(`The value of the dcnNumber : ${dcnNumber}`);
     // const paymentRef = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumberForOverPayments(ccdCaseNumber);
     // console.log('**** payment ref - ' + paymentRef);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await AddFees.addFeesOverPayment('200');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
       await bulkScanApiCalls.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
     }
     I.click('Issue refund');
@@ -92,7 +93,7 @@ Scenario('OverPayment for Refunds V2 @pipeline @nightly',
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
@@ -101,10 +102,11 @@ Scenario('OverPayment for Refunds V2 @pipeline @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr/td[6]/a');
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefund();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -120,20 +122,21 @@ Scenario('Partial Payments Refunds V2 @pipeline @nightly',
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
     console.log('**** The value of the paymentReference - ' + paymentRef);
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForPartialPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
       await bulkScanApiCalls.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await PaymentHistory.validatePaymentDetailsForPartialPayment();
+      await PaymentHistory.validatePaymentDetailsForPartialPayment(paymentRef);
       I.wait(CCPBATConstants.fiveSecondWaitTime);
     }
     I.click('Issue refund');
@@ -152,7 +155,7 @@ Scenario('Partial Payments Refunds V2 @pipeline @nightly',
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -163,14 +166,15 @@ Scenario('Partial Payments Refunds V2 @pipeline @nightly',
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr/td[6]/a');
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefund();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
-  }).tag('@pipelines @nightly');
+  }).tag('@pipeline @nightly');
 
 Scenario('FullPayment for Refunds V2 @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
@@ -185,21 +189,22 @@ Scenario('FullPayment for Refunds V2 @pipeline @nightly',
     logger.info(`The value of the dcnNumber : ${dcnNumber}`);
     // const paymentRef = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumberForOverPayments(ccdCaseNumber);
     // console.log('**** payment ref - ' + paymentRef);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await AddFees.addFeesOverPayment('200');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
       await bulkScanApiCalls.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
     }
     I.click('Issue refund');
@@ -220,7 +225,7 @@ Scenario('FullPayment for Refunds V2 @pipeline @nightly',
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
@@ -229,10 +234,11 @@ Scenario('FullPayment for Refunds V2 @pipeline @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr/td[6]/a');
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefund();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -252,21 +258,22 @@ Scenario('OverPayment for Refunds V2 Rejected Flow @pipeline @nightly',
     logger.info(`The value of the dcnNumber : ${dcnNumber}`);
     // const paymentRef = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumberForOverPayments(ccdCaseNumber);
     // console.log('**** payment ref - ' + paymentRef);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await AddFees.addFeesOverPayment('200');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
       await bulkScanApiCalls.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
     }
     I.click('Issue refund');
@@ -284,7 +291,7 @@ Scenario('OverPayment for Refunds V2 Rejected Flow @pipeline @nightly',
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
@@ -293,10 +300,11 @@ Scenario('OverPayment for Refunds V2 Rejected Flow @pipeline @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr/td[6]/a');
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await RefundsList.verifyRefundDetailsAfterRejectionOfOverPayment();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -317,21 +325,22 @@ Scenario('FullPayment for Refunds V2 Send To Caseworker @pipeline @nightly',
     logger.info(`The value of the dcnNumber : ${dcnNumber}`);
     // const paymentRef = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumberForOverPayments(ccdCaseNumber);
     // console.log('**** payment ref - ' + paymentRef);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await AddFees.addFeesOverPayment('200');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
       await bulkScanApiCalls.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
     }
     I.click('Issue refund');
@@ -352,7 +361,7 @@ Scenario('FullPayment for Refunds V2 Send To Caseworker @pipeline @nightly',
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
@@ -361,10 +370,11 @@ Scenario('FullPayment for Refunds V2 Send To Caseworker @pipeline @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr/td[6]/a');
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await RefundsList.verifyRefundDetailsAfterReturnToCaseWorkerOfFullPayment();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -386,21 +396,22 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     logger.info(`The value of the dcnNumber : ${dcnNumber}`);
     // const paymentRef = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumberForOverPayments(ccdCaseNumber);
     // console.log('**** payment ref - ' + paymentRef);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await AddFees.addFeesOverPayment('200');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
       await bulkScanApiCalls.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
     }
     I.click('Issue refund');
@@ -417,7 +428,7 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     const refundRefOverPayments = await InitiateRefunds.verifyRefundSubmittedPageForOverPayments();
     // I.Logout();
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
     // I.click('Add remission');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     InitiateRefunds.verifyPaymentDetailsPage('Add remission');
@@ -438,7 +449,7 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refundRefRemissions = await InitiateRefunds.verifyRefundSubmittedPageForRemissions();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     I.click('Issue refund');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -459,7 +470,7 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     for (let i = 0; i <= 2; i++) {
       console.log('value of i' + i);
       I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.wait(CCPBATConstants.tenSecondWaitTime);
       I.click('Refund List');
       I.wait(CCPBATConstants.tenSecondWaitTime);
       if (i == 0) {
@@ -476,43 +487,10 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
       I.Logout();
       I.wait(CCPBATConstants.fiveSecondWaitTime);
     }
-
-    // I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-    // I.wait(CCPBATConstants.fiveSecondWaitTime);
-    // I.click('Refund List');
-    // I.wait(CCPBATConstants.tenSecondWaitTime);
-    // await InitiateRefunds.verifyRefundsListPage(refundRefOverPayments);
-    // I.wait(CCPBATConstants.twoSecondWaitTime);
-    // InitiateRefunds.verifyReviewRefundsDetailsPageForRefundsV2('Approve');
-    // I.wait(CCPBATConstants.twoSecondWaitTime);
-    // I.Logout();
-    // I.wait(CCPBATConstants.fiveSecondWaitTime);
-
-    // I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-    // I.wait(CCPBATConstants.fiveSecondWaitTime);
-    // I.click('Refund List');
-    // I.wait(CCPBATConstants.tenSecondWaitTime);
-    // await InitiateRefunds.verifyRefundsListPage(refundRefRemissions);
-    // I.wait(CCPBATConstants.twoSecondWaitTime);
-    // InitiateRefunds.verifyReviewRefundsDetailsPageForRefundsV2('Approve');
-    // I.wait(CCPBATConstants.twoSecondWaitTime);
-    // I.Logout();
-    // I.wait(CCPBATConstants.fiveSecondWaitTime);
-
-    // I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-    // I.wait(CCPBATConstants.fiveSecondWaitTime);
-    // I.click('Refund List');
-    // I.wait(CCPBATConstants.tenSecondWaitTime);
-    // await InitiateRefunds.verifyRefundsListPage(refunds);
-    // I.wait(CCPBATConstants.twoSecondWaitTime);
-    // InitiateRefunds.verifyReviewRefundsDetailsPageForRefundsV2('Approve');
-    // I.wait(CCPBATConstants.twoSecondWaitTime);
-    // I.Logout();
-    // I.wait(CCPBATConstants.fiveSecondWaitTime);
-
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPaymentsRemissionsRefunds(refunds, refundRefRemissions, refundRefOverPayments);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await RefundsList.verifyRefundDetailsAfterOverPayment();
@@ -541,21 +519,22 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     logger.info(`The value of the dcnNumber : ${dcnNumber}`);
     // const paymentRef = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumberForOverPayments(ccdCaseNumber);
     // console.log('**** payment ref - ' + paymentRef);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await AddFees.addFeesOverPayment('200');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
       await bulkScanApiCalls.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
     }
     I.click('Issue refund');
@@ -574,7 +553,7 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
@@ -584,14 +563,15 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr/td[6]/a');
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefundSendRefundWhenContacted();
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[3]');
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefund();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
@@ -611,21 +591,22 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     logger.info(`The value of the dcnNumber : ${dcnNumber}`);
     // const paymentRef = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumberForOverPayments(ccdCaseNumber);
     // console.log('**** payment ref - ' + paymentRef);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await AddFees.addFeesOverPayment('200');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
       await bulkScanApiCalls.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
     }
     I.click('Issue refund');
@@ -650,7 +631,7 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
@@ -660,14 +641,15 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr/td[6]/a');
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefundSendRefundWhenContactedLetter();
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[3]');
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefundLetter();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
@@ -682,21 +664,22 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     const paymentRef = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
     console.log('**** The value of the paymentReference - ' + paymentRef);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForPartialPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
       await bulkScanApiCalls.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await PaymentHistory.validatePaymentDetailsForPartialPayment();
+      await PaymentHistory.validatePaymentDetailsForPartialPayment(paymentRef);
       I.wait(CCPBATConstants.fiveSecondWaitTime);
     }
     I.click('Issue refund');
@@ -715,7 +698,7 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -726,10 +709,11 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefundSendRefund();
     I.Logout();
@@ -744,21 +728,22 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     const paymentRef = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
     console.log('**** The value of the paymentReference - ' + paymentRef);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForPartialPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
       await bulkScanApiCalls.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a');
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await PaymentHistory.validatePaymentDetailsForPartialPayment();
+      await PaymentHistory.validatePaymentDetailsForPartialPayment(paymentRef);
       I.wait(CCPBATConstants.fiveSecondWaitTime);
     }
     I.click('Issue refund');
@@ -784,7 +769,7 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     I.click('Refund List');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
@@ -794,10 +779,11 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login(testConfig.TestProbateCaseWorkerNewUserName, testConfig.TestProbateCaseWorkerNewPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr/td[6]/a');
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefundSendRefundLetter();
     I.Logout();

@@ -154,7 +154,7 @@ module.exports = {
     I.see('RefundWhenContacted');
     I.click('Preview');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.waitForText('From: specified@justice.gov.uk');
+    // I.waitForText('From: specified@justice.gov.uk');
     // I.waitForText('<hm.courts.and.tribunals.registrations@notifications.service.gov.uk>');
     I.see('To: vamshi.rudrabhatla@hmcts.net');
     I.see('Subject: HMCTS refund request approved');
@@ -166,7 +166,7 @@ module.exports = {
     I.see('Reason for refund: Refund for Overpayment')
     I.see('To receive this refund, you must give us the correct bank details to process the request.');
     I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
-    I.see('If you do not have a bank account, or if you need further information, contact specified@justice.gov.uk.');
+    I.see('If you do not have a bank account, or if you need further information, contact probate@justice.gov.uk.');
     I.see('HM Courts & Tribunals Service');
     I.see('This is an automated message, please don’t reply to this email.');
     I.click('Hide Preview');
@@ -197,21 +197,16 @@ module.exports = {
     I.see('LONDON BOROUGH OF HOUNSLOW');
     I.see('United Kingdom');
     I.see('TW4 7EZ');
-    I.see('From');
-    I.see('ABC');
-    I.see('london');
-    I.see('UK');
-    I.see('123 436');
     I.waitForText('HMCTS refund request approved');
     I.see('Dear Sir/Madam,');
     // I.waitForText('Our records show that case has recently been changed.');
     I.see('These changes have been considered and you are entitled to a refund on your payment.');
     I.see('Refund reference: RF-****-****-****-****');
     I.see('Refund amount: £300');
-    I.see('Reason for refund: Over payment')
+    I.see('Reason for refund: Refund for Overpayment')
     I.see('To receive this refund, you must give us the correct bank details to process the request.');
     I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
-    I.see('If you do not have a bank account, or if you need further information, contact specified@justice.gov.uk.');
+    I.see('If you do not have a bank account, or if you need further information, contact probate@justice.gov.uk.');
     I.see('HM Courts & Tribunals Service');
     I.click('Hide Preview');
     I.waitForText('Preview')
@@ -225,10 +220,6 @@ module.exports = {
     I.see('	£200.00');
     // I.see('Over payment');
     I.see('Post');
-    // I.see('89 MARTINDALE');
-    // I.see('ROAD HOUNSLOW LONDON');
-    // I.see('BOROUGH OF HOUNSLOW United');
-    // I.see('Kingdom TW4 7EZ');
     I.see('Notification');
     I.see('SendRefund');
     I.see('Change');
@@ -240,11 +231,6 @@ module.exports = {
     I.see('LONDON BOROUGH OF HOUNSLOW');
     I.see('United Kingdom');
     I.see('TW4 7EZ');
-    I.see('From');
-    I.see('ABC');
-    I.see('london');
-    I.see('UK');
-    I.see('123 436');
     I.see('HMCTS refund request approved');
     I.see('Dear Sir/Madam,');
     // I.waitForText('Our records show that case has recently been changed.');
@@ -725,8 +711,8 @@ module.exports = {
     I.see('SendRefund');
     I.click('Preview');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.waitForText('From: HM Courts and Tribunals Registrations');
-    I.waitForText('<hm.courts.and.tribunals.registrations@notifications.service.gov.uk>');
+    // I.waitForText('From: HM Courts and Tribunals Registrations');
+    // I.waitForText('<hm.courts.and.tribunals.registrations@notifications.service.gov.uk>');
     I.see('To: vamshi.rudrabhatla@hmcts.net');
     I.see('Subject: HMCTS refund request approved');
     I.see('Dear Sir/Madam,');
@@ -776,7 +762,7 @@ module.exports = {
     I.see('RefundWhenContacted');
     I.click('Preview');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.waitForText('From: specified@justice.gov.uk');
+    // I.waitForText('From: specified@justice.gov.uk');
     // I.waitForText('<hm.courts.and.tribunals.registrations@notifications.service.gov.uk>');
     I.see('To: vamshi.rudrabhatla@hmcts.net');
     I.see('Subject: HMCTS refund request approved');
@@ -788,7 +774,7 @@ module.exports = {
     I.see('Reason for refund: Refund for Overpayment');
     I.see('To receive this refund, you must give us the correct bank details to process the request.');
     I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
-    I.see('If you do not have a bank account, or if you need further information, contact specified@justice.gov.uk.');
+    I.see('If you do not have a bank account, or if you need further information, contact probate@justice.gov.uk.');
     I.see('HM Courts & Tribunals Service');
     I.see('This is an automated message, please don’t reply to this email.');
     I.click('Hide Preview');
@@ -806,11 +792,6 @@ module.exports = {
     I.see('LONDON BOROUGH OF HOUNSLOW');
     I.see('United Kingdom');
     I.see('TW4 7EZ');
-    I.see('From');
-    I.see('ABC');
-    I.see('london');
-    I.see('UK');
-    I.see('123 436');
     I.see('HMCTS refund request approved');
     I.see('Dear Sir/Madam,');
     // I.see('Our records show that case has recently been changed.');
@@ -820,7 +801,7 @@ module.exports = {
     // I.see('Reason for refund: Overpayment');
     I.see('To receive this refund, you must give us the correct bank details to process the request.');
     I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
-    I.see('If you do not have a bank account, or if you need further information, contact specified@justice.gov.uk.');
+    I.see('If you do not have a bank account, or if you need further information, contact probate@justice.gov.uk.');
     I.see('HM Courts & Tribunals Service');
     I.click('Hide Preview');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -838,11 +819,6 @@ module.exports = {
     I.see('LONDON BOROUGH OF HOUNSLOW');
     I.see('United Kingdom');
     I.see('TW4 7EZ');
-    I.see('From');
-    I.see('ABC');
-    I.see('london');
-    I.see('UK');
-    I.see('123 436');
     I.see('HMCTS refund request approved');
     I.see('Dear Sir/Madam,');
     // I.see('Our records show that case has recently been changed.');

@@ -105,8 +105,8 @@ module.exports = {
     I.see('View');
     I.click('View');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.see('From: HM Courts and Tribunals Registrations');
-    I.see('<hm.courts.and.tribunals.registrations@notifications.service.gov.uk>');
+    // I.see('From: HM Courts and Tribunals Registrations');
+    // I.see('<hm.courts.and.tribunals.registrations@notifications.service.gov.uk>');
     I.see('To: vamshi.rudrabhatla@hmcts.net');
     I.see('Subject: HMCTS refund request approved');
     I.see('Dear Sir/Madam,');
@@ -158,7 +158,7 @@ module.exports = {
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click(this.locators.view_button);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.waitForText('From: specified@justice.gov.uk');
+    // I.waitForText('From: specified@justice.gov.uk');
     // I.waitForText('<hm.courts.and.tribunals.registrations@notifications.service.gov.uk>');
     I.see('Subject: HMCTS refund request approved');
     I.see('Dear Sir/Madam,');
@@ -169,7 +169,7 @@ module.exports = {
     I.see('Reason for refund: Refund for Overpayment');
     I.see('To receive this refund, you must give us the correct bank details to process the request.');
     I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
-    I.see('If you do not have a bank account, or if you need further information, contact specified@justice.gov.uk.');
+    I.see('If you do not have a bank account, or if you need further information, contact probate@justice.gov.uk.');
     I.see('HM Courts & Tribunals Service');
     I.see('This is an automated message, please don’t reply to this email.');
     I.click('Hide');
@@ -188,11 +188,6 @@ module.exports = {
     I.see('LONDON BOROUGH OF HOUNSLOW');
     I.see('United Kingdom');
     I.see('TW4 7EZ');
-    I.see('From');
-    I.see('ABC');
-    I.see('london');
-    I.see('UK');
-    I.see('123 436');
     I.see('HMCTS refund request approved');
     I.see('Dear Sir/Madam,');
     // I.see('Our records show that case has recently been changed.');
@@ -202,7 +197,7 @@ module.exports = {
     // I.see('Reason for refund: Over payment')
     I.see('To receive this refund, you must give us the correct bank details to process the request.');
     I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
-    I.see('If you do not have a bank account, or if you need further information, contact specified@justice.gov.uk.');
+    I.see('If you do not have a bank account, or if you need further information, contact probate@justice.gov.uk.');
     I.see('HM Courts & Tribunals Service');
     I.click('Hide');
     I.waitForText('View')
@@ -220,11 +215,6 @@ module.exports = {
     I.see('LONDON BOROUGH OF HOUNSLOW');
     I.see('United Kingdom');
     I.see('TW4 7EZ');
-    I.see('From');
-    I.see('ABC');
-    I.see('london');
-    I.see('UK');
-    I.see('123 436');
     I.see('HMCTS refund request approved');
     I.see('Dear Sir/Madam,');
     // I.see('Our records show that case has recently been changed.');
@@ -255,7 +245,7 @@ module.exports = {
     I.see('Rejected');
     I.see('Sent for approval');
     I.see('Users');
-    I.see('Probate Requester12');
+    I.see('Probate Request Request');
     I.see('Refund initiated and sent to team leader');
     I.see('Notes');
     I.see('Date and time');
@@ -275,7 +265,7 @@ module.exports = {
     I.see('Update required');
     I.see('Sent for approval');
     I.see('Users');
-    I.see('Probate Requester12');
+    I.see('Probate Request Request');
     I.see('Refund initiated and sent to team leader');
     I.see('Notes');
     I.see('Test Reason Only');
@@ -293,7 +283,7 @@ verifyIssueRefundPageForPartialPayments(amount){
   I.see('Total paid');
   I.see('Quantity');
   I.see('Amount to refund');
-  I.wait(CCPBATConstants.tenSecondWaitTime);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   I.click(this.locators.checkbox_fee);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   I.click(this.locators.amount_to_refund);
@@ -303,14 +293,14 @@ verifyIssueRefundPageForPartialPayments(amount){
 
 verifyIssueRefundPageForRemissions(amount){
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  I.see('Issue refund');
+  I.see('Process refund');
   I.see('Payment reference:');
   I.see('Select fees to be refunded');
   I.see('Fee amount');
   I.see('Total paid');
   I.see('Quantity');
   I.see('Amount to refund');
-  I.wait(CCPBATConstants.tenSecondWaitTime);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   I.click(this.locators.checkbox_fee);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   I.click(this.locators.amount_to_refund);

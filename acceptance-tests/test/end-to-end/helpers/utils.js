@@ -1012,7 +1012,7 @@ async function createBulkScanRecords(siteId, amount, paymentMethod, exception, l
   else logger.info('CCD Case NOT Created');
 
   // ccdNumber = stringUtil.getTodayDateAndTimeInString() + numUtil.getRandomNumber(numberTwo);
-  const ccdNumberExceptionRecord = await createACCDCaseForDivorce();
+  const ccdNumberExceptionRecord = await createACCDCaseForProbate();
   console.log('***ccdNumberExceptionRecord - ' + ccdNumberExceptionRecord);
   logger.debug(`ccdNumberExceptionRecord : ${ccdNumberExceptionRecord}`);
   const responseCcdCode = await bulkScanRecord(serviceToken, ccdNumberExceptionRecord, dcnNumber,
