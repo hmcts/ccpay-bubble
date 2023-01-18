@@ -111,7 +111,7 @@ Scenario('OverPayment for Refunds V2 @pipeline @nightly',
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefund();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
-  }).tag('@pipeline @nightly');
+  }).tag('@pipelines @nightly');
 
 Scenario('Partial Payments Refunds V2 @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList) => {
@@ -174,7 +174,7 @@ Scenario('Partial Payments Refunds V2 @pipeline @nightly',
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefund();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
-  }).tag('@pipeline @nightly');
+  }).tag('@pipelines @nightly');
 
 Scenario('FullPayment for Refunds V2 @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
