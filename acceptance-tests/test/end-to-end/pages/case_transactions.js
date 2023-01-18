@@ -27,7 +27,7 @@ module.exports = {
     disputed_event: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[5]' },
     disputed_closed_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[1]/td[6]/a' },
     disputed_initiated_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[2]/td[6]/a' },
-    allocate_new_service_request: {xpath: '//*[@class="button govuk-button--secondary"]'},
+    allocate_new_service_request: {xpath: '//*[contains(text(),"Allocate to new service request")]'},
     click_overpayment: {xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr[1]/td[6]/a'},
     notpaid_payment_status: { xpath: '//*[contains(text(),"Not paid")]' },
   },
@@ -409,6 +409,7 @@ module.exports = {
     I.click(this.locators.click_overpayment);
   },
   validateTransactionPageForPartialPayments() {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Total payments');
     I.see('215');
     I.see('Total remissions');
