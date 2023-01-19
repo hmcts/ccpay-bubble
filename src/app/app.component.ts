@@ -51,6 +51,7 @@ export class AppComponent implements OnInit {
         })
       ).subscribe((ttl: string) => {
         this.titleService.setTitle(ttl);
+        this.title = ttl;
       });
 
   }

@@ -44,17 +44,22 @@ const routes: Routes = [
   {
     path: 'ccd-search',
     component: CcdSearchComponent,
-    data: { title: 'CCD Search' },
+    data: { title: 'Case Transaction' },
   },
   {
     path: 'payment-history/view/:view',
     component: PaymentHistoryComponent,
-    data: { title: 'Case Transactions' },
+    data: { title: 'Reports' },
   },
-    {
+  {
+    path: 'payment-history/view',
+    component: PaymentHistoryComponent,
+    data: { title: 'Reports' },
+  },
+  {
     path: 'payment-history',
     component: CcdSearchComponent,
-    data: { title: 'Case Transactions' },
+    data: { title: 'Payment History' },
   },
   {
     path: 'service-requests',
@@ -75,7 +80,7 @@ const routes: Routes = [
   {
     path: 'payment-history/:ccdCaseNumber',
     component: PaymentHistoryComponent,
-    data: { title: 'Case Transactions' },
+    data: { title: 'Payment History' },
   },
   {
     path: 'cookies',

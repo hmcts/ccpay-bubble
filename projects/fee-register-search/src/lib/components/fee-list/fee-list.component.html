@@ -1,4 +1,4 @@
-<table *ngIf="(fees | filterFees: searchFilter: jurisdictionsFilter).length >= 1">
+<table *ngIf="(fees | filterFees: searchFilter: jurisdictionsFilter).length >= 1" role="status">
   <thead>
     <tr>
       <th>Fee Code</th>
@@ -62,7 +62,7 @@
           </span>
         </span>
       </td>
-      <td><a (click)="selectFee(fee)">Select</a></td>
+      <td><a (click)="selectFee(fee)" href="javascript:void(0)">Select</a></td>
     </tr>
   </tbody>
 </table>
@@ -73,4 +73,4 @@
   autoHide="true"
   (pageChange)="p = $event"></pagination-controls>
 
-<p *ngIf="(fees | filterFees: searchFilter: jurisdictionsFilter).length === 0">No Results</p>
+<p *ngIf="(fees | filterFees: searchFilter: jurisdictionsFilter).length === 0" role="status">No Results</p>

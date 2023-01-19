@@ -14,8 +14,11 @@
 
   <div class="govuk-form-group">
       <legend class='govuk-fieldset__legend--xl'>
-          <h1 class="govuk-fieldset__heading">
+          <h1 class="govuk-fieldset__heading govuk-!-margin-top-5" *ngIf="takePayment && servicerequest === 'false'">
             Search for a case
+          </h1>
+          <h1 class="govuk-fieldset__heading govuk-!-margin-top-5" *ngIf="!takePayment && servicerequest === 'false'">
+            Payment History - Search for a case
           </h1>
         </legend>
     <fieldset class="govuk-fieldset">
@@ -85,7 +88,7 @@
                aria-label ="Enter Payment Asset Number (DCN)"
                formControlName="searchInput">
               <span *ngIf="hasErrors && selectedValue === 'DCN'" class="error-message">Enter DCN number in the correct format</span>
-              <span *ngIf="noCaseFound" class="error-message">No record found for this DCN</span>
+              <span *ngIf="noCaseFound" class="error-message" role="status">No record found for this DCN</span>
   
         </div>
         <div class="govuk-radios__item" *ngIf="isBulkscanningEnable">
@@ -115,13 +118,13 @@
                aria-label ="Enter RC"
                formControlName="searchInput">
               <span *ngIf="hasErrors && selectedValue === 'RC'" class="error-message">Enter Payment Reference in the correct format</span>
-              <span *ngIf="noCaseFound" class="error-message">No record found for this Payment Reference</span>
+              <span *ngIf="noCaseFound" class="error-message" role="status">No record found for this Payment Reference</span>
 
         </div>
      </div> 
     </fieldset>
     <button class="button" type="submit" (click)="searchFees()">Search</button>
-    <div class="nocase-message" *ngIf="noCaseFoundInCCD">No matching cases found</div>
+    <div class="nocase-message" *ngIf="noCaseFoundInCCD" role="status">No matching cases found</div>
   </div>
   
   </form>

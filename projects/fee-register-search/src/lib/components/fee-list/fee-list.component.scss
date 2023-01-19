@@ -35,3 +35,8 @@
 .fee-current-version-amount-field {
   width: 20%;
 }
+
+a:focus {
+  background-color: #ffdd00;
+  outline: 2px solid #ffdd00;
+}

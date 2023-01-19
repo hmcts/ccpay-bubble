@@ -2,3 +2,7 @@
   margin-left: 15px;
   line-height: 1.15;
 }
+
+input:focus, button:focus {
+  outline: 3.5px solid #ffdd00;
+}

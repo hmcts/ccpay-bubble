@@ -4,3 +4,8 @@
     width: 850px;
     overflow-y: scroll;
 }
+
+a:focus {
+    background-color: #ffdd00;
+    outline: 2px solid #ffdd00;
+}

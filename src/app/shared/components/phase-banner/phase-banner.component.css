@@ -9,3 +9,8 @@ p {
 .govuk-tag {
     font-size: 14px;
 }
+
+.govuk-link:focus {
+  background-color: #ffdd00;
+  outline: 2px solid #ffdd00;
+}
