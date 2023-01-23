@@ -35,7 +35,7 @@ class NotificationService {
   }
   docPreview(req) {
     /* eslint-disable no-console */
-    return this.createAuthToken().then(token => request.post({
+    return this.createAuthToken().then(token => request.patch({
       uri: `${refundsUrl}/doc-preview`,
       body: req.body,
       headers: {
