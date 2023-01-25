@@ -37,7 +37,7 @@ class NotificationService {
     return this.createAuthToken().then(token => request.post({
       uri: `${notificationUrl}/notifications/doc-preview`,
       body: req.body,
-      headers: {  
+      headers: {
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `${token}`,
         'Content-Type': 'application/json'
