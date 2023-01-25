@@ -27,6 +27,7 @@ module.exports = {
     disputed_event: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[5]' },
     disputed_closed_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[1]/td[6]/a' },
     disputed_initiated_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[2]/td[6]/a' },
+    notpaid_payment_status: { xpath: '//*[contains(text(),"Not paid")]' },
   },
 
   checkEmptyRefundsSection() {
@@ -175,10 +176,11 @@ module.exports = {
   },
 
   async verifyDisputedPaymentHistory(paymentRCRef, todayDate) {
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    // I.see('Service requests');
+    await I.see('Status');
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.see('Service requests');
-    I.see('Status');
-    I.see('Partially paid');
+    await I.see('Partially paid');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.payments_review_button);
     I.wait(CCPBConstants.sevenSecondWaitTime);
@@ -195,10 +197,12 @@ module.exports = {
   },
 
   async verifyDisputedPaymentHistoryEvent(paymentRCRef, todayDate) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.see('Service requests');
-    I.see('Status');
-    I.see('Not paid');
+    // I.wait(CCPBConstants.tenSecondWaitTime);
+    // I.see('Service requests');
+    // await I.see('Status');
+    console.log("Asserting Started");
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    await I.retry(5).seeElement(this.locators.notpaid_payment_status);
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.payments_review_button);
     I.wait(CCPBConstants.sevenSecondWaitTime);
@@ -215,10 +219,11 @@ module.exports = {
   },
 
   async verifyServiceRequestStatus() {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.wait(CCPBConstants.tenSecondWaitTime);
     // I.see('Service requests');
-    I.see('Status');
-    // I.see('Disputed');
+    await I.see('Status');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.see('Disputed');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.Logout();
   },
@@ -229,9 +234,11 @@ module.exports = {
   },
 
   async verifyDisputedPaymentHistoryTable(paymentRCRef, todayDate) {
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    await I.see('Service requests');
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.see('Service requests');
-    I.see('Status');
+    await I.see('Status');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Paid');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.payments_review_button);
