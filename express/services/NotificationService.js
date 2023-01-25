@@ -4,7 +4,6 @@ const otp = require('otp');
 const request = require('request-promise-native');
 const { Logger } = require('@hmcts/nodejs-logging');
 
-const refundsUrl = config.get('refunds.url');
 const notificationUrl = config.get('notification.url');
 const postcodeLookupUrl = config.get('postcodelookup.url');
 const postcodeLookupKey = config.get('secrets.ccpay.postcode-address-lookup-id');
@@ -35,10 +34,10 @@ class NotificationService {
   }
   docPreview(req) {
     /* eslint-disable no-console */
-    return this.createAuthToken().then(token => request.patch({
-      uri: `${refundsUrl}/doc-preview`,
+    return this.createAuthToken().then(token => request.post({
+      uri: `${notificationUrl}/notifications/doc-preview`,
       body: req.body,
-      headers: {
+      headers: {  
         Authorization: `Bearer ${req.authToken}`,
         ServiceAuthorization: `${token}`,
         'Content-Type': 'application/json'

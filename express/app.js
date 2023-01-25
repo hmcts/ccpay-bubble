@@ -122,7 +122,7 @@ module.exports = appInsights => express.Router()
     controllers.bulkScanController.patchBSChangeStatus(req, res, appInsights);
   })
   // Notification service
-  .get('/notification/notifications/:id', (req, res) => {
+  .get('/notification/:id', (req, res) => {
     controllers.notificationController.getRefundNotification(req, res);
   })
   .put('/refund/resend/notification/:id?*', (req, res) => {
@@ -131,7 +131,7 @@ module.exports = appInsights => express.Router()
   .get('/notification/search/places/v1/postcode?*', (req, res) => {
     controllers.notificationController.getaddressByPostcode(req, res);
   })
-  .patch('/refund/doc-preview', (req, res) => {
+  .post('/notification/doc-preview', (req, res) => {
     controllers.notificationController.docPreview(req, res);
   })
   // Bulk scanning services
