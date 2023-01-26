@@ -9,9 +9,9 @@ maintainers:
     email: ccpay@hmcts.net
 dependencies:
   - name: nodejs
-    version: 2.4.8
+    version: 2.4.13
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
   - name: idam-pr
-    version: ~2.2.6
+    version: ~2.3.0
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: idam-pr.enabled
