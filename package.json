@@ -31,7 +31,6 @@
     "rename": "node ./scripts/rename.js",
     "replace": "node ./scripts/replace.js",
     "e2e": "ng e2e",
-    "postinstall": "ngcc",
     "test:smoke": "./bin/run-smoke-test.sh",
     "test:smoketest": "codeceptjs run -c smoke-test/smoke-codecept.conf.js --reporter mochawesome --bail",
     "test:functional": "./bin/run-functional-tests.sh",
