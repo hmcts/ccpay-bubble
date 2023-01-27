@@ -13,7 +13,7 @@ declare const require: any;
 beforeAll(() => {
   getTestBed().configureTestingModule({
     imports: [BrowserDynamicTestingModule]
-  })
+  });
 });
 
 getTestBed().initTestEnvironment(
