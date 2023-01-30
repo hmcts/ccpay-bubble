@@ -8,6 +8,7 @@ import { FeeListComponent } from './components/fee-list/fee-list.component';
 import { FeeSearchComponent } from './components/fee-search/fee-search.component';
 import { FilterFeesPipe } from './pipes/filter-fees.pipe';
 import { FeeFilterComponent } from './components/fee-filter/fee-filter.component';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { FeeFilterComponent } from './components/fee-filter/fee-filter.component
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    BrowserDynamicTestingModule
   ],
   providers: [FeeRegisterSearchService],
   exports: [FeeRegisterSearchComponent]
