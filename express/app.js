@@ -128,7 +128,7 @@ module.exports = appInsights => express.Router()
   .put('/refund/resend/notification/:id?*', (req, res) => {
     controllers.refundController.putResendOrEdit(req, res);
   })
-  .get('/notification/search/places/v1/postcode?*', (req, res) => {
+  .get('/notification/postcode-lookup/:postcode', (req, res) => {
     controllers.notificationController.getaddressByPostcode(req, res);
   })
   .post('/notification/doc-preview', (req, res) => {

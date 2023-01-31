@@ -2,11 +2,8 @@
 const config = require('config');
 const otp = require('otp');
 const request = require('request-promise-native');
-const { Logger } = require('@hmcts/nodejs-logging');
 
 const notificationUrl = config.get('notification.url');
-const postcodeLookupUrl = config.get('postcodelookup.url');
-const postcodeLookupKey = config.get('secrets.ccpay.postcode-address-lookup-id');
 
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
@@ -25,12 +22,22 @@ class NotificationService {
     }));
   }
   getaddressByPostcode(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${notificationUrl}/notifications/postcode-lookup/${req.params.postcode}`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+    /*
     Logger.getLogger('postcode: user').info(postcodeLookupKey);
     return request.get({
       uri: `${postcodeLookupUrl}/postcode?postcode=${req.query.postcode}&KEY=${postcodeLookupKey}`,
       headers: { 'Content-Type': 'application/json' },
       json: true
-    });
+    });*/
   }
   docPreview(req) {
     /* eslint-disable no-console */

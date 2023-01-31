@@ -22,7 +22,7 @@ class NotificationController {
   getaddressByPostcode(req, res) {
     return this.notificationService.getaddressByPostcode(req)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode) {
@@ -35,7 +35,7 @@ class NotificationController {
   docPreview(req, res) {
     return this.notificationService.docPreview(req)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode) {
