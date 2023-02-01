@@ -111,7 +111,7 @@ Scenario('OverPayment for Refunds V2 @pipeline @nightly',
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefund();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
-  }).tag('@pipelines @nightly');
+  }).tag('@pipeline @nightly');
 
 Scenario('Partial Payments Refunds V2 @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList) => {
@@ -149,7 +149,7 @@ Scenario('Partial Payments Refunds V2 @pipeline @nightly',
     I.click('//*[@id="email"]');
     I.fillField('//*[@id="email"]', 'vamshi.rudrabhatla@hmcts.net');
     I.click('Continue');
-    await InitiateRefunds.verifyCheckYourAnswersPageForPartialPaymentsSendRefundNotification();
+    await InitiateRefunds.verifyCheckYourAnswersPageForPartialPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refundRef = await InitiateRefunds.verifyRefundSubmittedPageForPartialPayments();
     I.Logout();
@@ -172,9 +172,8 @@ Scenario('Partial Payments Refunds V2 @pipeline @nightly',
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefund();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
-  }).tag('@pipelines @nightly');
+  }).tag('@pipeline @nightly');
 
 Scenario('FullPayment for Refunds V2 @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
@@ -306,7 +305,7 @@ Scenario('OverPayment for Refunds V2 Rejected Flow @pipeline @nightly',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await RefundsList.verifyRefundDetailsAfterRejectionOfOverPayment();
+    await RefundsList.verifyRefundDetailsAfterRejectionOfOverPayment(refundRef);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
   }).tag('@pipeline @nightly');
@@ -376,7 +375,7 @@ Scenario('FullPayment for Refunds V2 Send To Caseworker @pipeline @nightly',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await RefundsList.verifyRefundDetailsAfterReturnToCaseWorkerOfFullPayment();
+    await RefundsList.verifyRefundDetailsAfterReturnToCaseWorkerOfFullPayment(refundRef);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
   }).tag('@pipeline @nightly');
@@ -570,10 +569,6 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefundSendRefundWhenContacted();
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('(//*[text()[contains(.,"Review")]])[3]');
-    await RefundsList.verifyRefundDetailsAfterApprovalOfRefund();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
   }).tag('@pipeline @nightly');
 
@@ -648,9 +643,6 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await RefundsList.verifyRefundDetailsAfterApprovalOfRefundSendRefundWhenContactedLetter();
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('(//*[text()[contains(.,"Review")]])[3]');
-    await RefundsList.verifyRefundDetailsAfterApprovalOfRefundLetter();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
   }).tag('@pipeline @nightly');

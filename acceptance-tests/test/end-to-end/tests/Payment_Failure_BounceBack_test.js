@@ -70,7 +70,7 @@ Scenario('Payment Failure for Bounceback SR status Paid @pipeline @nightly',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await FailureEventDetails.verifyFailureDetailsPageForInitiatedEventForBounceBack(paymentRefResult[0],
       paymentRefResult[1],paymentRefResult[2]);
-  }).tag('@pipelines @nightly');
+  }).tag('@pipeline @nightly');
 
 Scenario('Payment Failure for chargeback SR status Partially Paid@pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
@@ -95,7 +95,7 @@ Scenario('Payment Failure for chargeback SR status Partially Paid@pipeline @nigh
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await FailureEventDetails.verifyFailureDetailsPageForInitiatedEvent(paymentRefResult[0],
       paymentRefResult[1],paymentRefResult[2]);
-  }).tag('@pipelines @nightly');
+  }).tag('@pipeline @nightly');
 
   Scenario('Payment Failure for chargeback SR status Not Paid @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
@@ -114,7 +114,7 @@ Scenario('Payment Failure for chargeback SR status Partially Paid@pipeline @nigh
     await CaseTransaction.verifyDisputedPaymentHistoryEvent(paymentRefResult[0], paymentRefResult[2]);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
-  }).tag('@pipelines @nightly');
+  }).tag('@pipeline @nightly');
 
   Scenario('Payment Failure for chargeback with SR status Disputed @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
@@ -131,5 +131,5 @@ Scenario('Payment Failure for chargeback SR status Partially Paid@pipeline @nigh
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.twentySecondWaitTime);
     await CaseTransaction.verifyServiceRequestStatus();
-  }).tag('@pipelines @nightly');
+  }).tag('@pipeline @nightly');
 

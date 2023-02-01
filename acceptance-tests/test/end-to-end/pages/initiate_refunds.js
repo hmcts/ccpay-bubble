@@ -182,10 +182,6 @@ module.exports = {
     I.see('£300');
     I.see('Over payment');
     I.see('Post');
-    // I.see('89 MARTINDALE');
-    // I.see('ROAD HOUNSLOW LONDON');
-    // I.see('BOROUGH OF HOUNSLOW United');
-    // I.see('Kingdom TW4 7EZ');
     I.see('Notification');
     I.see('RefundWhenContacted');
     I.see('Change');
@@ -278,6 +274,22 @@ module.exports = {
     I.click('Hide Preview');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.waitForText('Preview')
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.click('Submit refund');
+  },
+
+  verifyCheckYourAnswersPageForPartialPayments() {
+    I.see('RC-');
+    I.see('£215.00');
+    I.see('Fee not due');
+    I.see('Change');
+    I.see('	£200.00');
+    I.see('Email');
+    I.see('vamshi.rudrabhatla@hmcts.net');
+    I.see('Notification');
+    I.see('SendRefund');
+    I.see('Change');
+    I.see('Preview');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('Submit refund');
   },

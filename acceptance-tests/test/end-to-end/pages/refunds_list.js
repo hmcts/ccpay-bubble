@@ -59,33 +59,6 @@ module.exports = {
     }
   },
 
-  verifyRefundDetailsAfterApprovalOfRefund() {
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.see('Refund details');
-    I.see('Refund reference');
-    I.see('Reason for refund');
-    I.see('Amount refunded');
-    I.see('Notifications sent');
-    I.see('Date and time');
-    I.see('Sent to');
-    I.see('	Sent via');
-    // I.see(reason_for_refund);
-    I.see('Email');
-    I.see('vamshi.rudrabhatla@hmcts.net');
-    I.see('Actions');
-    I.see('Resend');
-    I.see('Edit details');
-    I.click('Resend');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.see('Notification sent');
-    I.see('Refund reference');
-    I.click('Return to case');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click(this.locators.review_Approved);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-
-  },
-
   verifyRefundDetailsAfterApprovalOfRefundSendRefund() {
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Refund details');
@@ -96,7 +69,6 @@ module.exports = {
     I.see('Date and time');
     I.see('Sent to');
     I.see('	Sent via');
-    // I.see(reason_for_refund);
     I.see('Email');
     I.see('vamshi.rudrabhatla@hmcts.net');
     I.see('Actions');
@@ -112,7 +84,7 @@ module.exports = {
     I.see('Dear Sir/Madam,');
     // I.see('Our records show that case 1671126906988356 has recently been changed.');
     I.see('These changes have been considered and you are entitled to a refund on your payment.');
-    // I.see('Refund reference: RF-****-****-****-****');
+    I.see('Refund reference: RF-');
     I.see('Refund amount: £200');
     // I.see('Reason for refund: Overpayment');
     I.see('Your refund will be processed and sent to the account you originally made the payment from within 14 days');
@@ -127,7 +99,7 @@ module.exports = {
 
   },
 
-  verifyRefundDetailsAfterApprovalOfRefundLetter() {
+  verifyRefundDetailsAfterApprovalOfRefundSendRefundWhenContacted() {
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Refund details');
     I.see('Refund reference');
@@ -137,24 +109,13 @@ module.exports = {
     I.see('Date and time');
     I.see('Sent to');
     I.see('	Sent via');
-    // I.see(reason_for_refund);
-    I.see('Post');
-    I.see('89 MARTINDALE ROAD HOUNSLOW');
-    I.see('LONDON BOROUGH OF HOUNSLOW');
-    I.see('United Kingdom TW4 7EZ');
+    I.see('Email');
+    I.see('vamshi.rudrabhatla@hmcts.net');
     I.see('Actions');
     I.see('Resend');
     I.see('Edit details');
-    I.click('Resend');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click('Return to case');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click(this.locators.review_Approved);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-
-  },
-
-  verifyRefundDetailsAfterApprovalOfRefundSendRefundWhenContacted() {
+    I.see('Notifications sent');
+    I.see('Refund reference');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click(this.locators.view_button);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -174,13 +135,28 @@ module.exports = {
     I.see('This is an automated message, please don’t reply to this email.');
     I.click('Hide');
     I.waitForText('View')
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    
 
   },
 
   verifyRefundDetailsAfterApprovalOfRefundSendRefundWhenContactedLetter() {
     I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.see('Refund details');
+    I.see('Refund reference');
+    I.see('Reason for refund');
+    I.see('Amount refunded');
+    I.see('Notifications sent');
+    I.see('Date and time');
+    I.see('Sent to');
+    I.see('	Sent via');
+    I.see('Post');
+    I.see('89 MARTINDALE ROAD HOUNSLOW');
+    I.see('LONDON BOROUGH OF HOUNSLOW');
+    I.see('United Kingdom TW4 7EZ');
+    I.see('Actions');
+    I.see('Resend');
+    I.see('Edit details');
     I.click(this.locators.view_button);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('89 MARTINDALE ROAD');
@@ -202,8 +178,9 @@ module.exports = {
     I.click('Hide');
     I.waitForText('View')
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.click('Back');
-
+    I.click('Resend');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click('Return to case');
   },
 
   verifyRefundDetailsAfterApprovalOfRefundSendRefundLetter() {
@@ -231,14 +208,14 @@ module.exports = {
     I.wait(CCPBATConstants.tenSecondWaitTime);
 
   },
-  verifyRefundDetailsAfterRejectionOfOverPayment() {
+  verifyRefundDetailsAfterRejectionOfOverPayment(refundRef) {
     I.see('Refund details');
     I.see('Refund reference');
     I.see('Reason for refund');
     I.see('Amount refunded');
     I.see('Overpayment');
     I.see('£300.00');
-    I.see('RF-');
+    I.see(`${refundRef}`);
     I.see('RC-');
     I.see('Refund status history');
     I.see('Status');
@@ -251,14 +228,14 @@ module.exports = {
     I.see('Date and time');
   },
 
-  verifyRefundDetailsAfterReturnToCaseWorkerOfFullPayment() {
+  verifyRefundDetailsAfterReturnToCaseWorkerOfFullPayment(refundRef) {
     I.see('Refund details');
     I.see('Refund reference');
     I.see('Reason for refund');
     I.see('Amount refunded');
     I.see('Fee not due');
     I.see('£500.00');
-    I.see('RF-');
+    I.see(`${refundRef}`);
     I.see('RC-');
     I.see('Refund status history');
     I.see('Status');
