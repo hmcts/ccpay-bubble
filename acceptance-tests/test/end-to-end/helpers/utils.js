@@ -900,7 +900,7 @@ async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
   bankedDate, dcnNumber, paymentMethod) {
   logger.info('Creating bulk Excela Case');
   // const bulkApiUrl = `http://ccpay-bulkscanning-api-${prNumber}.service.core-compute-${env}.internal`;
-  const bulkApiUrl = `http://ccpay-bulkscanning-api-pr-434-java`;
+  const bulkApiUrl = `https://ccpay-bulkscanning-api-pr-434.service.core-compute-preview.internal`;
   const bulkendPoint = '/bulk-scan-payment';
   console.log('**** bulk scan payments uri - ' + bulkApiUrl + bulkendPoint);
 
@@ -939,7 +939,7 @@ async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
 async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, exception) {
   logger.info('Creating bulk Scan Case');
 
-  const bulkApiUrl = `http://ccpay-bulkscanning-api-pr-434-java`;
+  const bulkApiUrl = `https://ccpay-bulkscanning-api-pr-434.service.core-compute-preview.internal`;
   // const bulkApiUrl = `http://ccpay-bulkscanning-api-${prNumber}.service.core-compute-${env}.internal`;
   const bulkendPoint = '/bulk-scan-payments';
   console.log('**** bulk scan payments uri - ' + bulkApiUrl + bulkendPoint);
@@ -980,7 +980,7 @@ async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNum
   logger.info('Creating bulk Scan Case linked to Exception CCD');
 
   // const bulkApiUrl = `http://ccpay-bulkscanning-api-${prNumber}.service.core-compute-${env}.internal`;
-  const bulkApiUrl = `http://ccpay-bulkscanning-api-pr-434-java/`;
+  const bulkApiUrl = `https://ccpay-bulkscanning-api-pr-434.service.core-compute-preview.internal`;
   const bulkendPoint = '/bulk-scan-payments';
   const query = `?exception_reference=${exceptionCCDNumber}`;
 
