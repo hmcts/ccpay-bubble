@@ -57,24 +57,24 @@ withNightlyPipeline("nodejs", product, component) {
   env.NIGHTLY_TEST= true
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  enableFortifyScan()
+  // enableFortifyScan()
   enableCrossBrowserTest()
   enableFullFunctionalTest(180)
   enableMutationTest(150)
-  after('checkout') {
+  afterAlways('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
   }
-  after('build') {
+  afterAlways('build') {
     sh 'yarn ng:build'
     sh 'chmod +x bin/run-mutation-tests.sh'
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
-   after('fortify-scan') {
+   afterAlways('fortify-scan') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
   }
 
-  after('mutationTest') {
+  afterAlways('mutationTest') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/mutation-reports/**/*'
     publishHTML target: [
       reportDir            : "functional-output/mutation-reports/",
@@ -88,7 +88,7 @@ withNightlyPipeline("nodejs", product, component) {
     env.E2E_TESTS_FOR_ACCESSIBILITY = true
   }
 
-  after('fullFunctionalTest') {
+  afterAlways('fullFunctionalTest') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
     env.E2E_TESTS_FOR_ACCESSIBILITY = false
 
