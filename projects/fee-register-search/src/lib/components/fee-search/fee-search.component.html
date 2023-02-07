@@ -1,5 +1,5 @@
 <label class="heading-small" for="fee-search">
-  <span class="form-hint">For example: Application or £10.00. You don't need to use the whole description or amount.</span>
+  <span class="form-hint">For example: Search for a Fee through fee code (FEE0001), fee description (Application) or fee amount (£10).</span>
   <span *ngIf="hasErrors" class="error-message">You must provide a search value</span>
 </label>
 <form [formGroup]="searchForm" [className]="hasErrors ? 'form-group form-group-error': 'form-group'">
