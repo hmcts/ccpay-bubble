@@ -576,7 +576,8 @@ async function createAPBAPayment() {
   const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;*/
 
   // eslint-disable-next-line no-magic-numbers
-  const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
+  //const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
+  const ccdCaseNumber = await createACCDCaseForDivorce();
   logger.info(`The value of the CCD Case Number : ${ccdCaseNumber}`);
   logger.debug(`The Full Payment URL : ${creditAccountPaymentUrl}${creditAccountPaymentEndPoint}`);
 
