@@ -44,7 +44,7 @@ export class CcdSearchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if(this.router.url === '/ccd-search') {
+    if (this.router.url === '/ccd-search') {
       this.header = 'Case Transaction - Search for a case';
     }
     this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'] === 'false' ? null : true ;
