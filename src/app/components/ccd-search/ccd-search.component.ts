@@ -32,6 +32,8 @@ export class CcdSearchComponent implements OnInit {
   caseResponse: any;
   servicerequest: string;
   isPaymentStatusEnabled: boolean;
+  isOldPcipalOff: boolean;
+  isNewPcipalOff: boolean;
 
   constructor(
     private paymentGroupService: PaymentGroupService,
