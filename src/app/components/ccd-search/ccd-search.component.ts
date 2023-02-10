@@ -32,6 +32,7 @@ export class CcdSearchComponent implements OnInit {
   caseResponse: any;
   servicerequest: string;
   isPaymentStatusEnabled: boolean;
+  header: string;
 
   constructor(
     private paymentGroupService: PaymentGroupService,
@@ -43,6 +44,9 @@ export class CcdSearchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if(this.router.url === '/ccd-search') {
+      this.header = 'Case Transaction - Search for a case';
+    }
     this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'] === 'false' ? null : true ;
     this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'] ;
     this.paymentGroupService.getBSFeature().then((status) => {

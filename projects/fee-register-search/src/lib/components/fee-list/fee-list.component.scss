@@ -26,6 +26,11 @@
   background: none;
 }
 
+.govuk-pagination ::ng-deep .ngx-pagination a:focus {
+  background-color: #ffdd00;
+  outline: 2px solid #ffdd00;
+}
+
 .fee-discontinued-version-amount {
   color: gray;
   display: block;
