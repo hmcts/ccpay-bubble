@@ -14,7 +14,7 @@
 
   <div class="govuk-form-group">
       <legend class='govuk-fieldset__legend--xl'>
-          <h1 class="govuk-fieldset__heading govuk-!-margin-top-5" *ngIf="isCcdSearchRoute()">
+          <h1 class="govuk-fieldset__heading govuk-!-margin-top-5" *ngIf="router.url === '/ccd-search'">
             Case Transaction - Search for a case
           </h1>
           <h1 class="govuk-fieldset__heading govuk-!-margin-top-5" *ngIf="takePayment && servicerequest === 'false'">

@@ -32,13 +32,11 @@ export class CcdSearchComponent implements OnInit {
   caseResponse: any;
   servicerequest: string;
   isPaymentStatusEnabled: boolean;
-  isOldPcipalOff: boolean;
-  isNewPcipalOff: boolean;
 
   constructor(
     private paymentGroupService: PaymentGroupService,
     private formBuilder: FormBuilder,
-    private router: Router,
+    public router: Router,
     private caseRefService: CaseRefService,
     private activatedRoute: ActivatedRoute,
     private viewPaymentService: ViewPaymentService
@@ -61,10 +59,6 @@ export class CcdSearchComponent implements OnInit {
     });
     this.fromValidation();
    }
-
-  isCcdSearchRoute() {
-    return this.router.url === '/ccd-search';
-  }
 
    fromValidation() {
     this.searchForm = this.formBuilder.group({
