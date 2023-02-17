@@ -465,10 +465,9 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refunds = await InitiateRefunds.verifyRefundSubmittedPageForRefunds();
     I.Logout();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     for (let i = 0; i <= 2; i++) {
-      console.log('value of i' + i);
-      I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
       I.wait(CCPBATConstants.tenSecondWaitTime);
       I.click('Refund List');
       I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -483,9 +482,9 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
       I.wait(CCPBATConstants.twoSecondWaitTime);
       InitiateRefunds.verifyReviewRefundsDetailsPageForRefundsV2('Approve');
       I.wait(CCPBATConstants.twoSecondWaitTime);
-      I.Logout();
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
     }
+    I.Logout();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
