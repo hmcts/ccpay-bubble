@@ -89,7 +89,7 @@ module.exports = {
     // I.see('Reason for refund: Overpayment');
     I.see('Your refund will be processed and sent to the account you originally made the payment from within 14 days');
     I.see('If you have not received the refund by this time, you need further information or you do not have a bank');
-    I.see('account, contact probate@justice.gov.uk.');
+    I.see('account, contact contactprobate@justice.gov.uk.');
     I.see('HM Courts & Tribunals Service');
     I.see('This is an automated message, please don’t reply to this email.');
     I.click('Hide');
@@ -97,6 +97,17 @@ module.exports = {
     I.waitForText('View');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
+  },
+
+  verifyRefundDetailsAfterApprovalOfRefund() {
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.see('Refund details');
+    I.see('Refund reference');
+    I.see('Reason for refund');
+    I.see('Amount refunded');
+    I.see('Refund status history');
+    I.see('Approved');
+    I.see('Sent for approval');
   },
 
   verifyRefundDetailsAfterApprovalOfRefundSendRefundWhenContacted() {
@@ -130,7 +141,7 @@ module.exports = {
     I.see('Reason for refund: Refund for Overpayment');
     I.see('To receive this refund, you must give us the correct bank details to process the request.');
     I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
-    I.see('If you do not have a bank account, or if you need further information, contact probate@justice.gov.uk.');
+    I.see('If you do not have a bank account, or if you need further information, contact contactprobate@justice.gov.uk.');
     I.see('HM Courts & Tribunals Service');
     I.see('This is an automated message, please don’t reply to this email.');
     I.click('Hide');
@@ -173,7 +184,7 @@ module.exports = {
     // I.see('Reason for refund: Over payment')
     I.see('To receive this refund, you must give us the correct bank details to process the request.');
     I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
-    I.see('If you do not have a bank account, or if you need further information, contact probate@justice.gov.uk.');
+    I.see('If you do not have a bank account, or if you need further information, contact contactprobate@justice.gov.uk.');
     I.see('HM Courts & Tribunals Service');
     I.click('Hide');
     I.waitForText('View')
@@ -201,7 +212,7 @@ module.exports = {
     // I.see('Reason for refund: Overpayment');
     I.see('Your refund will be processed and sent to the account you originally made the payment from within 14 days');
     I.see('If you have not received the refund by this time, you need further information or you do not have a bank');
-    I.see('account, contact probate@justice.gov.uk.');
+    I.see('account, contact contactprobate@justice.gov.uk.');
     I.see('HM Courts & Tribunals Service');
     I.click('Hide');
     I.waitForText('View')
