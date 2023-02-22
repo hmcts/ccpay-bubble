@@ -38,7 +38,6 @@ import { CookiePolicyComponent } from './components/cookie-policy/cookie-policy.
 import { CookieDetailsComponent } from './components/cookie-details/cookie-details.component';
 import { windowProvider, windowToken } from '../window';
 import { CookieTableComponent } from './components/cookie-table/cookie-table.component';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -78,8 +77,7 @@ const nonProductionProviders = [{
     FeeRegisterSearchModule,
     PaymentLibModule,
     NoopAnimationsModule,
-    BrowserAnimationsModule,
-    BrowserDynamicTestingModule
+    BrowserAnimationsModule
   ],
   providers: [
     PaybubbleHttpClient,
