@@ -13,7 +13,7 @@ import { StatusHistoryComponent } from './components/shared/status-history/statu
     StatusHistoryComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
   ],
   exports: [ViewPaymentComponent]
 })
