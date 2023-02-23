@@ -105,6 +105,20 @@ module.exports = {
     // I.dontSee('Date');
   },
 
+  validatePaymentDetailsForPartialPayment(paymentReference) {
+    I.see('Payment details');
+    I.see('Payment reference');
+    I.see('Payment amount');
+    I.see('Payment method');
+    I.see('Type');
+    I.see('PBA account name');
+    I.see('PBA number');
+    I.see('Customer internal reference');
+    I.see('£215.00');
+    I.see(`${paymentReference}`);
+    I.see('2023-');
+  },
+
 
   validateCcdPaymentDetails(receiptReference, amount, dcnNumber, status, paymentMethod, feeCode) {
     this.validateCCDPaymentDetailsPage();
