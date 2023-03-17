@@ -74,7 +74,7 @@ Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, Ca
   PaymentHistory.validateCcdPaymentDetails(receiptReference, '£593.00', dcnNumber, 'success', 'Cash', 'FEE0002');
   await I.runAccessibilityTest();
   I.Logout();
-}).tag('@pipelines @nightly');
+}).tag('@pipeline @nightly');
 
 Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a Remission on the first Fee', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
@@ -180,7 +180,7 @@ Scenario('Exception ccd case cash payment transferred', async(I, CaseSearch, Cas
 }).tag('@pipeline @nightly');
 
 Scenario('DCN Search for ccd case associated with exception postal order payment transferred', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
-  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
   const totalAmount = 600;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA09', totalAmount, 'PostalOrder');
   const dcnNumber = ccdAndDcn[0];
