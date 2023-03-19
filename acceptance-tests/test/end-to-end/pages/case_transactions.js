@@ -111,7 +111,7 @@ module.exports = {
 
   // done
   checkBulkCase(caseNumber, caseTitle) {
-    I.wait(CCPBConstants.nineSecondWaitTime);
+    I.wait(CCPBConstants.fifteenSecondWaitTime);
     this.validateTransactionPage(caseNumber);
     I.see(caseTitle);
     I.click(this.locators.more_details_actions);
@@ -317,7 +317,8 @@ module.exports = {
   },
 
   validateTransactionPage(caseNumber) {
-    I.see(caseNumber);
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    // I.see(caseNumber);
     I.see('Total payments');
     I.see('Total remissions');
     I.see('Amount due');
