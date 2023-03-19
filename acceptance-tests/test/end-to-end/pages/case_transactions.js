@@ -317,8 +317,7 @@ module.exports = {
   },
 
   validateTransactionPage(caseNumber) {
-    I.wait(CCPBConstants.tenSecondWaitTime);
-    // I.see(caseNumber);
+    I.see(caseNumber);
     I.see('Total payments');
     I.see('Total remissions');
     I.see('Amount due');

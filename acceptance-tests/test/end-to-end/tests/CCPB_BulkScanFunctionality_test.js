@@ -180,7 +180,7 @@ Scenario('Exception ccd case cash payment transferred', async(I, CaseSearch, Cas
 }).tag('@pipeline @nightly');
 
 Scenario('DCN Search for ccd case associated with exception postal order payment transferred', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
-  I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   const totalAmount = 600;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA09', totalAmount, 'PostalOrder');
   const dcnNumber = ccdAndDcn[0];
