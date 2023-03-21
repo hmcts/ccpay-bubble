@@ -47,14 +47,14 @@
   },
   "private": true,
   "dependencies": {
-    "@hmcts/ccpay-web-component": "5.1.0",
+    "@hmcts/ccpay-web-component": "5.2.1-beta01",
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/frontend": "^0.0.34-alpha",
     "@hmcts/nodejs-healthcheck": "^1.8.0",
     "@hmcts/nodejs-logging": "^3.0.0",
     "@hmcts/properties-volume": "^0.0.13",
     "applicationinsights": "^1.1.0",
-    "applicationinsights-js": "^1.0.20",
+    "applicationinsights-js": "^1.0.20", 
     "client-request": "^2.3.0",
     "config": "^3.3.9",
     "cookie-parser": "^1.4.3",
@@ -205,7 +205,10 @@
     "underscore": "^1.12.1",
     "ansi-regex": "^5.0.1",
     "sockjs": "^0.3.20",
-    "async": "^2.6.4",
+    "json-schema": "^0.4.0",
+    "node-fetch":"^2.6.7",
+    "follow-redirects":"^1.14.7",
+    "async": "^3.2.2",
     "webpack": "^5.0.0"
   }
 }
