@@ -11822,12 +11822,10 @@ qjobs@^1.2.0:
   resolved "https://registry.yarnpkg.com/qjobs/-/qjobs-1.2.0.tgz#c45e9c61800bd087ef88d7e256423bdd49e5d071"
   integrity sha512-8YOJEHtxpySA3fFDyCRxA+UUV+fA+rTWnuWvylOK/NCjhY+b4ocCtmu8TtsWb+mYeU+GCHf/S66KZF/AsteKHg==
 
-qs@6.11.0, qs@6.9.3, qs@^6.10.3, qs@^6.11.0, qs@^6.5.1, qs@^6.9.1, qs@~6.5.2:
-  version "6.11.0"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.11.0.tgz#fd0d963446f7a65e1367e01abd85429453f0c37a"
-  integrity sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==
-  dependencies:
-    side-channel "^1.0.4"
+qs@6.11.0, qs@6.7.3, qs@6.9.3, qs@^6.10.3, qs@^6.11.0, qs@^6.5.1, qs@^6.9.1, qs@~6.5.2:
+  version "6.7.3"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.3.tgz#67634d715101aa950601f58dbef353b7e1696b95"
+  integrity sha512-WBoQWf5L/UOLqUj8Mvr4Om7J+ZTCqPbYPHyeLNRS9t9Q3M3/o/9ctpWnlo8yyETPclx7FhH5LidjKKJa9kdSRQ==
 
 querystring@0.2.0:
   version "0.2.0"
