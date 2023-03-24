@@ -209,7 +209,7 @@
     "node-fetch":"^2.6.7",
     "follow-redirects":"^1.14.7",
     "async": "^3.2.2",
-    "webpack": "^5.0.0"
+    "webpack": "^5.0.0",
     "cookiejar": "2.1.4",
     "qs": "6.7.3"
   }
