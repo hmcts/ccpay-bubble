@@ -119,7 +119,7 @@
     "@stryker-mutator/core": "^3.0.1",
     "@stryker-mutator/html-reporter": "^3.0.1",
     "@stryker-mutator/karma-runner": "^3.0.1",
-    "@stryker-mutator/typescript": "^4.0.0",
+    "@stryker-mutator/typescript": "^3.0.1",
     "@types/applicationinsights-js": "^1.0.9",
     "@types/file-saver": "^2.0.1",
     "@types/jasmine": "~3.6.0",
@@ -206,6 +206,8 @@
     "ansi-regex": "^5.0.1",
     "sockjs": "^0.3.20",
     "async": "^2.6.4",
-    "webpack": "^5.0.0"
+    "webpack": "^5.0.0",
+    "cookiejar": "2.1.4",
+    "qs": "6.7.3"
   }
 }
