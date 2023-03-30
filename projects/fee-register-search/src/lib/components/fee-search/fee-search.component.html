@@ -1,5 +1,5 @@
 <label class="heading-small" for="fee-search">
-  <span class="form-hint govuk-!-margin-bottom-1">For example: Search for Fee code (FEE001) or Application type (Probate, Divorce, Civil etc.) or through Fee Amount.</span>
+  <span class="form-hint govuk-!-margin-bottom-1">Enter a fee code, a fee amount, or a type of application. For example, a Probate or Divorce application.</span>
   <span *ngIf="hasErrors" class="error-message">You must provide a search value</span>
 </label>
 <form [formGroup]="searchForm" [className]="hasErrors ? 'form-group form-group-error': 'form-group'">
