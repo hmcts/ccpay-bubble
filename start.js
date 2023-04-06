@@ -16,8 +16,8 @@ const app = require('./server')(security(appInsights), appInsights),
   port = process.env.PORT || defaultPort,
   https = require('https'),
   http = require('http');
-
 // reverse proxy handles tls in non local environments
+
 if (process.env.NODE_ENV === 'development') {
   const crtLocation = config.get('certs.crt'),
     keyLocation = config.get('certs.key'),
