@@ -139,6 +139,7 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.getPaymentFailure(req, res);
   })
   .get('/payment-history/report/data?*', (req, res) => {
+    req.setTimeout(240000);
     controllers.payhubController.getSelectedReport(req, res);
   })
   .get('/payment-history/case-payment-orders?*', (req, res) => {
