@@ -7,6 +7,7 @@ const waitForAction = parseInt(CONF.e2e.waitForActionValue);
 exports.config = {
   name: 'ccpay-bubble-acceptance-tests',
   tests: './test/end-to-end/tests/*_test.js',
+  // tests: './test/end-to-end/tests/*.js',
   timeout: 10000,
   output: './output',
   helpers: {
@@ -17,7 +18,7 @@ exports.config = {
       browser: 'chrome',
       // waitForNavigation: 'networkidle0',
       waitForNavigation: 'domcontentloaded',
-      show: false,
+      show: true,
       restart: false,
       keepCookies: false,
       keepBrowserState: true,

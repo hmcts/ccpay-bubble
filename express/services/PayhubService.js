@@ -1,5 +1,6 @@
 const config = require('config');
 const otp = require('otp');
+const UUID = require('uuid/v4');
 const request = require('request-promise-native');
 const FeatureService = require('./FeatureService');
 
@@ -235,7 +236,41 @@ class PayhubService {
       json: true
     }));
   }
-
+  getPbaAccountList(req) {
+    return this.createAuthToken().then(token => request.get({
+      uri: `${payhubUrl}/pba-accounts`,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+  postPBAAccountPayment(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/service-request/${req.params.serviceRef}/pba-payments`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
+  postWays2PayCardPayment(req) {
+    return this.createAuthToken().then(token => request.post({
+      uri: `${payhubUrl}/service-request/${req.params.serviceRef}/card-payments`,
+      body: req.body,
+      headers: {
+        Authorization: `Bearer ${req.authToken}`,
+        ServiceAuthorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      json: true
+    }));
+  }
   getApportionPaymentGroup(req) {
     return this.createAuthToken().then(token => request.get({
       uri: `${payhubUrl}/payment-groups/fee-pay-apportion/${req.params.id}`,
@@ -290,27 +325,17 @@ class PayhubService {
     return this.createAuthToken()
       .then(token => {
         serviceToken = token;
-        return this.featureService.getFeatures(req, token);
-      })
-      .then(data => this.isCaseRefValidationEnabled(data))
-      .then(isValidationEnabled => {
-        if (isValidationEnabled) {
-          return request.get({
-            uri: `${ccdUrl}/cases/${req.params.caseref.replace(/-/g, '')}`,
-            headers: {
-              Authorization: `Bearer ${req.authToken}`,
-              ServiceAuthorization: `Bearer ${serviceToken}`,
-              experimental: 'true',
-              accept: 'application/vnd.uk.gov.hmcts.ccd-data-store-api.case.v2+json;charset=UTF-8',
-              'Content-Type': 'application/json'
-            },
-            json: true
-          });
-        }
-        return {
-          exception: 'CMC_ExceptionRecord',
-          case: 'MoneyClaimCase'
-        };
+        return request.get({
+          uri: `${ccdUrl}/cases/${req.params.caseref.replace(/-/g, '')}`,
+          headers: {
+            Authorization: `Bearer ${req.authToken}`,
+            ServiceAuthorization: `Bearer ${serviceToken}`,
+            experimental: 'true',
+            accept: 'application/vnd.uk.gov.hmcts.ccd-data-store-api.case.v2+json;charset=UTF-8',
+            'Content-Type': 'application/json'
+          },
+          json: true
+        });
       });
   }
 

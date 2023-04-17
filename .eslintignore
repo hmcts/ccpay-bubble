@@ -8,5 +8,12 @@ acceptance-tests/test/end-to-end/pages/case_transactions.js
 acceptance-tests/test/end-to-end/tests/Payment_Failure_BounceBack_test.js
 acceptance-tests/test/end-to-end/helpers/utils.js
 acceptance-tests/test/end-to-end/pages/failure_event_details.js
+acceptance-tests/test/end-to-end/pages/refunds_list.js
+acceptance-tests/test/end-to-end/pages/payment_history.js
+acceptance-tests/test/end-to-end/pages/initiate_refunds.js
+acceptance-tests/test/end-to-end/tests/config/CCPBConfig.js
+acceptance-tests/test/end-to-end/tests/Refunds_V2_test.js
+acceptance-tests/test/end-to-end/pages/add_fees.js
 acceptance-tests/test/end-to-end/tests/Payment_Failure_BounceBack.js
 acceptance-tests/test/end-to-end/helpers/string_utils.js
+

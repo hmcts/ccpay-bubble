@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { IdamDetails } from '../../services/idam-details/idam-details';
-
-
+import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
+import * as ls from 'local-storage';
+import {Router} from '@angular/router';
 @Component({
   selector: 'app-payment-history',
   templateUrl: './payment-history.component.html',
@@ -13,6 +13,7 @@ export class PaymentHistoryComponent implements OnInit {
   apiRoot: string;
   bulkscanapiRoot: string;
   refundsapiRoot: string;
+  notificationapiRoot: string;
   view: string;
   takePayment: boolean;
   ccdCaseNumber: string;
@@ -31,6 +32,9 @@ export class PaymentHistoryComponent implements OnInit {
   isPaymentStatusEnabled: boolean;
   LOGGEDINUSEREMAIL: string;
   LOGGEDINUSERROLES: string[];
+  cardPaymentReturnUrl: string;
+  lsCcdNumber: any = ls.get<any>('ccdNumber');
+
   userRoles = [
     'IDAM_SUPER_USER',
     'caseworker-probate-authorize',
@@ -41,9 +45,9 @@ export class PaymentHistoryComponent implements OnInit {
     'payments-refund'
   ];
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
+  constructor(private router: Router,
     private paymentGroupService: PaymentGroupService,
+    private activatedRoute: ActivatedRoute,
     private idamDetails: IdamDetails
   ) { }
 
@@ -58,6 +62,7 @@ export class PaymentHistoryComponent implements OnInit {
             this.apiRoot = 'api/payment-history';
             this.bulkscanapiRoot = 'api/bulk-scan';
             this.refundsapiRoot = 'api/refund';
+            this.notificationapiRoot = 'api/notification';
             this.ccdCaseNumber = params['ccdCaseNumber'];
             this.isBulkscanningEnable = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable';
             this.isStrategicFixEnable = this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable';
@@ -79,4 +84,11 @@ export class PaymentHistoryComponent implements OnInit {
     });
   }
 
+  checkValidUser() {
+    const currenturl = (this.router.url).split('?', 1);
+    if ( this.lsCcdNumber !== this.ccdCaseNumber
+      && !(currenturl[0] === '/refund-list' || currenturl[0] === '/payment-history/view')) {
+      this.router.navigateByUrl('/ccd-search?takePayment=true');
+    }
+  }
 }
