@@ -3,6 +3,7 @@ const controllers = require('./mvc/controller');
 const config = require('config');
 const HttpStatus = require('http-status-codes');
 const { Logger } = require('@hmcts/nodejs-logging');
+
 const REQUEST_TIMEOUT = 240000;
 
 module.exports = appInsights => express.Router()
