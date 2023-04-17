@@ -54,41 +54,41 @@ async function multipleSearch(CaseSearch, I, searchOption) {
   await bulkScanApiCalls.toggleOffCaseValidation();
   searchSpecificOption(searchItem, CaseSearch, searchOption);
   const headerValue1 = await CaseSearch.getHeaderValue();
-  if (headerValue1 === 'What do you want to search for?') {
+  if (headerValue1 === 'Search for a case') {
     await bulkScanApiCalls.toggleOffCaseValidation();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const headerValue5 = await CaseSearch.getHeaderValue();
-    if (headerValue5 === 'What do you want to search for?') {
+    if (headerValue5 === 'Search for a case') {
       searchSpecificOption(searchItem, CaseSearch, searchOption);
     }
   }
 
   const headerValue2 = await CaseSearch.getHeaderValue();
-  if (headerValue2 === 'What do you want to search for?') {
+  if (headerValue2 === 'Search for a case') {
     await bulkScanApiCalls.toggleOffCaseValidation();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const headerValue6 = await CaseSearch.getHeaderValue();
-    if (headerValue6 === 'What do you want to search for?') {
+    if (headerValue6 === 'Search for a case') {
       searchSpecificOption(searchItem, CaseSearch, searchOption);
     }
   }
 
   const headerValue3 = await CaseSearch.getHeaderValue();
-  if (headerValue3 === 'What do you want to search for?') {
+  if (headerValue3 === 'Search for a case') {
     await bulkScanApiCalls.toggleOffCaseValidation();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const headerValue7 = await CaseSearch.getHeaderValue();
-    if (headerValue7 === 'What do you want to search for?') {
+    if (headerValue7 === 'Search for a case') {
       searchSpecificOption(searchItem, CaseSearch, searchOption);
     }
   }
 
   const headerValue4 = await CaseSearch.getHeaderValue();
-  if (headerValue4 === 'What do you want to search for?') {
+  if (headerValue4 === 'Search for a case') {
     await bulkScanApiCalls.toggleOffCaseValidation();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const headerValue8 = await CaseSearch.getHeaderValue();
-    if (headerValue8 === 'What do you want to search for?') {
+    if (headerValue8 === 'Search for a case') {
       searchSpecificOption(searchItem, CaseSearch, searchOption);
     }
   }
@@ -98,7 +98,7 @@ async function ccdSearchEnabledValidation(CaseSearch, I, ccdCaseNumber) {
   I.wait(CCPBATConstants.tenSecondWaitTime);
   CaseSearch.searchCaseUsingCcdNumber(ccdCaseNumber);
   const headerValue1 = await CaseSearch.getHeaderValue();
-  if (headerValue1 !== 'What do you want to search for?') {
+  if (headerValue1 !== 'Search for a case') {
     CaseSearch.navigateToCaseTransaction();
     await bulkScanApiCalls.toggleOnCaseValidation();
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -106,7 +106,7 @@ async function ccdSearchEnabledValidation(CaseSearch, I, ccdCaseNumber) {
   }
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   const headerValue2 = await CaseSearch.getHeaderValue();
-  if (headerValue2 !== 'What do you want to search for?') {
+  if (headerValue2 !== 'Search for a case') {
     CaseSearch.navigateToCaseTransaction();
     await bulkScanApiCalls.toggleOnCaseValidation();
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -114,7 +114,7 @@ async function ccdSearchEnabledValidation(CaseSearch, I, ccdCaseNumber) {
   }
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   const headerValue3 = await CaseSearch.getHeaderValue();
-  if (headerValue3 !== 'What do you want to search for?') {
+  if (headerValue3 !== 'Search for a case') {
     CaseSearch.navigateToCaseTransaction();
     await bulkScanApiCalls.toggleOnCaseValidation();
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -122,7 +122,7 @@ async function ccdSearchEnabledValidation(CaseSearch, I, ccdCaseNumber) {
   }
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   const headerValue4 = await CaseSearch.getHeaderValue();
-  if (headerValue4 !== 'What do you want to search for?') {
+  if (headerValue4 !== 'Search for a case') {
     CaseSearch.navigateToCaseTransaction();
     await bulkScanApiCalls.toggleOnCaseValidation();
     I.wait(CCPBATConstants.tenSecondWaitTime);

@@ -3,6 +3,7 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/com
 import {Observable} from 'rxjs';
 
 const email = 'krishnakn00@gmail.com';
+// const email = 'santoshgovindu@gmail.com';
 
 @Injectable()
 export class AuthDevInterceptor implements HttpInterceptor {
