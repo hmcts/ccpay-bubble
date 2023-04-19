@@ -28,7 +28,7 @@ AfterSuite(async I => {
   }
 });*/
 
-Scenario.skip('Search for a case with actual case number from CCD', async I => {
+Scenario('Search for a case with actual case number from CCD', async I => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   await I.runAccessibilityTest();
   I.see('Search for a case');

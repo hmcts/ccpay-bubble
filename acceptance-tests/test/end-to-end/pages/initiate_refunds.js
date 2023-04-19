@@ -133,8 +133,8 @@ module.exports = {
 
   verifyCheckYourAnswersPageForOverPaymentRefund() {
     I.see('RC-');
-    I.see('	£500.00');
-    I.see('	£200.00');
+    I.see('£500.00');
+    I.see('£200.00');
     I.see('£300');
     I.see('Over payment');
     I.see('Email');
