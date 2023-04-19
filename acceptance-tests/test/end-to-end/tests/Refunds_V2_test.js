@@ -3,7 +3,7 @@ const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 const miscUtils = require('../helpers/misc');
 const stringUtils = require('../helpers/string_utils');
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line no-unused-vars--
 const nightlyTest = process.env.NIGHTLY_TEST;
 
 const bulkScanApiCalls = require('../helpers/utils');
