@@ -191,7 +191,7 @@ module.exports = {
     I.see('Closed');
     I.see('£100.00');
     I.see(`${paymentRCRef}`);
-  
+
     I.see(`${todayDate}`);
     I.see('Chargeback');
     I.wait(CCPBConstants.sevenSecondWaitTime);
@@ -317,6 +317,7 @@ module.exports = {
   },
 
   validateTransactionPage(caseNumber) {
+    I.click('Skip to main content');
     I.see(caseNumber);
     I.see('Total payments');
     I.see('Total remissions');

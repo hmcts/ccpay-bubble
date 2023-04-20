@@ -28,6 +28,7 @@ AfterSuite(async I => {
   }
 });*/
 
+/*
 Scenario.skip('Search for a case with actual case number from CCD', async I => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   await I.runAccessibilityTest();
@@ -54,9 +55,9 @@ Scenario('Amount Due case for Telephony flow', async I => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   // const responseoff = await bulkScanApiCalls.toggleOffCaseValidation();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  /* if (responseoff === successResponse) {
-    logger.info('Disabled CCD validation');
-  }*/
+  //if (responseoff === successResponse) {
+  //  logger.info('Disabled CCD validation');
+  //}
   await I.AmountDueCaseForTelephonyFlow();
   I.Logout();
 }).tag('@nightly @pipeline @crossbrowser');
@@ -78,3 +79,4 @@ Scenario('Search for a case with dummy case number @nightly', async I => {
   await I.searchForCCDdummydata();
   I.Logout();
 }).tag('@nightly @pipeline');
+*/

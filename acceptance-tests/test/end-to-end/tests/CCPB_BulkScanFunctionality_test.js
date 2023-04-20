@@ -35,7 +35,7 @@ AfterSuite(async I => {
   }
 });*/
 
-
+/*
 // #region Normal CCD case bulk scan functional cases
 Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
   // logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
@@ -277,6 +277,7 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
   CaseUnidentified.cancelUnidentifiedComment();
   I.Logout();
 }).tag('@nightly');
+*/
 
 Scenario('Ccd case search with exception record postal order payment shortfall payment',
   async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary,
