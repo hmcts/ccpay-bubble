@@ -94,7 +94,9 @@ Scenario('OverPayment for Refunds V2 @pipeline @nightly',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.click('Refund List');
+    // I.click('Refund List');
+    console.log('navigating to the url -' + testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
+    I.amOnPage(testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -156,8 +158,9 @@ Scenario('Partial Payments Refunds V2 @pipeline @nightly',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.click('Refund List');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
+    // I.click('Refund List');
+    console.log('navigating to the url -' + testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
+    I.amOnPage(testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -225,7 +228,9 @@ Scenario('FullPayment for Refunds V2 @pipeline @nightly',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.click('Refund List');
+    // I.click('Refund List');
+    console.log('navigating to the url -' + testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
+    I.amOnPage(testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -291,7 +296,9 @@ Scenario('OverPayment for Refunds V2 Rejected Flow @pipeline @nightly',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.click('Refund List');
+    // I.click('Refund List');
+    console.log('navigating to the url -' + testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
+    I.amOnPage(testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -361,7 +368,9 @@ Scenario('FullPayment for Refunds V2 Send To Caseworker @pipeline @nightly',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.click('Refund List');
+    // I.click('Refund List');
+    console.log('navigating to the url -' + testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
+    I.amOnPage(testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -469,7 +478,9 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     for (let i = 0; i <= 2; i++) {
       I.wait(CCPBATConstants.tenSecondWaitTime);
-      I.click('Refund List');
+      // I.click('Refund List');
+      console.log('navigating to the url -' + testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
+      I.amOnPage(testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
       I.wait(CCPBATConstants.tenSecondWaitTime);
       if (i == 0) {
        valueToPass = refundRefOverPayments;
@@ -552,7 +563,9 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.click('Refund List');
+    // I.click('Refund List');
+    console.log('navigating to the url -' + testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
+    I.amOnPage(testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -626,7 +639,9 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.click('Refund List');
+    // I.click('Refund List');
+    console.log('navigating to the url -' + testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
+    I.amOnPage(testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -690,7 +705,9 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.click('Refund List');
+    // I.click('Refund List');
+    console.log('navigating to the url -' + testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
+    I.amOnPage(testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
@@ -761,7 +778,9 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.click('Refund List');
+    // I.click('Refund List');
+    console.log('navigating to the url -' + testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
+    I.amOnPage(testConfig.TestRefundsBaseURL+'/refund-list?takePayment=false&refundlist=true');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
     I.wait(CCPBATConstants.twoSecondWaitTime);
