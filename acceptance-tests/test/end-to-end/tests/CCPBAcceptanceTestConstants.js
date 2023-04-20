@@ -1,6 +1,7 @@
 module.exports = {
   windowsSizeX: 1600,
   windowsSizeY: 1200,
+  oneSecondWaitTime: 1,
   twoSecondWaitTime: 2,
   fiveSecondWaitTime: 5,
   sevenSecondWaitTime: 7,
@@ -14,6 +15,6 @@ module.exports = {
   CCDCaseNumber: 16,
   minTimeout: 1000,
   maxTimeout: 3000,
-  defaultNumberOfRetries: 3,
+  defaultNumberOfRetries: 2,
   oneMinute: 60
 };
