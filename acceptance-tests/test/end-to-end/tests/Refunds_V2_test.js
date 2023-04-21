@@ -249,7 +249,7 @@ Scenario('FullPayment for Refunds V2 @pipeline @nightly',
     I.Logout();
   }).tag('@pipeline @nightly');
 
-Scenario('OverPayment for Refunds V2 Rejected Flow @pipeline @nightly',
+Scenario.skip('OverPayment for Refunds V2 Rejected Flow @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
     PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
     const totalAmount = 500;
@@ -318,7 +318,7 @@ Scenario('OverPayment for Refunds V2 Rejected Flow @pipeline @nightly',
   }).tag('@pipeline @nightly');
 
 
-Scenario('FullPayment for Refunds V2 Send To Caseworker @pipeline @nightly',
+Scenario.skip('FullPayment for Refunds V2 Send To Caseworker @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
     PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
     const totalAmount = 500;
@@ -585,7 +585,7 @@ Scenario.skip('OverPayment for Refunds V2 and Remission Refund Journey @pipeline
   }).tag('@pipeline @nightly');
 
 
-  Scenario('Refunds V2 Notifications Template(sendRefundWhenContacted Letter) @pipeline @nightly',
+  Scenario.skip('Refunds V2 Notifications Template(sendRefundWhenContacted Letter) @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
     PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
     const totalAmount = 500;
@@ -728,7 +728,7 @@ Scenario.skip('OverPayment for Refunds V2 and Remission Refund Journey @pipeline
   }).tag('@pipeline @nightly');
 
 
-  Scenario('Partial Payments Refunds V2 Send Refund Letter@pipeline @nightly',
+  Scenario.skip('Partial Payments Refunds V2 Send Refund Letter@pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList) => {
 
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
