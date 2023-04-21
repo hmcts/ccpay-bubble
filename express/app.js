@@ -4,7 +4,7 @@ const config = require('config');
 const HttpStatus = require('http-status-codes');
 const { Logger } = require('@hmcts/nodejs-logging');
 
-const REQUEST_TIMEOUT = 240000;
+const DATA_REPORT_REQUEST_TIMEOUT = 240000;
 
 module.exports = appInsights => express.Router()
 
@@ -141,7 +141,7 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.getPaymentFailure(req, res);
   })
   .get('/payment-history/report/data?*', (req, res) => {
-    req.setTimeout(REQUEST_TIMEOUT);
+    req.setTimeout(DATA_REPORT_REQUEST_TIMEOUT);
     controllers.payhubController.getSelectedReport(req, res);
   })
   .get('/payment-history/case-payment-orders?*', (req, res) => {
