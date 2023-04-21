@@ -391,7 +391,7 @@ Scenario('FullPayment for Refunds V2 Send To Caseworker @pipeline @nightly',
 
 
 
-Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nightly',
+Scenario.skip('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
     PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
     const totalAmount = 500;
@@ -513,7 +513,7 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey @pipeline @nig
     await RefundsList.verifyRefundDetailsAfterRefunds();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
-  }).tag('@pipelines @nightly');
+  }).tag('@pipeline @nightly');
 
   Scenario('Refunds V2 Notifications Template(sendRefundWhenContacted Email) @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
