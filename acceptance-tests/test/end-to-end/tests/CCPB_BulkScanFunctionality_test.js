@@ -278,6 +278,7 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
   I.Logout();
 }).tag('@nightly');
 
+/* Ignored Test: PAY-5982
 Scenario('Ccd case search with exception record postal order payment shortfall payment',
   async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary,
     ConfirmAssociation, PaymentHistory) => {
@@ -323,6 +324,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
   }).tag('@nightly');
+*/
 
 Scenario.skip('Exception search with ccd record postal order payment surplus payment', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
