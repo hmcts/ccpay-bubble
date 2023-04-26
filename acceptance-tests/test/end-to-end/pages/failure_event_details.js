@@ -47,12 +47,10 @@ module.exports = {
     I.see('RR001');
     I.see(`${paymentRcRef}`);
     I.see('£250.00');
-    // I.see('£250.00');
     I.see('AR1234556');
     I.see('Bounced Cheque');
     I.see(`${todayDate}`);
     I.see('Success');
-    // I.see('22 Jul 2022');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.failure_events_page_back_button);
   },
