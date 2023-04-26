@@ -8,6 +8,7 @@ Please note this project uses yarn
 
 to install all the libraries into the node module run `yarn install` on the terminal
 
+
 ## Build
 
 Important - The project's build dependens on library projects located in the projects folder. 
