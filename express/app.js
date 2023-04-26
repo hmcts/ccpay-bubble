@@ -109,7 +109,9 @@ module.exports = appInsights => express.Router()
   .get('/payment-history/LD-feature?*', (req, res) => {
     controllers.payhubController.getLDFeatures(req, res);
   })
-
+  .get('/get-environment', (req, res) => {
+    controllers.payhubController.getEnvironment(res);
+  })
   .get('/payment-history/payment-groups/fee-pay-apportion/:id', (req, res) => {
     controllers.payhubController.getApportionPaymentGroup(req, res);
   })
@@ -121,7 +123,19 @@ module.exports = appInsights => express.Router()
   .patch('/payment-history/bulk-scan-payments/:id/status/*', (req, res) => {
     controllers.bulkScanController.patchBSChangeStatus(req, res, appInsights);
   })
-
+  // Notification service
+  .get('/notification/:id', (req, res) => {
+    controllers.notificationController.getRefundNotification(req, res);
+  })
+  .put('/refund/resend/notification/:id?*', (req, res) => {
+    controllers.refundController.putResendOrEdit(req, res);
+  })
+  .get('/notification/postcode-lookup/:postcode', (req, res) => {
+    controllers.notificationController.getaddressByPostcode(req, res);
+  })
+  .post('/notification/doc-preview', (req, res) => {
+    controllers.notificationController.docPreview(req, res);
+  })
   // Bulk scanning services
   .get('/bulk-scan/cases/:id', (req, res) => {
     controllers.bulkScanController.getPaymentDetailsForCcd(req, res);
@@ -146,6 +160,15 @@ module.exports = appInsights => express.Router()
   })
   .get('/payment-history/case-payment-orders?*', (req, res) => {
     controllers.payhubController.getPartyDetails(req, res);
+  })
+  .get('/payment-history/pba-accounts', (req, res) => {
+    controllers.payhubController.getPbaAccountList(req, res);
+  })
+  .post('/payment-history/service-request/:serviceRef/pba-payments', (req, res) => {
+    controllers.payhubController.postPBAAccountPayment(req, res);
+  })
+  .post('/payment-history/service-request/:serviceRef/card-payments', (req, res) => {
+    controllers.payhubController.postWays2PayCardPayment(req, res);
   })
   .post('/payment-history/payment-groups/:paymentGroup/fees/:feeId/retro-remission', (req, res) => {
     controllers.payhubController.postPaymentGroupWithRetroRemissions(req, res);
@@ -193,6 +216,7 @@ module.exports = appInsights => express.Router()
   .post('/payment-history/refund-retro-remission', (req, res) => {
     controllers.payhubController.postRefundRetroRemission(req, res);
   })
+
 
   // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {

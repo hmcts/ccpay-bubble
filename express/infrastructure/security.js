@@ -108,12 +108,7 @@ function getUserDetails(self, securityCookie) {
 
 function storeCookie(req, res, token) {
   req.authToken = token;
-
-  if (req.protocol === 'https') { /* SECURE */
-    res.cookie(constants.SECURITY_COOKIE, req.authToken, { secure: true, httpOnly: true });
-  } else {
-    res.cookie(constants.SECURITY_COOKIE, req.authToken, { httpOnly: true });
-  }
+  res.cookie(constants.SECURITY_COOKIE, req.authToken, { secure: true, httpOnly: true });
 }
 
 function handleCookie(req) {
