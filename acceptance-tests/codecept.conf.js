@@ -17,7 +17,7 @@ exports.config = {
       waitForAction,
       // waitForNavigation: 'networkidle0',
       waitForNavigation: 'domcontentloaded',
-      show: false,
+      show: true,
       restart: true,
       windowSize: '1024x768',
       keepCookies: false,

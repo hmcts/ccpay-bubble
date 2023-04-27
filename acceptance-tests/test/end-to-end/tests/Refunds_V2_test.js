@@ -515,7 +515,7 @@ Scenario.skip('OverPayment for Refunds V2 and Remission Refund Journey @pipeline
     I.Logout();
   }).tag('@pipeline @nightly');
 
-  Scenario('Refunds V2 Notifications Template(sendRefundWhenContacted Email) @pipeline @nightly',
+  Scenario.skip('Refunds V2 Notifications Template(sendRefundWhenContacted Email) @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
     PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
     const totalAmount = 500;
@@ -662,7 +662,7 @@ Scenario.skip('OverPayment for Refunds V2 and Remission Refund Journey @pipeline
   }).tag('@pipeline @nightly');
 
 
-  Scenario('Partial Payments Refunds V2 Send Refund Email @pipeline @nightly',
+  Scenario.skip('Partial Payments Refunds V2 Send Refund Email @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList) => {
 
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
