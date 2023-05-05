@@ -55,3 +55,12 @@ Thumbs.db
 # stryker temp files
 .stryker-tmp
 stryker.log
+
+# Yarn v3
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
