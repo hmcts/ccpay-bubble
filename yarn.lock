@@ -2335,10 +2335,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^12.11.1":
-  version: 12.20.55
-  resolution: "@types/node@npm:12.20.55"
-  checksum: e4f86785f4092706e0d3b0edff8dca5a13b45627e4b36700acd8dfe6ad53db71928c8dee914d4276c7fd3b6ccd829aa919811c9eb708a2c8e4c6eb3701178c37
+"@types/node@npm:^14.14.31":
+  version: 14.18.44
+  resolution: "@types/node@npm:14.18.44"
+  checksum: 650527d288956649da15917512236815c3e00f8a72a8d4f316dac88180d0b074884eab944ef2d404f0b394ef56e62e7e5891c786c19f4474365672782a1923b0
   languageName: node
   linkType: hard
 
@@ -4455,7 +4455,7 @@ __metadata:
     "@types/file-saver": ^2.0.1
     "@types/jasmine": ~3.6.0
     "@types/jasminewd2": ~2.0.10
-    "@types/node": ^12.11.1
+    "@types/node": ^14.14.31
     applicationinsights: ^1.1.0
     applicationinsights-js: ^1.0.20
     client-request: ^2.3.0
