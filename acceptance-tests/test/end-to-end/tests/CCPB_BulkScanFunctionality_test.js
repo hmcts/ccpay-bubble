@@ -40,7 +40,6 @@ AfterSuite(async I => {
 Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
   // logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-  I.AcceptPayBubbleCookies();
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
   const ccdCaseNumber = ccdAndDcn[1];

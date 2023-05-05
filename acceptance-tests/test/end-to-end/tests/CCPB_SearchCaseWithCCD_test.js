@@ -28,13 +28,6 @@ AfterSuite(async I => {
   }
 });*/
 
-Scenario('Search for a case with actual case for Telephony flow', async I => {
-  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
-  I.AcceptPayBubbleCookies();
-  await I.caseforTelephonyFlow();
-  I.Logout();
-}).tag('@nightly @pipeline');
-
 Scenario.skip('Search for a case with actual case number from CCD', async I => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   await I.runAccessibilityTest();
@@ -47,6 +40,13 @@ Scenario.skip('Search for a case with actual case number from CCD', async I => {
   I.see('Reports');
   await I.searchForCorrectCCDNumber();
   await I.runAccessibilityTest();
+  I.Logout();
+}).tag('@nightly @pipeline');
+
+Scenario('Search for a case with actual case for Telephony flow', async I => {
+  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  I.AcceptPayBubbleCookies();
+  await I.caseforTelephonyFlow();
   I.Logout();
 }).tag('@nightly @pipeline');
 
