@@ -10,7 +10,7 @@
     "start": "node start.js",
     "start:angular-dev": "ng serve --proxy-config proxy.conf.json",
     "start:express-dev": "cross-env NODE_ENV=development IGNORE_CERTS=true nodemon --inspect start.js",
-    "start:express-prod": "cross-env NODE_ENV=development IGNORE_CERTS=true nodemon --inspect start.js",
+    "start:express-prod": "cross-env NODE_ENV=production IGNORE_CERTS=true nodemon --inspect start.js",
     "build": "ng build --prod && yarn pugit dist/ccpay-bubble/index.html --output express/mvc/views/index.pug && rm dist/ccpay-bubble/index.html",
     "postbuild": "yarn replace file=express/mvc/views/index.pug searchValue='\\\"csrfToken\\\"' newValue='csrfToken'",
     "ng:build": "ng build view-payment && ng build fee-register-search && yarn build",
@@ -101,7 +101,7 @@
     "postcss": "^8.0.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1102.19",
+    "@angular-devkit/build-angular": "~12.2.18",
     "@angular/animations": "~11.2.14",
     "@angular/cdk": "^11.2.13",
     "@angular/cli": "~11.2.19",
