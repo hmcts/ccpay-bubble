@@ -1,4 +1,4 @@
-FROM hmctspublic.azurecr.io/base/node:16-alpine as base
+FROM hmctspublic.azurecr.io/base/node:14-alpine as base
 
 USER root
 RUN corepack enable
@@ -9,6 +9,7 @@ WORKDIR ${WORKDIR}
 
 COPY --chown=hmcts:hmcts . .
 RUN yarn workspaces focus --all --production \
+  && yarn postbuild
   && yarn cache clean
 
 EXPOSE 3000
