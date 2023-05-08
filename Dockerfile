@@ -9,7 +9,6 @@ WORKDIR ${WORKDIR}
 
 COPY --chown=hmcts:hmcts . .
 RUN yarn workspaces focus --all --production \
-  && yarn postbuild \
   && yarn cache clean
 
 EXPOSE 3000
