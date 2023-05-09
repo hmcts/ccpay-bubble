@@ -21,7 +21,7 @@ app.use(session({
 }));
 
 const errorFactory = ApiErrorFactory('server.js');
-let csrfProtection = csurf({ cookie: true, key: 'XSRF-TOKEN', httpOnly: false, secure: true });
+let csrfProtection = csurf({ cookie: true, key: 'csrf-token', httpOnly: false, secure: true });
 
 if (process.env.NODE_ENV === 'development') {
   csrfProtection = (req, res, next) => {
