@@ -287,10 +287,10 @@ describe('Payment group service', () => {
   });
 
   it('Should return bulkscan case details', () => {
-    spyOn(http, 'get').and.callFake((param1: string) => of({}));
+    spyOn(http, 'get').and.callFake((param1: string) => of(JSON.stringify({})));
     paymentGroupService.getBSPaymentsByCCD('1234')
       .then((response) => {
-        expect(response).toBe({});
+        expect(response).toEqual({});
       });
   });
-});
+ });
