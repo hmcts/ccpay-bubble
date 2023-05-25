@@ -55,10 +55,12 @@ withPipeline("nodejs", product, component) {
   disableLegacyDeployment()
   afterAlways('checkout') {
     sh "yarn cache clean"
+    sh "yarn --version"
     echo 'ccpay-bubble checked out'
   }
   afterAlways('build') {
     sh 'yarn ng:build'
+    sh 'yarn replace file=express/mvc/views/index.pug searchValue=\'"csrfToken"\' newValue=\'csrfToken\''
   }
 
   //Sync demo,ithc and perftest with master branch

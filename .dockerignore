@@ -4,9 +4,12 @@
 
 # exceptions from `exclude all` rule
 
+!.yarn/**
+!.yarnrc.yml
 !package.json
 !yarn.lock
 
+!tsconfig.json
 !start.js
 !server.js
 !config/**
@@ -14,3 +17,5 @@
 !data/**
 !app-insights.js
 !dist/**
+!.git
+!version

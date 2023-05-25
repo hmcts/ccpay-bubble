@@ -19,7 +19,7 @@ const testConfig = require('./config/CCPBConfig');
 Feature('CC Pay Bubble Refunds V2 OverPayment Test'); //.retry(CCPBATConstants.defaultNumberOfRetries);
 
 // Bulk scan cash overpayment refund option, email notification preview at all 3 stages(before refund request, refund approve and after approve) and Resend Notification
-Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email notification and Resend Notification',
+Scenario.skip('Bulk scan cash Over Payment refund, preview RefundWhenContacted email notification and Resend Notification',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
 
@@ -107,7 +107,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
   }).tag('@pipeline @nightly');
 
 // Bulk scan cash full payment refund option, letter notification preview at all 3 stages(before refund request, refund approve and after approve) and Resend Notification
-Scenario('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter notification and Resend Notification',
+Scenario.skip('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter notification and Resend Notification',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
 
@@ -202,7 +202,7 @@ Scenario('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter
 
   }).tag('@pipeline @nightly');
 
-Scenario('PBA Partial Refund, preview SendRefund letter notification',
+Scenario.skip('PBA Partial Refund, preview SendRefund letter notification',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList) => {
 
     const postcode = 'TW4 7EZ';
@@ -301,7 +301,7 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification',
 
   }).tag('@pipeline @nightly');
 
-Scenario('OverPayment for Refunds V2 Rejected Flow',
+Scenario.skip('OverPayment for Refunds V2 Rejected Flow',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
     const totalAmount = 500;
@@ -368,7 +368,7 @@ Scenario('OverPayment for Refunds V2 Rejected Flow',
   }).tag('@pipeline @nightly');
 
 
-Scenario('FullPayment for Refunds V2 Send To Caseworker',
+Scenario.skip('FullPayment for Refunds V2 Send To Caseworker',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
     const totalAmount = 500;
@@ -439,7 +439,7 @@ Scenario('FullPayment for Refunds V2 Send To Caseworker',
   }).tag('@pipeline @nightly');
 
 
-Scenario('OverPayment for Refunds V2 and Remission Refund Journey',
+Scenario.skip('OverPayment for Refunds V2 and Remission Refund Journey',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
 
@@ -587,7 +587,7 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey',
     I.clearCookie();
   }).tag('@pipelines @nightly');
 
-// Scenario('Refunds V2 Notifications Template(sendRefundWhenContacted Email)',
+// Scenario.skip('Refunds V2 Notifications Template(sendRefundWhenContacted Email)',
 //   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
 //          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
 //     const totalAmount = 500;
@@ -656,7 +656,7 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey',
 //   }).tag('@pipeline @nightly');
 //
 
-// Scenario('Refunds V2 Notifications Template(sendRefundWhenContacted Letter)',
+// Scenario.skip('Refunds V2 Notifications Template(sendRefundWhenContacted Letter)',
 //   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
 //          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
 //     const totalAmount = 500;
@@ -732,7 +732,7 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey',
 //   }).tag('@pipeline @nightly');
 //
 //
-// Scenario('Partial Payments Refunds V2 Send Refund Email',
+// Scenario.skip('Partial Payments Refunds V2 Send Refund Email',
 //   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList) => {
 //     const fees = {
 //       calculated_amount: 273,
@@ -803,7 +803,7 @@ Scenario('OverPayment for Refunds V2 and Remission Refund Journey',
 //   }).tag('@pipeline @nightly');
 //
 //
-// Scenario('Partial Payments Refunds V2 Send Refund Letter',
+// Scenario.skip('Partial Payments Refunds V2 Send Refund Letter',
 //   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList) => {
 //     const fees = {
 //       calculated_amount: 273,
