@@ -6,7 +6,7 @@
 const stringUtil = require('../../../helpers/string_utils.js');
 
 function checkPaymentValues(totalPaymentsValue, unallocatedPaymentsValue,
-  totalRemissionsValue, amountDueValue) {
+                            totalRemissionsValue, amountDueValue) {
   const checkPaymentValuesData = {
     totalPayments: `${totalPaymentsValue}`,
     unallocatedPayments: `${unallocatedPaymentsValue}`,
@@ -17,9 +17,9 @@ function checkPaymentValues(totalPaymentsValue, unallocatedPaymentsValue,
 }
 
 function checkYourDetailsSummary(serviceReference, paymentReference,
-  paymentAmount, paymentMethod,
-  paymentType, paymentChannel, paymentStatus, PBAAccountName,
-  PBANumber, customerInternalReference) {
+                                 paymentAmount, paymentMethod,
+                                 paymentType, paymentChannel, paymentStatus, PBAAccountName,
+                                 PBANumber, customerInternalReference) {
   // console.log('Inside checkYourDetailsSummary()');
   const checkYourDetailsSummaryData = {
     serviceReference: `${serviceReference}`,
@@ -37,7 +37,8 @@ function checkYourDetailsSummary(serviceReference, paymentReference,
   return checkYourDetailsSummaryData;
 }
 
-function checkYourAnswers(paymentReference, hwfReferenceCode, refundAmount, paymentAmount, feeAmount, feeCode, feeDescription, email, postCode, notificationType) {
+function checkYourAnswers(paymentReference, hwfReferenceCode, refundAmount, paymentAmount,
+                          feeAmount, feeCode, feeDescription, email, postCode, notificationType) {
   const checkYourAnswersData = {
     paymentReference: `${paymentReference}`,
     paymentAmount: `${paymentAmount}`,
@@ -55,7 +56,7 @@ function checkYourAnswers(paymentReference, hwfReferenceCode, refundAmount, paym
 }
 
 function getPaymentCardValues(cardNumber, expiryMonth, expiryYear,
-  cvc, name, houseNumber, addressLine, townOrCity, postcode, email) {
+                              cvc, name, houseNumber, addressLine, townOrCity, postcode, email) {
   const paymentCardValues = {
     cardNumber: `${cardNumber}`,
     expiryMonth: `${expiryMonth}`,
@@ -70,6 +71,7 @@ function getPaymentCardValues(cardNumber, expiryMonth, expiryYear,
   };
   return paymentCardValues;
 }
+
 function getCaseTransactionsData(
   paymentReference, refundAmount, refundStatus,
   refundReference, refundReason, refundSubmittedBy, refundNotes) {
@@ -92,8 +94,9 @@ function getCaseTransactionsData(
 }
 
 function reviewRefundDetailsDataBeforeApproverAction(
-  refundReference, refundReason, refundAmount, email, postcode, refundSubmittedBy, refundNotificationType) {
-  const todayDateInDDMMMYYYY =  stringUtil.getTodayDateInDDMMMYYYY();
+  refundReference, refundReason, refundAmount, email, postcode, refundSubmittedBy,
+  refundNotificationType) {
+  const todayDateInDDMMMYYYY = stringUtil.getTodayDateInDDMMMYYYY();
   const refundDetailsData = {
     refundReference: `${refundReference}`,
     refundReason: `${refundReason}`,
@@ -108,8 +111,9 @@ function reviewRefundDetailsDataBeforeApproverAction(
 }
 
 function reviewRefundDetailsDataAfterApproverAction(
-  refundReference, paymentRcReference, refundReason, refundAmount, email, postcode, refundRequester, refundApprover) {
-  const todayDateInDDMMMYYYY =  stringUtil.getTodayDateInDDMMMYYYY();
+  refundReference, paymentRcReference, refundReason, refundAmount, email, postcode,
+  refundRequester, refundApprover) {
+  const todayDateInDDMMMYYYY = stringUtil.getTodayDateInDDMMMYYYY();
   const refundDetailsData = {
     refundReference: `${refundReference}`,
     paymentRcReference: `${paymentRcReference}`,
@@ -124,20 +128,22 @@ function reviewRefundDetailsDataAfterApproverAction(
   return refundDetailsData;
 }
 
-function reviewProcessRefundPageDataForFeeRefundSelection(paymentReference, feeDescription, feeAmount, paymentAmount, refundAmount, quantity) {
+function reviewProcessRefundPageDataForFeeRefundSelection(paymentReference, feeDescription,
+                                                          feeAmount, paymentAmount, refundAmount, quantity) {
   const reviewProcessRefundPageData = {
     paymentReference: `${paymentReference}`,
     feeDescription: `${feeDescription}`,
     feeAmount: `${feeAmount}`,
     paymentAmount: `${paymentAmount}`,
     quantity: `${quantity}`,
-    refundAmount: `${refundAmount}`,
+    refundAmount: `${refundAmount}`
   };
   return reviewProcessRefundPageData;
 }
 
-function checkYourAnswersBeforeSubmitRefund (
-  paymentReference, paymentAmount, feeAmount, refundReason, refundAmount, email, postcode, refundNotificationType) {
+function checkYourAnswersBeforeSubmitRefund(
+  paymentReference, paymentAmount, feeAmount, refundReason, refundAmount, email, postcode,
+  refundNotificationType) {
   const checkYourAnswersDataBeforeSubmitRefund = {
     paymentReference: `${paymentReference}`,
     paymentAmount: `${paymentAmount}`,
@@ -152,7 +158,8 @@ function checkYourAnswersBeforeSubmitRefund (
 }
 
 function refundNotificationPreviewData(
-  email, postcode, ccdCaseNumber, refundReference, refundAmount, refundReason, bulkScanPaymentMethod = 'default') {
+  email, postcode, ccdCaseNumber, refundReference, refundAmount, refundReason,
+  bulkScanPaymentMethod = 'default') {
   const checkYourAnswersDataBeforeSubmitRefund = {
     email: `${email}`,
     postcode: `${postcode}`,
@@ -169,5 +176,7 @@ function refundNotificationPreviewData(
 module.exports = {
   checkPaymentValues, checkYourDetailsSummary,
   checkYourAnswers, getCaseTransactionsData,
-  getPaymentCardValues, reviewProcessRefundPageDataForFeeRefundSelection, checkYourAnswersBeforeSubmitRefund, refundNotificationPreviewData, reviewRefundDetailsDataBeforeApproverAction, reviewRefundDetailsDataAfterApproverAction
+  getPaymentCardValues, reviewProcessRefundPageDataForFeeRefundSelection,
+  checkYourAnswersBeforeSubmitRefund, refundNotificationPreviewData,
+  reviewRefundDetailsDataBeforeApproverAction, reviewRefundDetailsDataAfterApproverAction
 };
