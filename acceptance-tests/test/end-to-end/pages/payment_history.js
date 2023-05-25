@@ -114,7 +114,7 @@ module.exports = {
     I.see('PBA account name');
     I.see('PBA number');
     I.see('Customer internal reference');
-    I.see('£215.00');
+    I.see('£273.00');
     I.see(`${paymentReference}`);
     I.see('2023-');
   },

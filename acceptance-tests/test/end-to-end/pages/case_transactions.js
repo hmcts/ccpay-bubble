@@ -191,7 +191,7 @@ module.exports = {
     I.see('Closed');
     I.see('£100.00');
     I.see(`${paymentRCRef}`);
-  
+
     I.see(`${todayDate}`);
     I.see('Chargeback');
     I.wait(CCPBConstants.sevenSecondWaitTime);
@@ -406,13 +406,13 @@ module.exports = {
     I.see('£100.00');
     I.see('Overpayment');
     I.see('Retrospective remission');
-    I.see('Fee not due');
+    I.see('System/technical error');
     I.click(this.locators.click_overpayment);
   },
   validateTransactionPageForPartialPayments() {
     I.wait(CCPBConstants.tenSecondWaitTime);
     I.see('Total payments');
-    I.see('£215');
+    I.see('£273');
     I.see('Total remissions');
     I.see('Amount due');
     I.see('Unallocated payments');
