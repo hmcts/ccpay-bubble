@@ -20,7 +20,7 @@ module.exports = {
   TestCcdDataStoreApiUrl: process.env.CCD_DATA_STORE_API_URL || 'http://ccd-data-store-api-aat.service.core-compute-aat.internal',
   TestS2SRpeServiceAuthApiUrl: process.env.S2S_RPE_SERVICE_AUTH_API_URL || 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
   TestPaymentApiUrl: process.env.PAYMENT_API_URL || 'http://payment-api-aat.service.core-compute-aat.internal',
-  TestBulkScanApiUrl: process.env.BULKSCAN_API_URL || 'http://ccpay-bulkscanning-api-aat.service.core-compute-aat.internal',
+  TestBulkScanApiUrl: process.env.BULKSCANNING_API_URL || 'http://ccpay-bulkscanning-api-aat.service.core-compute-aat.internal',
   TestsForAccessibility: process.env.E2E_TESTS_FOR_ACCESSIBILITY === 'true',
   TestOutputDir: process.env.E2E_OUTPUT_DIR || './functional-output',
   NotifyEmailApiKey: process.env.NOTIFY_EMAIL_API_KEY
