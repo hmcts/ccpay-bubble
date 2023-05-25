@@ -8,7 +8,7 @@ const { I } = inject();
 
 module.exports = {
   locators: {
-  fee_search: { xpath: '//*[@id="fee-search"]' }, 
+  fee_search: { xpath: '//*[@id="fee-search"]' },
   locatoramountselect: { amount_select: { xpath: '//*[@id="fee-version0"]' } },
   search_for_fee_text: {xpath:'//*[@id="content"]//h1'},
   allocate_payment: {xpath:'//button[@class="button govuk-!-margin-right-1"]'},
@@ -52,10 +52,10 @@ module.exports = {
 
   addFeesOverPayment(amount) {
     I.see('Search for a fee');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.wait(CCPBConstants.tenSecondWaitTime);
     I.fillField(this.locators.fee_search, amount);
     I.click('Search');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime, 10);
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.allocate_payment);
@@ -65,7 +65,7 @@ module.exports = {
     I.click(this.locators.i_have_put_a_stop_on_case);
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.add_Notes);
-    I.fillField(this.locators.add_Notes,'Test OverPayment')
+    I.fillField(this.locators.add_Notes,'Test OverPayment');
     I.click(this.locators.confirm_button);
 
   },
