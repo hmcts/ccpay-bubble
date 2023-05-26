@@ -938,7 +938,7 @@ module.exports = {
     }
   },
 
-  approverActionForRequestedRefund(refundApprovalRequest) {
+  approverActionForRequestedRefund(refundApprovalRequest, refundReturnText = '') {
     if (refundApprovalRequest === 'Reject') {
       I.checkOption('//input[@id=\'refundAction-1\']');
       I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -953,7 +953,7 @@ module.exports = {
       I.see('Refund approved');
     } else if (refundApprovalRequest === 'Return to caseworker') {
       I.checkOption('//input[@id=\'refundAction-2\']');
-      I.fillField('//textarea[@id=\'sendmeback\']', 'Test Reason Only');
+      I.fillField('//textarea[@id=\'sendmeback\']', refundReturnText);
       I.click({xpath: '//button[contains(text(),\'Submit\')]'});
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       I.see('Refund returned to caseworker');

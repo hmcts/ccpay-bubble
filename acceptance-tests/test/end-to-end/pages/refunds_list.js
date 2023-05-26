@@ -188,7 +188,7 @@ module.exports = {
 
   },
 
-  verifyRefundDetailsAfterApprovalOfRefund(reviewRefundDetailsDataAfterApproval, viewNotificationFlag = false, resendNotificationFlag = false, notifyEditDetailsFlag = false, refundNotificationPreviewData = null) {
+  verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval, viewNotificationFlag = false, resendNotificationFlag = false, notifyEditDetailsFlag = false, refundNotificationPreviewData = null) {
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Refund details');
     I.see('Refund reference');
@@ -430,7 +430,7 @@ module.exports = {
 
   },
 
-  verifyRefundDetailsAfterRejectionOfOverPayment(reviewRefundDetailsDataAfterRejection) {
+  verifyRefundDetailsAfterRefundRejected(reviewRefundDetailsDataAfterRejection) {
     I.see('Refund details');
     I.see('Refund reference');
     I.see(reviewRefundDetailsDataAfterRejection.refundReference);
@@ -459,25 +459,33 @@ module.exports = {
     I.see('Refund initiated and sent to team leader');
   },
 
-  verifyRefundDetailsAfterReturnToCaseWorkerOfFullPayment(refundRef) {
+  verifyRefundDetailsAfterRefundReturnToCaseWorker(reviewRefundDetailsDataAfterApproval, refundReturnText) {
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Refund details');
     I.see('Refund reference');
+    I.see(reviewRefundDetailsDataAfterApproval.refundReference);
+    I.see('Payment to be refunded');
+    I.see(reviewRefundDetailsDataAfterApproval.paymentRcReference);
     I.see('Reason for refund');
+    I.see(reviewRefundDetailsDataAfterApproval.refundReason);
     I.see('Amount refunded');
-    I.see('Fee not due');
-    I.see('£500.00');
-    I.see(`${refundRef}`);
-    I.see('RC-');
+    I.see(reviewRefundDetailsDataAfterApproval.refundAmount);
+    I.see('Notifications sent');
+    I.see('Date and time');
+    I.see('No record found ...');
+    I.see('Sent to');
+    I.see('Sent via');
+    I.see('Actions');
     I.see('Refund status history');
     I.see('Status');
-    I.see('Update required');
     I.see('Sent for approval');
+    I.see('Update required');
     I.see('Users');
-    I.see('Probate Request Request');
-    I.see('Refund initiated and sent to team leader');
+    I.see(reviewRefundDetailsDataAfterApproval.refundRequester);
+    I.see(reviewRefundDetailsDataAfterApproval.refundApprover);
     I.see('Notes');
-    I.see('Test Reason Only');
-    I.see('Date and time');
+    I.see('Refund initiated and sent to team leader');
+    I.see(refundReturnText);
   },
 
   verifyIssueRefundPageForPartialPayments(refundAmount) {
