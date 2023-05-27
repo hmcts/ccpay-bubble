@@ -20,5 +20,6 @@ module.exports = {
   TestIDAMEnvironment: process.env.IDAM_ENV || 'aat',
   TestPrNumber: process.env.PR_NUMBER || 'aat',
   TestsForAccessibility: process.env.E2E_TESTS_FOR_ACCESSIBILITY === 'true',
-  TestOutputDir: process.env.E2E_OUTPUT_DIR || './functional-output'
+  TestOutputDir: process.env.E2E_OUTPUT_DIR || './functional-output',
+  TestRefundsBaseURL: process.env.TEST_URL
 };

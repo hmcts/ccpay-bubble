@@ -225,7 +225,7 @@ Scenario('Normal ccd case cash payment transferred when no valid reason or site 
   I.Logout();
 }).tag('@nightly');
 
-Scenario.skip('Exception Case Cheque Payment Unidentified', async(I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
+Scenario('Exception Case Cheque Payment Unidentified', async(I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'cheque');
@@ -326,7 +326,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
   }).tag('@nightly');
 */
 
-Scenario.skip('Exception search with ccd record postal order payment surplus payment', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
+Scenario('Exception search with ccd record postal order payment surplus payment', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 600;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA07', totalAmount, 'PostalOrder');
