@@ -47,7 +47,7 @@ AfterSuite(async I => {
   }
 });
 
-Scenario.skip('OverPayment for Refunds V2 @pipeline @nightly',
+Scenario('OverPayment for Refunds V2 @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
     PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
     const totalAmount = 500;
@@ -113,7 +113,7 @@ Scenario.skip('OverPayment for Refunds V2 @pipeline @nightly',
     I.Logout();
   }).tag('@pipeline @nightly');
 
-Scenario.skip('Partial Payments Refunds V2 @pipeline @nightly',
+Scenario('Partial Payments Refunds V2 @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList) => {
 
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
@@ -175,7 +175,7 @@ Scenario.skip('Partial Payments Refunds V2 @pipeline @nightly',
     I.Logout();
   }).tag('@pipeline @nightly');
 
-Scenario.skip('FullPayment for Refunds V2 @pipeline @nightly',
+Scenario('FullPayment for Refunds V2 @pipeline @nightly',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
     PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
     const totalAmount = 500;
