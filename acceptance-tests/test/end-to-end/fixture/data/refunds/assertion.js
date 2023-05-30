@@ -5,8 +5,8 @@
 
 const stringUtil = require('../../../helpers/string_utils.js');
 
-function checkPaymentValues(totalPaymentsValue, unallocatedPaymentsValue,
-                            totalRemissionsValue, amountDueValue) {
+function checkPaymentValues(
+  totalPaymentsValue, unallocatedPaymentsValue, totalRemissionsValue, amountDueValue) {
   const checkPaymentValuesData = {
     totalPayments: `${totalPaymentsValue}`,
     unallocatedPayments: `${unallocatedPaymentsValue}`,
@@ -16,11 +16,10 @@ function checkPaymentValues(totalPaymentsValue, unallocatedPaymentsValue,
   return checkPaymentValuesData;
 }
 
-function checkYourDetailsSummary(serviceReference, paymentReference,
-                                 paymentAmount, paymentMethod,
-                                 paymentType, paymentChannel, paymentStatus, PBAAccountName,
-                                 PBANumber, customerInternalReference) {
-  // console.log('Inside checkYourDetailsSummary()');
+function checkYourDetailsSummary(
+  serviceReference, paymentReference, paymentAmount,
+  paymentMethod, paymentType, paymentChannel, paymentStatus,
+  PBAAccountName, PBANumber, customerInternalReference) {
   const checkYourDetailsSummaryData = {
     serviceReference: `${serviceReference}`,
     paymentReference: `${paymentReference}`,
@@ -37,8 +36,9 @@ function checkYourDetailsSummary(serviceReference, paymentReference,
   return checkYourDetailsSummaryData;
 }
 
-function checkYourAnswers(paymentReference, hwfReferenceCode, refundAmount, paymentAmount,
-                          feeAmount, feeCode, feeDescription, email, postCode, notificationType) {
+function checkYourAnswers(
+  paymentReference, hwfReferenceCode, refundAmount, paymentAmount,
+  feeAmount, feeCode, feeDescription, email, postCode, notificationType) {
   const checkYourAnswersData = {
     paymentReference: `${paymentReference}`,
     paymentAmount: `${paymentAmount}`,
@@ -55,8 +55,8 @@ function checkYourAnswers(paymentReference, hwfReferenceCode, refundAmount, paym
   return checkYourAnswersData;
 }
 
-function getPaymentCardValues(cardNumber, expiryMonth, expiryYear,
-                              cvc, name, houseNumber, addressLine, townOrCity, postcode, email) {
+function getPaymentCardValues(cardNumber, expiryMonth, expiryYear, cvc,
+  name, houseNumber, addressLine, townOrCity, postcode, email) {
   const paymentCardValues = {
     cardNumber: `${cardNumber}`,
     expiryMonth: `${expiryMonth}`,
@@ -128,8 +128,9 @@ function reviewRefundDetailsDataAfterApproverAction(
   return refundDetailsData;
 }
 
-function reviewProcessRefundPageDataForFeeRefundSelection(paymentReference, feeDescription,
-                                                          feeAmount, paymentAmount, refundAmount, quantity) {
+function reviewProcessRefundPageDataForFeeRefundSelection(
+  paymentReference, feeDescription,
+  feeAmount, paymentAmount, refundAmount, quantity) {
   const reviewProcessRefundPageData = {
     paymentReference: `${paymentReference}`,
     feeDescription: `${feeDescription}`,
