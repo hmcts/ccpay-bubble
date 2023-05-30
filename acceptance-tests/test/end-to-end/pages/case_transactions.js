@@ -172,6 +172,17 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
+  allocateToExistingServiceRequest(amount) {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.click('Allocate to existing service request');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.see('Select payment request');
+    I.see(amount);
+    I.click('//input[@name="orderLevelRecord"]');
+    I.click('Continue');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+  },
+
   allocateToTransferred() {
     // I.checkOption(this.locators.unallocated_payment_select_option);
     I.click('Mark as transferred');
@@ -191,7 +202,7 @@ module.exports = {
     I.see('Closed');
     I.see('£100.00');
     I.see(`${paymentRCRef}`);
-  
+
     I.see(`${todayDate}`);
     I.see('Chargeback');
     I.wait(CCPBConstants.sevenSecondWaitTime);

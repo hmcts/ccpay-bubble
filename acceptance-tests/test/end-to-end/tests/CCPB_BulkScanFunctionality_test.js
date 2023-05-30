@@ -19,22 +19,6 @@ const testConfig = require('./config/CCPBConfig');
 
 Feature('CC Pay Bubble Bulk Scan Acceptance Tests').retry(CCPBATConstants.defaultNumberOfRetries);
 
-/* BeforeSuite(async I => {
-  const response = await bulkScanApiCalls.toggleOffCaseValidation();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  if (response === successResponse) {
-    logger.info('Disabled CCD validation');
-  }
-});
-
-AfterSuite(async I => {
-  const response = await bulkScanApiCalls.toggleOnCaseValidation();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  if (response === successResponse) {
-    logger.info('Enabled CCD validation');
-  }
-});*/
-
 
 // #region Normal CCD case bulk scan functional cases
 Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
@@ -72,6 +56,52 @@ Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, Ca
   PaymentHistory.verifyPaymentHistoryPage('£593.00', receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.validateCcdPaymentDetails(receiptReference, '£593.00', dcnNumber, 'success', 'Cash', 'FEE0002');
+  await I.runAccessibilityTest();
+  I.Logout();
+}).tag('@pipeline @nightly');
+
+Scenario('Normal ccd case cheque payment full allocation to existing service request', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
+  // logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
+  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  const totalAmount = 593;
+  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cheque');
+  const ccdCaseNumber = ccdAndDcn[1];
+  const dcnNumber = ccdAndDcn[0];
+  logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
+  logger.info(`The value of the dcnNumber : ${dcnNumber}`);
+  const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
+  await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+  await I.runAccessibilityTest();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
+  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£593.00', 'cheque');
+  I.waitForClickable({ xpath: '//button[contains(text() , "Allocate to new service request")]' });
+  I.seeElement({ xpath: '//button[contains(text() , "Allocate to existing service request") and contains(@class, "button--disabled")]' });
+  I.click('Create service request and pay');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  AddFees.addFeesAmount('593.00', 'family', 'family_court');
+  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', false);
+  I.click('Back');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.waitForClickable({ xpath: '//button[contains(text() , "Allocate to existing service request")]' });
+  I.seeElement({ xpath: '//button[contains(text() , "Allocate to new service request") and contains(@class, "button--disabled")]' });
+  CaseTransaction.allocateToExistingServiceRequest('£593.00');
+  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', true);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', '£593.00', '£593.00');
+  await I.runAccessibilityTest();
+  ConfirmAssociation.confirmPayment();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
+  await I.runAccessibilityTest();
+  CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
+  const receiptReference = await CaseTransaction.getReceiptReference();
+  PaymentHistory.navigateToPaymentHistory();
+  await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptReference);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  PaymentHistory.verifyPaymentHistoryPage('£593.00', receiptReference);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  PaymentHistory.validateCcdPaymentDetails(receiptReference, '£593.00', dcnNumber, 'success', 'Cheque', 'FEE0002');
   await I.runAccessibilityTest();
   I.Logout();
 }).tag('@pipeline @nightly');
