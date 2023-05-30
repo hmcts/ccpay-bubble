@@ -64,8 +64,8 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, 'RF-****-****-****-****', '300', 'Refund for Overpayment', bulkScanPaymentMethod);
 
     await InitiateRefunds.verifyCheckYourAnswersPageForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, refundNotificationPreviewDataBeforeRefundRequest);
-    I.click('Submit refund');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    // I.click('Submit refund');
+    // I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('300.00');
     await I.Logout();
     I.clearCookie();
@@ -164,8 +164,8 @@ Scenario('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter
     const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '500', 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
 
     await InitiateRefunds.verifyCheckYourAnswersPageForFullPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false, true, refundNotificationPreviewDataBeforeRefundRequest);
-    I.click('Submit refund');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    // I.click('Submit refund');
+    // I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('500.00');
     await I.Logout();
     I.clearCookie();
@@ -202,7 +202,7 @@ Scenario('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter
 
   }).tag('@pipeline @nightly');
 
-Scenario('PBA Partial Refund and preview SendRefund letter notification journey',
+Scenario('PBA Partial Refund, preview SendRefund letter notification journey and resend notification to email from letter edit',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList) => {
 
     const postcode = 'TW4 7EZ';
@@ -264,8 +264,8 @@ Scenario('PBA Partial Refund and preview SendRefund letter notification journey'
     const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other');
 
     await InitiateRefunds.verifyCheckYourAnswersPageForCorrectlyPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, false, false, refundNotificationPreviewDataBeforeRefundRequest);
-    I.click('Submit refund');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    // I.click('Submit refund');
+    // I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('200.00');
     await I.Logout();
     I.clearCookie();
@@ -296,7 +296,7 @@ Scenario('PBA Partial Refund and preview SendRefund letter notification journey'
     const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'CoP-Auto test', '£200.00', '', postcode, 'payments probate', 'approver probate');
     const refundNotificationPreviewDataAfterApproval = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, '200', 'Other');
 
-    await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval, true, false, false, refundNotificationPreviewDataAfterApproval);
+    await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval, true, false, true, refundNotificationPreviewDataAfterApproval);
     await I.Logout();
 
   }).tag('@pipeline @nightly');
@@ -345,7 +345,6 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
 
     const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£500.00', '£200.00', 'Over payment', '£300.00', emailAddress, '', 'SendRefund');
     await InitiateRefunds.verifyCheckYourAnswersPageForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refundRefOverPayments = await InitiateRefunds.verifyRefundSubmittedPage('300.00');
     I.wait(CCPBATConstants.tenSecondWaitTime);
 
@@ -394,7 +393,6 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkYourAnswersDataBeforeSubmitRefund2 = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£500.00', '', refundReason, '£100.00', emailAddress, '', 'SendRefund');
     await InitiateRefunds.verifyCheckYourAnswersPageForCorrectlyPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund2, false, false, false, false);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refunds = await InitiateRefunds.verifyRefundSubmittedPage('100.00');
     await I.Logout();
     I.clearCookie();
@@ -448,7 +446,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval);
     await I.Logout();
     I.clearCookie();
-  }).tag('@pipelines @nightly');
+  }).tag('@nightly');
 
 Scenario('FullPayment Refund Send To Caseworker journey',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
@@ -497,8 +495,6 @@ Scenario('FullPayment Refund Send To Caseworker journey',
 
     const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£500.00', '', refundReason, '£500.00', emailAddress, '', 'SendRefund');
     await InitiateRefunds.verifyCheckYourAnswersPageForFullPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund);
-    I.click('Submit refund');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('500.00');
     await I.Logout();
     I.clearCookie();
@@ -569,7 +565,8 @@ Scenario('OverPayment Refund Rejected journey',
     I.click('Continue');
     const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£500.00', '£200.00', 'Over payment', '£300.00', emailAddress, '', 'SendRefund');
     await InitiateRefunds.verifyCheckYourAnswersPageForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    // I.click('Submit refund');
+    // I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refundRef = await InitiateRefunds.verifyRefundSubmittedPage('300.00');
     await I.Logout();
     I.clearCookie();
@@ -598,298 +595,6 @@ Scenario('OverPayment Refund Rejected journey',
     await I.Logout();
     I.clearCookie();
   }).tag('@pipeline @nightly');
-
-// Scenario('Refunds V2 Notifications Template(sendRefundWhenContacted Email)',
-//   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
-//          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
-//     const totalAmount = 500;
-//     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA07', totalAmount, 'cash');
-//     const ccdCaseNumber = ccdAndDcn[1];
-//     const dcnNumber = ccdAndDcn[0];
-//     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
-//     console.log('**** The value of the dcnNumber - ' + dcnNumber);
-//     logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
-//     logger.info(`The value of the dcnNumber : ${dcnNumber}`);
-//     // const paymentRef = await apiUtils.getPaymentReferenceUsingCCDCaseNumberForOverPayments(ccdCaseNumber);
-//     // console.log('**** payment ref - ' + paymentRef);
-//     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await CaseTransaction.validateTransactionPageForOverPayments();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await AddFees.addFeesOverPayment('200');
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await I.click('(//*[text()[contains(.,"Review")]])[2]');
-//     I.wait(CCPBATConstants.fifteenSecondWaitTime);
-//     if (I.dontSeeElement('Issue refund')) {
-//       console.log('found disabled button');
-//       await apiUtils.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
-//       I.click('Back');
-//       I.wait(CCPBATConstants.fiveSecondWaitTime);
-//       await I.click('(//*[text()[contains(.,"Review")]])[2]');
-//       I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     }
-//     I.click('Issue refund');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.click('//*[@id="over-payment"]');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.click('Continue');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.click('//*[@id="email"]');
-//     I.fillField('//*[@id="email"]', 'vamshi.rudrabhatla@hmcts.net');
-//     I.click('Continue');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await InitiateRefunds.verifyCheckYourAnswersPageForOverPaymentRefundNotificationPreview();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     const refundRef = await InitiateRefunds.verifyRefundSubmittedPage('300.00');
-//     I.Logout();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     I.click('Refund List');
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await InitiateRefunds.verifyRefundsListPage(refundRef);
-//     I.wait(CCPBATConstants.twoSecondWaitTime);
-//     InitiateRefunds.verifyReviewRefundsDetailsPageForNotificationsendRefundWhenContacted();
-//     InitiateRefunds.verifyApproverReviewRefundsDetailsPage();
-//     InitiateRefunds.approverActionForRequestedRefund('Approve');
-//     I.wait(CCPBATConstants.twoSecondWaitTime);
-//     I.Logout();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await I.click('(//*[text()[contains(.,"Review")]])[3]');
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await RefundsList.verifyRefundDetailsAfterApprovalOfRefundSendRefundWhenContacted();
-//     I.Logout();
-//   }).tag('@pipeline @nightly');
-//
-
-// Scenario('Refunds V2 Notifications Template(sendRefundWhenContacted Letter)',
-//   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
-//          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
-//     const totalAmount = 500;
-//     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA07', totalAmount, 'cash');
-//     const ccdCaseNumber = ccdAndDcn[1];
-//     const dcnNumber = ccdAndDcn[0];
-//     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
-//     console.log('**** The value of the dcnNumber - ' + dcnNumber);
-//     logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
-//     logger.info(`The value of the dcnNumber : ${dcnNumber}`);
-//     // const paymentRef = await apiUtils.getPaymentReferenceUsingCCDCaseNumberForOverPayments(ccdCaseNumber);
-//     // console.log('**** payment ref - ' + paymentRef);
-//     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await CaseTransaction.validateTransactionPageForOverPayments();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await AddFees.addFeesOverPayment('200');
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await I.click('(//*[text()[contains(.,"Review")]])[2]');
-//     I.wait(CCPBATConstants.fifteenSecondWaitTime);
-//     if (I.dontSeeElement('Issue refund')) {
-//       console.log('found disabled button');
-//       await apiUtils.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
-//       I.click('Back');
-//       I.wait(CCPBATConstants.fiveSecondWaitTime);
-//       await I.click('(//*[text()[contains(.,"Review")]])[2]');
-//       I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     }
-//     I.click('Issue refund');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.click('//*[@id="over-payment"]');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.click('Continue');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.click('//*[@id="contact-2"]');
-//     I.wait(CCPBATConstants.twoSecondWaitTime);
-//     I.click('//*[@id="address-postcode"]');
-//     I.fillField('//*[@id="address-postcode"]', 'TW4 7EZ');
-//     I.wait(CCPBATConstants.twoSecondWaitTime);
-//     I.click('Find address');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
-//     I.click('Continue');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await InitiateRefunds.verifyCheckYourAnswersPageForOverPaymentRefundNotificationPreviewLetter();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     const refundRef = await InitiateRefunds.verifyRefundSubmittedPage('300.00');
-//     I.Logout();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     I.click('Refund List');
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await InitiateRefunds.verifyRefundsListPage(refundRef);
-//     I.wait(CCPBATConstants.twoSecondWaitTime);
-//     InitiateRefunds.verifyReviewRefundsDetailsPageForNotificationsendRefundWhenContactedLetter();
-//     InitiateRefunds.verifyApproverReviewRefundsDetailsPage();
-//     InitiateRefunds.approverActionForRequestedRefund('Approve');
-//     I.wait(CCPBATConstants.twoSecondWaitTime);
-//     I.Logout();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await I.click('(//*[text()[contains(.,"Review")]])[3]');
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await RefundsList.verifyRefundDetailsAfterApprovalOfRefundSendRefundWhenContactedLetter();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.Logout();
-//   }).tag('@pipeline @nightly');
-//
-//
-// Scenario('Partial Payments Refunds V2 Send Refund Email',
-//   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList) => {
-//     const fees = {
-//       calculated_amount: 273,
-//       code: 'FEE0219',
-//       fee_amount: 273,
-//       version: '5',
-//       volume: 1
-//     };
-//     const paymentDetails = await apiUtils.createAPBAPayment('273', fees);
-//     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
-//     const paymentRef = `${paymentDetails.paymentReference}`;
-//     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
-//     console.log('**** The value of the paymentReference - ' + paymentRef);
-//     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await CaseTransaction.validateTransactionPageForPartialPayments();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await I.click('(//*[text()[contains(.,"Review")]])[2]');
-//     I.wait(CCPBATConstants.fifteenSecondWaitTime);
-//     if (I.dontSeeElement('Issue refund')) {
-//       console.log('found disabled button');
-//       await apiUtils.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
-//       I.click('Back');
-//       I.wait(CCPBATConstants.fiveSecondWaitTime);
-//       await I.click('(//*[text()[contains(.,"Review")]])[2]');
-//       I.wait(CCPBATConstants.fiveSecondWaitTime);
-//       await PaymentHistory.validatePaymentDetailsForPartialPayment(paymentRef);
-//       I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     }
-//     I.click('Issue refund');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await RefundsList.verifyIssueRefundPageForPartialPayments('200');
-//     I.click('Continue');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await RefundsList.verifyProcessRefund();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.click('//*[@id="email"]');
-//     I.fillField('//*[@id="email"]', 'vamshi.rudrabhatla@hmcts.net');
-//     I.click('Continue');
-//     await InitiateRefunds.verifyCheckYourAnswersPageForPartialPaymentsSendRefundNotification();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     const refundRef = await InitiateRefunds.verifyRefundSubmittedPage('200.00');
-//     I.Logout();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     I.click('Refund List');
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await InitiateRefunds.verifyRefundsListPage(refundRef);
-//     I.wait(CCPBATConstants.twoSecondWaitTime);
-//     InitiateRefunds.verifyReviewRefundsDetailsPageForNotificationsendRefund();
-//     InitiateRefunds.verifyApproverReviewRefundsDetailsPage();
-//     InitiateRefunds.approverActionForRequestedRefund('Approve');
-//     I.wait(CCPBATConstants.twoSecondWaitTime);
-//     I.Logout();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await I.click('(//*[text()[contains(.,"Review")]])[3]');
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await RefundsList.verifyRefundDetailsAfterApprovalOfRefundSendRefund();
-//     I.Logout();
-//   }).tag('@pipeline @nightly');
-//
-//
-// Scenario('Partial Payments Refunds V2 Send Refund Letter',
-//   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList) => {
-//     const fees = {
-//       calculated_amount: 273,
-//       code: 'FEE0219',
-//       fee_amount: 273,
-//       version: '5',
-//       volume: 1
-//     };
-//     const paymentDetails = await apiUtils.createAPBAPayment('273', fees);
-//     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
-//     const paymentRef = `${paymentDetails.paymentReference}`;
-//     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
-//     console.log('**** The value of the paymentReference - ' + paymentRef);
-//     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await CaseTransaction.validateTransactionPageForPartialPayments();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await I.click('(//*[text()[contains(.,"Review")]])[2]');
-//     I.wait(CCPBATConstants.fifteenSecondWaitTime);
-//     if (I.dontSeeElement('Issue refund')) {
-//       console.log('found disabled button');
-//       await apiUtils.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
-//       I.click('Back');
-//       I.wait(CCPBATConstants.fiveSecondWaitTime);
-//       await I.click('(//*[text()[contains(.,"Review")]])[2]');
-//       I.wait(CCPBATConstants.fiveSecondWaitTime);
-//       await PaymentHistory.validatePaymentDetailsForPartialPayment(paymentRef);
-//       I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     }
-//     I.click('Issue refund');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await RefundsList.verifyIssueRefundPageForPartialPayments('200');
-//     I.click('Continue');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await RefundsList.verifyProcessRefund();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.click('//*[@id="contact-2"]');
-//     I.wait(CCPBATConstants.twoSecondWaitTime);
-//     I.click('//*[@id="address-postcode"]');
-//     I.fillField('//*[@id="address-postcode"]', 'TW4 7EZ');
-//     I.wait(CCPBATConstants.twoSecondWaitTime);
-//     I.click('Find address');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
-//     I.click('Continue');
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await InitiateRefunds.verifyCheckYourAnswersPageSendRefundNotificationPreviewLetter();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     const refundRef = await InitiateRefunds.verifyRefundSubmittedPage('200.00');
-//     I.Logout();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     I.click('Refund List');
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await InitiateRefunds.verifyRefundsListPage(refundRef);
-//     I.wait(CCPBATConstants.twoSecondWaitTime);
-//     InitiateRefunds.verifyReviewRefundsDetailsPageForNotificationsendRefundLetter();
-//     InitiateRefunds.verifyApproverReviewRefundsDetailsPage();
-//     InitiateRefunds.approverActionForRequestedRefund('Approve');
-//     I.wait(CCPBATConstants.twoSecondWaitTime);
-//     I.Logout();
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-//     I.wait(CCPBATConstants.fiveSecondWaitTime);
-//     await I.click('(//*[text()[contains(.,"Review")]])[3]');
-//     I.wait(CCPBATConstants.tenSecondWaitTime);
-//     await RefundsList.verifyRefundDetailsAfterApprovalOfRefundSendRefundLetter();
-//     I.Logout();
-//   }).tag('@pipeline @nightly');
 
 
 
