@@ -84,12 +84,10 @@ function verifySystemApprovedRefundWhenContactedNotification(refundNotificationP
   I.see(`Refund reference: ${refundNotificationPreviewData.refundReference}`);
   I.see(`Refund amount: £${refundNotificationPreviewData.refundAmount}`);
   I.see(`Reason for refund: ${refundNotificationPreviewData.refundReason}`);
-  I.see('To receive this refund, you must give us the correct bank details to process the request.');
   I.see('Unfortunately, our attempt to refund the payment card that you used was declined by your card provider. To receive this refund, you must give us the correct bank details to process the request.');
   I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
   I.see('If you do not have a bank account, or if you need further information, contact contactprobate@justice.gov.uk');
   I.see('HM Courts & Tribunals Service');
-  I.see('This is an automated message, please don’t reply to this email.');
 }
 
 
@@ -346,6 +344,63 @@ module.exports = {
     I.see('Notes');
     I.see('Refund initiated and sent to team leader');
     I.see(refundReturnText);
+  },
+
+  verifyRefundDetailsAfterLiberataRejection(reviewRefundDetailsDataAfterApproval, viewNotificationFlag = false, refundNotificationPreviewData = null) {
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.see('Refund details');
+    I.see('Refund reference');
+    I.see(reviewRefundDetailsDataAfterApproval.refundReference);
+    I.see('Payment to be refunded');
+    I.see(reviewRefundDetailsDataAfterApproval.paymentRcReference);
+    I.see('Reason for refund');
+    I.see(reviewRefundDetailsDataAfterApproval.refundReason);
+    I.see('Amount refunded');
+    I.see(reviewRefundDetailsDataAfterApproval.refundAmount);
+    I.see('Notifications sent');
+    I.see('Date and time');
+    I.see(reviewRefundDetailsDataAfterApproval.refundSubmittedDate);
+    I.see('Sent to');
+    I.see('Sent via');
+    if (reviewRefundDetailsDataAfterApproval.email) {
+      I.waitForText('Email', 5);
+      I.see(reviewRefundDetailsDataAfterApproval.email);
+    }
+    if (reviewRefundDetailsDataAfterApproval.postcode) {
+      I.waitForText('Post', 5);
+      I.see(reviewRefundDetailsDataAfterApproval.postcode);
+      I.see('89 MARTINDALE ROAD HOUNSLOW LONDON BOROUGH OF HOUNSLOW United Kingdom TW4 7EZ');
+    }
+    I.see('Actions');
+    I.see('Resend');
+    I.see('Edit details');
+    I.see('View');
+    I.see('Refund status history');
+    I.see('Status');
+    I.see('Sent for approval');
+    I.see('Approved');
+    I.see('Accepted');
+    I.see('Rejected');
+    I.see('Approved');
+    I.see('Users');
+    I.see(reviewRefundDetailsDataAfterApproval.refundRequester);
+    I.see(reviewRefundDetailsDataAfterApproval.refundApprover);
+    I.see('Middle office provider');
+    I.see('System user');
+    I.see('Notes');
+    I.see('Refund initiated and sent to team leader');
+    I.see('Sent to middle office');
+    I.see('Approved by middle office');
+    I.see('Unable to apply refund to Card');
+    I.see('Refund approved by system');
+
+    if (viewNotificationFlag) {
+      I.click('View');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      verifySystemApprovedRefundWhenContactedNotification(refundNotificationPreviewData);
+      I.click('Hide');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+    }
   },
 
   /* verifyReviewAndResubmitRefundPage(refund_reference_number) {

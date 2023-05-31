@@ -54,7 +54,7 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('215', fees);
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(ccdCaseNumber);
@@ -127,7 +127,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('215', fees);
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(ccdCaseNumber);
@@ -187,7 +187,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('215', fees);
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(ccdCaseNumber);
@@ -251,7 +251,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('215', fees);
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(ccdCaseNumber);
@@ -344,7 +344,7 @@ Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pip
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('215', fees);
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(ccdCaseNumber);
@@ -397,7 +397,7 @@ Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nig
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('215', fees);
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(ccdCaseNumber);
@@ -447,7 +447,7 @@ Scenario('Approve action a  Refund for a Rejection @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('215', fees);
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(`The value of the CCD Case Number : ${ccdCaseNumber}`);
@@ -517,7 +517,7 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('215', fees);
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(`The value of the CCD Case Number : ${ccdCaseNumber}`);
@@ -586,7 +586,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('215', fees);
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(`The value of the CCD Case Number : ${ccdCaseNumber}`);
@@ -685,7 +685,7 @@ Scenario.skip('Approve action a Refund Returned to Case Worker and Resubmit By A
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('215', fees);
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(ccdCaseNumber);
@@ -782,7 +782,7 @@ Scenario.skip('Add a Remissions Apply for Refund and Process Refunds As an Appro
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('215', fees);
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     logger.log(ccdCaseNumber);
@@ -876,7 +876,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Casewo
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('215', fees);
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(`The value of the CCD Case Number : ${ccdCaseNumber}`);

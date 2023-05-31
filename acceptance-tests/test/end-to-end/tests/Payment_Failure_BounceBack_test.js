@@ -43,7 +43,7 @@ Scenario('Payment Failure for Bounceback SR status Paid',
 Scenario('Payment Failure for chargeback SR status Partially Paid',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
 
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentRefResult = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
@@ -66,9 +66,9 @@ Scenario('Payment Failure for chargeback SR status Partially Paid',
   }).tag('@pipeline @nightly');
 
 Scenario('Payment Failure for chargeback SR status Not Paid',
-  async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
+  async (I, CaseSearch, CaseTransaction) => {
 
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentRefResult = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
@@ -85,9 +85,9 @@ Scenario('Payment Failure for chargeback SR status Not Paid',
   }).tag('@pipeline @nightly');
 
 Scenario('Payment Failure for chargeback with SR status Disputed',
-  async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
+  async (I, CaseSearch, CaseTransaction) => {
 
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment();
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentRefResult = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
