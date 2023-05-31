@@ -13,6 +13,7 @@ const testConfig = require('../tests/config/CCPBConfig.js');
 const logger = Logger.getLogger('helpers/utils.js');
 
 const paymentBaseUrl = testConfig.TestPaymentApiUrl;
+const refundsApiUrl = testConfig.TestRefundsApiUrl;
 const bulkScanApiUrl = testConfig.TestBulkScanApiUrl;
 const idamApiUrl = testConfig.TestIdamApiUrl;
 const rpeServiceAuthApiUrl = testConfig.TestS2SRpeServiceAuthApiUrl;
@@ -604,7 +605,7 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
 }
 
 // eslint-disable-next-line no-unused-vars
-async function createAPBAPayment(amount, fees) {
+async function createAPBAPayment(amount, feeCode, version, volume) {
   logger.debug('Creating bulk a PBA Payment...');
 
   const creditAccountPaymentEndPoint = '/credit-account-payments';
@@ -631,7 +632,13 @@ async function createAPBAPayment(amount, fees) {
     customer_reference: 'string',
     description: 'string',
     fees: [
-      fees
+      {
+        calculated_amount: amount,
+        code: `${feeCode}`,
+        fee_amount: amount,
+        version: `${version}`,
+        volume: volume
+      }
     ],
     organisation_name: 'string',
     service: 'PROBATE',
@@ -1146,6 +1153,35 @@ async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
   return bulkDcnExpCcd;
 }
 
+// eslint-disable-next-line no-unused-vars
+async function updateRefundStatusByRefundReference(refundReference, reason, status) {
+  const microService = 'ccpay_bubble';
+  const testCmcSecret = testConfig.TestCMCSecret;
+
+  const serviceToken = await getServiceTokenForSecret(microService, testCmcSecret);
+  logger.info(`The value of the Service Token ${serviceToken}`);
+
+  const saveBody = {
+    reason: `${reason}`,
+    status: `${status}`,
+  };
+  console.log(`The value of the Body ${JSON.stringify(saveBody)}`);
+
+  await request({
+    method: 'PATCH',
+    uri: refundsApiUrl + `/refund/${refundReference}`,
+    headers: {
+      ServiceAuthorization: `${serviceToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(saveBody)
+  }, (_error, response) => {
+    console.log(`The response Status Code for refund update : ${response.statusCode}`);
+  }).catch(error => {
+    console.log(error);
+  });
+}
+
 
 module.exports = {
   bulkScanNormalCcd,
@@ -1164,5 +1200,6 @@ module.exports = {
   getPaymentDetailsPBAForServiceStatus,
   getPaymentDetailsPBAForChargebackEvent,
   getEmailFromNotifyWithMaxRetries,
-  createAServiceRequest
+  createAServiceRequest,
+  updateRefundStatusByRefundReference
 };

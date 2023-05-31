@@ -168,7 +168,7 @@ module.exports = {
     }
   },
 
-  verifyCheckYourAnswersPageForCorrectlyPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, changeEmailFlag, changeEmailTo, changePostCodeFlag, previewNotificationFlag, changeRefundReasonFlag, changeRefundAmountFlag, refundNotificationPreviewData = null) {
+  verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, changeEmailFlag, changeEmailTo, changePostCodeFlag, previewNotificationFlag, changeRefundReasonFlag, changeRefundAmountFlag, refundNotificationPreviewData = null) {
     I.see('Payment reference');
     I.see(checkYourAnswersDataBeforeSubmitRefund.paymentReference);
     I.see('Payment amount');
@@ -231,7 +231,7 @@ module.exports = {
     I.wait(CCPBATConstants.fiveSecondWaitTime);
   },
 
-  async verifyCheckYourAnswersPageForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, changeEmailFlag, changeEmailTo, changePostCodeFlag, previewNotificationFlag, refundNotificationPreviewData = null) {
+  async verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, changeEmailFlag, changeEmailTo, changePostCodeFlag, previewNotificationFlag, refundNotificationPreviewData = null) {
     await I.see('Payment reference');
     I.see(checkYourAnswersDataBeforeSubmitRefund.paymentReference);
     I.see('Payment amount');
@@ -292,7 +292,7 @@ module.exports = {
     I.wait(CCPBATConstants.fiveSecondWaitTime);
   },
 
-  async verifyCheckYourAnswersPageForFullPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, changeRefundReasonFlag, changeEmailFlag, changeEmailTo, changePostCodeFlag, previewNotificationFlag, refundNotificationPreviewData = null) {
+  async verifyCheckYourAnswersPageAndSubmitRefundForFullPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, changeRefundReasonFlag, changeEmailFlag, changeEmailTo, changePostCodeFlag, previewNotificationFlag, refundNotificationPreviewData = null) {
     await I.see('Payment reference');
     I.see(checkYourAnswersDataBeforeSubmitRefund.paymentReference);
     I.see('Payment amount');
