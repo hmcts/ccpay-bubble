@@ -29,7 +29,6 @@ module.exports = {
     disputed_initiated_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[2]/td[6]/a' },
     // allocate_new_service_request: {xpath: '//*[contains(text(),"Allocate to new service request")]'},
     allocate_new_service_request: {xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/ccpay-app-unprocessed-payments/div/table/tbody/tr[1]/td[3]/div/button[1]'},
-    click_overpayment: {xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr[1]/td[6]/a'},
     notpaid_payment_status: { xpath: '//*[contains(text(),"Not paid")]' },
   },
 
@@ -407,7 +406,6 @@ module.exports = {
     I.see('Overpayment');
     I.see('Retrospective remission');
     I.see('System/technical error');
-    I.click(this.locators.click_overpayment);
   },
   validateTransactionPageForPartialPayments() {
     I.wait(CCPBConstants.tenSecondWaitTime);
