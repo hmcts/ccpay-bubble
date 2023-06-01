@@ -28,7 +28,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     const totalAmount = 500;
 
     // Create Payment and back date for refund eligibility
-    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA07', totalAmount, bulkScanPaymentMethod);
+    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
     const ccdCaseNumber = ccdAndDcn[1];
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -112,7 +112,7 @@ Scenario('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter
     const postcode = 'TW4 7EZ';
     const bulkScanPaymentMethod = 'cash';
     const totalAmount = 500;
-    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA07', totalAmount, bulkScanPaymentMethod);
+    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
     const ccdCaseNumber = ccdAndDcn[1];
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -295,7 +295,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     const bulkScanPaymentMethod = 'cheque';
     const emailAddress = stringUtil.getTodayDateAndTimeInString() + 'refundspaybubbleft@mailtest.gov.uk';
     const totalAmount = 500;
-    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA07', totalAmount, bulkScanPaymentMethod);
+    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
     const ccdCaseNumber = ccdAndDcn[1];
 
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
@@ -436,21 +436,21 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     // Update refund reference with Rejection (called by Liberata) for System approved RefundWhenContacted email notification verification
-    await apiUtils.updateRefundStatusByRefundReference(refundRef, '', 'ACCEPTED');
-    // TODO: uncomment below code after the refunds v2.1 release.
+    // TODO: uncomment below lines after the refunds v2.1 release.
+    // await apiUtils.updateRefundStatusByRefundReference(refundRef, '', 'ACCEPTED');
     // I.wait(CCPBATConstants.fiveSecondWaitTime);
-    // await apiUtils.updateRefundStatusByRefundReference(refundRef, 'Unable to apply refund to Card', 'REJECTED');
-    //
-    // await I.click(`//td[contains(.,'${refundRef}')]/following-sibling::td/a[.=\'Review\'][1]`);
-    // I.wait(CCPBATConstants.tenSecondWaitTime);
-    // const reviewRefundDetailsData = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, refundReason, '£100.00', emailAddress, '', 'payments probate', 'approver probate');
-    // const refundNotificationPreviewData = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundRef, '100', 'Due to a technical error a payment was taken incorrectly and has now been refunded');
-    //
-    // await RefundsList.verifyRefundDetailsAfterLiberataRejection(reviewRefundDetailsData, true, refundNotificationPreviewData);
+    await apiUtils.updateRefundStatusByRefundReference(refundRef, 'Unable to apply refund to Card', 'REJECTED');
+
+    await I.click(`//td[contains(.,'${refundRef}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    const reviewRefundDetailsData = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, refundReason, '£100.00', emailAddress, '', 'payments probate', 'approver probate');
+    const refundNotificationPreviewData = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundRef, '100', 'Due to a technical error a payment was taken incorrectly and has now been refunded');
+
+    await RefundsList.verifyRefundDetailsAfterLiberataRejection(reviewRefundDetailsData, true, refundNotificationPreviewData);
 
     await I.Logout();
     I.clearCookie();
-  }).tag('@pipeline @nightly @debug');
+  }).tag('@pipeline @nightly');
 
 Scenario('FullPayment Refund Send To Caseworker journey',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
@@ -458,7 +458,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
 
     const emailAddress = stringUtil.getTodayDateAndTimeInString() + 'refundspaybubbleft1@mailtest.gov.uk';
     const totalAmount = 500;
-    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA07', totalAmount, 'cheque');
+    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
     const ccdCaseNumber = ccdAndDcn[1];
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -537,7 +537,7 @@ Scenario('OverPayment Refund Rejected journey',
 
     const emailAddress = stringUtil.getTodayDateAndTimeInString() + 'refundspaybubbleft1@mailtest.gov.uk';
     const totalAmount = 500;
-    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA07', totalAmount, 'cheque');
+    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
     const ccdCaseNumber = ccdAndDcn[1];
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.tenSecondWaitTime);
