@@ -203,7 +203,8 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
 
     const postcode = 'TW4 7EZ';
     // Create Payment and back date for refund eligibility
-    const paymentDetails = await apiUtils.createAPBAPayment('273', 'FEE0219', '5', 1);
+    const totalAmount = 273;
+    const paymentDetails = await apiUtils.createAPBAPayment(totalAmount, 'FEE0219', '5', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentRef = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);

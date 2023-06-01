@@ -1,4 +1,4 @@
-/* eslint-disable no-alert, no-console */
+/* eslint-disable no-alert, no-console,  no-magic-numbers */
 const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 const miscUtils = require('../helpers/misc');
 
@@ -15,14 +15,6 @@ const logger = Logger.getLogger('CCPB_PBARefunds_test.js');
 const testConfig = require('./config/CCPBConfig');
 
 const successResponse = 202;
-
-const fees = {
-  calculated_amount: 215,
-  code: 'FEE0226',
-  fee_amount: 215,
-  version: '3',
-  volume: 1
-};
 
 // const successResponse = 202;
 function RefundException(message) {
@@ -54,7 +46,8 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
+    const totalAmount = 273;
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(totalAmount, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(ccdCaseNumber);
@@ -127,7 +120,8 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
+    const totalAmount = 273;
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(totalAmount, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(ccdCaseNumber);
@@ -185,9 +179,8 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
 
 Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment Details page @pipeline @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
-    logger.log('Starting the PBA Payment');
-    // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
+    const totalAmount = 273;
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(totalAmount, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(ccdCaseNumber);
@@ -249,9 +242,8 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
 
 Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly',
   async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
-    // logger.log('Starting the PBA Payment');
-    // console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
+    const totalAmount = 273;
+    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(totalAmount, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     // console.info(ccdCaseNumber);
