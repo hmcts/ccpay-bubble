@@ -86,16 +86,16 @@ async function getIDAMToken() {
   const redirectUri = testConfig.TestRedirectURI;
   const scope = 'openid profile roles';
   const grantType = 'password';
-  logger.info(`The value of the User Name ${username}`);
-  logger.info(`The value of the Password ${password}`);
-  logger.info(`The value of the Client Id : ${idamClientID}`);
-  logger.info(`The value of the Client Secret : ${idamClientSecret}`);
-  logger.info(`The value of the Redirect URI : ${redirectUri}`);
-  logger.info(`The value of the grant Type : ${grantType}`);
-  logger.info(`The value of the scope : ${scope}`);
+  console.log(`The value of the User Name ${username}`);
+  console.log(`The value of the Password ${password}`);
+  console.log(`The value of the Client Id : ${idamClientID}`);
+  console.log(`The value of the Client Secret : ${idamClientSecret}`);
+  console.log(`The value of the Redirect URI : ${redirectUri}`);
+  console.log(`The value of the grant Type : ${grantType}`);
+  console.log(`The value of the scope : ${scope}`);
 
   const idamTokenPath = '/o/token';
-  logger.debug(`The value of the IDAM URL : ${idamApiUrl}${idamTokenPath}`);
+  console.log(`The value of the IDAM URL : ${idamApiUrl}${idamTokenPath}`);
 
   const idamTokenResponse = await request({
     method: 'POST',
@@ -105,9 +105,9 @@ async function getIDAMToken() {
   }, (_error, response) => {
     statusCode = response.statusCode;
   }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
-  logger.debug(idamTokenPath);
+  console.log(idamTokenPath);
   return JSON.parse(idamTokenResponse).access_token;
 }
 
@@ -120,16 +120,16 @@ async function getIDAMTokenForDivorceUser() {
   const redirectUri = testConfig.TestDivorceClientRedirectURI;
   const scope = 'openid profile roles';
   const grantType = 'password';
-  logger.info(`The value of the User Name ${username}`);
-  logger.info(`The value of the Password ${password}`);
-  logger.info(`The value of the Client Id : ${idamClientID}`);
-  logger.info(`The value of the Client Secret : ${idamClientSecret}`);
-  logger.info(`The value of the Redirect URI : ${redirectUri}`);
-  logger.info(`The value of the grant Type : ${grantType}`);
-  logger.info(`The value of the scope : ${scope}`);
+  console.log(`The value of the User Name ${username}`);
+  console.log(`The value of the Password ${password}`);
+  console.log(`The value of the Client Id : ${idamClientID}`);
+  console.log(`The value of the Client Secret : ${idamClientSecret}`);
+  console.log(`The value of the Redirect URI : ${redirectUri}`);
+  console.log(`The value of the grant Type : ${grantType}`);
+  console.log(`The value of the scope : ${scope}`);
 
   const idamTokenPath = '/o/token';
-  logger.debug(`The value of the IDAM URL : ${idamApiUrl}${idamTokenPath}`);
+  console.log(`The value of the IDAM URL : ${idamApiUrl}${idamTokenPath}`);
   console.log('****uri - ' + idamApiUrl + idamTokenPath);
 
   const idamTokenResponse = await request({
@@ -142,30 +142,30 @@ async function getIDAMTokenForDivorceUser() {
       statusCode = response.statusCode;
       console.log('*****statuscode - ' + statusCode);
     }).catch(error => {
-    logger.error(error);
+    console.log(error);
     console.log('*****error - ' + error);
   });
-  logger.debug(idamTokenPath);
+  console.log(idamTokenPath);
   return JSON.parse(idamTokenResponse).access_token;
 }
 
 async function getServiceTokenForSecret(service, serviceSecret) {
-  logger.info('Getting Service Token');
-  logger.info(`Getting Service Token${service}`);
-  logger.info(`Getting Service Token${serviceSecret}`);
+  console.log('Getting Service Token');
+  console.log(`Getting Service Token${service}`);
+  console.log(`Getting Service Token${serviceSecret}`);
 
   // eslint-disable-next-line global-require
   const oneTimePassword = require('otp')({secret: serviceSecret}).totp();
 
-  logger.info(`Getting The one time password${oneTimePassword}`);
-  logger.info(`Getting The one time password :${rpeServiceAuthApiUrl}`);
+  console.log(`Getting The one time password${oneTimePassword}`);
+  console.log(`Getting The one time password :${rpeServiceAuthApiUrl}`);
   const serviceToken = await request({
     method: 'POST',
     uri: rpeServiceAuthApiUrl + s2sAuthPath,
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({microservice: service})
   });
-  logger.debug(serviceToken);
+  console.log(serviceToken);
   logger.log(serviceToken);
   return serviceToken;
 }
@@ -184,7 +184,7 @@ async function getServiceToken(_service) {
     body: JSON.stringify({microservice: 'ccpay_bubble'})
   });
   console.log(serviceToken + "Servive token is    ");
-  logger.debug(serviceToken);
+  console.log(serviceToken);
   return serviceToken;
 }
 
@@ -201,11 +201,11 @@ async function getUserID(idamToken) {
     }
   }, (_error, response) => {
     statusCode = response.statusCode;
-    logger.info(`The response Status Code : ${statusCode}`);
+    console.log(`The response Status Code : ${statusCode}`);
   }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
-  logger.debug(idamDetailsResponse);
+  console.log(idamDetailsResponse);
   const responsePayload = JSON.parse(idamDetailsResponse);
   const idValue = responsePayload.id;
   return idValue;
@@ -230,9 +230,9 @@ async function getCREATEEventForProbate() {
     logger.log(statusCode);
   }).catch(error => {
     logger.log(error);
-    logger.error(error);
+    console.log(error);
   });
-  logger.debug(createTokenResponse);
+  console.log(createTokenResponse);
   const responsePayload = JSON.parse(createTokenResponse);
   const createTokenValue = responsePayload.token;
   return createTokenValue;
@@ -240,11 +240,11 @@ async function getCREATEEventForProbate() {
 
 async function getCREATEEventForDivorce() {
   const idamTokenForDivorce = await getIDAMTokenForDivorceUser();
-  logger.info(`The value of the idamTokenForDivorce ${idamTokenForDivorce}`);
+  console.log(`The value of the idamTokenForDivorce ${idamTokenForDivorce}`);
   const userID = await getUserID(idamTokenForDivorce);
-  logger.info(`The value of the userID ${userID}`);
+  console.log(`The value of the userID ${userID}`);
   const serviceAuthorizationToken = await getServiceToken();
-  logger.info(`The value of the service Token ${serviceAuthorizationToken}`);
+  console.log(`The value of the service Token ${serviceAuthorizationToken}`);
   const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/DIVORCE/case-types/DIVORCE/event-triggers/createCase/token`;
 
   const createTokenResponse = await request({
@@ -257,18 +257,18 @@ async function getCREATEEventForDivorce() {
     }
   }, (_error, response) => {
     statusCode = response.statusCode;
-    logger.info(statusCode);
+    console.log(statusCode);
   }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
-  logger.debug(`Response : ${createTokenResponse}`);
+  console.log(`Response : ${createTokenResponse}`);
   const responsePayload = JSON.parse(createTokenResponse);
   const createTokenValue = responsePayload.token;
   return createTokenValue;
 }
 
 async function CaseValidation(flag) {
-  logger.info(`${flag} case validation`);
+  console.log(`${flag} case validation`);
 
   const disablePath = `/api/ff4j/store/features/caseref-validation/${flag}`;
   // eslint-disable-next-line global-require
@@ -279,11 +279,11 @@ async function CaseValidation(flag) {
     },
     (_error, response) => {
       statusCode = response.statusCode;
-      logger.info(statusCode);
+      console.log(statusCode);
     }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
-  logger.info(saveCaseResponse);
+  console.log(saveCaseResponse);
   return statusCode;
 }
 
@@ -313,7 +313,7 @@ async function createACCDCaseForProbate() {
 
   const probateCCDCreateCaseRelativeBaseUrl = '/case-types/GrantOfRepresentation/cases';
 
-  logger.info(`The value of the Body ${JSON.stringify(createCCDCaseBody)}`);
+  console.log(`The value of the Body ${JSON.stringify(createCCDCaseBody)}`);
   const probateCaseCreated = {
     method: 'POST',
     uri: ccdDataStoreApiUrl + probateCCDCreateCaseRelativeBaseUrl,
@@ -328,14 +328,14 @@ async function createACCDCaseForProbate() {
 
   const probateCaseCreatedResponse = await request(probateCaseCreated,
     (_error, response) => {
-      logger.info(response);
-      logger.info(`${statusCode}The value of the status code`);
-      logger.info(`${response}The value of the response`);
+      console.log(response);
+      console.log(`${statusCode} The value of the status code`);
+      console.log(`${response} The value of the response`);
     }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
 
-  logger.debug(probateCaseCreatedResponse);
+  console.log(probateCaseCreatedResponse);
 
   const ccdCaseNumberPayload = JSON.parse(probateCaseCreatedResponse);
   const ccdCaseNumber = ccdCaseNumberPayload.id;
@@ -365,7 +365,7 @@ async function createACCDCaseForDivorce() {
 
   const divorceCCDCreateCaseRelativeBaseUrl = '/case-types/DIVORCE/cases';
 
-  logger.debug(`The value of the Body ${JSON.stringify(createCCDDivorceCaseBody)}`);
+  console.log(`The value of the Body ${JSON.stringify(createCCDDivorceCaseBody)}`);
   const divorceCaseCreated = {
     method: 'POST',
     uri: ccdDataStoreApiUrl + divorceCCDCreateCaseRelativeBaseUrl,
@@ -378,24 +378,24 @@ async function createACCDCaseForDivorce() {
     body: JSON.stringify(createCCDDivorceCaseBody)
   };
 
-  logger.debug(`The value of the Service Token : ${serviceToken}`);
-  logger.debug(`The value of the Create Token for Divorce: ${createToken}`);
+  console.log(`The value of the Service Token : ${serviceToken}`);
+  console.log(`The value of the Create Token for Divorce: ${createToken}`);
 
   const divorceCaseCreatedResponse = await request(divorceCaseCreated,
     (_error, response) => {
-      logger.info(response);
-      logger.debug(`${statusCode}The value of the status code`);
-      logger.debug(`${response}The value of the response`);
+      console.log(response);
+      console.log(`${statusCode}The value of the status code`);
+      console.log(`${response}The value of the response`);
     }).catch(error => {
     console.error(error);
   });
-  logger.debug(divorceCaseCreatedResponse);
+  console.log(divorceCaseCreatedResponse);
 
   console.log('*****divorceCaseCreatedResponse - ' + divorceCaseCreatedResponse);
 
   const ccdCaseNumberPayload = JSON.parse(divorceCaseCreatedResponse);
   const ccdCaseNumber = ccdCaseNumberPayload.id;
-  logger.info(`The value of the CCDCaseNumber : ${ccdCaseNumber}`);
+  console.log(`The value of the CCDCaseNumber : ${ccdCaseNumber}`);
   return ccdCaseNumber;
 }
 
@@ -406,9 +406,9 @@ async function rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(
   const idamToken = await getIDAMToken();
   const testCmcSecret = testConfig.TestCMCSecret;
   const accountNumber = testConfig.TestAccountNumberInActive;
-  logger.debug(`The value of the inactive account number : ${accountNumber}`);
+  console.log(`The value of the inactive account number : ${accountNumber}`);
   console.log(`The value of the IDAM Token ${idamToken}`);
-  logger.debug(`The value of the cmc secret ${testCmcSecret}`);
+  console.log(`The value of the cmc secret ${testCmcSecret}`);
   const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
   console.log(`The value of the Service Token ${serviceToken}`);
   const rollbackPaymentDateByCCDNumberEndPoint = `/payments/ccd_case_reference/${ccdCaseNumber}/lag_time/${lag_time}`;
@@ -430,14 +430,14 @@ async function rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(
       console.log(`${statusCode}The value of the status code`);
       console.log(`${response}The value of the response`);
     }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
 }
 
 async function getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber) {
-  logger.debug('Inside the getPBAPaymentByCCDCaseNumber() method');
+  console.log('Inside the getPBAPaymentByCCDCaseNumber() method');
   const getPaymentByCCDNumberEndPoint = `/reconciliation-payments?ccd_case_number=${ccdCaseNumber}`;
-  logger.debug(`The Full URL : ${paymentBaseUrl}${getPaymentByCCDNumberEndPoint}`);
+  console.log(`The Full URL : ${paymentBaseUrl}${getPaymentByCCDNumberEndPoint}`);
 
   const getPBAPaymentByCCDCaseNumberOptions = {
     method: 'GET',
@@ -450,37 +450,37 @@ async function getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumb
 
   const paymentLookUpResponseString = await request(getPBAPaymentByCCDCaseNumberOptions,
     (_error, response) => {
-      logger.info(response);
-      logger.info(`${statusCode}The value of the status code`);
-      // logger.info(`${response}The value of the response`);
+      console.log(response);
+      console.log(`${statusCode}The value of the status code`);
+      // console.log(`${response}The value of the response`);
     }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
-  logger.debug(`The value of the PaymentLookUpResponseString : ${paymentLookUpResponseString}`);
+  console.log(`The value of the PaymentLookUpResponseString : ${paymentLookUpResponseString}`);
   const paymentLookupObject = JSON.parse(paymentLookUpResponseString);
   const paymentReference = paymentLookupObject.payments[0].payment_reference;
-  logger.debug(`The value of the payment Reference${paymentReference}`);
+  console.log(`The value of the payment Reference${paymentReference}`);
   return paymentReference;
 }
 
 // eslint-disable-next-line no-unused-vars
 async function createAFailedPBAPayment() {
-  logger.debug('Creating bulk a PBA Payment...');
+  console.log('Creating bulk a PBA Payment...');
   const creditAccountPaymentEndPoint = '/credit-account-payments';
   const microservice = 'cmc';
   const idamToken = await getIDAMToken();
   const testCmcSecret = testConfig.TestCMCSecret;
   const accountNumber = testConfig.TestAccountNumberInActive;
-  logger.debug(`The value of the inactive account number : ${accountNumber}`);
-  logger.debug(`The value of the IDAM Token ${idamToken}`);
-  logger.debug(`The value of the cmc secret ${testCmcSecret}`);
+  console.log(`The value of the inactive account number : ${accountNumber}`);
+  console.log(`The value of the IDAM Token ${idamToken}`);
+  console.log(`The value of the cmc secret ${testCmcSecret}`);
   const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
-  logger.debug(`The value of the Service Token ${serviceToken}`);
+  console.log(`The value of the Service Token ${serviceToken}`);
 
   // eslint-disable-next-line no-magic-numbers
   const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
-  logger.debug(`The value of the CCD Case Number : ${ccdCaseNumber}`);
-  logger.debug(`The Full Payment URL : ${paymentBaseUrl}${creditAccountPaymentEndPoint}`);
+  console.log(`The value of the CCD Case Number : ${ccdCaseNumber}`);
+  console.log(`The Full Payment URL : ${paymentBaseUrl}${creditAccountPaymentEndPoint}`);
 
   const saveBody = {
     account_number: `${accountNumber}`,
@@ -503,7 +503,7 @@ async function createAFailedPBAPayment() {
     service: 'PROBATE',
     site_id: 'AA08'
   };
-  logger.debug(`The value of the Body ${JSON.stringify(saveBody)}`);
+  console.log(`The value of the Body ${JSON.stringify(saveBody)}`);
   const createAPBAPaymentOptions = {
     method: 'POST',
     uri: paymentBaseUrl + creditAccountPaymentEndPoint,
@@ -519,23 +519,23 @@ async function createAFailedPBAPayment() {
   await request(createAPBAPaymentOptions, (_error, response) => {
     statusCode = response.statusCode;
     paymentReference = JSON.parse(response.body).reference;
-    logger.debug(`Response Body : ${JSON.stringify(response.body)}`);
-    logger.debug(`The value of the response status code : ${statusCode}`);
+    console.log(`Response Body : ${JSON.stringify(response.body)}`);
+    console.log(`The value of the response status code : ${statusCode}`);
   }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
 
-  logger.debug(JSON.stringify(saveCaseResponse));
-  logger.info(`The Payment Reference : ${paymentReference}`);
+  console.log(JSON.stringify(saveCaseResponse));
+  console.log(`The Payment Reference : ${paymentReference}`);
 
   await rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
 
-  logger.debug(saveCaseResponse);
+  console.log(saveCaseResponse);
   const paymentDetails = {
     ccdCaseNumber: `${ccdCaseNumber}`,
     paymentReference: `${paymentReference}`
   };
-  logger.debug(`The Payment Details Object : ${JSON.stringify(paymentDetails)}`);
+  console.log(`The Payment Details Object : ${JSON.stringify(paymentDetails)}`);
   return paymentDetails;
 }
 
@@ -589,7 +589,7 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
     statusCode = response.statusCode;
     // console.log(`The value of the response status code : ${statusCode}`);
   }).catch(error => {
-    logger.error(error);
+    console.log(error);
     console.log(error);
   });
 
@@ -606,7 +606,7 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
 
 // eslint-disable-next-line no-unused-vars
 async function createAPBAPayment(amount, feeCode, version, volume) {
-  logger.debug('Creating bulk a PBA Payment...');
+  console.log('Creating bulk a PBA Payment...');
 
   const creditAccountPaymentEndPoint = '/credit-account-payments';
   const microservice = 'cmc';
@@ -614,15 +614,15 @@ async function createAPBAPayment(amount, feeCode, version, volume) {
   const testCmcSecret = testConfig.TestCMCSecret;
   const accountNumber = testConfig.TestAccountNumberActive;
 
-  logger.info(`The value of the IDAM Token ${idamToken}`);
-  logger.info(`The value of the cmc secret ${testCmcSecret}`);
+  console.log(`The value of the IDAM Token ${idamToken}`);
+  console.log(`The value of the cmc secret ${testCmcSecret}`);
   const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
-  logger.info(`The value of the Service Token ${serviceToken}`);
+  console.log(`The value of the Service Token ${serviceToken}`);
 
   // eslint-disable-next-line no-magic-numbers
   const ccdCaseNumber = await createACCDCaseForProbate();
-  logger.info(`The value of the CCD Case Number : ${ccdCaseNumber}`);
-  logger.debug(`The Full Payment URL : ${paymentBaseUrl}${creditAccountPaymentEndPoint}`);
+  console.log(`The value of the CCD Case Number : ${ccdCaseNumber}`);
+  console.log(`The Full Payment URL : ${paymentBaseUrl}${creditAccountPaymentEndPoint}`);
   const saveBody = {
     account_number: `${accountNumber}`,
     amount: amount,
@@ -658,9 +658,9 @@ async function createAPBAPayment(amount, feeCode, version, volume) {
 
   await request(createAPBAPaymentOptions, (_error, response) => {
     statusCode = response.statusCode;
-    logger.info(`The value of the response status code : ${statusCode}`);
+    console.log(`The value of the response status code : ${statusCode}`);
   }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
 
   const paymentReference = await getPBAPaymentByCCDCaseNumber(
@@ -695,7 +695,7 @@ async function getPaymentGroupRef(serviceToken, ccdCaseNumberFormatted) {
     ]
   };
   console.log("*** the body for payment group ref is -" + JSON.stringify(saveBody));
-  logger.info('calling getPaymentGroupRef');
+  console.log('calling getPaymentGroupRef');
   const paymentGroupsEndPoint = `/payment-groups`;
   console.log('***payment group Ref uri - ' + paymentBaseUrl + paymentGroupsEndPoint);
   const paymentGroupsResponse = await request({
@@ -708,11 +708,11 @@ async function getPaymentGroupRef(serviceToken, ccdCaseNumberFormatted) {
     body: JSON.stringify(saveBody)
   }, (_error, response) => {
     statusCode = response.statusCode;
-    logger.info(`The response Status Code for paymentGroups : ${statusCode}`);
+    console.log(`The response Status Code for paymentGroups : ${statusCode}`);
   }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
-  logger.debug();
+  console.log();
   const responsePayload = JSON.parse(paymentGroupsResponse);
   console.log('****responsePayload for payment groups -' + responsePayload);
   const paymentGroupRefernce = responsePayload.payment_group_reference;
@@ -734,7 +734,7 @@ async function recordBouncebackFailure(serviceToken, ccdNumber, paymentRCRefernc
     'reason': 'RR001'
   };
   console.log("*** the body for bounceback cheque failure is -" + JSON.stringify(saveBody));
-  logger.info('calling recordBouncebackFailure');
+  console.log('calling recordBouncebackFailure');
   const bouncedChequeEndPoint = `/payment-failures/bounced-cheque`;
   console.log('*** bounceback cheque failure uri - ' + paymentBaseUrl + bouncedChequeEndPoint);
   const bounceChequeResponse = await request({
@@ -747,9 +747,9 @@ async function recordBouncebackFailure(serviceToken, ccdNumber, paymentRCRefernc
     body: JSON.stringify(saveBody)
   }, (_error, response) => {
     statusCode = response.statusCode;
-    logger.info(`The response Status Code for bounceCheque : ${statusCode}`);
+    console.log(`The response Status Code for bounceCheque : ${statusCode}`);
   }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
   return failureReference;
 }
@@ -768,7 +768,7 @@ async function recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef) 
     'reason': 'RR001'
   };
   console.log("*** the body for bounceback cheque failure is -" + JSON.stringify(saveBody));
-  logger.info('calling recordChargeBackFailure');
+  console.log('calling recordChargeBackFailure');
   const chargeBackEndPoint = `/payment-failures/chargeback`;
   console.log('*** bounceback cheque failure uri - ' + paymentBaseUrl + chargeBackEndPoint);
   const chargeBackResponse = await request({
@@ -781,9 +781,9 @@ async function recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef) 
     body: JSON.stringify(saveBody)
   }, (_error, response) => {
     statusCode = response.statusCode;
-    logger.info(`The response Status Code for chargeBack : ${statusCode}`);
+    console.log(`The response Status Code for chargeBack : ${statusCode}`);
   }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
   return saveBody;
 }
@@ -802,7 +802,7 @@ async function recordChargeBackFailureEvent(serviceToken, ccdCaseNumber, payment
     'reason': 'RR001'
   };
   console.log("*** the body for bounceback cheque failure is -" + JSON.stringify(saveBody));
-  logger.info('calling recordChargeBackFailure');
+  console.log('calling recordChargeBackFailure');
   const chargeBackEndPoint = `/payment-failures/chargeback`;
   console.log('*** bounceback cheque failure uri - ' + paymentBaseUrl + chargeBackEndPoint);
   const chargeBackResponse = await request({
@@ -815,9 +815,9 @@ async function recordChargeBackFailureEvent(serviceToken, ccdCaseNumber, payment
     body: JSON.stringify(saveBody)
   }, (_error, response) => {
     statusCode = response.statusCode;
-    logger.info(`The response Status Code for chargeBack : ${statusCode}`);
+    console.log(`The response Status Code for chargeBack : ${statusCode}`);
   }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
   return saveBody;
 }
@@ -828,7 +828,7 @@ async function patchFailureReference(serviceToken, failureReference) {
     'representment_status': 'Yes'
   };
   console.log("*** the body patchFailureReference is -" + JSON.stringify(saveBody));
-  logger.info('calling patchFailureReference');
+  console.log('calling patchFailureReference');
   const patchFailureRefEndPoint = `/payment-failures/${failureReference}`;
   console.log('*** patchFailureReference uri - ' + paymentBaseUrl + patchFailureRefEndPoint);
   const patchFailureRefResponse = await request({
@@ -841,9 +841,9 @@ async function patchFailureReference(serviceToken, failureReference) {
     body: JSON.stringify(saveBody)
   }, (_error, response) => {
     statusCode = response.statusCode;
-    logger.info(`The response Status Code for patchFailureReference : ${statusCode}`);
+    console.log(`The response Status Code for patchFailureReference : ${statusCode}`);
   }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
 }
 
@@ -853,7 +853,7 @@ async function patchFailureReferenceNo(serviceToken, failureReference) {
     'representment_status': 'No'
   };
   console.log("*** the body patchFailureReference is -" + JSON.stringify(saveBody));
-  logger.info('calling patchFailureReference');
+  console.log('calling patchFailureReference');
   const patchFailureRefEndPoint = `/payment-failures/${failureReference}`;
   console.log('*** patchFailureReference uri - ' + paymentBaseUrl + patchFailureRefEndPoint);
   const patchFailureRefResponse = await request({
@@ -866,9 +866,9 @@ async function patchFailureReferenceNo(serviceToken, failureReference) {
     body: JSON.stringify(saveBody)
   }, (_error, response) => {
     statusCode = response.statusCode;
-    logger.info(`The response Status Code for patchFailureReference : ${statusCode}`);
+    console.log(`The response Status Code for patchFailureReference : ${statusCode}`);
   }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
 }
 
@@ -896,7 +896,7 @@ async function recordBulkScanPayments(serviceToken, ccdCaseNumberFormatted, paym
     'requestor': 'PROBATE',
     'site_id': 'AA01'
   };
-  logger.info('calling getPaymentGroupRef');
+  console.log('calling getPaymentGroupRef');
   const recordBulkScanPaymentUrlEndPoint = `/payment-groups/${paymentGroupRef}/bulk-scan-payments`;
   console.log('***record bulk scan payments uri - ' + paymentBaseUrl + recordBulkScanPaymentUrlEndPoint);
   const recordBulkScanPaymentResponse = await request({
@@ -909,11 +909,11 @@ async function recordBulkScanPayments(serviceToken, ccdCaseNumberFormatted, paym
     body: JSON.stringify(saveBody)
   }, (_error, response) => {
     statusCode = response.statusCode;
-    logger.info(`The response Status Code for recordBulkScanPayment : ${statusCode}`);
+    console.log(`The response Status Code for recordBulkScanPayment : ${statusCode}`);
   }).catch(error => {
-    logger.error(error);
+    console.log(error);
   });
-  logger.debug();
+  console.log();
   const responsePayload = JSON.parse(recordBulkScanPaymentResponse);
   console.log('****recordBulkScanPayment response -' + responsePayload);
   const paymentRCRefernce = responsePayload.reference;
@@ -923,7 +923,7 @@ async function recordBulkScanPayments(serviceToken, ccdCaseNumberFormatted, paym
 
 async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
                                    bankedDate, dcnNumber, paymentMethod) {
-  logger.info('Creating bulk Excela Case');
+  console.log('Creating bulk Excela Case');
   const bulkScanPaymentEndPoint = '/bulk-scan-payment';
   console.log('**** bulk scan payments uri - ' + bulkScanApiUrl + bulkScanPaymentEndPoint);
 
@@ -954,12 +954,12 @@ async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
     logger.log(error);
   });
 
-  logger.info(saveCaseResponse);
+  console.log(saveCaseResponse);
   return statusCode;
 }
 
 async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, exception) {
-  logger.info('Creating bulk Scan Case');
+  console.log('Creating bulk Scan Case');
 
   const bulkScanPaymentsEndPoint = '/bulk-scan-payments';
   console.log('**** bulk scan payments uri - ' + bulkScanApiUrl + bulkScanPaymentsEndPoint);
@@ -972,7 +972,7 @@ async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, except
     site_id: `${siteId}`
   };
 
-  logger.debug(`What is this CCDCaseNumber ${saveBody.ccd_case_number}`);
+  console.log(`What is this CCDCaseNumber ${saveBody.ccd_case_number}`);
 
   const saveCaseOptions = {
     method: 'POST',
@@ -992,17 +992,17 @@ async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, except
     logger.log(error);
   });
 
-  logger.info(saveCaseResponse);
+  console.log(saveCaseResponse);
   return statusCode;
 }
 
 async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNumber) {
-  logger.info('Creating bulk Scan Case linked to Exception CCD');
+  console.log('Creating bulk Scan Case linked to Exception CCD');
 
   const bulkScanPaymentsEndPoint = '/bulk-scan-payments';
   const query = `?exception_reference=${exceptionCCDNumber}`;
 
-  logger.debug(`This is the Actual Case Number : ${ccdNumber}`);
+  console.log(`This is the Actual Case Number : ${ccdNumber}`);
   const saveBody = {ccd_case_number: `${ccdNumber}`};
 
   const saveCaseOptions = {
@@ -1023,7 +1023,7 @@ async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNum
     logger.log(error);
   });
 
-  logger.info(saveCaseResponse);
+  console.log(saveCaseResponse);
 
   return statusCode;
 }
@@ -1033,13 +1033,13 @@ async function bulkScanCcdLinkedException(exceptionCcdNumber, serviceToken) {
   const successResponse = 200;
 
   const ccdNumber = await createACCDCaseForProbate();
-  logger.debug(`The value of Actual CCDCaseNumber : ${ccdNumber}`);
+  console.log(`The value of Actual CCDCaseNumber : ${ccdNumber}`);
   const responseCode = await bulkScanCcdWithException(serviceToken, ccdNumber,
     exceptionCcdNumber).catch(error => {
     logger.log(error);
   });
-  if (responseCode === successResponse) logger.info('CCD link to exception created');
-  else logger.info('CCD link to exception NOT created');
+  if (responseCode === successResponse) console.log('CCD link to exception created');
+  else console.log('CCD link to exception NOT created');
 
   return ccdNumber;
 }
@@ -1060,8 +1060,8 @@ async function createBulkScanRecords(siteId, amount, paymentMethod, exception, l
   });
   console.log('***responseDcnCode - ' + responseDcnCode);
 
-  if (responseDcnCode === successResponse) logger.info('DCN Created');
-  else logger.info('CCD Case NOT Created');
+  if (responseDcnCode === successResponse) console.log('DCN Created');
+  else console.log('CCD Case NOT Created');
 
   const ccdNumberExceptionRecord = await createACCDCaseForProbate();
   console.log('***ccdNumberExceptionRecord - ' + ccdNumberExceptionRecord);
@@ -1072,8 +1072,8 @@ async function createBulkScanRecords(siteId, amount, paymentMethod, exception, l
 
   console.log('***responseCcdCode - ' + responseCcdCode);
 
-  if (responseCcdCode === successResponse) logger.info('CCD Case Created');
-  else logger.info('CCD Case NOT Created');
+  if (responseCcdCode === successResponse) console.log('CCD Case Created');
+  else console.log('CCD Case NOT Created');
 
   if (linkedCcd) {
     const ccdNumberLinked = await bulkScanCcdLinkedException(ccdNumberExceptionRecord,
@@ -1159,7 +1159,7 @@ async function updateRefundStatusByRefundReference(refundReference, reason, stat
   const testCmcSecret = testConfig.TestCMCSecret;
 
   const serviceToken = await getServiceTokenForSecret(microService, testCmcSecret);
-  logger.info(`The value of the Service Token ${serviceToken}`);
+  console.log(`The value of the Service Token ${serviceToken}`);
 
   const saveBody = {
     reason: `${reason}`,
