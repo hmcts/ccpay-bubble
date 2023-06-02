@@ -41,7 +41,7 @@ module.exports = config => {
     },
     coverageReporter: {
       dir: 'coverage/',
-      reports: ['lcovonly'],
+      reporters: [{ type: 'lcovonly', subdir: '.', file: 'lcov.info' }],
       fixWebpackSourcePaths: true
     },
     reporters: ['spec', 'kjhtml', 'coverage'],
