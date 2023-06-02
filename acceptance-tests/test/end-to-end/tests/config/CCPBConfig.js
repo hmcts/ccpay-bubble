@@ -16,9 +16,13 @@ module.exports = {
   TestAccountNumberActive: process.env.PBA_ACCOUNT_NUMBER_ACTIVE || 'PBAFUNC12345',
   TestAccountNumberInActive: process.env.PBA_ACCOUNT_NUMBER_INACTIVE || 'PBAFUNC12350',
   TestCMCSecret: process.env.CMC_S2S_SERVICE_SECRET,
-  TestRunningEnvironment: process.env.RUNNING_ENV || 'aat',
-  TestIDAMEnvironment: process.env.IDAM_ENV || 'aat',
-  TestPrNumber: process.env.PR_NUMBER || 'aat',
+  TestIdamApiUrl: process.env.IDAM_API_URL || 'https://idam-api.aat.platform.hmcts.net',
+  TestCcdDataStoreApiUrl: process.env.CCD_DATA_STORE_API_URL || 'http://ccd-data-store-api-aat.service.core-compute-aat.internal',
+  TestS2SRpeServiceAuthApiUrl: process.env.S2S_RPE_SERVICE_AUTH_API_URL || 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
+  TestPaymentApiUrl: process.env.PAYMENT_API_URL || 'http://payment-api-aat.service.core-compute-aat.internal',
+  TestRefundsApiUrl: process.env.REFUNDS_API_URL || 'http://ccpay-refunds-api-aat.service.core-compute-aat.internal',
+  TestBulkScanApiUrl: process.env.BULKSCANNING_API_URL || 'http://ccpay-bulkscanning-api-aat.service.core-compute-aat.internal',
   TestsForAccessibility: process.env.E2E_TESTS_FOR_ACCESSIBILITY === 'true',
-  TestOutputDir: process.env.E2E_OUTPUT_DIR || './functional-output'
+  TestOutputDir: process.env.E2E_OUTPUT_DIR || './functional-output',
+  NotifyEmailApiKey: process.env.NOTIFY_EMAIL_API_KEY
 };

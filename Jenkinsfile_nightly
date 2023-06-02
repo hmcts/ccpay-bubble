@@ -4,7 +4,14 @@ properties([
   pipelineTriggers([cron('H 8 * * 1-5')]),
 
   parameters([
-    string(name: 'URL_TO_TEST', defaultValue: 'https://paybubble.aat.platform.hmcts.net', description: 'The URL you want to run these tests against')
+    string(name: 'ENVIRONMENT', defaultValue: 'aat', description: 'Environment to fetch the keyvault secrets from'),
+    string(name: 'URL_TO_TEST', defaultValue: 'https://paybubble.aat.platform.hmcts.net', description: 'The paybubble url you want to run these tests against'),
+    string(name: 'IDAM_API_URL', defaultValue: 'https://idam-api.aat.platform.hmcts.net', description: 'The idam api url you want to run these tests against'),
+    string(name: 'CCD_DATA_STORE_API_URL', defaultValue: 'http://ccd-data-store-api-aat.service.core-compute-aat.internal', description: 'The ccd data store api url you want to run these tests against'),
+    string(name: 'S2S_RPE_SERVICE_AUTH_API_URL', defaultValue: 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal', description: 'The s2s rpe service api url you want to run these tests against'),
+    string(name: 'PAYMENT_API_URL', defaultValue: 'http://payment-api-aat.service.core-compute-aat.internal', description: 'The payment api url you want to run these tests against'),
+    string(name: 'REFUNDS_API_URL', defaultValue: 'http://ccpay-refunds-api-aat.service.core-compute-aat.internal', description: 'The refunds api url you want to run these tests against'),
+    string(name: 'BULKSCANNING_API_URL', defaultValue: 'http://ccpay-bulkscanning-api-aat.service.core-compute-aat.internal', description: 'The bulkscanning api url you want to run these tests against')
   ])
 ])
 
@@ -15,7 +22,7 @@ def component = "bubble-frontend"
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 def secrets = [
-  'ccpay-${env}': [
+  "ccpay-${params.ENVIRONMENT}": [
     secret('paybubble-s2s-secret', 'PAYBUBBLE_S2S_TOTP_SECRET'),
     secret('paybubble-idam-client-secret', 'IDAM_CLIENT_SECRET'),
     secret('launch-darkly-client-id', 'LD_CLIENT_ID'),
@@ -33,7 +40,8 @@ def secrets = [
     secret('fee-pay-divorce-client-id', 'DIVORCE_CLIENT_ID'),
     secret('fee-pay-divorce-client-secret', 'DIVORCE_CLIENT_SECRET'),
     secret('fee-pay-divorce-client-redirect-url', 'DIVORCE_CLIENT_REDIRECT_URI'),
-    secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
+    secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+    secret('notifications-email-apikey', 'NOTIFY_EMAIL_API_KEY')
   ]
 ]
 
@@ -56,6 +64,13 @@ withNightlyPipeline("nodejs", product, component) {
 
   env.TEST_URL = params.URL_TO_TEST
   env.NIGHTLY_TEST= true
+  env.IDAM_API_URL = params.IDAM_API_URL
+  env.CCD_DATA_STORE_API_URL = params.CCD_DATA_STORE_API_URL
+  env.S2S_RPE_SERVICE_AUTH_API_URL = params.S2S_RPE_SERVICE_AUTH_API_URL
+  env.PAYMENT_API_URL = params.PAYMENT_API_URL
+  env.REFUNDS_API_URL = params.REFUNDS_API_URL
+  env.BULKSCANNING_API_URL = params.BULKSCANNING_API_URL
+
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
   // enableFortifyScan()
@@ -90,16 +105,39 @@ withNightlyPipeline("nodejs", product, component) {
   }
 
   afterAlways('fullFunctionalTest') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
-    env.E2E_TESTS_FOR_ACCESSIBILITY = false
-
     publishHTML target: [
       allowMissing         : true,
       alwaysLinkToLastBuild: true,
       keepAll              : true,
       reportDir            : "functional-output",
-      reportFiles          : "ccpay-bubble-e2e-result.html",
-      reportName           : "PayBubble E2E functional tests result"
+      reportFiles          : "parallel_chunk1_*/ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result 1"
     ]
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "parallel_chunk2_*/ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result 2"
+    ]
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "parallel_chunk3_*/ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result 3"
+    ]
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "parallel_chunk4_*/ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result 4"
+    ]
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+    env.E2E_TESTS_FOR_ACCESSIBILITY = false
   }
 }
