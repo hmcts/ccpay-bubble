@@ -16,6 +16,7 @@ module.exports = {
   },
 
   async getHeaderValue() {
+    I.waitForElement(this.locators.header, CCPBConstants.fiveSecondWaitTime);
     const headerValue = await I.grabTextFrom(this.locators.header);
     return headerValue;
   },

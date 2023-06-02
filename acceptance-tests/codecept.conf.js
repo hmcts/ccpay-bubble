@@ -9,7 +9,7 @@ exports.config = {
   tests: './test/end-to-end/tests/*_test.js',
   // tests: './test/end-to-end/tests/CCPB_BulkScanFunctionality_test.js',
   timeout: 10000,
-  output: './output',
+  output: `${process.cwd()}/functional-output`,
   helpers: {
     Puppeteer: {
       url: CONF.e2e.frontendUrl,
@@ -46,8 +46,17 @@ exports.config = {
     Mochawesome: { uniqueScreenshotNames: 'true' }
   },
   plugins: {
-    pauseOnFail: {},
-    retryFailedStep: { enabled: false }
+    screenshotOnFail: {
+      enabled: true,
+      fullPageScreenshots: true
+    },
+    retryFailedStep: {
+      enabled: true,
+      retries: 1
+    },
+    autoDelay: {
+      enabled: true
+    }
   },
   include: {
     I: './test/end-to-end/pages/steps_file.js',
@@ -68,12 +77,33 @@ exports.config = {
   },
   mocha: {
     reporterOptions: {
-      mochaFile: 'functional-output/result.xml',
-      reportDir: 'functional-output',
-      reportFilename: 'ccpay-bubble-e2e-result',
-      inlineAssets: true,
-      reportTitle: 'PayBubble E2E tests result',
+      'codeceptjs-cli-reporter': {
+        stdout: '-',
+        options: {
+          steps: true
+        }
+      },
+      'mocha-junit-reporter': {
+        stdout: './functional-output/console.log',
+        options: {
+          mochaFile: './functional-output/result.xml',
+          attachments: true
+        }
+      },
+      mochawesome: {
+        stdout: './functional-output/console.log',
+        options: {
+          reportDir: './functional-output',
+          reportFilename: 'ccpay-bubble-e2e-result',
+          inlineAssets: true
+        }
+      }
     }
   },
-  bootstrap: false
+  multiple: {
+    parallel: {
+      chunks: 4,
+      browsers: ['chrome']
+    }
+  }
 };

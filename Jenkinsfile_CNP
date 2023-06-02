@@ -27,7 +27,8 @@ def secrets = [
       secret('fee-pay-divorce-client-id', 'DIVORCE_CLIENT_ID'),
       secret('fee-pay-divorce-client-secret', 'DIVORCE_CLIENT_SECRET'),
       secret('fee-pay-divorce-client-redirect-url', 'DIVORCE_CLIENT_REDIRECT_URI'),
-      secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
+      secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+      secret('notifications-email-apikey', 'NOTIFY_EMAIL_API_KEY')
   ]
 ]
 
@@ -78,8 +79,32 @@ withPipeline("nodejs", product, component) {
       alwaysLinkToLastBuild: true,
       keepAll              : true,
       reportDir            : "functional-output",
-      reportFiles          : "ccpay-bubble-e2e-result.html",
-      reportName           : "PayBubble E2E functional tests result"
+      reportFiles          : "parallel_chunk1_*/ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result 1"
+    ]
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "parallel_chunk2_*/ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result 2"
+    ]
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "parallel_chunk3_*/ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result 3"
+    ]
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "parallel_chunk4_*/ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result 4"
     ]
 
   }
@@ -96,8 +121,32 @@ withPipeline("nodejs", product, component) {
       alwaysLinkToLastBuild: true,
       keepAll              : true,
       reportDir            : "functional-output",
-      reportFiles          : "ccpay-bubble-e2e-result.html",
-      reportName           : "PayBubble E2E functional tests result"
+      reportFiles          : "parallel_chunk1_*/ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result 1"
+    ]
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "parallel_chunk2_*/ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result 2"
+    ]
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "parallel_chunk3_*/ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result 3"
+    ]
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output",
+      reportFiles          : "parallel_chunk4_*/ccpay-bubble-e2e-result.html",
+      reportName           : "PayBubble E2E functional tests result 4"
     ]
   }
 
