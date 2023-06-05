@@ -43,7 +43,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
-      await apiUtils.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
+      await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       await I.click('(//*[text()[contains(.,"Review")]])[2]');
@@ -127,7 +127,7 @@ Scenario('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter
     const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
-      await apiUtils.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
+      await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       await I.click('(//*[text()[contains(.,"Review")]])[2]');
@@ -220,7 +220,7 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
     const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
-      await apiUtils.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
+      await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       await I.click('(//*[text()[contains(.,"Review")]])[2]');
@@ -314,7 +314,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
-      await apiUtils.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
+      await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       await I.click('(//*[text()[contains(.,"Review")]])[2]');
@@ -474,7 +474,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
-      await apiUtils.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
+      await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       await I.click('(//*[text()[contains(.,"Review")]])[2]');
@@ -553,7 +553,7 @@ Scenario('OverPayment Refund Rejected journey',
     const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
-      await apiUtils.rollbackPyamentDateForPBAPaymentDateByCCDCaseNumber(ccdCaseNumber);
+      await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       await I.click('(//*[text()[contains(.,"Review")]])[2]');
