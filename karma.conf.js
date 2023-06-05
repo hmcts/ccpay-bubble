@@ -5,7 +5,7 @@ const karmaJasmine = require('karma-jasmine');
 const karmaJasmineHtmlReporter = require('karma-jasmine-html-reporter');
 const karmaPhantomJsLauncher = require('karma-phantomjs-launcher');
 const karmaIntlShim = require('karma-intl-shim');
-const karmaCoverageInstanbulReporter = require('karma-coverage-istanbul-reporter');
+const karmaCoverage = require('karma-coverage');
 const karmaAngularPluginsKarma = require('@angular-devkit/build-angular/plugins/karma');
 const karmaChromeLauncher = require('karma-chrome-launcher');
 const karmaCustomLogger = require('karma-spec-reporter');
@@ -21,7 +21,7 @@ module.exports = config => {
       karmaPhantomJsLauncher,
       karmaIntlShim,
       // require('./en-us.js'),
-      karmaCoverageInstanbulReporter,
+      karmaCoverage,
       karmaAngularPluginsKarma,
       karmaChromeLauncher,
       karmaCustomLogger
@@ -39,12 +39,12 @@ module.exports = config => {
         flags: [ '--no-sandbox' ]
       }
     },
-    coverageIstanbulReporter: {
+    coverageReporter: {
       dir: 'coverage/',
-      reports: ['lcovonly'],
+      reporters: [{ type: 'lcovonly', subdir: '.', file: 'lcov.info' }],
       fixWebpackSourcePaths: true
     },
-    reporters: ['spec', 'kjhtml', 'coverage-istanbul'],
+    reporters: ['spec', 'kjhtml', 'coverage'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_WARN,
