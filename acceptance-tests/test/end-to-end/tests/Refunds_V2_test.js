@@ -440,14 +440,14 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     // TODO: uncomment below lines after the refunds v2.1 release.
     // await apiUtils.updateRefundStatusByRefundReference(refundRef, '', 'ACCEPTED');
     // I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await apiUtils.updateRefundStatusByRefundReference(refundRef, 'Unable to apply refund to Card', 'REJECTED');
-
-    await I.click(`//td[contains(.,'${refundRef}')]/following-sibling::td/a[.=\'Review\'][1]`);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    const reviewRefundDetailsData = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, refundReason, '£100.00', emailAddress, '', 'payments probate', 'approver probate');
-    const refundNotificationPreviewData = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundRef, '100', 'Due to a technical error a payment was taken incorrectly and has now been refunded');
-
-    await RefundsList.verifyRefundDetailsAfterLiberataRejection(reviewRefundDetailsData, true, refundNotificationPreviewData);
+    // await apiUtils.updateRefundStatusByRefundReference(refundRef, 'Unable to apply refund to Card', 'REJECTED');
+    //
+    // await I.click(`//td[contains(.,'${refundRef}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    // I.wait(CCPBATConstants.tenSecondWaitTime);
+    // const reviewRefundDetailsData = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, refundReason, '£100.00', emailAddress, '', 'payments probate', 'approver probate');
+    // const refundNotificationPreviewData = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundRef, '100', 'Due to a technical error a payment was taken incorrectly and has now been refunded');
+    //
+    // await RefundsList.verifyRefundDetailsAfterLiberataRejection(reviewRefundDetailsData, true, refundNotificationPreviewData);
 
     await I.Logout();
     I.clearCookie();

@@ -379,8 +379,7 @@ module.exports = {
     I.see('Status');
     I.see('Sent for approval');
     I.see('Approved');
-    // TODO: uncomment below line after the refunds v2.1 release.
-    // I.see('Accepted');
+    I.see('Accepted');
     I.see('Rejected');
     I.see('Approved');
     I.see('Users');
@@ -391,8 +390,7 @@ module.exports = {
     I.see('Notes');
     I.see('Refund initiated and sent to team leader');
     I.see('Sent to middle office');
-    // TODO: uncomment below line after the refunds v2.1 release.
-    // I.see('Approved by middle office');
+    I.see('Approved by middle office');
     I.see('Unable to apply refund to Card');
     I.see('Refund approved by system');
 
