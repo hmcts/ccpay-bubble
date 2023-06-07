@@ -177,6 +177,7 @@
     "fsevents": "*"
   },
   "resolutions": {
+    "puppeteer":"^1.20.0",
     "axios": "^0.21.1",
     "ejs": "^3.1.7",
     "pug": "^3.0.1",
