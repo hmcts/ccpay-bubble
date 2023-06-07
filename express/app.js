@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const express = require('express');
 const controllers = require('./mvc/controller');
 const config = require('config');
@@ -6,7 +5,6 @@ const HttpStatus = require('http-status-codes');
 const { Logger } = require('@hmcts/nodejs-logging');
 
 const DATA_REPORT_REQUEST_TIMEOUT = 240000;
-const WAIT = 1000;
 
 module.exports = appInsights => express.Router()
 
@@ -15,7 +13,7 @@ module.exports = appInsights => express.Router()
     Logger.getLogger('user-roles ::').info(req.roles);
     res.status(200).send(req.roles);
   })
-/* payments */
+  /* payments */
   .post('/send-to-payhub-url', (req, res) => {
     controllers.payhubController.sendToPayhubWithUrl(req, res, appInsights);
   })
@@ -125,7 +123,7 @@ module.exports = appInsights => express.Router()
   .patch('/payment-history/bulk-scan-payments/:id/status/*', (req, res) => {
     controllers.bulkScanController.patchBSChangeStatus(req, res, appInsights);
   })
-// Notification service
+  // Notification service
   .get('/notification/:id', (req, res) => {
     controllers.notificationController.getRefundNotification(req, res);
   })
@@ -138,7 +136,7 @@ module.exports = appInsights => express.Router()
   .post('/notification/doc-preview', (req, res) => {
     controllers.notificationController.docPreview(req, res);
   })
-// Bulk scanning services
+  // Bulk scanning services
   .get('/bulk-scan/cases/:id', (req, res) => {
     controllers.bulkScanController.getPaymentDetailsForCcd(req, res);
   })
@@ -167,9 +165,6 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.getPbaAccountList(req, res);
   })
   .post('/payment-history/service-request/:serviceRef/pba-payments', (req, res) => {
-    setTimeout(() => {
-      console.log('Good Night!');
-    }, WAIT);
     controllers.payhubController.postPBAAccountPayment(req, res);
   })
   .post('/payment-history/service-request/:serviceRef/card-payments', (req, res) => {
@@ -182,7 +177,7 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postRefundRetroRemission(req, res);
   })
 
-// refund services
+  // refund services
   .get('/refund/reasons', (req, res) => {
     controllers.refundController.getRefundReason(req, res);
   })
@@ -223,7 +218,7 @@ module.exports = appInsights => express.Router()
   })
 
 
-// @hmcts/ccpay-web-component integration point
+  // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {
     controllers.payhubController.ccpayWebComponentIntegration(req, res);
   })
