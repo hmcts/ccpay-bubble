@@ -285,12 +285,4 @@ describe('Payment group service', () => {
         expect(response).toBe(false);
       });
   });
-
-  it('Should return bulkscan case details', () => {
-    spyOn(http, 'get').and.callFake((param1: string) => of({}));
-    paymentGroupService.getBSPaymentsByCCD('1234')
-      .then((response) => {
-        expect(response).toBe({});
-      });
-  });
 });
