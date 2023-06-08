@@ -1666,7 +1666,7 @@ __metadata:
   resolved "https://registry.yarnpkg.com/@hmcts/ccpay-web-component/-/ccpay-web-component-5.2.7-beta05.tgz#abf17b0d4aaed69d4c0808d27870914f4d1c071e"
   integrity sha512-GOl2Try3Yufzxlc1vzghPDraeWHZLb+sVMiBpABvec8GaX1qVU+YU6ps3RyTxTpO2KG4ZMWoyaofHPsn8j6x6w==
   dependencies:
-    tslib "^2.0.0"
+    tslib: ^2.0.0
 
 "@hmcts/cookie-manager@npm:^1.0.0":
   version: 1.0.0
