@@ -1,6 +1,6 @@
 {
   "name": "ccpay-bubble",
-  "version": "2.0.0",
+  "version": "v3.5.1",
   "engines": {
     "node": ">=14.17.0"
   },
@@ -177,7 +177,7 @@
     "fsevents": "*"
   },
   "resolutions": {
-    "puppeteer":"^1.20.0",
+    "puppeteer": "^1.20.0",
     "axios": "^0.21.1",
     "ejs": "^3.1.7",
     "pug": "^3.0.1",
