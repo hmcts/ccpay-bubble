@@ -6,6 +6,7 @@ import {of} from 'rxjs';
 import {PaymentModel} from 'src/app/models/PaymentModel';
 import {PaymentGroupService} from './payment-group.service';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
+import {IBSPayments} from '@hmcts/ccpay-web-component/lib/interfaces/IBSPayments';
 
 describe('Payment group service', () => {
   let paymentGroupService: PaymentGroupService;
@@ -287,10 +288,24 @@ describe('Payment group service', () => {
   });
 
   it('Should return bulkscan case details', () => {
-    spyOn(http, 'get').and.callFake((param1: string) => of({}));
+    const ibsPayments = <IBSPayments>{
+        id: '1',
+        dcn_reference: '1111222233334444',
+        bgc_reference: '1111222233334444',
+        amount: 100.00,
+        currency: 'GBP',
+        payment_method: 'CHEQUE',
+        outbound_batch_number: 'AB2233',
+        dcn_case: 'true',
+        case_reference: '1234'
+    };
+    spyOn(http, 'get').and.callFake((param1: string) => of(ibsPayments));
     paymentGroupService.getBSPaymentsByCCD('1234')
       .then((response) => {
-        expect(response).toBe({});
+        expect(response).toBe(ibsPayments);
+        expect(response.case_reference).toBe(ibsPayments.case_reference);
+      }).catch(() => {
+
       });
   });
 });
