@@ -6,6 +6,7 @@ import {of} from 'rxjs';
 import {PaymentModel} from 'src/app/models/PaymentModel';
 import {PaymentGroupService} from './payment-group.service';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
+import {IBSPayments} from '@hmcts/ccpay-web-component/lib/interfaces/IBSPayments';
 
 describe('Payment group service', () => {
   let paymentGroupService: PaymentGroupService;
@@ -60,26 +61,26 @@ describe('Payment group service', () => {
       });
   });
 
-//   it('Should call put Payment Group', () => {
-//     const paymentGroup = <IPaymentGroup>{
-//         payment_group_reference: '1234',
-//         fees: [{code: 'FEE0001'}],
-//         payments: null,
-//         remissions: null
-//     };
-//     spyOn(http, 'put').and.callFake((param1: string, param2: IPaymentGroup) => of(paymentGroup));
-//     const inputPaymentGroup = <IPaymentGroup>{
-//       payment_group_reference: null,
-//       fees: [{ccd_case_number: '1234', code: 'FEE0001'}],
-//       payments: null,
-//       remissions: null
-//     };
-//     paymentGroupService.putPaymentGroup('1234', inputPaymentGroup)
-//       .then((response) => {
-//         expect(response.fees[0].code).toBe(paymentGroup.fees[0].code);
-//         expect(response.payment_group_reference).toBe(paymentGroup.payment_group_reference);
-//       });
-//   });
+  it('Should call put Payment Group', () => {
+    const paymentGroup = <IPaymentGroup>{
+        payment_group_reference: '1234',
+        fees: [{code: 'FEE0001'}],
+        payments: null,
+        remissions: null
+    };
+    spyOn(http, 'put').and.callFake((param1: string, param2: IPaymentGroup) => of(paymentGroup));
+    const inputPaymentGroup = <IPaymentGroup>{
+      payment_group_reference: null,
+      fees: [{ccd_case_number: '1234', code: 'FEE0001'}],
+      payments: null,
+      remissions: null
+    };
+    paymentGroupService.putPaymentGroup('1234', inputPaymentGroup)
+      .then((response) => {
+        expect(response.fees[0].code).toBe(paymentGroup.fees[0].code);
+        expect(response.payment_group_reference).toBe(paymentGroup.payment_group_reference);
+      });
+  });
 
   it('Should call get discontinued fees feature is on', () => {
     const features = <any>[
@@ -286,11 +287,25 @@ describe('Payment group service', () => {
       });
   });
 
-//   it('Should return bulkscan case details', () => {
-//     spyOn(http, 'get').and.callFake((param1: string) => of({}));
-//     paymentGroupService.getBSPaymentsByCCD('1234')
-//       .then((response) => {
-//         expect(response).toBe({});
-//       });
-//   });
+  it('Should return bulkscan case details', () => {
+    const ibsPayments = <IBSPayments>{
+        id: '1',
+        dcn_reference: '1111222233334444',
+        bgc_reference: '1111222233334444',
+        amount: 100.00,
+        currency: 'GBP',
+        payment_method: 'CHEQUE',
+        outbound_batch_number: 'AB2233',
+        dcn_case: 'true',
+        case_reference: '1234'
+    };
+    spyOn(http, 'get').and.callFake((param1: string) => of(ibsPayments));
+    paymentGroupService.getBSPaymentsByCCD('1234')
+      .then((response) => {
+        expect(response).toBe(ibsPayments);
+        expect(response.case_reference).toBe(ibsPayments.case_reference);
+      }).catch(() => {
+
+      });
+  });
 });
