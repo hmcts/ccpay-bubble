@@ -41,7 +41,7 @@ Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, Ca
   // logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 593;
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
+  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cash');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
   logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
@@ -122,7 +122,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
 Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTransaction, CaseTransferred, PaymentHistory) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 593;
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cash');
+  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cash');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
   logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
@@ -156,7 +156,7 @@ Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTr
 Scenario('Exception ccd case cash payment transferred', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 593;
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'cheque');
+  const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA08', totalAmount, 'cheque');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
@@ -180,7 +180,7 @@ Scenario('Exception ccd case cash payment transferred', async(I, CaseSearch, Cas
 }).tag('@pipeline @nightly');
 
 Scenario('DCN Search for ccd case associated with exception postal order payment transferred', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
-  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 600;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA09', totalAmount, 'PostalOrder');
   const dcnNumber = ccdAndDcn[0];
@@ -203,7 +203,7 @@ Scenario('DCN Search for ccd case associated with exception postal order payment
 Scenario('Normal ccd case cash payment transferred when no valid reason or site id selected', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 593;
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA09', totalAmount, 'cash');
+  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cash');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
@@ -225,10 +225,10 @@ Scenario('Normal ccd case cash payment transferred when no valid reason or site 
   I.Logout();
 }).tag('@nightly');
 
-Scenario.skip('Exception Case Cheque Payment Unidentified', async(I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
+Scenario('Exception Case Cheque Payment Unidentified', async(I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 593;
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'cheque');
+  const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA08', totalAmount, 'cheque');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
@@ -278,7 +278,6 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
   I.Logout();
 }).tag('@nightly');
 
-/* Ignored Test: PAY-5982
 Scenario('Ccd case search with exception record postal order payment shortfall payment',
   async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary,
     ConfirmAssociation, PaymentHistory) => {
@@ -323,10 +322,9 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     PaymentHistory.verifyPaymentHistoryPage('£493.00', receiptSearch);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
-  }).tag('@nightly');
-*/
+  }).tag('@nightly @pipeline');
 
-Scenario.skip('Exception search with ccd record postal order payment surplus payment', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
+Scenario('Exception search with ccd record postal order payment surplus payment', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 600;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA07', totalAmount, 'PostalOrder');

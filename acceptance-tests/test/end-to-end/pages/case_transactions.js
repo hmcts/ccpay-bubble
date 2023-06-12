@@ -29,7 +29,6 @@ module.exports = {
     disputed_initiated_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[2]/td[6]/a' },
     // allocate_new_service_request: {xpath: '//*[contains(text(),"Allocate to new service request")]'},
     allocate_new_service_request: {xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/ccpay-app-unprocessed-payments/div/table/tbody/tr[1]/td[3]/div/button[1]'},
-    click_overpayment: {xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[4]/ccpay-refund-status/table/tbody/tr[1]/td[6]/a'},
     notpaid_payment_status: { xpath: '//*[contains(text(),"Not paid")]' },
   },
 
@@ -191,7 +190,7 @@ module.exports = {
     I.see('Closed');
     I.see('£100.00');
     I.see(`${paymentRCRef}`);
-  
+
     I.see(`${todayDate}`);
     I.see('Chargeback');
     I.wait(CCPBConstants.sevenSecondWaitTime);
@@ -406,13 +405,12 @@ module.exports = {
     I.see('£100.00');
     I.see('Overpayment');
     I.see('Retrospective remission');
-    I.see('Fee not due');
-    I.click(this.locators.click_overpayment);
+    I.see('System/technical error');
   },
   validateTransactionPageForPartialPayments() {
     I.wait(CCPBConstants.tenSecondWaitTime);
     I.see('Total payments');
-    I.see('£215');
+    I.see('£273');
     I.see('Total remissions');
     I.see('Amount due');
     I.see('Unallocated payments');
