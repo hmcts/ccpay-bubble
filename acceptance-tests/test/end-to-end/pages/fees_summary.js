@@ -19,8 +19,8 @@ module.exports = {
     I.see('Add fee');
     I.see('Total to pay:');
     I.see(`£${amount}`);
-    I.see('Allocate payment');
     if (allocatePaymentFlag) {
+      I.see('Allocate payment');
       I.click('Allocate payment');
     }
   },
