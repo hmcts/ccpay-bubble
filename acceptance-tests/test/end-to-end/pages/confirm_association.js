@@ -43,7 +43,7 @@ module.exports = {
   verifyConfirmAssociationShortfallPayment(feeCode, volume,
     allocatedAmount, feeAmount, calculatedAmount, shortfallAmount) {
     I.see('Confirm allocation');
-    I.see('Amount to be allocated: '.concat(allocatedAmount), CCPBConstants.tenSecondWaitTime);
+    I.waitForText('Amount to be allocated: '.concat(allocatedAmount), CCPBConstants.tenSecondWaitTime);
     I.see('Code');
     I.see('Description');
     I.see('Volume');
@@ -162,7 +162,7 @@ module.exports = {
   verifyConfirmAssociationSurplusPayment(feeCode, amount, surplusAmount) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Confirm allocation');
-    I.see('Amount to be allocated: '.concat(amount), CCPBConstants.tenSecondWaitTime);
+    I.waitForText('Amount to be allocated: '.concat(amount), CCPBConstants.tenSecondWaitTime);
     I.see('Code');
     I.see('Description');
     I.see('Volume');
