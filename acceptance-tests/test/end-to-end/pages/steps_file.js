@@ -30,8 +30,8 @@ module.exports = () => actor({
     }
   },
   // done
-  login(email, password) {
-    this.amOnPage('/');
+  login(email, password, uri = '/') {
+    this.amOnPage(uri);
     this.wait(CCPBConstants.twoSecondWaitTime);
     if (testConfig.e2e.testForCrossbrowser !== 'true') {
       this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
@@ -44,10 +44,15 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
-  Logout() {
-    this.wait(CCPBConstants.fiveSecondWaitTime);
-    this.click('Logout');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+  // Logout() {
+  //   this.wait(CCPBConstants.fiveSecondWaitTime);
+  //   this.click('Logout');
+  //   this.wait(CCPBConstants.fiveSecondWaitTime);
+  // },
+
+  async Logout() {
+    this.scrollPageToTop();
+    await this.click('Logout');
   },
 
   AcceptPayBubbleCookies() {
@@ -786,9 +791,6 @@ module.exports = () => actor({
   },
 
   async searchForCorrectCCDNumber() {
-    /* const randomNumber = numUtils.getRandomNumber(numberTwo);
-    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
-    const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);*/
     const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
@@ -804,8 +806,6 @@ module.exports = () => actor({
   },
 
   async caseforTelephonyFlow() {
-    /* const randomNumber = numUtils.getRandomNumber(numberTwo);
-    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;*/
     const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
@@ -850,8 +850,6 @@ module.exports = () => actor({
   },
 
   async AmountDueCaseForTelephonyFlow() {
-    /* const randomNumber = numUtils.getRandomNumber(numberTwo);
-    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;*/
     const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
