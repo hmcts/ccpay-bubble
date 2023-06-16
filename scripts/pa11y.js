@@ -19,7 +19,7 @@ const generateHTMLReport = html => new Promise((resolve, reject) => {
 
 async function runTest() {
   // Creates a case
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'Cash');
+  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'Cash');
   const dcnNumber = ccdAndDcn[0];
 
   // Pages running the tests
@@ -200,9 +200,9 @@ async function runTest() {
 
 async function runTest2() {
   // Creates a case
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'Cash');
+  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'Cash');
   const dcnNumber = ccdAndDcn[0];
-  const ccdAndDcn2 = await bulkScanApiCalls.bulkScanExceptionCcd('AA07', totalAmount, 'Cheque');
+  const ccdAndDcn2 = await bulkScanApiCalls.bulkScanExceptionCcd('AA08', totalAmount, 'Cheque');
   const dcnNumber2 = ccdAndDcn2[0];
 
   // Pages running the tests
