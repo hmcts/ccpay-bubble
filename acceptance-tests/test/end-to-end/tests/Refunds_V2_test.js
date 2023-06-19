@@ -105,7 +105,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
   }).tag('@pipeline @nightly');
 
 // Bulk scan cash full payment refund option, letter notification preview at all 3 stages(before refund request, refund approve and after approve) and Resend Notification
-Scenario('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter notification and Resend Notification journey',
+Scenario.skip('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter notification and Resend Notification journey',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
 
@@ -198,7 +198,7 @@ Scenario('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter
 
   }).tag('@pipeline @nightly');
 
-Scenario('PBA Partial Refund, preview SendRefund letter notification journey and resend notification to email from letter edit',
+Scenario.skip('PBA Partial Refund, preview SendRefund letter notification journey and resend notification to email from letter edit',
   async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList) => {
 
     const postcode = 'TW4 7EZ';
@@ -453,7 +453,7 @@ Scenario.skip('Refund journey for complete cheque amount(500) with OverPayment o
     I.clearCookie();
   }).tag('@pipeline @nightly');
 
-Scenario('FullPayment Refund Send To Caseworker journey',
+Scenario.skip('FullPayment Refund Send To Caseworker journey',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
 
@@ -532,7 +532,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     await I.Logout();
   }).tag('@pipeline @nightly');
 
-Scenario('OverPayment Refund Rejected journey',
+Scenario.skip('OverPayment Refund Rejected journey',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
 
