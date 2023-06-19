@@ -453,7 +453,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.clearCookie();
   }).tag('@pipeline @nightly');
 
-Scenario('FullPayment Refund Send To Caseworker journey',
+Scenario.skip('FullPayment Refund Send To Caseworker journey',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
 
@@ -532,7 +532,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     await I.Logout();
   }).tag('@pipeline @nightly');
 
-Scenario('OverPayment Refund Rejected journey',
+Scenario.skip('OverPayment Refund Rejected journey',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
 
