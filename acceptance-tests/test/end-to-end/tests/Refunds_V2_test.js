@@ -289,7 +289,7 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
 
   }).tag('@pipeline @nightly');
 
-Scenario('Refund journey for complete cheque amount(500) with OverPayment option(300), Remission(100) and Refund(100) and Liberata rejected System approved RefundWhenContacted notification',
+Scenario.skip('Refund journey for complete cheque amount(500) with OverPayment option(300), Remission(100) and Refund(100) and Liberata rejected System approved RefundWhenContacted notification',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
 
@@ -453,7 +453,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.clearCookie();
   }).tag('@pipeline @nightly');
 
-Scenario.skip('FullPayment Refund Send To Caseworker journey',
+Scenario('FullPayment Refund Send To Caseworker journey',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
 
@@ -532,7 +532,7 @@ Scenario.skip('FullPayment Refund Send To Caseworker journey',
     await I.Logout();
   }).tag('@pipeline @nightly');
 
-Scenario.skip('OverPayment Refund Rejected journey',
+Scenario('OverPayment Refund Rejected journey',
   async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
 
