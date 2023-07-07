@@ -48,7 +48,7 @@
   "private": true,
   "dependencies": {
     "@babel/helper-create-class-features-plugin": "^7.21.8",
-    "@hmcts/ccpay-web-component": "5.2.9-beta09",
+    "@hmcts/ccpay-web-component": "5.2.9-beta10",
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/frontend": "^0.0.34-alpha",
     "@hmcts/nodejs-healthcheck": "^1.8.0",
