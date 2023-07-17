@@ -51,7 +51,7 @@ withPipeline("nodejs", product, component) {
   env.NIGHTLY_TEST= false
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  //enableSlackNotifications('#fee-pay-nightly-pipeline')
+  enableSlackNotifications('#fee-pay-nightly-pipeline')
   enableAksStagingDeployment()
   disableLegacyDeployment()
   afterAlways('checkout') {
