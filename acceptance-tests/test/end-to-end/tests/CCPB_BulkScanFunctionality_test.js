@@ -145,7 +145,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   CaseTransaction.validateTransactionPageForRemission('HWF-A1B-23C', 'FEE0002', '£100.00');
   I.Logout();
-}).tag('@pipeline @nightly @crossbrowser');
+}).tag('@pipeline @nightly');
 
 Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTransaction, CaseTransferred, PaymentHistory) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
