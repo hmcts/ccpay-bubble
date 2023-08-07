@@ -1,4 +1,4 @@
-/* eslint-disable no-alert, no-console */
+/* eslint-disable no-alert, no-console, object-curly-newline */
 const { Logger } = require('@hmcts/nodejs-logging');
 
 const CCPBATConstants = require('./CCPBAcceptanceTestConstants');

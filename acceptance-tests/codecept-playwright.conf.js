@@ -3,7 +3,7 @@ const CONF = require('config');
 
 exports.config = {
   name: 'ccpay-bubble-acceptance-tests',
-  tests: './test/end-to-end/tests/*_Playwright_test.js',
+  tests: './test/end-to-end/tests/*_test.js',
   timeout: 10000,
   output: `${process.cwd()}/functional-output/functional/reports`,
   helpers: {

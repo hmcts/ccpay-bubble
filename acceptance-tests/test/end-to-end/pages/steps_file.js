@@ -5,7 +5,7 @@ const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 // const faker = require('faker');
 const PaybubbleStaticData = require('../pages/paybubble_static_data');
 
-const testConfig = require('config');
+// const testConfig = require('config');
 
 const numUtils = require('../helpers/number_utils');
 
