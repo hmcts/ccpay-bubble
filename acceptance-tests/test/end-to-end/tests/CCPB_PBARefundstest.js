@@ -24,7 +24,7 @@ function RefundException(message) {
 
 Feature('CC Pay Bubble Acceptance Tests For Refunds and Remissions').retry(CCPBATConstants.defaultNumberOfRetries);
 
-BeforeSuite(async I => {
+BeforeSuite(async({ I }) => {
   // console.log('Before Suite');
   const response = await bulkScanApiCalls.toggleOffCaseValidation();
   // console.log('After Response');
@@ -34,7 +34,7 @@ BeforeSuite(async I => {
   }
 });
 
-AfterSuite(async I => {
+AfterSuite(async({ I }) => {
   const response = await bulkScanApiCalls.toggleOnCaseValidation();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   if (response === successResponse) {
@@ -43,7 +43,7 @@ AfterSuite(async I => {
 });
 
 Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async({ I, CaseSearch, CaseTransaction, InitiateRefunds }) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const totalAmount = 273;
@@ -117,7 +117,7 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
   });
 
 Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Service Request page @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async({ I, CaseSearch, CaseTransaction, InitiateRefunds }) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const totalAmount = 273;
@@ -178,7 +178,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
   });
 
 Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment Details page @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async({ I, CaseSearch, CaseTransaction, InitiateRefunds }) => {
     const totalAmount = 273;
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment(totalAmount, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
@@ -241,7 +241,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
   });
 
 Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successful PBA Payment through the Payment History Page @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async({ I, CaseSearch, CaseTransaction, InitiateRefunds }) => {
     const totalAmount = 273;
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment(totalAmount, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
@@ -292,7 +292,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
   });
 
 Scenario('Add a Remissions for a failed Payment @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async({ I, CaseSearch, CaseTransaction, InitiateRefunds }) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAFailedPBAPayment();
@@ -333,7 +333,7 @@ Scenario('Add a Remissions for a failed Payment @pipeline @nightly',
 
 
 Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async({ I, CaseSearch, CaseTransaction, InitiateRefunds }) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
@@ -386,7 +386,7 @@ Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pip
 
 
 Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async({ I, CaseSearch, CaseTransaction, InitiateRefunds }) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
@@ -436,7 +436,7 @@ Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nig
 
 
 Scenario('Approve action a  Refund for a Rejection @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async({ I, CaseSearch, CaseTransaction, InitiateRefunds }) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
@@ -506,7 +506,7 @@ Scenario('Approve action a  Refund for a Rejection @nightly',
   });
 
 Scenario('Approve action a Refund for an Approval @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async({ I, CaseSearch, CaseTransaction, InitiateRefunds }) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
@@ -575,7 +575,7 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly',
 
 
 Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Case Transaction Page Refunds Review Section @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async({ I, CaseSearch, CaseTransaction, InitiateRefunds }) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
@@ -674,7 +674,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
   });
 
 Scenario.skip('Approve action a Refund Returned to Case Worker and Resubmit By Approver through the Refunds List Page @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async({ I, CaseSearch, CaseTransaction, InitiateRefunds }) => {
     // logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
@@ -771,7 +771,7 @@ Scenario.skip('Approve action a Refund Returned to Case Worker and Resubmit By A
   });
 
 Scenario.skip('Add a Remissions Apply for Refund and Process Refunds As an Approver from the Payment Details Page @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async({ I, CaseSearch, CaseTransaction, InitiateRefunds }) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
@@ -853,7 +853,7 @@ Scenario.skip('Add a Remissions Apply for Refund and Process Refunds As an Appro
   });
 
 Scenario('Check Page Access for a Refund Requestor @pipeline @nightly',
-  (I, InitiateRefunds) => {
+  ({ I, InitiateRefunds }) => {
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -865,7 +865,7 @@ Scenario('Check Page Access for a Refund Requestor @pipeline @nightly',
   });
 
 Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Caseworker @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, InitiateRefunds) => {
+  async({ I, CaseSearch, CaseTransaction, InitiateRefunds }) => {
     logger.log('Starting the PBA Payment');
     // console.log('Starting the PBA Payment');
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);

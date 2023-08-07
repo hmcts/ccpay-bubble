@@ -17,7 +17,7 @@ const testConfig = require('./config/CCPBConfig');
 
 // eslint-disable max-len
 
-Feature('CC Pay Bubble Bulk Scan Acceptance Tests').retry(CCPBATConstants.defaultNumberOfRetries);
+Feature('CC Pay Bubble Bulk Scan Acceptance Tests'); //.retry(CCPBATConstants.defaultNumberOfRetries);
 
 // #region Normal CCD case bulk scan functional cases
 Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory }) => {
@@ -308,7 +308,7 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
 
 Scenario('Ccd case search with exception record postal order payment shortfall payment',
   async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary,
-    ConfirmAssociation, PaymentHistory }) => {
+        ConfirmAssociation, PaymentHistory }) => {
     I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
     const totalAmount = 493;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA08', totalAmount, 'PostalOrder');
