@@ -2401,15 +2401,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccpay-web-component@npm:5.2.10-beta6":
-  version: 5.2.10-beta6
-  resolution: "@hmcts/ccpay-web-component@npm:5.2.10-beta6"
+"@hmcts/ccpay-web-component@npm:5.2.10-beta8":
+  version: 5.2.10-beta8
+  resolution: "@hmcts/ccpay-web-component@npm:5.2.10-beta8"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     "@angular/common": ^9.0.0-rc.0 || ^9.0.0
     "@angular/core": ^9.0.0-rc.0 || ^9.0.0
-  checksum: e67bfe50611b611034e42f7353c1632437c0bbbab9ad93f97717b3137b2b6fb8e19e837c8d1d2510f84be558083f17bda519ccdf66bb91ced2ec9970baeb3c66
+  checksum: 4f42aa11f70c2a951c89954b65366a02eb028a8a03ee4a3f6dce5e372422d600dbd18210cee0ba7a43178aada28210c60df10b569e5747cacc1cbf9daecb02e1
   languageName: node
   linkType: hard
 
@@ -5767,7 +5767,7 @@ __metadata:
     "@angular/platform-browser-dynamic": ~11.2.14
     "@angular/router": ~11.2.14
     "@babel/helper-create-class-features-plugin": ^7.21.8
-    "@hmcts/ccpay-web-component": 5.2.10-beta6
+    "@hmcts/ccpay-web-component": 5.2.10-beta8
     "@hmcts/cookie-manager": ^1.0.0
     "@hmcts/eslint-config": ^1.4.0
     "@hmcts/frontend": ^0.0.34-alpha
