@@ -1,3 +1,4 @@
+/* eslint-disable */
 const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 const testConfig = require('./config/CCPBConfig');
 

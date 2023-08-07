@@ -1,19 +1,19 @@
+/* eslint-disable */
 const CONF = require('config');
-const supportedBrowsers = require('acceptance-tests/test/end-to-end/crossbrowser/supportedBrowsersPlaywright.js');
-import {event, container} from 'codeceptjs';
+const supportedBrowsers = require('./test/end-to-end/crossbrowser/supportedBrowsersPlaywright.js');
+const event = require('codeceptjs').event;
+const container = require('codeceptjs').container;
 
 const getBrowserConfig = browserGroup => {
   const browserConfig = [];
 
   for (const candidateBrowser in supportedBrowsers[browserGroup]) {
     if (candidateBrowser) {
-      const candidateCapabilities = {
-        ...supportedBrowsers[browserGroup][candidateBrowser]
-      };
+      const candidateCapabilities = supportedBrowsers[browserGroup][candidateBrowser];
 
       browserConfig.push({
         browser: candidateCapabilities.browserName,
-        capabilities: candidateCapabilities,
+        capabilities: candidateCapabilities
       });
     } else {
       console.error('ERROR: supportedBrowsers.js is empty or incorrectly defined');
@@ -26,7 +26,7 @@ const getBrowserConfig = browserGroup => {
 const setupConfig = {
   name: 'cross-browser',
   tests: './test/end-to-end/tests/*_test.js',
-  output: '../../../functional-output/cross-browser/reports',
+  output: `${process.cwd()}/functional-output/cross-browser/reports`,
   helpers: {
     Playwright: {
       url: CONF.e2e.frontendUrl,
@@ -35,13 +35,13 @@ const setupConfig = {
       timeout: 20004,
       waitForNavigation: 'domcontentloaded',
       ignoreHTTPSErrors: true,
-      capabilities: {},
-    },
+      capabilities: {}
+    }
   },
   plugins: {
     retryFailedStep: {
       enabled: true,
-      retries: 2,
+      retries: 2
     },
     autoDelay: {
       enabled: true
@@ -52,7 +52,7 @@ const setupConfig = {
     allure: {
       enabled: true,
       require: '@codeceptjs/allure-legacy'
-    },
+    }
   },
   include: {
     I: './test/end-to-end/pages/steps_file.js',
@@ -73,15 +73,15 @@ const setupConfig = {
   },
   multiple: {
     webkit: {
-      browsers: getBrowserConfig('webkit'),
+      browsers: getBrowserConfig('webkit')
     },
     chromium: {
-      browsers: getBrowserConfig('chromium'),
+      browsers: getBrowserConfig('chromium')
     },
     firefox: {
-      browsers: getBrowserConfig('firefox'),
-    },
-  },
+      browsers: getBrowserConfig('firefox')
+    }
+  }
 };
 
 event.dispatcher.on(event.test.before, function (test) {
