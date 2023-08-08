@@ -9,8 +9,8 @@ class CustomHelper extends Helper {
     if (!testConfig.TestsForAccessibility) {
       return;
     }
-    const url = await this.helpers['playwright'].grabCurrentUrl();
-    const {page} = await this.helpers['playwright'];
+    const url = await this.helpers['Playwright'].grabCurrentUrl();
+    const {page} = await this.helpers['Playwright'];
 
     runAccessibility(url, page);
   }

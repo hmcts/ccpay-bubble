@@ -15,7 +15,16 @@ exports.config = {
       waitForAction: 500,
       timeout: 20002,
       waitForNavigation: 'networkidle0',
-      ignoreHTTPSErrors: true
+      ignoreHTTPSErrors: true,
+      fullPageScreenshots: true,
+      uniqueScreenshotNames: true,
+      recordVideo: {
+        dir: `${process.cwd()}/functional-output/functional/reports`,
+        size : {
+          width: 1024,
+          height: 768
+        }
+      }
     },
     PlaywrightHelper: {
       require: "./test/end-to-end/helpers/PlaywrightHelper.js"
