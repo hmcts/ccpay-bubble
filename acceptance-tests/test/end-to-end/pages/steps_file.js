@@ -42,6 +42,7 @@ module.exports = () => actor({
     this.wait(CCPBConstants.twoSecondWaitTime);
     this.click({ css: '[type="submit"]' });
     this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.AcceptPayBubbleCookies();
   },
 
   // Logout() {
