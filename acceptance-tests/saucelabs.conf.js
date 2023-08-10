@@ -1,32 +1,16 @@
 /* eslint-disable */
+const CONF = require('config');
+const supportedBrowsers = require('./test/end-to-end/crossbrowser/supportedBrowsers.js');
+const event = require('codeceptjs').event;
+const container = require('codeceptjs').container;
 
-const supportedBrowsers = require('acceptance-tests/test/end-to-end/crossbrowser/supportedBrowsers.js');
-const testConfig = require('config');
-
-const waitForTimeout = parseInt(process.env.WAIT_FOR_TIMEOUT) || 45000;
-const smartWait = parseInt(process.env.SMART_WAIT) || 30000;
-const browser = process.env.SAUCELABS_BROWSER || 'chrome';
-const defaultSauceOptions = {
-  username: process.env.SAUCE_USERNAME,
-  accessKey: process.env.SAUCE_ACCESS_KEY,
-  tunnelIdentifier: process.env.TUNNEL_IDENTIFIER || 'reformtunnel',
-  acceptSslCerts: true,
-  windowSize: '1600x900',
-  tags: ['FeeAndPay']
-};
-
-function merge(intoObject, fromObject) {
-  return Object.assign({}, intoObject, fromObject);
-}
-
-function getBrowserConfig(browserGroup) {
+const getBrowserConfig = browserGroup => {
   const browserConfig = [];
+
   for (const candidateBrowser in supportedBrowsers[browserGroup]) {
     if (candidateBrowser) {
       const candidateCapabilities = supportedBrowsers[browserGroup][candidateBrowser];
-      candidateCapabilities['sauce:options'] = merge(
-        defaultSauceOptions, candidateCapabilities['sauce:options']
-      );
+
       browserConfig.push({
         browser: candidateCapabilities.browserName,
         capabilities: candidateCapabilities
@@ -35,26 +19,24 @@ function getBrowserConfig(browserGroup) {
       console.error('ERROR: supportedBrowsers.js is empty or incorrectly defined');
     }
   }
-  return browserConfig;
-}
 
-testConfig.TestOutputDir = undefined;
+  return browserConfig;
+};
+
 const setupConfig = {
+  name: 'cross-browser',
   tests: './test/end-to-end/tests/*_test.js',
-  output: `${process.cwd()}/functional-output`,
+  output: `${process.cwd()}/functional-output/cross-browser/reports`,
   helpers: {
-    WebDriver: {
-      url: testConfig.e2e.frontendUrl,
-      browser,
-      smartWait,
-      waitForTimeout,
-      cssSelectorsEnabled: 'true',
-      host: 'ondemand.eu-central-1.saucelabs.com',
-      port: 80,
-      region: 'eu',
+    Playwright: {
+      url: CONF.e2e.frontendUrl,
+      waitForTimeout: 60002,
+      waitForAction: 800,
+      timeout: 20004,
+      waitForNavigation: 'domcontentloaded',
+      ignoreHTTPSErrors: true,
       capabilities: {}
-      },
-    SauceLabsReportingHelper: { require: './test/end-to-end/helpers/SauceLabsReportingHelper.js' },
+    }
   },
   plugins: {
     retryFailedStep: {
@@ -62,12 +44,17 @@ const setupConfig = {
       retries: 2
     },
     autoDelay: {
+      enabled: true
+    },
+    retryTo: {
+      enabled: true
+    },
+    allure: {
       enabled: true,
-      delayAfter: 2000
+      require: '@codeceptjs/allure-legacy'
     }
   },
   include: {
-    config: 'config.js',
     I: './test/end-to-end/pages/steps_file.js',
     CaseSearch: './test/end-to-end/pages/case_search.js',
     CaseTransaction: './test/end-to-end/pages/case_transactions.js',
@@ -76,37 +63,30 @@ const setupConfig = {
     ConfirmAssociation: './test/end-to-end/pages/confirm_association.js',
     CaseTransferred: './test/end-to-end/pages/case_transferred.js',
     CaseUnidentified: './test/end-to-end/pages/case_unidentified.js',
-    InitiateRefunds: './test/end-to-end/pages/initiate_refunds.js',
     Remission: './test/end-to-end/pages/remission.js',
     PaymentHistory: './test/end-to-end/pages/payment_history.js',
+    InitiateRefunds: './test/end-to-end/pages/initiate_refunds.js',
+    ServiceRequests: './test/end-to-end/pages/service_requests.js',
+    RefundsList: './test/end-to-end/pages/refunds_list.js',
     Reports: './test/end-to-end/pages/reports.js',
     FailureEventDetails: './test/end-to-end/pages/failure_event_details.js'
   },
-  mocha: {
-    reporterOptions: {
-      'codeceptjs-cli-reporter': {
-        stdout: '-',
-        options: { steps: true }
-      },
-      'mocha-junit-reporter': {
-        stdout: './functional-output/ccpay-bubble-mocha-stdout.log',
-        options: {
-          mochaFile: process.env.MOCHA_JUNIT_FILE_LOCATION || './build/test-results/codeceptjs/ccpay-bubble-result.xml' }
-        },
-      mochawesome: {
-        stdout: './functional-output/ccpay-bubble-mochawesome-stdout.log',
-        options: {
-          reportDir: 'functional-output',
-          inlineAssets: true
-        }
-      }
-    }
-  },
   multiple: {
-    chrome: { browsers: getBrowserConfig('chrome') },
-    firefox: { browsers: getBrowserConfig('firefox') }
-  },
-  name: 'Fee and Pay Paybubble FrontEnd Cross-Browser Tests'
+    webkit: {
+      browsers: getBrowserConfig('webkit')
+    },
+    chromium: {
+      browsers: getBrowserConfig('chromium')
+    },
+    firefox: {
+      browsers: getBrowserConfig('firefox')
+    }
+  }
 };
+
+event.dispatcher.on(event.test.before, function (test) {
+  const {Playwright} = container.helpers();
+  test.title = test.title + ' - ' + Playwright.options.capabilities['sauce:options'].name;
+});
 
 exports.config = setupConfig;
