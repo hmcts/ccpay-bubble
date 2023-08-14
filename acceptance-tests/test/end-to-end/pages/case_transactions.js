@@ -155,9 +155,6 @@ module.exports = {
     I.see(totalDcn);
     I.see(dcnNumber);
     I.see(amount);
-    // if (testConfig.e2e.testForCrossbrowser !== 'true') {
-    //   I.see(method);
-    // }
     I.see(method);
   },
 
@@ -369,9 +366,6 @@ module.exports = {
     // I.see('Amount due');
     // I.see('Action');
     // I.see(allocationStatus);
-    // if (testConfig.e2e.testForCrossbrowser !== 'true') {
-    //   I.see('Paid');
-    // }
     I.see('Paid');
     I.see('Success');
   },
@@ -395,9 +389,6 @@ module.exports = {
     // I.see('Amount due');
     // I.see('Action');
     // I.see(allocationStatus);
-    // if (testConfig.e2e.testForCrossbrowser !== 'true') {
-    //   I.see('Partially paid');
-    // }
     I.see('Partially paid');
     I.see('Success');
   },
@@ -450,9 +441,6 @@ module.exports = {
     I.see('Request reference');
     // I.see('Action');
     // I.see(allocationStatus);
-    // if (testConfig.e2e.testForCrossbrowser !== 'true') {
-    //   I.see('Not paid');
-    // }
     I.see('Not paid');
     I.see('Success');
   },
