@@ -24,19 +24,11 @@ module.exports = () => actor({
   returnBackToSite() {
     this.amOnPage('/');
     this.wait(CCPBConstants.twoSecondWaitTime);
-    // if (testConfig.e2e.testForCrossbrowser !== 'true') {
-    //   this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
-    //   this.wait(CCPBConstants.twoSecondWaitTime);
-    // }
   },
-  // done
+
   login(email, password, uri = '/') {
     this.amOnPage(uri);
     this.wait(CCPBConstants.twoSecondWaitTime);
-    // if (testConfig.e2e.testForCrossbrowser !== 'true') {
-    //   this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
-    //   this.wait(CCPBConstants.twoSecondWaitTime);
-    // }
     this.fillField('Email address', email);
     this.fillField('Password', password);
     this.wait(CCPBConstants.twoSecondWaitTime);
