@@ -4,6 +4,7 @@
 
 def product = "ccpay"
 def component = "bubble-frontend"
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 // Configure branches to sync with master branch
 def branchesToSync = ['demo', 'ithc', 'perftest']
@@ -60,8 +61,10 @@ withPipeline("nodejs", product, component) {
     echo 'ccpay-bubble checked out'
   }
   afterAlways('build') {
-    sh 'yarn ng:build'
-    sh 'yarn replace file=express/mvc/views/index.pug searchValue=\'"csrfToken"\' newValue=\'csrfToken\''
+    yarnBuilder.('ng:build')
+    yarnBuilder.('yarn replace file=express/mvc/views/index.pug searchValue=\'"csrfToken"\' newValue=\'csrfToken\'')
+    //sh 'yarn ng:build'
+    //sh 'yarn replace file=express/mvc/views/index.pug searchValue=\'"csrfToken"\' newValue=\'csrfToken\''
   }
 
   //Sync demo,ithc and perftest with master branch
