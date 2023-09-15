@@ -63,8 +63,6 @@ withPipeline("nodejs", product, component) {
   afterAlways('build') {
     yarnBuilder.yarn('ng:build')
     yarnBuilder.yarn('replace file=express/mvc/views/index.pug searchValue=\'"csrfToken"\' newValue=\'csrfToken\'')
-    //sh 'yarn ng:build'
-    //sh 'yarn replace file=express/mvc/views/index.pug searchValue=\'"csrfToken"\' newValue=\'csrfToken\''
   }
 
   //Sync demo,ithc and perftest with master branch
