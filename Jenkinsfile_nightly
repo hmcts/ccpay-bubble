@@ -82,7 +82,7 @@ withNightlyPipeline("nodejs", product, component) {
     echo 'ccpay-bubble checked out'
   }
   afterAlways('build') {
-    sh 'yarn ng:build'
+    yarnBuilder.yarn('yarn ng:build')
     sh 'chmod +x bin/run-mutation-tests.sh'
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
