@@ -35,7 +35,7 @@ properties([
 
 withParameterizedPipeline(params.TYPE, params.PRODUCT_NAME, params.APP, params.ENVIRONMENT, params.SUBSCRIPTION) {
   afterAlways('build') {
-    yarnBuilder.yarn('yarn ng:build')
+    yarnBuilder.yarn('ng:build')
   }
   loadVaultSecrets(secrets)
 }
