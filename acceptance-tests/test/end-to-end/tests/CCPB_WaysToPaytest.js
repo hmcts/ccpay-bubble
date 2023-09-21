@@ -21,7 +21,7 @@ const successResponse = 202;
 
 Feature('CC Pay Bubble Acceptance Tests For the Ways To Pay feature').retry(CCPBATConstants.retryScenario);
 
-BeforeSuite(async I => {
+BeforeSuite(async({ I }) => {
   // console.log('Before Suite');
   const response = await bulkScanApiCalls.toggleOffCaseValidation();
   // console.log('After Response');
@@ -31,7 +31,7 @@ BeforeSuite(async I => {
   }
 });
 
-AfterSuite(async I => {
+AfterSuite(async({ I }) => {
   const response = await bulkScanApiCalls.toggleOnCaseValidation();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   if (response === successResponse) {
@@ -40,7 +40,7 @@ AfterSuite(async I => {
 });
 
 Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+  async({ I, CaseSearch, CaseTransaction, ServiceRequests }) => {
     logger.log('Creating the Service Request');
     const calculatedAmount = 593.00;
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6', calculatedAmount, 'FEE0002', '1', 1);
@@ -75,7 +75,7 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
   });
 
 Scenario('A Service Request Not available for Ways to Pay @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+  async({ I, CaseSearch, CaseTransaction, ServiceRequests }) => {
     const ccdCaseNumber = '1234123412341234';
     I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
     I.see('Service Requests');
@@ -89,7 +89,7 @@ Scenario('A Service Request Not available for Ways to Pay @pipeline @nightly',
   });
 
 Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA Payment @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+  async({ I, CaseSearch, CaseTransaction, ServiceRequests }) => {
     logger.log('Creating the Service Request');
     const calculatedAmount = 593.00;
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6', calculatedAmount, 'FEE0002', '1', 1);
@@ -137,7 +137,7 @@ Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA
   });
 
 Scenario('A Service Request for a Solicitor For a General Technical Error during PBA Payment @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+  async({ I, CaseSearch, CaseTransaction, ServiceRequests }) => {
     logger.log('Creating the Service Request');
     const calculatedAmount = 593.00;
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6', calculatedAmount, 'FEE0002', '1', 1);
@@ -188,7 +188,7 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
   });
 
 Scenario('A Service Request for a Solicitor if a PBA Payment amount is over the Payment Limit @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+  async({ I, CaseSearch, CaseTransaction, ServiceRequests }) => {
     // console.log('Creating the Service Request');
     const calculatedAmount = 35000.00;
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6', calculatedAmount, 'FEE0002', '1', 1);
@@ -241,7 +241,7 @@ Scenario('A Service Request for a Solicitor if a PBA Payment amount is over the 
   });
 
 Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Payment and the Card Payment is Successful @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+  async({ I, CaseSearch, CaseTransaction, ServiceRequests }) => {
     // console.log('Creating the Service Request');
     const calculatedAmount = 593.00;
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6', calculatedAmount, 'FEE0002', '1', 1);
@@ -305,7 +305,7 @@ Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Pay
   });
 
 Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Payment and the Card Payment Fails @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+  async({ I, CaseSearch, CaseTransaction, ServiceRequests }) => {
     // console.log('Creating the Service Request');
     const calculatedAmount = 593.00;
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6', calculatedAmount, 'FEE0002', '1', 1);
@@ -386,7 +386,7 @@ Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Pay
   });
 
 Scenario('A Service Request for a Solicitor For No Payment Account @pipeline @nightly',
-  async(I, CaseSearch, CaseTransaction, ServiceRequests) => {
+  async({ I, CaseSearch, CaseTransaction, ServiceRequests }) => {
     logger.log('Creating the Service Request');
     const calculatedAmount = 593.00;
     const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6', calculatedAmount, 'FEE0002', '1', 1);

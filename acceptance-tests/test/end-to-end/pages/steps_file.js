@@ -5,7 +5,7 @@ const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 // const faker = require('faker');
 const PaybubbleStaticData = require('../pages/paybubble_static_data');
 
-const testConfig = require('config');
+// const testConfig = require('config');
 
 const numUtils = require('../helpers/number_utils');
 
@@ -24,24 +24,17 @@ module.exports = () => actor({
   returnBackToSite() {
     this.amOnPage('/');
     this.wait(CCPBConstants.twoSecondWaitTime);
-    if (testConfig.e2e.testForCrossbrowser !== 'true') {
-      this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
-      this.wait(CCPBConstants.twoSecondWaitTime);
-    }
   },
-  // done
+
   login(email, password, uri = '/') {
     this.amOnPage(uri);
     this.wait(CCPBConstants.twoSecondWaitTime);
-    if (testConfig.e2e.testForCrossbrowser !== 'true') {
-      this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
-      this.wait(CCPBConstants.twoSecondWaitTime);
-    }
     this.fillField('Email address', email);
     this.fillField('Password', password);
     this.wait(CCPBConstants.twoSecondWaitTime);
     this.click({ css: '[type="submit"]' });
     this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.AcceptPayBubbleCookies();
   },
 
   // Logout() {

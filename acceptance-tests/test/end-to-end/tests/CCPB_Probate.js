@@ -1,15 +1,16 @@
+/* eslint-disable */
 const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 const testConfig = require('./config/CCPBConfig');
 
 Feature('CC Pay Bubble Acceptance Tests');
 
-BeforeSuite(I => {
+BeforeSuite(({ I }) => {
   I.amOnPage('/');
   I.wait(CCPBATConstants.twoSecondWaitTime);
   I.resizeWindow(CCPBATConstants.windowsSizeX, CCPBATConstants.windowsSizeY);
 });
 
-Scenario('Divorce: One fee and one full payment flow', I => {
+Scenario('Divorce: One fee and one full payment flow',({ I }) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
@@ -20,7 +21,7 @@ Scenario('Divorce: One fee and one full payment flow', I => {
   I.Logout();
 });
 
-Scenario('Divorce: multiple fees and one full payment flow', I => {
+Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
@@ -31,7 +32,7 @@ Scenario('Divorce: multiple fees and one full payment flow', I => {
   I.Logout();
 });
 
-Scenario('Divorce: multiple fees and one full payment flow', I => {
+Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
@@ -42,7 +43,7 @@ Scenario('Divorce: multiple fees and one full payment flow', I => {
   I.Logout();
 });
 
-Scenario('Divorce: multiple fees and one full payment flow', I => {
+Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
@@ -53,7 +54,7 @@ Scenario('Divorce: multiple fees and one full payment flow', I => {
   I.Logout();
 });
 
-Scenario('Divorce: multiple fees and one full payment flow', I => {
+Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
@@ -64,7 +65,7 @@ Scenario('Divorce: multiple fees and one full payment flow', I => {
   I.Logout();
 });
 
-Scenario('Divorce: multiple fees and one full payment flow', I => {
+Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
@@ -75,7 +76,7 @@ Scenario('Divorce: multiple fees and one full payment flow', I => {
   I.Logout();
 });
 
-Scenario('Divorce: multiple fees and one full payment flow', I => {
+Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
@@ -86,7 +87,7 @@ Scenario('Divorce: multiple fees and one full payment flow', I => {
   I.Logout();
 });
 
-Scenario('Divorce: multiple fees and one full payment flow', I => {
+Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
@@ -98,7 +99,7 @@ Scenario('Divorce: multiple fees and one full payment flow', I => {
 });
 
 
-Scenario('Divorce: multiple fees and one full payment flow', I => {
+Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
@@ -109,7 +110,7 @@ Scenario('Divorce: multiple fees and one full payment flow', I => {
   I.Logout();
 });
 
-Scenario('Divorce: multiple fees and one full payment flow', I => {
+Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
@@ -120,7 +121,7 @@ Scenario('Divorce: multiple fees and one full payment flow', I => {
   I.Logout();
 });
 
-Scenario('Divorce: multiple fees and one full payment flow', I => {
+Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
@@ -131,7 +132,7 @@ Scenario('Divorce: multiple fees and one full payment flow', I => {
   I.Logout();
 });
 
-Scenario('Divorce: multiple fees and one full payment flow', I => {
+Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
