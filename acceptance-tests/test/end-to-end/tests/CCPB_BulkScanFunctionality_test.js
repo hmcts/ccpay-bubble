@@ -1,4 +1,4 @@
-/* eslint-disable no-alert, no-console */
+/* eslint-disable no-alert, no-console, object-curly-newline */
 const { Logger } = require('@hmcts/nodejs-logging');
 
 const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
@@ -20,7 +20,7 @@ const testConfig = require('./config/CCPBConfig');
 Feature('CC Pay Bubble Bulk Scan Acceptance Tests').retry(CCPBATConstants.defaultNumberOfRetries);
 
 // #region Normal CCD case bulk scan functional cases
-Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
+Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory }) => {
   // logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 593;
@@ -59,7 +59,7 @@ Scenario('Normal ccd case cash payment full allocation', async(I, CaseSearch, Ca
   I.Logout();
 }).tag('@pipeline @nightly');
 
-Scenario('Normal ccd case cheque payment full allocation to existing service request', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory) => {
+Scenario('Normal ccd case cheque payment full allocation to existing service request', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cheque');
@@ -104,7 +104,7 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   I.Logout();
 }).tag('@pipeline @nightly');
 
-Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a Remission on the first Fee', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission) => {
+Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a Remission on the first Fee', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 493;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
@@ -147,7 +147,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   I.Logout();
 }).tag('@pipeline @nightly');
 
-Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTransaction, CaseTransferred, PaymentHistory) => {
+Scenario('Normal ccd case cash payment transferred', async({ I, CaseSearch, CaseTransaction, CaseTransferred, PaymentHistory }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cash');
@@ -181,7 +181,7 @@ Scenario('Normal ccd case cash payment transferred', async(I, CaseSearch, CaseTr
 
 // #endregion
 
-Scenario('Exception ccd case cash payment transferred', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
+Scenario('Exception ccd case cash payment transferred', async({ I, CaseSearch, CaseTransaction, CaseTransferred }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA08', totalAmount, 'cheque');
@@ -207,7 +207,7 @@ Scenario('Exception ccd case cash payment transferred', async(I, CaseSearch, Cas
   I.Logout();
 }).tag('@pipeline @nightly');
 
-Scenario('DCN Search for ccd case associated with exception postal order payment transferred', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
+Scenario('DCN Search for ccd case associated with exception postal order payment transferred', async({ I, CaseSearch, CaseTransaction, CaseTransferred }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 600;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA09', totalAmount, 'PostalOrder');
@@ -228,7 +228,7 @@ Scenario('DCN Search for ccd case associated with exception postal order payment
   I.Logout();
 }).tag('@pipeline @nightly');
 
-Scenario('Normal ccd case cash payment transferred when no valid reason or site id selected', async(I, CaseSearch, CaseTransaction, CaseTransferred) => {
+Scenario('Normal ccd case cash payment transferred when no valid reason or site id selected', async({ I, CaseSearch, CaseTransaction, CaseTransferred }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cash');
@@ -253,7 +253,7 @@ Scenario('Normal ccd case cash payment transferred when no valid reason or site 
   I.Logout();
 }).tag('@nightly');
 
-Scenario('Exception Case Cheque Payment Unidentified', async(I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory) => {
+Scenario('Exception Case Cheque Payment Unidentified', async({ I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA08', totalAmount, 'cheque');
@@ -284,7 +284,7 @@ Scenario('Exception Case Cheque Payment Unidentified', async(I, CaseSearch, Case
   I.Logout();
 }).tag('@pipeline @nightly');
 
-Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less investigation comment provided', async(I, CaseSearch, CaseTransaction, CaseUnidentified) => {
+Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less investigation comment provided', async({ I, CaseSearch, CaseTransaction, CaseUnidentified }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA08', totalAmount, 'cheque');
@@ -307,8 +307,8 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
 }).tag('@nightly');
 
 Scenario('Ccd case search with exception record postal order payment shortfall payment',
-  async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary,
-    ConfirmAssociation, PaymentHistory) => {
+  async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary,
+    ConfirmAssociation, PaymentHistory }) => {
     I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
     const totalAmount = 493;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA08', totalAmount, 'PostalOrder');
@@ -352,7 +352,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     I.Logout();
   }).tag('@nightly @pipeline');
 
-Scenario('Exception search with ccd record postal order payment surplus payment', async(I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation) => {
+Scenario('Exception search with ccd record postal order payment surplus payment', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 600;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA07', totalAmount, 'PostalOrder');
@@ -378,7 +378,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   I.Logout();
 }).tag('@pipeline @nightly');
 
-Scenario('Download reports in paybubble', (I, Reports) => {
+Scenario('Download reports in paybubble', ({ I, Reports }) => {
   logger.info('Here is the Logger');
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   Reports.navigateToReports();
