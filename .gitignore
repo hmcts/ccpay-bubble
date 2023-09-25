@@ -55,5 +55,16 @@ Thumbs.db
 # stryker temp files
 .stryker-tmp
 stryker.log
+
+# anual-pa11y-fixes
 start.js
 config/default.yaml
+
+# Yarn v3
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

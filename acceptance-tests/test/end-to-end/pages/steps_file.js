@@ -5,7 +5,7 @@ const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 // const faker = require('faker');
 const PaybubbleStaticData = require('../pages/paybubble_static_data');
 
-const testConfig = require('config');
+// const testConfig = require('config');
 
 const numUtils = require('../helpers/number_utils');
 
@@ -20,25 +20,32 @@ const bulkScanApiCalls = require('../helpers/utils');
 // const numberTwo = 2;
 
 module.exports = () => actor({
-  // done
-  login(email, password) {
+
+  returnBackToSite() {
     this.amOnPage('/');
     this.wait(CCPBConstants.twoSecondWaitTime);
-    if (testConfig.e2e.testForCrossbrowser !== 'true') {
-      this.resizeWindow(CCPBConstants.windowsSizeX, CCPBConstants.windowsSizeY);
-      this.wait(CCPBConstants.twoSecondWaitTime);
-    }
+  },
+
+  login(email, password, uri = '/') {
+    this.amOnPage(uri);
+    this.wait(CCPBConstants.twoSecondWaitTime);
     this.fillField('Email address', email);
     this.fillField('Password', password);
     this.wait(CCPBConstants.twoSecondWaitTime);
     this.click({ css: '[type="submit"]' });
     this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.AcceptPayBubbleCookies();
   },
 
-  Logout() {
-    this.wait(CCPBConstants.fiveSecondWaitTime);
-    this.click('Logout');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+  // Logout() {
+  //   this.wait(CCPBConstants.fiveSecondWaitTime);
+  //   this.click('Logout');
+  //   this.wait(CCPBConstants.fiveSecondWaitTime);
+  // },
+
+  async Logout() {
+    this.scrollPageToTop();
+    await this.click('Logout');
   },
 
   AcceptPayBubbleCookies() {
@@ -777,9 +784,6 @@ module.exports = () => actor({
   },
 
   async searchForCorrectCCDNumber() {
-    /* const randomNumber = numUtils.getRandomNumber(numberTwo);
-    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;
-    const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);*/
     const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
@@ -795,8 +799,6 @@ module.exports = () => actor({
   },
 
   async caseforTelephonyFlow() {
-    /* const randomNumber = numUtils.getRandomNumber(numberTwo);
-    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;*/
     const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
@@ -841,8 +843,6 @@ module.exports = () => actor({
   },
 
   async AmountDueCaseForTelephonyFlow() {
-    /* const randomNumber = numUtils.getRandomNumber(numberTwo);
-    const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;*/
     const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);

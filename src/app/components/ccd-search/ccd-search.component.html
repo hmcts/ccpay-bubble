@@ -123,11 +123,14 @@
               <span *ngIf="hasErrors && selectedValue === 'RC'" class="error-message">Enter Payment Reference in the correct format</span>
               <span *ngIf="noCaseFound" class="error-message" role="status">No record found for this Payment Reference</span>
 
+              
         </div>
      </div> 
     </fieldset>
     <button class="button" type="submit" (click)="searchFees()">Search</button>
     <div class="nocase-message" *ngIf="noCaseFoundInCCD" role="status">No matching cases found</div>
   </div>
+  
+  
   
   </form>

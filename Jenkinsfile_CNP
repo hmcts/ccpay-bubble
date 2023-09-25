@@ -4,6 +4,7 @@
 
 def product = "ccpay"
 def component = "bubble-frontend"
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 // Configure branches to sync with master branch
 def branchesToSync = ['demo', 'ithc', 'perftest']
@@ -15,6 +16,7 @@ def secrets = [
       secret('launch-darkly-client-id', 'LD_CLIENT_ID'),
       secret('citizen-oauth-client-secret', 'OAUTH2_CLIENT_SECRET'),
       secret('cmc-service-secret', 'CMC_S2S_SERVICE_SECRET'),
+      secret('postcode-address-lookup-id', 'POSTCODE_ADDRESS_LOOKUP_ID'),
       secret('probate-caseworker-username', 'PROBATE_CASE_WORKER_USER_NAME'),
       secret('probate-caseworker-password', 'PROBATE_CASE_WORKER_PASSWORD'),
       secret('divorce-caseworker-username', 'DIVORCE_CASE_WORKER_USER_NAME'),
@@ -26,7 +28,8 @@ def secrets = [
       secret('fee-pay-divorce-client-id', 'DIVORCE_CLIENT_ID'),
       secret('fee-pay-divorce-client-secret', 'DIVORCE_CLIENT_SECRET'),
       secret('fee-pay-divorce-client-redirect-url', 'DIVORCE_CLIENT_REDIRECT_URI'),
-      secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
+      secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+      secret('notifications-email-apikey', 'NOTIFY_EMAIL_API_KEY')
   ]
 ]
 
@@ -49,15 +52,17 @@ withPipeline("nodejs", product, component) {
   env.NIGHTLY_TEST= false
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  enableSlackNotifications('#cc-payments-tech')
+  enableSlackNotifications('#fee-pay-nightly-pipeline')
   enableAksStagingDeployment()
   disableLegacyDeployment()
   afterAlways('checkout') {
     sh "yarn cache clean"
+    sh "yarn --version"
     echo 'ccpay-bubble checked out'
   }
   afterAlways('build') {
-    sh 'yarn ng:build'
+    yarnBuilder.yarn('ng:build')
+    sh 'yarn replace file=express/mvc/views/index.pug searchValue=\'"csrfToken"\' newValue=\'csrfToken\''
   }
 
   //Sync demo,ithc and perftest with master branch
@@ -69,16 +74,15 @@ withPipeline("nodejs", product, component) {
 
   afterAlways('functionalTest:preview') {
     env.E2E_TESTS_FOR_ACCESSIBILITY = false
-    
+
     publishHTML target: [
       allowMissing         : true,
       alwaysLinkToLastBuild: true,
       keepAll              : true,
-      reportDir            : "functional-output",
-      reportFiles          : "ccpay-bubble-e2e-result.html",
+      reportDir            : "functional-output/functional/allure",
+      reportFiles          : "index.html",
       reportName           : "PayBubble E2E functional tests result"
     ]
-  
   }
 
   before('functionalTest:aat') {
@@ -92,8 +96,8 @@ withPipeline("nodejs", product, component) {
       allowMissing         : true,
       alwaysLinkToLastBuild: true,
       keepAll              : true,
-      reportDir            : "functional-output",
-      reportFiles          : "ccpay-bubble-e2e-result.html",
+      reportDir            : "functional-output/functional/allure",
+      reportFiles          : "index.html",
       reportName           : "PayBubble E2E functional tests result"
     ]
   }

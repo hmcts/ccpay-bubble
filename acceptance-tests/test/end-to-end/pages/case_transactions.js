@@ -27,6 +27,8 @@ module.exports = {
     disputed_event: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[5]' },
     disputed_closed_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[1]/td[6]/a' },
     disputed_initiated_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[2]/td[6]/a' },
+    // allocate_new_service_request: {xpath: '//*[contains(text(),"Allocate to new service request")]'},
+    allocate_new_service_request: {xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/ccpay-app-unprocessed-payments/div/table/tbody/tr[1]/td[3]/div/button[1]'},
     notpaid_payment_status: { xpath: '//*[contains(text(),"Not paid")]' },
   },
 
@@ -108,7 +110,7 @@ module.exports = {
 
   // done
   checkBulkCase(caseNumber, caseTitle) {
-    I.wait(CCPBConstants.nineSecondWaitTime);
+    I.wait(CCPBConstants.fifteenSecondWaitTime);
     this.validateTransactionPage(caseNumber);
     I.see(caseTitle);
     I.click(this.locators.more_details_actions);
@@ -153,9 +155,7 @@ module.exports = {
     I.see(totalDcn);
     I.see(dcnNumber);
     I.see(amount);
-    if (testConfig.e2e.testForCrossbrowser !== 'true') {
-      I.see(method);
-    }
+    I.see(method);
   },
 
   checkIfBulkScanPaymentsAllocated(dcnNumber) {
@@ -166,6 +166,17 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     // I.checkOption(this.locators.unallocated_payment_select_option);
     I.click('Allocate to new service request');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+  },
+
+  allocateToExistingServiceRequest(amount) {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.click('Allocate to existing service request');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.see('Select payment request');
+    I.see(amount);
+    I.click('//input[@name="orderLevelRecord"]');
+    I.click('Continue');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
@@ -188,7 +199,7 @@ module.exports = {
     I.see('Closed');
     I.see('£100.00');
     I.see(`${paymentRCRef}`);
-  
+
     I.see(`${todayDate}`);
     I.see('Chargeback');
     I.wait(CCPBConstants.sevenSecondWaitTime);
@@ -210,7 +221,6 @@ module.exports = {
     I.see('Closed');
     I.see('£215.00');
     I.see(`${paymentRCRef}`);
-  
     I.see(`${todayDate}`);
     I.see('Chargeback');
     I.wait(CCPBConstants.sevenSecondWaitTime);
@@ -282,6 +292,28 @@ module.exports = {
     this.checkEmptyRefundsSection();
   },
 
+  async validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
+    paymentStatus, checkPaymentValuesData) {
+    // console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
+    I.see('Case reference:');
+    I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
+    I.see('Total payments');
+    I.see('Unallocated payments');
+    I.see('Total remissions');
+    I.see('Amount due');
+    if (paymentStatus) {
+      await this.checkPaymentsValues(checkPaymentValuesData);
+    } else {
+      await this.checkPaymentsValuesForAFailedPayments(checkPaymentValuesData);
+    }
+  },
+
+  verifyPaymentStatusOnCaseTransactionPage(statuses) {
+    for (let i = 0; i < statuses.length; i++) {
+      I.see(`${statuses[i]}`);
+    }
+  },
+
   validateCaseTransactionPageForRefundsAfterApplyingRefund(ccdCaseNumber, caseTransactions) {
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
@@ -334,9 +366,7 @@ module.exports = {
     // I.see('Amount due');
     // I.see('Action');
     // I.see(allocationStatus);
-    if (testConfig.e2e.testForCrossbrowser !== 'true') {
-      I.see('Paid');
-    }
+    I.see('Paid');
     I.see('Success');
   },
   validateTransactionPageForSuccessPaymentNotPaid(caseNumber) {
@@ -359,10 +389,37 @@ module.exports = {
     // I.see('Amount due');
     // I.see('Action');
     // I.see(allocationStatus);
-    if (testConfig.e2e.testForCrossbrowser !== 'true') {
-      I.see('Partially paid');
-    }
+    I.see('Partially paid');
     I.see('Success');
+  },
+  validateTransactionPageForOverPayments() {
+    I.see('Total payments');
+    I.see('Total remissions');
+    I.see('Amount due');
+    I.see('Unallocated payments');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.click(this.locators.allocate_new_service_request);
+  },
+  validateTransactionPageForOverPaymentsRemissionsRefunds(refunds,refundRefRemissions,refundRefOverPayments) {
+    I.see(refunds);
+    I.see(refundRefRemissions);
+    I.see(refundRefOverPayments);
+    I.see('Refunds');
+    I.see('Approved');
+    I.see('£300.00');
+    I.see('£100.00');
+    I.see('Overpayment');
+    I.see('Retrospective remission');
+    I.see('System/technical error');
+  },
+  validateTransactionPageForPartialPayments() {
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    I.see('Total payments');
+    I.see('£273');
+    I.see('Total remissions');
+    I.see('Amount due');
+    I.see('Unallocated payments');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
   validateTransactionPageForShortFallPayment(caseNumber) {
     I.see(caseNumber);
@@ -384,9 +441,7 @@ module.exports = {
     I.see('Request reference');
     // I.see('Action');
     // I.see(allocationStatus);
-    if (testConfig.e2e.testForCrossbrowser !== 'true') {
-      I.see('Not paid');
-    }
+    I.see('Not paid');
     I.see('Success');
   },
   validateTransactionPageForRemission(remissionCode, feeCode, remissionAmount) {

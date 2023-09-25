@@ -8,6 +8,7 @@ const { Logger } = require('@hmcts/nodejs-logging');
 
 const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
 const LDprefix = config.get('environment.ldPrefix');
+const currentEnv = config.get('environment.currentEnv');
 const user = { key: `${LDprefix}@test.com` };
 const constants = Object.freeze({ PCIPAL_SECURITY_INFO: '__pcipal-info' });
 
@@ -320,7 +321,7 @@ class PayhubController {
   postPBAAccountPayment(req, res, appInsights) {
     return this.payhubService.postPBAAccountPayment(req, appInsights)
       .then(result => {
-        res.status(200).json({ data: result, success: true });
+        res.status(200).json(result);
       })
       .catch(error => {
         if (error.statusCode) {
@@ -497,6 +498,9 @@ class PayhubController {
       });
   }
 
+  getEnvironment(res) {
+    return res.status(200).send(currentEnv);
+  }
   postRefundRetroRemission(req, res, appInsights) {
     return this.payhubService.postRefundRetroRemission(req, res, appInsights)
     // eslint-disable-next-line

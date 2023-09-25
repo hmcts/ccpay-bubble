@@ -21,6 +21,12 @@ bulkscan:
   url: CCPAY_BULKSCAN_API_URL
 refunds:
   url: CCPAY_REFUNDS_API_URL
+notification:
+  url: CCPAY_NOTIFICATION_API_URL
+waystopay:
+  url: WAYS_TO_PAY_RETURN_URL
+postcodelookup:
+  url: POSTCODE_LOOKUP_URL
 certs:
   key: CERTS_KEY
   crt: CERTS_CRT
@@ -28,10 +34,9 @@ session:
   cookieName: JWT_PAYBUBBLE
 environment:
   ldPrefix: LD_FLAG_PREFIX
+  currentEnv: CURRENT_ENVIRONMENT
 e2e:
-  frontendUrl: E2E_FRONTEND_URL
-  waitForTimeoutValue: E2E_WAIT_FOR_TIMEOUT_VALUE
-  waitForActionValue: E2E_WAIT_FOR_ACTION_VALUE
+  frontendUrl: TEST_URL
   testForCrossbrowser: E2E_TEST_FOR_CROSS_BROWSER
 fee:
   feeRegistrationUrl: FEE_REGISTRATION_URL
@@ -42,5 +47,6 @@ secrets:
   ccpay:
     paybubble-s2s-secret: S2S_KEY
     paybubble-idam-client-secret: IDAM_CLIENT_SECRET
+    postcode-address-lookup-id: POSTCODE_ADDRESS_LOOKUP_ID
     launch-darkly-client-id: LD_CLIENT_ID
     AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY

@@ -70,3 +70,6 @@ auth.provider.service.client.baseUrl=http://localhost:23443
 
    Run the following commands: `yarn start:angular-dev` and `yarn start:express:dev`
 
+   Run the app with local config by setting up this environment variable: `spring_profiles_active=local`
+   Run the following commands: `yarn start:angular-dev` and `yarn start:express-dev`.
+
