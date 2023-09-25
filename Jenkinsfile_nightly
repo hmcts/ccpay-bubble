@@ -69,7 +69,9 @@ withNightlyPipeline("nodejs", product, component) {
   env.S2S_RPE_SERVICE_AUTH_API_URL = params.S2S_RPE_SERVICE_AUTH_API_URL
   env.PAYMENT_API_URL = params.PAYMENT_API_URL
   env.REFUNDS_API_URL = params.REFUNDS_API_URL
-  env.BULKSCANNING_API_URL = params.BULKSCANNING_API_URL
+  // env.BULKSCANNING_API_URL = params.BULKSCANNING_API_URL
+  env.CCPAY_BULKSCAN_API_URL = 'http://ccpay-bulkscanning-api-pr-500.service.core-compute-preview.internal'
+
 
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
