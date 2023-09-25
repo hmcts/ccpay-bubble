@@ -1,62 +1,53 @@
 /* eslint-disable */
 const CONF = require('config');
 
-const waitForTimeout = parseInt(CONF.e2e.waitForTimeoutValue);
-const waitForAction = parseInt(CONF.e2e.waitForActionValue);
-
 exports.config = {
   name: 'ccpay-bubble-acceptance-tests',
   tests: './test/end-to-end/tests/*_test.js',
-  // tests: './test/end-to-end/tests/CCPB_BulkScanFunctionality_test.js',
   timeout: 10000,
-  output: `${process.cwd()}/functional-output`,
+  output: `${process.cwd()}/functional-output/functional/reports`,
   helpers: {
-    Puppeteer: {
+    Playwright: {
       url: CONF.e2e.frontendUrl,
-      waitForTimeout,
-      waitForAction,
-      // waitForNavigation: 'networkidle0',
-      waitForNavigation: 'domcontentloaded',
       show: false,
-      restart: true,
-      windowSize: '1024x768',
-      keepCookies: false,
-      keepBrowserState: true,
-      networkIdleTimeout: 5000,
-      waitUntil: 'networkidle0',
-      timeout: 3000000,
-      chrome: {
-        ignoreHTTPSErrors: true,
-        args: [
-          '--no-sandbox',
-          // '--proxy-server=proxyout.reform.hmcts.net:8080',
-          // '--proxy-bypass-list=*beta*LB.reform.hmcts.net',
-          '--start-maximized',
-          '--window-size=1024,768'
-        ],
-        defaultViewport: null
+      browser: 'chromium',
+      waitForTimeout: 60001,
+      waitForAction: 500,
+      timeout: 20002,
+      waitForNavigation: 'networkidle0',
+      ignoreHTTPSErrors: true,
+      fullPageScreenshots: true,
+      uniqueScreenshotNames: true,
+      recordVideo: {
+        dir: `${process.cwd()}/functional-output/functional/reports`,
+        size : {
+          width: 1024,
+          height: 768
+        }
       }
     },
-    PuppeteerHelper: {
-      "require": "./test/end-to-end/helpers/PuppeteerHelper.js"
+    PlaywrightHelper: {
+      require: "./test/end-to-end/helpers/PlaywrightHelper.js"
     },
     AccessibilityReportingHelper: {
       require: "./test/end-to-end/helpers/AccessibilityReportingHelper.js"
-    },
-    Mochawesome: { uniqueScreenshotNames: 'true' }
+    }
   },
   plugins: {
-    screenshotOnFail: {
-      enabled: true,
-      fullPageScreenshots: true
-    },
     retryFailedStep: {
       enabled: true,
-      retries: 1
+      retries: 2,
     },
     autoDelay: {
       enabled: true
-    }
+    },
+    retryTo: {
+      enabled: true
+    },
+    allure: {
+      enabled: true,
+      require: '@codeceptjs/allure-legacy'
+    },
   },
   include: {
     I: './test/end-to-end/pages/steps_file.js',
@@ -75,35 +66,5 @@ exports.config = {
     Reports: './test/end-to-end/pages/reports.js',
     FailureEventDetails: './test/end-to-end/pages/failure_event_details.js'
   },
-  mocha: {
-    reporterOptions: {
-      'codeceptjs-cli-reporter': {
-        stdout: '-',
-        options: {
-          steps: true
-        }
-      },
-      'mocha-junit-reporter': {
-        stdout: './functional-output/console.log',
-        options: {
-          mochaFile: './functional-output/result.xml',
-          attachments: true
-        }
-      },
-      mochawesome: {
-        stdout: './functional-output/console.log',
-        options: {
-          reportDir: './functional-output',
-          reportFilename: 'ccpay-bubble-e2e-result',
-          inlineAssets: true
-        }
-      }
-    }
-  },
-  multiple: {
-    parallel: {
-      chunks: 4,
-      browsers: ['chrome']
-    }
-  }
+  mocha: {}
 };

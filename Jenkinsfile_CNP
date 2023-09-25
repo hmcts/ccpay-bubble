@@ -79,35 +79,10 @@ withPipeline("nodejs", product, component) {
       allowMissing         : true,
       alwaysLinkToLastBuild: true,
       keepAll              : true,
-      reportDir            : "functional-output",
-      reportFiles          : "parallel_chunk1_*/ccpay-bubble-e2e-result.html",
-      reportName           : "PayBubble E2E functional tests result 1"
+      reportDir            : "functional-output/functional/allure",
+      reportFiles          : "index.html",
+      reportName           : "PayBubble E2E functional tests result"
     ]
-    publishHTML target: [
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : "functional-output",
-      reportFiles          : "parallel_chunk2_*/ccpay-bubble-e2e-result.html",
-      reportName           : "PayBubble E2E functional tests result 2"
-    ]
-    publishHTML target: [
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : "functional-output",
-      reportFiles          : "parallel_chunk3_*/ccpay-bubble-e2e-result.html",
-      reportName           : "PayBubble E2E functional tests result 3"
-    ]
-    publishHTML target: [
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : "functional-output",
-      reportFiles          : "parallel_chunk4_*/ccpay-bubble-e2e-result.html",
-      reportName           : "PayBubble E2E functional tests result 4"
-    ]
-
   }
 
   before('functionalTest:aat') {
@@ -121,33 +96,9 @@ withPipeline("nodejs", product, component) {
       allowMissing         : true,
       alwaysLinkToLastBuild: true,
       keepAll              : true,
-      reportDir            : "functional-output",
-      reportFiles          : "parallel_chunk1_*/ccpay-bubble-e2e-result.html",
-      reportName           : "PayBubble E2E functional tests result 1"
-    ]
-    publishHTML target: [
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : "functional-output",
-      reportFiles          : "parallel_chunk2_*/ccpay-bubble-e2e-result.html",
-      reportName           : "PayBubble E2E functional tests result 2"
-    ]
-    publishHTML target: [
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : "functional-output",
-      reportFiles          : "parallel_chunk3_*/ccpay-bubble-e2e-result.html",
-      reportName           : "PayBubble E2E functional tests result 3"
-    ]
-    publishHTML target: [
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : "functional-output",
-      reportFiles          : "parallel_chunk4_*/ccpay-bubble-e2e-result.html",
-      reportName           : "PayBubble E2E functional tests result 4"
+      reportDir            : "functional-output/functional/allure",
+      reportFiles          : "index.html",
+      reportName           : "PayBubble E2E functional tests result"
     ]
   }
 

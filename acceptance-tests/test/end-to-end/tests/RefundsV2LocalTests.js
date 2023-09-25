@@ -16,8 +16,8 @@ Feature('CC Pay Bubble Refunds V2 Tests').retry(CCPBATConstants.defaultNumberOfR
 
 // Bulk scan cash overpayment refund option, email notification preview at all 3 stages(before refund request, refund approve and after approve) and Resend Notification
 Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email notification and Resend Notification journey',
-  async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
-         PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
+  async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
+         PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
     const bulkScanPaymentMethod = 'cash';
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
@@ -102,8 +102,8 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
 
 // Bulk scan cash full payment refund option, letter notification preview at all 3 stages(before refund request, refund approve and after approve) and Resend Notification
 Scenario('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter notification and Resend Notification journey',
-  async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
-         PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
+  async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
+         PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
     const postcode = 'TW4 7EZ';
     const bulkScanPaymentMethod = 'cash';
@@ -195,7 +195,7 @@ Scenario('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter
   }).tag('@pipeline @nightly');
 
 Scenario('PBA Partial Refund, preview SendRefund letter notification journey and resend notification to email from letter edit',
-  async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList) => {
+  async ({ I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList }) => {
 
     const postcode = 'TW4 7EZ';
     // Create Payment and back date for refund eligibility
@@ -286,8 +286,8 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
   }).tag('@pipeline @nightly');
 
 Scenario('Refund journey for complete cheque amount(500) with OverPayment option(300), Remission(100) and Refund(100) and Liberata rejected System approved RefundWhenContacted notification',
-  async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
-         PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
+  async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
+         PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
     const bulkScanPaymentMethod = 'cheque';
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
@@ -450,8 +450,8 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
   }).tag('@pipeline @nightly');
 
 Scenario('FullPayment Refund Send To Caseworker journey',
-  async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
-         PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
+  async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
+         PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
     const totalAmount = 500;
@@ -529,8 +529,8 @@ Scenario('FullPayment Refund Send To Caseworker journey',
   }).tag('@pipeline @nightly');
 
 Scenario('OverPayment Refund Rejected journey',
-  async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
-         PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
+  async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
+         PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
     const totalAmount = 500;
