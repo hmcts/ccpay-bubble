@@ -3,6 +3,7 @@ nodejs:
   ingressHost: ${SERVICE_NAME}.preview.platform.hmcts.net
   environment:
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
+    CCPAY_BULKSCAN_API_URL: http://ccpay-bulkscanning-api-pr-500.service.core-compute-preview.internal
 
 idam-pr:
   enabled: true
