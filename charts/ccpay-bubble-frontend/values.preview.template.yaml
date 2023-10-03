@@ -4,7 +4,7 @@ nodejs:
   environment:
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
     CCPAY_BULKSCAN_API_URL: http://ccpay-bulkscanning-api-pr-500-java
-    PAYHUB_API_URL: http://ccpay-payment-api-pr-PR-1508-java
+    PAYHUB_API_URL: http://ccpay-payment-api-pr-1508-java
 
 idam-pr:
   enabled: true
