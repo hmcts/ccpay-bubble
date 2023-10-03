@@ -70,7 +70,7 @@ withNightlyPipeline("nodejs", product, component) {
   env.PAYMENT_API_URL = params.PAYMENT_API_URL
   env.REFUNDS_API_URL = params.REFUNDS_API_URL
   // env.BULKSCANNING_API_URL = params.BULKSCANNING_API_URL
-  env.CCPAY_BULKSCAN_API_URL = 'http://ccpay-bulkscanning-api-pr-500.service.core-compute-preview.internal'
+  env.BULKSCANNING_API_URL = 'http://ccpay-bulkscanning-api-pr-500.service.core-compute-preview.internal'
 
 
   overrideVaultEnvironments(vaultOverrides)
