@@ -2666,13 +2666,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/frontend@npm:^0.0.34-alpha":
-  version: 0.0.34-alpha
-  resolution: "@hmcts/frontend@npm:0.0.34-alpha"
-  checksum: 8f628a9481ca80a9b60fca6f62390fda38edcbc8f5ebe2999777bafce7e2d857b263a688b3bdfdc9027d3a861894e9a530e0088d0417d4e3743549c9bea26a42
-  languageName: node
-  linkType: hard
-
 "@hmcts/nodejs-healthcheck@npm:^1.8.0":
   version: 1.8.3
   resolution: "@hmcts/nodejs-healthcheck@npm:1.8.3"
@@ -6408,7 +6401,6 @@ __metadata:
     "@hmcts/ccpay-web-component": 6.0.0-beta01
     "@hmcts/cookie-manager": ^1.0.0
     "@hmcts/eslint-config": ^1.4.0
-    "@hmcts/frontend": ^0.0.34-alpha
     "@hmcts/nodejs-healthcheck": ^1.8.0
     "@hmcts/nodejs-logging": ^4.0.4
     "@hmcts/properties-volume": ^1.0.0
@@ -6443,7 +6435,7 @@ __metadata:
     file-saver: ^2.0.2
     fsevents: "*"
     govuk-elements-sass: ^3.1.3
-    govuk-frontend: ^2.7.0
+    govuk-frontend: ^4.7.0
     govuk_frontend_toolkit: ^8.1.0
     govuk_template_jinja: ^0.24.1
     gulp: ^4.0.0
@@ -6497,7 +6489,7 @@ __metadata:
     rxjs: ~6.6.7
     rxjs-compat: ^6.5.2
     sass: ^1.64.1
-    sass-loader: ^10.4.1
+    sass-loader: ^13.2.1
     sonar-scanner: ^3.1.0
     superagent: 8.0.8
     supertest: ^3.4.2
@@ -10895,10 +10887,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"govuk-frontend@npm:^2.7.0":
-  version: 2.13.0
-  resolution: "govuk-frontend@npm:2.13.0"
-  checksum: 4f08192d8714e40b91082106e3ac214bcbc598e6b7a1b2ea00c44e13a145fd5573dfa13dbe8eb1339c29d311fa3f1f7adac6bfe8e39e53f4d02d17a0690cee69
+"govuk-frontend@npm:^4.7.0":
+  version: 4.7.0
+  resolution: "govuk-frontend@npm:4.7.0"
+  checksum: 0e246dd2c724e51fd14dd40fc31c66627df7d07ebe89e1a19b1e7da7e7a5eb86bc6560229e18a13e40651e6c953a67422d54e77e240d82efff7b2cbefaa8b88d
   languageName: node
   linkType: hard
 
@@ -18210,7 +18202,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass-loader@npm:13.3.2":
+"sass-loader@npm:13.3.2, sass-loader@npm:^13.2.1":
   version: 13.3.2
   resolution: "sass-loader@npm:13.3.2"
   dependencies:
@@ -18231,31 +18223,6 @@ __metadata:
     sass-embedded:
       optional: true
   checksum: 7394a8d1b818a289b9caabd979543c907b83e28ae08bc80ccb836e0ccabc4ae574c077ab2fa520ba5fb8abb2ec3e7c9822a1cbd8c58a28ff30018be9d1dc6c27
-  languageName: node
-  linkType: hard
-
-"sass-loader@npm:^10.4.1":
-  version: 10.4.1
-  resolution: "sass-loader@npm:10.4.1"
-  dependencies:
-    klona: ^2.0.4
-    loader-utils: ^2.0.0
-    neo-async: ^2.6.2
-    schema-utils: ^3.0.0
-    semver: ^7.3.2
-  peerDependencies:
-    fibers: ">= 3.1.0"
-    node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
-    sass: ^1.3.0
-    webpack: ^4.36.0 || ^5.0.0
-  peerDependenciesMeta:
-    fibers:
-      optional: true
-    node-sass:
-      optional: true
-    sass:
-      optional: true
-  checksum: df9a65a62247e95305299ccbdf212cffdcdb69490928aecdf4f3dcf539b5302ed7cbffa663f83c5fc3ce0864decf84257a9ce484f6df4cb4426feeb88445dcd0
   languageName: node
   linkType: hard
 
@@ -18310,7 +18277,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"schema-utils@npm:^3.0.0, schema-utils@npm:^3.1.1, schema-utils@npm:^3.2.0":
+"schema-utils@npm:^3.1.1, schema-utils@npm:^3.2.0":
   version: 3.3.0
   resolution: "schema-utils@npm:3.3.0"
   dependencies:
