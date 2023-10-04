@@ -5,6 +5,7 @@ nodejs:
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
     CCPAY_BULKSCAN_API_URL: http://ccpay-bulkscanning-api-pr-500-java
     PAYHUB_API_URL: http://payment-api-pr-1508-java
+    REFUNDS_API_URL: http://payment-api-pr-1508-ccpay-refunds-api
 
 idam-pr:
   enabled: true

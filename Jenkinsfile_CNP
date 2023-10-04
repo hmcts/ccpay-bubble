@@ -67,6 +67,7 @@ withPipeline("nodejs", product, component) {
 
   //Sync demo,ithc and perftest with master branch
   syncBranchesWithMaster(branchesToSync)
+  sh "nc -zv ccpay-refunds-api-payment-api-pr-1508.preview.platform.hmcts.net 80"
 
   before('functionalTest:preview') {
     env.E2E_TESTS_FOR_ACCESSIBILITY = true
@@ -74,6 +75,7 @@ withPipeline("nodejs", product, component) {
     env.BULKSCANNING_API_URL = 'https://ccpay-bulkscanning-api-pr-500.preview.platform.hmcts.net'
     env.CCPAY_BUBBLE_URL = 'https://ccpay-bubble-frontend-pr-810.preview.platform.hmcts.net'
     env.PAYMENT_API_URL = 'https://payment-api-pr-1508.preview.platform.hmcts.net'
+    env.REFUNDS_API_URL = 'https://ccpay-refunds-api-payment-api-pr-1508.preview.platform.hmcts.net'
   }
 
   afterAlways('functionalTest:preview') {
