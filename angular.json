@@ -102,12 +102,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "eslintConfig": ".eslintrc.js",
+            "lintFilePatterns": [
+              "**/*.spec.ts",
+              "**/*.d.ts"
             ]
           }
         }
@@ -142,12 +140,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/fee-register-search/tsconfig.lib.json",
-              "projects/fee-register-search/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "eslintConfig": ".eslintrc.js",
+            "lintFilePatterns": [
+              "**/*.spec.ts",
+              "**/*.d.ts"
             ]
           }
         }
@@ -182,12 +178,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/view-payment/tsconfig.lib.json",
-              "projects/view-payment/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "eslintConfig": ".eslintrc.js",
+            "lintFilePatterns": [
+              "**/*.spec.ts",
+              "**/*.d.ts"
             ]
           }
         }
@@ -196,6 +190,7 @@
   },
   "defaultProject": "ccpay-bubble",
   "cli": {
-    "analytics": false
+    "analytics": "740f19be-587b-4f7e-a5ac-ba6ffff3aa41",
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }

@@ -46,6 +46,7 @@
   },
   "private": true,
   "dependencies": {
+    "@babel/eslint-parser": "^7.11.0",
     "@babel/helper-create-class-features-plugin": "^7.21.8",
     "@hmcts/ccpay-web-component": "6.0.0-beta01",
     "@hmcts/cookie-manager": "^1.0.0",
@@ -102,6 +103,11 @@
   "devDependencies": {
     "@angular-builders/custom-webpack": "16.0.1",
     "@angular-devkit/build-angular": "^16.1.6",
+    "@angular-eslint/builder": "16.1.0",
+    "@angular-eslint/eslint-plugin": "16.1.0",
+    "@angular-eslint/eslint-plugin-template": "16.1.0",
+    "@angular-eslint/schematics": "16.1.0",
+    "@angular-eslint/template-parser": "16.1.0",
     "@angular/animations": "~16.1.6",
     "@angular/cdk": "^16.1.6",
     "@angular/cli": "16.2.4",
@@ -133,7 +139,7 @@
     "allure-commandline": "^2.17.2",
     "codeceptjs": "^3.5.2",
     "cross-env": "^5.2.0",
-    "eslint": "^5.13.0",
+    "eslint": "^8.44.0",
     "eslint-plugin-node": "^8.0.1",
     "faker": "^4.1.0",
     "file-saver": "^2.0.2",
