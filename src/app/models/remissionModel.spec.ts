@@ -22,7 +22,7 @@ describe('Remission model', () => {
     remissionModel.beneficiary_name = 'test';
     remissionModel.ccd_case_number = '123';
     remissionModel.hwf_amount = 123;
-    const resultModel = RemissionModel.cleanModel(remissionModel);
+    RemissionModel.cleanModel(remissionModel);
     expect(remissionModel.beneficiary_name).toBe('test');
     expect(remissionModel.ccd_case_number).toBe('123');
     expect(remissionModel.hwf_amount).toBe(123);

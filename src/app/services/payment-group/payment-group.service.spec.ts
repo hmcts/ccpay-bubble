@@ -206,8 +206,6 @@ describe('Payment group service', () => {
         expect(response).toBe(paymentGroup);
         expect(response.ccd_reference).toBe(paymentGroup.ccd_reference);
         expect(response.exception_record_reference).toBe(paymentGroup.exception_record_reference);
-      }).catch(() => {
-
       });
   });
   it('Should return true is bulk scann flag is on', () => {
@@ -304,8 +302,6 @@ describe('Payment group service', () => {
       .then((response) => {
         expect(response).toBe(ibsPayments);
         expect(response.case_reference).toBe(ibsPayments.case_reference);
-      }).catch(() => {
-
       });
   });
 });
