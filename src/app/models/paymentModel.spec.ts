@@ -24,7 +24,7 @@ describe('Payment model', () => {
     paymentModel.ccd_case_number = '123';
     paymentModel.currency = 'GBP';
     paymentModel.provider = 'pci pal';
-    const resultModel = PaymentModel.cleanModel(paymentModel);
+    PaymentModel.cleanModel(paymentModel);
     expect(paymentModel.currency).toBe('GBP');
     expect(paymentModel.site_id).toBe('AA02');
     expect(paymentModel.description).toBe('PayBubble payment');

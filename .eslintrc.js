@@ -1,16 +1,25 @@
-// .eslintrc.js example
 module.exports = {
-  ignorePatterns: ['src/main/views/govuk/**', "**/*.js"],
-  "env": {
-    "browser": true,
-    "es2021": true
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: 'module',
   },
-  "extends": "eslint:recommended",
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module",
+  extends: ['plugin:@typescript-eslint/recommended'],
+  rules: {
+    '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-array-constructor':'off',
+    '@typescript-eslint/no-this-alias':'off',
+    '@typescript-eslint/no-explicit-any':'off',
+    '@typescript-eslint/no-unused-vars':'off',
   },
-  "env": {
-    "jest": true
-  }
-}
+  overrides: [
+    {
+      files: ['examples/**/*.js'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/no-empty-function': 'off',
+      },
+    },
+  ],
+};
