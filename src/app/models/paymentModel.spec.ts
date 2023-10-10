@@ -24,6 +24,12 @@ describe('Payment model', () => {
     paymentModel.ccd_case_number = '123';
     paymentModel.currency = 'GBP';
     paymentModel.provider = 'pci pal';
-    PaymentModel.cleanModel(paymentModel);
+    const resultModel = PaymentModel.cleanModel(paymentModel);
+    expect(resultModel.currency).toEqual('GBP');
+    expect(resultModel.site_id).toEqual('AA02');
+    expect(resultModel.description).toEqual('PayBubble payment');
+    expect(resultModel.channel).toEqual('telephony');
+    expect(resultModel.provider).toEqual('pci pal');
+    expect(resultModel.ccd_case_number).toEqual('123');
   });
 });
