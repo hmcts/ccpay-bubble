@@ -23,9 +23,35 @@ describe('Remission model', () => {
     remissionModel.ccd_case_number = '123';
     remissionModel.hwf_amount = 123;
     const resultModel = RemissionModel.cleanModel(remissionModel);
-    console.log();
     expect(remissionModel.beneficiary_name).toEqual('test');
     expect(remissionModel.ccd_case_number).toEqual('123');
     expect(remissionModel.hwf_amount).toEqual(123);
+  });
+
+
+  it('Should rest a model ', () => {
+    const remissionModel = new RemissionModel();
+    remissionModel.beneficiary_name = 'test';
+    remissionModel.ccd_case_number = '123';
+    remissionModel.hwf_amount = 123;
+    const resultModel = RemissionModel.reset(remissionModel);
+    expect(remissionModel.beneficiary_name).toEqual('');
+    expect(remissionModel.ccd_case_number).toEqual('');
+  });
+
+
+
+  it('Should rest a model ', () => {
+    const remissionModel = new RemissionModel();
+    remissionModel.beneficiary_name = 'test';
+    remissionModel.ccd_case_number = '123';
+    remissionModel.hwf_amount = 123;
+    new RemissionModel().assign(remissionModel);
+
+    console.log('VALUES !!!!');
+    console.log(remissionModel.beneficiary_name);
+    console.log(remissionModel.ccd_case_number);
+    expect(remissionModel.beneficiary_name).toEqual('test');
+    expect(remissionModel.ccd_case_number).toEqual('123');
   });
 });
