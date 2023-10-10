@@ -22,6 +22,10 @@ describe('Remission model', () => {
     remissionModel.beneficiary_name = 'test';
     remissionModel.ccd_case_number = '123';
     remissionModel.hwf_amount = 123;
-    RemissionModel.cleanModel(remissionModel);
+    const resultModel = RemissionModel.cleanModel(remissionModel);
+    console.log();
+    expect(remissionModel.beneficiary_name).toEqual('test');
+    expect(remissionModel.ccd_case_number).toEqual('123');
+    expect(remissionModel.hwf_amount).toEqual(123);
   });
 });
