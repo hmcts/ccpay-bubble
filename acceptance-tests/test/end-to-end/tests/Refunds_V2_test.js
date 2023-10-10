@@ -17,8 +17,8 @@ Feature('CC Pay Bubble Refunds V2 Tests').retry(numberOfRefundsTestRetries);
 
 // Bulk scan cash overpayment refund option, email notification preview at all 3 stages(before refund request, refund approve and after approve) and Resend Notification
 Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email notification and Resend Notification journey',
-  async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
-         PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList) => {
+  async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
+           PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
     const bulkScanPaymentMethod = 'cash';
     const emailAddress = stringUtil.getTodayDateAndTimeInString() + 'refundspaybubbleft1@mailtest.gov.uk';
@@ -99,4 +99,4 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval, true, true, false, refundNotificationPreviewDataAfterApproval);
     await I.Logout();
     I.clearCookie();
-  }).tag('@pipeline @nightly @debug');
+  }).tag('@pipeline @nightly');

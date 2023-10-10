@@ -126,9 +126,7 @@ module.exports = {
     I.see(amount);
     // I.see(dcnNumber);
     I.see(status);
-    if (testConfig.e2e.testForCrossbrowser !== 'true') {
-      I.see(paymentMethod);
-    }
+    I.see(paymentMethod);
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
   },
@@ -139,8 +137,6 @@ module.exports = {
     I.see(receiptReference);
     I.see(amount);
     // I.see(dcnNumber);
-    if (testConfig.e2e.testForCrossbrowser !== 'true') {
-      I.see(paymentMethod);
-    }
+    I.see(paymentMethod);
   }
 };

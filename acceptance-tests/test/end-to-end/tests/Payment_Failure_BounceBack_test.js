@@ -13,8 +13,8 @@ const testConfig = require('./config/CCPBConfig');
 Feature('CC Pay Bubble Acceptance Tests payment failure for Bounceback and Chargeback').retry(CCPBATConstants.defaultNumberOfRetries);
 
 Scenario('Payment Failure for Bounceback SR status Paid',
-  async (I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
-         PaymentHistory, FailureEventDetails) => {
+  async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
+         PaymentHistory, FailureEventDetails }) => {
     const totalAmount = 593;
     const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cash');
     const ccdCaseNumber = ccdAndDcn[1];
@@ -41,7 +41,7 @@ Scenario('Payment Failure for Bounceback SR status Paid',
   }).tag('@pipeline @nightly');
 
 Scenario('Payment Failure for chargeback SR status Partially Paid',
-  async (I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails) => {
+  async ({ I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails }) => {
 
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
@@ -66,7 +66,7 @@ Scenario('Payment Failure for chargeback SR status Partially Paid',
   }).tag('@pipeline @nightly');
 
 Scenario('Payment Failure for chargeback SR status Not Paid',
-  async (I, CaseSearch, CaseTransaction) => {
+  async ({ I, CaseSearch, CaseTransaction }) => {
 
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
@@ -85,7 +85,7 @@ Scenario('Payment Failure for chargeback SR status Not Paid',
   }).tag('@pipeline @nightly');
 
 Scenario('Payment Failure for chargeback with SR status Disputed',
-  async (I, CaseSearch, CaseTransaction) => {
+  async ({ I, CaseSearch, CaseTransaction }) => {
 
     const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
