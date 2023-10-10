@@ -28,6 +28,23 @@ describe('Remission model', () => {
     expect(remissionModel.hwf_amount).toEqual(123);
   });
 
+  it('Should clean a model of undefined properties and populate with default', () => {
+    const remissionModel = new RemissionModel();
+    const resultModel = RemissionModel.cleanModel(remissionModel);
+    expect(remissionModel.ccd_case_number).toBeUndefined();
+    expect(remissionModel.site_id).toEqual('AA02');
+
+  });
+
+  it('Should clean a model of null properties and populate with default', () => {
+    const remissionModel = new RemissionModel();
+    remissionModel.site_id = null;
+    const resultModel = RemissionModel.cleanModel(remissionModel);
+    expect(remissionModel.ccd_case_number).toBeUndefined();
+    expect(remissionModel.site_id).toEqual('AA02');
+
+  })
+
 
   it('Should rest a model ', () => {
     const remissionModel = new RemissionModel();
