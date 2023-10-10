@@ -1,5 +1,4 @@
 import { FeeModel } from './FeeModel';
-import * as _ from 'lodash';
 
 export class RemissionModel {
 
