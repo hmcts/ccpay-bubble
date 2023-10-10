@@ -33,7 +33,7 @@ module.exports = function (config) {
         { type: 'lcov' }
       ]
     },
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['progress', 'kjhtml','coverage'],
     browsers: ['ChromeHeadless'],
     restartOnFileChange: true
   });
