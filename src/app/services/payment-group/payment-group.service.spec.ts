@@ -305,6 +305,7 @@ describe('Payment group service', () => {
     paymentGroupService.getBSPaymentsByCCD('1234')
       .then((response) => {
         const responseJson = JSON.parse(response.toString())
+        expect(responseJson.toString).toEqual(ibsPayments.toString);
         expect(responseJson.case_reference).toEqual(ibsPayments.case_reference);
         expect(responseJson.dcn_reference).toEqual(ibsPayments.dcn_reference);
       });
