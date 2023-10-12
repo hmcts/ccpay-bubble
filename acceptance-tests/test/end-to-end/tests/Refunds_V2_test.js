@@ -71,7 +71,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     // I.click('Refund List'); // Refund List menu is hidden on paybubble, navigating to the refund-list page itself -- see above url
     await InitiateRefunds.verifyRefundsListPage(refundReference);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
 
     const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, 'Overpayment', '£300.00', emailAddress, '', 'payments probate', 'RefundWhenContacted');
     const refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundReference, '300', 'Refund for Overpayment', bulkScanPaymentMethod);
