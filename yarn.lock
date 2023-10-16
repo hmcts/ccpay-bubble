@@ -6890,7 +6890,7 @@ __metadata:
     playwright: ^1.36.1
     prismjs: ^1.23.0
     protractor: ~7.0.0
-    pug: ^3.0.2
+    pug: ^3.0.1
     pugit: 6.1.1
     request: ^2.88.0
     request-promise-native: ^1.0.5
@@ -17780,7 +17780,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pug@npm:^3.0.2":
+"pug@npm:^3.0.1":
   version: 3.0.2
   resolution: "pug@npm:3.0.2"
   dependencies:
