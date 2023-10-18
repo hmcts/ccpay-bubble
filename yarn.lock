@@ -6855,7 +6855,6 @@ __metadata:
     js-money: ^0.6.3
     js-yaml: ^3.12.1
     jsdom: ^18.1.1
-    jstransformer-css: ^0.2.0
     karma: ^6.4.2
     karma-chrome-launcher: ~3.1.0
     karma-cli: 2.0.0
@@ -6891,7 +6890,7 @@ __metadata:
     prismjs: ^1.23.0
     protractor: ~7.0.0
     pug: ^3.0.2
-    pugit: 6.1.1
+    pugit: 5.0.2
     request: ^2.88.0
     request-promise-native: ^1.0.5
     rxjs: ~6.6.7
@@ -8167,18 +8166,6 @@ __metadata:
   version: 6.1.0
   resolution: "css-what@npm:6.1.0"
   checksum: b975e547e1e90b79625918f84e67db5d33d896e6de846c9b584094e529f0c63e2ab85ee33b9daffd05bff3a146a1916bec664e18bb76dd5f66cbff9fc13b2bbe
-  languageName: node
-  linkType: hard
-
-"css@npm:~2.2.0":
-  version: 2.2.4
-  resolution: "css@npm:2.2.4"
-  dependencies:
-    inherits: ^2.0.3
-    source-map: ^0.6.1
-    source-map-resolve: ^0.5.2
-    urix: ^0.1.0
-  checksum: a35d483c5ccc04bcde3b1e7393d58ad3eee1dd6956df0f152de38e46a17c0ee193c30eec6b1e59831ad0e74599385732000e95987fcc9cb2b16c6d951bae49e1
   languageName: node
   linkType: hard
 
@@ -13769,15 +13756,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jstransformer-css@npm:^0.2.0":
-  version: 0.2.0
-  resolution: "jstransformer-css@npm:0.2.0"
-  dependencies:
-    css: ~2.2.0
-  checksum: bf2898f2c72d4225d43f46f3ec2f0047c1c480560cffcc00a85cf088a70edf635e6d7563329e5865ce7e1670bf2289ded66cfbe69e27c52929cef949258ed7cf
-  languageName: node
-  linkType: hard
-
 "jstransformer@npm:1.0.0":
   version: 1.0.0
   resolution: "jstransformer@npm:1.0.0"
@@ -17797,9 +17775,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pugit@npm:6.1.1":
-  version: 6.1.1
-  resolution: "pugit@npm:6.1.1"
+"pugit@npm:5.0.2":
+  version: 5.0.2
+  resolution: "pugit@npm:5.0.2"
   dependencies:
     colors: ^1.1.2
     command-line-args: ^4.0.2
@@ -17807,7 +17785,7 @@ __metadata:
     html2jade: ^0.8.6
   bin:
     pugit: ./bin/pugit.js
-  checksum: 6b8e7387481be80f8d457ffb6796efda91284b51e16026910a227942096afe28c8de1a8a9fca7dae7fe3e761b11ad840f86e0ca047f5ffdb8ec1524fc6881d97
+  checksum: 8d31dfd5a52504c3fc34c44c47e1192019c361cce83e1579342321734b96ee37c006976c4d2fea6346af3949b2d49570ddc4ff7131dd1a63701a7802101edab7
   languageName: node
   linkType: hard
 
@@ -19455,7 +19433,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map-resolve@npm:^0.5.0, source-map-resolve@npm:^0.5.2":
+"source-map-resolve@npm:^0.5.0":
   version: 0.5.3
   resolution: "source-map-resolve@npm:0.5.3"
   dependencies:
