@@ -19,7 +19,7 @@
     "merge-lcov": "cross-env lcov-result-merger './coverage/ccpay-bubble/lcov-*.info' './coverage/ccpay-bubble/lcov.info'",
     "copy-lcov": "node ./scripts/copy-lcov.js",
     "test": "yarn lint && yarn test:angular && yarn test:coverage",
-    "test:a11y": "echo hello",
+    "test:a11y": "cross-env node scripts/pa11y",
     "gulp": "gulp",
     "lint": "yarn ng-lint && yarn eslint",
     "audit": "yarn audit --groups dependencies",

@@ -95,7 +95,6 @@ module.exports = (security, appInsights) => {
   app.use('/assets', express.static(path.join(__dirname, 'node_modules', 'govuk-frontend', 'govuk', 'assets')));
   app.use('/hmcts-assets', express.static(path.join(__dirname, '/node_modules/@hmcts/frontend/assets')));
   app.use('/node_modules/govuk-frontend', express.static(path.join(__dirname, '/node_modules/govuk-frontend/govuk')));
-  app.use('/node_modules/hmcts-frontend', express.static(path.join(__dirname, '/node_modules/@hmcts/frontend')));
 
 
   // allow access origin
