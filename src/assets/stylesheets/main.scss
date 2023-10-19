@@ -2,10 +2,10 @@
 // in the govuk frontend toolkit's url-helpers partial
 $path: '/public/images/';
 
-@import '../../../node_modules/govuk-frontend/govuk/all.scss';
+@import '../../../node_modules/govuk-frontend/all.scss';
 @import '../../../node_modules/govuk_template_jinja/assets/stylesheets/govuk-template.css';
 @import '../../../node_modules/govuk_template_jinja/assets/stylesheets/fonts.css';
-@import '../../../node_modules/govuk-frontend/govuk/all';
+@import '../../../node_modules/govuk-frontend/all';
 
 
 body {
