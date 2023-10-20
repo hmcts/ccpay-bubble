@@ -216,6 +216,7 @@ Scenario('DCN Search for ccd case associated with exception postal order payment
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleSearch(CaseSearch, I, dcnNumber);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
+  console.log("ccdCaseNumberFormatted ccdCaseNumberFormatted "+ccdCaseNumberFormatted);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£600.00', 'postal order');
   CaseTransaction.allocateToTransferred();
@@ -364,6 +365,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleSearch(CaseSearch, I, exNumber);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
+  console.log("ccdCaseNumberFormatted ccdCaseNumberFormatted "+ccdCaseNumberFormatted);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£600.00', 'postal order');
   CaseTransaction.allocateToNewFee();
