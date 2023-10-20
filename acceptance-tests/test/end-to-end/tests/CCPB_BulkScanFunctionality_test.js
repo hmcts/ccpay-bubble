@@ -223,6 +223,7 @@ Scenario('DCN Search for ccd case associated with exception postal order payment
   CaseTransferred.validateAndConfirmTransferred('auto transferred reason', 'Basildon Combined Court - Crown (W802)');
   CaseTransferred.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
+  console.log("ccdCaseNumberFormatted ccdCaseNumberFormatted "+ccdCaseNumberFormatted);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Transferred');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   I.Logout();
@@ -373,6 +374,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   ConfirmAssociation.selectSurplusReasonOtherExplainatoryAndUser('Help with Fees awarded', 'Other explainatory note', 'Auto Comment');
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
+  console.log("ccdCaseNumberFormatted ccdCaseNumberFormatted "+ccdCaseNumberFormatted);
   CaseTransaction.checkBulkCaseSurplusOrShortfallSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   I.Logout();
