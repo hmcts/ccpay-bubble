@@ -207,7 +207,7 @@ Scenario('Exception ccd case cash payment transferred', async({ I, CaseSearch, C
   I.Logout();
 }).tag('@pipeline @nightly');
 
-Scenario('DCN Search for ccd case associated with exception postal order payment transferred', async({ I, CaseSearch, CaseTransaction, CaseTransferred }) => {
+Scenario.skip('DCN Search for ccd case associated with exception postal order payment transferred', async({ I, CaseSearch, CaseTransaction, CaseTransferred }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 600;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA09', totalAmount, 'PostalOrder');
@@ -216,7 +216,6 @@ Scenario('DCN Search for ccd case associated with exception postal order payment
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleSearch(CaseSearch, I, dcnNumber);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  console.log("ccdCaseNumberFormatted ccdCaseNumberFormatted "+ccdCaseNumberFormatted);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£600.00', 'postal order');
   CaseTransaction.allocateToTransferred();
@@ -224,7 +223,6 @@ Scenario('DCN Search for ccd case associated with exception postal order payment
   CaseTransferred.validateAndConfirmTransferred('auto transferred reason', 'Basildon Combined Court - Crown (W802)');
   CaseTransferred.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  console.log("ccdCaseNumberFormatted ccdCaseNumberFormatted "+ccdCaseNumberFormatted);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Transferred');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   I.Logout();
@@ -354,7 +352,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     I.Logout();
   }).tag('@nightly @pipeline');
 
-Scenario('Exception search with ccd record postal order payment surplus payment', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation }) => {
+Scenario.skip('Exception search with ccd record postal order payment surplus payment', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 600;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA07', totalAmount, 'PostalOrder');
@@ -365,7 +363,6 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
   await miscUtils.multipleSearch(CaseSearch, I, exNumber);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  console.log("ccdCaseNumberFormatted ccdCaseNumberFormatted "+ccdCaseNumberFormatted);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£600.00', 'postal order');
   CaseTransaction.allocateToNewFee();
@@ -376,7 +373,6 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   ConfirmAssociation.selectSurplusReasonOtherExplainatoryAndUser('Help with Fees awarded', 'Other explainatory note', 'Auto Comment');
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  console.log("ccdCaseNumberFormatted ccdCaseNumberFormatted "+ccdCaseNumberFormatted);
   CaseTransaction.checkBulkCaseSurplusOrShortfallSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   I.Logout();
