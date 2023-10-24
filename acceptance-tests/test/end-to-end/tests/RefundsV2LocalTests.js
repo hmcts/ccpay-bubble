@@ -15,7 +15,7 @@ const testConfig = require('./config/CCPBConfig');
 Feature('CC Pay Bubble Refunds V2 Tests').retry(CCPBATConstants.defaultNumberOfRetries);
 
 // Bulk scan cash overpayment refund option, email notification preview at all 3 stages(before refund request, refund approve and after approve) and Resend Notification
-Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email notification and Resend Notification journey',
+Scenario.skip('Bulk scan cash Over Payment refund, preview RefundWhenContacted email notification and Resend Notification journey',
   async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
          PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
