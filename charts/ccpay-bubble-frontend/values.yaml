@@ -1,7 +1,6 @@
 nodejs:
   applicationPort: 3000
   ingressHost: paybubble.{{ .Values.global.environment }}.platform.hmcts.net
-  aadIdentityName: ccpay
   memoryLimits: 1024Mi
   cpuLimits: 1000m
   readinessDelay: 30
