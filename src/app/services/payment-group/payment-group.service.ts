@@ -32,7 +32,7 @@ export class PaymentGroupService {
   getBSPaymentsByDCN(dcn: string): Promise<any> {
     return this.http.get(`api/bulk-scan/cases?document_control_number=${dcn}`).toPromise().then(bsPaymentGroupJson => {
       const bsPaymentGroup = JSON.stringify(bsPaymentGroupJson);
-      return <any>bsPaymentGroup;
+      return bsPaymentGroup;
     });
   }
 
