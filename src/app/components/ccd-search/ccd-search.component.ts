@@ -91,7 +91,8 @@ export class CcdSearchComponent implements OnInit {
 
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
         this.caseResponse = null;
-        this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((res) => {
+          this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((response) => {
+          const res = JSON.parse(JSON.parse(response))
           if (res['data'].ccd_reference || res['data'].exception_record_reference) {
             this.dcnNumber = searchValue;
             if (res['data'].ccd_reference !== undefined && res['data'].ccd_reference.length > 0) {
