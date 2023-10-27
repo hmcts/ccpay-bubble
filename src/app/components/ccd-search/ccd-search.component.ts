@@ -152,8 +152,7 @@ export class CcdSearchComponent implements OnInit {
               // tslint:disable-next-line:max-line-length
               let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}&servicerequest=${this.servicerequest}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&servicerequest=${this.servicerequest}`;
               url = url.replace(/[\r\n]+/g, ' ');
-              this.paymentGroupService.getBSPaymentsByCCD(this.ccdCaseNumber).then( result => {
-
+              this.paymentGroupService.getBSPaymentsByCCD(this.ccdCaseNumber).then( response => {const result = JSON.parse(JSON.parse(response.toString()))
               if (this.caseResponse.case) {
                 this.caseType = this.caseResponse.case;
               } else {
@@ -161,7 +160,8 @@ export class CcdSearchComponent implements OnInit {
               }
 
               this.errorMessage = this.getErrorMessage(false);
-              if (result['data'] && result['data'].exception_record_reference && result['data'].ccd_reference) {
+
+                if (result['data'] && result['data'].exception_record_reference && result['data'].ccd_reference) {
                 if (this.caseResponse.case) {
                   this.caseType = this.caseResponse.exception;
                 }
