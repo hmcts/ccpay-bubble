@@ -2830,15 +2830,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccpay-web-component@npm:6.0.0-beta01":
-  version: 6.0.0-beta01
-  resolution: "@hmcts/ccpay-web-component@npm:6.0.0-beta01"
+"@hmcts/ccpay-web-component@npm:6.0.0-beta03":
+  version: 6.0.0-beta03
+  resolution: "@hmcts/ccpay-web-component@npm:6.0.0-beta03"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
     "@angular/common": ^16.1.6
     "@angular/core": ^16.1.6
-  checksum: 841e6b94254409e6cb7c3d67a2074eee91ffdb64eed40ea8d3b9c828751509e58f8dc256baac0a402ab4e8f994f19909f334f56cd2bdd8a1dc523e8253b69327
+  checksum: 256118e790fdc9cae730efb327a1a0ad018d08d9ed4e4489136f8ecf9a9956f2fdefd59266605cba8fd344e545339b00e560795f4d29aa5f38488f31c0dfab5a
   languageName: node
   linkType: hard
 
@@ -6786,7 +6786,7 @@ __metadata:
     "@babel/helper-create-class-features-plugin": ^7.21.8
     "@codeceptjs/allure-legacy": ^1.0.2
     "@codeceptjs/helper": ^1.0.2
-    "@hmcts/ccpay-web-component": 6.0.0-beta01
+    "@hmcts/ccpay-web-component": 6.0.0-beta03
     "@hmcts/cookie-manager": ^1.0.0
     "@hmcts/eslint-config": ^1.4.0
     "@hmcts/nodejs-healthcheck": ^1.8.0
