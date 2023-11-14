@@ -1,35 +1,35 @@
 security:
-  referrerPolicy: SECURITY_REFERRER_POLICY,
+  referrerPolicy: origin,
   hpkp:
     maxAge: SECURITY_HPKP_MAX_AGE,
     pins: SECURITY_HPKP_PINS
 idam:
   client_id: paybubble
-  login_url: IDAM_AUTHENTICATION_WEB_URL
-  api_url: IDAM_API_URL
+  login_url: https://idam-web-public.demo.platform.hmcts.net/login
+  api_url: https://idam-api.demo.platform.hmcts.net
 ccpaybubble:
-  url: CCPAY_BUBBLE_URL
-  microservice: CCPAY_BUBBLE_MICROSERVICE
+  url: https://localhost
+  microservice: ccpay_bubble
 pcipalantenna:
-  url: PCIPAL_ANTENNA_URL
-  microservice: CCPAY_BUBBLE_MICROSERVICE
+  url: https://paybubble.demo.platform.hmcts.net/ccd-search
+  microservice: ccpay_bubble
 s2s:
-  url: S2S_URL
+  url: http://rpe-service-auth-provider-demo.service.core-compute-demo.internal
 payhub:
-  url: PAYHUB_API_URL
+  url: http://payment-api-demo.service.core-compute-demo.internal
 bulkscan:
-  url: CCPAY_BULKSCAN_API_URL
+  url: http://ccpay-bulkscanning-api-demo.service.core-compute-demo.internal
 refunds:
-  url: CCPAY_REFUNDS_API_URL
+  url: http://ccpay-refunds-api-demo.service.core-compute-demo.internal
 notification:
-  url: CCPAY_NOTIFICATION_API_URL
+  url: http://ccpay-notifications-service-demo.service.core-compute-demo.internal
 waystopay:
-  url: WAYS_TO_PAY_RETURN_URL
+  url: https://paymentoutcome-web.demo.platform.hmcts.net/payment
 postcodelookup:
-  url: POSTCODE_LOOKUP_URL
+  url: https://api.os.uk/search/places/v1
 certs:
-  key: CERTS_KEY
-  crt: CERTS_CRT
+  key: ./localhost-ssl/localhost.key
+  crt: ./localhost-ssl/localhost.crt
 session:
   cookieName: JWT_PAYBUBBLE
 environment:
@@ -39,14 +39,14 @@ e2e:
   frontendUrl: TEST_URL
   testForCrossbrowser: E2E_TEST_FOR_CROSS_BROWSER
 fee:
-  feeRegistrationUrl: FEE_REGISTRATION_URL
-  feeJurisdictionUrl: FEE_JURISDICTION_URL
+  feeRegistrationUrl: http://fees-register-api-demo.service.core-compute-demo.internal/fees-register/fees
+  feeJurisdictionUrl: http://fees-register-api-demo.service.core-compute-demo.internal/jurisdictions
 ccd:
   url: CCD_URL
 secrets:
   ccpay:
-    paybubble-s2s-secret: S2S_KEY
-    paybubble-idam-client-secret: IDAM_CLIENT_SECRET
-    postcode-address-lookup-id: POSTCODE_ADDRESS_LOOKUP_ID
-    launch-darkly-client-id: LD_CLIENT_ID
-    AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
+    paybubble-s2s-secret: [paybubble-s2s-secret]
+    paybubble-idam-client-secret: [paybubble-idam-client-secret]
+    launch-darkly-client-id: [launch-darkly-client-id]
+    postcode-address-lookup-id: postcode-address-lookup-id
+    AppInsightsInstrumentationKey: AppInsightsInstrumentationKey
