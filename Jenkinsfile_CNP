@@ -61,7 +61,7 @@ withPipeline("nodejs", product, component) {
     echo 'ccpay-bubble checked out'
   }
   afterAlways('build') {
-    yarnBuilder.yarn('ng:build')
+    //yarnBuilder.yarn('ng:build')
     sh 'yarn replace file=express/mvc/views/index.pug searchValue=\'"csrfToken"\' newValue=\'csrfToken\''
   }
 
