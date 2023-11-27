@@ -89,6 +89,14 @@ module.exports = (security, appInsights) => {
   app.use('/health/readiness', (req, res) => res.status(HttpStatus.OK).json({ status: 'UP' }));
   app.use('/health', healthcheck);
 
+
+  // Middleware to serve static assets
+  app.use('/public', express.static(path.join(__dirname, '/public')));
+  app.use('/assets', express.static(path.join(__dirname, 'node_modules', 'govuk-frontend', 'govuk', 'assets')));
+  app.use('/hmcts-assets', express.static(path.join(__dirname, '/node_modules/@hmcts/frontend/assets')));
+  app.use('/node_modules/govuk-frontend', express.static(path.join(__dirname, '/node_modules/govuk-frontend/govuk')));
+
+
   // allow access origin
   // @TODO - This will only take effect when on "dev" environment, but not on "prod"
   if (process.env.NODE_ENV === 'development') {

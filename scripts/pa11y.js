@@ -18,12 +18,12 @@ const generateHTMLReport = html => new Promise((resolve, reject) => {
 });
 
 async function runTest() {
-  // Creates a case
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'Cash');
-  const dcnNumber = ccdAndDcn[0];
 
-  // Pages running the tests
   try {
+    // Creates a case
+    const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'Cash');
+    const dcnNumber = ccdAndDcn[0];
+    // Pages running the tests
     // Search case page
     const pa11yResult1 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
@@ -199,14 +199,15 @@ async function runTest() {
 }
 
 async function runTest2() {
-  // Creates a case
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'Cash');
-  const dcnNumber = ccdAndDcn[0];
-  const ccdAndDcn2 = await bulkScanApiCalls.bulkScanExceptionCcd('AA08', totalAmount, 'Cheque');
-  const dcnNumber2 = ccdAndDcn2[0];
 
-  // Pages running the tests
   try {
+
+    // Creates a case
+    const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'Cash');
+    const dcnNumber = ccdAndDcn[0];
+    const ccdAndDcn2 = await bulkScanApiCalls.bulkScanExceptionCcd('AA08', totalAmount, 'Cheque');
+    const dcnNumber2 = ccdAndDcn2[0];
+    // Pages running the tests
     // Confirm association page
     const pa11yResult1 = await pa11y('https://paybubble.aat.platform.hmcts.net/', {
 
@@ -313,6 +314,7 @@ async function runTest2() {
     }
   } catch (error) {
     console.log(error);
+
   }
 }
 

@@ -1,5 +1,4 @@
 import { FeeModel } from './FeeModel';
-import * as _ from 'lodash';
 
 export class RemissionModel {
 
@@ -22,13 +21,13 @@ export class RemissionModel {
         model.payment_group_reference = '';
     }
 
-    static cleanModel(model: RemissionModel): RemissionModel {
+    static cleanModel(remissionModel: RemissionModel): RemissionModel {
         Object.keys(this.model).forEach(key => {
-          if (!_.isEmpty(this.model[key]) || !_.isNull(this.model[key])) {
-            model[key] = this.model[key];
+          if (remissionModel[key] == null || remissionModel[key] == undefined) {
+            remissionModel[key] = this.model[key];
           }
         });
-        return model;
+        return remissionModel;
     }
 
     assign(model: any) {

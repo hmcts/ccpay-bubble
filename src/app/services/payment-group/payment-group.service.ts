@@ -31,8 +31,8 @@ export class PaymentGroupService {
 
   getBSPaymentsByDCN(dcn: string): Promise<any> {
     return this.http.get(`api/bulk-scan/cases?document_control_number=${dcn}`).toPromise().then(bsPaymentGroupJson => {
-      const bsPaymentGroup = JSON.parse(bsPaymentGroupJson);
-      return <any>bsPaymentGroup;
+      const bsPaymentGroup = JSON.stringify(bsPaymentGroupJson);
+      return bsPaymentGroup;
     });
   }
 
@@ -45,7 +45,7 @@ export class PaymentGroupService {
 
   getLDFeature(flagKey): Promise<any> {
     return this.http.get(`api/payment-history/LD-feature?flag=${flagKey}`).toPromise().then(features => {
-      return !JSON.parse(features).flag;
+      return !JSON.stringify(features);
     });
   }
   getDiscontinuedFrFeature(): Promise<any> {
@@ -65,7 +65,7 @@ export class PaymentGroupService {
     return this.http.get(`api/bulk-scan/cases/${ccdCaseNumber}`)
       .toPromise()
       .then(response => {
-        return <IBSPayments>JSON.parse(response);
+        return <IBSPayments>JSON.stringify(response);
       });
   }
 }

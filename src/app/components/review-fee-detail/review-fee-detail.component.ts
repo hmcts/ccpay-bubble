@@ -10,13 +10,15 @@ import { SafeHtml } from '@angular/platform-browser';
   styleUrls: ['./review-fee-detail.component.scss']
 })
 export class ReviewFeeDetailComponent {
-  fee: FeeModel = this.addFeeDetailService.selectedFee;
+  fee: FeeModel = null;
   payBubbleView?: SafeHtml;
 
   constructor(
     private router: Router,
     private addFeeDetailService: AddFeeDetailService
-  ) { }
+  ) {
+    this.fee = this.addFeeDetailService.selectedFee;
+  }
 
   get payModel() {
     return this.addFeeDetailService.paymentModel;

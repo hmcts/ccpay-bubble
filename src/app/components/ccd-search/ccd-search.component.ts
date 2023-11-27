@@ -91,7 +91,8 @@ export class CcdSearchComponent implements OnInit {
 
       if (this.selectedValue.toLocaleLowerCase() === 'dcn') {
         this.caseResponse = null;
-        this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((res) => {
+          this.paymentGroupService.getBSPaymentsByDCN(searchValue).then((response) => {
+          const res = JSON.parse(JSON.parse(response))
           if (res['data'].ccd_reference || res['data'].exception_record_reference) {
             this.dcnNumber = searchValue;
             if (res['data'].ccd_reference !== undefined && res['data'].ccd_reference.length > 0) {
@@ -151,8 +152,7 @@ export class CcdSearchComponent implements OnInit {
               // tslint:disable-next-line:max-line-length
               let url = this.takePayment ? `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&takePayment=${this.takePayment}&servicerequest=${this.servicerequest}` : `?selectedOption=${this.selectedValue}&dcn=${this.dcnNumber}&view=case-transactions&servicerequest=${this.servicerequest}`;
               url = url.replace(/[\r\n]+/g, ' ');
-              this.paymentGroupService.getBSPaymentsByCCD(this.ccdCaseNumber).then( result => {
-
+              this.paymentGroupService.getBSPaymentsByCCD(this.ccdCaseNumber).then( response => {const result = JSON.parse(JSON.parse(response.toString()))
               if (this.caseResponse.case) {
                 this.caseType = this.caseResponse.case;
               } else {
@@ -160,7 +160,8 @@ export class CcdSearchComponent implements OnInit {
               }
 
               this.errorMessage = this.getErrorMessage(false);
-              if (result['data'] && result['data'].exception_record_reference && result['data'].ccd_reference) {
+
+                if (result['data'] && result['data'].exception_record_reference && result['data'].ccd_reference) {
                 if (this.caseResponse.case) {
                   this.caseType = this.caseResponse.exception;
                 }

@@ -6,6 +6,7 @@ import { CookieBannerComponent } from './cookie-banner.component';
 const windowMock: Window = {
   location: { reload: () => {}},
   dataLayer : [],
+  /* tslint:disable:no-empty */
   dtrum: { enable: () => {}, disable: () => {}, enableSessionReplay: () => {}, disableSessionReplay: () => {} }
 } as any;
 

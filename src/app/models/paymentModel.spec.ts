@@ -25,11 +25,55 @@ describe('Payment model', () => {
     paymentModel.currency = 'GBP';
     paymentModel.provider = 'pci pal';
     const resultModel = PaymentModel.cleanModel(paymentModel);
-    expect(paymentModel.currency).toBe('GBP');
-    expect(paymentModel.site_id).toBe('AA02');
-    expect(paymentModel.description).toBe('PayBubble payment');
-    expect(paymentModel.channel).toBe('telephony');
-    expect(paymentModel.provider).toBe('pci pal');
-    expect(paymentModel.ccd_case_number).toBe('123');
+    expect(resultModel.currency).toEqual('GBP');
+    expect(resultModel.site_id).toEqual('AA02');
+    expect(resultModel.description).toEqual('PayBubble payment');
+    expect(resultModel.channel).toEqual('telephony');
+    expect(resultModel.provider).toEqual('pci pal');
+    expect(resultModel.ccd_case_number).toEqual('123');
+  });
+
+
+  it('Should clean a model of null and undefined properties and populate with default', () => {
+    const paymentModel = new PaymentModel();
+    paymentModel.currency = 'GBP';
+    paymentModel.provider = 'pci pal';
+    paymentModel.description = null;
+
+
+    const resultModel = PaymentModel.cleanModel(paymentModel);
+
+    expect(resultModel.currency).toEqual('GBP');
+    expect(resultModel.site_id).toEqual('AA02');
+    expect(resultModel.description).toEqual('PayBubble payment');
+    expect(resultModel.channel).toEqual('telephony');
+    expect(resultModel.provider).toEqual('pci pal');
+    expect(resultModel.ccd_case_number).toBeUndefined();
+  });
+
+
+  it('Should clean a model of undefined properties and populate with default', () => {
+    const paymentModel = new PaymentModel();
+    paymentModel.description = null;
+
+    const resultModel = PaymentModel.cleanModel(paymentModel);
+
+    expect(resultModel.currency).toEqual('GBP');
+    expect(resultModel.site_id).toEqual('AA02');
+    expect(resultModel.description).toEqual('PayBubble payment');
+    expect(resultModel.channel).toEqual('telephony');
+    expect(resultModel.provider).toEqual('pci pal');
+    expect(resultModel.ccd_case_number).toBeUndefined();
+  });
+
+
+  it('Should rest a model', () => {
+    const paymentModel = new PaymentModel();
+    paymentModel.ccd_case_number = '123';
+    paymentModel.currency = 'GBP';
+    paymentModel.provider = 'pci pal';
+    PaymentModel.reset(paymentModel);
+    expect(paymentModel.ccd_case_number).toEqual('');
+    expect(paymentModel.service).toEqual('');
   });
 });
