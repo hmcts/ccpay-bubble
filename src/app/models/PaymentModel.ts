@@ -1,5 +1,4 @@
-import { FeeModel } from './FeeModel';
-import * as _ from 'lodash';
+import {FeeModel} from './FeeModel';
 
 export class PaymentModel {
 
@@ -22,12 +21,13 @@ export class PaymentModel {
         model.amount = null;
     }
 
-    static cleanModel(model: PaymentModel): PaymentModel {
-        Object.keys(this.model).forEach(key => {
-          if (!_.isEmpty(this.model[key]) || !_.isNull(this.model[key])) {
-            model[key] = this.model[key];
-          }
-        });
-        return model;
-    }
+  static cleanModel(paymentModel: PaymentModel): PaymentModel {
+
+    Object.keys(this.model).forEach(key => {
+      if (paymentModel[key] == null || paymentModel[key] == undefined) {
+        paymentModel[key] = this.model[key];
+      }
+    });
+    return paymentModel;
+  }
 }

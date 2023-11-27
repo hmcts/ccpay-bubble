@@ -78,7 +78,7 @@ describe('Payment group service', () => {
     paymentGroupService.putPaymentGroup('1234', inputPaymentGroup)
       .then((response) => {
         expect(response.fees[0].code).toBe(paymentGroup.fees[0].code);
-        expect(response.payment_group_reference).toBe(paymentGroup.payment_group_reference);
+        expect(response.payment_group_reference).toEqual(paymentGroup.payment_group_reference);
       });
   });
 
@@ -160,9 +160,10 @@ describe('Payment group service', () => {
       flag: false
     };
     spyOn(http, 'get').and.callFake(() => of(JSON.stringify(feature)));
+
     paymentGroupService.getLDFeature('test')
       .then((response) => {
-        expect(response).toBe(true);
+        expect(response).toEqual(false);
       });
   });
 
@@ -201,13 +202,14 @@ describe('Payment group service', () => {
         responsible_service_id: 'AA07'
     };
     spyOn(http, 'get').and.callFake((param1: string) => of(paymentGroup));
+
     paymentGroupService.getBSPaymentsByDCN('1234')
       .then((response) => {
-        expect(response).toBe(paymentGroup);
-        expect(response.ccd_reference).toBe(paymentGroup.ccd_reference);
-        expect(response.exception_record_reference).toBe(paymentGroup.exception_record_reference);
-      }).catch(() => {
 
+        const responseJson = JSON.parse(response.toString())
+        expect(responseJson.ccd_reference).toEqual(paymentGroup.ccd_reference);
+        expect(responseJson.exception_record_reference).toEqual(paymentGroup.exception_record_reference);
+        expect(responseJson.bgc_reference).toEqual(paymentGroup.bgc_reference);
       });
   });
   it('Should return true is bulk scann flag is on', () => {
@@ -226,7 +228,7 @@ describe('Payment group service', () => {
     spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
     paymentGroupService.getBSFeature()
       .then((response) => {
-        expect(response).toBe(true);
+        expect(response).toEqual(true);
       });
   });
   it('Should return true is bulk scann flag is off', () => {
@@ -245,7 +247,7 @@ describe('Payment group service', () => {
     spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
     paymentGroupService.getBSFeature()
       .then((response) => {
-        expect(response).toBe(false);
+        expect(response).toEqual(false);
       });
   });
   it('Should return false is bulk scann flag is off', () => {
@@ -264,7 +266,7 @@ describe('Payment group service', () => {
     spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
     paymentGroupService.getBSFeature()
       .then((response) => {
-        expect(response).toBe(false);
+        expect(response).toEqual(false);
       });
   });
   it('Should return false if bulk scann flag is not available', () => {
@@ -283,7 +285,7 @@ describe('Payment group service', () => {
     spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
     paymentGroupService.getBSFeature()
       .then((response) => {
-        expect(response).toBe(false);
+        expect(response).toEqual(false);
       });
   });
 
@@ -302,10 +304,11 @@ describe('Payment group service', () => {
     spyOn(http, 'get').and.callFake((param1: string) => of(ibsPayments));
     paymentGroupService.getBSPaymentsByCCD('1234')
       .then((response) => {
-        expect(response).toBe(ibsPayments);
-        expect(response.case_reference).toBe(ibsPayments.case_reference);
-      }).catch(() => {
-
+        const responseJson = JSON.parse(response.toString())
+        expect(responseJson.toString).toEqual(ibsPayments.toString);
+        expect(responseJson.case_reference).toEqual(ibsPayments.case_reference);
+        expect(responseJson.dcn_reference).toEqual(ibsPayments.dcn_reference);
       });
   });
 });
+

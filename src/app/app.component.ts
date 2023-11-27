@@ -4,7 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { PaymentGroupService } from './services/payment-group/payment-group.service';
 import { DOCUMENT } from '@angular/common';
 
-declare var gtag;
+declare let gtag;
 @Component({
  selector: 'app-root',
  templateUrl: './app.component.html',
