@@ -1,3 +1,16 @@
 p {
     border: 0ch;
 }
+
+.govuk-phase-banner__text {
+    font-size: 16px;;
+}
+
+.govuk-tag {
+    font-size: 14px;
+}
+
+.govuk-link:focus {
+  background-color: #ffdd00;
+  outline: 2px solid #ffdd00;
+}

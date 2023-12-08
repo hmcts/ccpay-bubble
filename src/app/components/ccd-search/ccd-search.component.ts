@@ -36,7 +36,7 @@ export class CcdSearchComponent implements OnInit {
   constructor(
     private paymentGroupService: PaymentGroupService,
     private formBuilder: FormBuilder,
-    private router: Router,
+    public router: Router,
     private caseRefService: CaseRefService,
     private activatedRoute: ActivatedRoute,
     private viewPaymentService: ViewPaymentService

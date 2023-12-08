@@ -7,7 +7,7 @@
 <form [formGroup]="filterForm" class="form-group">
     <div id="selectJurisdiction1" class="form-group">
       <label class="form-label">
-          <p id="jurisdiction1Select" class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictionData.jurisdiction1)"><span [ngClass]="{ 'arrow-rotate': jurisdictionData.jurisdiction1.show }">&#9658;</span> Jurisdiction 1</p>
+          <a id="jurisdiction1Select" class="jurisdiction-parent govuk-link" (click)="toggleJurisdiction(jurisdictionData.jurisdiction1)" href="javascript:void(0)"><span [ngClass]="{ 'arrow-rotate': jurisdictionData.jurisdiction1.show }">&#9658;</span> Jurisdiction 1</a>
       </label>
       <div [hidden]="!jurisdictionData.jurisdiction1.show">
         <div class="multiple-choice" *ngFor="let jurisdiction of jurisdictionData.jurisdiction1.data; let i = index">
@@ -18,12 +18,12 @@
               [value]="jurisdiction.name" />
             <label for="radio-inline-1">{{jurisdiction.name | titlecase}}</label>
         </div>
-        <div class="multiple-choice"><a (click)="clearFilter('jurisdiction1')">Clear filter</a></div>
+        <div class="multiple-choice"><a (click)="clearFilter('jurisdiction1')" href="javascript:void(0)">Clear filter</a></div>
       </div>
     </div>
     <div id="selectJurisdiction2" class="form-group">
         <label class="form-label">
-            <p id="jurisdiction2Select" class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictionData.jurisdiction2)"><span [ngClass]="{ 'arrow-rotate': jurisdictionData.jurisdiction2.show }">&#9658;</span> Jurisdiction 2</p>
+            <a id="jurisdiction2Select" class="jurisdiction-parent govuk-link" (click)="toggleJurisdiction(jurisdictionData.jurisdiction2)" href="javascript:void(0)"><span [ngClass]="{ 'arrow-rotate': jurisdictionData.jurisdiction2.show }">&#9658;</span> Jurisdiction 2</a>
         </label>
         <div [hidden]="!jurisdictionData.jurisdiction2.show">
           <div class="multiple-choice" *ngFor="let jurisdiction of jurisdictionData.jurisdiction2.data; let i = index">
@@ -34,7 +34,7 @@
                 [value]="jurisdiction.name" />
               <label for="radio-inline-1">{{jurisdiction.name | titlecase}}</label>
           </div>
-          <div class="multiple-choice"><a (click)="clearFilter('jurisdiction2')">Clear filter</a></div>
+          <div class="multiple-choice"><a (click)="clearFilter('jurisdiction2')" href="javascript:void(0)">Clear filter</a></div>
         </div>
       </div>
 </form>

@@ -1,8 +1,8 @@
 <form [formGroup]="searchForm" >
   <div class="govuk-error-summary" *ngIf='errorMessage.showError'aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-    <h2 class="govuk-error-summary__title govuk-error-summary__title-custom" id="error-summary-title">
+    <h1 class="govuk-error-summary__title govuk-error-summary__title-custom" id="error-summary-title">
         {{errorMessage.title}}
-    </h2>
+    </h1>
     <div class="govuk-error-summary__body">
       <ul class="govuk-list govuk-error-summary__list">
         <li>
@@ -14,15 +14,21 @@
 
   <div class="govuk-form-group">
       <legend class='govuk-fieldset__legend--xl'>
-          <h1 class="govuk-fieldset__heading">
-            Search for a case
+          <h1 class="govuk-fieldset__heading govuk-!-margin-top-5" *ngIf="router.url === '/ccd-search'">
+            Case Transaction - Search for a case
+          </h1>
+          <h1 class="govuk-fieldset__heading govuk-!-margin-top-5" *ngIf="takePayment && servicerequest === 'false'">
+            Case Transaction - Search for a case
+          </h1>
+          <h1 class="govuk-fieldset__heading govuk-!-margin-top-5" *ngIf="!takePayment && servicerequest === 'false'">
+            Payment History - Search for a case
           </h1>
         </legend>
     <fieldset class="govuk-fieldset">
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-        <h3 class="form-hint">
+        <h2 class="form-hint">
           What do you want to search for?
-        </h3>
+        </h2>
       </legend>
       
   
@@ -32,6 +38,7 @@
             id="CCDorException"
             class="govuk-radios__input"
             formControlName="CCDorException"
+            aria-label="Enter CCD case reference or exception"
             name="CCDorException"
             type="radio"
             value="CCDorException" 
@@ -59,7 +66,7 @@
         <div class="govuk-radios__item" *ngIf="isBulkscanningEnable">
           <input class="govuk-radios__input" 
             id="DCN"
-            aria-label ="Enter DCN"
+            aria-label ="Enter Payment Asset Number (DCN)"
             formControlName="CCDorException"
             name="CCDorException"
             type="radio"
@@ -81,16 +88,16 @@
                id="dcn-search" 
                type="text" 
                name="ccd-search" 
-               aria-label ="Enter DCN"
+               aria-label ="Enter Payment Asset Number (DCN)"
                formControlName="searchInput">
               <span *ngIf="hasErrors && selectedValue === 'DCN'" class="error-message">Enter DCN number in the correct format</span>
-              <span *ngIf="noCaseFound" class="error-message">No record found for this DCN</span>
+              <span *ngIf="noCaseFound" class="error-message" role="status">No record found for this DCN</span>
   
         </div>
         <div class="govuk-radios__item" *ngIf="isBulkscanningEnable">
           <input class="govuk-radios__input" 
             id="RC"
-            aria-label ="Enter RC"
+            aria-label ="Enter Payment reference number (RC)"
             formControlName="CCDorException"
             name="CCDorException"
             type="radio"
@@ -99,7 +106,7 @@
            data-aria-controls="RC"
            />
            <label class="govuk-label govuk-radios__label govuk-label--m" for="RC">
-            Payment Reference (RC)
+            Payment Reference Number (RC)
               <span class="form-hint">For example: RC-XXXX-XXXX-XXXX-XXXX</span>
           </label>
         </div>
@@ -114,14 +121,14 @@
                aria-label ="Enter RC"
                formControlName="searchInput">
               <span *ngIf="hasErrors && selectedValue === 'RC'" class="error-message">Enter Payment Reference in the correct format</span>
-              <span *ngIf="noCaseFound" class="error-message">No record found for this Payment Reference</span>
+              <span *ngIf="noCaseFound" class="error-message" role="status">No record found for this Payment Reference</span>
 
               
         </div>
      </div> 
     </fieldset>
     <button class="button" type="submit" (click)="searchFees()">Search</button>
-    <div class="nocase-message" *ngIf="noCaseFoundInCCD">No matching cases found</div>
+    <div class="nocase-message" *ngIf="noCaseFoundInCCD" role="status">No matching cases found</div>
   </div>
   
   

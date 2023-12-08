@@ -52,3 +52,15 @@
     font-size: 19px;
   }
 }
+
+.button:focus, .govuk-radios__input:focus, .govuk-input:focus {
+  outline: 3.5px solid #ffdd00;
+}
+
+.govuk-fieldset, .button {
+  margin-top: -100;
+}
+
+.case-search {
+  font-size: 32px;
+}

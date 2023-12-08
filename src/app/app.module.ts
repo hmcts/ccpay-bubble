@@ -1,4 +1,4 @@
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, Title} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/http';
@@ -91,6 +91,7 @@ const nonProductionProviders = [{
     !environment.production ? nonProductionProviders : [],
     PaymentGroupService,
     ViewPaymentService,
+    Title,
     { provide: windowToken, useFactory: windowProvider }
   ],
   bootstrap: [AppComponent]

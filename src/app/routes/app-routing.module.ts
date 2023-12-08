@@ -17,61 +17,80 @@ const routes: Routes = [
   {
     path: 'reviewFeeDetail',
     component: ReviewFeeDetailComponent,
-    canActivate: [ReviewFeeDetailRouteGuard]
+    canActivate: [ReviewFeeDetailRouteGuard],
+    data: { title: 'Review Fee Detail' },
   },
   {
     path: 'confirmation',
     component: ConfirmationComponent,
-    canActivate: [ConfirmationGuard]
+    canActivate: [ConfirmationGuard],
+    data: { title: 'Confirmation' },
   },
   {
     path: 'payments/:ref',
-    component: ViewPaymentComponent
+    component: ViewPaymentComponent,
+    data: { title: 'Payments' },
   },
   {
     path: 'service-failure',
-    component: ServiceFailureComponent
+    component: ServiceFailureComponent,
+    data: { title: 'Service Failure' },
   },
   {
     path: 'fee-search',
-    component: FeeSearchComponent
+    component: FeeSearchComponent,
+    data: { title: 'Fee Search' },
   },
   {
     path: 'ccd-search',
-    component: CcdSearchComponent
+    component: CcdSearchComponent,
+    data: { title: 'Case Transaction' },
   },
   {
     path: 'payment-history/view/:view',
-    component: PaymentHistoryComponent
+    component: PaymentHistoryComponent,
+    data: { title: 'Reports' },
   },
-    {
+  {
+    path: 'payment-history/view',
+    component: PaymentHistoryComponent,
+    data: { title: 'Reports' },
+  },
+  {
     path: 'payment-history',
-    component: CcdSearchComponent
+    component: CcdSearchComponent,
+    data: { title: 'Payment History' },
   },
   {
     path: 'service-requests',
-    component: CcdSearchComponent
+    component: CcdSearchComponent,
+    data: { title: 'Service Requests' },
   },
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'ccd-search'
+    redirectTo: 'ccd-search',
+    data: { title: '' },
   },
   {
     path: 'refund-list',
-    component: PaymentHistoryComponent
+    component: PaymentHistoryComponent,
+    data: { title: 'Refund List' },
   },
   {
     path: 'payment-history/:ccdCaseNumber',
-    component: PaymentHistoryComponent
+    component: PaymentHistoryComponent,
+    data: { title: 'Payment History' },
   },
   {
     path: 'cookies',
     component: CookiePolicyComponent,
+    data: { title: 'Cookies' },
   },
   {
     path: 'cookies-policy',
     component: CookieDetailsComponent,
+    data: { title: 'Cookies Policy' },
   }
 ];
 

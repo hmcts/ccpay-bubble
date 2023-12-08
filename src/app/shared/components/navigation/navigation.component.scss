@@ -20,6 +20,11 @@
   font-size: 24px;
 }
 
+.content:focus {
+  background-color: #ffdd00;
+  outline: 2px solid #ffdd00;
+}
+
 .advanced-search {
   display: inline-flex;
 }
@@ -50,4 +55,15 @@
 
 .logout-btn {
   cursor: pointer;
+}
+
+.govuk-skip-link:link, 
+.govuk-skip-link:visited, 
+.govuk-skip-link:hover, 
+.govuk-skip-link:active, 
+.govuk-skip-link:focus, 
+.logout-btn:focus,
+.ccd-reports-link:focus {
+  background-color: #ffdd00;
+  outline: 2px solid #ffdd00;
 }

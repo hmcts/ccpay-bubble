@@ -72,4 +72,11 @@
      }
   }
 
-  
+.govuk-button:focus {
+  outline: 3.5px solid #ffdd00;
+}
+
+.govuk-link:focus {
+  background-color: #ffdd00;
+  outline: 2px solid #ffdd00;
+}

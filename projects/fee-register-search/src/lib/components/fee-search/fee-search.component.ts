@@ -1,15 +1,18 @@
-import { Component, Output, ViewChild, EventEmitter, ElementRef, OnInit } from '@angular/core';
+import { Component, Output, ViewChild, EventEmitter, ElementRef, OnInit,  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { invalid } from 'moment';
 
 @Component({
   selector: 'pay-fee-search',
   templateUrl: './fee-search.component.html',
   styleUrls: ['./fee-search.component.scss']
 })
+
 export class FeeSearchComponent implements OnInit {
   @Output() feeSearchEventEmitter: EventEmitter<string> = new EventEmitter();
   searchForm: FormGroup;
   hasErrors = false;
+  ariaInvalid = false;
 
   constructor(
     private formBuilder: FormBuilder
@@ -22,7 +25,10 @@ export class FeeSearchComponent implements OnInit {
   }
 
   searchFees() {
-    if (this.searchForm.invalid) { return this.hasErrors = true; }
+    if (this.searchForm.invalid) {
+      this.ariaInvalid = true;
+      return this.hasErrors = true;
+    }
     this.hasErrors = false;
     this.feeSearchEventEmitter.emit(this.searchForm.get('searchInput').value);
   }
