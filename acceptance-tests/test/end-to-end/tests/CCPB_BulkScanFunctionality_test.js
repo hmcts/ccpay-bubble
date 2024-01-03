@@ -163,7 +163,7 @@ Scenario('Normal ccd case cash payment transferred', async({ I, CaseSearch, Case
   CaseTransaction.allocateToTransferred();
   CaseTransferred.validateTransferredPage(dcnNumber, '593.00', 'Cash');
   await I.runAccessibilityTest();
-  CaseTransferred.validateAndConfirmTransferred('auto transferred reason', 'Basildon Combined Court - Crown (W802)');
+  CaseTransferred.validateAndConfirmTransferred('auto transferred reason with amount £593.00. (For XYZ123 reason).', 'Basildon Combined Court - Crown (W802)');
   CaseTransferred.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Transferred');
