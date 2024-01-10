@@ -99,7 +99,6 @@ module.exports = {
     I.see(checkYourAnswersData.paymentReference);
     I.see('Select fees to be refunded');
     I.see('Select');
-    I.click(this.locators.checkbox_fee);
     I.seeCheckboxIsChecked(this.locators.checkbox_fee);
     I.seeElement({xpath: '//input[@name="organisation" and @disabled="disabled"]'});
     I.see('Fee description');
