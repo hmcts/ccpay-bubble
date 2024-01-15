@@ -89,7 +89,7 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', '£593.00', '£593.00');
   await I.runAccessibilityTest();
   ConfirmAssociation.confirmPayment();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.wait(CCPBATConstants.tenSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
   await I.runAccessibilityTest();
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
@@ -130,17 +130,17 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   Remission.remissionAmountExceed('600');
   Remission.processRemission('FEE0002', '493');
   Remission.confirmProcessRemission();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.wait(CCPBATConstants.tenSecondWaitTime);
   FeesSummary.verifyFeeSummaryAfterRemissionBulkScan('FEE0002', '£593.00', '£100.00', '£493.00');
   FeesSummary.addFeeFromSummary();
   AddFees.addFees('19.00', 'civil', 'magistrates_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '19.00', true);
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.wait(CCPBATConstants.tenSecondWaitTime);
   ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1', '£493.00', '£593.00', '£593.00', '£19.00');
   ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0362', '1', '£493.00', '£19.00', '£19.00', '£19.00');
   ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
   ConfirmAssociation.confirmPayment();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.wait(CCPBATConstants.tenSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPaymentNotPaid(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   CaseTransaction.validateTransactionPageForRemission('HWF-A1B-23C', 'FEE0002', '£100.00');
@@ -165,7 +165,7 @@ Scenario('Normal ccd case cash payment transferred', async({ I, CaseSearch, Case
   await I.runAccessibilityTest();
   CaseTransferred.validateAndConfirmTransferred('auto transferred reason', 'Basildon Combined Court - Crown (W802)');
   CaseTransferred.confirmPayment();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.wait(CCPBATConstants.tenSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Transferred');
   await I.runAccessibilityTest();
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
