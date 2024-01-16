@@ -60,11 +60,11 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     InitiateRefunds.verifyPaymentDetailsPage('Add remission');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, 'HWF-A1B-23C');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, '100.00');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, 'HWF-A1B-23C', '100.00', '£500.00', '£200.00', 'FEE0373', 'FEE0373 - Notice of hearing date for 1.1 or 1.2 application. Only one payable if applications joined up.',
       emailAddress, '', 'SendRefund');
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
@@ -76,7 +76,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyCheckYourAnswersPageForRemissionFinalSubmission(checkYourAnswersData, false, false);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     const refundRefRemissions = await InitiateRefunds.verifyRefundSubmittedPage('100.00');
     I.wait(CCPBATConstants.tenSecondWaitTime);
 

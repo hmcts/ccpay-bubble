@@ -54,7 +54,7 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
     I.fillField('//*[@id="address-postcode"]', postcode);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('Find address');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
