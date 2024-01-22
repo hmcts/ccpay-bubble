@@ -8,12 +8,9 @@ const assert = require('assert');
 const apiUtils = require('../helpers/utils');
 const assertionData = require('../fixture/data/refunds/assertion');
 const stringUtil = require('../helpers/string_utils.js');
-
 const testConfig = require('./config/CCPBConfig');
 
-const numberOfRefundsTestRetries = 4;
-
-Feature('CC Pay Bubble Refunds V2 Tests').retry(numberOfRefundsTestRetries);
+Feature('CC Pay Bubble Refund Over payment option selection journey test').retry(CCPBATConstants.defaultNumberOfRetries);
 
 // Bulk scan cash overpayment refund option, email notification preview at all 3 stages(before refund request, refund approve and after approve) and Resend Notification
 Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email notification and Resend Notification journey',
