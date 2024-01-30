@@ -10,7 +10,7 @@ to install all the libraries into the node module run `yarn install` on the term
 
 ## Build
 
-Important - The project's build dependens on library projects located in the projects folder. 
+Important - The project's   build dependens on library projects located in the projects folder. 
 Run 
   1. `ng build fee-register-search` and 
   2. `ng build view payment` 
