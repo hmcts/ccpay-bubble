@@ -85,6 +85,7 @@
     "pug": "^3.0.2",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
+    "rpx-xui-translation": "1.0.2",
     "rxjs": "~6.6.7",
     "rxjs-compat": "^6.5.2",
     "superagent": "8.0.8",
