@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { InjectionToken } from '@angular/core';\nexport const windowToken = new InjectionToken('Window');\nexport function windowProvider() {\n  return window;\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
