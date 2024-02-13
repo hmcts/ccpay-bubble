@@ -38,6 +38,7 @@ import { CookiePolicyComponent } from './components/cookie-policy/cookie-policy.
 import { CookieDetailsComponent } from './components/cookie-details/cookie-details.component';
 import { windowProvider, windowToken } from '../window';
 import { CookieTableComponent } from './components/cookie-table/cookie-table.component';
+import { RpxTranslationModule } from 'rpx-xui-translation';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -77,7 +78,15 @@ const nonProductionProviders = [{
     FeeRegisterSearchModule,
     PaymentLibModule,
     NoopAnimationsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    RpxTranslationModule.forRoot({
+      baseUrl: '/api/translation',
+      debounceTimeMs: 300,
+      validity: {
+        days: 1
+      },
+      testMode: false
+    })
   ],
   providers: [
     PaybubbleHttpClient,
