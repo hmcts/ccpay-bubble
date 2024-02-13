@@ -2830,15 +2830,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccpay-web-component@file:../ccpay-web-component/dist/payment-lib::locator=ccpay-bubble%40workspace%3A.":
+"@hmcts/ccpay-web-component@npm:6.0.17":
   version: 6.0.17
-  resolution: "@hmcts/ccpay-web-component@file:../ccpay-web-component/dist/payment-lib#../ccpay-web-component/dist/payment-lib::hash=30bfb5&locator=ccpay-bubble%40workspace%3A."
+  resolution: "@hmcts/ccpay-web-component@npm:6.0.17"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
     "@angular/common": ^16.1.6
     "@angular/core": ^16.1.6
-  checksum: b878940082710ce9cb2c73029d49c7460282a7d83d44719571a0936f4bad9042e7bd2f82003f9e2eea13a60081aa8acea96a2b92ab7a7137d4c17024495092d0
+  checksum: 966691181ff6a80a865d4c4920ed2a284b2c00de7e54bb9915b123e6ff57945d72455d62a18435cc7b6ffc94806a8a624b94be13f15b16d23b451eec4fad710b
   languageName: node
   linkType: hard
 
@@ -6786,7 +6786,7 @@ __metadata:
     "@babel/helper-create-class-features-plugin": ^7.21.8
     "@codeceptjs/allure-legacy": ^1.0.2
     "@codeceptjs/helper": ^1.0.2
-    "@hmcts/ccpay-web-component": "file:../ccpay-web-component/dist/payment-lib"
+    "@hmcts/ccpay-web-component": 6.0.17
     "@hmcts/cookie-manager": ^1.0.0
     "@hmcts/eslint-config": ^1.4.0
     "@hmcts/nodejs-healthcheck": ^1.8.0
