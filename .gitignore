@@ -64,3 +64,4 @@ stryker.log
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+.angular/*
