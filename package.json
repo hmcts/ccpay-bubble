@@ -48,7 +48,7 @@
   "dependencies": {
     "@babel/eslint-parser": "^7.11.0",
     "@babel/helper-create-class-features-plugin": "^7.21.8",
-    "@hmcts/ccpay-web-component": "6.0.18-beta",
+    "@hmcts/ccpay-web-component": "6.0.18-beta1",
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/nodejs-healthcheck": "^1.8.0",
     "@hmcts/nodejs-logging": "^4.0.4",
