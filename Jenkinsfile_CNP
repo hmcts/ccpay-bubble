@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure")
+@Library("Infrastructure@DTSPO-15800-Angular-nagger")
 
 def product = "ccpay"
 def component = "bubble-frontend"
