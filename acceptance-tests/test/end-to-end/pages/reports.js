@@ -59,8 +59,10 @@ module.exports = {
     default:
       logger.log('Enter valid report name');
     }
-    I.fillField(this.locators.date_to, dateTo);
+    I.wait(CCPBConstants.twoSecondWaitTime);
     I.fillField(this.locators.date_from, dateFrom);
+    I.wait(CCPBConstants.twoSecondWaitTime);
+    I.fillField(this.locators.date_to, dateTo);
     I.wait(CCPBConstants.twoSecondWaitTime);
     I.click('Download report');
     I.wait(CCPBConstants.fiveSecondWaitTime);
