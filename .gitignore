@@ -64,8 +64,12 @@ stryker.log
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+<<<<<<< HEAD
 
 .angular
 /config/local-development.yaml
 /config/local-development.yaml.aat
 /config/local-development.yaml.demo
+=======
+.angular/*
+>>>>>>> 6e4a3516ce707623344286bd2c26c7a5b036d6a0
