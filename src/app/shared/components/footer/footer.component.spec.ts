@@ -1,7 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Store } from '@ngrx/store';
+// import { Store } from '@ngrx/store';
 import { FooterComponent } from './footer.component';
 
 describe('FooterComponent', () => {
@@ -23,17 +23,17 @@ describe('FooterComponent', () => {
   let element: DebugElement;
 
   beforeEach(waitForAsync(() => {
-    const storeMock = jasmine.createSpyObj('mockStore', ['unsubscribe', 'dispatch', 'pipe']);
+    // const storeMock = jasmine.createSpyObj('mockStore', ['unsubscribe', 'dispatch', 'pipe']);
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule
       ],
       declarations: [FooterComponent, TestDummyHostComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [{
-        provide: Store,
-        useValue: storeMock
-      }]
+      // providers: [{
+      //   provide: Store,
+      //   useValue: storeMock
+      // }]
     })
       .compileComponents();
   }));

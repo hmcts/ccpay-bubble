@@ -2858,6 +2858,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hmcts/frontend@npm:0.0.50-alpha":
+  version: 0.0.50-alpha
+  resolution: "@hmcts/frontend@npm:0.0.50-alpha"
+  checksum: 40121f8b72d9e4045f8f544458a5a48fd09dab61c75da7d719f5225a0a6019deb84cee08b03b3596fb409dc3518efaed264269257cc6b8e9f6abbdc48d25e4bf
+  languageName: node
+  linkType: hard
+
 "@hmcts/nodejs-healthcheck@npm:^1.8.0":
   version: 1.8.3
   resolution: "@hmcts/nodejs-healthcheck@npm:1.8.3"
@@ -6789,6 +6796,7 @@ __metadata:
     "@hmcts/ccpay-web-component": 6.0.13
     "@hmcts/cookie-manager": ^1.0.0
     "@hmcts/eslint-config": ^1.4.0
+    "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/nodejs-healthcheck": ^1.8.0
     "@hmcts/nodejs-logging": ^4.0.4
     "@hmcts/properties-volume": ^1.0.0
