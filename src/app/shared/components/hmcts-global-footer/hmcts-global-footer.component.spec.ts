@@ -2,8 +2,8 @@ import { Component, DebugElement, Input, Pipe, PipeTransform, ViewChild } from '
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RpxTranslationService } from 'rpx-xui-translation';
-import { AppConstants } from '../../app.constants';
-import { Helper, Navigation } from '../../containers/footer/footer.model';
+import { AppConstants } from '../../../app.constants';
+import { Helper, Navigation } from '../footer/footer.model';
 import { HmctsGlobalFooterComponent } from './hmcts-global-footer.component';
 
 @Pipe({ name: 'rpxTranslate' })

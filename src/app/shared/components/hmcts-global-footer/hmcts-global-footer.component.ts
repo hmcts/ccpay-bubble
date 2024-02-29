@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Navigation } from '../../containers/footer/footer.model';
+import { Navigation } from '../footer/footer.model';
 
 @Component({
   selector: 'ccpay-bubble-hmcts-global-footer',

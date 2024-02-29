@@ -7,6 +7,7 @@ const path = require('path');
 const repoRoot = path.join(__dirname, '/');
 const govUkFrontendToolkitRoot = path.join(repoRoot, 'node_modules/govuk_frontend_toolkit/stylesheets');
 const govUkElementRoot = path.join(repoRoot, 'node_modules/govuk-elements-sass/public/sass');
+const hmctsFrontEnd = path.join(repoRoot, 'node_modules/@hmcts/frontend/all');
 
 const assetsDirectory = './src/assets';
 const stylesheetsDirectory = `${assetsDirectory}/stylesheets`;
@@ -19,7 +20,8 @@ gulp.task('sass', () => {
       outputStyle: 'compressed',
       includePaths: [
         govUkFrontendToolkitRoot,
-        govUkElementRoot
+        govUkElementRoot,
+        hmctsFrontEnd
       ]
     }))
     .pipe(gulp.dest(stylesheetsDirectory));
