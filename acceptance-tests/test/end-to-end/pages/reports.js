@@ -63,6 +63,8 @@ module.exports = {
     I.fillField(this.locators.date_from, dateFrom);
     I.wait(CCPBConstants.twoSecondWaitTime);
     I.fillField(this.locators.date_to, dateTo);
+    
+    // PAY-6928 UI issue with date selection.
     // I.wait(CCPBConstants.twoSecondWaitTime);
     // I.click('Download report');
     // I.wait(CCPBConstants.fiveSecondWaitTime);
