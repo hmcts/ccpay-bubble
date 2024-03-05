@@ -1,13 +1,12 @@
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const path = require('path');
 
 
 const repoRoot = path.join(__dirname, '/');
 const govUkFrontendToolkitRoot = path.join(repoRoot, 'node_modules/govuk_frontend_toolkit/stylesheets');
 const govUkElementRoot = path.join(repoRoot, 'node_modules/govuk-elements-sass/public/sass');
-const hmctsFrontEnd = path.join(repoRoot, 'node_modules/@hmcts/frontend/all');
 
 const assetsDirectory = './src/assets';
 const stylesheetsDirectory = `${assetsDirectory}/stylesheets`;
@@ -20,8 +19,7 @@ gulp.task('sass', () => {
       outputStyle: 'compressed',
       includePaths: [
         govUkFrontendToolkitRoot,
-        govUkElementRoot,
-        hmctsFrontEnd
+        govUkElementRoot
       ]
     }))
     .pipe(gulp.dest(stylesheetsDirectory));
@@ -31,7 +29,7 @@ gulp.task('watch', () => {
   gulp.watch(`${stylesheetsDirectory}/**/*.scss`, ['sass']);
 });
 
-gulp.task('default', [
-  'sass',
-  'watch'
-]);
+gulp.task('default', function(done) {
+  gulp.series('sass', 'watch');
+  done();
+});
