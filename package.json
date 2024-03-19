@@ -213,7 +213,7 @@
     "sockjs": "^0.3.20",
     "json-schema": "^0.4.0",
     "node-fetch": "^2.6.7",
-    "follow-redirects": "^1.14.7",
+    "follow-redirects": "^1.15.6",
     "async": "^3.2.2",
     "cookiejar": "^2.1.4",
     "qs": "^6.7.3",

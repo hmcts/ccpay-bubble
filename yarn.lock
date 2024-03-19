@@ -3042,14 +3042,14 @@ __metadata:
   linkType: hard
 
 "@hmcts/ccpay-web-component@file:../ccpay-web-component/dist/payment-lib::locator=ccpay-bubble%40workspace%3A.":
-  version: 6.0.18
-  resolution: "@hmcts/ccpay-web-component@file:../ccpay-web-component/dist/payment-lib#../ccpay-web-component/dist/payment-lib::hash=ba282c&locator=ccpay-bubble%40workspace%3A."
+  version: 6.1.0
+  resolution: "@hmcts/ccpay-web-component@file:../ccpay-web-component/dist/payment-lib#../ccpay-web-component/dist/payment-lib::hash=121080&locator=ccpay-bubble%40workspace%3A."
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
     "@angular/common": ^16.1.6
     "@angular/core": ^16.1.6
-  checksum: eb8dac4b8b8c9bc0cf5e45254b1e592a3aaf4021254a0e99176ebc5fcda5a411915ed48beca9d337ab2843f6744ae3cd70a80b973a0700482aa9a4d8a587b433
+  checksum: 2d57377c9624abbe385c56e15ac3d9b0fcf97038fad6140b65d74d016239c75030b329eda04ca9a677c2999db618018b15480def473b3ba0e11e4789bc772836
   languageName: node
   linkType: hard
 
@@ -11490,13 +11490,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.14.7":
-  version: 1.15.3
-  resolution: "follow-redirects@npm:1.15.3"
+"follow-redirects@npm:^1.15.6":
+  version: 1.15.6
+  resolution: "follow-redirects@npm:1.15.6"
   peerDependenciesMeta:
     debug:
       optional: true
-  checksum: 584da22ec5420c837bd096559ebfb8fe69d82512d5585004e36a3b4a6ef6d5905780e0c74508c7b72f907d1fa2b7bd339e613859e9c304d0dc96af2027fd0231
+  checksum: a62c378dfc8c00f60b9c80cab158ba54e99ba0239a5dd7c81245e5a5b39d10f0c35e249c3379eae719ff0285fff88c365dd446fab19dee771f1d76252df1bbf5
   languageName: node
   linkType: hard
 
