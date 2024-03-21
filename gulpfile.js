@@ -13,7 +13,7 @@ const stylesheetsDirectory = `${assetsDirectory}/stylesheets`;
 
 
 gulp.task('sass', () => {
-  gulp.src(`${stylesheetsDirectory}/*.scss`)
+  return  gulp.src(`${stylesheetsDirectory}/*.scss`)
     .pipe(plumber())
     .pipe(sass({
       outputStyle: 'compressed',
@@ -26,10 +26,7 @@ gulp.task('sass', () => {
 });
 
 gulp.task('watch', () => {
-  gulp.watch(`${stylesheetsDirectory}/**/*.scss`, ['sass']);
+  gulp.watch(`${stylesheetsDirectory}/**/*.scss`, gulp.series('sass'));
 });
 
-gulp.task('default', function(done) {
-  gulp.series('sass', 'watch');
-  done();
-});
+gulp.task('default',  gulp.series('sass'));

@@ -25,21 +25,21 @@
 
     button {
       border: 0;
-      color: $page-colour;
-      &:hover { border: 0; color: $page-colour; }
+      color: #ffffff;
+      &:hover { border: 0; color: #ffffff; }
     }
   }
 }
 
 .button-action {
-  background: $panel-colour;
-  color: $text-colour;
-  &:hover { background: $border-colour; color: $text-colour; }
-  &[disabled]:hover { background: $panel-colour; color: $text-colour; }
+  background: #dee0e2;
+  color: $govuk-text-colour;
+  &:hover { background: $govuk-border-colour; color: $govuk-text-colour; }
+  &[disabled]:hover { background: #dee0e2; color: $govuk-text-colour; }
 }
 
 .button-link {
-  background: $highlight-colour;
-  color: $text-colour;
-  &:hover { background: $panel-colour; color: $text-colour; }
+  background: #f8f8f8;
+  color: $govuk-text-colour;
+  &:hover { background: #dee0e2; color: $govuk-text-colour; }
 }
