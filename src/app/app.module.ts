@@ -79,14 +79,7 @@ const nonProductionProviders = [{
     PaymentLibModule,
     NoopAnimationsModule,
     BrowserAnimationsModule,
-    RpxTranslationModule.forRoot({
-      baseUrl: '/api/translation',
-      debounceTimeMs: 300,
-      validity: {
-        days: 1
-      },
-      testMode: false
-    })
+    RpxTranslationModule
   ],
   providers: [
     PaybubbleHttpClient,
