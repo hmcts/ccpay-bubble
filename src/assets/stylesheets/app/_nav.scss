@@ -7,16 +7,16 @@
   }
 
   &.blue {
-    background: $link-colour;
+    background: $govuk-link-colour;
     a {
-      color: $page-colour;
+      color: #fff;
     }
   }
 
-  &.white {
-    background: $page-colour;
+  &#fff {
+    background: #fff;
     a {
-      color: $text-colour;
+      color: $govuk-text-colour;
       font-weight: lighter;
     }
   }
@@ -40,7 +40,7 @@
   }
 
   a {
-    color: $white;
+    color: #fff;
     font-size: 18px;
     text-decoration: none;
     &:hover {
@@ -61,7 +61,7 @@
 }
 
 .bar-header {
-  background: $black;
+  background: #0b0c0c;
   display: block;
   font-size: 26px;
   font-weight: bold;
@@ -75,7 +75,7 @@
   }
 
   a {
-    color: $white;
+    color: #fff;
     text-decoration: none;
   }
 
@@ -86,7 +86,7 @@
 
   ul {
     li {
-      color: $white;
+      color: #fff;
       display: inline-block;
       font-size: 20px;      
       padding: 10px 10px 0;
@@ -105,9 +105,9 @@
   }
 
   .notifications-count {
-    background: $white;
+    background: #fff;
     border-radius: 50%;
-    color: $red;
+    color: #b10e1e;;
     font-size: 24px;
     padding: 3px 8px 0;
   }
@@ -138,14 +138,14 @@
   }
 
   .chevron {
-    // border: 1px solid $white;
+    // border: 1px solid #fff;
     &-up {
       display: none;
     }
   }
 
   .bar-header__dropdown {
-    background: $black;
+    background: #0b0c0c;
     display: none;
     padding-bottom: 10px;
     position: absolute;
@@ -170,12 +170,12 @@
 }
 
 .fee-edit-bar {
-  background: $link-colour;
+  background: $govuk-link-colour;
   font-weight: bold;
   margin-bottom: 20px;
 
   .content {
-    color: $page-colour;
+    color: #fff;
     padding: 10px;
 
     span {
@@ -191,7 +191,7 @@
   }
 
   .link {
-    color: $page-colour;
+    color: #fff;
     float: left;
     text-decoration: none;
   }
@@ -201,7 +201,7 @@
     text-align: center;
     width: 5%;
     .content {
-      border-right: 2px solid $page-colour;
+      border-right: 2px solid #fff;
     }
   }
 
@@ -225,11 +225,11 @@
 }
 
 .advanced-search-block {
-  background: $link-colour;
-  color: $page-colour;
+  background: $govuk-link-colour;
+  color: #fff;
 
   li { width: 30%; }
-  label { color: $page-colour; }
+  label { color: #fff; }
   .form-control { width: 100%; }
 
   &--pt30 {
