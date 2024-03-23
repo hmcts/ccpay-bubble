@@ -81,7 +81,7 @@ const nonProductionProviders = [{
     BrowserAnimationsModule,
     RpxTranslationModule.forRoot({
       baseUrl: '/api/translation',
-      debounceTimeMs: 300,
+      debounceTimeMs: 350,
       validity: {
         days: 1
       },
