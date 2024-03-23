@@ -50,7 +50,7 @@
   "dependencies": {
     "@babel/eslint-parser": "^7.11.0",
     "@babel/helper-create-class-features-plugin": "^7.21.8",
-    "@hmcts/ccpay-web-component": "6.1.1-beta01",
+    "@hmcts/ccpay-web-component": "6.1.0",
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/nodejs-healthcheck": "^1.8.0",
     "@hmcts/nodejs-logging": "^4.0.4",
@@ -63,7 +63,6 @@
     "core-js": "^2.6.3",
     "csurf": "^1.11.0",
     "ejs": "^3.1.7",
-    "exceljs": "^4.4.0",
     "express": "^4.16.4",
     "express-session": "^1.17.1",
     "helmet": "^3.22.0",
@@ -98,6 +97,7 @@
     "underscore": "^1.12.1",
     "uuid": "3.3.2",
     "web-animations-js": "^2.3.2",
+    "xlsx": "^0.18.5",
     "yargs-parser": "^20.2.7",
     "zone.js": "~0.13.1"
   },
