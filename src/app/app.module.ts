@@ -77,7 +77,8 @@ const nonProductionProviders = [{
     FeeRegisterSearchModule,
     PaymentLibModule,
     NoopAnimationsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    RpxTranslationModule
   ],
   providers: [
     PaybubbleHttpClient,
