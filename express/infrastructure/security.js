@@ -36,7 +36,7 @@ function addOAuth2Parameters(url, state, self, req) {
   url.query.state = state;
   url.query.client_id = self.opts.clientId;
   url.query.scope = 'openid profile roles search-user';
-  url.query.redirect_uri = `https://${req.get('host')}${self.opts.redirectUri}`;
+  url.query.redirect_uri = `http://${req.get('host')}${self.opts.redirectUri}`;
 }
 
 function generateState() {
@@ -97,7 +97,7 @@ function getTokenFromCode(self, req) {
     .type('form')
     .send({ grant_type: 'authorization_code' })
     .send({ code: req.query.code })
-    .send({ redirect_uri: `https://${req.get('host')}${self.opts.redirectUri}` });
+    .send({ redirect_uri: `http://${req.get('host')}${self.opts.redirectUri}` });
 }
 
 function getUserDetails(self, securityCookie) {
