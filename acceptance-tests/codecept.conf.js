@@ -11,9 +11,8 @@ exports.config = {
       url: CONF.e2e.frontendUrl,
       show: false,
       browser: 'chromium',
-      //browser: 'firefox',
       waitForTimeout: 60001,
-      waitForAction: 2000,
+      waitForAction: 500,
       timeout: 20002,
       waitForNavigation: 'networkidle0',
       ignoreHTTPSErrors: true,
@@ -37,7 +36,7 @@ exports.config = {
   plugins: {
     retryFailedStep: {
       enabled: true,
-      retries: 0,
+      retries: 2,
     },
     autoDelay: {
       enabled: true
