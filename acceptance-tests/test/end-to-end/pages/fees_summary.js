@@ -25,22 +25,36 @@ module.exports = {
     }
   },
 
-  verifyFeeSummaryAfterRemissionBulkScan(feeCode, feeAmount, remissionAmount, totalAfterRemission) {
+  verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, feeCode, amount, takePaymentFlag) {
     I.see('Summary');
-    // I.see(feeCode);
+    I.see('Case reference:');
+    I.see(`${ccdCaseNumberFormatted}`);
+    I.see('Description');
+    I.see('Quantity');
+    I.see('Amount');
+    I.see(PaybubbleStaticData.fee_description[feeCode]);
+    I.see('1');
+    I.see(`£${amount}`);
+    I.see('Add fee');
+    I.see('Total to pay:');
+    I.see(`£${amount}`);
+    if (takePaymentFlag) {
+      I.see('Take payment');
+      I.cick('Take payment');
+    }
+  },
+
+
+  verifyFeeSummaryAfterRemission(feeCode, feeAmount, remissionAmount, totalAfterRemission) {
+    I.see('Summary');
     I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see('Amount');
     I.see(feeAmount);
-    // I.see('Volume');
-    // I.see('Fee total');
-    // I.see('Remission amount');
     I.see('Description');
     I.see('Quantity');
     I.see('Remission,HWF-A1B-23C');
-    // I.see('Total after remission');
     I.see(remissionAmount);
     I.see('Total to pay:');
-    // I.see('Total outstanding amount');
     I.see(totalAfterRemission);
     I.dontSee('What service is this fee for?');
   },
