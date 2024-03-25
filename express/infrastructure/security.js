@@ -165,11 +165,7 @@ Security.prototype.logout = function logout() {
       res.clearCookie(constants.authToken);
       res.clearCookie(constants.userInfo);
       res.clearCookie(constants.PCIPAL_SECURITY_INFO);
-      if (token) {
-        res.redirect(`${self.opts.loginUrl}/logout?jwt=${token}`);
-      } else {
-        res.redirect(`${self.opts.loginUrl}/logout`);
-      }
+      res.redirect('/');
     });
   };
 };
