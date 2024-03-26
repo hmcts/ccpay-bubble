@@ -930,8 +930,7 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.waitInUrl('pcipal', 2);
     this.click('Cancel');
-    //this.click('Finish Session');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.click('Finish Session');
   },
 
   async removeFeeFromCaseTransactionPageTelephonyFlow() {
