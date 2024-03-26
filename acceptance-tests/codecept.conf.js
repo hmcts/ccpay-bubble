@@ -10,10 +10,9 @@ exports.config = {
     Playwright: {
       url: CONF.e2e.frontendUrl,
       show: false,
-      //browser: 'chromium',
-      browser: 'firefox',
+      browser: 'chromium',
       waitForTimeout: 60001,
-      waitForAction: 2000,
+      waitForAction: 500,
       timeout: 20002,
       waitForNavigation: 'networkidle0',
       ignoreHTTPSErrors: true,
