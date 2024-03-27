@@ -59,16 +59,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/architect@npm:0.1602.4":
-  version: 0.1602.4
-  resolution: "@angular-devkit/architect@npm:0.1602.4"
-  dependencies:
-    "@angular-devkit/core": 16.2.4
-    rxjs: 7.8.1
-  checksum: 8cef1f8ff29f247db61205a92eebbb6fc972ede12e1a26441f99ce669730d4683cf29f2fa34f4015b4fececa4440837a509b76646c6315e1f19ecf7e74d2955c
-  languageName: node
-  linkType: hard
-
 "@angular-devkit/build-angular@npm:^16.0.0, @angular-devkit/build-angular@npm:^16.1.6":
   version: 16.2.13
   resolution: "@angular-devkit/build-angular@npm:16.2.13"
@@ -208,35 +198,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/core@npm:16.2.4":
-  version: 16.2.4
-  resolution: "@angular-devkit/core@npm:16.2.4"
+"@angular-devkit/schematics@npm:16.2.13":
+  version: 16.2.13
+  resolution: "@angular-devkit/schematics@npm:16.2.13"
   dependencies:
-    ajv: 8.12.0
-    ajv-formats: 2.1.1
-    jsonc-parser: 3.2.0
-    picomatch: 2.3.1
-    rxjs: 7.8.1
-    source-map: 0.7.4
-  peerDependencies:
-    chokidar: ^3.5.2
-  peerDependenciesMeta:
-    chokidar:
-      optional: true
-  checksum: 697accb00d3c7517d7a7bee20c05acbba29ea073c5968e9249b9a977a303a6698b079bdb244f791bedc8642e4dc8b66cf2f4b5fef1868dca8aac7cf449c016bd
-  languageName: node
-  linkType: hard
-
-"@angular-devkit/schematics@npm:16.2.4":
-  version: 16.2.4
-  resolution: "@angular-devkit/schematics@npm:16.2.4"
-  dependencies:
-    "@angular-devkit/core": 16.2.4
+    "@angular-devkit/core": 16.2.13
     jsonc-parser: 3.2.0
     magic-string: 0.30.1
     ora: 5.4.1
     rxjs: 7.8.1
-  checksum: 1ff28f3a9a9a734913652f7f477385681a364b4ad98cc25bc37a5d7ddb0a66daed2e22cafdd62205c2b5f571c365000d254cfc740ce9f2b32e97b0240d52aedd
+  checksum: 53d5f74ca165809fc74e31b3fcb7275bfaf31a8832146c5964edc9b5e968e6c0f4d4b48b9e2336f326ddad4128edd98ec5e730cf6567f174db2747358b7458d3
   languageName: node
   linkType: hard
 
@@ -361,14 +332,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cli@npm:16.2.4":
-  version: 16.2.4
-  resolution: "@angular/cli@npm:16.2.4"
+"@angular/cli@npm:16.2.13":
+  version: 16.2.13
+  resolution: "@angular/cli@npm:16.2.13"
   dependencies:
-    "@angular-devkit/architect": 0.1602.4
-    "@angular-devkit/core": 16.2.4
-    "@angular-devkit/schematics": 16.2.4
-    "@schematics/angular": 16.2.4
+    "@angular-devkit/architect": 0.1602.13
+    "@angular-devkit/core": 16.2.13
+    "@angular-devkit/schematics": 16.2.13
+    "@schematics/angular": 16.2.13
     "@yarnpkg/lockfile": 1.1.0
     ansi-colors: 4.1.3
     ini: 4.1.1
@@ -385,7 +356,7 @@ __metadata:
     yargs: 17.7.2
   bin:
     ng: bin/ng.js
-  checksum: 9d79cbd074df7d7ead3b67f365ba1f07cbb15b36a99292ec65b47c9b94dd18e2ef70b994bfd9170d4c0bc037b766dc6d7cd87e6235399accee191ccef90fac3e
+  checksum: 97ae603716e6ede89ac007f4b185c219b8734a61256283fda0c33bffbe49e145ab7e7b0845089d589bf1d51415f50bfc733b29abfccc8eaf10c50b2b0915ed99
   languageName: node
   linkType: hard
 
@@ -5021,14 +4992,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@schematics/angular@npm:16.2.4":
-  version: 16.2.4
-  resolution: "@schematics/angular@npm:16.2.4"
+"@schematics/angular@npm:16.2.13":
+  version: 16.2.13
+  resolution: "@schematics/angular@npm:16.2.13"
   dependencies:
-    "@angular-devkit/core": 16.2.4
-    "@angular-devkit/schematics": 16.2.4
+    "@angular-devkit/core": 16.2.13
+    "@angular-devkit/schematics": 16.2.13
     jsonc-parser: 3.2.0
-  checksum: 70323106a04b8a6355f333a8fa64c0329e7fbd6da1c6580d5c1e24f240c05a2c3ee14aec4eac41ef8c1c65f4782fa37854a74c70ad2e53f2e79a586157803b17
+  checksum: 5b8c2aa2a3bf88b7f45ced6e498b7770fa2c3782495f291166b78acdbedd7e84b33442825a304c85bc2ed230a9f037830f7c9a98e5874e2ac1b6b316ebbd7da6
   languageName: node
   linkType: hard
 
@@ -8190,7 +8161,7 @@ __metadata:
     "@angular-eslint/template-parser": 16.1.0
     "@angular/animations": ~16.1.6
     "@angular/cdk": ^16.1.6
-    "@angular/cli": 16.2.4
+    "@angular/cli": 16.2.13
     "@angular/common": 16.1.6
     "@angular/compiler": ~16.1.6
     "@angular/compiler-cli": ~16.1.6
