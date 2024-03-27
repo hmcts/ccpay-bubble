@@ -69,7 +69,7 @@ export class CcdSearchComponent implements OnInit {
         this.ccdPattern : this.selectedValue === 'CCDorException' ? this.ccdPattern : this.selectedValue === 'DCN' ? this.dcnPattern : this.prnPattern)
     ]),
     CCDorException: new FormControl(this.selectedValue) });
-}
+  }
 
   onSelectionChange(value: string) {
       this.selectedValue = value;
@@ -78,7 +78,7 @@ export class CcdSearchComponent implements OnInit {
       this.noCaseFound = false;
       this.searchForm.get('CCDorException').setValue(value);
       this.fromValidation();
-    }
+  }
 
   searchFees() {
       if (this.searchForm.controls['searchInput'].valid) {
