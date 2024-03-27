@@ -222,5 +222,5 @@
     "flat": "5.0.1",
     "ip": "^2.0.1"
   },
-  "packageManager": "yarn@3.5.1"
+  "packageManager": "yarn@3.8.1"
 }
