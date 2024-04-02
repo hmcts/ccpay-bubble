@@ -57,7 +57,7 @@ Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, 
   PaymentHistory.validateCcdPaymentDetails(receiptReference, '£593.00', dcnNumber, 'success', 'Cash', 'FEE0002');
   await I.runAccessibilityTest();
   I.Logout();
-}).tag('@pipeline @nightly');
+}).tag('@pipeline @nightly @debug');
 
 Scenario('Normal ccd case cheque payment full allocation to existing service request', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);

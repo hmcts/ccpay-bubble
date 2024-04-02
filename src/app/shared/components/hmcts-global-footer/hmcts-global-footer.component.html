@@ -1,5 +1,5 @@
 
-<footer class="govuk-footer " role="contentinfo">
+<footer class="govuk-footer" role="contentinfo">
   <div class="govuk-width-container ">
 
     <div class="govuk-footer__meta">
@@ -9,23 +9,10 @@
 
         <ul class="govuk-footer__inline-list">
           <li class="govuk-footer__inline-list-item" *ngFor="let item of navigation.items">
-            <a class="govuk-footer__link" [routerLink]="item.href" [target]="item.target">{{item.text}}</a>
+            <a *ngIf="item.internal == true" class="govuk-footer__link" [routerLink]="item.href" [target]="item.target">{{item.text}}</a>
+            <a *ngIf="!item.internal == true" class="govuk-footer__link" [attr.href]="item.href" [target]="item.target">{{item.text}}</a>
           </li>
         </ul>
-
-        <!-- <img src="https://presastg.blob.core.windows.net/pre-b2c-container/copyright.png" height="17" width="41"
-             class="govuk-footer__licence-logo"/>
-        <span class="govuk-footer__licence-description">
-          All content is available under the
-          <a class="govuk-footer__link"
-             href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence v3.0</a>, except where otherwise stated
-        </span>
-      </div>
-      <div class="govuk-footer__meta-item">
-        <a class="govuk-footer__link govuk-footer__copyright-logo"
-           href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">©
-          Crown copyright</a>
-      </div> -->
 
       <svg
           aria-hidden="true"

@@ -40,6 +40,7 @@ import { windowProvider, windowToken } from '../window';
 import { CookieTableComponent } from './components/cookie-table/cookie-table.component';
 import { HmctsGlobalFooterComponent } from './shared/components/hmcts-global-footer/hmcts-global-footer.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { RpxTranslationModule } from 'rpx-xui-translation';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -81,7 +82,15 @@ const nonProductionProviders = [{
     FeeRegisterSearchModule,
     PaymentLibModule,
     NoopAnimationsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    RpxTranslationModule.forRoot({
+      baseUrl: '/api/translation',
+      debounceTimeMs: 300,
+      validity: {
+        days: 1
+      },
+      testMode: false
+    })
   ],
   providers: [
     PaybubbleHttpClient,

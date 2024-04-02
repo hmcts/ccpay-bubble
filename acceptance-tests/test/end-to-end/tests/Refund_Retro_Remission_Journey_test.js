@@ -169,4 +169,5 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
 
     await I.Logout();
     I.clearCookie();
-  }).tag('@pipeline @nightly');
+  }).tag('@nightly');
+//  }).tag('@pipeline @nightly');
