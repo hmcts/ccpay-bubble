@@ -29,4 +29,4 @@ gulp.task('watch', () => {
   gulp.watch(`${stylesheetsDirectory}/**/*.scss`, gulp.series('sass'));
 });
 
-gulp.task('default',  gulp.series('sass'));
+gulp.task('default', gulp.series('sass'));
