@@ -11,6 +11,7 @@ $path: '/public/images/';
 
 body {
   background: white !important;
+  font-size: 16px;
 }
 
 .govuk-grid-row {
@@ -32,4 +33,14 @@ body {
 .nocase-message {
   font-weight: 700;
   padding-top: 10px;
+}
+
+// overwrite incoming font sizing
+
+.govuk-button {
+  font-size: 19px;
+}
+
+.govuk-footer {
+  font-size: 16px;
 }
