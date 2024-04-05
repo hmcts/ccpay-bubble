@@ -57,7 +57,7 @@ Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, 
   PaymentHistory.validateCcdPaymentDetails(receiptReference, '£593.00', dcnNumber, 'success', 'Cash', 'FEE0002');
   await I.runAccessibilityTest();
   I.Logout();
-}).tag('@pipeline @nightly @debug');
+}).tag('@pipeline @nightly');
 
 Scenario('Normal ccd case cheque payment full allocation to existing service request', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
@@ -131,7 +131,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   Remission.processRemission('FEE0002', '493');
   Remission.confirmProcessRemission();
   I.wait(CCPBATConstants.tenSecondWaitTime);
-  FeesSummary.verifyFeeSummaryAfterRemissionBulkScan('FEE0002', '£593.00', '£100.00', '£493.00');
+  FeesSummary.verifyFeeSummaryAfterRemission('FEE0002', '£593.00', '£100.00', '£493.00');
   FeesSummary.addFeeFromSummary();
   AddFees.addFees('19.00', 'civil', 'magistrates_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '19.00', true);
