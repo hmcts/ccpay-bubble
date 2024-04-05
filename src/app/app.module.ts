@@ -41,6 +41,7 @@ import { CookieTableComponent } from './components/cookie-table/cookie-table.com
 import { HmctsGlobalFooterComponent } from './shared/components/hmcts-global-footer/hmcts-global-footer.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { RpxTranslationModule } from 'rpx-xui-translation';
+import { AccessibilityStatementComponent } from './components/accessibility-statement/accessibility-statement.component';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -70,7 +71,8 @@ const nonProductionProviders = [{
     CookieDetailsComponent,
     CookieTableComponent,
     HmctsGlobalFooterComponent,
-    FooterComponent
+    FooterComponent,
+    AccessibilityStatementComponent
     ],
   imports: [
     BrowserModule,
