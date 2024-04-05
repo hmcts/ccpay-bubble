@@ -16,7 +16,10 @@ const searchCase = require('../pages/case_search');
 const stringUtils = require('../helpers/string_utils');
 
 const bulkScanApiCalls = require('../helpers/utils');
-
+const CCPBATConstants = require('../tests/CCPBAcceptanceTestConstants');
+const AddFees = require('../pages/add_fees');
+const FeesSummary = require('../pages/fees_summary');
+const Remission = require('../pages/remission');
 // const numberTwo = 2;
 
 module.exports = () => actor({
@@ -894,6 +897,40 @@ module.exports = () => actor({
     // this.see('8x8');
     // this.see('Antenna');
     this.wait(CCPBConstants.fiveSecondWaitTime);
+  },
+
+  async partiallyPaidUpfrontRemissionCaseForTelephonyFlow() {
+    const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
+    const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
+    await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
+    this.wait(CCPBATConstants.fiveSecondWaitTime);
+    this.see('Case transactions');
+    this.see('Case reference:');
+    this.see(ccdCaseNumberFormatted);
+    this.click('Create service request and pay');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    AddFees.addFeesAmount('593.00', 'family', 'family_court');
+    FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, 'FEE0002', '593.00', false);
+    FeesSummary.deductRemission();
+    Remission.processRemission('FEE0002', '200');
+    Remission.confirmProcessRemission();
+    this.wait(CCPBATConstants.fiveSecondWaitTime);
+    this.click('Case Transaction');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    await miscUtils.multipleSearch(searchCase, this, ccdNumber);
+    this.wait(CCPBATConstants.fiveSecondWaitTime);
+    this.see('Case transactions');
+    this.see('Case reference:');
+    this.see(ccdCaseNumberFormatted);
+    this.see('Partially paid');
+    this.click('Take telephony payment');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    FeesSummary.verifyFeeSummaryAfterRemission('FEE0002', '£593.00', '£393.00', '£200.00');
+    this.click('Take payment');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitInUrl('pcipal', 2);
+    this.click('Cancel');
+    this.click('Finish Session');
   },
 
   async removeFeeFromCaseTransactionPageTelephonyFlow() {
