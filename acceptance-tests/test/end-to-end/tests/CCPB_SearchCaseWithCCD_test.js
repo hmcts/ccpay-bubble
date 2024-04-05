@@ -32,6 +32,12 @@ Scenario('Amount Due case for Telephony flow', async({ I }) => {
   I.Logout();
 }).tag('@nightly @pipeline @crossbrowser');
 
+Scenario('Partially paid (Upfront remission) case for Telephony flow', async({ I }) => {
+  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  await I.partiallyPaidUpfrontRemissionCaseForTelephonyFlow();
+}).tag('@nightly @pipeline');
+
 Scenario('Remove fee from case transaction page Telephony flow', async({ I }) => {
   I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
   await I.removeFeeFromCaseTransactionPageTelephonyFlow();
