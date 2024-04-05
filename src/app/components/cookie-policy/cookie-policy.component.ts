@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import cookieManager from '@hmcts/cookie-manager';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-cookie-policy',
@@ -9,6 +10,7 @@ import cookieManager from '@hmcts/cookie-manager';
 })
 
 export class CookiePolicyComponent implements OnInit {
+    constructor(private _location: Location) {}
     // Ideally this would be an enum but angular can't seem to cope with enums in templates
     public readonly USAGE = 'Usage';
     public readonly INTRO = 'Intro';
@@ -64,5 +66,9 @@ export class CookiePolicyComponent implements OnInit {
 
   public cookiesByCat(category: string): {name: string, cat: string, purpose: string, expires: string}[] {
     return this.cookieDetails.filter(c => c.cat === category);
+  }
+
+  backClicked() {
+    this._location.back();
   }
 }
