@@ -635,7 +635,7 @@ module.exports = {
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    //I.click(`//mat-cell[contains(.,'${refundRef}')]/following-sibling::mat-cell/a[.='Process refund'][1]`);
+    I.click(`//mat-cell[contains(.,'${refundRef}')]/following-sibling::mat-cell/a[.='Process refund'][1]`);
   },
 
   verifyRefundsListPageForCaseWorker() {

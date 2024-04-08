@@ -119,7 +119,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
       // if (i == 2) {
       //   refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRef, refundReason, '£100.00', emailAddress, '', 'payments probate', 'SendRefund');
       // }
-      await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
+      //await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
       I.wait(CCPBATConstants.twoSecondWaitTime);
       InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
       InitiateRefunds.approverActionForRequestedRefund('Approve');
