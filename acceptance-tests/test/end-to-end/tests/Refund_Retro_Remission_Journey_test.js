@@ -108,24 +108,35 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     // Approve all 3 refunds from Refund list page
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     let refundsDataBeforeApproverAction;
-    for (let i = 0; i <= 2; i++) {
-      I.wait(CCPBATConstants.fifteenSecondWaitTime);
-      if (i == 0) {
-        refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefOverPayments, 'Overpayment', '£300.00', emailAddress, '', 'payments probate', 'SendRefund');
-      }
-      // if (i == 1) {
-      //   refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', '£100.00', emailAddress, '', 'payments probate', 'SendRefund');
-      // }
-      // if (i == 2) {
-      //   refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRef, refundReason, '£100.00', emailAddress, '', 'payments probate', 'SendRefund');
-      // }
-      //await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
-      I.wait(CCPBATConstants.twoSecondWaitTime);
-      InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
-      InitiateRefunds.approverActionForRequestedRefund('Approve');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
-      I.amOnPage('/refund-list?takePayment=false&refundlist=true');
-    }
+
+
+    I.wait(CCPBATConstants.fifteenSecondWaitTime);
+    refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefOverPayments, 'Overpayment', '£300.00', emailAddress, '', 'payments probate', 'SendRefund');
+    await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
+    InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
+    InitiateRefunds.approverActionForRequestedRefund('Approve');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.amOnPage('/refund-list?takePayment=false&refundlist=true');
+
+    // for (let i = 0; i <= 2; i++) {
+    //   I.wait(CCPBATConstants.fifteenSecondWaitTime);
+    //   if (i == 0) {
+    //     refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefOverPayments, 'Overpayment', '£300.00', emailAddress, '', 'payments probate', 'SendRefund');
+    //   }
+    //   // if (i == 1) {
+    //   //   refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', '£100.00', emailAddress, '', 'payments probate', 'SendRefund');
+    //   // }
+    //   // if (i == 2) {
+    //   //   refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRef, refundReason, '£100.00', emailAddress, '', 'payments probate', 'SendRefund');
+    //   // }
+    //   await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
+    //   I.wait(CCPBATConstants.twoSecondWaitTime);
+    //   InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
+    //   InitiateRefunds.approverActionForRequestedRefund('Approve');
+    //   I.wait(CCPBATConstants.twoSecondWaitTime);
+    //   I.amOnPage('/refund-list?takePayment=false&refundlist=true');
+    // }
+
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
