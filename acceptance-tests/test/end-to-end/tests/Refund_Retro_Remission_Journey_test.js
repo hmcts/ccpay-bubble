@@ -113,9 +113,9 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
       if (i == 0) {
         refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefOverPayments, 'Overpayment', '£300.00', emailAddress, '', 'payments probate', 'SendRefund');
       }
-      // if (i == 1) {
-      //   refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', '£100.00', emailAddress, '', 'payments probate', 'SendRefund');
-      // }
+      if (i == 1) {
+        refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', '£100.00', emailAddress, '', 'payments probate', 'SendRefund');
+      }
       if (i == 2) {
         refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRef, refundReason, '£100.00', emailAddress, '', 'payments probate', 'SendRefund');
       }
