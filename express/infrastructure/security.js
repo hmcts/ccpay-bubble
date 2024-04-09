@@ -32,11 +32,16 @@ function Security(options) {
 /* --- INTERNAL --- */
 
 function addOAuth2Parameters(url, state, self, req) {
+  let redirectUri = `https://${req.get('host')}${self.opts.redirectUri}`;
+  if (process.env.NODE_ENV === 'development') {
+    redirectUri = `http://${req.get('host')}${self.opts.redirectUri}`;
+  }
+  Logger.getLogger(`CCPAY-BUBBLE: security.js`).info(`idAM redirect_uri: ${redirectUri}`);
   url.query.response_type = 'code';
   url.query.state = state;
   url.query.client_id = self.opts.clientId;
   url.query.scope = 'openid profile roles search-user';
-  url.query.redirect_uri = `https://${req.get('host')}${self.opts.redirectUri}`;
+  url.query.redirect_uri = redirectUri;
 }
 
 function generateState() {
@@ -89,7 +94,10 @@ function authorize(req, res, next, self) {
 
 function getTokenFromCode(self, req) {
   const url = URL.parse(`${self.opts.apiUrl}/oauth2/token`, true);
-
+  let redirectUri = `https://${req.get('host')}${self.opts.redirectUri}`;
+  if (process.env.NODE_ENV === 'development') {
+    redirectUri = `http://${req.get('host')}${self.opts.redirectUri}`;
+  }
   return request.post(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret)
     .set('Accept', 'application/json')
@@ -97,7 +105,7 @@ function getTokenFromCode(self, req) {
     .type('form')
     .send({ grant_type: 'authorization_code' })
     .send({ code: req.query.code })
-    .send({ redirect_uri: `https://${req.get('host')}${self.opts.redirectUri}` });
+    .send({ redirect_uri: `${redirectUri}` });
 }
 
 function getUserDetails(self, securityCookie) {
@@ -157,11 +165,7 @@ Security.prototype.logout = function logout() {
       res.clearCookie(constants.authToken);
       res.clearCookie(constants.userInfo);
       res.clearCookie(constants.PCIPAL_SECURITY_INFO);
-      if (token) {
-        res.redirect(`${self.opts.loginUrl}/logout?jwt=${token}`);
-      } else {
-        res.redirect(`${self.opts.loginUrl}/logout`);
-      }
+      res.redirect('/');
     });
   };
 };
@@ -175,19 +179,13 @@ function protectImpl(req, res, next, self) {
     }
   }
   let securityCookie = null;
-  if (process.env.NODE_ENV === 'development') {
-    if (req.method === 'OPTIONS') {
-      return next();
-    }
-    req.cookies[constants.SECURITY_COOKIE] = req.header('Auth-Dev');
-  }
   securityCookie = handleCookie(req);
 
   if (!securityCookie) {
     return login(req, res, self.roles, self);
   }
 
-  Logger.getLogger('PAYBUBBLE: server.js -> error').info('About to call user details endpoint');
+  Logger.getLogger('PAYBUBBLE: server.js').info('About to call user details endpoint');
   return getUserDetails(self, securityCookie).end(
     (err, response) => {
       Logger.getLogger('CCPAY-BUBBLE: security.js').info('Welcome pay bubble');

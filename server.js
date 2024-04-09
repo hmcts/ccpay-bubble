@@ -23,12 +23,6 @@ app.use(session({
 const errorFactory = ApiErrorFactory('server.js');
 let csrfProtection = csurf({ cookie: true, key: 'csrf-token', httpOnly: false, secure: true });
 
-if (process.env.NODE_ENV === 'development') {
-  csrfProtection = (req, res, next) => {
-    next();
-  };
-}
-
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
   let error = null;
