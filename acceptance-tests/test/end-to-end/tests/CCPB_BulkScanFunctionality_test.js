@@ -141,7 +141,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.tenSecondWaitTime);
-  CaseTransaction.checkBulkCaseSuccessPaymentNotPaid(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
+  CaseTransaction.checkBulkCaseSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   CaseTransaction.validateTransactionPageForRemission('HWF-A1B-23C', 'FEE0002', '£100.00');
   I.Logout();
@@ -334,7 +334,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
     ConfirmAssociation.confirmPayment();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    CaseTransaction.checkBulkCaseSurplusOrShortfallSuccessPaymentNotPaid(ccdCaseNumberFormatted, 'Case reference', 'Allocated', '£100.00');
+    CaseTransaction.checkBulkCaseShortfallSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Allocated', '£100.00');
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
     // Search using receipt number
     const receiptSearch = await CaseTransaction.getReceiptReference();
@@ -342,7 +342,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     logger.info(`The value of the Payment Reference : ${receiptSearch}`);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);
-    CaseTransaction.checkBulkCaseSuccessPaymentNotPaid(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
+    CaseTransaction.checkBulkCaseSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid');
     PaymentHistory.navigateToPaymentHistory();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);

@@ -121,9 +121,9 @@ module.exports = {
     this.validateTransactionPageForSuccessPayment(caseNumber);
     I.see(caseTitle);
   },
-  checkBulkCaseSuccessPaymentNotPaid(caseNumber, caseTitle) {
+  checkBulkCaseSuccessPaymentPartiallyPaid(caseNumber, caseTitle, allocationStatus) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    this.validateTransactionPageForSuccessPaymentNotPaid(caseNumber);
+    this.validateTransactionPageForSuccessPaymentPartiallyPaid(caseNumber, allocationStatus);
     I.see(caseTitle);
   },
   checkBulkCaseNonPaidPayment(caseNumber, caseTitle, allocationStatus) {
@@ -138,10 +138,10 @@ module.exports = {
     I.see(caseTitle);
     // I.see(amoundDue);
   },
-  checkBulkCaseSurplusOrShortfallSuccessPaymentNotPaid(caseNumber, caseTitle,
-    allocationStatus, amoundDue) {
+  checkBulkCaseShortfallSuccessPaymentPartiallyPaid(caseNumber, caseTitle,
+                                                    allocationStatus, amoundDue) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    this.validateTransactionPageForSuccessPaymentNotPaid(caseNumber, allocationStatus);
+    this.validateTransactionPageForSuccessPaymentPartiallyPaid(caseNumber, allocationStatus);
     I.see(caseTitle);
     I.see(amoundDue);
   },
@@ -369,7 +369,7 @@ module.exports = {
     I.see('Paid');
     I.see('Success');
   },
-  validateTransactionPageForSuccessPaymentNotPaid(caseNumber) {
+  validateTransactionPageForSuccessPaymentPartiallyPaid(caseNumber, allocationStatus) {
     I.see(caseNumber);
     I.see('Total payments');
     I.see('Total remissions');
@@ -388,8 +388,7 @@ module.exports = {
     // I.see('Calculated amount');
     // I.see('Amount due');
     // I.see('Action');
-    // I.see(allocationStatus);
-    I.see('Partially paid');
+    I.see(allocationStatus);
     I.see('Success');
   },
   validateTransactionPageForOverPayments() {

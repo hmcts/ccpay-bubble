@@ -484,11 +484,14 @@ module.exports = {
     I.click('Return to case');
   },
 
-  verifyRemissionSubmittedPage() {
+  verifyRemissionSubmittedPage(isContinueButtonEnabled = true) {
     I.see('Remission added');
     I.see('The amount to be refunded should be £100.00');
-    I.click('Continue');
-
+    if (isContinueButtonEnabled) {
+      I.click('Continue');
+    } else {
+      I.seeElement('//ccpay-add-remission/div/div/div/div[2]/button[contains(@class, \'disabled\')]');
+    }
   },
 
   async verifyRefundSubmittedPage(refundAmount) {

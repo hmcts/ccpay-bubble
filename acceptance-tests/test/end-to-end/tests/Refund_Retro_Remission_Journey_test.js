@@ -5,6 +5,7 @@ const testConfig = require("./config/CCPBConfig");
 const CCPBATConstants = require("./CCPBAcceptanceTestConstants");
 const miscUtils = require("../helpers/misc");
 const assertionData = require("../fixture/data/refunds/assertion");
+const AddFees = require("../pages/add_fees");
 
 Feature('CC Pay Bubble Refund Retro Remission journey test').retry(CCPBATConstants.defaultNumberOfRetries);
 
@@ -180,4 +181,65 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     //
     // await I.Logout();
     // I.clearCookie();
+  }).tag('@pipeline @nightly');
+
+Scenario('Partially Paid Fee with Retro Remission resulting in a ZERO Balance Due CAN NOT be Refunded',
+  async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
+           PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
+
+    const bulkScanPaymentMethod = 'cheque';
+    const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
+    const totalAmount = 173;
+    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
+    const dcnNumber = ccdAndDcn[0];
+    const ccdCaseNumber = ccdAndDcn[1];
+
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
+    CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£173.00', 'cheque');
+    CaseTransaction.allocateToNewFee();
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    AddFees.addFeesAmount('273.00', 'family', 'probate registry');
+    FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0219', '273.00', true);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0219', '1',
+      '£173.00', '£273.00', '£273.00', '£100.00');
+    ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
+    ConfirmAssociation.confirmPayment();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    CaseTransaction.checkBulkCaseShortfallSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid', '£100.00');
+    CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
+    //  remission refund - 100
+    await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
+    I.waitForElement('(//*[text()[contains(.,"Review")]])[2]', 5);
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    InitiateRefunds.verifyPaymentDetailsPage('Add remission');
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, 'HWF-A1B-23C');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, '100.00');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, 'HWF-A1B-23C', '100.00', '173.00', '£273.00', 'FEE0219', 'FEE0219 - Application for a grant of probate (Estate over 5000 GBP)',
+      emailAddress, '', 'SendRefund');
+    InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    InitiateRefunds.verifyRemissionSubmittedPage(false);
+
+    I.click('Return to case');
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.waitForElement('(//*[text()[contains(.,"Review")]])[2]', 5);
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.waitForText('Payment details', 5);
+    // verify that Add refund button is disabled for the remission
+    I.seeElement('//*[@id="main-content"]/div/div[5]/div[3]/div/table/tbody/tr/td[5]/button');
+
+    await I.Logout();
+    I.clearCookie();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+
   }).tag('@pipeline @nightly');
