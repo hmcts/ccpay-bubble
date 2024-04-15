@@ -3221,7 +3221,7 @@ __metadata:
   checksum: 604dfd5dde76d5c334bd03f9001fce69c7ce529883acf92da96f4fe7e51221bf5e5110e964caca287a6a616ba027c071748ab636ff178ad750547fba611d6014
   languageName: node
   linkType: hard
-
+  
 "@hmcts/ccpay-web-component@npm:6.1.6":
   version: 6.1.6
   resolution: "@hmcts/ccpay-web-component@npm:6.1.6"
@@ -3231,8 +3231,6 @@ __metadata:
     "@angular/common": ^16.1.6
     "@angular/core": ^16.1.6
   checksum: 8be012d8154ab7f23517a99387e215bc36822791267226819bc820d2838331d30a073aa0b36e3f60c8e8d6547d8121af420830f022da1da2e0b352df0ef6a4b3
-  languageName: node
-  linkType: hard
 
 "@hmcts/cookie-manager@npm:^1.0.0":
   version: 1.0.0
