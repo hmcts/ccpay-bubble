@@ -47,7 +47,6 @@ package-lock.json
 /reports/*
 mochawesome-report/
 functional-output/
-.angular
 
 # System Files
 .DS_Store
