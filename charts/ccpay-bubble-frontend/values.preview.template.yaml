@@ -3,6 +3,9 @@ nodejs:
   ingressHost: ${SERVICE_NAME}.preview.platform.hmcts.net
   environment:
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
+    PAYHUB_API_URL: https://payment-api-ccpay-refunds-api-pr-510.preview.platform.hmcts.net
+    CCPAY_REFUNDS_API_URL: https://ccpay-refunds-api-pr-510.preview.platform.hmcts.net
+   
 
 idam-pr:
   enabled: true
