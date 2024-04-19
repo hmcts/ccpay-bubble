@@ -1,6 +1,7 @@
 <table *ngIf="(fees | filterFees: searchFilter: jurisdictionsFilter).length >= 1">
   <thead>
     <tr>
+      <th>Jurisdiction 2</th>
       <th>Fee Code</th>
       <th>Description</th>
       <th>Amount</th>
@@ -9,9 +10,10 @@
   </thead>
   <tbody>
     <tr *ngFor="let fee of fees | filterFees: searchFilter: jurisdictionsFilter | paginate: { itemsPerPage: 15, currentPage: p }">
+      <td>{{ capitalise(fee.jurisdiction2.name)}}</td>
       <td>{{ fee.code }}</td>
       <td>
-        
+
         <span *ngIf="!fee.current_version?.description || fee.current_version?.description === ''">
            {{fee?.discontinued_list[fee?.discontinued_list.length-1]?.description}}
         </span>
