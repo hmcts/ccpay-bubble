@@ -490,7 +490,7 @@ module.exports = {
     if (isContinueButtonEnabled) {
       I.click('Continue');
     } else {
-      I.seeElement('//ccpay-add-remission/div/div/div/div[2]/button[contains(@class, \'disabled\')]');
+      I.dontSeeElement('Continue')
     }
   },
 
