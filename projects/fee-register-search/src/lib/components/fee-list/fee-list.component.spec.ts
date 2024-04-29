@@ -47,4 +47,8 @@ describe('Fee list component', () => {
     const debugElement = fixture.debugElement.queryAll(By.css('.fee-current-version-amount'));
     expect(debugElement[0].nativeElement.innerText).toEqual('£10,000.00');
   });
+
+  it('Should convert to upper case', () => {
+    expect(component.capitalise('probate registry')).toEqual('Probate Registry');
+  });
 });

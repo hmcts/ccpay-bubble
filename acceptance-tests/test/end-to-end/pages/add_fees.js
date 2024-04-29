@@ -46,6 +46,11 @@ module.exports = {
     I.click('Jurisdiction 2');
     I.click({ css: '#'.concat(jurisdiction2) });
     I.click('Apply filters');
+    I.see('Jurisdiction 2');
+    if (jurisdiction2 === 'family_court'){
+      I.see('Family Court');
+    }
+    I.see('Family Court');
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
