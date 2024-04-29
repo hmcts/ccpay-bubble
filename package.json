@@ -194,6 +194,7 @@
     "fsevents": "*"
   },
   "resolutions": {
+    "formidable": "^3.2.4",
     "express": "4.19.2",
     "@babel/traverse": ">=7.23.2",
     "axios": "^0.21.1",
