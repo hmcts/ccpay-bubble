@@ -35,7 +35,7 @@ body {
   padding-top: 10px;
 }
 
-// overwrite incoming font sizing
+// overwrite base govuk styles
 
 .govuk-button {
   font-size: 19px;
@@ -43,4 +43,12 @@ body {
 
 .govuk-footer {
   font-size: 16px;
+}
+
+.govuk-skip-link:focus {
+  outline: 3px solid #fd0;
+  outline-offset: 0;
+  background-color: #fd0;
+  font-size: 16px;
+  color: #0b0c0c !important;
 }
