@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
+import { Title } from "@angular/platform-browser";
 import * as ls from 'local-storage';
 
 @Component({
@@ -27,8 +28,10 @@ export class FeeSearchComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private paymentGroupService: PaymentGroupService
+    private paymentGroupService: PaymentGroupService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle("CCPay Fee Search");
   }
 
   ngOnInit() {

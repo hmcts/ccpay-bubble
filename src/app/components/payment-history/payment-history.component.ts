@@ -4,6 +4,7 @@ import { IdamDetails } from '../../services/idam-details/idam-details';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import * as ls from 'local-storage';
 import {Router} from '@angular/router';
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: 'app-payment-history',
   templateUrl: './payment-history.component.html',
@@ -48,8 +49,11 @@ export class PaymentHistoryComponent implements OnInit {
   constructor(private router: Router,
     private paymentGroupService: PaymentGroupService,
     private activatedRoute: ActivatedRoute,
-    private idamDetails: IdamDetails
-  ) { }
+    private idamDetails: IdamDetails,
+    private titleService: Title
+  ) { 
+    this.titleService.setTitle("CCPay Payment History");
+  }
 
   ngOnInit() {
     this.paymentGroupService.getLDFeature('payment-status-update-fe').then((status) => {
