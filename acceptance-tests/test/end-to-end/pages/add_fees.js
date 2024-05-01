@@ -20,7 +20,7 @@ module.exports = {
   confirm_button: {xpath:'//button[@type="submit"]'}
 },
 
-  addFees(amount, jurisdiction1, jurisdiction2) {
+  async addFees(amount, jurisdiction1, jurisdiction2) {
     I.see('Search for a fee');
     I.fillField(this.locators.fee_search, amount);
     I.click('Search');
@@ -32,9 +32,15 @@ module.exports = {
     I.click('Apply filters');
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
+    let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    if(numOfElements) {
+      I.click('//input[@id=\'fee-version0\']');
+      I.click('Continue');
+      I.wait(CCPBConstants.fiveSecondWaitTime);
+    }
   },
 
-  addFeesAmount(amount, jurisdiction1, jurisdiction2) {
+  async addFeesAmount(amount, jurisdiction1, jurisdiction2) {
     I.see('Search for a fee');
     I.see('For example: Application or £10.00. You don\'t need to use the whole description or amount.');
     I.wait(CCPBConstants.fiveSecondWaitTime);
@@ -53,9 +59,15 @@ module.exports = {
     I.see('Family Court');
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
+    let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    if(numOfElements) {
+      I.click('//input[@id=\'fee-version0\']');
+      I.click('Continue');
+      I.wait(CCPBConstants.fiveSecondWaitTime);
+    }
   },
 
-  addFeesOverPayment(amount) {
+  async addFeesOverPayment(amount) {
     I.see('Search for a fee');
     I.wait(CCPBConstants.tenSecondWaitTime);
     I.fillField(this.locators.fee_search, amount);
@@ -63,6 +75,12 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime, 10);
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
+    let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    if(numOfElements) {
+      I.click('//input[@id=\'fee-version0\']');
+      I.click('Continue');
+      I.wait(CCPBConstants.fiveSecondWaitTime);
+    }
     I.click(this.locators.allocate_payment);
     I.wait(CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.help_with_fee);
