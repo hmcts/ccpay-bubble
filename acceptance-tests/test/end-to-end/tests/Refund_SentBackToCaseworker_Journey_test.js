@@ -13,7 +13,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
            PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
-    const totalAmount = 5000;
+    const totalAmount = 500;
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
     const ccdCaseNumber = ccdAndDcn[1];
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
