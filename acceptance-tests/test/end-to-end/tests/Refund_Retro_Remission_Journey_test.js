@@ -204,13 +204,10 @@ Scenario('Fully Paid Fee with Retro Remission CAN be Refunded',
     CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£273.00', 'cheque');
     CaseTransaction.allocateToNewFee();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    AddFees.addFeesAmount('273.00', 'family', 'probate registry');
+    AddFees.addFeesAmount('273.00', 'family', 'probate_registry');
     FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0219', '273.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0219', '1', '£273.00', '£273.00');
-    // ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0219', '1',
-    //   '£173.00', '£273.00', '£273.00', '£100.00');
-    // ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
     ConfirmAssociation.confirmPayment();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     // CaseTransaction.checkBulkCaseShortfallSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid', '£100.00');
@@ -221,6 +218,7 @@ Scenario('Fully Paid Fee with Retro Remission CAN be Refunded',
     I.waitForElement('(//*[text()[contains(.,"Review")]])[2]', 5);
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
+    const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
     InitiateRefunds.verifyPaymentDetailsPage('Add remission');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, 'HWF-A1B-23C');
@@ -231,21 +229,40 @@ Scenario('Fully Paid Fee with Retro Remission CAN be Refunded',
       emailAddress, '', 'SendRefund');
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    InitiateRefunds.verifyRemissionSubmittedPage(false);
+    InitiateRefunds.verifyRemissionSubmittedPage(true);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click('//*[@id="email"]');
+    I.fillField('//*[@id="email"]', emailAddress);
+    I.click('Continue');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    InitiateRefunds.verifyCheckYourAnswersPageForRemissionFinalSubmission(checkYourAnswersData, false, false);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    const refundRefRemissions = await InitiateRefunds.verifyRefundSubmittedPage('100.00');
+    I.wait(CCPBATConstants.tenSecondWaitTime);
 
-    I.click('Return to case');
+    // Approve the remission refund from Refund list page
+    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
+    let refundsDataBeforeApproverAction;
+
+
+    I.wait(CCPBATConstants.fifteenSecondWaitTime);
+    refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', '£100.00', emailAddress, '', 'payments probate', 'SendRefund');
+    await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
+    InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
+    InitiateRefunds.approverActionForRequestedRefund('Approve');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.click('Case Transaction');
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.waitForElement('(//*[text()[contains(.,"Review")]])[2]', 5);
-    await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    await I.click(`//td[contains(.,'${refundRefRemissions}')]/following-sibling::td/a[.=\'Review\'][1]`);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.waitForText('Payment details', 5);
-    // verify that Add refund button is disabled for the remission
-    I.dontSeeElement('Add refund')
+    const reviewRemissionRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions, paymentRcReference, 'Retrospective remission', '£100.00', emailAddress, '', 'payments probate', 'approver probate');
+    await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRemissionRefundDetailsDataAfterApproval);
 
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-  }).tag('@pipeline @nightly');
+  }).tag('@pipeline @nightly @debug');
 
 Scenario('Partially Paid Fee with Retro Remission resulting in a ZERO Balance Due CAN NOT be Refunded',
   async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
@@ -266,7 +283,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a ZERO Balance Du
     CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£173.00', 'cheque');
     CaseTransaction.allocateToNewFee();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    AddFees.addFeesAmount('273.00', 'family', 'probate registry');
+    AddFees.addFeesAmount('273.00', 'family', 'probate_registry');
     FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0219', '273.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0219', '1',
@@ -305,4 +322,4 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a ZERO Balance Du
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-  }).tag('@pipeline @nightly');
+  }).tag('@pipeline @nightly @debug');
