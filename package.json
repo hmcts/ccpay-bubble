@@ -50,7 +50,7 @@
   "dependencies": {
     "@babel/eslint-parser": "^7.11.0",
     "@babel/helper-create-class-features-plugin": "^7.21.8",
-    "@hmcts/ccpay-web-component": "6.1.5",
+    "@hmcts/ccpay-web-component": "6.1.9",
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/nodejs-healthcheck": "^1.8.0",
     "@hmcts/nodejs-logging": "^4.0.4",
@@ -187,12 +187,14 @@
     "ts-node": "~8.0.2",
     "tslint": "~6.1.3",
     "typescript": "5.1.6",
-    "webdriverio": "^6.12.1"
+    "webdriverio": "^6.12.1",
+    "xlsx": "^0.18.5"
   },
   "optionalDependencies": {
     "fsevents": "*"
   },
   "resolutions": {
+    "formidable": "^3.2.4",
     "express": "4.19.2",
     "@babel/traverse": ">=7.23.2",
     "axios": "^0.21.1",
@@ -205,6 +207,7 @@
     "tar": "^6.1.9",
     "trim-newlines": "^3.0.1",
     "glob-parent": "^5.1.2",
+    "xlsx": "^0.17.0",
     "socket.io-parser": "^4.2.1",
     "xmlhttprequest-ssl": "^1.6.2",
     "underscore": "^1.12.1",

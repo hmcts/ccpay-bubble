@@ -17,4 +17,10 @@ export class FeeListComponent {
   selectFee(fee: IFee) {
     this.selectedFeeEvent.emit(fee);
   }
+  capitalise(str: string): string {
+    return str
+      .split(' ')
+      .map(word => word[0].toUpperCase() + word.slice(1))
+      .join(' ')
+  }
 }
