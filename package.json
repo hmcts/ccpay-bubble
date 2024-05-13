@@ -230,6 +230,7 @@
     "word-wrap": "1.2.4",
     "flat": "5.0.1",
     "ip": "^2.0.1",
+    "minimist": "0.2.4",
     "node-gyp": "9.0.0"
   },
   "packageManager": "yarn@3.5.1"
