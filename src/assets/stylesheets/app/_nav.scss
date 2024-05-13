@@ -7,16 +7,16 @@
   }
 
   &.blue {
-    background: $govuk-link-colour;
+    background: $link-colour;
     a {
-      color: #fff;
+      color: $page-colour;
     }
   }
 
-  &#fff {
-    background: #fff;
+  &.white {
+    background: $page-colour;
     a {
-      color: $govuk-text-colour;
+      color: $text-colour;
       font-weight: lighter;
     }
   }
@@ -40,7 +40,7 @@
   }
 
   a {
-    color: #fff;
+    color: $white;
     font-size: 18px;
     text-decoration: none;
     &:hover {
@@ -61,7 +61,7 @@
 }
 
 .bar-header {
-  background: #0b0c0c;
+  background: $black;
   display: block;
   font-size: 26px;
   font-weight: bold;
@@ -75,7 +75,7 @@
   }
 
   a {
-    color: #fff;
+    color: $white;
     text-decoration: none;
   }
 
@@ -86,7 +86,7 @@
 
   ul {
     li {
-      color: #fff;
+      color: $white;
       display: inline-block;
       font-size: 20px;      
       padding: 10px 10px 0;
@@ -105,9 +105,9 @@
   }
 
   .notifications-count {
-    background: #fff;
+    background: $white;
     border-radius: 50%;
-    color: #b10e1e;
+    color: $red;
     font-size: 24px;
     padding: 3px 8px 0;
   }
@@ -138,14 +138,14 @@
   }
 
   .chevron {
-    // border: 1px solid #fff;
+    // border: 1px solid $white;
     &-up {
       display: none;
     }
   }
 
   .bar-header__dropdown {
-    background: #0b0c0c;
+    background: $black;
     display: none;
     padding-bottom: 10px;
     position: absolute;
@@ -170,12 +170,12 @@
 }
 
 .fee-edit-bar {
-  background: $govuk-link-colour;
+  background: $link-colour;
   font-weight: bold;
   margin-bottom: 20px;
 
   .content {
-    color: #fff;
+    color: $page-colour;
     padding: 10px;
 
     span {
@@ -191,7 +191,7 @@
   }
 
   .link {
-    color: #fff;
+    color: $page-colour;
     float: left;
     text-decoration: none;
   }
@@ -201,7 +201,7 @@
     text-align: center;
     width: 5%;
     .content {
-      border-right: 2px solid #fff;
+      border-right: 2px solid $page-colour;
     }
   }
 
@@ -225,11 +225,11 @@
 }
 
 .advanced-search-block {
-  background: $govuk-link-colour;
-  color: #fff;
+  background: $link-colour;
+  color: $page-colour;
 
   li { width: 30%; }
-  label { color: #fff; }
+  label { color: $page-colour; }
   .form-control { width: 100%; }
 
   &--pt30 {
@@ -238,5 +238,3 @@
 }
 
 .active { font-weight: bold; }
-
-.link-back { text-decoration: underline; cursor: pointer; }

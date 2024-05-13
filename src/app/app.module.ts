@@ -38,10 +38,7 @@ import { CookiePolicyComponent } from './components/cookie-policy/cookie-policy.
 import { CookieDetailsComponent } from './components/cookie-details/cookie-details.component';
 import { windowProvider, windowToken } from '../window';
 import { CookieTableComponent } from './components/cookie-table/cookie-table.component';
-import { HmctsGlobalFooterComponent } from './shared/components/hmcts-global-footer/hmcts-global-footer.component';
-import { FooterComponent } from './shared/components/footer/footer.component';
 import { RpxTranslationModule } from 'rpx-xui-translation';
-import { AccessibilityStatementComponent } from './components/accessibility-statement/accessibility-statement.component';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -69,10 +66,7 @@ const nonProductionProviders = [{
     CookieBannerComponent,
     CookiePolicyComponent,
     CookieDetailsComponent,
-    CookieTableComponent,
-    HmctsGlobalFooterComponent,
-    FooterComponent,
-    AccessibilityStatementComponent
+    CookieTableComponent
     ],
   imports: [
     BrowserModule,

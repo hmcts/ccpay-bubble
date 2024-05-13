@@ -12,7 +12,6 @@ import { CcdSearchComponent } from '../components/ccd-search/ccd-search.componen
 import { MVPGuard } from '../route-guards/mvp-guard.service';
 import { CookiePolicyComponent } from '../components/cookie-policy/cookie-policy.component';
 import { CookieDetailsComponent } from '../components/cookie-details/cookie-details.component';
-import { AccessibilityStatementComponent } from '../components/accessibility-statement/accessibility-statement.component';
 
 const routes: Routes = [
   {
@@ -73,10 +72,6 @@ const routes: Routes = [
   {
     path: 'cookies-policy',
     component: CookieDetailsComponent,
-  },
-  {
-    path: 'accessibility',
-    component: AccessibilityStatementComponent,
   }
 ];
 
