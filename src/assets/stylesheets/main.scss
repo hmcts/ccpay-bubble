@@ -6,12 +6,10 @@ $path: '/public/images/';
 @import '../../../node_modules/govuk_template_jinja/assets/stylesheets/govuk-template.css';
 @import '../../../node_modules/govuk_template_jinja/assets/stylesheets/fonts.css';
 @import '../../../node_modules/govuk-frontend/all';
-@import 'app';
 
 
 body {
   background: white !important;
-  font-size: 16px;
 }
 
 .govuk-grid-row {
@@ -33,22 +31,4 @@ body {
 .nocase-message {
   font-weight: 700;
   padding-top: 10px;
-}
-
-// overwrite incoming gov styling
-
-.govuk-button {
-  font-size: 19px;
-}
-
-.govuk-footer, .govuk-phase-banner__content, .govuk-tag {
-  font-size: 16px;
-}
-
-.govuk-phase-banner {
-  margin-bottom: 24px;
-}
-
-.govuk-service-title {
-  color: white;
 }
