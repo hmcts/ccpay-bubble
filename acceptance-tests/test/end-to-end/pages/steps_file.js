@@ -909,7 +909,7 @@ module.exports = () => actor({
     this.see(ccdCaseNumberFormatted);
     this.click('Create service request and pay');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    AddFees.addFeesAmount('593.00', 'family', 'family_court');
+    await AddFees.addFeesAmount('593.00', 'family', 'family_court');
     FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, 'FEE0002', '593.00', false);
     FeesSummary.deductRemission();
     Remission.processRemission('FEE0002', '200');

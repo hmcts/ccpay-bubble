@@ -38,7 +38,7 @@ Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, 
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£593.00', 'cash');
   CaseTransaction.allocateToNewFee();
-  AddFees.addFeesAmount('593.00', 'family', 'family_court');
+  await AddFees.addFeesAmount('593.00', 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', true);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', '£593.00', '£593.00');
@@ -77,7 +77,7 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   I.seeElement({ xpath: '//button[contains(text() , "Allocate to existing service request") and contains(@class, "button--disabled")]' });
   I.click('Create service request and pay');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  AddFees.addFeesAmount('593.00', 'family', 'family_court');
+  await AddFees.addFeesAmount('593.00', 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', false);
   I.click('Back');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -120,7 +120,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£493.00', 'cheque');
   CaseTransaction.allocateToNewFee();
-  AddFees.addFeesAmount('593.00', 'family', 'family_court');
+  await AddFees.addFeesAmount('593.00', 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', false);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   FeesSummary.deductRemission();
@@ -133,7 +133,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   I.wait(CCPBATConstants.tenSecondWaitTime);
   FeesSummary.verifyFeeSummaryAfterRemission('FEE0002', '£593.00', '£100.00', '£493.00');
   FeesSummary.addFeeFromSummary();
-  AddFees.addFees('19.00', 'civil', 'magistrates_court');
+  await AddFees.addFees('19.00', 'civil', 'magistrates_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '19.00', true);
   I.wait(CCPBATConstants.tenSecondWaitTime);
   ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1', '£493.00', '£593.00', '£593.00', '£19.00');
@@ -324,7 +324,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£493.00', 'postal order');
     CaseTransaction.allocateToNewFee();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    AddFees.addFeesAmount('593.00', 'family', 'family_court');
+    await AddFees.addFeesAmount('593.00', 'family', 'family_court');
     FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1',
@@ -366,7 +366,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£600.00', 'postal order');
   CaseTransaction.allocateToNewFee();
-  AddFees.addFeesAmount('593.00', 'family', 'family_court');
+  await AddFees.addFeesAmount('593.00', 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', true);
   // FeesSummary.allocateBulkPayment();
   ConfirmAssociation.verifyConfirmAssociationSurplusPayment('FEE0002', '£593.00', '£7.00');
