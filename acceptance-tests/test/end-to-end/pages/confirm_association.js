@@ -23,9 +23,9 @@ module.exports = {
 
   },
 
-  verifyConfirmAssociationFullPayment(feeCode, volume, totalAmount, amount) {
+  verifyConfirmAssociationFullPayment(feeCode, volume, amountToBeAllocated, FeeAmount) {
     I.see('Confirm allocation');
-    I.waitForText('Amount to be allocated: '.concat(totalAmount), CCPBConstants.tenSecondWaitTime);
+    I.waitForText('Amount to be allocated: '.concat(amountToBeAllocated), CCPBConstants.tenSecondWaitTime);
     I.see('Code');
     I.see('Description');
     I.see('Volume');
@@ -35,7 +35,7 @@ module.exports = {
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see(volume);
-    I.see(amount);
+    I.see(FeeAmount);
     I.see('Amount left to be allocated £0.00');
     I.see('Confirm');
   },

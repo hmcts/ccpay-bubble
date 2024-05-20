@@ -697,6 +697,7 @@ module.exports = {
   },
 
   verifyApproverReviewRefundsDetailsPage(refundsData, previewNotificationFlag = false, refundNotificationPreviewData = null) {
+    I.waitForText(refundsData.refundNotificationType, 10);
     I.see('Review refund details');
     I.see('Payment to be refunded');
     I.see(refundsData.refundReference);
