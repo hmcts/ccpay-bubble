@@ -12,6 +12,7 @@ const miscUtils = require('../helpers/misc');
 const stringUtils = require('../helpers/string_utils');
 
 const testConfig = require('./config/CCPBConfig');
+const apiUtils = require("../helpers/utils");
 
 // const successResponse = 202;
 
@@ -141,9 +142,9 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.tenSecondWaitTime);
-  CaseTransaction.checkBulkCaseSuccessPaymentNotPaid(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
+  CaseTransaction.checkBulkCaseSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
-  CaseTransaction.validateTransactionPageForRemission('HWF-A1B-23C', 'FEE0002', '£100.00');
+  CaseTransaction.validatePaymentDetailsPageForRemission('HWF-A1B-23C', 'FEE0002', '£100.00');
   I.Logout();
 }).tag('@pipeline @nightly');
 
@@ -334,7 +335,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
     ConfirmAssociation.confirmPayment();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    CaseTransaction.checkBulkCaseSurplusOrShortfallSuccessPaymentNotPaid(ccdCaseNumberFormatted, 'Case reference', 'Allocated', '£100.00');
+    CaseTransaction.checkBulkCaseShortfallSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid', '£100.00');
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
     // Search using receipt number
     const receiptSearch = await CaseTransaction.getReceiptReference();
@@ -342,7 +343,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     logger.info(`The value of the Payment Reference : ${receiptSearch}`);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);
-    CaseTransaction.checkBulkCaseSuccessPaymentNotPaid(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
+    CaseTransaction.checkBulkCaseSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid');
     PaymentHistory.navigateToPaymentHistory();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);
@@ -375,6 +376,48 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCaseSurplusOrShortfallSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
+  I.Logout();
+}).tag('@pipeline @nightly');
+
+Scenario('Fully Paid Fee with Upfront Remission CANNOT be Refunded', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission }) => {
+  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  const totalAmount = 173;
+  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
+  const ccdCaseNumber = ccdAndDcn[1];
+  const dcnNumber = ccdAndDcn[0];
+  logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
+  logger.info(`The value of the dcnNumber : ${dcnNumber}`);
+  const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
+  await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
+  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£173.00', 'cheque');
+  CaseTransaction.allocateToNewFee();
+  await AddFees.addFeesAmount('273.00', 'family', 'probate_registry');
+  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0219', '273.00', false);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  FeesSummary.deductRemission();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  Remission.processRemission('FEE0219', '173');
+  Remission.confirmProcessRemission();
+  I.wait(CCPBATConstants.tenSecondWaitTime);
+  FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '£273.00', '£100.00', '£173.00');
+  FeesSummary.allocateBulkPayment();
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0219', '1', '£173.00', '£273.00');
+  ConfirmAssociation.confirmPayment();
+  I.wait(CCPBATConstants.tenSecondWaitTime);
+  CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference');
+  CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
+  await CaseTransaction.validateCaseTransactionsDetails('£173.00', '0', '£100.00', '£0.00', '£0.00');
+  CaseTransaction.validatePaymentDetailsPageForRemission('HWF-A1B-23C', 'FEE0219', '£100.00');
+  await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
+  I.click('Back');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  await I.click('(//*[text()[contains(.,"Review")]])[2]');
+  I.wait(CCPBATConstants.tenSecondWaitTime);
+  I.dontSeeElement('Issue refund');
+  I.dontSeeElement('Add remission');
+  I.dontSeeElement('Add refund');
   I.Logout();
 }).tag('@pipeline @nightly');
 
