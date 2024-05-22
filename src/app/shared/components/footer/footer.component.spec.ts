@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FooterComponent } from './footer.component';
-import { HmctsGlobalFooterComponent } from '../hmcts-global-footer/hmcts-global-footer.component';
 import { RouterTestingModule } from '@angular/router/testing'
 
 describe('FooterComponent', () => {
@@ -9,7 +8,7 @@ describe('FooterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FooterComponent, HmctsGlobalFooterComponent],
+      declarations: [FooterComponent],
       imports: [
         RouterTestingModule
       ],
