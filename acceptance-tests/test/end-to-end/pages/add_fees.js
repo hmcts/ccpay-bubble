@@ -56,7 +56,6 @@ module.exports = {
     if (jurisdiction2 === 'family_court'){
       I.see('Family Court');
     }
-    I.see('Family Court');
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');

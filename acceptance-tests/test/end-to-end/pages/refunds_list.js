@@ -390,7 +390,7 @@ module.exports = {
     I.see('Notes');
     I.see('Refund initiated and sent to team leader');
     I.see('Sent to middle office');
-    I.see('Approved by middle office');
+    I.see('Sent to Middle Office for Processing');
     I.see('Unable to apply refund to Card');
     I.see('Refund approved by system');
 
