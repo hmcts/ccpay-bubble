@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Navigation } from './footer.model';
 
 @Component({
   selector: 'ccpay-bubble-app-footer',
