@@ -87,7 +87,7 @@
     "prismjs": "^1.23.0",
     "pug": "^3.0.2",
     "request": "^2.88.0",
-    "request-promise-native": "1.0.9",
+    "request-promise-native": "^1.0.5",
     "rpx-xui-translation": "1.0.2",
     "rxjs": "~6.6.7",
     "rxjs-compat": "^6.5.2",
@@ -194,7 +194,6 @@
     "fsevents": "*"
   },
   "resolutions": {
-    "request-promise-native": "1.0.9",
     "formidable": "^3.2.4",
     "express": "4.19.2",
     "@babel/traverse": ">=7.23.2",
