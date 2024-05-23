@@ -8307,7 +8307,7 @@ __metadata:
     pug: ^3.0.2
     pugit: 5.0.2
     request: ^2.88.0
-    request-promise-native: ^1.0.5
+    request-promise-native: 1.0.9
     rpx-xui-translation: 1.0.2
     rxjs: ~6.6.7
     rxjs-compat: ^6.5.2
@@ -21874,7 +21874,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"request-promise-native@npm:^1.0.5":
+"request-promise-native@npm:1.0.9":
   version: 1.0.9
   resolution: "request-promise-native@npm:1.0.9"
   dependencies:
