@@ -484,11 +484,14 @@ module.exports = {
     I.click('Return to case');
   },
 
-  verifyRemissionSubmittedPage() {
+  verifyRemissionSubmittedPage(isContinueButtonEnabled = true) {
     I.see('Remission added');
     I.see('The amount to be refunded should be £100.00');
-    I.click('Continue');
-
+    if (isContinueButtonEnabled) {
+      I.click('Continue');
+    } else {
+      I.dontSeeElement('Continue')
+    }
   },
 
   async verifyRefundSubmittedPage(refundAmount) {
@@ -694,6 +697,7 @@ module.exports = {
   },
 
   verifyApproverReviewRefundsDetailsPage(refundsData, previewNotificationFlag = false, refundNotificationPreviewData = null) {
+    I.waitForText(refundsData.refundNotificationType, 10);
     I.see('Review refund details');
     I.see('Payment to be refunded');
     I.see(refundsData.refundReference);
