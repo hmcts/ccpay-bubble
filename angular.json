@@ -68,18 +68,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ccpay-bubble:build"
+            "buildTarget": "ccpay-bubble:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ccpay-bubble:build:production"
+              "buildTarget": "ccpay-bubble:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ccpay-bubble:build"
+            "buildTarget": "ccpay-bubble:build"
           }
         },
         "test": {
