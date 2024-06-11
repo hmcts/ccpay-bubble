@@ -193,6 +193,7 @@
     "fsevents": "*"
   },
   "resolutions": {
+    "braces": "3.0.3",
     "typescript": "^5.2",
     "formidable": "^3.2.4",
     "express": "4.19.2",
