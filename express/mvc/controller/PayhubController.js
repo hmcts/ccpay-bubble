@@ -413,8 +413,11 @@ class PayhubController {
 
   handleError(res, error){
     let msg = "";
-    if (error.message){
+    if (error.message !== undefined && error.message !== ''){
       msg = error.message;
+    }
+    else if (error.cause !== undefined && error.cause !== ''){
+      msg = error.cause;
     }
     if (error.statusCode) {
       return res.status(error.statusCode).json({ err: msg, success: false });
