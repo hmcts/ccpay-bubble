@@ -193,6 +193,7 @@
     "fsevents": "*"
   },
   "resolutions": {
+    "@azure/identity": ">=4.2.1",
     "braces": "3.0.3",
     "typescript": "^5.2",
     "formidable": "^3.2.4",
