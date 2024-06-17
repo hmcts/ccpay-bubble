@@ -1,6 +1,7 @@
 /* eslint-disable no-else-return */
 /* eslint-disable no-negated-condition */
 const { notificationService } = require('../../services');
+const {errorHandler} = require("../../services/UtilService");
 
 class NotificationController {
   constructor() {
@@ -12,11 +13,7 @@ class NotificationController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
   getaddressByPostcode(req, res) {
@@ -25,11 +22,7 @@ class NotificationController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
   docPreview(req, res) {
@@ -38,11 +31,7 @@ class NotificationController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 }
