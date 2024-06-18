@@ -48,7 +48,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-eslint/schematics": "^17.3.0",
+    "@angular-eslint/schematics": "^18.0.1",
     "@babel/eslint-parser": "^7.11.0",
     "@babel/helper-create-class-features-plugin": "^7.21.8",
     "@hmcts/ccpay-web-component": "6.2.1",
@@ -72,11 +72,11 @@
     "i": "^0.3.7",
     "js-money": "^0.6.3",
     "js-yaml": "^3.12.1",
-    "jsdom": "^18.1.1",
+    "jsdom": "24.1.0",
     "launchdarkly-node-client-sdk": "^1.4.5",
     "local-storage": "^2.0.0",
     "minimist": "^1.2.8",
-    "mocha-junit-reporter": "^2.2.0",
+    "mocha-junit-reporter": "2.2.1",
     "mochawesome": "^7.0.1",
     "moment": "2.29.4",
     "moment-timezone": "^0.5.35",
@@ -224,6 +224,9 @@
     "flat": "5.0.1",
     "ip": "^2.0.1",
     "minimist": "1.2.8",
+    "mocha-junit-reporter": "2.2.1",
+    "@angular-eslint/schematics": "^18.0.1",
+    "jsdom": "24.1.0",
     "node-gyp": "9.0.0"
   },
   "packageManager": "yarn@3.5.1"
