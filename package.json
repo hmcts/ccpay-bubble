@@ -99,7 +99,7 @@
     "underscore": "^1.12.1",
     "uuid": "3.3.2",
     "web-animations-js": "^2.3.2",
-    "yargs-parser": "^20.2.7",
+    "yargs-parser": "^21.0.0",
     "zone.js": "~0.14.4"
   },
   "peerDependencies": {
