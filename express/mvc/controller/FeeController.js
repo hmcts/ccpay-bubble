@@ -1,4 +1,5 @@
 const { feeService } = require('../../services');
+const {errorHandler} = require("../../services/UtilService");
 
 class FeeController {
   constructor() {
@@ -11,7 +12,7 @@ class FeeController {
         res.status(200).send(result);
       })
       .catch(error => {
-        res.status(500).json({ err: error, success: false });
+        return errorHandler(res, error);
       });
   }
 
@@ -21,7 +22,7 @@ class FeeController {
         res.status(200).send(result);
       })
       .catch(error => {
-        res.status(500).json({ err: error, success: false });
+        return errorHandler(res, error);
       });
   }
 }

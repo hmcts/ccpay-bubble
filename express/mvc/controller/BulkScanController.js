@@ -1,4 +1,5 @@
 const { bulkScanService } = require('../../services');
+const {errorHandler} = require("../../services/UtilService");
 
 class BulkScanController {
   constructor() {
@@ -11,11 +12,7 @@ class BulkScanController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -25,11 +22,7 @@ class BulkScanController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
   patchBSChangeStatus(req, res, appInsights) {
@@ -38,11 +31,7 @@ class BulkScanController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
   getSelectedReport(req, res) {
@@ -51,7 +40,7 @@ class BulkScanController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        res.status(500).json({ err: error, success: false });
+        return errorHandler(res, error);
       });
   }
 }
