@@ -23,5 +23,6 @@
   "10104_User Agent Fuzzer_https://paybubble.aat.platform.hmcts.net/_GET": "ignore",
   "10104_User Agent Fuzzer_https://paybubble.aat.platform.hmcts.net/robots.txt_GET": "ignore",
   "10104_User Agent Fuzzer_https://paybubble.aat.platform.hmcts.net/sitemap.xml_GET": "ignore",
-  "10096_Timestamp Disclosure - Unix_https://paybubble.aat.platform.hmcts.net/_GET": "ignore"
+  "10096_Timestamp Disclosure - Unix_https://paybubble.aat.platform.hmcts.net/_GET": "ignore",
+  "10096_Timestamp Disclosure - Unix_https://paybubble.aat.platform.hmcts.net/sitemap.xml_GET": "ignore"
 }
