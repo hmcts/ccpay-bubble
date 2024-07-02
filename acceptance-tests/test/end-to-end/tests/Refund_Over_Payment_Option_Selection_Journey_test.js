@@ -148,7 +148,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£500.00', '£220.00', 'Over payment', '£280.00', emailAddress, '', 'SendRefund');
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false);
     const refundRefOverPayments = await InitiateRefunds.verifyRefundSubmittedPage('280.00');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£0.00');
 
     // Refund with reason - 220
@@ -172,7 +172,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     const checkYourAnswersDataBeforeSubmitRefund2 = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£500.00', '', refundReason, '£220.00', emailAddress, '', 'SendRefund');
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund2, false, false, false, false);
     const refundRef = await InitiateRefunds.verifyRefundSubmittedPage('220.00');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£280.00');
     await I.Logout();
     I.clearCookie();
@@ -219,7 +219,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, refundReason, '£220.00', emailAddress, '', 'payments probate', 'approver probate');
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval);
     I.click('Back');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£280.00');
 
     // Update refund reference with Rejection (called by Liberata) for System approved RefundWhenContacted email notification verification
