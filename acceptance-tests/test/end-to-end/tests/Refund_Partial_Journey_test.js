@@ -4,6 +4,7 @@ const testConfig = require("./config/CCPBConfig");
 const CCPBATConstants = require("./CCPBAcceptanceTestConstants");
 const miscUtils = require("../helpers/misc");
 const assertionData = require("../fixture/data/refunds/assertion");
+const stringUtil = require("../helpers/string_utils");
 
 Feature('CC Pay Bubble Partial Refund journey test').retry(CCPBATConstants.defaultNumberOfRetries);
 
@@ -95,5 +96,40 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
 
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval, true, false, true, refundNotificationPreviewDataAfterApproval);
     await I.Logout();
+    I.clearCookie();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
 
-  }).tag('@pipeline @nightly');
+
+    // Validate the error message for full fee payment refund as it's already partially.
+
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    // Submit refund
+    I.click('Issue refund');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    // fee checkbox
+    I.click('//input[@name="organisation"]');
+    I.click('Continue');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await InitiateRefunds.verifyProcessRefundPageFromTheDropDownReasonsAndContinue(ccdCaseNumber, refundDropDownReason, reasonText);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
+    I.click('//*[@id="email"]');
+    I.fillField('//*[@id="email"]', emailAddress);
+    I.click('Continue');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+
+    const checkYourAnswersDataBeforeSubmitRefund2 = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£273.00', '', refundDropDownReason + '-' + reasonText, '£273.00', emailAddress, '', 'SendRefund');
+    await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund2);
+    // Validate the excess refund amount error message and change it.
+    I.see('The amount to refund can not be more than £73.00');
+    checkYourAnswersDataBeforeSubmitRefund2.refundAmount = '73.00';
+    await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund2, false, false, false, false, false, true);
+    await InitiateRefunds.verifyRefundSubmittedPage('73.00');
+    await I.Logout();
+    I.clearCookie();
+}).tag('@pipeline @nightly');
