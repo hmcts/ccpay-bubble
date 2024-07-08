@@ -7,7 +7,7 @@ module.exports = {
   sevenSecondWaitTime: 7,
   nineSecondWaitTime: 9,
   tenSecondWaitTime: 10,
-  fifteenSecondWaitTime: 10,
+  fifteenSecondWaitTime: 15,
   twentySecondWaitTime: 20,
   thirtySecondWaitTime: 30,
   fortySecondWaitTime: 30,
@@ -15,6 +15,6 @@ module.exports = {
   CCDCaseNumber: 16,
   minTimeout: 1000,
   maxTimeout: 3000,
-  defaultNumberOfRetries: 1,
+  defaultNumberOfRetries: 2,
   oneMinute: 60
 };
