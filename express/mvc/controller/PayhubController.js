@@ -5,6 +5,7 @@ const request = require('request-promise-native');
 const LaunchDarkly = require('launchdarkly-node-client-sdk');
 const HttpStatusCodes = require('http-status-codes');
 const { Logger } = require('@hmcts/nodejs-logging');
+const {errorHandler} = require("../../services/UtilService");
 
 const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
 const LDprefix = config.get('environment.ldPrefix');
@@ -28,17 +29,17 @@ class PayhubController {
           },
           (error, response, body) => {
             if (error) {
-              return res.status(500).json({ err: `${error}`, success: false });
+              return errorHandler(res, error);
             }
             return res.status(200).send(body);
           });
         } else {
           const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
-          return res.status(500).json({ err: `${error}`, success: false });
+          return errorHandler(res, error);
         }
       })
       .catch(error => {
-        res.status(500).json({ err: error, success: false });
+        return errorHandler(res, error);
       });
   }
 
@@ -61,17 +62,17 @@ class PayhubController {
           },
           (error, response, body) => {
             if (error) {
-              return res.status(500).json({ err: `${error}`, success: false });
+              return errorHandler(res, error);
             }
             return res.status(200).send(body);
           });
         } else {
           const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
-          return res.status(500).json({ err: `${error}`, success: false });
+          return res.status(500).json({ err: `${error.message}`, success: false });
         }
       })
       .catch(error => {
-        res.status(error.statusCode).json({ err: error.message, success: false });
+        return errorHandler(res, error);
       });
   }
 
@@ -88,7 +89,7 @@ class PayhubController {
         res.status(200).send('success');
       })
       .catch(error => {
-        res.status(500).json({ err: error, success: false });
+        return errorHandler(res, error);
       });
   }
 
@@ -103,17 +104,17 @@ class PayhubController {
           },
           (error, response, body) => {
             if (error) {
-              return res.status(500).json({ err: `${error}`, success: false });
+              return errorHandler(res, error);
             }
             return res.status(200).send(body);
           });
         } else {
           const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
-          return res.status(500).json({ err: `${error}`, success: false });
+          return errorHandler(res, error);
         }
       })
       .catch(error => {
-        res.status(500).json({ err: error, success: false });
+        return errorHandler(res, error);
       });
   }
 
@@ -127,11 +128,11 @@ class PayhubController {
           res.status(200).send(resp);
         })
         .catch(err => {
-          res.status(500).json({ err, success: false });
+          return errorHandler(res, err);
         });
     }
     return Promise.reject(new Error('Missing url parameter')).catch(err => {
-      res.status(HttpStatusCodes.BAD_REQUEST).json({ err, success: false });
+      res.status(HttpStatusCodes.BAD_REQUEST).json({ success: false });
     });
   }
 
@@ -141,11 +142,7 @@ class PayhubController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -155,11 +152,7 @@ class PayhubController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -169,11 +162,7 @@ class PayhubController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -183,11 +172,7 @@ class PayhubController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -197,11 +182,7 @@ class PayhubController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -211,11 +192,7 @@ class PayhubController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -225,11 +202,7 @@ class PayhubController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -239,11 +212,7 @@ class PayhubController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -253,11 +222,7 @@ class PayhubController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -267,11 +232,7 @@ class PayhubController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -281,11 +242,7 @@ class PayhubController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -295,11 +252,7 @@ class PayhubController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -310,11 +263,7 @@ class PayhubController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json(error.message);
-        } else {
-          res.status(500).json(error);
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -324,11 +273,7 @@ class PayhubController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error.message, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
   postWays2PayCardPayment(req, res, appInsights) {
@@ -338,14 +283,7 @@ class PayhubController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({
-            err: error.message,
-            success: false
-          });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -355,11 +293,7 @@ class PayhubController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json(error.message);
-        } else {
-          res.status(500).json(error);
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -369,11 +303,7 @@ class PayhubController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json(error.message);
-        } else {
-          res.status(500).json(error);
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -383,11 +313,7 @@ class PayhubController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json(error.message);
-        } else {
-          res.status(500).json(error);
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -397,11 +323,7 @@ class PayhubController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json(error.message);
-        } else {
-          res.status(500).json(error);
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -411,7 +333,7 @@ class PayhubController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        res.status(500).json({ err: error, success: false });
+        return errorHandler(res, error);
       });
   }
 
@@ -421,11 +343,7 @@ class PayhubController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json(error.message);
-        } else {
-          res.status(500).json(error);
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -435,11 +353,7 @@ class PayhubController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json(error.message);
-        } else {
-          res.status(500).json(error);
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -449,11 +363,7 @@ class PayhubController {
         res.status(200).send(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json(error.message);
-        } else {
-          res.status(500).json(error);
-        }
+        return errorHandler(res, error);
       });
   }
   getFailureReport(req, res) {
@@ -462,11 +372,7 @@ class PayhubController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json(error.message);
-        } else {
-          res.status(500).json(error);
-        }
+        return errorHandler(res, error);
       });
   }
   // refunds
@@ -477,9 +383,7 @@ class PayhubController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(400).json(error);
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -490,11 +394,7 @@ class PayhubController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -508,11 +408,24 @@ class PayhubController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(400).send(error);
-        }
+        return errorHandler(res, error);
       });
   }
+
+/*  errorHandler(res, error){
+    let msg = "";
+    if (error.message !== undefined && error.message !== ''){
+      msg = error.message;
+    }
+    else if (error.cause !== undefined && error.cause !== ''){
+      msg = error.cause;
+    }
+    if (error.statusCode) {
+      return res.status(error.statusCode).json({ err: msg, success: false });
+    } else {
+      return res.status(500).json({ err: msg, success: false });
+    }
+  }*/
 }
 
 module.exports = PayhubController;

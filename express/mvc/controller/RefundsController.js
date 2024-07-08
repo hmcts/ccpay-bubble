@@ -1,6 +1,7 @@
 /* eslint-disable no-else-return */
 /* eslint-disable no-negated-condition */
 const { refundsService } = require('../../services');
+const {errorHandler} = require("../../services/UtilService");
 
 class RefundsController {
   constructor() {
@@ -12,11 +13,7 @@ class RefundsController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
   getRefundAction(req, res) {
@@ -25,11 +22,7 @@ class RefundsController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode !== '403' && error.statusCode !== '500') {
-          res.status(error.statusCode).send(error);
-        } else {
-          res.status(500).send(error);
-        }
+        return errorHandler(res, error);
       });
   }
   getRefundRejectReason(req, res) {
@@ -38,11 +31,7 @@ class RefundsController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode !== '403' && error.statusCode !== '500') {
-          res.status(error.statusCode).send(error);
-        } else {
-          res.status(500).send(error);
-        }
+        return errorHandler(res, error);
       });
   }
   patchRefundAction(req, res, appInsights) {
@@ -51,11 +40,7 @@ class RefundsController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode !== '403' && error.statusCode !== '500') {
-          res.status(error.statusCode).send(error);
-        } else {
-          res.status(500).send(error);
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -65,11 +50,7 @@ class RefundsController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).send(error);
-        } else {
-          res.status(500).send(error);
-        }
+        return errorHandler(res, error);
       });
   }
   getRefundStatusHistory(req, res) {
@@ -78,11 +59,7 @@ class RefundsController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).send(error);
-        } else {
-          res.status(500).send(error);
-        }
+        return errorHandler(res, error);
       });
   }
   putResendOrEdit(req, res, appInsights) {
@@ -91,11 +68,7 @@ class RefundsController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -105,11 +78,7 @@ class RefundsController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).send(error);
-        } else {
-          res.status(500).send(error);
-        }
+        return errorHandler(res, error);
       });
   }
   postIssueRefund(req, res, appInsights) {
@@ -118,11 +87,7 @@ class RefundsController {
         res.status(200).json({ data: result, success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).send(error);
-        } else {
-          res.status(500).send(error);
-        }
+        return errorHandler(res, error);
       });
   }
   patchResubmitRefund(req, res, appInsights) {
@@ -131,11 +96,7 @@ class RefundsController {
         res.status(200).json(result);
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).send(error);
-        } else {
-          res.status(500).send(error);
-        }
+        return errorHandler(res, error);
       });
   }
 
@@ -146,11 +107,7 @@ class RefundsController {
         res.status(200).json({ data: JSON.stringify(result.body), success: true });
       })
       .catch(error => {
-        if (error.statusCode) {
-          res.status(error.statusCode).json({ err: error.message, success: false });
-        } else {
-          res.status(500).json({ err: error, success: false });
-        }
+        return errorHandler(res, error);
       });
   }
 }

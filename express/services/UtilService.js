@@ -1,7 +1,7 @@
 /* eslint-disable no-eq-null, eqeqeq */
 const rq = require('client-request/promise');
 const HttpStatusCodes = require('http-status-codes');
-const { Logger } = require('@hmcts/nodejs-logging');
+const {Logger} = require('@hmcts/nodejs-logging');
 
 function asyncTo(promise) {
   return promise.then(data => [null, data]).catch(err => [err]);
@@ -56,13 +56,21 @@ function response(res, data, status = HttpStatusCodes.OK) {
     success = false;
   }
 
-  return res.status(status).json({ success, data });
+  return res.status(status).json({success, data});
 }
 
 function errorHandler(res, error, fileName) {
-  Logger.getLogger(`PAYBUBBLE-WEB: ${fileName}`).error(error.body || error.message);
-  res.status(error.response ? error.response.statusCode || HttpStatusCodes.INTERNAL_SERVER_ERROR : HttpStatusCodes.INTERNAL_SERVER_ERROR);
-  res.send(error.body || error.message);
+  let msg = "";
+  if (error.message !== undefined && error.message !== '') {
+    msg = error.message;
+  } else if (error.cause !== undefined && error.cause !== '') {
+    msg = error.cause;
+  }
+  if (error.statusCode) {
+    return res.status(error.statusCode).json({err: msg, success: false});
+  } else {
+    return res.status(500).json({err: msg, success: false});
+  }
 }
 
-module.exports = { asyncTo, makeHttpRequest, response, setConfig, errorHandler };
+module.exports = {asyncTo, makeHttpRequest, response, setConfig, errorHandler};
