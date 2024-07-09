@@ -1,6 +1,8 @@
 nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_NAME}.preview.platform.hmcts.net
+  devcpuRequests: 2000m
+  devcpuLimits: 4000m
   environment:
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
 
