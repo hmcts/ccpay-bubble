@@ -112,27 +112,27 @@ module.exports = {
     I.seeElement({xpath: '//input[@disabled="disabled" and @aria-describedby="amount-currency "]'});
   },
 
-  verifyProcessRefundPageForFeeRefundSelection(checkYourAnswersData, ccdCaseNumber) {
+  verifyProcessRefundPageForFeeRefundSelection(reviewProcessRefundPageData, ccdCaseNumber) {
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Process refund');
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
     I.see('Payment reference:');
-    I.see(checkYourAnswersData.paymentReference);
+    I.see(reviewProcessRefundPageData.paymentReference);
     I.see('Select fees to be refunded');
     I.see('Select');
     I.click(this.locators.checkbox_fee);
     I.see('Fee description');
-    I.see(checkYourAnswersData.feeDescription);
+    I.see(reviewProcessRefundPageData.feeDescription);
     I.see('Fee amount');
-    I.see(checkYourAnswersData.feeAmount);
+    I.see(reviewProcessRefundPageData.feeAmount);
     I.see('Total paid');
-    I.see(checkYourAnswersData.paymentAmount);
+    I.see(reviewProcessRefundPageData.paymentAmount);
     I.see('Quantity');
     I.see('Amount to refund');
     I.click(this.locators.amount_to_refund);
     I.clearField(this.locators.amount_to_refund);
-    I.fillField(this.locators.amount_to_refund, checkYourAnswersData.refundAmount);
+    I.fillField(this.locators.amount_to_refund, reviewProcessRefundPageData.refundAmount);
   },
 
   verifyProcessRefundPageFromTheDropDownReasonsAndContinue(ccdCaseNumber, dropDownReason, reasonText) {
@@ -172,8 +172,6 @@ module.exports = {
     I.see(checkYourAnswersDataBeforeSubmitRefund.paymentReference);
     I.see('Payment amount');
     I.see(checkYourAnswersDataBeforeSubmitRefund.paymentAmount);
-    I.see('Refund amount');
-    I.see(checkYourAnswersDataBeforeSubmitRefund.refundAmount);
     I.see('Reason for refund');
     I.see(checkYourAnswersDataBeforeSubmitRefund.refundReason);
     I.see('Send to');
@@ -204,7 +202,11 @@ module.exports = {
     } else if (changeRefundAmountFlag) {
       I.click({xpath: '//tr[4]//a[.="Change"]'});
       I.waitForText('Process refund', 2);
+      I.click(this.locators.amount_to_refund);
+      I.clearField(this.locators.amount_to_refund);
+      I.fillField(this.locators.amount_to_refund, checkYourAnswersDataBeforeSubmitRefund.refundAmount);
       I.click('Continue');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
     } else if (changeEmailFlag) {
       I.click({xpath: '//tr[6]//a[.="Change"]'});
       I.waitForElement('//*[@id="contact"]', 5);
@@ -226,6 +228,8 @@ module.exports = {
       I.click('Continue');
       I.wait(CCPBATConstants.twoSecondWaitTime);
     }
+    I.see('Refund amount');
+    I.see(checkYourAnswersDataBeforeSubmitRefund.refundAmount);
     I.click('Submit refund');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
   },

@@ -158,8 +158,13 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.waitForText('Issue refund', 5);
     I.click('Issue refund');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for 1.1 or 1.2 application. Only one payable if applications joined up.', '£220.00', '£220.00', '220', '1');
+    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for 1.1 or 1.2 application. Only one payable if applications joined up.', '£220.00', '£220.00', '230', '1');
     await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelection(reviewProcessRefundPageData, ccdCaseNumber);
+    I.click('Continue');
+    // validate the Excess refund amount than the fee amount paid error message
+    I.see('The amount you want to refund is more than the amount paid');
+    I.clearField('//input[starts-with(@id, "feeAmount")]');
+    I.fillField('//input[starts-with(@id, "feeAmount")]', '220');
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refundReason = 'System/technical error';
