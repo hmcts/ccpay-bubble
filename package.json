@@ -51,7 +51,7 @@
     "@angular-eslint/schematics": "^18.0.1",
     "@babel/eslint-parser": "^7.11.0",
     "@babel/helper-create-class-features-plugin": "^7.21.8",
-    "@hmcts/ccpay-web-component": "6.2.1",
+    "@hmcts/ccpay-web-component": "6.2.2",
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/nodejs-healthcheck": "^1.8.0",
     "@hmcts/nodejs-logging": "^4.0.4",
