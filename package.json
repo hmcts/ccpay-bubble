@@ -193,6 +193,7 @@
     "fsevents": "*"
   },
   "resolutions": {
+    "ws": "8.18.0",
     "@azure/identity": ">=4.2.1",
     "braces": "^3.0.3",
     "chokidar": "^2.1.8",
