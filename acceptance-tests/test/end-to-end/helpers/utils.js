@@ -185,7 +185,7 @@ async function getCREATEEventForProbate() {
   const idamToken = await getIDAMToken();
   const userID = await getUserID(idamToken);
   const serviceAuthorizationToken = await getServiceToken();
-  const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/PROBATE/case-types/GrantOfRepresentation/event-triggers/createDraft/token`;
+  const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/PROBATE/case-types/GrantOfRepresentation/event-triggers/applyforGrantPaperApplicationMan/token`;
 
   const createTokenResponse = await request({
     method: 'GET',
