@@ -271,7 +271,7 @@ async function createACCDCaseForProbate() {
   const createCCDCaseBody = {
 
     data: {}, event:
-      {id: 'createDraft', summary: '', description: ''},
+      {id: 'applyforGrantPaperApplicationMan', summary: '', description: ''},
     event_token: `${createToken}`,
     ignore_warning: false,
     draft_id: null
