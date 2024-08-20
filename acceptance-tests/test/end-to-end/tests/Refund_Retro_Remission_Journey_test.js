@@ -95,6 +95,13 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded',
     const reviewRemissionRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions, paymentRcReference, 'Retrospective remission', '£100.00', emailAddress, '', 'payments probate', 'approver probate');
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRemissionRefundDetailsDataAfterApproval);
 
+    // Refund Accepted by liberata
+    await apiUtils.updateRefundStatusByRefundReference(refundRefRemissions, '', 'ACCEPTED');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await CaseTransaction.validateCaseTransactionsDetails('£273.00', '0', '£100.00', '£0.00', '£0.00');
+
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -329,6 +336,13 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
     I.wait(CCPBATConstants.tenSecondWaitTime);
     const reviewRemissionRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions, paymentRcReference, 'Retrospective remission', '£63.00', emailAddress, '', 'payments probate', 'approver probate');
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRemissionRefundDetailsDataAfterApproval);
+
+    // Refund Accepted by liberata
+    await apiUtils.updateRefundStatusByRefundReference(refundRefRemissions, '', 'ACCEPTED');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await CaseTransaction.validateCaseTransactionsDetails('£200.00', '0', '£100.00', '£0.00', '£0.00');
 
     await I.Logout();
     I.clearCookie();
