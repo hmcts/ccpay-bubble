@@ -63,7 +63,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, refundNotificationPreviewDataBeforeRefundRequest);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('27.00');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails('£300.00', '0', '£0.00', '£0.00', '£0.00');
+    await CaseTransaction.validateCaseTransactionsDetails('£300.00', '0', '£0.00', '£0.00', '£27.00');
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -149,7 +149,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false);
     const refundRefOverPayments = await InitiateRefunds.verifyRefundSubmittedPage('280.00');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£0.00');
+    await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£280.00');
 
     // Refund with reason - 220
     I.waitForElement('(//*[text()[contains(.,"Review")]])[2]', 5);
