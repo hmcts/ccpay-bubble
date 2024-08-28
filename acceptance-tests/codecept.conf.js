@@ -9,8 +9,8 @@ exports.config = {
   helpers: {
     Playwright: {
       url: CONF.e2e.frontendUrl,
-      show: false,
-      browser: 'chromium',
+      show: true,
+      browser: 'firefox',
       waitForTimeout: 60001,
       waitForAction: 1000,
       timeout: 20002,
