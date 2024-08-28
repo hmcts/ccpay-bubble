@@ -409,6 +409,13 @@ module.exports = {
     I.see('Overpayment');
     I.see('System/technical error');
   },
+  validateTransactionPageForRefundOverPayment(refundRefOverPayments) {
+    I.see(refundRefOverPayments);
+    I.see('Refunds');
+    I.see('Approved');
+    I.see('£280.00');
+    I.see('Overpayment');
+  },
   validateTransactionPageForPartialPayments() {
     I.wait(CCPBConstants.tenSecondWaitTime);
     I.see('Total payments');
