@@ -1,5 +1,5 @@
 module.exports = {
-  TestCaseWorkerUserName: process.env.CASE_WORKER_USER_NAME || 'probatebackoffice@gmail.com',
+  TestCaseWorkerUserName: process.env.CASE_WORKER_USER_NAME || 'probatedraftcasecreator@mailinator.com',
   TestCaseWorkerPassword: process.env.CASE_WORKER_PASSWORD || 'Monday01',
   TestRefundsApproverUserName: process.env.REFUNDS_APPROVER_USER_NAME,
   TestRefundsApproverPassword: process.env.REFUNDS_APPROVER_PASSWORD,

@@ -100,7 +100,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval, true, true, false, refundNotificationPreviewDataAfterApproval);
     await I.Logout();
     I.clearCookie();
-  }).tag('@pipeline @nightly');
+  }).tag('@pipeline @nightly @debug');
 
 Scenario('Refund journey for complete cheque amount(500) with OverPayment option(280) and Refund(220) and Liberata rejected System approved RefundWhenContacted notification',
   async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
@@ -259,4 +259,4 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
 
     await I.Logout();
     I.clearCookie();
-  }).tag('@pipeline @nightly @debug');
+  }).tag('@pipeline @nightly');
