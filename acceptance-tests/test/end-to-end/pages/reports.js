@@ -17,6 +17,8 @@ module.exports = {
     unprocessed_transaction: { xpath: '//*[@id="UnprocessedTransactions"]' },
     processed_unallocated: { xpath: '//*[@id="ProcessedUnallocated"]' },
     shortfall_and_surplus: { xpath: '//*[@id="ShortfallsandSurplus"]' },
+    payment_failure_event: { xpath: '//*[@id="PaymentFailureEvent"]' },
+    telephony_payments: { xpath: '//*[@id="TelephonyPayments"]' },
     date_from: { xpath: '//*[@id="date-from"]' },
     date_to: { xpath: '//*[@id="date-to"]' }
   },
@@ -36,7 +38,8 @@ module.exports = {
     I.see('Processed unallocated');
     I.see('Payments that are marked as ‘Unidentified’ or ‘Transferred’ (Unsolicited requests)');
     I.see('Under payment and Over payment');
-    I.see('Requests where balances are marked as Under payment/Over payment further case management. E.g: Refund approval, Customer contact');
+    I.see('Failed payment transaction details');
+    I.see('All Telephony Payments');
     I.see('Date from');
     I.see('Date to');
     I.see('Download report');
@@ -56,6 +59,12 @@ module.exports = {
     case 'Under payment and Over payment':
       I.checkOption(this.locators.shortfall_and_surplus);
       break;
+   // case 'Payment failure event':
+   //   I.checkOption(this.locators.payment_failure_event);
+    //  break;
+    //case 'Telephony Payments':
+    //  I.checkOption(this.locators.telephony_payments);
+    //  break;
     default:
       logger.log('Enter valid report name');
     }
@@ -63,10 +72,10 @@ module.exports = {
     I.fillField(this.locators.date_from, dateFrom);
     I.wait(CCPBConstants.twoSecondWaitTime);
     I.fillField(this.locators.date_to, dateTo);
-    
+
     // PAY-6928 UI issue with date selection.
-    // I.wait(CCPBConstants.twoSecondWaitTime);
-    // I.click('Download report');
-    // I.wait(CCPBConstants.fiveSecondWaitTime);
+     I.wait(CCPBConstants.twoSecondWaitTime);
+     I.click('Download report');
+     I.wait(CCPBConstants.fiveSecondWaitTime);
   }
 };
