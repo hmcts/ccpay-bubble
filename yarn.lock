@@ -9810,7 +9810,7 @@ __metadata:
     eslint: ^8.44.0
     eslint-plugin-node: ^8.0.1
     exceljs: ^4.4.0
-    express: ^4.19.2
+    express: ^4.20.0
     express-session: ^1.17.1
     faker: ^4.1.0
     file-saver: ^2.0.2
@@ -21851,10 +21851,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"path-to-regexp@npm:0.1.7":
-  version: 0.1.7
-  resolution: "path-to-regexp@npm:0.1.7"
-  checksum: 69a14ea24db543e8b0f4353305c5eac6907917031340e5a8b37df688e52accd09e3cebfe1660b70d76b6bd89152f52183f28c74813dbf454ba1a01c82a38abce
+"path-to-regexp@npm:^0.1.10":
+  version: 0.1.11
+  resolution: "path-to-regexp@npm:0.1.11"
+  checksum: 02665d2795ae458f24b2f62cc7f4e8c3334d65dbd4e49a50b0494cf28d69f645ce6bf51404eab7bbf717dd36809a2c83785a54a3dda776e8fe1811ada0ba32fd
   languageName: node
   linkType: hard
 
@@ -24228,9 +24228,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"send@npm:0.18.0":
-  version: 0.18.0
-  resolution: "send@npm:0.18.0"
+"send@npm:^0.19.0":
+  version: 0.19.0
+  resolution: "send@npm:0.19.0"
   dependencies:
     debug: 2.6.9
     depd: 2.0.0
@@ -24245,7 +24245,7 @@ __metadata:
     on-finished: 2.4.1
     range-parser: ~1.2.1
     statuses: 2.0.1
-  checksum: 74fc07ebb58566b87b078ec63e5a3e41ecd987e4272ba67b7467e86c6ad51bc6b0b0154133b6d8b08a2ddda360464f71382f7ef864700f34844a76c8027817a8
+  checksum: 5ae11bd900c1c2575525e2aa622e856804e2f96a09281ec1e39610d089f53aa69e13fd8db84b52f001d0318cf4bb0b3b904ad532fc4c0014eb90d32db0cff55f
   languageName: node
   linkType: hard
 
