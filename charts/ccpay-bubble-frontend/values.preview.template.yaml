@@ -10,7 +10,7 @@ nodejs:
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
     PCIPAL_ANTENNA_URL:  https://paybubble.{{ .Values.global.environment }}.platform.hmcts.net/ccd-search
-    PAYHUB_API_URL: https://payment-api-pr-1682.preview.platform.hmcts.net/
+    PAYHUB_API_URL: https://payment-api-pr-1682.preview.platform.hmcts.net
     CCPAY_BULKSCAN_API_URL: http://ccpay-bulkscanning-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     CCPAY_REFUNDS_API_URL: http://ccpay-refunds-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     CCPAY_NOTIFICATION_API_URL: http://ccpay-notifications-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
