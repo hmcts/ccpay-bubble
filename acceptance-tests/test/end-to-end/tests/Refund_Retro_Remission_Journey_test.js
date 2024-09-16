@@ -61,7 +61,7 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded',
       emailAddress, '', 'SendRefund');
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    InitiateRefunds.verifyRemissionSubmittedPage(true);
+    InitiateRefunds.verifyRemissionSubmittedPage(true, 100.00);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('//*[@id="email"]');
     I.fillField('//*[@id="email"]', emailAddress);
@@ -161,7 +161,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a ZERO Balance Du
       emailAddress, '', 'SendRefund');
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    InitiateRefunds.verifyRemissionSubmittedPage(false);
+    InitiateRefunds.verifyRemissionSubmittedPage(false, 100.00);
 
     I.click('Return to case');
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -232,7 +232,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a NEGATIVE Balanc
       emailAddress, '', 'SendRefund');
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    InitiateRefunds.verifyRemissionSubmittedPage(false);
+    InitiateRefunds.verifyRemissionSubmittedPage(false, 100.00);
 
     I.click('Return to case');
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -303,7 +303,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
       emailAddress, '', 'SendRefund');
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    InitiateRefunds.verifyRemissionSubmittedPage(true);
+    InitiateRefunds.verifyRemissionSubmittedPage(true, 100.00);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('//*[@id="email"]');
     I.fillField('//*[@id="email"]', emailAddress);
@@ -343,6 +343,114 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
     I.click('Back');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails('£200.00', '0', '£100.00', '£0.00', '£0.00');
+
+    await I.Logout();
+    I.clearCookie();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+  }).tag('@pipeline @nightly');
+
+Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITIVE Balance Due CAN have relevant Remission Refunded - (positive balance value)',
+  async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
+           PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
+
+    const bulkScanPaymentMethod = 'cheque';
+    const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
+    const totalAmount = 300;
+    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
+    const dcnNumber = ccdAndDcn[0];
+    const ccdCaseNumber = ccdAndDcn[1];
+    const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
+
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
+    CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£300.00', 'cheque');
+    CaseTransaction.allocateToNewFee();
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await AddFees.addFeesAmount('273.00', 'family', 'probate_registry');
+    FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0219', '273.00', false);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+
+
+    FeesSummary.addFeeFromSummary();
+    await AddFees.addFees('50.00', 'family', 'family_court');
+    FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0258', '50.00', true);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0219', '1', '£300.00', '£273.00', '273.00', '£23.00');
+    ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0258', '1', '£300.00', '50.00', '50.00', '£23.00');
+    ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
+    ConfirmAssociation.confirmPayment();
+
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    CaseTransaction.checkBulkCaseShortfallSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid', '23.00');
+    CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
+    //  remission refund - 100
+    await CaseTransaction.validateCaseTransactionsDetails('£300.00', '0', '£0.00', '£23.00', '£0.00');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    I.wait(CCPBATConstants.fifteenSecondWaitTime);
+    const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
+    if (I.dontSeeElement('Issue refund')) {
+      console.log('found disabled button');
+      await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
+      I.click('Back');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
+      I.wait(CCPBATConstants.tenSecondWaitTime);
+    }
+    I.waitForText('Add remission', 5);
+    // adding a retro remission amount of [£50] against the second fee [£50]
+    I.click('//*[@id="main-content"]/div/div[5]/div[3]/button');
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, 'HWF-A1B-23C');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, '50.00');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, 'HWF-A1B-23C', '50.00', '300.00', '£50.00', 'FEE0258', 'FEE0258 - Application for a maintenance order to be registered 1950 Act or 1958 Act',
+      emailAddress, '', 'SendRefund');
+    InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    InitiateRefunds.verifyRemissionSubmittedPage(true, 50.00);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click('//*[@id="email"]');
+    I.fillField('//*[@id="email"]', emailAddress);
+    I.click('Continue');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    InitiateRefunds.verifyCheckYourAnswersPageForRemissionFinalSubmission(checkYourAnswersData, false, false);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    const refundRefRemissions = await InitiateRefunds.verifyRefundSubmittedPage('27.00');
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    await CaseTransaction.validateCaseTransactionsDetails('£300.00', '0', '£50.00', '£0.00', '£27.00');
+    await I.Logout();
+    I.clearCookie();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+
+    // Approve the remission refund from Refund list page
+    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
+    let refundsDataBeforeApproverAction;
+
+    I.wait(CCPBATConstants.fifteenSecondWaitTime);
+    refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', '£27.00', emailAddress, '', 'payments probate', 'SendRefund');
+    await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
+    InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
+    InitiateRefunds.approverActionForRequestedRefund('Approve');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.click('Case Transaction');
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    await CaseTransaction.validateCaseTransactionsDetails('£300.00', '0', '£50.00', '£0.00', '£27.00');
+    await I.click(`//td[contains(.,'${refundRefRemissions}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    const reviewRemissionRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions, paymentRcReference, 'Retrospective remission', '£27.00', emailAddress, '', 'payments probate', 'approver probate');
+    await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRemissionRefundDetailsDataAfterApproval);
+
+    // Refund Accepted by liberata
+    await apiUtils.updateRefundStatusByRefundReference(refundRefRemissions, '', 'ACCEPTED');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await CaseTransaction.validateCaseTransactionsDetails('£300.00', '0', '£50.00', '£0.00', '£0.00');
 
     await I.Logout();
     I.clearCookie();
