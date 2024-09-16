@@ -98,6 +98,14 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'Overpayment', '27.00', emailAddress, '', 'payments probate', 'approver probate');
     const refundNotificationPreviewDataAfterApproval = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundReference, '27', 'Refund for Overpayment', bulkScanPaymentMethod);
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval, true, true, false, refundNotificationPreviewDataAfterApproval);
+
+    // Refund Accepted by liberata
+    await apiUtils.updateRefundStatusByRefundReference(refundReference, '', 'ACCEPTED');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.refreshPage();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await CaseTransaction.validateCaseTransactionsDetails('£300.00', '0', '£0.00', '£0.00', '£0.00');
+
     await I.Logout();
     I.clearCookie();
   }).tag('@pipeline @nightly');
@@ -158,17 +166,8 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.waitForText('Issue refund', 5);
     I.click('Issue refund');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-
-    // DTRJ Updated to select Full Payment.
-    I.click('//*[@id="full-payment"]');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click('Continue');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-
-    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for 1.1 or 1.2 application. Only one payable if applications joined up.', '£220.00', '500.00', '500', '1');
-
-    // DTRJ Fee already selected.
-    //await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelection(reviewProcessRefundPageData, ccdCaseNumber);
+    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for 1.1 or 1.2 application. Only one payable if applications joined up.', '£220.00', '£220.00', '220', '1');
+    await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelection(reviewProcessRefundPageData, ccdCaseNumber);
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refundReason = 'System/technical error';
@@ -178,27 +177,20 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.fillField('//*[@id="email"]', emailAddress);
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const checkYourAnswersDataBeforeSubmitRefund2 = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£500.00', '', refundReason, '£500.00', emailAddress, '', 'SendRefund');
-    I.click('Cancel');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-
-    // DTRJ Verify will fail as the refund amount is more than 220.00.
-    // This part of the test needs to be reviewed.
-    //await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund2, false, false, false, false);
-    //const refundRef = await InitiateRefunds.verifyRefundSubmittedPage('500.00');
-    //I.wait(CCPBATConstants.tenSecondWaitTime);
-    //await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£500.00');
+    const checkYourAnswersDataBeforeSubmitRefund2 = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£500.00', '', refundReason, '£220.00', emailAddress, '', 'SendRefund');
+    await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund2, false, false, false, false);
+    const refundRef = await InitiateRefunds.verifyRefundSubmittedPage('220.00');
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£280.00');
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
-    // DTRJ Can only approve one refund.
     // Approve both refunds from Refund list page
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     let refundsDataBeforeApproverAction;
 
-    //for (let i = 0; i <= 1; i++) {
-    for (let i = 0; i <= 0; i++) {
+    for (let i = 0; i <= 1; i++) {
       I.wait(CCPBATConstants.fifteenSecondWaitTime);
       if (i === 0) {
         refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefOverPayments, 'Overpayment', '£280.00', emailAddress, '', 'payments probate', 'SendRefund');
@@ -223,39 +215,37 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-
-    // DTRJ Ignoring second refund as it was never created.
-    // New validation for Overpayment refund
-    //await CaseTransaction.validateTransactionPageForRefunds(refundRef, refundRefOverPayments);
-    await CaseTransaction.validateTransactionPageForRefundOverPayment(refundRefOverPayments);
-
+    await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£280.00');
+    await CaseTransaction.validateTransactionPageForRefunds(refundRef, refundRefOverPayments);
     await I.click(`//td[contains(.,'${refundRefOverPayments}')]/following-sibling::td/a[.=\'Review\'][1]`);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     const reviewOverPaymentRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefOverPayments, paymentRcReference, 'Overpayment', '£280.00', emailAddress, '', 'payments probate', 'approver probate');
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewOverPaymentRefundDetailsDataAfterApproval);
     I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click(`//td[contains(.,'${refundRef}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, refundReason, '£220.00', emailAddress, '', 'payments probate', 'approver probate');
+    await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval);
+    I.click('Back');
 
-    // DTRJ Ignoring second refund as it was never created.
-    //I.wait(CCPBATConstants.fiveSecondWaitTime);
-    //await I.click(`//td[contains(.,'${refundRef}')]/following-sibling::td/a[.=\'Review\'][1]`);
-    //I.wait(CCPBATConstants.tenSecondWaitTime);
-    //const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, refundReason, '£220.00', emailAddress, '', 'payments probate', 'approver probate');
-    //await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval);
-    //I.click('Back');
+    // Update refund reference with Rejection (called by Liberata) for System approved RefundWhenContacted email notification verification
+    await apiUtils.updateRefundStatusByRefundReference(refundRef, '', 'ACCEPTED');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.refreshPage();
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£60.00');
+    await apiUtils.updateRefundStatusByRefundReference(refundRef, 'Unable to apply refund to Card', 'REJECTED');
+    await I.refreshPage();
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£280.00');
 
-    // Update refund reference with Rejection (called by Liberata) for System approved RefundWhenContacted email notification verification
-    //await apiUtils.updateRefundStatusByRefundReference(refundRef, '', 'ACCEPTED');
-    //I.wait(CCPBATConstants.fiveSecondWaitTime);
-    //await apiUtils.updateRefundStatusByRefundReference(refundRef, 'Unable to apply refund to Card', 'REJECTED');
+    await I.click(`//td[contains(.,'${refundRef}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    const reviewRefundDetailsData = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, refundReason, '£220.00', emailAddress, '', 'payments probate', 'approver probate');
+    const refundNotificationPreviewData = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundRef, '220', 'Due to a technical error a payment was taken incorrectly and has now been refunded');
 
-    //await I.click(`//td[contains(.,'${refundRef}')]/following-sibling::td/a[.=\'Review\'][1]`);
-    //I.wait(CCPBATConstants.tenSecondWaitTime);
-    //const reviewRefundDetailsData = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, refundReason, '£220.00', emailAddress, '', 'payments probate', 'approver probate');
-    //const refundNotificationPreviewData = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundRef, '220', 'Due to a technical error a payment was taken incorrectly and has now been refunded');
-
-    //await RefundsList.verifyRefundDetailsAfterLiberataRejection(reviewRefundDetailsData, true, refundNotificationPreviewData);
+    await RefundsList.verifyRefundDetailsAfterLiberataRejection(reviewRefundDetailsData, true, refundNotificationPreviewData);
 
     await I.Logout();
     I.clearCookie();
