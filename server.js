@@ -13,6 +13,7 @@ const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 const crypto = require('crypto');
+const seed = 'my-secret-seed';
 
 const app = express();
 
