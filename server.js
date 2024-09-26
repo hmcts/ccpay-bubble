@@ -15,6 +15,7 @@ const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/erro
 
 const app = express();
 app.use(session({
+  secret: '',
   resave: false,
   saveUninitialized: true
 }));
