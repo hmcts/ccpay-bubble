@@ -12,16 +12,40 @@ const moment = require('moment');
 const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
+const crypto = require('crypto');
+const seed = 'my-secret-seed';
 
 const app = express();
+
 app.use(session({
-  secret: 'Shh, its a secret!',
+  secret: generateSamePassword(seed, 16),
   resave: false,
   saveUninitialized: true
 }));
 
 const errorFactory = ApiErrorFactory('server.js');
 let csrfProtection = csurf({ cookie: true, key: 'csrf-token', httpOnly: false, secure: true });
+
+
+/**
+ * Generates a deterministic password based on a seed using the SHA-256 hashing algorithm.
+ *
+ * This function hashes the provided seed using the SHA-256 algorithm and returns a
+ * password of the specified length. The same seed will always generate the same password.
+ *
+ * @param {string} seed - The seed value used to generate the password. The same seed will always produce the same password.
+ * @param {number} [length=12] - The desired length of the generated password. Default is 12 characters.
+ * @returns {string} A password consisting of the first `length` characters of the SHA-256 hash.
+ **/
+
+function generateSamePassword(seed, length = 12) {
+  // Hash the seed using a cryptographic algorithm (e.g., SHA-256)
+  const hash = crypto.createHash('sha256').update(seed).digest('hex');
+
+  // Return the first `length` characters of the hash as the password
+  return hash.slice(0, length);
+}
+
 
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
