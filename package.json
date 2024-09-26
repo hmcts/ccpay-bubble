@@ -51,7 +51,7 @@
     "@angular-eslint/schematics": "^18.0.1",
     "@babel/eslint-parser": "^7.11.0",
     "@babel/helper-create-class-features-plugin": "^7.21.8",
-    "@hmcts/ccpay-web-component": "6.2.3",
+    "@hmcts/ccpay-web-component": "6.2.7",
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/nodejs-healthcheck": "^1.8.0",
     "@hmcts/nodejs-logging": "^4.0.4",
@@ -193,7 +193,6 @@
     "fsevents": "*"
   },
   "resolutions": {
-    "path-to-regexp": "^0.1.10",
     "ws": "8.18.0",
     "@azure/identity": ">=4.2.1",
     "braces": "^3.0.3",
@@ -236,6 +235,7 @@
     "@angular-eslint/schematics": "^18.0.1",
     "jsdom": "24.1.0",
     "node-gyp": "9.0.0",
+    "path-to-regexp": "^0.1.10",
     "body-parser": "^1.20.3",
     "serve-static": "^1.16.0",
     "send": "^0.19.0"

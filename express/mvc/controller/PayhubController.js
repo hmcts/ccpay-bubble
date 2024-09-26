@@ -375,6 +375,17 @@ class PayhubController {
         return errorHandler(res, error);
       });
   }
+
+    getTelephonyPaymentsReport(req, res) {
+      return this.payhubService.getTelephonyPaymentsReport(req)
+        .then(result => {
+          res.status(200).json(result);
+        })
+        .catch(error => {
+          return errorHandler(res, error);
+        });
+    }
+
   // refunds
   postRefundsReason(req, res, appInsights) {
     return this.payhubService.postRefundsReason(req, res, appInsights)
