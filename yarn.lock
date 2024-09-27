@@ -14335,12 +14335,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"flat@npm:5.0.1":
-  version: 5.0.1
-  resolution: "flat@npm:5.0.1"
+"flat@npm:5.0.2":
+  version: 5.0.2
+  resolution: "flat@npm:5.0.2"
   bin:
     flat: cli.js
-  checksum: db669d7cc909b767b79b3da0a5e3ce66798ab32b3d24051c65fe38ad3e2984f836eb5a1503bef1705449a36267f090a73e8c24b24933e1f2fc54794b93b711fd
+  checksum: 12a1536ac746db74881316a181499a78ef953632ddd28050b7a3a43c62ef5462e3357c8c29d76072bb635f147f7a9a1f0c02efef6b4be28f8db62ceb3d5c7f5d
   languageName: node
   linkType: hard
 
