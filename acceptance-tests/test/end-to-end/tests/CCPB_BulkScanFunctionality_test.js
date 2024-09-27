@@ -431,4 +431,4 @@ Scenario('Download reports in paybubble', ({ I, Reports }) => {
   Reports.selectReportAndDownload('Processed unallocated');
   Reports.selectReportAndDownload('Under payment and Over payment');
   I.Logout();
-}).tag('@nightly');
+})
