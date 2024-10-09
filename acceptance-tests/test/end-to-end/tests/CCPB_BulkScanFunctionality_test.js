@@ -42,7 +42,7 @@ Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, 
   await AddFees.addFeesAmount('593.00', 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', true);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', '£593.00', '£593.00');
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', '593.00', '593.00');
   await I.runAccessibilityTest();
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -87,7 +87,7 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   CaseTransaction.allocateToExistingServiceRequest('£593.00');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', true);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', '£593.00', '£593.00');
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', '593.00', '593.00');
   await I.runAccessibilityTest();
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -137,8 +137,8 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   await AddFees.addFees('19.00', 'civil', 'magistrates_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '19.00', true);
   I.wait(CCPBATConstants.tenSecondWaitTime);
-  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1', '£493.00', '£593.00', '£593.00', '£19.00');
-  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0362', '1', '£493.00', '£19.00', '£19.00', '£19.00');
+  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1', '493.00', '593.00', '593.00', '19.00');
+  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0362', '1', '493.00', '19.00', '19.00', '19.00');
   ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -329,7 +329,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1',
-      '£493.00', '£593.00', '£593.00', '£100.00');
+      '493.00', '593.00', '593.00', '100.00');
     ConfirmAssociation.confirmPayment();
     ConfirmAssociation.verifyConfirmAssociationShortfallPaymentErrorMessages();
     ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
@@ -403,12 +403,12 @@ Scenario('Fully Paid Fee with Upfront Remission CANNOT be Refunded', async({ I, 
   I.wait(CCPBATConstants.tenSecondWaitTime);
   FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '£273.00', '£100.00', '£173.00');
   FeesSummary.allocateBulkPayment();
-  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0219', '1', '£173.00', '£273.00');
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0219', '1', '173.00', '273.00');
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.tenSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
-  await CaseTransaction.validateCaseTransactionsDetails('£173.00', '0', '£100.00', '£0.00', '£0.00');
+  await CaseTransaction.validateCaseTransactionsDetails('173.00', '0', '100.00', '0.00', '0.00');
   CaseTransaction.validatePaymentDetailsPageForRemission('HWF-A1B-23C', 'FEE0219', '£100.00');
   await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
   I.click('Back');
