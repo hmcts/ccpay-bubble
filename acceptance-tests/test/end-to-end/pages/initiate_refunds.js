@@ -369,7 +369,7 @@ module.exports = {
   verifyProcessRemissionAmountPage(ccdCaseNumber, remissionAmount) {
     I.waitForText('Process remission', '5');
     I.see(`#${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
-    I.see('Enter the amount to be refunded');
+    I.see('Enter the HWF or remission amount');
     I.fillField(this.locators.amount_field, remissionAmount);
     I.click('Continue');
   },
@@ -395,6 +395,8 @@ module.exports = {
     I.see(checkYourAnswersData.feeAmount);
     I.see('Help with fees or remission reference');
     I.see(`${checkYourAnswersData.hwfReference}`);
+    I.see('Remission amount');
+    I.see(`${checkYourAnswersData.remissionAmount}`);
     I.see('Refund amount');
     I.see(`${checkYourAnswersData.refundAmount}`);
     I.see('Send to');
@@ -430,8 +432,8 @@ module.exports = {
     I.see(`${checkYourAnswersData.feeAmount}`);
     I.see('Help with fees or remission reference');
     I.see(`${checkYourAnswersData.hwfReference}`);
-    I.see('Refund amount');
-    I.see(`${checkYourAnswersData.refundAmount}`);
+    I.see('Remission amount');
+    I.see(`${checkYourAnswersData.remissionAmount}`);
 
     if (changeHWFCodeFlag) {
       I.click({xpath: '//tr[6]//a[.="Change"]'});
@@ -484,9 +486,9 @@ module.exports = {
     I.click('Return to case');
   },
 
-  verifyRemissionSubmittedPage(isContinueButtonEnabled = true, refundAmount) {
+  verifyRemissionSubmittedPage(isContinueButtonEnabled = true, remissionAmount) {
     I.see('Remission added');
-    I.see(`The amount to be refunded should be £${refundAmount}`);
+    I.see(`The amount to be refunded should be £${remissionAmount}`);
     if (isContinueButtonEnabled) {
       I.click('Continue');
     } else {

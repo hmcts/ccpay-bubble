@@ -38,7 +38,7 @@ function checkYourDetailsSummary(
 
 function checkYourAnswers(
   paymentReference, hwfReferenceCode, refundAmount, paymentAmount,
-  feeAmount, feeCode, feeDescription, email, postCode, notificationType) {
+  feeAmount, feeCode, feeDescription, email, postCode, notificationType, remissionAmount) {
   const checkYourAnswersData = {
     paymentReference: `${paymentReference}`,
     paymentAmount: `${paymentAmount}`,
@@ -50,7 +50,8 @@ function checkYourAnswers(
     refundAmount: `${refundAmount}`,
     email: `${email}`,
     postCode: `${postCode}`,
-    refundNotificationType: `${notificationType}`
+    refundNotificationType: `${notificationType}`,
+    remissionAmount: `${remissionAmount}`
   };
   return checkYourAnswersData;
 }

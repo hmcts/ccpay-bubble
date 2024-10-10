@@ -143,7 +143,7 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateTransactionPageForSuccessPaymentPartiallyPaid(caseNumber, allocationStatus);
     I.see(caseTitle);
-    I.see(amoundDue);
+    I.see(`£${amoundDue}`);
   },
   checkBulkCaseSurplusOrShortfallPayment(caseNumber, caseTitle, allocationStatus, amoundDue) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
@@ -154,7 +154,7 @@ module.exports = {
   checkUnallocatedPayments(totalDcn, dcnNumber, amount, method) {
     I.see(totalDcn);
     I.see(dcnNumber);
-    I.see(amount);
+    I.see(`£${amount}`);
     I.see(method);
   },
 
@@ -458,15 +458,15 @@ module.exports = {
   async validateCaseTransactionsDetails(totalPayments, unallocatedPayments, totalRemissions, amountDue, overPayment) {
     I.see('Total payments');
     // let actualTotalPayments = await I.grabTextFrom('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[1]');
-    I.seeTextEquals(totalPayments, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[1]');
+    I.seeTextEquals(`£${totalPayments}`, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[1]');
     I.see('Unallocated payments');
     I.seeTextEquals(unallocatedPayments, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[2]');
     I.see('Total remissions');
-    I.seeTextEquals(totalRemissions, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[3]');
+    I.seeTextEquals(`£${totalRemissions}`, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[3]');
     I.see('Amount due');
-    I.seeTextEquals(amountDue, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[4]');
+    I.seeTextEquals(`£${amountDue}`, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[4]');
     I.see('Over payment');
-    I.seeTextEquals(overPayment, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[5]');
+    I.seeTextEquals(`£${overPayment}`, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[5]');
   },
 
   async  getReceiptReference() {

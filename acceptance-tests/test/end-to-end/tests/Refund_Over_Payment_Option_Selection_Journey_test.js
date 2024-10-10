@@ -32,7 +32,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await AddFees.addFeesOverPayment('273');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails('£300.00', '0', '£0.00', '£0.00', '£27.00');
+    await CaseTransaction.validateCaseTransactionsDetails('300.00', '0', '0.00', '0.00', '27.00');
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
@@ -63,7 +63,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, refundNotificationPreviewDataBeforeRefundRequest);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('27.00');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails('£300.00', '0', '£0.00', '£0.00', '£27.00');
+    await CaseTransaction.validateCaseTransactionsDetails('300.00', '0', '0.00', '0.00', '27.00');
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -92,7 +92,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails('£300.00', '0', '£0.00', '£0.00', '£27.00');
+    await CaseTransaction.validateCaseTransactionsDetails('300.00', '0', '0.00', '0.00', '27.00');
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'Overpayment', '27.00', emailAddress, '', 'payments probate', 'approver probate');
@@ -104,7 +104,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.refreshPage();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails('£300.00', '0', '£0.00', '£0.00', '£0.00');
+    await CaseTransaction.validateCaseTransactionsDetails('300.00', '0', '0.00', '0.00', '0.00');
 
     await I.Logout();
     I.clearCookie();
@@ -128,7 +128,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await AddFees.addFeesOverPayment('220');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£280.00');
+    await CaseTransaction.validateCaseTransactionsDetails('500.00', '0', '0.00', '0.00', '280.00');
 
     //  Over Payment refund - 280
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
@@ -157,7 +157,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false);
     const refundRefOverPayments = await InitiateRefunds.verifyRefundSubmittedPage('280.00');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£280.00');
+    await CaseTransaction.validateCaseTransactionsDetails('500.00', '0', '0.00', '0.00', '280.00');
 
     // Refund with reason - 220
     I.waitForElement('(//*[text()[contains(.,"Review")]])[2]', 5);
@@ -181,7 +181,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund2, false, false, false, false);
     const refundRef = await InitiateRefunds.verifyRefundSubmittedPage('220.00');
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£280.00');
+    await CaseTransaction.validateCaseTransactionsDetails('500.00', '0', '0.00', '0.00', '280.00');
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -215,7 +215,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£280.00');
+    await CaseTransaction.validateCaseTransactionsDetails('500.00', '0', '0.00', '0.00', '280.00');
     await CaseTransaction.validateTransactionPageForRefunds(refundRef, refundRefOverPayments);
     await I.click(`//td[contains(.,'${refundRefOverPayments}')]/following-sibling::td/a[.=\'Review\'][1]`);
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -234,11 +234,11 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.refreshPage();
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£60.00');
+    await CaseTransaction.validateCaseTransactionsDetails('500.00', '0', '0.00', '0.00', '60.00');
     await apiUtils.updateRefundStatusByRefundReference(refundRef, 'Unable to apply refund to Card', 'REJECTED');
     await I.refreshPage();
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails('£500.00', '0', '£0.00', '£0.00', '£280.00');
+    await CaseTransaction.validateCaseTransactionsDetails('500.00', '0', '0.00', '0.00', '280.00');
 
     await I.click(`//td[contains(.,'${refundRef}')]/following-sibling::td/a[.=\'Review\'][1]`);
     I.wait(CCPBATConstants.tenSecondWaitTime);
