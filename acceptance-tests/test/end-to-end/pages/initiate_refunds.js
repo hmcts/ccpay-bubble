@@ -486,9 +486,9 @@ module.exports = {
     I.click('Return to case');
   },
 
-  verifyRemissionSubmittedPage(isContinueButtonEnabled = true, refundAmount) {
+  verifyRemissionSubmittedPage(isContinueButtonEnabled = true, remissionAmount) {
     I.see('Remission added');
-    I.see(`The amount to be refunded should be £${refundAmount}`);
+    I.see(`The amount to be refunded should be £${remissionAmount}`);
     if (isContinueButtonEnabled) {
       I.click('Continue');
     } else {

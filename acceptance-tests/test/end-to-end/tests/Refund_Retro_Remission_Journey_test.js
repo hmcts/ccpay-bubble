@@ -163,7 +163,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a ZERO Balance Du
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, remissionAmount);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, hwfReference, '100.00', `£${totalAmount}`, `£${feeAmount}`, 'FEE0219', 'FEE0219 - Application for a grant of probate (Estate over 5000 GBP)',
+    const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, hwfReference, '', `£${totalAmount}`, `£${feeAmount}`, 'FEE0219', 'FEE0219 - Application for a grant of probate (Estate over 5000 GBP)',
       emailAddress, '', 'SendRefund', `£${remissionAmount}`);
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -237,7 +237,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a NEGATIVE Balanc
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, remissionAmount);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, hwfReference, '100.00', `£${totalAmount}`, `£${feeAmount}`, 'FEE0219', 'FEE0219 - Application for a grant of probate (Estate over 5000 GBP)',
+    const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, hwfReference, '', `£${totalAmount}`, `£${feeAmount}`, 'FEE0219', 'FEE0219 - Application for a grant of probate (Estate over 5000 GBP)',
       emailAddress, '', 'SendRefund', `£${remissionAmount}`);
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -275,7 +275,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
-    CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£200.00', 'cheque');
+    CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '200.00', 'cheque');
     CaseTransaction.allocateToNewFee();
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await AddFees.addFeesAmount('237.00', 'civil', 'civil');
@@ -286,7 +286,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
     ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
     ConfirmAssociation.confirmPayment();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    CaseTransaction.checkBulkCaseShortfallSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid', '£37.00');
+    CaseTransaction.checkBulkCaseShortfallSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid', '37.00');
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
     //  remission refund - 100
     await CaseTransaction.validateCaseTransactionsDetails('200.00', '0', '0.00', '37.00', '0.00');
@@ -308,7 +308,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, '100.00');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, 'HWF-A1B-23C', '100.00', '200.00', '£237.00', 'FEE0475', 'FEE0475 - Where the party filing the request is legally aided',
+    const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, 'HWF-A1B-23C', '£63.00', '£200.00', '£237.00', 'FEE0475', 'FEE0475 - Where the party filing the request is legally aided',
       emailAddress, '', 'SendRefund', '£100.00');
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -375,13 +375,12 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
-    CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '£300.00', 'cheque');
+    CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '300.00', 'cheque');
     CaseTransaction.allocateToNewFee();
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await AddFees.addFeesAmount('273.00', 'family', 'probate_registry');
     FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0219', '273.00', false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-
 
     FeesSummary.addFeeFromSummary();
     await AddFees.addFees('50.00', 'family', 'family_court');
@@ -416,7 +415,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, '50.00');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, 'HWF-A1B-23C', '50.00', '300.00', '£50.00', 'FEE0258', 'FEE0258 - Application for a maintenance order to be registered 1950 Act or 1958 Act',
+    const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, 'HWF-A1B-23C', '£27.00', '£300.00', '£50.00', 'FEE0258', 'FEE0258 - Application for a maintenance order to be registered 1950 Act or 1958 Act',
       emailAddress, '', 'SendRefund', '£50.00');
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
