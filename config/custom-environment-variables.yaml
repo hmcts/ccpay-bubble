@@ -14,11 +14,11 @@ pcipalantenna:
   url: PCIPAL_ANTENNA_URL
   microservice: CCPAY_BUBBLE_MICROSERVICE
 s2s:
-  url: http://rpe-service-auth-provider-demo.service.core-compute-demo.internal
+  url: S2S_URL
 payhub:
-  url: http://localhost:8080
+  url: PAYHUB_API_URL
 bulkscan:
-  url: http://ccpay-bulkscanning-api-demo.service.core-compute-demo.internal
+  url: CCPAY_BULKSCAN_API_URL
 refunds:
   url: CCPAY_REFUNDS_API_URL
 notification:
@@ -45,8 +45,8 @@ ccd:
   url: CCD_URL
 secrets:
   ccpay:
-    paybubble-s2s-secret: G5XTFNBUW4P6ZP4F
-    paybubble-idam-client-secret: NVYEC2X7XFSRENTU
-    launch-darkly-client-id: 5f227f4df775300ba82996dc
-    postcode-address-lookup-id: PKQqwTTaCzBYQRJMD1pAQUEaGYGcIEdT
-    AppInsightsInstrumentationKey: AppInsightsInstrumentationKey
+    paybubble-s2s-secret: S2S_KEY
+    paybubble-idam-client-secret: IDAM_CLIENT_SECRET
+    postcode-address-lookup-id: POSTCODE_ADDRESS_LOOKUP_ID
+    launch-darkly-client-id: LD_CLIENT_ID
+    AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
