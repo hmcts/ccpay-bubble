@@ -115,7 +115,7 @@
     "@angular-eslint/template-parser": "16.1.0",
     "@angular/animations": "~17.3.6",
     "@angular/cdk": "^16.1.6",
-    "@angular/cli": "17.3.6",
+    "@angular/cli": "17.3.10",
     "@angular/common": "17.3.6",
     "@angular/compiler": "~17.3.6",
     "@angular/compiler-cli": "~17.3.6",
