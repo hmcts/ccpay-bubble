@@ -240,5 +240,5 @@
     "serve-static": "^1.16.0",
     "send": "^0.19.0"
   },
-  "packageManager": "yarn@3.5.1"
+  "packageManager": "yarn@3.8.5"
 }
