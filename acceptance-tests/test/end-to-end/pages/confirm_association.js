@@ -25,7 +25,7 @@ module.exports = {
 
   verifyConfirmAssociationFullPayment(feeCode, volume, amountToBeAllocated, FeeAmount) {
     I.see('Confirm allocation');
-    I.waitForText('Amount to be allocated: '.concat(amountToBeAllocated), CCPBConstants.tenSecondWaitTime);
+    I.waitForText(`Amount to be allocated: £${amountToBeAllocated}`, CCPBConstants.tenSecondWaitTime);
     I.see('Code');
     I.see('Description');
     I.see('Volume');
@@ -35,7 +35,7 @@ module.exports = {
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see(volume);
-    I.see(FeeAmount);
+    I.see(`£${FeeAmount}`);
     I.see('Amount left to be allocated £0.00');
     I.see('Confirm');
   },
@@ -43,7 +43,7 @@ module.exports = {
   verifyConfirmAssociationShortfallPayment(feeCode, volume,
     allocatedAmount, feeAmount, calculatedAmount, shortfallAmount) {
     I.see('Confirm allocation');
-    I.waitForText('Amount to be allocated: '.concat(allocatedAmount), CCPBConstants.tenSecondWaitTime);
+    I.waitForText(`Amount to be allocated: £${allocatedAmount}`, CCPBConstants.tenSecondWaitTime);
     I.see('Code');
     I.see('Description');
     I.see('Volume');
@@ -53,9 +53,9 @@ module.exports = {
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see(volume);
-    I.see(feeAmount);
-    I.see(calculatedAmount);
-    I.see('There is an Under payment of '.concat((shortfallAmount)));
+    I.see(`£${feeAmount}`);
+    I.see(`£${calculatedAmount}`);
+    I.see(`There is an Under payment of £${shortfallAmount}`);
     I.see('Provide a reason');
     I.see('Help with Fees (HWF) application declined');
     I.see('Incorrect payment received');

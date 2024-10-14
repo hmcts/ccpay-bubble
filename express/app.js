@@ -151,6 +151,10 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.getFailureReport(req, res);
   })
 
+  .get('/payment-history/telephony-payments/telephony-payments-report', (req, res) => {
+    controllers.payhubController.getTelephonyPaymentsReport(req, res);
+  })
+
   .get('/payment-history/payment-failures/:id', (req, res) => {
     controllers.payhubController.getPaymentFailure(req, res);
   })
