@@ -806,7 +806,7 @@ async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
   const bulkScanPaymentEndPoint = '/bulk-scan-payment';
 
   const saveBody = {
-    amount,
+    amount: `${amount}`,
     bank_giro_credit_slip_number: `${creditSlipNumber}`,
     banked_date: `${bankedDate}`,
     currency: 'GBP',

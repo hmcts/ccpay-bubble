@@ -4449,15 +4449,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccpay-web-component@npm:6.2.7":
-  version: 6.2.7
-  resolution: "@hmcts/ccpay-web-component@npm:6.2.7"
+"@hmcts/ccpay-web-component@npm:6.2.8":
+  version: 6.2.8
+  resolution: "@hmcts/ccpay-web-component@npm:6.2.8"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
     "@angular/common": ^16.1.6
     "@angular/core": ^16.1.6
-  checksum: 2b093e7be41cd6ff8917c9e2557664c059fe57945a33b333e713846a2f0d964a9da2f66b591eacf96e8fed5a5fe3145b35c94e8d4726c1df8c8161cc1f7afac2
+  checksum: d8574999749913aaf1df1b445f0d6c1443e2341a14f9515492286cd7bfc135b0071bd4798dc919db6162c47929ca852331c1a033f59e2c5f054eec383593be61
   languageName: node
   linkType: hard
 
@@ -9777,7 +9777,7 @@ __metadata:
     "@babel/helper-create-class-features-plugin": ^7.21.8
     "@codeceptjs/allure-legacy": ^1.0.2
     "@codeceptjs/helper": ^1.0.2
-    "@hmcts/ccpay-web-component": 6.2.7
+    "@hmcts/ccpay-web-component": 6.2.8
     "@hmcts/cookie-manager": ^1.0.0
     "@hmcts/eslint-config": ^1.4.0
     "@hmcts/nodejs-healthcheck": ^1.8.0
@@ -13758,8 +13758,8 @@ __metadata:
   linkType: hard
 
 "express@npm:^4.20.0":
-  version: 4.21.0
-  resolution: "express@npm:4.21.0"
+  version: 4.20.0
+  resolution: "express@npm:4.20.0"
   dependencies:
     accepts: ~1.3.8
     array-flatten: 1.1.1
@@ -13773,7 +13773,7 @@ __metadata:
     encodeurl: ~2.0.0
     escape-html: ~1.0.3
     etag: ~1.8.1
-    finalhandler: 1.3.1
+    finalhandler: 1.2.0
     fresh: 0.5.2
     http-errors: 2.0.0
     merge-descriptors: 1.0.3
@@ -13782,17 +13782,17 @@ __metadata:
     parseurl: ~1.3.3
     path-to-regexp: 0.1.10
     proxy-addr: ~2.0.7
-    qs: 6.13.0
+    qs: 6.11.0
     range-parser: ~1.2.1
     safe-buffer: 5.2.1
     send: 0.19.0
-    serve-static: 1.16.2
+    serve-static: 1.16.0
     setprototypeof: 1.2.0
     statuses: 2.0.1
     type-is: ~1.6.18
     utils-merge: 1.0.1
     vary: ~1.1.2
-  checksum: 1c5212993f665809c249bf00ab550b989d1365a5b9171cdfaa26d93ee2ef10cd8add520861ec8d5da74b3194d8374e1d9d53e85ef69b89fd9c4196b87045a5d4
+  checksum: faa11bffa16be97b26d9f38187e569378c01cad0b92fbd02094fb4e35a224dc5177cc9cc6849141702da80d2d8cbe857c60a7e622e8106695405dc27e38fb3ee
   languageName: node
   linkType: hard
 
@@ -14174,18 +14174,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"finalhandler@npm:1.3.1":
-  version: 1.3.1
-  resolution: "finalhandler@npm:1.3.1"
+"finalhandler@npm:1.2.0":
+  version: 1.2.0
+  resolution: "finalhandler@npm:1.2.0"
   dependencies:
     debug: 2.6.9
-    encodeurl: ~2.0.0
+    encodeurl: ~1.0.2
     escape-html: ~1.0.3
     on-finished: 2.4.1
     parseurl: ~1.3.3
     statuses: 2.0.1
     unpipe: ~1.0.0
-  checksum: a8c58cd97c9cd47679a870f6833a7b417043f5a288cd6af6d0f49b476c874a506100303a128b6d3b654c3d74fa4ff2ffed68a48a27e8630cda5c918f2977dcf4
+  checksum: 92effbfd32e22a7dff2994acedbd9bcc3aa646a3e919ea6a53238090e87097f8ef07cced90aa2cc421abdf993aefbdd5b00104d55c7c5479a8d00ed105b45716
   languageName: node
   linkType: hard
 
@@ -21859,9 +21859,9 @@ __metadata:
   linkType: hard
 
 "path-to-regexp@npm:^0.1.10":
-  version: 0.1.11
-  resolution: "path-to-regexp@npm:0.1.11"
-  checksum: 02665d2795ae458f24b2f62cc7f4e8c3334d65dbd4e49a50b0494cf28d69f645ce6bf51404eab7bbf717dd36809a2c83785a54a3dda776e8fe1811ada0ba32fd
+  version: 0.1.10
+  resolution: "path-to-regexp@npm:0.1.10"
+  checksum: ab7a3b7a0b914476d44030340b0a65d69851af2a0f33427df1476100ccb87d409c39e2182837a96b98fb38c4ef2ba6b87bdad62bb70a2c153876b8061760583c
   languageName: node
   linkType: hard
 
@@ -24297,14 +24297,14 @@ __metadata:
   linkType: hard
 
 "serve-static@npm:^1.16.0":
-  version: 1.16.2
-  resolution: "serve-static@npm:1.16.2"
+  version: 1.16.0
+  resolution: "serve-static@npm:1.16.0"
   dependencies:
-    encodeurl: ~2.0.0
+    encodeurl: ~1.0.2
     escape-html: ~1.0.3
     parseurl: ~1.3.3
-    send: 0.19.0
-  checksum: dffc52feb4cc5c68e66d0c7f3c1824d4e989f71050aefc9bd5f822a42c54c9b814f595fc5f2b717f4c7cc05396145f3e90422af31186a93f76cf15f707019759
+    send: 0.18.0
+  checksum: a479dfe7e9fa7e8cb3ceccb0d944a3c72bb8f88d78472e30989f58fe15a92cfc909ab05a5c7cda2d1a6aa2663ab503ad1e2f40653740346e53e72b3ba41b6951
   languageName: node
   linkType: hard
 
