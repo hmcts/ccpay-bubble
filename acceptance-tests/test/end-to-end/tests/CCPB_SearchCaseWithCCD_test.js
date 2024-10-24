@@ -5,7 +5,7 @@ const testConfig = require('./config/CCPBConfig');
 Feature('CC Pay Bubble Acceptance Tests').retry(CCPBATConstants.defaultNumberOfRetries);
 
 Scenario('Search for a case with actual case number from CCD', async({ I }) => {
-  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   await I.runAccessibilityTest();
   I.see('Search for a case');
   I.see('What do you want to search for?');
@@ -20,32 +20,32 @@ Scenario('Search for a case with actual case number from CCD', async({ I }) => {
 }).tag('@nightly @pipeline');
 
 Scenario('Search for a case with actual case for Telephony flow', async({ I }) => {
-  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   await I.caseforTelephonyFlow();
   I.Logout();
 }).tag('@nightly @pipeline');
 
 Scenario('Amount Due case for Telephony flow', async({ I }) => {
-  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   await I.AmountDueCaseForTelephonyFlow();
   I.Logout();
 }).tag('@nightly @pipeline @crossbrowser');
 
 Scenario('Partially paid (Upfront remission) case for Telephony flow', async({ I }) => {
-  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   await I.partiallyPaidUpfrontRemissionCaseForTelephonyFlow();
 }).tag('@nightly @pipeline');
 
 Scenario('Remove fee from case transaction page Telephony flow', async({ I }) => {
-  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   await I.removeFeeFromCaseTransactionPageTelephonyFlow();
   I.Logout();
 }).tag('@nightly @pipeline');
 
 Scenario('Search for a case with dummy case number @nightly', async({ I }) => {
-  I.login(testConfig.TestDivorceCaseWorkerUserName, testConfig.TestDivorceCaseWorkerPassword);
+  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   await I.searchForCCDdummydata();
   I.Logout();
