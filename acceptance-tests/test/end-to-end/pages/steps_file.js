@@ -787,7 +787,7 @@ module.exports = () => actor({
   },
 
   async searchForCorrectCCDNumber() {
-    const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
+    const ccdNumber = await bulkScanApiCalls.createACCDCaseForProbate();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
@@ -802,7 +802,7 @@ module.exports = () => actor({
   },
 
   async caseforTelephonyFlow() {
-    const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
+    const ccdNumber = await bulkScanApiCalls.createACCDCaseForProbate();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
     // this.waitInUrl(`/payment-history/${ccdNumber}?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Enable&isNewPcipalOff=Disable`, CCPBConstants.nineSecondWaitTime);
@@ -814,17 +814,23 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Search for a fee');
     await this.runAccessibilityTest();
-    this.fillField({ css: '[type="text"]' }, '593');
+    this.fillField({ css: '[type="text"]' }, '300');
     this.click('Search');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     await this.runAccessibilityTest();
     this.click('Jurisdiction 1');
     this.click({ css: '#family' });
     this.click('Jurisdiction 2');
-    this.click({ css: '#family_court' });
+    this.click({ css: '#probate_registry' });
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
+    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    if(numOfElements) {
+      this.click('//input[@id=\'fee-versions\']');
+      this.click('Continue');
+      this.wait(CCPBConstants.fiveSecondWaitTime);
+    }
     this.see('Add fee');
     await this.runAccessibilityTest();
     this.see('Summary');
@@ -834,9 +840,9 @@ module.exports = () => actor({
     this.see('Quantity');
     this.see('Amount');
     this.see('Add fee');
-    this.see(PaybubbleStaticData.fee_description.FEE0002);
-    this.see('£593.00');
-    this.see('Total to pay: £593.00');
+    this.see(PaybubbleStaticData.fee_description.FEE0219);
+    this.see('£300.00');
+    this.see('Total to pay: £300.00');
     this.click('Remove');
     this.see('Are you sure you want to delete this fee?');
     await this.runAccessibilityTest();
@@ -846,7 +852,7 @@ module.exports = () => actor({
   },
 
   async AmountDueCaseForTelephonyFlow() {
-    const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
+    const ccdNumber = await bulkScanApiCalls.createACCDCaseForProbate();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
     // this.waitInUrl(`/payment-history/${ccdNumber}?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Enable&isNewPcipalOff=Disable`, CCPBConstants.nineSecondWaitTime);
@@ -857,16 +863,22 @@ module.exports = () => actor({
     this.click('Create service request and pay');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Search for a fee');
-    this.fillField({ css: '[type="text"]' }, '593');
+    this.fillField({ css: '[type="text"]' }, '300');
     this.click('Search');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Jurisdiction 1');
     this.click({ css: '#family' });
     this.click('Jurisdiction 2');
-    this.click({ css: '#family_court' });
+    this.click({ css: '#probate_registry' });
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
+    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    if(numOfElements) {
+      this.click('//input[@id=\'fee-versions\']');
+      this.click('Continue');
+      this.wait(CCPBConstants.fiveSecondWaitTime);
+    }
     this.see('Add fee');
     this.click('Case Transaction');
     this.wait(CCPBConstants.fiveSecondWaitTime);
@@ -877,30 +889,20 @@ module.exports = () => actor({
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Summary');
-    // this.see('FEE0002');
-    this.see('Filing an application for a divorce, nullity or civil partnership dissolution');
+    this.see(PaybubbleStaticData.fee_description.FEE0219);
     this.see('Amount');
     // this.see('Volume');
-    this.see('Total to pay: £593.00');
+    this.see('Total to pay: £300.00');
     this.see('Remove');
     this.see('Add help with fees or remission');
     this.see('Quantity');
     this.see('Description');
-    // this.see('What service is this fee for?');
-    this.see('£593.00');
-    // this.click({ css: '#responsibleOffice' });
-    // this.see('Please select');
-    // this.see('Divorce');
-    // this.see('Probate');
-    // this.see('Financial Remedy');
-    // this.see('Select payment service');
-    // this.see('8x8');
-    // this.see('Antenna');
+    this.see('300.00');
     this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   async partiallyPaidUpfrontRemissionCaseForTelephonyFlow() {
-    const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
+    const ccdNumber = await bulkScanApiCalls.createACCDCaseForProbate();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
     this.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -909,10 +911,10 @@ module.exports = () => actor({
     this.see(ccdCaseNumberFormatted);
     this.click('Create service request and pay');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await AddFees.addFeesAmount('593.00', 'family', 'family_court');
-    FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, 'FEE0002', '593.00', false);
+    await AddFees.addFeesAmount('273.00', 'family', 'probate_registry');
+    FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, 'FEE0219', '273.00', false);
     FeesSummary.deductRemission();
-    Remission.processRemission('FEE0002', '200');
+    Remission.processRemission('FEE0219', '200');
     Remission.confirmProcessRemission();
     this.wait(CCPBATConstants.fiveSecondWaitTime);
     this.click('Case Transaction');
@@ -925,7 +927,7 @@ module.exports = () => actor({
     this.see('Partially paid');
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    FeesSummary.verifyFeeSummaryAfterRemission('FEE0002', '£593.00', '£393.00', '£200.00');
+    FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '273.00', '73.00', '£200.00');
     this.click('Take payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.waitInUrl('pcipal', 2);
@@ -936,7 +938,7 @@ module.exports = () => actor({
   async removeFeeFromCaseTransactionPageTelephonyFlow() {
     /* const randomNumber = numUtils.getRandomNumber(numberTwo);
     const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;*/
-    const ccdNumber = await bulkScanApiCalls.createACCDCaseForDivorce();
+    const ccdNumber = await bulkScanApiCalls.createACCDCaseForProbate();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
     this.see('Case transaction');
@@ -945,16 +947,22 @@ module.exports = () => actor({
     this.click('Create service request and pay');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Search for a fee');
-    this.fillField({ css: '[type="text"]' }, '593');
+    this.fillField({ css: '[type="text"]' }, '300');
     this.click('Search');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Jurisdiction 1');
     this.click({ css: '#family' });
     this.click('Jurisdiction 2');
-    this.click({ css: '#family_court' });
+    this.click({ css: '#probate_registry' });
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
+    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    if(numOfElements) {
+      this.click('//input[@id=\'fee-versions\']');
+      this.click('Continue');
+      this.wait(CCPBConstants.fiveSecondWaitTime);
+    }
     this.see('Summary');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
@@ -962,9 +970,9 @@ module.exports = () => actor({
     this.see('Quantity');
     this.see('Amount');
     this.see('Add fee');
-    this.see(PaybubbleStaticData.fee_description.FEE0002);
-    this.see('£593.00');
-    this.see('Total to pay: £593.00');
+    this.see(PaybubbleStaticData.fee_description.FEE0219);
+    this.see('300.00');
+    this.see('Total to pay: £300.00');
     this.click('Case Transaction');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
@@ -980,73 +988,6 @@ module.exports = () => actor({
     this.click('Remove');
     this.wait(CCPBConstants.fiveSecondWaitTime);
   },
-
-  remissionsAmountValidation() {
-    this.fillField({ css: '[type="text"]' }, '1599001888573451');
-    this.click('Search');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
-    this.see('Case transactions');
-    this.see('CCD reference:');
-    this.see('1599-0018-8857-3451');
-    this.see('£548.50');
-    this.see('£1.50');
-    this.see('FEE0002');
-    this.see('Filing an application for a divorce, nullity or civil partnership dissolution');
-    this.see('RM-1599-0020-0986-6832');
-    this.see('02 Sep 2020 00:13:29');
-    this.see('HWF-A1B-23C');
-  },
-
-  remissionsFlowValidation() {
-    this.fillField({ css: '[type="text"]' }, '1599-0028-9407-3866');
-    this.click('Search');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
-    this.see('Case transactions');
-    this.see('CCD reference:');
-    this.see('1599-0028-9407-3866');
-    this.click('Take telephony payment');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
-    this.see('Search for a fee');
-    this.fillField({ css: '[type="text"]' }, '550');
-    this.click('Search');
-    this.click('Jurisdiction 1');
-    this.click({ css: '#family' });
-    this.click('Jurisdiction 2');
-    this.click({ css: '#family_court' });
-    this.click('Apply filters');
-    this.click('Select');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
-    this.see('Fee Summary');
-    this.see('FEE0002');
-    this.see('Filing an application for a divorce, nullity or civil partnership dissolution');
-    this.see('Fee amount');
-    this.see('Volume');
-    this.see('Fee total');
-    this.see('Remission amount');
-    this.see('Total after remission');
-    this.see('Total payment');
-    this.see('Total outstanding amount');
-    this.see('What service is this fee for?');
-    this.see('£550.00');
-    this.click({ css: '#responsibleOffice' });
-    this.waitForText('Divorce');
-    this.selectOption('#responsibleOffice', '2');
-    this.click('Deduct remission');
-    this.see('Add remission');
-    this.see('Add remission to FEE0002:Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.');
-    this.see('Enter remission for reference. For example: HWF-A1B-23C');
-    this.see('How much does the applicant need to pay?');
-    this.fillField({ css: '#remissionCode' }, 'HWF-A1B-23C');
-    this.fillField({ css: '#amount' }, '1.50');
-    this.click('Submit');
-    this.see('Are you sure you want to add remission to this fee?');
-    this.click('Cancel');
-    this.click('remove fee');
-    this.see('Are you sure you want to delete this fee?');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
-    this.click('Remove');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
-  }
 
   /* async setUpRefund() {
     console.log('Starting the PBA Payment');
