@@ -1,8 +1,6 @@
 nodejs:
   applicationPort: 3000
   ingressHost: paybubble.{{ .Values.global.environment }}.platform.hmcts.net
-  memoryLimits: 1024Mi
-  cpuLimits: 1000m
   readinessDelay: 30
   livenessDelay: 30
   keyVaults:
