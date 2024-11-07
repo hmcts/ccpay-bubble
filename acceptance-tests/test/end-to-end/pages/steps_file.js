@@ -911,8 +911,8 @@ module.exports = () => actor({
     this.see(ccdCaseNumberFormatted);
     this.click('Create service request and pay');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await AddFees.addFeesAmount('273.00', 'family', 'probate_registry');
-    FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, 'FEE0219', '273.00', false);
+    await AddFees.addFeesAmount('300.00', 'family', 'probate_registry');
+    FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, 'FEE0219', '300.00', false);
     FeesSummary.deductRemission();
     Remission.processRemission('FEE0219', '200');
     Remission.confirmProcessRemission();
@@ -927,7 +927,7 @@ module.exports = () => actor({
     this.see('Partially paid');
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '273.00', '73.00', '£200.00');
+    FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '300.00', '100.00', '£200.00');
     this.click('Take payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.waitInUrl('pcipal', 2);

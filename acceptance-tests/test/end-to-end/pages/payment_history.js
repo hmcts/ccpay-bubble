@@ -105,7 +105,7 @@ module.exports = {
     // I.dontSee('Date');
   },
 
-  validatePaymentDetailsForPartialPayment(paymentReference) {
+  validatePaymentDetailsForPartialPayment(paymentReference, amount) {
     I.see('Payment details');
     I.see('Payment reference');
     I.see('Payment amount');
@@ -114,7 +114,7 @@ module.exports = {
     I.see('PBA account name');
     I.see('PBA number');
     I.see('Customer internal reference');
-    I.see('£273.00');
+    I.see(`£${amount}`);
     I.see(`${paymentReference}`);
     I.see('2024-');
   },

@@ -32,12 +32,12 @@ module.exports = {
     I.click('Apply filters');
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
-    if(numOfElements) {
-      I.click('//input[@id=\'fee-version0\']');
-      I.click('Continue');
-      I.wait(CCPBConstants.fiveSecondWaitTime);
-    }
+    // let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    // if(numOfElements) {
+    //   I.click('//input[@id=\'fee-version0\']');
+    //   I.click('Continue');
+    //   I.wait(CCPBConstants.fiveSecondWaitTime);
+    // }
   },
 
   async addFeesAmount(amount, jurisdiction1, jurisdiction2) {
@@ -58,12 +58,12 @@ module.exports = {
     }
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
-    if(numOfElements) {
-      I.click('//input[@id=\'fee-version0\']');
-      I.click('Continue');
-      I.wait(CCPBConstants.fiveSecondWaitTime);
-    }
+    // let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    // if(numOfElements) {
+    //   I.click('//input[@id=\'fee-version0\']');
+    //   I.click('Continue');
+    //   I.wait(CCPBConstants.fiveSecondWaitTime);
+    // }
   },
 
   async addFeesOverPayment(amount) {
@@ -74,12 +74,12 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime, 10);
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
-    if(numOfElements) {
-      I.click('//input[@id=\'fee-version0\']');
-      I.click('Continue');
-      I.wait(CCPBConstants.fiveSecondWaitTime);
-    }
+    // let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    // if(numOfElements) {
+    //   I.click('//input[@id=\'fee-version0\']');
+    //   I.click('Continue');
+    //   I.wait(CCPBConstants.fiveSecondWaitTime);
+    // }
     I.click(this.locators.allocate_payment);
     I.wait(CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.help_with_fee);
