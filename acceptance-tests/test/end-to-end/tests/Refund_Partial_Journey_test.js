@@ -12,8 +12,8 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
 
     const postcode = 'TW4 7EZ';
     // Create Payment and back date for refund eligibility
-    const totalAmount = 273;
-    const paymentDetails = await apiUtils.createAPBAPayment(totalAmount, 'FEE0219', '5', 1);
+    const totalAmount = '300.00';
+    const paymentDetails = await apiUtils.createAPBAPayment(totalAmount, 'FEE0219', '6', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentRef = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
@@ -22,7 +22,7 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateTransactionPageForPartialPayments();
+    await CaseTransaction.validateTransactionPageForPartialPayments(totalAmount);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
@@ -34,13 +34,13 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       await I.click('(//*[text()[contains(.,"Review")]])[2]');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await PaymentHistory.validatePaymentDetailsForPartialPayment(paymentRef);
+      await PaymentHistory.validatePaymentDetailsForPartialPayment(paymentRef, totalAmount);
       I.wait(CCPBATConstants.fiveSecondWaitTime);
     }
     // Submit refund
     I.click('Issue refund');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£273.00', '£273.00', '200', '1');
+    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£300.00', '£300.00', '200', '1');
     await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelection(reviewProcessRefundPageData, ccdCaseNumber);
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -59,7 +59,7 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
-    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£273.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'SendRefund');
+    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£300.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'SendRefund');
     const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other');
 
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, false, false, refundNotificationPreviewDataBeforeRefundRequest);

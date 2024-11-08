@@ -416,10 +416,10 @@ module.exports = {
     I.see('£280.00');
     I.see('Overpayment');
   },
-  validateTransactionPageForPartialPayments() {
+  validateTransactionPageForPartialPayments(amount) {
     I.wait(CCPBConstants.tenSecondWaitTime);
     I.see('Total payments');
-    I.see('£273');
+    I.see(`£${amount}`);
     I.see('Total remissions');
     I.see('Amount due');
     I.see('Unallocated payments');
