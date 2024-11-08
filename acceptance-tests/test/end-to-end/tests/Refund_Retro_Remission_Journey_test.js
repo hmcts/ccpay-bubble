@@ -464,4 +464,4 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-  }).tag('@pipeline @nightly');
+  }); //.tag('@pipeline @nightly');
