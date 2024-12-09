@@ -193,7 +193,7 @@
     "fsevents": "*"
   },
   "resolutions": {
-    "path-to-regexp": "^0.1.10",
+    "path-to-regexp": "^8.2.0",
     "ws": "8.18.0",
     "@azure/identity": ">=4.2.1",
     "braces": "^3.0.3",
@@ -239,7 +239,7 @@
     "body-parser": "^1.20.3",
     "serve-static": "^1.16.0",
     "send": "^0.19.0",
-    "cookie": "^0.7.0",
+    "cookie": "^1.0.2",
     "cross-spawn": "7.0.6"
   },
   "packageManager": "yarn@3.5.1"
