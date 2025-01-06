@@ -106,6 +106,7 @@ module.exports = {
   },
 
   validatePaymentDetailsForPartialPayment(paymentReference, amount) {
+    const currentYear = new Date().getFullYear();
     I.see('Payment details');
     I.see('Payment reference');
     I.see('Payment amount');
@@ -116,7 +117,7 @@ module.exports = {
     I.see('Customer internal reference');
     I.see(`£${amount}`);
     I.see(`${paymentReference}`);
-    I.see('2024-');
+    I.see(`${currentYear}-`);
   },
 
 
