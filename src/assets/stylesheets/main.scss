@@ -37,3 +37,8 @@ body {
   visibility: hidden;
   display: none;
 }
+
+a:focus {
+  outline: 3px solid #fd0;
+  background-color: #fd0;
+}

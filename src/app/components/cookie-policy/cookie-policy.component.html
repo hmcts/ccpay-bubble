@@ -1,7 +1,7 @@
 <div class="govuk-width-container">
-  
+
     <div class="govuk-grid-row">
-      <a (click)="backClicked()"  class="link-back">Back</a>
+      <a href="javascript:void(0)" (click)="backClicked()"  class="link-back">Back</a>
       <div class="cookie-preference-success notification-banner--success">
         <div class="success-message" aria-labelledby="success-title" role="alert" tabindex="-1">
           <h2 class="govuk-heading-m notification-fs">
@@ -65,12 +65,12 @@
             </tbody>
           </table>
         </ng-container>
-       
+
         <ng-container *ngIf="countCookies(DYNATRACE)">
           <h2 class="govuk-heading-l" id="1-to-measure-website-usage">Cookies used to measure application performance
           </h2>
           <p >We use Dynatrace Software Intelligence Platform to provide an Application Performance Monitoring Service to collect information about how you use HMCTS services. We do this to monitor HMCTS services in order to resolve issues within our services as well as collect data on how our services can be improved. HMCTS store information about:</p>
-        
+
           <ul class="govuk-list--bullet">
             <li>site performance</li>
             <li>website usage</li>
@@ -170,11 +170,11 @@
             <button class="govuk-button notification-fs" data-module="govuk-button">
             Save
             </button>
-         </form>  
+         </form>
         </ng-container>
       </div>
-  
- 
+
+
 </div>
 
 <footer class="group js-footer" id="footer" role="contentinfo">
