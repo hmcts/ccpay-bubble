@@ -9,9 +9,11 @@ import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { FeeModel } from 'src/app/models/FeeModel';
+import { Title } from '@angular/platform-browser'
 
 describe('ReviewFeeDetailComponent', () => {
   let addFeeDetailService: AddFeeDetailService;
+  let titleService: Title;
   let router: any;
   let http: PaybubbleHttpClient;
   let component: ReviewFeeDetailComponent;
@@ -20,7 +22,7 @@ describe('ReviewFeeDetailComponent', () => {
     http = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     addFeeDetailService = new AddFeeDetailService(http);
     router = { navigate: jasmine.createSpy('navigate')};
-    component = new ReviewFeeDetailComponent(router, addFeeDetailService);
+    component = new ReviewFeeDetailComponent(router, addFeeDetailService, titleService);
   });
 
   it('Should GET paymodel', () => {
