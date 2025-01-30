@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
+import { Title } from "@angular/platform-browser";
 import * as ls from 'local-storage';
 
 @Component({
@@ -39,8 +40,11 @@ export class CcdSearchComponent implements OnInit {
     private router: Router,
     private caseRefService: CaseRefService,
     private activatedRoute: ActivatedRoute,
-    private viewPaymentService: ViewPaymentService
-  ) {}
+    private viewPaymentService: ViewPaymentService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle("CCPay Case Search");
+  }
 
   ngOnInit() {
     this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'] === 'false' ? null : true ;
