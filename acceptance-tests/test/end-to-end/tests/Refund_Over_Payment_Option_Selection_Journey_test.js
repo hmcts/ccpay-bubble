@@ -166,7 +166,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.waitForText('Issue refund', 5);
     I.click('Issue refund');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for 1.1 or 1.2 application. Only one payable if applications joined up.', '£220.00', '£220.00', '220', '1');
+    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for 1.1 or 1.2 application. Only one payable if applications joined up.', '£220.00', '£220.00', '220', '1', '£0.00');
     await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelection(reviewProcessRefundPageData, ccdCaseNumber);
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
