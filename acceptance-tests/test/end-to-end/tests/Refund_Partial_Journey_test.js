@@ -13,7 +13,8 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
     const postcode = 'TW4 7EZ';
     // Create Payment and back date for refund eligibility
     const totalAmount = '300.00';
-    const paymentDetails = await apiUtils.createAPBAPayment(totalAmount, 'FEE0219', '6', 1);
+    const customerReference = 'ABC98989/65654';
+    const paymentDetails = await apiUtils.createAPBAPayment(totalAmount, 'FEE0219', '6', 1, customerReference);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentRef = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
@@ -60,7 +61,7 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£300.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'SendRefund');
-    const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other');
+    const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other', '', customerReference);
 
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, false, false, refundNotificationPreviewDataBeforeRefundRequest);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('200.00');
@@ -75,7 +76,7 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
     I.wait(CCPBATConstants.twoSecondWaitTime);
 
     const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, 'CoP-Auto test', '£200.00', '', postcode, 'payments probate', 'SendRefund');
-    const refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, '200', 'Other');
+    const refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, '200', 'Other','', customerReference);
 
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction, true, refundNotificationPreviewDataBeforeRefundApproved);
     InitiateRefunds.approverActionForRequestedRefund('Approve');
@@ -91,7 +92,7 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'CoP-Auto test', '£200.00', '', postcode, 'payments probate', 'approver probate');
-    const refundNotificationPreviewDataAfterApproval = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, '200', 'Other');
+    const refundNotificationPreviewDataAfterApproval = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, '200', 'Other', '', customerReference);
 
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval, true, false, true, refundNotificationPreviewDataAfterApproval);
     await I.Logout();
