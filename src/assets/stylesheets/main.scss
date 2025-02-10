@@ -37,3 +37,16 @@ body {
   visibility: hidden;
   display: none;
 }
+
+a:focus {
+  outline: 3px solid #fd0;
+  background-color: #fd0;
+}
+
+.govuk-skip-link:focus{
+  outline: 3px solid #fd0;
+  outline-offset: 0;
+  background-color: #fd0;
+  font-size: 16px;
+  color: #0b0c0c !important;
+}

@@ -8,6 +8,11 @@
   display: inline-block;
 }
 
+#jurisdiction1Select:focus,
+#jurisdiction2Select:focus {
+  outline: 3px solid #ffbf47;
+}
+
 .govuk-button {
   font-size: 1.8rem;
 }

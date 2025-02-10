@@ -4,6 +4,7 @@ import { IdamDetails } from '../../services/idam-details/idam-details';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import * as ls from 'local-storage';
 import {Router} from '@angular/router';
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: 'app-payment-history',
   templateUrl: './payment-history.component.html',
@@ -48,8 +49,9 @@ export class PaymentHistoryComponent implements OnInit {
   constructor(private router: Router,
     private paymentGroupService: PaymentGroupService,
     private activatedRoute: ActivatedRoute,
-    private idamDetails: IdamDetails
-  ) { }
+    private idamDetails: IdamDetails,
+    private titleService: Title
+  ) {}
 
   ngOnInit() {
     this.paymentGroupService.getLDFeature('payment-status-update-fe').then((status) => {
@@ -82,8 +84,24 @@ export class PaymentHistoryComponent implements OnInit {
         });
 
     });
+    this.titleService.setTitle(this.getTitle());
   }
 
+  getTitle(): string {
+    const takePayment = this.activatedRoute.snapshot.queryParams["takePayment"];
+    const servicerequest = this.activatedRoute.snapshot.queryParams["servicerequest"];
+    if (servicerequest == 'true')
+    {
+      return 'CCPay Service Requests';
+    }
+    else if (takePayment == 'true')
+    {
+      return "CCPay Case Transactions";
+    }
+    else{
+      return "CCPay Payment History";
+    }
+  }
   checkValidUser() {
     const currenturl = (this.router.url).split('?', 1);
     if ( this.lsCcdNumber !== this.ccdCaseNumber
