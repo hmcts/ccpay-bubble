@@ -131,14 +131,15 @@ function reviewRefundDetailsDataAfterApproverAction(
 
 function reviewProcessRefundPageDataForFeeRefundSelection(
   paymentReference, feeDescription,
-  feeAmount, paymentAmount, refundAmount, quantity) {
+  feeAmount, paymentAmount, refundAmount, quantity, remissionAmount) {
   const reviewProcessRefundPageData = {
     paymentReference: `${paymentReference}`,
     feeDescription: `${feeDescription}`,
     feeAmount: `${feeAmount}`,
     paymentAmount: `${paymentAmount}`,
     quantity: `${quantity}`,
-    refundAmount: `${refundAmount}`
+    refundAmount: `${refundAmount}`,
+    remissionAmount: `${remissionAmount}`
   };
   return reviewProcessRefundPageData;
 }

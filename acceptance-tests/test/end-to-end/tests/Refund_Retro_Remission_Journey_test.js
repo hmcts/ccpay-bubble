@@ -9,7 +9,7 @@ const stringUtils = require("../helpers/string_utils");
 
 Feature('CC Pay Bubble Refund Retro Remission journey tests').retry(CCPBATConstants.defaultNumberOfRetries);
 
-Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded',
+Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded and calculates the Amount to be refunded',
   async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
            PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
@@ -104,6 +104,44 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded',
     I.click('Back');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', '0.00');
+    await I.Logout();
+    I.clearCookie();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+
+    // PAY-7150 - process refund page to display Remission Amount in Fees refund details table and populate the calculated refund value
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    I.wait(CCPBATConstants.fifteenSecondWaitTime);
+    I.click('Issue refund');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£300.00', '£300.00', '200', '1', '£100.00');
+    await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelection(reviewProcessRefundPageData, ccdCaseNumber);
+    I.click('Continue');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    const refundDropDownReason = 'Other - CoP';
+    const reasonText = 'Auto test';
+    await InitiateRefunds.verifyProcessRefundPageFromTheDropDownReasonsAndContinue(ccdCaseNumber, refundDropDownReason, reasonText);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.click('//*[@id="contact-2"]');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.click('//*[@id="address-postcode"]');
+    const postcode = 'TW4 7EZ';
+    I.fillField('//*[@id="address-postcode"]', postcode);
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.click('Find address');
+    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
+    I.click('Continue');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+
+    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£300.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'SendRefund');
+    const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other');
+
+    await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, false, false, refundNotificationPreviewDataBeforeRefundRequest);
+    await InitiateRefunds.verifyRefundSubmittedPage('200.00');
 
     await I.Logout();
     I.clearCookie();
