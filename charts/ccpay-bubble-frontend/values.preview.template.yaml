@@ -5,7 +5,7 @@ nodejs:
   devcpuLimits: 4000m
   environment:
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
-    CCPAY_NOTIFICATION_API_URL: http://ccpay-notifications-service-pr-434-java
+    CCPAY_NOTIFICATION_API_URL: http://ccpay-notifications-service-pr-434.service.core-compute-preview.internal
 
 idam-pr:
   enabled: true
