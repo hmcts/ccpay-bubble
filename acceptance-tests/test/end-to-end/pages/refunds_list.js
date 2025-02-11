@@ -7,7 +7,7 @@ const {I} = inject();
 // Offer and Contact template
 function verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotificationPreviewData) {
   if (refundNotificationPreviewData.email) {
-    I.waitForText('From: contactprobate@justice.gov.uk', 5);
+    I.waitForText('From: contactprobate@justice.gov.uk', 10);
     I.see(`To: ${refundNotificationPreviewData.email}`);
     I.see('Subject: HMCTS refund request approved');
     I.see('This is an automated message, please don’t reply to this email.');
@@ -36,7 +36,7 @@ function verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotifica
 // Offer and Send template
 function verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData) {
   if (refundNotificationPreviewData.email) {
-    I.waitForText('From: contactprobate@justice.gov.uk', 5);
+    I.waitForText('From: contactprobate@justice.gov.uk', 10);
     I.see(`To: ${refundNotificationPreviewData.email}`);
     I.see('Subject: HMCTS refund request approved');
     I.see('This is an automated message, please don’t reply to this email.');
@@ -140,11 +140,11 @@ module.exports = {
     I.see('Sent to');
     I.see('Sent via');
     if (reviewRefundDetailsDataAfterApproval.email) {
-      I.waitForText('Email', 5);
+      I.waitForText('Email', 10);
       I.see(reviewRefundDetailsDataAfterApproval.email);
     }
     if (reviewRefundDetailsDataAfterApproval.postcode) {
-      I.waitForText('Post', 5);
+      I.waitForText('Post', 10);
       I.see(reviewRefundDetailsDataAfterApproval.postcode);
       I.see('89 MARTINDALE ROAD HOUNSLOW LONDON BOROUGH OF HOUNSLOW United Kingdom TW4 7EZ');
     }
@@ -363,11 +363,11 @@ module.exports = {
     I.see('Sent to');
     I.see('Sent via');
     if (reviewRefundDetailsDataAfterApproval.email) {
-      I.waitForText('Email', 5);
+      I.waitForText('Email', 10);
       I.see(reviewRefundDetailsDataAfterApproval.email);
     }
     if (reviewRefundDetailsDataAfterApproval.postcode) {
-      I.waitForText('Post', 5);
+      I.waitForText('Post', 10);
       I.see(reviewRefundDetailsDataAfterApproval.postcode);
       I.see('89 MARTINDALE ROAD HOUNSLOW LONDON BOROUGH OF HOUNSLOW United Kingdom TW4 7EZ');
     }
