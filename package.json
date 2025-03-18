@@ -243,5 +243,5 @@
     "cookie": "^1.0.2",
     "cross-spawn": "7.0.6"
   },
-  "packageManager": "yarn@3.5.1"
+  "packageManager": "yarn@3.8.7"
 }
