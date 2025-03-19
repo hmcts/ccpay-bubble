@@ -33,6 +33,13 @@ def secrets = [
   ]
 ]
 
+onPR {
+  // Note we need to override URLs because FT CCPBConfig.js uses these values
+  env.PAYMENT_API_URL = "https://payment-api-aat.service.core-compute-aat.internal"
+  env.REFUNDS_API_URL = "https://ccpay-refunds-api-pr-711.preview.platform.hmcts.net"
+  env.BULKSCANNING_API_URL = "https://ccpay-bulkscanning-api-ccpay-refunds-api-pr-711.preview.platform.hmcts.net"
+}
+
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
   [ $class: 'AzureKeyVaultSecret',
     secretType: 'Secret',
