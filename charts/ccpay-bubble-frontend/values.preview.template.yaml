@@ -7,7 +7,7 @@ nodejs:
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
     CCPAY_NOTIFICATION_API_URL: http://ccpay-notifications-service-pr-434-java
     CCPAY_REFUNDS_API_URL: http://ccpay-refunds-api-pr-711-java
-    CCPAY_PAYMENT_API_URL: http://ccpay-refunds-api-pr-711-payment-api
+    PAYHUB_API_URL: http://ccpay-refunds-api-pr-711-payment-api
     CCPAY_BULKSCAN_API_URL: http://ccpay-refunds-api-pr-711-ccpay-bulkscanning-api
 
 idam-pr:
