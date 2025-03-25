@@ -118,24 +118,6 @@ class PayhubController {
       });
   }
 
-  sendToPayhubWithUrl(req, res) {
-    if (req.body.url) {
-      return request({
-        method: 'GET',
-        uri: req.body.url
-      })
-        .then(resp => {
-          res.status(200).send(resp);
-        })
-        .catch(err => {
-          return errorHandler(res, err);
-        });
-    }
-    return Promise.reject(new Error('Missing url parameter')).catch(err => {
-      res.status(HttpStatusCodes.BAD_REQUEST).json({ success: false });
-    });
-  }
-
   postCardPayment(req, res, appInsights) {
     return this.payhubService.sendToPayhub(req, res, appInsights)
       .then(result => {
