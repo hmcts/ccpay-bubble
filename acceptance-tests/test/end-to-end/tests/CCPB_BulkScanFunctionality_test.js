@@ -135,10 +135,10 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   FeesSummary.verifyFeeSummaryAfterRemission('FEE0002', '£612.00', '£100.00', '£512.00');
   FeesSummary.addFeeFromSummary();
   await AddFees.addFees('21.00', 'civil', 'magistrates_court');
-  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0362', '21.00', true);
+  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0362', '22.00', true);
   I.wait(CCPBATConstants.tenSecondWaitTime);
-  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1', '512.00', '612.00', '612.00', '21.00');
-  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0362', '1', '512.00', '21.00', '21.00', '21.00');
+  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1', '512.00', '612.00', '612.00', '22.00');
+  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0362', '1', '512.00', '22.00', '22.00', '22.00');
   ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -355,7 +355,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
 
 Scenario('Exception search with ccd record postal order payment surplus payment', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-  const totalAmount = 600;
+  const totalAmount = 700;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA07', totalAmount, 'PostalOrder');
   const dcnNumber = ccdAndDcn[0];
   const exNumber = ccdAndDcn[2];
@@ -365,12 +365,12 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   await miscUtils.multipleSearch(CaseSearch, I, exNumber);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
-  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '600.00', 'postal order');
+  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '700.00', 'postal order');
   CaseTransaction.allocateToNewFee();
   await AddFees.addFeesAmount('612.00', 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '612.00', true);
   // FeesSummary.allocateBulkPayment();
-  ConfirmAssociation.verifyConfirmAssociationSurplusPayment('FEE0002', '£612.00', '£7.00');
+  ConfirmAssociation.verifyConfirmAssociationSurplusPayment('FEE0002', '£612.00', '£88.00');
   ConfirmAssociation.selectSurplusReasonOtherExplainatoryAndUser('Help with Fees awarded', 'Other explainatory note', 'Auto Comment');
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);

@@ -110,7 +110,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     I.clearCookie();
   }).tag('@pipeline @nightly');
 
-Scenario('Refund journey for complete cheque amount(500) with OverPayment option(280) and Refund(220) and Liberata rejected System approved RefundWhenContacted notification',
+Scenario('Refund journey for complete cheque amount(500) with OverPayment option(273) and Refund(227) and Liberata rejected System approved RefundWhenContacted notification',
   async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
            PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
@@ -130,7 +130,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails('500.00', '0', '0.00', '0.00', '273.00');
 
-    //  Over Payment refund - 280
+    //  Over Payment refund - 273
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
@@ -159,7 +159,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails('500.00', '0', '0.00', '0.00', '273.00');
 
-    // Refund with reason - 220
+    // Refund with reason - 227
     I.waitForElement('(//*[text()[contains(.,"Review")]])[2]', 5);
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.tenSecondWaitTime);

@@ -46,7 +46,7 @@ Scenario('OverPayment Refund Rejected journey',
     I.click('Continue');
     const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£500.00', '£227.00', 'Over payment', '£273.00', emailAddress, '', 'SendRefund');
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false);
-    const refundRef = await InitiateRefunds.verifyRefundSubmittedPage('280.00');
+    const refundRef = await InitiateRefunds.verifyRefundSubmittedPage('273.00');
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);

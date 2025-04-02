@@ -23,7 +23,7 @@ Scenario('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await AddFees.addFeesOverPayment('220');
+    await AddFees.addFeesOverPayment('227');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
