@@ -404,8 +404,8 @@ module.exports = {
     I.see(refundRefOverPayments);
     I.see('Refunds');
     I.see('Approved');
-    I.see('£280.00');
-    I.see('£220.00');
+    I.see('£273.00');
+    I.see('£223.00');
     I.see('Overpayment');
     I.see('System/technical error');
   },
@@ -413,7 +413,7 @@ module.exports = {
     I.see(refundRefOverPayments);
     I.see('Refunds');
     I.see('Approved');
-    I.see('£280.00');
+    I.see('£273.00');
     I.see('Overpayment');
   },
   validateTransactionPageForPartialPayments(amount) {
