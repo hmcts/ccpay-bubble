@@ -74,12 +74,16 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime, 10);
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    // let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
-    // if(numOfElements) {
-    //   I.click('//input[@id=\'fee-version0\']');
-    //   I.click('Continue');
-    //   I.wait(CCPBConstants.fiveSecondWaitTime);
-    // }
+
+    /* Comment this out when fee change options expire for inflation update. */
+    let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    if(numOfElements) {
+     I.click('//input[@id=\'fee-version0\']');
+     I.click('Continue');
+     I.wait(CCPBConstants.fiveSecondWaitTime);
+    }
+    /* END: Comment this out when fee change options expire for inflation update. */
+
     I.click(this.locators.allocate_payment);
     I.wait(CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.help_with_fee);

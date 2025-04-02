@@ -128,7 +128,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   Remission.verifyAddRemissionPageText();
   Remission.verifyNoRemissionCodeOrAmountErrorMessages();
-  Remission.remissionAmountExceed('600');
+  Remission.remissionAmountExceed('620');
   Remission.processRemission('FEE0002', '512');
   Remission.confirmProcessRemission();
   I.wait(CCPBATConstants.tenSecondWaitTime);
