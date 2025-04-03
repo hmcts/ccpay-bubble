@@ -126,7 +126,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await AddFees.addFeesOverPayment('220');
+    await AddFees.addFeesOverPayment('227');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails('500.00', '0', '0.00', '0.00', '280.00');
 
@@ -159,7 +159,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails('500.00', '0', '0.00', '0.00', '280.00');
 
-    // Refund with reason - 220
+    // Refund with reason - 227
     I.waitForElement('(//*[text()[contains(.,"Review")]])[2]', 5);
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.tenSecondWaitTime);
