@@ -70,6 +70,11 @@ withPipeline("nodejs", product, component) {
 
   before('functionalTest:preview') {
     env.E2E_TESTS_FOR_ACCESSIBILITY = true
+
+    // Note we need to override URLs because FT CCPBConfig.js uses these values
+    env.PAYMENT_API_URL = "https://payment-api-ccpay-refunds-api-pr-711.preview.platform.hmcts.net"
+    env.REFUNDS_API_URL = "https://ccpay-refunds-api-pr-711.preview.platform.hmcts.net"
+    env.BULKSCANNING_API_URL = "https://ccpay-bulkscanning-api-ccpay-refunds-api-pr-711.preview.platform.hmcts.net"
   }
 
   afterAlways('functionalTest:preview') {

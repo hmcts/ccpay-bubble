@@ -519,7 +519,7 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
 }
 
 // eslint-disable-next-line no-unused-vars
-async function createAPBAPayment(amount, feeCode, version, volume) {
+async function createAPBAPayment(amount, feeCode, version, volume, customerReference = 'ABC98989/65654') {
   const creditAccountPaymentEndPoint = '/credit-account-payments';
   const microservice = 'cmc';
   const idamToken = await getIDAMToken();
@@ -537,7 +537,7 @@ async function createAPBAPayment(amount, feeCode, version, volume) {
     case_reference: '1253656',
     ccd_case_number: `${ccdCaseNumber}`,
     currency: 'GBP',
-    customer_reference: 'string',
+    customer_reference: `${customerReference}`,
     description: 'string',
     fees: [
       {

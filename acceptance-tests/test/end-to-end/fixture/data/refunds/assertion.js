@@ -162,7 +162,7 @@ function checkYourAnswersBeforeSubmitRefund(
 
 function refundNotificationPreviewData(
   email, postcode, ccdCaseNumber, refundReference, refundAmount, refundReason,
-  bulkScanPaymentMethod = 'default') {
+  bulkScanPaymentMethod = 'default', customerReference = '') {
   const checkYourAnswersDataBeforeSubmitRefund = {
     email: `${email}`,
     postcode: `${postcode}`,
@@ -170,7 +170,8 @@ function refundNotificationPreviewData(
     refundReference: `${refundReference}`,
     refundAmount: `${refundAmount}`,
     refundReason: `${refundReason}`,
-    bulkScanPaymentMethod: `${bulkScanPaymentMethod}`
+    bulkScanPaymentMethod: `${bulkScanPaymentMethod}`,
+    customerReference: `${customerReference}`
   };
 
   return checkYourAnswersDataBeforeSubmitRefund;
