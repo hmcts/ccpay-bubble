@@ -23,6 +23,11 @@ function verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotifica
   }
   I.see('Dear Sir/Madam,');
   I.see(`Our records show that case ${refundNotificationPreviewData.ccdCaseNumber} has recently been changed.`);
+  if(refundNotificationPreviewData.customerReference === ""){
+    I.see('Customer reference: ');
+  } else {
+    I.see(`Customer reference: ${refundNotificationPreviewData.customerReference}`);
+  }
   I.see('These changes have been considered and you are entitled to a refund on your payment.');
   I.see(`Refund reference: ${refundNotificationPreviewData.refundReference}`);
   I.see(`Refund amount: £${refundNotificationPreviewData.refundAmount}`);
@@ -52,6 +57,11 @@ function verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewDa
   }
   I.see('Dear Sir/Madam,');
   I.see(`Our records show that case ${refundNotificationPreviewData.ccdCaseNumber} has recently been changed.`);
+  if(refundNotificationPreviewData.customerReference != null){
+    I.see(`Customer reference: ${refundNotificationPreviewData.customerReference}`);
+  } else {
+    I.see('Customer reference: ');
+  }
   I.see('These changes have been considered and you are entitled to a refund on your payment.');
   I.see(`Refund reference: ${refundNotificationPreviewData.refundReference}`);
   I.see(`Refund amount: £${refundNotificationPreviewData.refundAmount}`);
@@ -80,6 +90,11 @@ function verifySystemApprovedRefundWhenContactedNotification(refundNotificationP
   }
   I.see('Dear Sir/Madam,');
   I.see(`Our records show that case ${refundNotificationPreviewData.ccdCaseNumber} has recently been changed.`);
+  if(refundNotificationPreviewData.customerReference != null){
+    I.see(`Customer reference: ${refundNotificationPreviewData.customerReference}`);
+  } else {
+    I.see('Customer reference: ');
+  }
   I.see('These changes have been considered and you are entitled to a refund on your payment.');
   I.see(`Refund reference: ${refundNotificationPreviewData.refundReference}`);
   I.see(`Refund amount: £${refundNotificationPreviewData.refundAmount}`);
