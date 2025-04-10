@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
-import { Title } from "@angular/platform-browser";
+import { TitleService } from "../../services/title/title.service";
 
 @Component({
   selector: 'app-confirmation',
@@ -12,9 +12,9 @@ export class ConfirmationComponent {
   constructor(
     private addFeeDetailService: AddFeeDetailService,
     private router: Router,
-    private titleService: Title
+    private titleService: TitleService
   ) {
-    this.titleService.setTitle("CCPay Confirmation");
+    this.titleService.setTitle("Confirmation");
   }
 
   get remissionRef(): string {

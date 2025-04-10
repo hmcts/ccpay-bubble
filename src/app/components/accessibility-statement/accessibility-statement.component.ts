@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
-import { Title } from "@angular/platform-browser";
+import { TitleService } from "../../services/title/title.service";
 
 @Component({
   selector: 'app-accessibility-statement',
@@ -10,10 +10,10 @@ import { Title } from "@angular/platform-browser";
 export class AccessibilityStatementComponent {
   constructor(
     private _location: Location,
-    private titleService: Title
+    private titleService: TitleService
   )
   {
-    this.titleService.setTitle("CCPay Accessibility Statement");
+    this.titleService.setTitle("Accessibility Statement");
   }
 
   backClicked() {

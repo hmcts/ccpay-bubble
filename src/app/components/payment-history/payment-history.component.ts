@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IdamDetails } from '../../services/idam-details/idam-details';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
+import { TitleService } from "../../services/title/title.service";
 import * as ls from 'local-storage';
 import {Router} from '@angular/router';
-import { Title } from "@angular/platform-browser";
 @Component({
   selector: 'app-payment-history',
   templateUrl: './payment-history.component.html',
@@ -50,7 +50,7 @@ export class PaymentHistoryComponent implements OnInit {
     private paymentGroupService: PaymentGroupService,
     private activatedRoute: ActivatedRoute,
     private idamDetails: IdamDetails,
-    private titleService: Title
+    private titleService: TitleService
   ) {}
 
   ngOnInit() {
@@ -92,14 +92,17 @@ export class PaymentHistoryComponent implements OnInit {
     const servicerequest = this.activatedRoute.snapshot.queryParams["servicerequest"];
     if (servicerequest == 'true')
     {
-      return 'CCPay Service Requests';
+      return 'Service Requests';
     }
     else if (takePayment == 'true')
     {
-      return "CCPay Case Transactions";
+      return 'Case Transactions';
     }
-    else{
-      return "CCPay Payment History";
+    else if (this.view === 'reports'){
+      return "Reports";
+    }
+    else {
+      return 'Payment History';
     }
   }
   checkValidUser() {

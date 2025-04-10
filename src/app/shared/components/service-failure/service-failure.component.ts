@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Title } from "@angular/platform-browser";
+import { TitleService } from "../../../services/title/title.service";
 
 @Component({
   selector: 'app-service-failure',
@@ -10,9 +10,9 @@ import { Title } from "@angular/platform-browser";
 export class ServiceFailureComponent {
   constructor(
     private router: Router,
-    private titleService: Title
+    private titleService: TitleService
   ) {
-    this.titleService.setTitle("CCPay Service Failure");
+    this.titleService.setTitle("Service Failure");
   }
 
 }

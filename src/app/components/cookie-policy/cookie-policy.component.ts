@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import cookieManager from '@hmcts/cookie-manager';
 import { Location } from '@angular/common';
-import { Title } from "@angular/platform-browser";
+import { TitleService } from "../../services/title/title.service";
 
 @Component({
   selector: 'app-cookie-policy',
@@ -13,9 +13,9 @@ import { Title } from "@angular/platform-browser";
 export class CookiePolicyComponent implements OnInit {
     constructor(
       private _location: Location,
-      private titleService: Title
+      private titleService: TitleService
     ) {
-      this.titleService.setTitle("CCPay Cookies");
+      this.titleService.setTitle("Cookies");
     }
     // Ideally this would be an enum but angular can't seem to cope with enums in templates
     public readonly USAGE = 'Usage';

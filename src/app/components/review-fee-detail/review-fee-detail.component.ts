@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
+import { TitleService } from "src/app/services/title/title.service";
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { SafeHtml } from '@angular/platform-browser';
-import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-review-fee-detail',
@@ -17,10 +17,10 @@ export class ReviewFeeDetailComponent {
   constructor(
     private router: Router,
     private addFeeDetailService: AddFeeDetailService,
-    private titleService: Title
+    private titleService: TitleService
   ) {
     this.fee = this.addFeeDetailService.selectedFee;
-    this.titleService.setTitle("CCPay Review Fee Detail");
+    this.titleService.setTitle("Review Fee Detail");
   }
 
   get payModel() {

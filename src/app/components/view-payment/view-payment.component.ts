@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
-import { Title } from "@angular/platform-browser";
+import { TitleService } from "../../services/title/title.service";
 
 @Component({
   selector: 'app-view-payment',
@@ -13,9 +13,9 @@ export class ViewPaymentComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private titleService: Title
+    private titleService: TitleService
   ) {
-    this.titleService.setTitle("CCPay View Payment");
+    this.titleService.setTitle("View Payment");
   }
 
   ngOnInit() {
