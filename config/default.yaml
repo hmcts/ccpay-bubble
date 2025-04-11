@@ -19,11 +19,11 @@ pcipalantenna:
 s2s:
   url: http://localhost:23443
 payhub:
-  url: http://payment-api-demo.service.core-compute-demo.internal
+  url: http://localhost:8081
 bulkscan:
   url: http://localhost:7070
 refunds:
-  url: http://ccpay-refunds-api-demo.service.core-compute-demo.internal
+  url: http://localhost:8084
 notification:
   url: http://ccpay-notifications-service-demo.service.core-compute-demo.internal
 waystopay:
