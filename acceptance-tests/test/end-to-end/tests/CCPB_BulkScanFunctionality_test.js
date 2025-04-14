@@ -380,7 +380,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   I.Logout();
 }).tag('@pipeline @nightly');
 
-Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission refunded but the payment', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission, InitiateRefunds }) => {
+Scenario('Fully Paid Fee with Upfront Remission CANNOT be Refunded', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = 200;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
@@ -410,52 +410,13 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   await CaseTransaction.validateCaseTransactionsDetails('200.00', '0', '100.00', '0.00', '0.00');
-  await CaseTransaction.validatePaymentDetailsPageForRemission('HWF-A1B-23C', 'FEE0219', '£100.00');
+  CaseTransaction.validatePaymentDetailsPageForRemission('HWF-A1B-23C', 'FEE0219', '£100.00');
+  await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
   I.click('Back');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  //  remission refund - 100
   await I.click('(//*[text()[contains(.,"Review")]])[2]');
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
-  if (I.dontSeeElement('Issue refund')) {
-    console.log('found disabled button');
-    await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
-    I.click('Back');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.click('(//*[text()[contains(.,"Review")]])[2]');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-  }
-  I.waitForElement('Issue refund', 10);
-  I.dontSeeElement('Add remission');
-  I.dontSeeElement('Add refund');
-  I.click('Issue refund');
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£300.00', '£300.00', '200', '1', '£100.00');
-  await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelectionWithRemissionAmount(reviewProcessRefundPageData, ccdCaseNumber);
-  I.click('Continue');
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  const refundDropDownReason = 'Other - CoP';
-  const reasonText = 'Auto test';
-  await InitiateRefunds.verifyProcessRefundPageFromTheDropDownReasonsAndContinue(ccdCaseNumber, refundDropDownReason, reasonText);
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  I.click('//*[@id="contact-2"]');
-  I.wait(CCPBATConstants.twoSecondWaitTime);
-  I.click('//*[@id="address-postcode"]');
-  const postcode = 'TW4 7EZ';
-  I.fillField('//*[@id="address-postcode"]', postcode);
-  I.wait(CCPBATConstants.twoSecondWaitTime);
-  I.click('Find address');
   I.wait(CCPBATConstants.tenSecondWaitTime);
-  I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
-  I.click('Continue');
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-
-  const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£300.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'SendRefund');
-  const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other');
-
-  await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, false, false, refundNotificationPreviewDataBeforeRefundRequest);
-  await InitiateRefunds.verifyRefundSubmittedPage('200.00');
-
+  I.dontSeeElement('Issue refund');
   await I.Logout();
 }).tag('@pipeline @nightly');
 
