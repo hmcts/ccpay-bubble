@@ -133,7 +133,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   Remission.processRemission('FEE0002', '512');
   Remission.confirmProcessRemission();
   I.wait(CCPBATConstants.tenSecondWaitTime);
-  FeesSummary.verifyFeeSummaryAfterRemission('FEE0002', '£593.00', '£100.00', '£512.00');
+  FeesSummary.verifyFeeSummaryAfterRemission('FEE0002', '£593.00', '£81.00', '£512.00');
   FeesSummary.addFeeFromSummary();
   await AddFees.addFees('21.00', 'civil', 'magistrates_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0362', '21.00', true);
@@ -145,7 +145,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   I.wait(CCPBATConstants.tenSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
-  await CaseTransaction.validatePaymentDetailsPageForRemission('HWF-A1B-23C', 'FEE0002', '£100.00');
+  await CaseTransaction.validatePaymentDetailsPageForRemission('HWF-A1B-23C', 'FEE0002', '£81.00');
   I.Logout();
 }).tag('@pipeline @nightly');
 
@@ -330,13 +330,13 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1',
-      '512.00', '593.00', '593.00', '100.00');
+      '512.00', '593.00', '593.00', '81.00');
     ConfirmAssociation.confirmPayment();
     ConfirmAssociation.verifyConfirmAssociationShortfallPaymentErrorMessages();
     ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
     ConfirmAssociation.confirmPayment();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    CaseTransaction.checkBulkCaseShortfallSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid', '100.00');
+    CaseTransaction.checkBulkCaseShortfallSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid', '81.00');
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
     // Search using receipt number
     const receiptSearch = await CaseTransaction.getReceiptReference();
@@ -371,7 +371,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   await AddFees.addFeesAmount('593.00', 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', true);
   // FeesSummary.allocateBulkPayment();
-  ConfirmAssociation.verifyConfirmAssociationSurplusPayment('FEE0002', '£593.00', '£88.00');
+  ConfirmAssociation.verifyConfirmAssociationSurplusPayment('FEE0002', '£593.00', '£107.00');
   ConfirmAssociation.selectSurplusReasonOtherExplainatoryAndUser('Help with Fees awarded', 'Other explainatory note', 'Auto Comment');
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -457,7 +457,7 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
   await InitiateRefunds.verifyRefundSubmittedPage('200.00');
 
   await I.Logout();
-}).tag('@pipeline @nightly @debug');
+}).tag('@pipeline @nightly');
 
 Scenario('Download reports in paybubble', ({ I, Reports }) => {
   logger.info('Here is the Logger');
