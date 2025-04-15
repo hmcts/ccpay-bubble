@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
-import { TitleService } from "../../services/title/title.service";
+import { FeepayTitleService } from "../../services/feepay-title/feepay.title.service";
 
 @Component({
   selector: 'app-confirmation',
@@ -12,7 +12,7 @@ export class ConfirmationComponent {
   constructor(
     private addFeeDetailService: AddFeeDetailService,
     private router: Router,
-    private titleService: TitleService
+    private titleService: FeepayTitleService
   ) {
     this.titleService.setTitle("Confirmation");
   }

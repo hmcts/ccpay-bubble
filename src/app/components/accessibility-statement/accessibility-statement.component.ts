@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
-import { TitleService } from "../../services/title/title.service";
+import { FeepayTitleService } from "../../services/feepay-title/feepay.title.service";
 
 @Component({
   selector: 'app-accessibility-statement',
@@ -10,7 +10,7 @@ import { TitleService } from "../../services/title/title.service";
 export class AccessibilityStatementComponent {
   constructor(
     private _location: Location,
-    private titleService: TitleService
+    private titleService: FeepayTitleService
   )
   {
     this.titleService.setTitle("Accessibility Statement");

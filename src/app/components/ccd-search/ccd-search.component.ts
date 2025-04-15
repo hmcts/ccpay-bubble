@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { Router, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
-import { TitleService } from "../../services/title/title.service";
+import { FeepayTitleService } from "../../services/feepay-title/feepay.title.service";
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
 import * as ls from 'local-storage';
 
@@ -41,7 +41,7 @@ export class CcdSearchComponent implements OnInit {
     private caseRefService: CaseRefService,
     private activatedRoute: ActivatedRoute,
     private viewPaymentService: ViewPaymentService,
-    public titleService: TitleService
+    public feepayTitleService: FeepayTitleService
 
   ) {
     //this.titleService.setTitle("CCPay Case Search");
@@ -49,8 +49,7 @@ export class CcdSearchComponent implements OnInit {
 
   ngOnInit() {
     const currentUrl = this.activatedRoute.snapshot.url.join('/');
-    console.log('Current URL:', currentUrl);
-    this.titleService.setTitle(this.makeTitleFromPath(currentUrl));
+    this.feepayTitleService.setTitleFromPath(currentUrl);
     this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'] === 'false' ? null : true ;
     this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'] ;
     this.paymentGroupService.getBSFeature().then((status) => {
@@ -248,13 +247,5 @@ getErrorMessage(isErrorExist) {
     return input.replace(pattern, '');
   }
 
-  makeTitleFromPath(path) {
-    if (path === 'ccd-search'){
-      return 'Case Transactions';
-    }
-    return path
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(' ');
-  }
+
 }

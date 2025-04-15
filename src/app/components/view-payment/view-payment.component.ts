@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
-import { TitleService } from "../../services/title/title.service";
+import { FeepayTitleService } from "../../services/feepay-title/feepay.title.service";
 
 @Component({
   selector: 'app-view-payment',
@@ -13,7 +13,7 @@ export class ViewPaymentComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private titleService: TitleService
+    private titleService: FeepayTitleService
   ) {
     this.titleService.setTitle("View Payment");
   }

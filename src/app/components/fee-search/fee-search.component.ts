@@ -2,7 +2,7 @@ import { FeeDetailsComponent } from './../fee-details/fee-details.component';
 import { IVersion } from './../../../../dist/fee-register-search/lib/interfaces/IVersion.d';
 import { Component, OnInit } from '@angular/core';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
-import { TitleService } from "../../services/title/title.service";
+import { FeepayTitleService } from "../../services/feepay-title/feepay.title.service";
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
 import * as ls from 'local-storage';
@@ -29,7 +29,7 @@ export class FeeSearchComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private paymentGroupService: PaymentGroupService,
-    private titleService: TitleService
+    private titleService: FeepayTitleService
   ) {
     this.titleService.setTitle("Fee Search");
   }

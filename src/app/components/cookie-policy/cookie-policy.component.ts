@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import cookieManager from '@hmcts/cookie-manager';
 import { Location } from '@angular/common';
-import { TitleService } from "../../services/title/title.service";
+import { FeepayTitleService } from "../../services/feepay-title/feepay.title.service";
 
 @Component({
   selector: 'app-cookie-policy',
@@ -13,7 +13,7 @@ import { TitleService } from "../../services/title/title.service";
 export class CookiePolicyComponent implements OnInit {
     constructor(
       private _location: Location,
-      private titleService: TitleService
+      private titleService: FeepayTitleService
     ) {
       this.titleService.setTitle("Cookies");
     }

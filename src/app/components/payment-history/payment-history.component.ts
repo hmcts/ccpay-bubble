@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IdamDetails } from '../../services/idam-details/idam-details';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
-import { TitleService } from "../../services/title/title.service";
+import { FeepayTitleService } from "../../services/feepay-title/feepay.title.service";
 import * as ls from 'local-storage';
 import {Router} from '@angular/router';
 @Component({
@@ -50,7 +50,7 @@ export class PaymentHistoryComponent implements OnInit {
     private paymentGroupService: PaymentGroupService,
     private activatedRoute: ActivatedRoute,
     private idamDetails: IdamDetails,
-    private titleService: TitleService
+    private feepayTitleService: FeepayTitleService
   ) {}
 
   ngOnInit() {
@@ -84,27 +84,11 @@ export class PaymentHistoryComponent implements OnInit {
         });
 
     });
-    this.titleService.setTitle(this.getTitle());
+    const servicerequest = this.activatedRoute.snapshot.queryParams["servicerequest"];
+    const takePayment = this.activatedRoute.snapshot.queryParams["takePayment"];
+    this.feepayTitleService.setTitleFromQueryParams(servicerequest, takePayment, this.view);
   }
 
-  getTitle(): string {
-    const takePayment = this.activatedRoute.snapshot.queryParams["takePayment"];
-    const servicerequest = this.activatedRoute.snapshot.queryParams["servicerequest"];
-    if (servicerequest == 'true')
-    {
-      return 'Service Requests';
-    }
-    else if (takePayment == 'true')
-    {
-      return 'Case Transactions';
-    }
-    else if (this.view === 'reports'){
-      return "Reports";
-    }
-    else {
-      return 'Payment History';
-    }
-  }
   checkValidUser() {
     const currenturl = (this.router.url).split('?', 1);
     if ( this.lsCcdNumber !== this.ccdCaseNumber
