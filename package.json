@@ -87,7 +87,7 @@
     "pug": "3.0.3",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.9",
-    "rpx-xui-translation": "^1.0.3-angular-upgrade-17-rc",
+    "rpx-xui-translation": "1.0.11-upgrade-18-2",
     "rxjs": "~6.6.7",
     "rxjs-compat": "^6.5.2",
     "superagent": "8.0.8",

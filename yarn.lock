@@ -9248,7 +9248,7 @@ __metadata:
     pugit: 5.0.2
     request: ^2.88.2
     request-promise-native: ^1.0.9
-    rpx-xui-translation: ^1.0.3-angular-upgrade-17-rc
+    rpx-xui-translation: 1.0.11-upgrade-18-2
     rxjs: ~6.6.7
     rxjs-compat: ^6.5.2
     sass: ^1.64.1
@@ -23022,17 +23022,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rpx-xui-translation@npm:^1.0.3-angular-upgrade-17-rc":
-  version: 1.0.11
-  resolution: "rpx-xui-translation@npm:1.0.11"
+"rpx-xui-translation@npm:1.0.11-upgrade-18-2":
+  version: 1.0.11-upgrade-18-2
+  resolution: "rpx-xui-translation@npm:1.0.11-upgrade-18-2"
   dependencies:
     dexie: ^3.2.2
     luxon: ^2.4.0
     tslib: ^2.0.0
   peerDependencies:
-    "@angular/common": ^15.2.9
-    "@angular/core": ^15.2.9
-  checksum: 3009ccb963c015d908601ad403d4fe7864a38c1dcf601fef9b467eaba14a31478beceb545f5b192970dbf38b9bbbdb618dcaaaa40dde9f0eaa96df623144b6d3
+    "@angular/common": ^18.2.13
+    "@angular/core": ^18.2.13
+  checksum: b51124048a83e686cb9e666d1555fc80615fffdb46cbb9d8aab781e0c1ae67253427b31dc07d8ea91e23179350915294db37a76581894319481085499275e513
   languageName: node
   linkType: hard
 
