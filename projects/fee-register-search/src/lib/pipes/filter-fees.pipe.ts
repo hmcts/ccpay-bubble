@@ -7,7 +7,7 @@ import { Jurisdictions } from '../models/Jurisdictions';
   name: 'filterFees'
 })
 export class FilterFeesPipe implements PipeTransform {
-  transform(fees: IFee[], searchFilter: string, jurisdictionsFilter?: Jurisdictions): IFee[] {
+  transform(fees: IFee[], searchFilter: string, jurisdictionsFilter?: Jurisdictions, serviceNameFilter: string): IFee[] {
     if (!fees) { return []; }
     if (!searchFilter) { return fees; }
 
@@ -28,10 +28,8 @@ export class FilterFeesPipe implements PipeTransform {
       filteredList = this.filterByJurisdictions(filteredList, jurisdictionsFilter);
     }
 
-
     return filteredList;
   }
-
 
   filterValidFee(fees: IFee[]) {
     const todayDate = new Date();
