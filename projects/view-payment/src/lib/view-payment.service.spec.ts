@@ -1,15 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ViewPaymentService } from './view-payment.service';
 
 describe('PaymentLibService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [
+    imports: [],
+    providers: [
         ViewPaymentService,
-      ]
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+});
   });
 
   it('should be created', inject([ViewPaymentService], (service: ViewPaymentService) => {

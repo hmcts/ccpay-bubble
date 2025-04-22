@@ -1,6 +1,6 @@
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { PaybubbleHttpClient } from 'src/app/services/httpclient/paybubble.http.client';
-import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import { ConfirmationGuard } from 'src/app/components/confirmation/route-guards/confirmation-guard.service';

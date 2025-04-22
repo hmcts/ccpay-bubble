@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 import { ViewPaymentService } from './view-payment.service';
 import { ViewPaymentComponent } from './view-payment.component';
@@ -12,11 +12,11 @@ describe('View payment component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ViewPaymentComponent],
-      imports: [HttpClientModule],
-      providers: [ViewPaymentService],
-      schemas: [NO_ERRORS_SCHEMA]
-    });
+    declarations: [ViewPaymentComponent],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [],
+    providers: [ViewPaymentService, provideHttpClient(withInterceptorsFromDi())]
+});
 
     fixture = TestBed.createComponent(ViewPaymentComponent);
     component = fixture.componentInstance;

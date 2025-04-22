@@ -1,9 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
-import { HttpClientModule } from '@angular/common/http';
-import { Observable } from 'rxjs/internal/Observable';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { of } from 'rxjs';
 import { ViewPaymentComponent } from './view-payment.component';
 
@@ -14,19 +12,20 @@ describe('View payment component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      declarations: [ViewPaymentComponent],
-      providers: [
+    declarations: [ViewPaymentComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [],
+    providers: [
         {
-          provide: ActivatedRoute,
-          useValue: {
-            params: of({ref: '1111-2222-3333-4444'})
-          }
+            provide: ActivatedRoute,
+            useValue: {
+                params: of({ ref: '1111-2222-3333-4444' })
+            }
         },
-        HttpClient
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    });
+        HttpClient,
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+});
 
     fixture = TestBed.createComponent(ViewPaymentComponent);
     component = fixture.componentInstance;
