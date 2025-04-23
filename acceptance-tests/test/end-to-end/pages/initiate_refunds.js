@@ -135,6 +135,32 @@ module.exports = {
     I.fillField(this.locators.amount_to_refund, checkYourAnswersData.refundAmount);
   },
 
+  verifyProcessRefundPageForFeeRefundSelectionWithRemissionAmount(checkYourAnswersData, ccdCaseNumber) {
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.see('Process refund');
+    I.see('Case reference:');
+    I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
+    I.see('Payment reference:');
+    I.see(checkYourAnswersData.paymentReference);
+    I.see('Select fees to be refunded');
+    I.see('Select');
+    I.click(this.locators.checkbox_fee);
+    I.see('Fee description');
+    I.see(checkYourAnswersData.feeDescription);
+    I.see('Fee amount');
+    I.see(checkYourAnswersData.feeAmount);
+    I.see('Total paid');
+    I.see(checkYourAnswersData.paymentAmount);
+    I.see('Remission amount');
+    I.see(checkYourAnswersData.remissionAmount);
+    I.see('Quantity');
+    I.see('1');
+    I.see('Amount to refund');
+    I.click(this.locators.amount_to_refund);
+    I.clearField(this.locators.amount_to_refund);
+    I.fillField(this.locators.amount_to_refund, checkYourAnswersData.refundAmount);
+  },
+
   verifyProcessRefundPageFromTheDropDownReasonsAndContinue(ccdCaseNumber, dropDownReason, reasonText) {
     I.waitForText('Process refund', '5');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
