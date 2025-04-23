@@ -381,7 +381,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
 }).tag('@pipeline @nightly');
 
 Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission refunded but the payment', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission, InitiateRefunds }) => {
-  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
   const totalAmount = 200;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
   const ccdCaseNumber = ccdAndDcn[1];
@@ -425,9 +425,9 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
   }
-  I.waitForElement('Issue refund', 10);
   I.dontSeeElement('Add remission');
   I.dontSeeElement('Add refund');
+  I.seeElement({ xpath: '//button[contains(text(), "Issue refund")]' });
   I.click('Issue refund');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£300.00', '£300.00', '200', '1', '£100.00');
@@ -450,7 +450,7 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
   I.click('Continue');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
 
-  const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£300.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'SendRefund');
+  const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£200.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'SendRefund');
   const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other');
 
   await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, false, false, refundNotificationPreviewDataBeforeRefundRequest);
