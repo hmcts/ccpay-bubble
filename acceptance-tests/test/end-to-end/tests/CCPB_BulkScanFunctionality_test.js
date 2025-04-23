@@ -455,7 +455,6 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
 
   await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, false, false, refundNotificationPreviewDataBeforeRefundRequest);
   await InitiateRefunds.verifyRefundSubmittedPage('200.00');
-
   await I.Logout();
 }).tag('@pipeline @nightly');
 
