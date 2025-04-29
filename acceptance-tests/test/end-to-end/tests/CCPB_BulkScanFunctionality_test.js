@@ -13,6 +13,7 @@ const stringUtils = require('../helpers/string_utils');
 
 const testConfig = require('./config/CCPBConfig');
 const apiUtils = require("../helpers/utils");
+const assertionData = require("../fixture/data/refunds/assertion");
 
 // const successResponse = 202;
 
@@ -24,7 +25,7 @@ Feature('CC Pay Bubble Bulk Scan Acceptance Tests').retry(CCPBATConstants.defaul
 Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory }) => {
   // logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-  const totalAmount = 612;
+  const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cash');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
@@ -37,12 +38,12 @@ Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, 
   // I.waitForNavigation(0,"domcontentloaded");
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
-  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '612.00', 'cash');
+  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '593.00', 'cash');
   CaseTransaction.allocateToNewFee();
-  await AddFees.addFeesAmount('612.00', 'family', 'family_court');
-  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '612.00', true);
+  await AddFees.addFeesAmount('593.00', 'family', 'family_court');
+  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', true);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', '612.00', '612.00');
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', '593.00', '593.00');
   await I.runAccessibilityTest();
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -53,16 +54,16 @@ Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, 
   PaymentHistory.navigateToPaymentHistory();
   await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  PaymentHistory.verifyPaymentHistoryPage('£612.00', receiptReference);
+  PaymentHistory.verifyPaymentHistoryPage('£593.00', receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  PaymentHistory.validateCcdPaymentDetails(receiptReference, '£612.00', dcnNumber, 'success', 'Cash', 'FEE0002');
+  PaymentHistory.validateCcdPaymentDetails(receiptReference, '£593.00', dcnNumber, 'success', 'Cash', 'FEE0002');
   await I.runAccessibilityTest();
   I.Logout();
 }).tag('@pipeline @nightly');
 
 Scenario('Normal ccd case cheque payment full allocation to existing service request', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-  const totalAmount = 612;
+  const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cheque');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
@@ -73,21 +74,21 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   await I.runAccessibilityTest();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
-  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '612.00', 'cheque');
+  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '593.00', 'cheque');
   I.waitForClickable({ xpath: '//button[contains(text() , "Allocate to new service request")]' });
   I.seeElement({ xpath: '//button[contains(text() , "Allocate to existing service request") and contains(@class, "button--disabled")]' });
   I.click('Create service request and pay');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  await AddFees.addFeesAmount('612.00', 'family', 'family_court');
-  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '612.00', false);
+  await AddFees.addFeesAmount('593.00', 'family', 'family_court');
+  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', false);
   I.click('Back');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   I.waitForClickable({ xpath: '//button[contains(text() , "Allocate to existing service request")]' });
   I.seeElement({ xpath: '//button[contains(text() , "Allocate to new service request") and contains(@class, "button--disabled")]' });
-  CaseTransaction.allocateToExistingServiceRequest('£612.00');
-  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '612.00', true);
+  CaseTransaction.allocateToExistingServiceRequest('£593.00');
+  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', true);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', '612.00', '612.00');
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', '593.00', '593.00');
   await I.runAccessibilityTest();
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -98,9 +99,9 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   PaymentHistory.navigateToPaymentHistory();
   await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  PaymentHistory.verifyPaymentHistoryPage('£612.00', receiptReference);
+  PaymentHistory.verifyPaymentHistoryPage('£593.00', receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  PaymentHistory.validateCcdPaymentDetails(receiptReference, '£612.00', dcnNumber, 'success', 'Cheque', 'FEE0002');
+  PaymentHistory.validateCcdPaymentDetails(receiptReference, '£593.00', dcnNumber, 'success', 'Cheque', 'FEE0002');
   await I.runAccessibilityTest();
   I.Logout();
 }).tag('@pipeline @nightly');
@@ -121,8 +122,8 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '512.00', 'cheque');
   CaseTransaction.allocateToNewFee();
-  await AddFees.addFeesAmount('612.00', 'family', 'family_court');
-  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '612.00', false);
+  await AddFees.addFeesAmount('593.00', 'family', 'family_court');
+  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', false);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   FeesSummary.deductRemission();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -132,25 +133,25 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   Remission.processRemission('FEE0002', '512');
   Remission.confirmProcessRemission();
   I.wait(CCPBATConstants.tenSecondWaitTime);
-  FeesSummary.verifyFeeSummaryAfterRemission('FEE0002', '£612.00', '£100.00', '£512.00');
+  FeesSummary.verifyFeeSummaryAfterRemission('FEE0002', '£593.00', '£81.00', '£512.00');
   FeesSummary.addFeeFromSummary();
   await AddFees.addFees('21.00', 'civil', 'magistrates_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0362', '21.00', true);
   I.wait(CCPBATConstants.tenSecondWaitTime);
-  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1', '512.00', '612.00', '612.00', '21.00');
+  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1', '512.00', '593.00', '593.00', '21.00');
   ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0362', '1', '512.00', '21.00', '21.00', '21.00');
   ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.tenSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
-  CaseTransaction.validatePaymentDetailsPageForRemission('HWF-A1B-23C', 'FEE0002', '£100.00');
+  await CaseTransaction.validatePaymentDetailsPageForRemission('HWF-A1B-23C', 'FEE0002', '£81.00');
   I.Logout();
 }).tag('@pipeline @nightly');
 
 Scenario('Normal ccd case cash payment transferred', async({ I, CaseSearch, CaseTransaction, CaseTransferred, PaymentHistory }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-  const totalAmount = 612;
+  const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cash');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
@@ -160,9 +161,9 @@ Scenario('Normal ccd case cash payment transferred', async({ I, CaseSearch, Case
   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
-  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '612.00', 'cash');
+  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '593.00', 'cash');
   CaseTransaction.allocateToTransferred();
-  CaseTransferred.validateTransferredPage(dcnNumber, '612.00', 'Cash');
+  CaseTransferred.validateTransferredPage(dcnNumber, '593.00', 'Cash');
   await I.runAccessibilityTest();
   CaseTransferred.validateAndConfirmTransferred('auto transferred reason', 'Basildon Combined Court - Crown (W802)');
   CaseTransferred.confirmPayment();
@@ -174,9 +175,9 @@ Scenario('Normal ccd case cash payment transferred', async({ I, CaseSearch, Case
   PaymentHistory.navigateToPaymentHistory();
   await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  PaymentHistory.verifyPaymentHistoryPage('£612.00', receiptReference);
+  PaymentHistory.verifyPaymentHistoryPage('£593.00', receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£612.00', dcnNumber, 'Cash');
+  PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£593.00', dcnNumber, 'Cash');
   I.Logout();
 }).tag('@pipeline @nightly');
 
@@ -184,7 +185,7 @@ Scenario('Normal ccd case cash payment transferred', async({ I, CaseSearch, Case
 
 Scenario('Exception ccd case cash payment transferred', async({ I, CaseSearch, CaseTransaction, CaseTransferred }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-  const totalAmount = 612;
+  const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA08', totalAmount, 'cheque');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
@@ -192,9 +193,9 @@ Scenario('Exception ccd case cash payment transferred', async({ I, CaseSearch, C
   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Exception reference');
-  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '612.00', 'cheque');
+  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '593.00', 'cheque');
   CaseTransaction.allocateToTransferred();
-  CaseTransferred.validateTransferredPage(dcnNumber, '612.00', 'Cheque');
+  CaseTransferred.validateTransferredPage(dcnNumber, '593.00', 'Cheque');
   CaseTransferred.validateAndConfirmTransferred('auto transferred reason', 'Basildon Combined Court - Crown (W802)');
   CaseTransferred.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -231,7 +232,7 @@ Scenario('DCN Search for ccd case associated with exception postal order payment
 
 Scenario('Normal ccd case cash payment transferred when no valid reason or site id selected', async({ I, CaseSearch, CaseTransaction, CaseTransferred }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-  const totalAmount = 612;
+  const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cash');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
@@ -239,7 +240,7 @@ Scenario('Normal ccd case cash payment transferred when no valid reason or site 
   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
-  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '612.00', 'cash');
+  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '593.00', 'cash');
   CaseTransaction.allocateToTransferred();
   CaseTransferred.confirmPayment();
   CaseTransferred.whenNoReasonAndSiteid();
@@ -256,7 +257,7 @@ Scenario('Normal ccd case cash payment transferred when no valid reason or site 
 
 Scenario('Exception Case Cheque Payment Unidentified', async({ I, CaseSearch, CaseTransaction, CaseUnidentified, PaymentHistory }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-  const totalAmount = 612;
+  const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA08', totalAmount, 'cheque');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
@@ -264,9 +265,9 @@ Scenario('Exception Case Cheque Payment Unidentified', async({ I, CaseSearch, Ca
   await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Exception reference');
-  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '612.00', 'cheque');
+  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '593.00', 'cheque');
   CaseTransaction.allocateToUnidentified();
-  CaseUnidentified.validateUnidentifiedPage(dcnNumber, '612.00', 'Cheque');
+  CaseUnidentified.validateUnidentifiedPage(dcnNumber, '593.00', 'Cheque');
   await I.runAccessibilityTest();
   CaseUnidentified.validateAndConfirmUnidentified('auto unidentified reason');
   CaseUnidentified.confirmPayment();
@@ -279,15 +280,15 @@ Scenario('Exception Case Cheque Payment Unidentified', async({ I, CaseSearch, Ca
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  PaymentHistory.verifyPaymentHistoryPage('£612.00', receiptReference);
+  PaymentHistory.verifyPaymentHistoryPage('£593.00', receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£612.00', dcnNumber, 'Cheque');
+  PaymentHistory.validateTransferredUnidentifiedPaymentDetails(receiptReference, '£593.00', dcnNumber, 'Cheque');
   I.Logout();
 }).tag('@pipeline @nightly');
 
 Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less investigation comment provided', async({ I, CaseSearch, CaseTransaction, CaseUnidentified }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-  const totalAmount = 612;
+  const totalAmount = 593;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanExceptionCcd('AA08', totalAmount, 'cheque');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
@@ -295,7 +296,7 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
   await miscUtils.multipleSearch(CaseSearch, I, dcnNumber);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Exception reference');
-  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '612.00', 'cheque');
+  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '593.00', 'cheque');
   CaseTransaction.allocateToUnidentified();
   CaseUnidentified.continuePayment();
   CaseUnidentified.whenNoInvestigation();
@@ -325,17 +326,17 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '512.00', 'postal order');
     CaseTransaction.allocateToNewFee();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await AddFees.addFeesAmount('612.00', 'family', 'family_court');
-    FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '612.00', true);
+    await AddFees.addFeesAmount('593.00', 'family', 'family_court');
+    FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1',
-      '512.00', '612.00', '612.00', '100.00');
+      '512.00', '593.00', '593.00', '81.00');
     ConfirmAssociation.confirmPayment();
     ConfirmAssociation.verifyConfirmAssociationShortfallPaymentErrorMessages();
     ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
     ConfirmAssociation.confirmPayment();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    CaseTransaction.checkBulkCaseShortfallSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid', '100.00');
+    CaseTransaction.checkBulkCaseShortfallSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid', '81.00');
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
     // Search using receipt number
     const receiptSearch = await CaseTransaction.getReceiptReference();
@@ -367,10 +368,10 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '700.00', 'postal order');
   CaseTransaction.allocateToNewFee();
-  await AddFees.addFeesAmount('612.00', 'family', 'family_court');
-  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '612.00', true);
+  await AddFees.addFeesAmount('593.00', 'family', 'family_court');
+  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', '593.00', true);
   // FeesSummary.allocateBulkPayment();
-  ConfirmAssociation.verifyConfirmAssociationSurplusPayment('FEE0002', '£612.00', '£88.00');
+  ConfirmAssociation.verifyConfirmAssociationSurplusPayment('FEE0002', '£593.00', '£107.00');
   ConfirmAssociation.selectSurplusReasonOtherExplainatoryAndUser('Help with Fees awarded', 'Other explainatory note', 'Auto Comment');
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -379,8 +380,8 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
   I.Logout();
 }).tag('@pipeline @nightly');
 
-Scenario('Fully Paid Fee with Upfront Remission CANNOT be Refunded', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission }) => {
-  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission refunded but the payment', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission, InitiateRefunds }) => {
+  I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
   const totalAmount = 200;
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
   const ccdCaseNumber = ccdAndDcn[1];
@@ -409,16 +410,52 @@ Scenario('Fully Paid Fee with Upfront Remission CANNOT be Refunded', async({ I, 
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   await CaseTransaction.validateCaseTransactionsDetails('200.00', '0', '100.00', '0.00', '0.00');
-  CaseTransaction.validatePaymentDetailsPageForRemission('HWF-A1B-23C', 'FEE0219', '£100.00');
-  await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
+  await CaseTransaction.validatePaymentDetailsPageForRemission('HWF-A1B-23C', 'FEE0219', '£100.00');
   I.click('Back');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
+  //  remission refund - 100
   await I.click('(//*[text()[contains(.,"Review")]])[2]');
-  I.wait(CCPBATConstants.tenSecondWaitTime);
-  I.dontSeeElement('Issue refund');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
+  if (I.dontSeeElement('Issue refund')) {
+    console.log('found disabled button');
+    await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
+    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+  }
   I.dontSeeElement('Add remission');
   I.dontSeeElement('Add refund');
-  I.Logout();
+  I.seeElement({ xpath: '//button[contains(text(), "Issue refund")]' });
+  I.click('Issue refund');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£300.00', '£300.00', '200', '1', '£100.00');
+  await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelectionWithRemissionAmount(reviewProcessRefundPageData, ccdCaseNumber);
+  I.click('Continue');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  const refundDropDownReason = 'Other - CoP';
+  const reasonText = 'Auto test';
+  await InitiateRefunds.verifyProcessRefundPageFromTheDropDownReasonsAndContinue(ccdCaseNumber, refundDropDownReason, reasonText);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.click('//*[@id="contact-2"]');
+  I.wait(CCPBATConstants.twoSecondWaitTime);
+  I.click('//*[@id="address-postcode"]');
+  const postcode = 'TW4 7EZ';
+  I.fillField('//*[@id="address-postcode"]', postcode);
+  I.wait(CCPBATConstants.twoSecondWaitTime);
+  I.click('Find address');
+  I.wait(CCPBATConstants.tenSecondWaitTime);
+  I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
+  I.click('Continue');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+
+  const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£200.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'SendRefund');
+  const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other');
+
+  await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, false, false, refundNotificationPreviewDataBeforeRefundRequest);
+  await InitiateRefunds.verifyRefundSubmittedPage('200.00');
+  await I.Logout();
 }).tag('@pipeline @nightly');
 
 Scenario('Download reports in paybubble', ({ I, Reports }) => {
