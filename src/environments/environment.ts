@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  envName: 'development',
+    dynatrace: {
+      scriptUrl: 'https://js-cdn.dynatrace.com/jstag/17177a07246/bf24054dsx/e81e772d50fb5321_complete.js'
+    }
 };
 
 /*

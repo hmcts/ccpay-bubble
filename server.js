@@ -147,5 +147,8 @@ module.exports = (security, appInsights) => {
   client.trackTrace({ message: 'trace message' });
   client.trackMetric({ name: 'server startup time', value: duration });
 
+  const config = require('config');
+  process.env.DYNATRACE_SCRIPT_URL = config.get('dynatrace.scriptUrl');
+
   return app;
 };

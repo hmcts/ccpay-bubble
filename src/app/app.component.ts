@@ -3,6 +3,8 @@ import { filter } from 'rxjs/operators';
 import { Router, NavigationEnd } from '@angular/router';
 import { PaymentGroupService } from './services/payment-group/payment-group.service';
 import { DOCUMENT } from '@angular/common';
+import { DynatraceService } from './services/dynatrace/dynatrace.service';
+import { EnvironmentService } from './services/environments/environment.service';
 
 declare let gtag;
 @Component({
@@ -14,8 +16,10 @@ export class AppComponent implements OnInit {
  title = 'ccpay-bubble';
  isBulkscanningEnable = true;
  constructor (
+   private dynatraceService: DynatraceService,
    private router: Router,
    private paymentGroupService: PaymentGroupService,
+   private environmentService: EnvironmentService,
    @Inject(DOCUMENT) private document: Document
    ) {
    const navEndEvents = router.events.pipe (
@@ -26,6 +30,10 @@ export class AppComponent implements OnInit {
    });
    }
    ngOnInit() {
+     //console.log('Current Environment:', this.environmentService.getCurrentEnvironment());
+     //console.log('Is Production:', this.environmentService.isProduction());
+     // Add Dynatrace script when application loads
+    this.dynatraceService.addDynatraceScript();
     this.paymentGroupService.getBSFeature().then((status) => {
       this.isBulkscanningEnable = status;
     });
