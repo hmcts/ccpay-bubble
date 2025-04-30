@@ -41,6 +41,7 @@ import { CookieTableComponent } from './components/cookie-table/cookie-table.com
 import { RpxTranslationModule } from 'rpx-xui-translation';
 import {FooterComponent} from "./shared/components/footer/footer.component";
 import {AccessibilityStatementComponent} from "./components/accessibility-statement/accessibility-statement.component";
+import { DynatraceService } from './services/dynatrace/dynatrace.service';
 
 const nonProductionProviders = [{
   provide: HTTP_INTERCEPTORS,
@@ -93,6 +94,7 @@ const nonProductionProviders = [{
     })
   ],
   providers: [
+    DynatraceService,
     PaybubbleHttpClient,
     AddFeeDetailService,
     HttpClient,
