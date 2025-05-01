@@ -118,7 +118,7 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded a
     I.click('Issue refund');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£300.00', '£300.00', '200', '1', '£100.00');
-    await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelection(reviewProcessRefundPageData, ccdCaseNumber);
+    await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelectionWithRemissionAmount(reviewProcessRefundPageData, ccdCaseNumber);
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refundDropDownReason = 'Other - CoP';
