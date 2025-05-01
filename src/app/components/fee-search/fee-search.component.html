@@ -16,6 +16,7 @@
 <pay-fee-register-search
   *ngIf="!showFeeDetails"
   [APIRoot]='"api"'
+  [caseServiceName]="caseServiceName"
   (selectedFeeEvent)="selectFee($event)"></pay-fee-register-search>
 
 

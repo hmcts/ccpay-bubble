@@ -11,7 +11,7 @@ export class FeeListComponent {
   @Input() fees?: IFee[];
   @Input() searchFilter?: string;
   @Input() jurisdictionsFilter?: Jurisdictions;
-  @Input() serviceNameFilter?: string;
+  @Input() serviceNameSort?: string;
   @Output() selectedFeeEvent: EventEmitter<IFee> = new EventEmitter();
   p = 1;
 

@@ -7,7 +7,7 @@ import { Jurisdictions } from '../models/Jurisdictions';
   name: 'filterFees'
 })
 export class FilterFeesPipe implements PipeTransform {
-  transform(fees: IFee[], searchFilter: string, jurisdictionsFilter?: Jurisdictions, serviceNameFilter: string): IFee[] {
+  transform(fees: IFee[], searchFilter: string, jurisdictionsFilter?: Jurisdictions, serviceNameSort?: string): IFee[] {
     if (!fees) { return []; }
     if (!searchFilter) { return fees; }
 
@@ -28,7 +28,19 @@ export class FilterFeesPipe implements PipeTransform {
       filteredList = this.filterByJurisdictions(filteredList, jurisdictionsFilter);
     }
 
+    // Sort by service_type
+    filteredList = this.prioritizeByServiceName(filteredList, serviceNameSort);
+
     return filteredList;
+  }
+
+  prioritizeByServiceName(filteredList: IFee[], serviceName: string): IFee[] {
+      return filteredList.sort((a, b) => {
+          const aMatch = a.service_type?.name?.toLowerCase() === serviceName?.toLowerCase();
+          const bMatch = b.service_type?.name?.toLowerCase() === serviceName?.toLowerCase();
+          if (aMatch === bMatch) return 0; // both match or both don't match
+          return aMatch ? -1 : 1; // move matching ones to the top
+      });
   }
 
   filterValidFee(fees: IFee[]) {

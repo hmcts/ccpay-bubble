@@ -11,12 +11,14 @@ import { Jurisdictions } from './models/Jurisdictions';
 })
 export class FeeRegisterSearchComponent implements OnInit {
   @Input() APIRoot;
+  @Input() caseServiceName: string;
   @Output() selectedFeeEvent: EventEmitter<IFee> = new EventEmitter();
   fees: IFee[];
   error: string;
   searchFilter: string;
   isResultsDisplayed: boolean;
   jurisdictionsFilter: Jurisdictions;
+  paymentServiceName: string;
 
   constructor(
     private feeRegisterSearchService: FeeRegisterSearchService
@@ -25,6 +27,7 @@ export class FeeRegisterSearchComponent implements OnInit {
   ngOnInit() {
     this.isResultsDisplayed = false;
     this.feeRegisterSearchService.setURL(this.APIRoot);
+    this.paymentServiceName = this.caseServiceName;
 
     this.feeRegisterSearchService.getFees()
       .subscribe(
