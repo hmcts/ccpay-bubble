@@ -72,6 +72,17 @@ withPipeline("nodejs", product, component) {
     env.E2E_TESTS_FOR_ACCESSIBILITY = true
   }
 
+  before('smokeTest:preview') {
+    echo 'Checking smoke test URL'
+    def smokeTestUrl = env.TEST_URL;
+    def response = sh(script: "curl -s -o /dev/null -w '%{http_code}' ${smokeTestUrl}", returnStdout: true).trim()
+    if (response != '200') {
+      error "Smoke test URL ${smokeTestUrl} is not reachable. HTTP response code: ${response}"
+    } else {
+      echo "Smoke test URL ${smokeTestUrl} is reachable. HTTP response code: ${response}"
+    }
+  }
+
   afterAlways('functionalTest:preview') {
     env.E2E_TESTS_FOR_ACCESSIBILITY = false
 
