@@ -75,7 +75,7 @@ withPipeline("nodejs", product, component) {
   before('smoketest:preview') {
     log.info env.TEST_URL
     echo 'Checking smoke test URL'
-    def smokeTestUrl = env.TEST_URL;
+    def smokeTestUrl = env.TEST_URL + '/health';
     def response = sh(script: "curl -s -o /dev/null -w '%{http_code}' ${smokeTestUrl}", returnStdout: true).trim()
     if (response != '200') {
       error "Smoke test URL ${smokeTestUrl} is not reachable. HTTP response code: ${response}"
