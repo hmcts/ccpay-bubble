@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
+import { FeepayTitleService } from "../../services/feepay-title/feepay.title.service";
 
 @Component({
   selector: 'app-view-payment',
@@ -11,8 +12,11 @@ export class ViewPaymentComponent implements OnInit {
   paymentRef: string;
 
   constructor(
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private titleService: FeepayTitleService
+  ) {
+    this.titleService.setTitle("View Payment");
+  }
 
   ngOnInit() {
     this.getPaymentRef().subscribe(paymentRef => {

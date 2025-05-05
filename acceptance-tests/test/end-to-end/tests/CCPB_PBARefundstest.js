@@ -276,7 +276,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
     // Adding a Remission Finally and Submitting the Refund Request.
     InitiateRefunds.verifyRemissionAddedPage(false, '200.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.click('Payment history');
+    I.click('Payment History');
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyPaymentHistoryPage('£215.00', 'Payments');

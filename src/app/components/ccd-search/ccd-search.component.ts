@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { Router, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
+import { FeepayTitleService } from "../../services/feepay-title/feepay.title.service";
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
 import * as ls from 'local-storage';
 
@@ -39,10 +40,16 @@ export class CcdSearchComponent implements OnInit {
     private router: Router,
     private caseRefService: CaseRefService,
     private activatedRoute: ActivatedRoute,
-    private viewPaymentService: ViewPaymentService
-  ) {}
+    private viewPaymentService: ViewPaymentService,
+    public feepayTitleService: FeepayTitleService
+
+  ) {
+    //this.titleService.setTitle("CCPay Case Search");
+  }
 
   ngOnInit() {
+    const currentUrl = this.activatedRoute.snapshot.url.join('/');
+    this.feepayTitleService.setTitleFromPath(currentUrl);
     this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'] === 'false' ? null : true ;
     this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'] ;
     this.paymentGroupService.getBSFeature().then((status) => {
@@ -239,4 +246,6 @@ getErrorMessage(isErrorExist) {
     const pattern = /\-/gi;
     return input.replace(pattern, '');
   }
+
+
 }

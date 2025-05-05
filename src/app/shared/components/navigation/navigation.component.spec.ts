@@ -33,7 +33,7 @@ describe('NavigationComponent', () => {
   //   windowUtil.setWindowHref('www.testwith.internal');
   //   component.ngOnInit();
   //   fixture.detectChanges();
-  //   expect(fixture.debugElement.nativeElement.textContent).toContain('Payment history');
+  //   expect(fixture.debugElement.nativeElement.textContent).toContain('Payment History');
   // });
 
   // it('should not display payment history when the url do not have .internal', () => {
@@ -41,6 +41,6 @@ describe('NavigationComponent', () => {
   //   windowUtil.setWindowHref('www.testwith.com');
   //   component.ngOnInit();
   //   fixture.detectChanges();
-  //   expect(fixture.debugElement.nativeElement.textContent).not.toContain('Payment history');
+  //   expect(fixture.debugElement.nativeElement.textContent).not.toContain('Payment History');
   // });
 });
