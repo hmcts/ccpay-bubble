@@ -5,7 +5,7 @@
 Feature('CCPayBubble Smoke Test');
 
 Scenario('CCPayBubble Web Health Check Test', async ({ I }) => {
-  I.amOnPage('/'); // Navigate to the health endpoint
+  I.amOnPage(); // Navigate to the health endpoint
   const response = await I.grabSource(); // Grab the page source (JSON response)
   const jsonResponse = JSON.parse(response); // Parse the JSON response
 
