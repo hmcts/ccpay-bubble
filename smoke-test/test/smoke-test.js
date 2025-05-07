@@ -4,7 +4,7 @@
 */
 Feature('CCPayBubble Smoke Test');
 
-Scenario('Scenario('CCPayBubble Web Health Check Test', async ({ I }) => {
+Scenario('CCPayBubble Web Health Check Test', async ({ I }) => {
   I.amOnPage('/health'); // Navigate to the health endpoint
   const response = await I.grabSource(); // Grab the page source (JSON response)
   const jsonResponse = JSON.parse(response); // Parse the JSON response
