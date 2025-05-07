@@ -206,7 +206,7 @@
     "express": "^4.20.0",
     "@babel/traverse": ">=7.23.2",
     "@babel/helpers": "~7.26.10",
-    "axios": "~1.8.2",
+    "axios": "~1.8.4",
     "ejs": "^3.1.7",
     "pug": "3.0.3",
     "pugit": "5.0.2",
