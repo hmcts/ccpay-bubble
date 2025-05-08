@@ -626,15 +626,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/common@npm:17.3.6":
-  version: 17.3.6
-  resolution: "@angular/common@npm:17.3.6"
+"@angular/common@npm:17.3.12":
+  version: 17.3.12
+  resolution: "@angular/common@npm:17.3.12"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/core": 17.3.6
+    "@angular/core": 17.3.12
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: 722e32193fe8e4f54feb8df96559f078915276bc8fec48880178596dde32c0efd09c6bbee5b9ef51abc89427860c29518d553709cfe04880f7d7438597c2dd5f
+  checksum: fd5cb1dffb40454bca766a0d5b2fb292a29a9a95f32fddeeb2d164664f988c82ade1c670cd3288fd67072d55cf8ad29f8503b2a100a50067d957b3195aeb87bd
   languageName: node
   linkType: hard
 
@@ -9602,7 +9602,7 @@ __metadata:
     "@angular/animations": ~17.3.6
     "@angular/cdk": ^16.1.6
     "@angular/cli": 17.3.6
-    "@angular/common": 17.3.6
+    "@angular/common": 17.3.12
     "@angular/compiler": ~17.3.6
     "@angular/compiler-cli": ~17.3.6
     "@angular/core": ^17.3.6
@@ -9725,7 +9725,7 @@ __metadata:
     web-animations-js: ^2.3.2
     webdriverio: ^6.12.1
     yargs-parser: ^20.2.7
-    zone.js: ~0.14.4
+    zone.js: ~0.15.0
   peerDependencies:
     "@types/express": ^4.17.21
     postcss: ^8.0.0
@@ -28082,9 +28082,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zone.js@npm:~0.14.4":
-  version: 0.14.10
-  resolution: "zone.js@npm:0.14.10"
-  checksum: ba1dc7258d1d81f4783df6fce9c92a6dfea21275ed557312a407a982e9fb8330c4c136f30e6258d07e5a0628d0251eab8f9b544e2c027705f48e5c254ad7a009
+"zone.js@npm:~0.15.0":
+  version: 0.15.0
+  resolution: "zone.js@npm:0.15.0"
+  checksum: 8cb8f99c0aa18dfc684b891576d9400385da94a342128ee998accf23cbd21d5e7d9e7a76e623872eb7a300a6d388c181dde575f39d2d9bf46d0af2310024e605
   languageName: node
   linkType: hard
