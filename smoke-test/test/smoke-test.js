@@ -29,4 +29,4 @@ Scenario('CCPayBubble Web Health Check Test', async ({ I }) => {
   } else {
     throw new Error('Health check failed: Response does not match expected output');
   }
-}).timeout(5000); // Set a timeout for the test
+}).timeout(5000);
