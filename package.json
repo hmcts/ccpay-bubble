@@ -2,7 +2,7 @@
   "name": "ccpay-bubble",
   "version": "2.0.0",
   "engines": {
-    "node": ">=18.19.0"
+    "node": ">=v20.19.1"
   },
   "scripts": {
     "debug": "node --inspect --proxy-server=http://proxyout.reform.hmcts.net:8080 start.js",
@@ -50,7 +50,7 @@
   "dependencies": {
     "@babel/eslint-parser": "^7.11.0",
     "@babel/helper-create-class-features-plugin": "^7.21.8",
-    "@hmcts/ccpay-web-component": "6.2.14-beta3",
+    "@hmcts/ccpay-web-component": "6.2.14",
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/nodejs-healthcheck": "^1.8.0",
     "@hmcts/nodejs-logging": "^4.0.4",
@@ -156,6 +156,7 @@
     "gulp": "^4.0.0",
     "gulp-plumber": "^1.2.1",
     "gulp-sass": "^5.1.0",
+    "hexoid": "^1.0.0",
     "jasmine-core": "^5.0.0",
     "karma": "^6.4.2",
     "karma-chrome-launcher": "~3.1.0",
@@ -186,7 +187,7 @@
     "sonar-scanner": "^3.1.0",
     "ts-node": "~8.0.2",
     "tslint": "~6.1.3",
-    "typescript": "5.4.3",
+    "typescript": "5.4.5",
     "webdriverio": "^6.12.1"
   },
   "optionalDependencies": {
@@ -201,7 +202,7 @@
     "micromatch": "^4.0.8",
     "karma-cli": "^2.0.0",
     "karma": "^6.4.2",
-    "typescript": "5.4.3",
+    "typescript": "5.4.5",
     "formidable": "^3.5.4",
     "express": "^4.20.0",
     "@babel/traverse": ">=7.23.2",
