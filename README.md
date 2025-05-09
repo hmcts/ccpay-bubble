@@ -12,12 +12,12 @@ to install all the libraries into the node module run `yarn install` on the term
 
 ## Build
 
-Important - The project's build depends on library projects located in the projects folder. 
-Run 
-  1. `ng build fee-register-search` and 
-  2. `ng build view payment` 
-  3. Run `ng build` 
-  4. yarn build
+Important - The project's build depends on library projects located in the projects folder.
+Run
+  1. `ng build fee-register-search` and
+  2. `ng build view-payment`
+  3. Run `ng build`
+  4. `yarn build`
   to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
   or shortcut to do all these by running `yarn ng:build`
@@ -66,12 +66,11 @@ To be able to run angular-cli and node-express next to each other the best way t
 ```
 auth.idam.client.baseUrl=http://localhost:23443
 auth.provider.service.client.baseUrl=http://localhost:23443
-```  
+```
 
    Run the app with local config by setting up this environment variable: `spring_profiles_active=local`
 
-   Run the following commands: `yarn start:angular-dev` and `yarn start:express:dev`
+   Run the following commands: `yarn start:angular-dev` and `yarn start:express-dev`
 
    Run the app with local config by setting up this environment variable: `spring_profiles_active=local`
    Run the following commands: `yarn start:angular-dev` and `yarn start:express-dev`.
-
