@@ -1,9 +1,8 @@
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { FeeModel } from 'src/app/models/FeeModel';
-import { Router } from '@angular/router';
 import { instance, mock } from 'ts-mockito/lib/ts-mockito';
 import { PaybubbleHttpClient } from 'src/app/services/httpclient/paybubble.http.client';
-import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { ReviewFeeDetailRouteGuard } from 'src/app/components/review-fee-detail/route-guards/review-fee-detail.service';
 
