@@ -1,6 +1,5 @@
 /* eslint-disable no-alert, no-console */
 const {Logger} = require('@hmcts/nodejs-logging');
-const requestModule = require('request-promise-native');
 
 // eslint-disable max-len
 
