@@ -7,6 +7,14 @@ const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
 const microService = config.get('ccpaybubble.microservice');
 
 
+async function handleFetchError(resp, url) {
+  if (!resp.ok) {
+    const text = await resp.text();
+    throw new Error(`Fetch to ${url} failed ${resp.status}: ${text}`);
+  }
+  return resp;
+}
+
 async function createAuthToken() {
   const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
   const serviceAuthRequest = {
@@ -30,22 +38,12 @@ async function fetchWithAuth(url, authToken, options = {}) {
   };
 
   const resp = await fetch(url, options);
-
-  if (!resp.ok) {
-    const text = await resp.text();
-    throw new Error(`Fetch failed ${resp.status}: ${text}`);
-  }
-
-  return resp;
+  return await handleFetchError(resp, url);
 }
 
 async function plainFetch(url, options = {}) {
   const resp = await fetch(url, options);
-  if (!resp.ok) {
-    const text = await resp.text();
-    throw new Error(`Fetch failed ${resp.status}: ${text}`);
-  }
-  return resp;
+  return await handleFetchError(resp, url);
 }
 
 
