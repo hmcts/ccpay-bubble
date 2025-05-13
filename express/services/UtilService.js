@@ -25,6 +25,9 @@ async function createAuthToken() {
   const response = await fetch(`${s2sUrl}/lease`, {
     method: 'POST',
     body: JSON.stringify(serviceAuthRequest),
+    headers: {
+      'Content-Type': 'application/json'
+    }
   });
   return await response.text();
 }
