@@ -129,7 +129,7 @@ async function getIDAMTokenForDivorceUser() {
 
 async function getServiceToken(service = 'ccpay_bubble') {
   const headers = {'Content-Type': 'application/json'};
-  const payload = JSON.stringify({microService: service});
+  const payload = JSON.stringify({microservice: service});
   const resp = await makeRequest(rpeServiceAuthApiUrl + s2sAuthPath, 'POST', headers, payload);
   const serviceToken = await resp.text();
   return serviceToken;
@@ -196,7 +196,7 @@ async function CaseValidation(flag) {
   const disablePath = `/api/ff4j/store/features/caseref-validation/${flag}`;
   const resp = await makeRequest(paymentBaseUrl + disablePath, 'POST', {'Content-Type': 'application/json'});
 
-  return resp.statusCode;
+  return resp.status;
 }
 
 async function toggleOffCaseValidation() {
@@ -346,7 +346,7 @@ async function createAFailedPBAPayment() {
   const response = await makeRequest(url, 'POST', headers, saveBody);
 
   const payload = await response.json();
-  console.log(`The value of the response status code : ${response.statusCode}`);
+  console.log(`The value of the response status code : ${response.status}`);
   const paymentReference = payload.reference;
 
   await rollbackPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
@@ -393,7 +393,7 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
   };
 
   const cSRRS = await makeRequest(url, 'POST', headers, saveBody);
-  console.log(`The value of the response status code : ${cSRRS.statusCode}`);
+  console.log(`The value of the response status code : ${cSRRS.status}`);
 
   const createServiceRequestLookupObject = await cSRRS.json();
   const serviceRequestReference = createServiceRequestLookupObject.service_request_reference;
@@ -445,7 +445,7 @@ async function createAPBAPayment(amount, feeCode, version, volume, customerRefer
   };
 
   const response = await makeRequest(url, 'POST', headers, saveBody);
-  console.log(`The value of the response status code : ${response.statusCode}`);
+  console.log(`The value of the response status code : ${response.status}`);
 
   const paymentReference = await getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
   await rollbackPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
@@ -483,7 +483,7 @@ async function getPaymentGroupRef(serviceToken, ccdCaseNumberFormatted) {
 
   const url = `${paymentBaseUrl}/payment-groups`;
   const response = await makeRequest(url, 'POST', headers, saveBody);
-  console.log(`The response Status Code for paymentGroups : ${response.statusCode}`);
+  console.log(`The response Status Code for paymentGroups : ${response.status}`);
 
   const responsePayload = await response.json();
   const paymentGroupRefernce = responsePayload.payment_group_reference;
@@ -510,7 +510,7 @@ async function recordBouncebackFailure(serviceToken, ccdNumber, paymentRCRefernc
     'Content-Type': 'application/json'
   };
   const response = await makeRequest(url, 'POST', headers, saveBody);
-  console.log(`The response Status Code for bounceCheque : ${response.statusCode}`);
+  console.log(`The response Status Code for bounceCheque : ${response.status}`);
 
   return failureReference;
 }
@@ -535,7 +535,7 @@ async function recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef) 
   };
   const response = await makeRequest(url, 'POST', headers, JSON.stringify(saveBody));
 
-  console.log(`The response Status Code for chargeBack : ${response.statusCode}`);
+  console.log(`The response Status Code for chargeBack : ${response.status}`);
   return saveBody;
 }
 
@@ -560,7 +560,7 @@ async function recordChargeBackFailureEvent(serviceToken, ccdCaseNumber, payment
   };
 
   const response = await makeRequest(url, 'POST', headers, JSON.stringify(saveBody));
-  console.log(`The response Status Code for chargeBack : ${response.statusCode}`);
+  console.log(`The response Status Code for chargeBack : ${response.status}`);
   return saveBody;
 }
 
@@ -575,7 +575,7 @@ async function patchFailureReference(serviceToken, failureReference) {
     'Content-Type': 'application/json'
   };
   const response = await makeRequest(url, 'PATCH', headers, saveBody);
-  console.log(`The response Status Code for patchFailureReference : ${response.statusCode}`);
+  console.log(`The response Status Code for patchFailureReference : ${response.status}`);
 }
 
 async function patchFailureReferenceNo(serviceToken, failureReference) {
@@ -589,7 +589,7 @@ async function patchFailureReferenceNo(serviceToken, failureReference) {
     'Content-Type': 'application/json'
   };
   const response = await makeRequest(url, 'PATCH', headers, saveBody);
-  console.log(`The response Status Code for patchFailureReference : ${response.statusCode}`);
+  console.log(`The response Status Code for patchFailureReference : ${response.status}`);
 }
 
 async function recordBulkScanPayments(serviceToken, ccdCaseNumberFormatted, paymentGroupRef, dcnNumber) {
@@ -621,7 +621,7 @@ async function recordBulkScanPayments(serviceToken, ccdCaseNumberFormatted, paym
     'Content-Type': 'application/json'
   };
   const response = await makeRequest(url, 'POST', headers, saveBody);
-  console.log(`The response Status Code for recordBulkScanPayment : ${response.statusCode}`);
+  console.log(`The response Status Code for recordBulkScanPayment : ${response.status}`);
   const responsePayload = await response.json();
   return responsePayload.reference;
 }
@@ -643,7 +643,7 @@ async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
     'Content-Type': 'application/json'
   };
   const response = await makeRequest(url, 'POST', headers, saveBody);
-  return response.statusCode;
+  return response.status;
 }
 
 async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, exception) {
@@ -663,7 +663,7 @@ async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, except
   console.log(`What is this CCDCaseNumber ${saveBody.ccd_case_number}`);
 
   const response = await makeRequest(url, 'POST', headers, saveBody);
-  return response.statusCode;
+  return response.status;
 }
 
 async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNumber) {
@@ -678,7 +678,7 @@ async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNum
     'Content-Type': 'application/json'
   };
   const response = await makeRequest(url, 'PUT', headers, saveBody);
-  return response.statusCode;
+  return response.status;
 }
 
 async function bulkScanCcdLinkedException(exceptionCcdNumber, serviceToken) {
@@ -808,7 +808,7 @@ async function updateRefundStatusByRefundReference(refundReference, reason, stat
     'Content-Type': 'application/json'
   };
   const response = await makeRequest(url, 'PATCH', headers, saveBody);
-  console.log(`The response Status Code for refund update : ${response.statusCode}`);
+  console.log(`The response Status Code for refund update : ${response.status}`);
 }
 
 
