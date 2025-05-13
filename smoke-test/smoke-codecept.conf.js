@@ -7,7 +7,7 @@ exports.config = {
   output: './output',
   helpers: {
     Puppeteer: {
-      url: `${CONF.e2e.frontendUrl}/health`,
+      url: `${CONF.e2e.frontendUrl}`,
       show: false,
       restart: false,
       keepCookies: false,

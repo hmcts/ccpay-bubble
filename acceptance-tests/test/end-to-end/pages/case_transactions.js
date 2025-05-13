@@ -448,7 +448,7 @@ module.exports = {
     I.see('Not paid');
     I.see('Success');
   },
-  validatePaymentDetailsPageForRemission(remissionCode, feeCode, remissionAmount) {
+  async validatePaymentDetailsPageForRemission(remissionCode, feeCode, remissionAmount) {
     I.click(this.locators.view_details_for_status_paid);
     I.see(remissionCode);
     I.see(feeCode);
