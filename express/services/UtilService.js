@@ -1,6 +1,7 @@
 const config = require('config');
 const otp = require('otp');
 const fetch = require('node-fetch')
+const { Logger } = require('@hmcts/nodejs-logging');
 
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
