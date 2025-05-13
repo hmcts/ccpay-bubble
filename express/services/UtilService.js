@@ -17,7 +17,7 @@ async function createAuthToken() {
     method: 'POST',
     body: JSON.stringify(serviceAuthRequest),
   });
-  return response.text();
+  return response.text;
 }
 
 async function fetchWithAuth(url, authToken, options = {}) {

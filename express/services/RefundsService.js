@@ -7,9 +7,6 @@ const { Logger } = require('@hmcts/nodejs-logging');
 
 const refundsUrl = config.get('refunds.url');
 const idamurl = config.get('idam.api_url');
-const s2sUrl = config.get('s2s.url');
-const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
-const microService = config.get('ccpaybubble.microservice');
 
 class RefundsService {
   async getRefundReason(req) {
