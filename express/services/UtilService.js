@@ -13,11 +13,11 @@ async function createAuthToken() {
     microservice: microService,
     oneTimePassword: otpPassword
   };
-  const response = fetch(`${s2sUrl}/lease`, {
+  const response = await fetch(`${s2sUrl}/lease`, {
     method: 'POST',
     body: JSON.stringify(serviceAuthRequest),
   });
-  return response.text;
+  return await response.text();
 }
 
 async function fetchWithAuth(url, authToken, options = {}) {

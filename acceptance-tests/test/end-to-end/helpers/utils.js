@@ -649,12 +649,12 @@ async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
 async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, exception) {
   const url = bulkScanApiUrl + '/bulk-scan-payments';
 
-  const saveBody = JSON.stringify({
+  const saveBody = {
     ccd_case_number: `${ccdNumber}`,
     document_control_numbers: [`${dcnNumber}`],
     is_exception_record: exception,
     site_id: `${siteId}`
-  });
+  };
   const headers = {
     ServiceAuthorization: `Bearer ${serviceToken}`,
     'Content-Type': 'application/json'
@@ -662,7 +662,7 @@ async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, except
 
   console.log(`What is this CCDCaseNumber ${saveBody.ccd_case_number}`);
 
-  const response = await makeRequest(url, 'POST', headers, saveBody);
+  const response = await makeRequest(url, 'POST', headers, JSON.stringify(saveBody));
   return response.status;
 }
 
