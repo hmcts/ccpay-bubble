@@ -42,6 +42,7 @@ async function fetchWithAuth(url, authToken, options = {}) {
   };
   Logger.getLogger('fetchWithAuth -> UtilService.js').info(`Calling ${url} with options: ${JSON.stringify(options)}`);
   const resp = await fetch(url, options);
+  Logger.getLogger('fetchWithAuth -> UtilService.js').info(`Response => ${resp}`);
   return await handleFetchError(resp, url);
 }
 
