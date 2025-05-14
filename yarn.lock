@@ -3699,15 +3699,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccpay-web-component@npm:6.2.14":
-  version: 6.2.14
-  resolution: "@hmcts/ccpay-web-component@npm:6.2.14"
+"@hmcts/ccpay-web-component@npm:6.2.15-beta1":
+  version: 6.2.15-beta1
+  resolution: "@hmcts/ccpay-web-component@npm:6.2.15-beta1"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
     "@angular/common": ^18.2.13
     "@angular/core": ^18.2.13
-  checksum: 95be157418c1c9d180b8185e3c6fb8a0e1b970759d13e646cdc58ba6bd241adbffbc9e215717d59cbb75fc9358eae0aa2673b8b3c0e9bcda4a545419a46235a2
+  checksum: d239b5fd7cd6f2958421a318f3aff795cbe9202de47ad162c1a3549afa250b655f5131c6e58f05f0bbd936c1266bdf9d3e67066a4049891a68c2f5c918d89a40
   languageName: node
   linkType: hard
 
@@ -9710,7 +9710,7 @@ __metadata:
     "@babel/helper-create-class-features-plugin": ^7.21.8
     "@codeceptjs/allure-legacy": ^1.0.2
     "@codeceptjs/helper": ^1.0.2
-    "@hmcts/ccpay-web-component": 6.2.14
+    "@hmcts/ccpay-web-component": 6.2.15-beta1
     "@hmcts/cookie-manager": ^1.0.0
     "@hmcts/eslint-config": ^1.4.0
     "@hmcts/nodejs-healthcheck": ^1.8.0
@@ -15700,9 +15700,9 @@ __metadata:
   linkType: hard
 
 "http-cache-semantics@npm:^4.0.0, http-cache-semantics@npm:^4.1.0, http-cache-semantics@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "http-cache-semantics@npm:4.1.1"
-  checksum: 83ac0bc60b17a3a36f9953e7be55e5c8f41acc61b22583060e8dedc9dd5e3607c823a88d0926f9150e571f90946835c7fe150732801010845c72cd8bbff1a236
+  version: 4.2.0
+  resolution: "http-cache-semantics@npm:4.2.0"
+  checksum: 7a7246ddfce629f96832791176fd643589d954e6f3b49548dadb4290451961237fab8fcea41cd2008fe819d95b41c1e8b97f47d088afc0a1c81705287b4ddbcc
   languageName: node
   linkType: hard
 
@@ -24339,8 +24339,8 @@ __metadata:
   linkType: hard
 
 "sass@npm:^1.64.1, sass@npm:^1.69.5":
-  version: 1.87.0
-  resolution: "sass@npm:1.87.0"
+  version: 1.88.0
+  resolution: "sass@npm:1.88.0"
   dependencies:
     "@parcel/watcher": ^2.4.1
     chokidar: ^4.0.0
@@ -24351,7 +24351,7 @@ __metadata:
       optional: true
   bin:
     sass: sass.js
-  checksum: 83d166fc6f03ed679460c21351c783d57a61c32fe1afdacf647ce477dd5611f03b1cff27444cccd59d3a5bd1453471fbbcdba7b9e7fc510e4f57226e125e4e01
+  checksum: 290a2797d2f6c0b9e9a4aeeb59abe3fdb68ffc9e1e154d5aafb363d5c897118ec50726812f63f4d8526a5b22a2d5b08001929acefb5120f05a0c16d8013d5ff8
   languageName: node
   linkType: hard
 
