@@ -137,7 +137,7 @@ class PayhubService {
     const url = `${payhubUrl}/payment-groups/bulk-scan-payments-strategic`;
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
