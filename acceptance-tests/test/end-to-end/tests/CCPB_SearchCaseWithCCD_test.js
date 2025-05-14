@@ -12,7 +12,7 @@ Scenario('Search for a case with actual case number from CCD', async({ I }) => {
   I.see('CCD case reference or exception record');
   I.see('Payment Asset Number (DCN)');
   I.see('Case Transaction');
-  I.see('Payment history');
+  I.see('Payment History');
   I.see('Reports');
   await I.searchForCorrectCCDNumber();
   await I.runAccessibilityTest();

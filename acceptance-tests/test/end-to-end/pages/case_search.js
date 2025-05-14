@@ -52,7 +52,7 @@ module.exports = {
   validateSearchPage() {
     I.see('Search for a case');
     I.see('Case Transaction');
-    I.see('Payment history');
+    I.see('Payment History');
     I.see('Reports');
     I.see('Logout');
   },
