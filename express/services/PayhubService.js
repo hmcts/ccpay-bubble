@@ -19,7 +19,7 @@ class PayhubService {
     const url = `${payhubUrl}/card-payments`;
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
       headers: {'return-url': `${ccpayBubbleReturnUrl}`}
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
@@ -30,7 +30,7 @@ class PayhubService {
     const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}/card-payments`;
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
       headers: {'return-url': `${ccpayBubbleReturnUrl}`}
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
@@ -42,7 +42,7 @@ class PayhubService {
     req.body.return_url = pcipalAntennaReturnUrl;
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
@@ -51,7 +51,7 @@ class PayhubService {
   async postPaymentGroup(req) {
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
     }
     const resp = await fetchWithAuth(`${payhubUrl}/payment-groups`, req.authToken, options)
     return resp.json();
@@ -61,7 +61,7 @@ class PayhubService {
     const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}`;
     const options = {
       method: 'PUT',
-      body: req.body,
+      body: JSON.stringify(req.body),
     }
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
@@ -70,7 +70,7 @@ class PayhubService {
   async postRemission(req) {
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
     }
     const resp = await fetchWithAuth(`${payhubUrl}/remissions`, req.authToken, options);
     return resp.json();
@@ -87,7 +87,7 @@ class PayhubService {
     const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}/fees/${req.params.feeId}/remissions`;
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
     }
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
@@ -97,7 +97,7 @@ class PayhubService {
     const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}/bulk-scan-payments`;
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
@@ -107,7 +107,7 @@ class PayhubService {
     const url = `${payhubUrl}/payment-groups/bulk-scan-payments`;
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
@@ -117,7 +117,7 @@ class PayhubService {
     const url = `${payhubUrl}/payment-allocations`;
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
@@ -127,7 +127,7 @@ class PayhubService {
     const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}/bulk-scan-payments-strategic`;
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
@@ -194,7 +194,7 @@ class PayhubService {
     const url = `${payhubUrl}/service-request/${req.params.serviceRef}/pba-payments`;
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
@@ -204,7 +204,7 @@ class PayhubService {
     const url = `${payhubUrl}/service-request/${req.params.serviceRef}/card-payments`;
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
@@ -269,7 +269,7 @@ class PayhubService {
     const url = `${payhubUrl}/refund-for-payment`;
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
@@ -279,7 +279,7 @@ class PayhubService {
     const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}/fees/${req.params.feeId}/retro-remission`;
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
@@ -289,7 +289,7 @@ class PayhubService {
     const url = `${payhubUrl}/refund-retro-remission`;
     const options = {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
