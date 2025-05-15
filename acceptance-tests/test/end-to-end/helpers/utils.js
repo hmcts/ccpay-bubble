@@ -1,5 +1,6 @@
 /* eslint-disable no-alert, no-console */
 const {Logger} = require('@hmcts/nodejs-logging');
+const fetch = require('node-fetch');
 
 // eslint-disable max-len
 
