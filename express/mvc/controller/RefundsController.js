@@ -37,7 +37,7 @@ class RefundsController {
   patchRefundAction(req, res, appInsights) {
     return this.refundsService.patchRefundAction(req, appInsights)
       .then(result => {
-        res.status(200).json(JSON.stringify(result));
+        res.status(200).json(result);
       })
       .catch(error => {
         return errorHandler(res, error);
