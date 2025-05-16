@@ -36,7 +36,7 @@ class RefundsService {
     Logger.getLogger('result-BUBBLE: user').info(`about to call ${url}`);
     const resp = await fetchWithAuth(url, req.authToken, options);
     Logger.getLogger('result-BUBBLE: user').info(`about to get response from ${url}`);
-    const json = await resp.json();
+    const json = await resp.text();
     Logger.getLogger('result-BUBBLE: user').info(`PATCH refunds: ${json}`);
     return resp;
   }
