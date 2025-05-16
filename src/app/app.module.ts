@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 
 import {AppRoutingModule} from './routes/app-routing.module';
 import {AppComponent} from './app.component';
@@ -48,65 +48,59 @@ const nonProductionProviders = [{
   multi: true
 }];
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    PhaseBannerComponent,
-    ReviewFeeDetailComponent,
-    FeeListTableComponent,
-    ConfirmationComponent,
-    ServiceFailureComponent,
-    ViewPaymentComponent,
-    FormatDisplayCurrencyPipe,
-    SanitizeHtmlPipe,
-    HeaderComponent,
-    NavigationComponent,
-    PaymentHistoryComponent,
-    FeeSearchComponent,
-    CcdSearchComponent,
-    FeeDetailsComponent,
-    CookieBannerComponent,
-    CookiePolicyComponent,
-    CookieDetailsComponent,
-    CookieTableComponent,
-    AccessibilityStatementComponent,
-    FooterComponent
+@NgModule({ declarations: [
+        AppComponent,
+        PhaseBannerComponent,
+        ReviewFeeDetailComponent,
+        FeeListTableComponent,
+        ConfirmationComponent,
+        ServiceFailureComponent,
+        ViewPaymentComponent,
+        FormatDisplayCurrencyPipe,
+        SanitizeHtmlPipe,
+        HeaderComponent,
+        NavigationComponent,
+        PaymentHistoryComponent,
+        FeeSearchComponent,
+        CcdSearchComponent,
+        FeeDetailsComponent,
+        CookieBannerComponent,
+        CookiePolicyComponent,
+        CookieDetailsComponent,
+        CookieTableComponent,
+        AccessibilityStatementComponent,
+        FooterComponent
     ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    ViewPaymentModule,
-    FeeRegisterSearchModule,
-    PaymentLibModule,
-    NoopAnimationsModule,
-    BrowserAnimationsModule,
-    RpxTranslationModule.forRoot({
-      baseUrl: '/api/translation',
-      debounceTimeMs: 300,
-      validity: {
-        days: 1
-      },
-      testMode: false
-    })
-  ],
-  providers: [
-    PaybubbleHttpClient,
-    AddFeeDetailService,
-    HttpClient,
-    FeeSearchComponent,
-    PaymentHistoryComponent,
-    CaseRefService,
-    IdamDetails,
-    WindowUtil,
-    !environment.production ? nonProductionProviders : [],
-    PaymentGroupService,
-    ViewPaymentService,
-    { provide: windowToken, useFactory: windowProvider }
-  ],
-  bootstrap: [AppComponent]
-})
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ViewPaymentModule,
+        FeeRegisterSearchModule,
+        PaymentLibModule,
+        NoopAnimationsModule,
+        BrowserAnimationsModule,
+        RpxTranslationModule.forRoot({
+            baseUrl: '/api/translation',
+            debounceTimeMs: 300,
+            validity: {
+                days: 1
+            },
+            testMode: false
+        })], providers: [
+        PaybubbleHttpClient,
+        AddFeeDetailService,
+        HttpClient,
+        FeeSearchComponent,
+        PaymentHistoryComponent,
+        CaseRefService,
+        IdamDetails,
+        WindowUtil,
+        !environment.production ? nonProductionProviders : [],
+        PaymentGroupService,
+        ViewPaymentService,
+        { provide: windowToken, useFactory: windowProvider },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {
 }
