@@ -33,9 +33,11 @@ class RefundsService {
       method: 'PATCH',
       body: JSON.stringify(req.body),
     }
+    Logger.getLogger('result-BUBBLE: user').info(`about to call ${url}`);
     const resp = await fetchWithAuth(url, req.authToken, options);
+    Logger.getLogger('result-BUBBLE: user').info(`about to get response from ${url}`);
     const json = await resp.json();
-    Logger.getLogger('CCPAY-BUBBLE REFUND SERVICE').info('PATCH refunds', json);
+    Logger.getLogger('result-BUBBLE: user').info(`PATCH refunds: ${json}`);
     return resp;
   }
 
