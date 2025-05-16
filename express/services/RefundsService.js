@@ -12,19 +12,19 @@ class RefundsService {
   async getRefundReason(req) {
     const url = `${refundsUrl}/refund/reasons`;
     const resp = await fetchWithAuth(url, req.authToken);
-    return resp.json();
+    return await resp.json();
   }
 
   async getRefundAction(req) {
     const url = `${refundsUrl}/refund/${req.params.id}/actions`;
     const resp = await fetchWithAuth(url, req.authToken);
-    return resp.json();
+    return await resp.json();
   }
 
   async getRefundRejectReason(req) {
     const url = `${refundsUrl}/refund/rejection-reasons`;
     const resp = await fetchWithAuth(url, req.authToken);
-    return resp.json();
+    return await resp.json();
   }
 
   async patchRefundAction(req) {
@@ -34,7 +34,9 @@ class RefundsService {
       body: JSON.stringify(req.body),
     }
     const resp = await fetchWithAuth(url, req.authToken, options);
-    return resp.json();
+    const json = await resp.json();
+    Logger.getLogger('CCPAY-BUBBLE REFUND SERVICE').info('PATCH refunds', json);
+    return resp;
   }
 
   async getRefundList(req) {
@@ -46,13 +48,13 @@ class RefundsService {
       excludeCurrentUser: req.query.selfExclusive
     }).toString();
     const resp = await fetchWithAuth(url, req.authToken);
-    return resp.json();
+    return await resp.json();
   }
 
   async getRefundStatusHistory(req) {
     const url = `${refundsUrl}/refund/${req.params.reference}/status-history`;
     const resp = await fetchWithAuth(url, req.authToken);
-    return resp.json();
+    return await resp.json();
   }
 
   async getRefundStatusList(req) {
@@ -66,7 +68,7 @@ class RefundsService {
     }
 
     const resp = await fetchWithAuth(url, req.authToken);
-    return resp.json();
+    return await resp.json();
   }
 
   async postIssueRefund(req) {
@@ -76,7 +78,7 @@ class RefundsService {
       body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
-    return resp.json();
+    return await resp.json();
   }
 
   async patchResubmitRefund(req) {
@@ -86,7 +88,7 @@ class RefundsService {
       body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
-    return resp.json();
+    return await resp.json();
   }
 
 
@@ -112,7 +114,7 @@ class RefundsService {
       body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
-    return resp.json();
+    return await resp.json();
   }
 
   async getUserDetails(req) {
@@ -121,7 +123,7 @@ class RefundsService {
     Logger.getLogger('Refundservice2: enter').info(req.headers);
     const url = `${idamurl}/details`;
     const resp = await fetchWithAuth(url, req.authToken);
-    return resp.json();
+    return await resp.json();
   }
 }
 
