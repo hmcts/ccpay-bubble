@@ -1,91 +1,65 @@
 /* eslint-disable no-undefined */
 const config = require('config');
-const otp = require('otp');
-const request = require('request-promise-native');
+const { fetchWithAuth } = require('./UtilService');
+const { URL, URLSearchParams } = require('url');
 
 const { Logger } = require('@hmcts/nodejs-logging');
 
 const refundsUrl = config.get('refunds.url');
 const idamurl = config.get('idam.api_url');
-const s2sUrl = config.get('s2s.url');
-const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
-const microService = config.get('ccpaybubble.microservice');
 
 class RefundsService {
-  getRefundReason(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${refundsUrl}/refund/reasons`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async getRefundReason(req) {
+    const url = `${refundsUrl}/refund/reasons`;
+    const resp = await fetchWithAuth(url, req.authToken);
+    return await resp.json();
   }
 
-  getRefundAction(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${refundsUrl}/refund/${req.params.id}/actions`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async getRefundAction(req) {
+    const url = `${refundsUrl}/refund/${req.params.id}/actions`;
+    const resp = await fetchWithAuth(url, req.authToken);
+    return await resp.json();
   }
 
-  getRefundRejectReason(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${refundsUrl}/refund/rejection-reasons`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async getRefundRejectReason(req) {
+    const url = `${refundsUrl}/refund/rejection-reasons`;
+    const resp = await fetchWithAuth(url, req.authToken);
+    return await resp.json();
   }
 
-  patchRefundAction(req) {
-    return this.createAuthToken().then(token => request.patch({
-      uri: `${refundsUrl}/refund/${req.params.id}/action/${req.params[0]}`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async patchRefundAction(req) {
+    const url = `${refundsUrl}/refund/${req.params.id}/action/${req.params[0]}`;
+    const options = {
+      method: 'PATCH',
+      body: JSON.stringify(req.body),
+    }
+    Logger.getLogger('result-BUBBLE: user').info(`about to call ${url}`);
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    Logger.getLogger('result-BUBBLE: user').info(`about to get response from ${url}`);
+    const data = await resp.text();
+    Logger.getLogger('result-BUBBLE: user').info(`PATCH refunds: ${data}`);
+    return data;
   }
-  getRefundList(req) {
+
+  async getRefundList(req) {
     Logger.getLogger('result-BUBBLE: user').info(req.roles);
-    return this.createAuthToken().then(token =>
-      request.get({
-        uri: `${refundsUrl}?status=${req.query.status}&excludeCurrentUser=${req.query.selfExclusive}`,
-        headers: {
-          Authorization: `Bearer ${req.authToken}`,
-          ServiceAuthorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        json: true
-      }));
+
+    const url = new URL(refundsUrl);
+    url.search = new URLSearchParams({
+      status: req.query.status,
+      excludeCurrentUser: req.query.selfExclusive
+    }).toString();
+    const resp = await fetchWithAuth(url, req.authToken);
+    return await resp.json();
   }
 
-  getRefundStatusHistory(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${refundsUrl}/${req.params.reference}/status-history`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async getRefundStatusHistory(req) {
+    const url = `${refundsUrl}/refund/${req.params.reference}/status-history`;
+    const resp = await fetchWithAuth(url, req.authToken);
+    return await resp.json();
   }
-  getRefundStatusList(req) {
+
+  async getRefundStatusList(req) {
     let url = '';
     if (req.query.ccdCaseNumber !== undefined && req.query.ccdCaseNumber !== '') {
       url = `${refundsUrl}/refund?ccdCaseNumber=${req.query.ccdCaseNumber}`;
@@ -94,42 +68,29 @@ class RefundsService {
     } else {
       url = `${refundsUrl}/refund${req.params[0]}`;
     }
-    return this.createAuthToken().then(token =>
-      request.get({
-        uri: url,
-        headers: {
-          Authorization: `Bearer ${req.authToken}`,
-          ServiceAuthorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        json: true
-      }));
+
+    const resp = await fetchWithAuth(url, req.authToken);
+    return await resp.json();
   }
 
-  postIssueRefund(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${refundsUrl}/refund`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async postIssueRefund(req) {
+    const url = `${refundsUrl}/refund`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return await resp.json();
   }
 
-  patchResubmitRefund(req) {
-    return this.createAuthToken().then(token => request.patch({
-      uri: `${refundsUrl}/refund/resubmit/${req.params.refund_reference}`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async patchResubmitRefund(req) {
+    const url = `${refundsUrl}/refund/resubmit/${req.params.refund_reference}`;
+    const options = {
+      method: 'PATCH',
+      body: JSON.stringify(req.body),
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return await resp.json();
   }
 
 
@@ -148,43 +109,23 @@ class RefundsService {
   //   }));
   // }
 
-  putResendOrEdit(req) {
-    return this.createAuthToken().then(token => request.put({
-      uri: `${refundsUrl}/refund/resend/notification/${req.params.id}${req.params[0]}?notificationType=${req.query.notificationType}`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async putResendOrEdit(req) {
+    const url = `${refundsUrl}/refund/resend/notification/${req.params.id}${req.params[0]}?notificationType=${req.query.notificationType}`
+    const options = {
+      method: 'PUT',
+      body: JSON.stringify(req.body),
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return await resp.text();
   }
-  getUserDetails(req) {
+
+  async getUserDetails(req) {
     Logger.getLogger('Refundservice: enter').info(req);
     Logger.getLogger('Refundservice1: enter').info(req.authToken);
     Logger.getLogger('Refundservice2: enter').info(req.headers);
-    return this.createAuthToken().then(() => request.get({
-      uri: `${idamurl}/details`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
-
-  createAuthToken() {
-    const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
-    const serviceAuthRequest = {
-      microservice: microService,
-      oneTimePassword: otpPassword
-    };
-    return request.post({
-      uri: `${s2sUrl}/lease`,
-      body: serviceAuthRequest,
-      json: true
-    });
+    const url = `${idamurl}/details`;
+    const resp = await fetchWithAuth(url, req.authToken);
+    return await resp.json();
   }
 }
 
