@@ -116,7 +116,7 @@ class RefundsService {
       body: JSON.stringify(req.body),
     };
     const resp = await fetchWithAuth(url, req.authToken, options);
-    return await resp.json();
+    return await resp.text();
   }
 
   async getUserDetails(req) {
