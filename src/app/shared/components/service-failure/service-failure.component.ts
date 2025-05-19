@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FeepayTitleService } from "../../../services/feepay-title/feepay.title.service";
 
 @Component({
   selector: 'app-service-failure',
@@ -7,6 +8,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./service-failure.component.scss']
 })
 export class ServiceFailureComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private titleService: FeepayTitleService
+  ) {
+    this.titleService.setTitle("Service Failure");
+  }
 
 }

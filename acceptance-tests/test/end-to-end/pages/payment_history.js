@@ -10,7 +10,7 @@ const { I } = inject();
 module.exports = {
   // done
   navigateToPaymentHistory() {
-    I.click('Payment history');
+    I.click('Payment History');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 

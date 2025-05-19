@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
+import { FeepayTitleService } from "../../services/feepay-title/feepay.title.service";
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { SafeHtml } from '@angular/platform-browser';
@@ -15,9 +16,11 @@ export class ReviewFeeDetailComponent {
 
   constructor(
     private router: Router,
-    private addFeeDetailService: AddFeeDetailService
+    private addFeeDetailService: AddFeeDetailService,
+    private titleService: FeepayTitleService
   ) {
     this.fee = this.addFeeDetailService.selectedFee;
+    this.titleService.setTitle("Review Fee Detail");
   }
 
   get payModel() {

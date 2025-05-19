@@ -12,6 +12,7 @@ import { FeeModel } from 'src/app/models/FeeModel';
 
 describe('ReviewFeeDetailComponent', () => {
   let addFeeDetailService: AddFeeDetailService;
+  let titleService: any;
   let router: any;
   let http: PaybubbleHttpClient;
   let component: ReviewFeeDetailComponent;
@@ -20,7 +21,8 @@ describe('ReviewFeeDetailComponent', () => {
     http = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     addFeeDetailService = new AddFeeDetailService(http);
     router = { navigate: jasmine.createSpy('navigate')};
-    component = new ReviewFeeDetailComponent(router, addFeeDetailService);
+    titleService = { setTitle: jasmine.createSpy('setTitle')};
+    component = new ReviewFeeDetailComponent(router, addFeeDetailService, titleService);
   });
 
   it('Should GET paymodel', () => {

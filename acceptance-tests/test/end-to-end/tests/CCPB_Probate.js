@@ -16,7 +16,7 @@ Scenario('Divorce: One fee and one full payment flow',({ I }) => {
   I.see('Search for a case');
   I.see('Search');
   I.see('Case Transaction');
-  I.see('Payment history');
+  I.see('Payment History');
   I.onefeeforpayment2();
   I.Logout();
 });
@@ -27,7 +27,7 @@ Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.see('Search for a case');
   I.see('Search');
   I.see('Case Transaction');
-  I.see('Payment history');
+  I.see('Payment History');
   I.multiplefeesforpayment2();
   I.Logout();
 });
@@ -38,7 +38,7 @@ Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.see('Search for a case');
   I.see('Search');
   I.see('Case Transaction');
-  I.see('Payment history');
+  I.see('Payment History');
   I.partialremissionforonefeeforpayment2();
   I.Logout();
 });
@@ -49,7 +49,7 @@ Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.see('Search for a case');
   I.see('Search');
   I.see('Case Transaction');
-  I.see('Payment history');
+  I.see('Payment History');
   I.partialremissionassignforonefeenotassignforanotherfee2();
   I.Logout();
 });
@@ -60,7 +60,7 @@ Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.see('Search for a case');
   I.see('Search');
   I.see('Case Transaction');
-  I.see('Payment history');
+  I.see('Payment History');
   I.fullremissionforonefee2();
   I.Logout();
 });
@@ -71,7 +71,7 @@ Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.see('Search for a case');
   I.see('Search');
   I.see('Case Transaction');
-  I.see('Payment history');
+  I.see('Payment History');
   I.fullremissionforonefeenotforanotherfee2();
   I.Logout();
 });
@@ -82,7 +82,7 @@ Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.see('Search for a case');
   I.see('Search');
   I.see('Case Transaction');
-  I.see('Payment history');
+  I.see('Payment History');
   I.fullremissionforonefeeandonefeeforpartialremission2();
   I.Logout();
 });
@@ -93,7 +93,7 @@ Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.see('Search for a case');
   I.see('Search');
   I.see('Case Transaction');
-  I.see('Payment history');
+  I.see('Payment History');
   I.fullremissionforonefeeandonefeeforpartialremissionandonefeeforfullamount2();
   I.Logout();
 });
@@ -105,7 +105,7 @@ Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.see('Search for a case');
   I.see('Search');
   I.see('Case Transaction');
-  I.see('Payment history');
+  I.see('Payment History');
   I.multiplefeesforpaymentandonefeeremoving2();
   I.Logout();
 });
@@ -116,7 +116,7 @@ Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.see('Search for a case');
   I.see('Search');
   I.see('Case Transaction');
-  I.see('Payment history');
+  I.see('Payment History');
   I.onefeeforprobate();
   I.Logout();
 });
@@ -127,7 +127,7 @@ Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.see('Search for a case');
   I.see('Search');
   I.see('Case Transaction');
-  I.see('Payment history');
+  I.see('Payment History');
   I.anotherfeeforprobate();
   I.Logout();
 });
@@ -138,7 +138,7 @@ Scenario('Divorce: multiple fees and one full payment flow',({ I }) => {
   I.see('Search for a case');
   I.see('Search');
   I.see('Case Transaction');
-  I.see('Payment history');
+  I.see('Payment History');
   I.anotherfeeforprobate2();
   I.Logout();
 });

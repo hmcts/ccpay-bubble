@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IdamDetails } from '../../services/idam-details/idam-details';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
+import { FeepayTitleService } from "../../services/feepay-title/feepay.title.service";
 import * as ls from 'local-storage';
 import {Router} from '@angular/router';
 @Component({
@@ -48,8 +49,9 @@ export class PaymentHistoryComponent implements OnInit {
   constructor(private router: Router,
     private paymentGroupService: PaymentGroupService,
     private activatedRoute: ActivatedRoute,
-    private idamDetails: IdamDetails
-  ) { }
+    private idamDetails: IdamDetails,
+    private feepayTitleService: FeepayTitleService
+  ) {}
 
   ngOnInit() {
     this.paymentGroupService.getLDFeature('payment-status-update-fe').then((status) => {
@@ -82,6 +84,9 @@ export class PaymentHistoryComponent implements OnInit {
         });
 
     });
+    const servicerequest = this.activatedRoute.snapshot.queryParams["servicerequest"];
+    const takePayment = this.activatedRoute.snapshot.queryParams["takePayment"];
+    this.feepayTitleService.setTitleFromQueryParams(servicerequest, takePayment, this.view);
   }
 
   checkValidUser() {

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
+import { FeepayTitleService } from "../../services/feepay-title/feepay.title.service";
 
 @Component({
   selector: 'app-confirmation',
@@ -10,8 +11,11 @@ import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-det
 export class ConfirmationComponent {
   constructor(
     private addFeeDetailService: AddFeeDetailService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private titleService: FeepayTitleService
+  ) {
+    this.titleService.setTitle("Confirmation");
+  }
 
   get remissionRef(): string {
     return this.addFeeDetailService.remissionRef;
