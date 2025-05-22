@@ -1,7 +1,7 @@
 import {PaybubbleHttpClient} from 'src/app/services/httpclient/paybubble.http.client';
 import {Meta} from '@angular/platform-browser';
 import {instance, mock} from 'ts-mockito/lib/ts-mockito';
-import {HttpClientModule, HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {of} from 'rxjs';
 import {PaymentModel} from 'src/app/models/PaymentModel';
 import {PaymentGroupService} from './payment-group.service';

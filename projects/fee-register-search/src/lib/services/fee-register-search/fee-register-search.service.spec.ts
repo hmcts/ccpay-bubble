@@ -1,14 +1,15 @@
 import {FeeRegisterSearchService} from './fee-register-search.service';
 import { TestBed, inject } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('FeeRegisterSearchService', () => {
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [HttpClientModule],
+    imports: [],
     providers: [
-      FeeRegisterSearchService,
+        FeeRegisterSearchService,
+        provideHttpClient(withInterceptorsFromDi()),
     ]
-  }));
+}));
 
   it('should be created', inject([FeeRegisterSearchService], (service: FeeRegisterSearchService) => {
     expect(service).toBeTruthy();
