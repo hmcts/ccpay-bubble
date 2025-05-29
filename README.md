@@ -1,10 +1,8 @@
 # PayBubble Web
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.4.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.
 
 Please note this project uses yarn
-
-
 
 ## Installation
 
@@ -12,19 +10,21 @@ to install all the libraries into the node module run `yarn install` on the term
 
 ## Build
 
-Important - The project's build depends on library projects located in the projects folder.
-Run
-  1. `ng build fee-register-search` and
-  2. `ng build view-payment`
-  3. Run `ng build`
-  4. `yarn build`
-  to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+You can run the following commands to build all components in PayBubble using yarn:
+1. `yarn ng:build` and
+2. `yarn postbuild`
 
-  or shortcut to do all these by running `yarn ng:build`
+Remember to remove the `dist` and `.angular` folders before running the build commands to ensure a clean build using the latest code.
+
+Important - The project's build depends on library projects located in the projects folder. To build these manually, you can run the following commands:
+Run
+1. `ng build fee-register-search` and
+2. `ng build view-payment`
+3. Run `ng build`
 
 ## Development server
 
-Run `yarn start`. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `yarn start:express-dev`. Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
@@ -58,6 +58,9 @@ We get a fully functional environment in Azure Kubernetes (AKS) per pull request
 
 # Setup development environment
 
+Running PayBubble locally connecting to an environment for CCD and IdAM you can use the following:
+`yarn start:express-dev`. Navigate to `http://localhost:3000/`. 
+
 To be able to run angular-cli and node-express next to each other the best way to use bar-idam-mock to mock out third party dependencies. https://github.com/hmcts/bar-idam-mock
 
 1. start mock server: `PORT=23443 npm run dev`
@@ -67,10 +70,7 @@ To be able to run angular-cli and node-express next to each other the best way t
 auth.idam.client.baseUrl=http://localhost:23443
 auth.provider.service.client.baseUrl=http://localhost:23443
 ```
+Run the app with local config by setting up this environment variable: `spring_profiles_active=local`
+Run the following commands: `yarn start:angular-dev` and `yarn start:express-dev`
 
-   Run the app with local config by setting up this environment variable: `spring_profiles_active=local`
-
-   Run the following commands: `yarn start:angular-dev` and `yarn start:express-dev`
-
-   Run the app with local config by setting up this environment variable: `spring_profiles_active=local`
-   Run the following commands: `yarn start:angular-dev` and `yarn start:express-dev`.
+If you are running `yarn start:angular-dev` you'll need to connect using the following URL: `http://localhost:4200/`.
