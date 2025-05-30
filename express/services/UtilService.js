@@ -40,9 +40,7 @@ async function fetchWithAuth(url, authToken, options = {}) {
     'Content-Type': 'application/json',
     ...options.headers,
   };
-  Logger.getLogger('fetchWithAuth -> UtilService.js').info(`Calling ${url} with options: ${JSON.stringify(options)}`);
   const resp = await fetch(url, options);
-  Logger.getLogger('fetchWithAuth -> UtilService.js').info(`Response from ${url}: ${resp.status}`);
   return await handleFetchError(resp, url);
 }
 
