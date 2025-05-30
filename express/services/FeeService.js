@@ -1,22 +1,22 @@
 const config = require('config');
-const request = require('request-promise-native');
+const { plainFetch } = require("./UtilService");
 
 const feeRegistrationUrl = config.get('fee.feeRegistrationUrl');
 const feeJurisdictionUrl = config.get('fee.feeJurisdictionUrl');
 
 class FeeService {
-  getFees() {
-    return request.get({
-      uri: feeRegistrationUrl,
+  async getFees() {
+    const resp = await plainFetch(feeRegistrationUrl, {
       headers: { 'Cache-Control': 'public, max-age=31557600' }
     });
+    return resp.buffer();
   }
 
-  getJurisdictions(req) {
-    return request.get({
-      uri: `${feeJurisdictionUrl}${req.params.id}`,
+  async getJurisdictions(req) {
+    const resp = await plainFetch(`${feeJurisdictionUrl}${req.params.id}`, {
       headers: { 'Cache-Control': 'public, max-age=31557600' }
     });
+    return resp.buffer();
   }
 }
 
