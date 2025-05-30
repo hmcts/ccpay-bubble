@@ -2,9 +2,9 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TestBed, ComponentFixture} from '@angular/core/testing';
 import { FeeFilterComponent } from './fee-filter.component';
-import { FormsModule, ReactiveFormsModule, CheckboxRequiredValidator } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FeeRegisterSearchService } from '../../services/fee-register-search/fee-register-search.service';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Jurisdictions } from '../../models/Jurisdictions';
 import { MockFeeRegisterSearchService } from '../../mocks/mock-fee-register-search.service';
 
@@ -14,20 +14,18 @@ describe('Fee Filter component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+    declarations: [
         FeeFilterComponent
-      ],
-      imports: [
-        CommonModule,
+    ],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [CommonModule,
         FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule
-      ],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: [
-        { provide: FeeRegisterSearchService, useClass: MockFeeRegisterSearchService }
-      ]
-    });
+        ReactiveFormsModule],
+    providers: [
+        { provide: FeeRegisterSearchService, useClass: MockFeeRegisterSearchService },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+});
 
     fixture = TestBed.createComponent(FeeFilterComponent);
     component = fixture.componentInstance;
