@@ -34,6 +34,7 @@ export class PaymentHistoryComponent implements OnInit {
   LOGGEDINUSERROLES: string[];
   cardPaymentReturnUrl: string;
   lsCcdNumber: any = ls.get<any>('ccdNumber');
+  telephonySelectionEnable: boolean;
 
   userRoles = [
     'IDAM_SUPER_USER',
@@ -55,6 +56,7 @@ export class PaymentHistoryComponent implements OnInit {
     this.paymentGroupService.getLDFeature('payment-status-update-fe').then((status) => {
       this.isPaymentStatusEnabled = !status;
     });
+    this.telephonySelectionEnable = true;
     this.idamDetails.getUserRoles().subscribe(roles => {
       this.activatedRoute.params.subscribe(
         {
