@@ -56,7 +56,11 @@ export class PaymentHistoryComponent implements OnInit {
     this.paymentGroupService.getLDFeature('payment-status-update-fe').then((status) => {
       this.isPaymentStatusEnabled = !status;
     });
-    this.telephonySelectionEnable = true;
+
+    this.paymentGroupService.getTelephonyFeature().then((status) => {
+      this.telephonySelectionEnable = status
+    });
+
     this.idamDetails.getUserRoles().subscribe(roles => {
       this.activatedRoute.params.subscribe(
         {
