@@ -16,6 +16,8 @@ ccpaybubble:
 pcipalantenna:
   url: https://paybubble.platform.hmcts.net/ccd-search
   microservice: ccpay_bubble
+pci-pal:
+  telephony-selection: TELEPHONY_FEATURE
 s2s:
   url: http://localhost:23443
 payhub:
