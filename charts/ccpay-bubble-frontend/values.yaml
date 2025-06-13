@@ -15,6 +15,7 @@ nodejs:
     REFORM_TEAM: ccpay
     REFORM_SERVICE_NAME: ccpay-bubble-frontend
     NODE_ENV: production
+    TELEPHONY_FEATURE: disabled
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
     CCPAY_BUBBLE_URL:  https://ccpay-bubble-frontend-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     PCIPAL_ANTENNA_URL:  https://paybubble.{{ .Values.global.environment }}.platform.hmcts.net/ccd-search

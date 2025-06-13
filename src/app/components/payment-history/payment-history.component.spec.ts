@@ -70,6 +70,7 @@ describe('Payment History case transaction component', () => {
     spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
+    spyOn(paymentGroupService, 'getTelephonyFeature').and.callFake(async () => false);
 
     component.ngOnInit();
     component.lsCcdNumber = '1111-2222-3333-4441';
@@ -135,6 +136,7 @@ describe('Payment History component case-transations', () => {
     spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
+    spyOn(paymentGroupService, 'getTelephonyFeature').and.callFake(async () => false);
     component.ngOnInit();
 
     expect(component.cardPaymentReturnUrl).toBe(undefined);
@@ -193,6 +195,7 @@ describe('Payment History component fee-summary', () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
+    spyOn(paymentGroupService, 'getTelephonyFeature').and.callFake(async () => false);
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -206,6 +209,7 @@ describe('Payment History component fee-summary', () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
+    spyOn(paymentGroupService, 'getTelephonyFeature').and.callFake(async () => false);
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -263,6 +267,7 @@ describe('Payment History component Reports', () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
+    spyOn(paymentGroupService, 'getTelephonyFeature').and.callFake(async () => false);
 
     component.ngOnInit();
     await fixture.whenStable();
@@ -275,6 +280,7 @@ describe('Payment History component Reports', () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
+    spyOn(paymentGroupService, 'getTelephonyFeature').and.callFake(async () => false);
 
     component.ngOnInit();
     await fixture.whenStable();
