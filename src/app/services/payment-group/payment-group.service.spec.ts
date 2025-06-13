@@ -153,12 +153,29 @@ describe('Payment group service', () => {
       .then((response) => {
         expect(response).toBe(false);
       });
+  });
 
-    paymentGroupService.getTelephonyFeature()
+  it('Should call get telephony feature true', () => {
+    const feature = <any>{
+      flag: true
+    };
+    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(feature)));
+    paymentGroupService.getTelephonyFeature(
       .then((response) => {
-        expect(response).toBe(false);
+        expect(response).toBe(true);
       });
   });
+
+  it('Should call get telephony feature false', () => {
+      const feature = <any>{
+        flag: true
+      };
+      spyOn(http, 'get').and.callFake(() => of(JSON.stringify(feature)));
+      paymentGroupService.getTelephonyFeature(
+        .then((response) => {
+          expect(response).toBe(false);
+        });
+   });
 
   it('Should call get LD feature off flow', () => {
     const feature = <any>{
@@ -170,24 +187,7 @@ describe('Payment group service', () => {
       .then((response) => {
         expect(response).toEqual(false);
       });
-
-    paymentGroupService.getTelephonyFeature()
-      .then((response) => {
-        expect(response).toBe(false);
-      });
   });
-
-  it('Should return true for getTelephonyFeature', () => {
-      const features = <any>[
-        { enable: true }
-      ];
-      spyOn(features, 'find').and.returnValue(features[0]);
-      spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
-      paymentGroupService.getTelephonyFeature()
-        .then((response) => {
-          expect(response).toEqual(true);
-        });
-    });
 
   it('Should call get environment details', () => {
 
