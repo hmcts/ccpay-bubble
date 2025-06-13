@@ -173,13 +173,13 @@ describe('Payment group service', () => {
 
     paymentGroupService.getTelephonyFeature()
       .then((response) => {
-        expect(response).toBe(true);
+        expect(response).toBe(false);
       });
   });
 
   it('Should call get telephony feature false', () => {
     const feature = <any>{
-      flag: true
+      flag: false
     };
     spyOn(http, 'get').and.callFake(() => of(JSON.stringify(feature)));
 
