@@ -153,6 +153,11 @@ describe('Payment group service', () => {
       .then((response) => {
         expect(response).toBe(false);
       });
+
+    paymentGroupService.getTelephonyFeature()
+      .then((response) => {
+        expect(response).toBe(false);
+      });
   });
 
   it('Should call get LD feature off flow', () => {
@@ -165,8 +170,24 @@ describe('Payment group service', () => {
       .then((response) => {
         expect(response).toEqual(false);
       });
+
+    paymentGroupService.getTelephonyFeature()
+      .then((response) => {
+        expect(response).toBe(false);
+      });
   });
 
+  it('Should return true for getTelephonyFeature', () => {
+      const features = <any>[
+        { enable: true }
+      ];
+      spyOn(features, 'find').and.returnValue(features[0]);
+      spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
+      paymentGroupService.getTelephonyFeature()
+        .then((response) => {
+          expect(response).toEqual(true);
+        });
+    });
 
   it('Should call get environment details', () => {
 

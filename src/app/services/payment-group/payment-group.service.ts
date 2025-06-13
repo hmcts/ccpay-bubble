@@ -48,6 +48,7 @@ export class PaymentGroupService {
       return !JSON.stringify(features);
     });
   }
+
   getTelephonyFeature(): Promise<any> {
     return this.http.get('api/pci-pal-telephony-selection/feature').toPromise().then(features => {
       const result = JSON.parse(features);
