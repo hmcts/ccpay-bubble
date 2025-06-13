@@ -160,21 +160,33 @@ describe('Payment group service', () => {
       flag: true
     };
     spyOn(http, 'get').and.callFake(() => of(JSON.stringify(feature)));
-    paymentGroupService.getTelephonyFeature(
+
+    paymentGroupService.getTelephonyFeature()
+      .then((response) => {
+        expect(response).toBe(true);
+      });
+  });
+
+  it('Should call get telephony feature null', () => {
+    const feature = null;
+    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(feature)));
+
+    paymentGroupService.getTelephonyFeature()
       .then((response) => {
         expect(response).toBe(true);
       });
   });
 
   it('Should call get telephony feature false', () => {
-      const feature = <any>{
-        flag: true
-      };
-      spyOn(http, 'get').and.callFake(() => of(JSON.stringify(feature)));
-      paymentGroupService.getTelephonyFeature(
-        .then((response) => {
-          expect(response).toBe(false);
-        });
+    const feature = <any>{
+      flag: true
+    };
+    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(feature)));
+
+    paymentGroupService.getTelephonyFeature()
+      .then((response) => {
+        expect(response).toBe(false);
+      });
    });
 
   it('Should call get LD feature off flow', () => {
