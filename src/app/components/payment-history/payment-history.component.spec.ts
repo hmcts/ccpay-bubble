@@ -289,6 +289,19 @@ describe('Payment History component Reports', () => {
     expect(component.bulkscanapiRoot).toBe('api/bulk-scan');
   });
 
+  it('check if queryparam is undefined or not activatedRoute with getTelephonyFeature ', async () => {
+      spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
+      spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
+      spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
+      spyOn(paymentGroupService, 'getTelephonyFeature').and.callFake(async () => true);
+
+      component.ngOnInit();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      expect(component.view).toBe('');
+      expect(component.bulkscanapiRoot).toBe('api/bulk-scan');
+    });
+
   afterEach(() => {
     TestBed.resetTestingModule();
   });
