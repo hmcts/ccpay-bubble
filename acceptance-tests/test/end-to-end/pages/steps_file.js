@@ -928,6 +928,7 @@ module.exports = () => actor({
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '300.00', '100.00', '£200.00');
+    this.click('//*[@id="paymentSystem"][@value="Antenna"]');
     this.click('Take payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.waitInUrl('pcipal', 2);
