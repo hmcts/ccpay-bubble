@@ -5,6 +5,7 @@ nodejs:
   devcpuLimits: 4000m
   environment:
     CCPAY_BUBBLE_URL: https://${SERVICE_FQDN}
+    TELEPHONY_FEATURE: enabled
 
 idam-pr:
   enabled: true
