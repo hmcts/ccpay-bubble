@@ -1,63 +1,54 @@
-/* eslint-disable no-eq-null, eqeqeq */
-const rq = require('client-request/promise');
-const HttpStatusCodes = require('http-status-codes');
-const {Logger} = require('@hmcts/nodejs-logging');
+const config = require('config');
+const otp = require('otp');
+const fetch = require('node-fetch')
+const { Logger } = require('@hmcts/nodejs-logging');
 
-function asyncTo(promise) {
-  return promise.then(data => [null, data]).catch(err => [err]);
+const s2sUrl = config.get('s2s.url');
+const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
+const microService = config.get('ccpaybubble.microservice');
+
+
+async function handleFetchError(resp, url) {
+  if (!resp.ok) {
+    const text = await resp.text();
+    throw new Error(`Fetch to ${url} failed ${resp.status}: ${text}`);
+  }
+  return resp;
 }
 
-function setConfig(options) {
-  if (!options.hasOwnProperty('uri') || !options.hasOwnProperty('method')) {
-    throw new Error('"uri" and "method" should contain data.');
-  }
-
-  if (options.uri.length < 1 || options.method.length < 1) {
-    throw new Error('"uri" and "method" should not be blank');
-  }
-
-  if (typeof options !== 'object') {
-    throw new Error(
-      'Please ensure "options" and "request" are of type "Object".'
-    );
-  }
-
-  options.json = options.json == null ? true : options.json;
-  if (!options.headers) {
-    options.headers = {};
-  }
-  options.headers['Content-Type'] = options.headers['Content-Type'] == null ? 'application/json' : options.headers['Content-Type'];
-  if (request && request.cookies[constants.SECURITY_COOKIE]) {
-    const bearer = request.cookies[constants.SECURITY_COOKIE];
-    options.headers.Authorization = `Bearer ${bearer}`;
-    const siteId = request.cookies[constants.SITEID_COOKIE];
-    options.headers.SiteId = siteId ? siteId : '';
-  }
-
-  if (options.hasOwnProperty('method') && options.method === 'DELETE') {
-    options.json = false;
-  }
-  // console.log(`Options: ${JSON.stringify(options)}`);
-  return options;
+async function createAuthToken() {
+  const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
+  const serviceAuthRequest = {
+    microservice: microService,
+    oneTimePassword: otpPassword
+  };
+  const response = await fetch(`${s2sUrl}/lease`, {
+    method: 'POST',
+    body: JSON.stringify(serviceAuthRequest),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  return await response.text();
 }
 
-/**
- * Decorate http request options
- * @param {Object} options
- * @param {XMLHttpRequest} request
- */
-function makeHttpRequest(options) {
-  return rq(setConfig(options));
+async function fetchWithAuth(url, authToken, options = {}) {
+  const s2sToken = await createAuthToken();
+  options.headers = {
+    Authorization: `Bearer ${authToken}`,
+    ServiceAuthorization: `Bearer ${s2sToken}`,
+    'Content-Type': 'application/json',
+    ...options.headers,
+  };
+  const resp = await fetch(url, options);
+  return await handleFetchError(resp, url);
 }
 
-function response(res, data, status = HttpStatusCodes.OK) {
-  let success = true;
-  if (status >= HttpStatusCodes.BAD_REQUEST) {
-    success = false;
-  }
-
-  return res.status(status).json({success, data});
+async function plainFetch(url, options = {}) {
+  const resp = await fetch(url, options);
+  return await handleFetchError(resp, url);
 }
+
 
 function errorHandler(res, error, fileName) {
   let msg = "";
@@ -73,4 +64,4 @@ function errorHandler(res, error, fileName) {
   }
 }
 
-module.exports = {asyncTo, makeHttpRequest, response, setConfig, errorHandler};
+module.exports = {errorHandler, fetchWithAuth, plainFetch};

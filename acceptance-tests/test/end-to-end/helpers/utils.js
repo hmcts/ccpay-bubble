@@ -1,10 +1,8 @@
 /* eslint-disable no-alert, no-console */
 const {Logger} = require('@hmcts/nodejs-logging');
-const requestModule = require('request-promise-native');
+const fetch = require('node-fetch');
 
 // eslint-disable max-len
-
-const request = requestModule.defaults();
 
 const stringUtil = require('./string_utils.js');
 const numUtil = require('./number_utils');
@@ -29,6 +27,19 @@ if (testConfig.NotifyEmailApiKey) {
   console.log("Notify API starts with " + testConfig.NotifyEmailApiKey.substring(1, 25));
 } else {
   console.log("Notify client API key is not defined");
+}
+
+async function makeRequest(url, method = 'GET', headers = {}, body = null) {
+  const resp = await fetch(url, {
+    method,
+    headers,
+    body
+  });
+  if (!resp.ok) {
+    const text = await resp.text();
+    throw new Error(`Fetch failed ${resp.status}: ${text}`);
+  }
+  return resp;
 }
 
 async function getEmailFromNotifyWithMaxRetries(searchEmail) {
@@ -88,18 +99,13 @@ async function getIDAMToken() {
   const grantType = 'password';
 
   const idamTokenPath = '/o/token';
+  const url = `${idamApiUrl}${idamTokenPath}`;
+  const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+  const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
+  const resp = await makeRequest(url, 'POST', headers, body);
 
-  const idamTokenResponse = await request({
-    method: 'POST',
-    uri: `${idamApiUrl}${idamTokenPath}`,
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    body: `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`
-  }, (_error, response) => {
-    statusCode = response.statusCode;
-  }).catch(error => {
-    console.log(error);
-  });
-  return JSON.parse(idamTokenResponse).access_token;
+  const idamJson = await resp.json();
+  return idamJson.access_token;
 }
 
 async function getIDAMTokenForDivorceUser() {
@@ -113,70 +119,34 @@ async function getIDAMTokenForDivorceUser() {
   const grantType = 'password';
 
   const idamTokenPath = '/o/token';
+  const url = `${idamApiUrl}${idamTokenPath}`;
+  const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+  const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
+  const resp = await makeRequest(url, 'POST', headers, body);
 
-  const idamTokenResponse = await request({
-      method: 'POST',
-      uri: `${idamApiUrl}${idamTokenPath}`,
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`
-    }
-    , (_error, response) => {
-      statusCode = response.statusCode;
-      console.log('*****statuscode - ' + statusCode);
-    }).catch(error => {
-    console.log(error);
-  });
-  return JSON.parse(idamTokenResponse).access_token;
+  const idamJson = await resp.json();
+  return idamJson.access_token;
 }
 
-async function getServiceTokenForSecret(service, serviceSecret) {
-
-  // eslint-disable-next-line global-require
-  const oneTimePassword = require('otp')({secret: serviceSecret}).totp();
-
-  const serviceToken = await request({
-    method: 'POST',
-    uri: rpeServiceAuthApiUrl + s2sAuthPath,
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({microservice: service})
-  });
-  return serviceToken;
-}
-
-// eslint-disable-next-line no-unused-vars
-async function getServiceToken(_service) {
-
-  // eslint-disable-next-line no-unused-vars
-  // const oneTimePassword = require('otp')({ secret: serviceSecret }).totp();
-
-  const serviceToken = await request({
-    method: 'POST',
-    uri: rpeServiceAuthApiUrl + s2sAuthPath,
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({microservice: 'ccpay_bubble'})
-  });
+async function getServiceToken(service = 'ccpay_bubble') {
+  const headers = {'Content-Type': 'application/json'};
+  const payload = JSON.stringify({microservice: service});
+  const resp = await makeRequest(rpeServiceAuthApiUrl + s2sAuthPath, 'POST', headers, payload);
+  const serviceToken = await resp.text();
   return serviceToken;
 }
 
 async function getUserID(idamToken) {
   // const idamToken = await getIDAMToken();
-  const idamDetailsPath = '/details';
 
-  const idamDetailsResponse = await request({
-    method: 'GET',
-    uri: `${idamApiUrl}${idamDetailsPath}`,
-    headers: {
-      Authorization: `Bearer ${idamToken}`,
-      'Content-Type': 'application/json'
-    }
-  }, (_error, response) => {
-    statusCode = response.statusCode;
-    console.log(`The response Status Code : ${statusCode}`);
-  }).catch(error => {
-    console.log(error);
-  });
-  console.log(idamDetailsResponse);
-  const responsePayload = JSON.parse(idamDetailsResponse);
+  const url = `${idamApiUrl}/details`;
+  const headers = {
+    Authorization: `Bearer ${idamToken}`,
+    'Content-Type': 'application/json'
+  }
+  const resp = await makeRequest(url, 'GET', headers);
+  console.log(resp);
+  const responsePayload = await resp.json();
   const idValue = responsePayload.id;
   return idValue;
 }
@@ -187,23 +157,16 @@ async function getCREATEEventForProbate() {
   const serviceAuthorizationToken = await getServiceToken();
   const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/PROBATE/case-types/GrantOfRepresentation/event-triggers/createDraft/token`;
 
-  const createTokenResponse = await request({
-    method: 'GET',
-    uri: `${ccdDataStoreApiUrl}${createTokenCCDEventRelativeBaseUrl}`,
-    headers: {
-      Authorization: `Bearer ${idamToken}`,
-      ServiceAuthorization: `${serviceAuthorizationToken}`,
-      'Content-Type': 'application/json'
-    }
-  }, (_error, response) => {
-    statusCode = response.statusCode;
-    logger.log(statusCode);
-  }).catch(error => {
-    logger.log(error);
-    console.log(error);
-  });
-  console.log(createTokenResponse);
-  const responsePayload = JSON.parse(createTokenResponse);
+  const url = `${ccdDataStoreApiUrl}${createTokenCCDEventRelativeBaseUrl}`;
+  const headers = {
+    Authorization: `Bearer ${idamToken}`,
+    ServiceAuthorization: `${serviceAuthorizationToken}`,
+    'Content-Type': 'application/json'
+  };
+  const resp = await makeRequest(url, 'GET', headers);
+
+  console.log(resp);
+  const responsePayload = await resp.json();
   const createTokenValue = responsePayload.token;
   return createTokenValue;
 }
@@ -214,22 +177,16 @@ async function getCREATEEventForDivorce() {
   const serviceAuthorizationToken = await getServiceToken();
   const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/DIVORCE/case-types/DIVORCE/event-triggers/createCase/token`;
 
-  const createTokenResponse = await request({
-    method: 'GET',
-    uri: `${ccdDataStoreApiUrl}${createTokenCCDEventRelativeBaseUrl}`,
-    headers: {
-      Authorization: `Bearer ${idamTokenForDivorce}`,
-      ServiceAuthorization: `${serviceAuthorizationToken}`,
-      'Content-Type': 'application/json'
-    }
-  }, (_error, response) => {
-    statusCode = response.statusCode;
-    console.log(statusCode);
-  }).catch(error => {
-    console.log(error);
-  });
-  console.log(`Response : ${createTokenResponse}`);
-  const responsePayload = JSON.parse(createTokenResponse);
+  const url = `${ccdDataStoreApiUrl}${createTokenCCDEventRelativeBaseUrl}`
+  const headers = {
+    Authorization: `Bearer ${idamTokenForDivorce}`,
+    ServiceAuthorization: `${serviceAuthorizationToken}`,
+    'Content-Type': 'application/json'
+  }
+  const resp = await makeRequest(url, 'GET', headers);
+
+  console.log(`Response : ${resp}`);
+  const responsePayload = await resp.json();
   const createTokenValue = responsePayload.token;
   return createTokenValue;
 }
@@ -238,19 +195,9 @@ async function CaseValidation(flag) {
   console.log(`${flag} case validation`);
 
   const disablePath = `/api/ff4j/store/features/caseref-validation/${flag}`;
-  // eslint-disable-next-line global-require
-  const saveCaseResponse = await request({
-      method: 'POST',
-      uri: paymentBaseUrl + disablePath,
-      headers: {'Content-Type': 'application/json'}
-    },
-    (_error, response) => {
-      statusCode = response.statusCode;
-      console.log(statusCode);
-    }).catch(error => {
-    console.log(error);
-  });
-  return statusCode;
+  const resp = await makeRequest(paymentBaseUrl + disablePath, 'POST', {'Content-Type': 'application/json'});
+
+  return resp.status;
 }
 
 async function toggleOffCaseValidation() {
@@ -268,39 +215,33 @@ async function createACCDCaseForProbate() {
   const serviceToken = await getServiceToken();
   const createToken = await getCREATEEventForProbate();
 
-  const createCCDCaseBody = {
-
+  const createCCDCaseBody = JSON.stringify({
     data: {}, event:
       {id: 'createDraft', summary: '', description: ''},
     event_token: `${createToken}`,
     ignore_warning: false,
     draft_id: null
-  };
+  });
 
   const probateCCDCreateCaseRelativeBaseUrl = '/case-types/GrantOfRepresentation/cases';
 
-  const probateCaseCreated = {
-    method: 'POST',
-    uri: ccdDataStoreApiUrl + probateCCDCreateCaseRelativeBaseUrl,
-    headers: {
+  const headers = {
       Authorization: `Bearer ${idamToken}`,
       ServiceAuthorization: `${serviceToken}`,
       'Content-Type': 'application/json',
       experimental: true
-    },
-    body: JSON.stringify(createCCDCaseBody)
-  };
+    };
 
-  const probateCaseCreatedResponse = await request(probateCaseCreated,
-    (_error, response) => {
-      console.log(`${statusCode} The value of the status code`);
-    }).catch(error => {
-    console.log(error);
-  });
 
-  const ccdCaseNumberPayload = JSON.parse(probateCaseCreatedResponse);
-  const ccdCaseNumber = ccdCaseNumberPayload.id;
-  return ccdCaseNumber;
+  const probateCaseCreatedResponse = await makeRequest(
+    ccdDataStoreApiUrl + probateCCDCreateCaseRelativeBaseUrl,
+    'POST',
+    headers,
+    createCCDCaseBody
+  );
+
+  const ccdCaseNumberPayload = await probateCaseCreatedResponse.json();
+  return ccdCaseNumberPayload.id;
 }
 
 async function createACCDCaseForDivorce() {
@@ -308,7 +249,7 @@ async function createACCDCaseForDivorce() {
   const serviceToken = await getServiceToken();
   const createToken = await getCREATEEventForDivorce();
 
-  const createCCDDivorceCaseBody = {
+  const createCCDDivorceCaseBody = JSON.stringify({
     data: {LanguagePreferenceWelsh: 'No'},
     event: {
       id: 'createCase',
@@ -318,98 +259,65 @@ async function createACCDCaseForDivorce() {
     event_token: `${createToken}`,
     ignore_warning: false,
     draft_id: null
-  };
-
-  const divorceCCDCreateCaseRelativeBaseUrl = '/case-types/DIVORCE/cases';
-
-  const divorceCaseCreated = {
-    method: 'POST',
-    uri: ccdDataStoreApiUrl + divorceCCDCreateCaseRelativeBaseUrl,
-    headers: {
-      Authorization: `Bearer ${idamTokenForDivorce}`,
-      ServiceAuthorization: `${serviceToken}`,
-      'Content-Type': 'application/json',
-      experimental: true
-    },
-    body: JSON.stringify(createCCDDivorceCaseBody)
-  };
-
-  const divorceCaseCreatedResponse = await request(divorceCaseCreated,
-    (_error, response) => {
-      console.log(`${statusCode}The value of the status code`);
-    }).catch(error => {
-    console.error(error);
   });
 
-  const ccdCaseNumberPayload = JSON.parse(divorceCaseCreatedResponse);
+  const url = ccdDataStoreApiUrl + '/case-types/DIVORCE/cases';
+  const headers = {
+    Authorization: `Bearer ${idamTokenForDivorce}`,
+    ServiceAuthorization: `${serviceToken}`,
+    'Content-Type': 'application/json',
+    experimental: true
+  }
+
+  const divorceCaseCreatedResponse = await makeRequest(url, 'POST', headers, createCCDDivorceCaseBody);
+
+  const ccdCaseNumberPayload = await divorceCaseCreatedResponse.json();
   const ccdCaseNumber = ccdCaseNumberPayload.id;
   console.log(`The value of the CCDCaseNumber : ${ccdCaseNumber}`);
   return ccdCaseNumber;
 }
 
-async function rollbackPaymentDateByCCDCaseNumber(
-  ccdCaseNumber) {
+async function rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber) {
   const lag_time = 20;
   const microservice = 'cmc';
   const idamToken = await getIDAMToken();
-  const testCmcSecret = testConfig.TestCMCSecret;
-  const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
+  const serviceToken = await getServiceToken(microservice);
   const rollbackPaymentDateByCCDNumberEndPoint = `/payments/ccd_case_reference/${ccdCaseNumber}/lag_time/${lag_time}`;
-
-  const getPBAPaymentByCCDCaseNumberOptions = {
-    method: 'PATCH',
-    uri: paymentBaseUrl + rollbackPaymentDateByCCDNumberEndPoint,
-    headers: {
+  const url = paymentBaseUrl + rollbackPaymentDateByCCDNumberEndPoint;
+  const headers = {
       Authorization: `Bearer ${idamToken}`,
       ServiceAuthorization: `${serviceToken}`,
       'Content-Type': 'application/json'
     }
-  };
-  await request(getPBAPaymentByCCDCaseNumberOptions,
-    (_error, response) => {
-      console.log(`${statusCode}The value of the status code`);
-    }).catch(error => {
-    console.log(error);
-  });
+
+  await makeRequest(url, 'PATCH', headers);
 }
 
 async function getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber) {
   const getPaymentByCCDNumberEndPoint = `/reconciliation-payments?ccd_case_number=${ccdCaseNumber}`;
-
-  const getPBAPaymentByCCDCaseNumberOptions = {
-    method: 'GET',
-    uri: paymentBaseUrl + getPaymentByCCDNumberEndPoint,
-    headers: {
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
-    }
+  const url = paymentBaseUrl + getPaymentByCCDNumberEndPoint;
+  const headers = {
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
   };
+  const paymentLookUpResponseString = await makeRequest(url, 'GET', headers);
 
-  const paymentLookUpResponseString = await request(getPBAPaymentByCCDCaseNumberOptions,
-    (_error, response) => {
-      console.log(`${statusCode} The value of the status code`);
-    }).catch(error => {
-    console.log(error);
-  });
-  const paymentLookupObject = JSON.parse(paymentLookUpResponseString);
-  const paymentReference = paymentLookupObject.payments[0].payment_reference;
-  return paymentReference;
+  const paymentLookupObject = await paymentLookUpResponseString.json();
+  return paymentLookupObject.payments[0].payment_reference;
 }
 
-// eslint-disable-next-line no-unused-vars
 async function createAFailedPBAPayment() {
-  const creditAccountPaymentEndPoint = '/credit-account-payments';
+  const url = paymentBaseUrl + '/credit-account-payments';
   const microservice = 'cmc';
   const idamToken = await getIDAMToken();
-  const testCmcSecret = testConfig.TestCMCSecret;
   const accountNumber = testConfig.TestAccountNumberInActive;
-  const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
+  const serviceToken = await getServiceToken(microservice);
 
   // eslint-disable-next-line no-magic-numbers
   const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
   console.log(`The value of the CCD Case Number : ${ccdCaseNumber}`);
 
-  const saveBody = {
+  const saveBody = JSON.stringify({
     account_number: `${accountNumber}`,
     amount: 215,
     case_reference: '1253656',
@@ -429,27 +337,21 @@ async function createAFailedPBAPayment() {
     organisation_name: 'string',
     service: 'PROBATE',
     site_id: 'AA08'
-  };
-  const createAPBAPaymentOptions = {
-    method: 'POST',
-    uri: paymentBaseUrl + creditAccountPaymentEndPoint,
-    headers: {
-      Authorization: `${idamToken}`,
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(saveBody)
-  };
-
-  let paymentReference = '';
-  await request(createAPBAPaymentOptions, (_error, response) => {
-    statusCode = response.statusCode;
-    paymentReference = JSON.parse(response.body).reference;
-    console.log(`The value of the response status code : ${statusCode}`);
-  }).catch(error => {
-    console.log(error);
   });
+  const headers = {
+    Authorization: `${idamToken}`,
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  }
+
+  const response = await makeRequest(url, 'POST', headers, saveBody);
+
+  const payload = await response.json();
+  console.log(`The value of the response status code : ${response.status}`);
+  const paymentReference = payload.reference;
+
   await rollbackPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+
 
   const paymentDetails = {
     ccdCaseNumber: `${ccdCaseNumber}`,
@@ -458,20 +360,16 @@ async function createAFailedPBAPayment() {
   return paymentDetails;
 }
 
-// eslint-disable-next-line no-unused-vars
 async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, version, volume) {
-  const createServiceRequestEndPoint = '/service-request';
+  const url = paymentBaseUrl + '/service-request';
   const idamToken = await getIDAMToken();
-  const testPaybubbleS2SSecret = testConfig.TestPaybubbleS2SSecret;
-  const microservice = 'ccpay_bubble';
-  const serviceToken = await getServiceTokenForSecret(microservice, testPaybubbleS2SSecret);
+  const serviceToken = await getServiceToken();
 
   // eslint-disable-next-line no-magic-numbers
   const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
   console.log(`The value of the CCD Case Number : ${ccdCaseNumber}`);
 
-  const saveBody = {
-
+  const saveBody = JSON.stringify({
     call_back_url: 'http://callback.hmcts.net',
     case_payment_request: {
       action: 'Action 1',
@@ -488,27 +386,17 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
       }
     ],
     hmcts_org_id: `${hmctsorgid}`
-  };
-
-  const createAServiceRequestOptions = {
-    method: 'POST',
-    uri: paymentBaseUrl + createServiceRequestEndPoint,
-    headers: {
-      Authorization: `${idamToken}`,
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(saveBody)
-  };
-
-  const cSRRS = await request(createAServiceRequestOptions, (_error, response) => {
-    const statusCode = response.statusCode;
-    console.log(`The value of the response status code : ${statusCode}`);
-  }).catch(error => {
-    console.log(error);
   });
+  const headers = {
+    Authorization: `${idamToken}`,
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
 
-  const createServiceRequestLookupObject = JSON.parse(cSRRS);
+  const cSRRS = await makeRequest(url, 'POST', headers, saveBody);
+  console.log(`The value of the response status code : ${cSRRS.status}`);
+
+  const createServiceRequestLookupObject = await cSRRS.json();
   const serviceRequestReference = createServiceRequestLookupObject.service_request_reference;
   const serviceRequestResponseDetails = {
     ccdCaseNumber: `${ccdCaseNumber}`,
@@ -518,20 +406,18 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
   return serviceRequestResponseDetails;
 }
 
-// eslint-disable-next-line no-unused-vars
 async function createAPBAPayment(amount, feeCode, version, volume, customerReference = 'ABC98989/65654') {
-  const creditAccountPaymentEndPoint = '/credit-account-payments';
+  const url = paymentBaseUrl + '/credit-account-payments';
   const microservice = 'cmc';
   const idamToken = await getIDAMToken();
-  const testCmcSecret = testConfig.TestCMCSecret;
   const accountNumber = testConfig.TestAccountNumberActive;
 
-  const serviceToken = await getServiceTokenForSecret(microservice, testCmcSecret);
+  const serviceToken = await getServiceToken(microservice);
 
   // eslint-disable-next-line no-magic-numbers
   const ccdCaseNumber = await createACCDCaseForProbate();
   console.log(`The value of the CCD Case Number : ${ccdCaseNumber}`);
-  const saveBody = {
+  const saveBody = JSON.stringify({
     account_number: `${accountNumber}`,
     amount: amount,
     case_reference: '1253656',
@@ -551,27 +437,18 @@ async function createAPBAPayment(amount, feeCode, version, volume, customerRefer
     organisation_name: 'string',
     service: 'PROBATE',
     site_id: 'ABA6'
-  };
-  const createAPBAPaymentOptions = {
-    method: 'POST',
-    uri: paymentBaseUrl + creditAccountPaymentEndPoint,
-    headers: {
-      Authorization: `${idamToken}`,
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(saveBody)
-  };
-
-  await request(createAPBAPaymentOptions, (_error, response) => {
-    statusCode = response.statusCode;
-    console.log(`The value of the response status code : ${statusCode}`);
-  }).catch(error => {
-    console.log(error);
   });
 
-  const paymentReference = await getPBAPaymentByCCDCaseNumber(
-    idamToken, serviceToken, ccdCaseNumber);
+  const headers = {
+    Authorization: `${idamToken}`,
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+
+  const response = await makeRequest(url, 'POST', headers, saveBody);
+  console.log(`The value of the response status code : ${response.status}`);
+
+  const paymentReference = await getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
   await rollbackPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
 
   const paymentDetails = {
@@ -583,7 +460,7 @@ async function createAPBAPayment(amount, feeCode, version, volume, customerRefer
 
 async function getPaymentGroupRef(serviceToken, ccdCaseNumberFormatted) {
   const ccdNumber = ccdCaseNumberFormatted;
-  const saveBody = {
+  const saveBody = JSON.stringify({
     'fees': [
       {
         'code': 'FEE0239',
@@ -599,23 +476,17 @@ async function getPaymentGroupRef(serviceToken, ccdCaseNumberFormatted) {
         'fee_amount': 250
       }
     ]
-  };
-  const paymentGroupsEndPoint = `/payment-groups`;
-  const paymentGroupsResponse = await request({
-    method: 'POST',
-    uri: `${paymentBaseUrl}${paymentGroupsEndPoint}`,
-    headers: {
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(saveBody)
-  }, (_error, response) => {
-    statusCode = response.statusCode;
-    console.log(`The response Status Code for paymentGroups : ${statusCode}`);
-  }).catch(error => {
-    console.log(error);
   });
-  const responsePayload = JSON.parse(paymentGroupsResponse);
+  const headers = {
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+
+  const url = `${paymentBaseUrl}/payment-groups`;
+  const response = await makeRequest(url, 'POST', headers, saveBody);
+  console.log(`The response Status Code for paymentGroups : ${response.status}`);
+
+  const responsePayload = await response.json();
   const paymentGroupRefernce = responsePayload.payment_group_reference;
   return paymentGroupRefernce;
 }
@@ -624,7 +495,7 @@ async function recordBouncebackFailure(serviceToken, ccdNumber, paymentRCRefernc
   console.log('*date time is' + stringUtil.getTodayDateTimeInYYYYMMDDTHHMMSSZ())
 
   const failureReference = 'FR-267-CC14-' + numUtil.getRandomNumber(9, 999999999);
-  const saveBody = {
+  const saveBody = JSON.stringify({
     'additional_reference': 'AR1234556',
     'amount': 250,
     'ccd_case_number': `${ccdNumber}`,
@@ -632,27 +503,20 @@ async function recordBouncebackFailure(serviceToken, ccdNumber, paymentRCRefernc
     'failure_reference': `${failureReference}`,
     'payment_reference': `${paymentRCRefernce}`,
     'reason': 'RR001'
-  };
-  const bouncedChequeEndPoint = `/payment-failures/bounced-cheque`;
-  const bounceChequeResponse = await request({
-    method: 'POST',
-    uri: `${paymentBaseUrl}${bouncedChequeEndPoint}`,
-    headers: {
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(saveBody)
-  }, (_error, response) => {
-    statusCode = response.statusCode;
-    console.log(`The response Status Code for bounceCheque : ${statusCode}`);
-  }).catch(error => {
-    console.log(error);
   });
+
+  const url = `${paymentBaseUrl}/payment-failures/bounced-cheque`;
+  const headers = {
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+  const response = await makeRequest(url, 'POST', headers, saveBody);
+  console.log(`The response Status Code for bounceCheque : ${response.status}`);
+
   return failureReference;
 }
 
 async function recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef) {
-
   const failureReference = 'FR-367-CC14-' + numUtil.getRandomNumber(9, 999999999);
   const saveBody = {
     'additional_reference': 'AR1234556',
@@ -664,21 +528,15 @@ async function recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef) 
     'payment_reference': `${paymentRef}`,
     'reason': 'RR001'
   };
-  const chargeBackEndPoint = `/payment-failures/chargeback`;
-  const chargeBackResponse = await request({
-    method: 'POST',
-    uri: `${paymentBaseUrl}${chargeBackEndPoint}`,
-    headers: {
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(saveBody)
-  }, (_error, response) => {
-    statusCode = response.statusCode;
-    console.log(`The response Status Code for chargeBack : ${statusCode}`);
-  }).catch(error => {
-    console.log(error);
-  });
+
+  const url = `${paymentBaseUrl}/payment-failures/chargeback`
+  const headers = {
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+  const response = await makeRequest(url, 'POST', headers, JSON.stringify(saveBody));
+
+  console.log(`The response Status Code for chargeBack : ${response.status}`);
   return saveBody;
 }
 
@@ -695,73 +553,50 @@ async function recordChargeBackFailureEvent(serviceToken, ccdCaseNumber, payment
     'payment_reference': `${paymentRef}`,
     'reason': 'RR001'
   };
-  const chargeBackEndPoint = `/payment-failures/chargeback`;
-  const chargeBackResponse = await request({
-    method: 'POST',
-    uri: `${paymentBaseUrl}${chargeBackEndPoint}`,
-    headers: {
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(saveBody)
-  }, (_error, response) => {
-    statusCode = response.statusCode;
-    console.log(`The response Status Code for chargeBack : ${statusCode}`);
-  }).catch(error => {
-    console.log(error);
-  });
+
+  const url = `${paymentBaseUrl}/payment-failures/chargeback`
+  const headers = {
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+
+  const response = await makeRequest(url, 'POST', headers, JSON.stringify(saveBody));
+  console.log(`The response Status Code for chargeBack : ${response.status}`);
   return saveBody;
 }
 
 async function patchFailureReference(serviceToken, failureReference) {
-  const saveBody = {
+  const saveBody = JSON.stringify({
     'representment_date': stringUtil.getTodayDateTimeInYYYYMMDDTHHMMSSZ(),
     'representment_status': 'Yes'
-  };
-  const patchFailureRefEndPoint = `/payment-failures/${failureReference}`;
-  const patchFailureRefResponse = await request({
-    method: 'PATCH',
-    uri: `${paymentBaseUrl}${patchFailureRefEndPoint}`,
-    headers: {
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(saveBody)
-  }, (_error, response) => {
-    statusCode = response.statusCode;
-    console.log(`The response Status Code for patchFailureReference : ${statusCode}`);
-  }).catch(error => {
-    console.log(error);
   });
+  const url = `${paymentBaseUrl}/payment-failures/${failureReference}`;
+  const headers = {
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+  const response = await makeRequest(url, 'PATCH', headers, saveBody);
+  console.log(`The response Status Code for patchFailureReference : ${response.status}`);
 }
 
 async function patchFailureReferenceNo(serviceToken, failureReference) {
-  const saveBody = {
+  const saveBody = JSON.stringify({
     'representment_date': stringUtil.getTodayDateTimeInYYYYMMDDTHHMMSSZ(),
     'representment_status': 'No'
-  };
-  const patchFailureRefEndPoint = `/payment-failures/${failureReference}`;
-  const patchFailureRefResponse = await request({
-    method: 'PATCH',
-    uri: `${paymentBaseUrl}${patchFailureRefEndPoint}`,
-    headers: {
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(saveBody)
-  }, (_error, response) => {
-    statusCode = response.statusCode;
-    console.log(`The response Status Code for patchFailureReference : ${statusCode}`);
-  }).catch(error => {
-    console.log(error);
   });
+  const url = `${paymentBaseUrl}/payment-failures/${failureReference}`;
+  const headers = {
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+  const response = await makeRequest(url, 'PATCH', headers, saveBody);
+  console.log(`The response Status Code for patchFailureReference : ${response.status}`);
 }
-
 
 async function recordBulkScanPayments(serviceToken, ccdCaseNumberFormatted, paymentGroupRef, dcnNumber) {
   const ccdNumber = ccdCaseNumberFormatted;
   const document_control_number = dcnNumber;
-  const saveBody = {
+  const saveBody = JSON.stringify({
     'amount': 250,
     'payment_method': 'CHEQUE',
     'ccd_case_number': `${ccdNumber}`,
@@ -780,61 +615,40 @@ async function recordBulkScanPayments(serviceToken, ccdCaseNumberFormatted, paym
     'document_control_number': `${document_control_number}`,
     'requestor': 'PROBATE',
     'site_id': 'AA01'
-  };
-  const recordBulkScanPaymentUrlEndPoint = `/payment-groups/${paymentGroupRef}/bulk-scan-payments`;
-  const recordBulkScanPaymentResponse = await request({
-    method: 'POST',
-    uri: `${paymentBaseUrl}${recordBulkScanPaymentUrlEndPoint}`,
-    headers: {
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(saveBody)
-  }, (_error, response) => {
-    statusCode = response.statusCode;
-    console.log(`The response Status Code for recordBulkScanPayment : ${statusCode}`);
-  }).catch(error => {
-    console.log(error);
   });
-  const responsePayload = JSON.parse(recordBulkScanPaymentResponse);
-  const paymentRCRefernce = responsePayload.reference;
-  return paymentRCRefernce;
+  const url = `${paymentBaseUrl}/payment-groups/${paymentGroupRef}/bulk-scan-payments`;
+  const headers = {
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+  const response = await makeRequest(url, 'POST', headers, saveBody);
+  console.log(`The response Status Code for recordBulkScanPayment : ${response.status}`);
+  const responsePayload = await response.json();
+  return responsePayload.reference;
 }
 
 async function bulkScanExelaRecord(serviceToken, amount, creditSlipNumber,
                                    bankedDate, dcnNumber, paymentMethod) {
-  const bulkScanPaymentEndPoint = '/bulk-scan-payment';
+  const url = bulkScanApiUrl + '/bulk-scan-payment';
 
-  const saveBody = {
+  const saveBody = JSON.stringify({
     amount: `${amount}`,
     bank_giro_credit_slip_number: `${creditSlipNumber}`,
     banked_date: `${bankedDate}`,
     currency: 'GBP',
     document_control_number: `${dcnNumber}`,
     method: `${paymentMethod}`
-  };
-
-  const saveCaseOptions = {
-    method: 'POST',
-    uri: bulkScanApiUrl + bulkScanPaymentEndPoint,
-    headers: {
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(saveBody)
-  };
-
-  const saveCaseResponse = await request(saveCaseOptions, (_error, response) => {
-      statusCode = response.statusCode;
-    }
-  ).catch(error => {
-    logger.log(error);
   });
-  return statusCode;
+  const headers = {
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+  const response = await makeRequest(url, 'POST', headers, saveBody);
+  return response.status;
 }
 
 async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, exception) {
-  const bulkScanPaymentsEndPoint = '/bulk-scan-payments';
+  const url = bulkScanApiUrl + '/bulk-scan-payments';
 
   const saveBody = {
     ccd_case_number: `${ccdNumber}`,
@@ -842,56 +656,30 @@ async function bulkScanRecord(serviceToken, ccdNumber, dcnNumber, siteId, except
     is_exception_record: exception,
     site_id: `${siteId}`
   };
+  const headers = {
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
 
   console.log(`What is this CCDCaseNumber ${saveBody.ccd_case_number}`);
 
-  const saveCaseOptions = {
-    method: 'POST',
-    uri: bulkScanApiUrl + bulkScanPaymentsEndPoint,
-    headers: {
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(saveBody)
-  };
-
-  const saveCaseResponse = await request(saveCaseOptions
-    , (_error, response) => {
-      statusCode = response.statusCode;
-    }
-  ).catch(error => {
-    logger.log(error);
-  });
-  return statusCode;
+  const response = await makeRequest(url, 'POST', headers, JSON.stringify(saveBody));
+  return response.status;
 }
 
 async function bulkScanCcdWithException(serviceToken, ccdNumber, exceptionCCDNumber) {
   console.log('Creating bulk Scan Case linked to Exception CCD');
 
-  const bulkScanPaymentsEndPoint = '/bulk-scan-payments';
-  const query = `?exception_reference=${exceptionCCDNumber}`;
+  const url = bulkScanApiUrl + '/bulk-scan-payments' + `?exception_reference=${exceptionCCDNumber}`;
 
   console.log(`This is the Actual Case Number : ${ccdNumber}`);
-  const saveBody = {ccd_case_number: `${ccdNumber}`};
-
-  const saveCaseOptions = {
-    method: 'PUT',
-    uri: bulkScanApiUrl + bulkScanPaymentsEndPoint + query,
-    headers: {
-      ServiceAuthorization: `Bearer ${serviceToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(saveBody)
+  const saveBody = JSON.stringify({ccd_case_number: `${ccdNumber}`});
+  const headers = {
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
   };
-
-  const saveCaseResponse = await request(saveCaseOptions
-    , (_error, response) => {
-      statusCode = response.statusCode;
-    }
-  ).catch(error => {
-    logger.log(error);
-  });
-  return statusCode;
+  const response = await makeRequest(url, 'PUT', headers, saveBody);
+  return response.status;
 }
 
 async function bulkScanCcdLinkedException(exceptionCcdNumber, serviceToken) {
@@ -911,10 +699,9 @@ async function bulkScanCcdLinkedException(exceptionCcdNumber, serviceToken) {
 }
 
 async function createBulkScanRecords(siteId, amount, paymentMethod, exception, linkedCcd = false) {
-  const microservice = 'api_gw';
   const numberSeven = 7;
   const creditSlipNumber = '312312';
-  const serviceToken = await getServiceToken(microservice);
+  const serviceToken = await getServiceToken();
   const bankedDate = stringUtil.getTodayDateInYYYYMMDD();
   const successResponse = 201;
 
@@ -956,8 +743,7 @@ async function bulkScanNormalCcd(siteId, amount, paymentMethod) {
 }
 
 async function getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber, dcnNumber) {
-  const microservice = 'api_gw';
-  const serviceToken = await getServiceToken(microservice);
+  const serviceToken = await getServiceToken();
   const paymentGroupRef = await getPaymentGroupRef(serviceToken, ccdCaseNumber);
   const paymentRCRef = await recordBulkScanPayments(serviceToken, ccdCaseNumber, paymentGroupRef, dcnNumber);
   const failurereference = await recordBouncebackFailure(serviceToken, ccdCaseNumber, paymentRCRef);
@@ -968,8 +754,7 @@ async function getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber, dcnNumber) {
 }
 
 async function getPaymentReferenceUsingCCDCaseNumberForOverPayments(ccdCaseNumber) {
-  const microservice = 'api_gw';
-  const serviceToken = await getServiceToken(microservice);
+  const serviceToken = await getServiceToken();
   const paymentGroupRef = await getPaymentGroupRef(serviceToken, ccdCaseNumber);
   const paymentRCRef = await recordBulkScanPayments(serviceToken, ccdCaseNumber, paymentGroupRef);
   return paymentGroupRef;
@@ -977,8 +762,7 @@ async function getPaymentReferenceUsingCCDCaseNumberForOverPayments(ccdCaseNumbe
 }
 
 async function getPaymentDetailsPBA(ccdCaseNumber, paymentRef) {
-  const microservice = 'api_gw';
-  const serviceToken = await getServiceToken(microservice);
+  const serviceToken = await getServiceToken();
   const failurereference = await recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef);
   await patchFailureReferenceNo(serviceToken, failurereference.failure_reference);
   const todayDateInDDMMMYYYY = stringUtil.getTodayDateInDDMMMYYYY();
@@ -987,8 +771,7 @@ async function getPaymentDetailsPBA(ccdCaseNumber, paymentRef) {
 }
 
 async function getPaymentDetailsPBAForChargebackEvent(ccdCaseNumber, paymentRef) {
-  const microservice = 'api_gw';
-  const serviceToken = await getServiceToken(microservice);
+  const serviceToken = await getServiceToken();
   const failurereference = await recordChargeBackFailureEvent(serviceToken, ccdCaseNumber, paymentRef);
   await patchFailureReferenceNo(serviceToken, failurereference.failure_reference);
   const todayDateInDDMMMYYYY = stringUtil.getTodayDateInDDMMMYYYY();
@@ -997,8 +780,7 @@ async function getPaymentDetailsPBAForChargebackEvent(ccdCaseNumber, paymentRef)
 }
 
 async function getPaymentDetailsPBAForServiceStatus(ccdCaseNumber, paymentRef) {
-  const microservice = 'api_gw';
-  const serviceToken = await getServiceToken(microservice);
+  const serviceToken = await getServiceToken();
   const failurereference = await recordChargeBackFailure(serviceToken, ccdCaseNumber, paymentRef);
   return failurereference;
 
@@ -1014,31 +796,20 @@ async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
   return bulkDcnExpCcd;
 }
 
-// eslint-disable-next-line no-unused-vars
 async function updateRefundStatusByRefundReference(refundReference, reason, status) {
-  const microService = 'ccpay_bubble';
-  const testCmcSecret = testConfig.TestCMCSecret;
+  const serviceToken = await getServiceToken();
+  const url = refundsApiUrl + `/refund/${refundReference}`
 
-  const serviceToken = await getServiceTokenForSecret(microService, testCmcSecret);
-
-  const saveBody = {
+  const saveBody = JSON.stringify({
     reason: `${reason}`,
     status: `${status}`,
-  };
-
-  await request({
-    method: 'PATCH',
-    uri: refundsApiUrl + `/refund/${refundReference}`,
-    headers: {
-      ServiceAuthorization: `${serviceToken}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(saveBody)
-  }, (_error, response) => {
-    console.log(`The response Status Code for refund update : ${response.statusCode}`);
-  }).catch(error => {
-    console.log(error);
   });
+  const headers = {
+    ServiceAuthorization: `${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+  const response = await makeRequest(url, 'PATCH', headers, saveBody);
+  console.log(`The response Status Code for refund update : ${response.status}`);
 }
 
 

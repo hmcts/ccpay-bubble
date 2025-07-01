@@ -1,15 +1,12 @@
 const config = require('config');
-const otp = require('otp');
 const UUID = require('uuid/v4');
-const request = require('request-promise-native');
+const { fetchWithAuth, plainFetch } = require('./UtilService');
 const FeatureService = require('./FeatureService');
+const { URL, URLSearchParams } = require('url');
 
 const payhubUrl = config.get('payhub.url');
 const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
 const pcipalAntennaReturnUrl = config.get('pcipalantenna.url');
-const s2sUrl = config.get('s2s.url');
-const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
-const microService = config.get('ccpaybubble.microservice');
 const ccdUrl = config.get('ccd.url');
 const CASE_REF_VALIDATION_ENABLED = 'caseref-validation';
 
@@ -17,348 +14,243 @@ class PayhubService {
   constructor() {
     this.featureService = new FeatureService();
   }
+
   async sendToPayhub(req) {
-    const serviceAuthToken = await this.createAuthToken();
-    return request.post({
-      uri: `${payhubUrl}/card-payments`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${serviceAuthToken}`,
-        'return-url': `${ccpayBubbleReturnUrl}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    });
+    const url = `${payhubUrl}/card-payments`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+      headers: {'return-url': `${ccpayBubbleReturnUrl}`}
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 
   async postPaymentGroupToPayhub(req) {
-    const serviceAuthToken = await this.createAuthToken();
-    return request.post({
-      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/card-payments`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${serviceAuthToken}`,
-        'return-url': `${ccpayBubbleReturnUrl}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    });
+    const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}/card-payments`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+      headers: {'return-url': `${ccpayBubbleReturnUrl}`}
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 
   async postPaymentAntennaToPayHub(req) {
-    const serviceAuthToken = await this.createAuthToken();
+    const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}/telephony-card-payments`;
     req.body.return_url = pcipalAntennaReturnUrl;
-    return request.post({
-      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/telephony-card-payments`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${serviceAuthToken}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    });
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 
-  postPaymentGroup(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/payment-groups`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async postPaymentGroup(req) {
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    }
+    const resp = await fetchWithAuth(`${payhubUrl}/payment-groups`, req.authToken, options)
+    return resp.json();
   }
 
-  putPaymentGroup(req) {
-    return this.createAuthToken().then(token => request.put({
-      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async putPaymentGroup(req) {
+    const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}`;
+    const options = {
+      method: 'PUT',
+      body: JSON.stringify(req.body),
+    }
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 
-  postRemission(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/remissions`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async postRemission(req) {
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    }
+    const resp = await fetchWithAuth(`${payhubUrl}/remissions`, req.authToken, options);
+    return resp.json();
   }
 
-  deleteFees(req) {
-    return this.createAuthToken().then(token => request.delete({
-      uri: `${payhubUrl}/fees/${req.params.id}`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async deleteFees(req) {
+    const url = `${payhubUrl}/fees/${req.params.id}`;
+    const options = {method: 'DELETE'}
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 
-  postPartialRemission(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/fees/${req.params.feeId}/remissions`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async postPartialRemission(req) {
+    const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}/fees/${req.params.feeId}/remissions`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    }
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 
-  postAllocatePayment(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/bulk-scan-payments`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
-  postBSPayments(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/payment-groups/bulk-scan-payments`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
-  postPaymentAllocations(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/payment-allocations`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async postAllocatePayment(req) {
+    const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}/bulk-scan-payments`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 
-  postStrategicPayment(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/bulk-scan-payments-strategic`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async postBSPayments(req) {
+    const url = `${payhubUrl}/payment-groups/bulk-scan-payments`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 
-  postWoPGStrategicPayment(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/payment-groups/bulk-scan-payments-strategic`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async postPaymentAllocations(req) {
+    const url = `${payhubUrl}/payment-allocations`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 
-  getPayment(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/payments/${req.params.id}`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async postStrategicPayment(req) {
+    const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}/bulk-scan-payments-strategic`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
-  getFailureReport(req) {
+
+  async postWoPGStrategicPayment(req) {
+    const url = `${payhubUrl}/payment-groups/bulk-scan-payments-strategic`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
+  }
+
+  async getPayment(req) {
+    const url = `${payhubUrl}/payments/${req.params.id}`;
+    const resp = await fetchWithAuth(url, req.authToken);
+    return resp.json();
+  }
+
+  async getFailureReport(req) {
     /* eslint-disable no-console */
     console.log(req, `${payhubUrl}/payment-failures/failure-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}`);
-    return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/payment-failures/failure-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
-  getTelephonyPaymentsReport(req) {
-      /* eslint-disable no-console */
-      console.log(req, `${payhubUrl}/telephony-payments/telephony-payments-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}`);
-      return this.createAuthToken().then(token => request.get({
-        uri: `${payhubUrl}/telephony-payments/telephony-payments-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}`,
-        headers: {
-          Authorization: `Bearer ${req.authToken}`,
-          ServiceAuthorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        json: true
-      }));
-    }
-  getPaymentFailure(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/payment-failures/${req.params.id}`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+    const url = new URL(`${payhubUrl}/payment-failures/failure-report`);
+    url.search = new URLSearchParams({
+      date_from: req.query.date_from,
+      date_to: req.query.date_to
+    }).toString();
+    const resp = await fetchWithAuth(url, req.authToken);
+    return resp.json();
   }
 
-  getPaymentGroup(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
-  getPbaAccountList(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/pba-accounts`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
-  postPBAAccountPayment(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/service-request/${req.params.serviceRef}/pba-payments`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
-  postWays2PayCardPayment(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/service-request/${req.params.serviceRef}/card-payments`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
-  getApportionPaymentGroup(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/payment-groups/fee-pay-apportion/${req.params.id}`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async getTelephonyPaymentsReport(req) {
+    /* eslint-disable no-console */
+    console.log(req, `${payhubUrl}/telephony-payments/telephony-payments-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}`);
+    const url = new URL(`${payhubUrl}/telephony-payments/telephony-payments-report`);
+    url.search = new URLSearchParams({
+      date_from: req.query.date_from,
+      date_to: req.query.date_to
+    }).toString();
+    const resp = await fetchWithAuth(url, req.authToken);
+    return resp.json();
   }
 
-  createAuthToken() {
-    const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
-    const serviceAuthRequest = {
-      microservice: microService,
-      oneTimePassword: otpPassword
+  async getPaymentFailure(req) {
+    const url = `${payhubUrl}/payment-failures/${req.params.id}`;
+    const resp = await fetchWithAuth(url, req.authToken);
+    return resp.json();
+  }
+
+  async getPaymentGroup(req) {
+    const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}`;
+    const resp = await fetchWithAuth(url, req.authToken);
+    return resp.json();
+  }
+
+  async getPbaAccountList(req) {
+    const resp = await fetchWithAuth(`${payhubUrl}/pba-accounts`, req.authToken);
+    return resp.json();
+  }
+
+  async postPBAAccountPayment(req) {
+    const url = `${payhubUrl}/service-request/${req.params.serviceRef}/pba-payments`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
     };
-    return request.post({
-      uri: `${s2sUrl}/lease`,
-      body: serviceAuthRequest,
-      json: true
-    });
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 
-  ccpayWebComponentIntegration(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/${req.params[0]}`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async postWays2PayCardPayment(req) {
+    const url = `${payhubUrl}/service-request/${req.params.serviceRef}/card-payments`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 
-  getSelectedReport(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/payment/bulkscan-data-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}&report_type=${req.query.report_type}`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      responseType: 'blob',
-      json: true
-    }));
+  async getApportionPaymentGroup(req) {
+    const url = `${payhubUrl}/payment-groups/fee-pay-apportion/${req.params.id}`;
+    const resp = await fetchWithAuth(url, req.authToken);
+    return resp.json();
   }
-  validateCaseReference(req) {
-    let serviceToken = '';
-    return this.createAuthToken()
-      .then(token => {
-        serviceToken = token;
-        return request.get({
-          uri: `${ccdUrl}/cases/${req.params.caseref.replace(/-/g, '')}`,
-          headers: {
-            Authorization: `Bearer ${req.authToken}`,
-            ServiceAuthorization: `Bearer ${serviceToken}`,
-            experimental: 'true',
-            accept: 'application/vnd.uk.gov.hmcts.ccd-data-store-api.case.v2+json;charset=UTF-8',
-            'Content-Type': 'application/json'
-          },
-          json: true
-        });
-      });
+
+  async ccpayWebComponentIntegration(req) {
+    const url = `${payhubUrl}/${req.params[0]}`;
+    const resp = await fetchWithAuth(url, req.authToken);
+    return resp.json();
+  }
+
+  async getSelectedReport(req) {
+    const url = new URL(`${payhubUrl}/payment/bulkscan-data-report`);
+    url.search = new URLSearchParams({
+      date_from: req.query.date_from,
+      date_to: req.query.date_to,
+      report_type: req.query.report_type
+    }).toString();
+    const resp = await fetchWithAuth(url, req.authToken);
+    return resp.buffer();
+  }
+
+  async validateCaseReference(req) {
+    const url = `${ccdUrl}/cases/${req.params.caseref.replace(/-/g, '')}`;
+    const options = {
+      headers: {
+        experimental: 'true',
+        accept: 'application/vnd.uk.gov.hmcts.ccd-data-store-api.case.v2+json;charset=UTF-8'
+      }
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 
   getBSfeature(req) {
-    return this.createAuthToken()
-      .then(token => this.featureService.getFeatures(req, token));
+    return this.featureService.getFeatures(req);
   }
 
   getFees() {
-    return request.get({ uri: config.get('fee.feeRegistrationUrl') });
+    return plainFetch(config.get('fee.feeRegistrationUrl'));
   }
 
   isCaseRefValidationEnabled(features) {
@@ -366,58 +258,43 @@ class PayhubService {
     return regFeature ? regFeature.enable : false;
   }
 
-  getPartyDetails(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${payhubUrl}/case-payment-orders?case_ids=${req.query.case_ids}`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      responseType: 'blob',
-      json: true
-    }));
+  async getPartyDetails(req) {
+    const url = `${payhubUrl}/case-payment-orders?case_ids=${req.query.case_ids}`;
+    const resp = await fetchWithAuth(url, req.authToken);
+    return resp.buffer();
   }
 
   // refunds
-  postRefundsReason(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/refund-for-payment`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async postRefundsReason(req) {
+    const url = `${payhubUrl}/refund-for-payment`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 
-  postPaymentGroupWithRetroRemissions(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/payment-groups/${req.params.paymentGroup}/fees/${req.params.feeId}/retro-remission`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async postPaymentGroupWithRetroRemissions(req) {
+    const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}/fees/${req.params.feeId}/retro-remission`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 
-  postRefundRetroRemission(req) {
-    return this.createAuthToken().then(token => request.post({
-      uri: `${payhubUrl}/refund-retro-remission`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+  async postRefundRetroRemission(req) {
+    const url = `${payhubUrl}/refund-retro-remission`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
+
   getIdempotencyKey() {
     return UUID();
   }
