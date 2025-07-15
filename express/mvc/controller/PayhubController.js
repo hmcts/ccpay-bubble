@@ -1,11 +1,9 @@
 /* eslint-disable no-magic-numbers */
 const { payhubService } = require('../../services');
 const config = require('config');
-const request = require('request-promise-native');
 const LaunchDarkly = require('launchdarkly-node-client-sdk');
-const HttpStatusCodes = require('http-status-codes');
 const { Logger } = require('@hmcts/nodejs-logging');
-const {errorHandler} = require("../../services/UtilService");
+const {errorHandler, plainFetch} = require("../../services/UtilService");
 
 const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
 const LDprefix = config.get('environment.ldPrefix');
@@ -23,16 +21,11 @@ class PayhubController {
     // eslint-disable-next-line
     .then(result => {
         if (result._links.next_url) {
-          request({
-            method: 'GET',
-            uri: result._links.next_url.href
-          },
-          (error, response, body) => {
-            if (error) {
-              return errorHandler(res, error);
-            }
-            return res.status(200).send(body);
-          });
+          return plainFetch(result._links.next_url.href)
+          .then(response => {
+            return response.buffer().then(body => res.status(200).send(body));
+          })
+          .catch(error => errorHandler(res, error));
         } else {
           const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
           return errorHandler(res, error);
@@ -56,16 +49,9 @@ class PayhubController {
     // eslint-disable-next-line
     .then(result => {
         if (result._links.next_url) {
-          request({
-            method: 'GET',
-            uri: result._links.next_url.href
-          },
-          (error, response, body) => {
-            if (error) {
-              return errorHandler(res, error);
-            }
-            return res.status(200).send(body);
-          });
+          return plainFetch(result._links.next_url.href)
+          .then(resp => resp.buffer().then(body => res.status(200).send(body)))
+          .catch(error => errorHandler(res, error));
         } else {
           const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
           return res.status(500).json({ err: `${error.message}`, success: false });
@@ -98,16 +84,9 @@ class PayhubController {
     // eslint-disable-next-line
     .then(result => {
         if (result._links.next_url) {
-          request({
-            method: 'GET',
-            uri: result._links.next_url.href
-          },
-          (error, response, body) => {
-            if (error) {
-              return errorHandler(res, error);
-            }
-            return res.status(200).send(body);
-          });
+          return plainFetch(result._links.next_url.href)
+          .then(resp => resp.buffer().then(body => res.status(200).send(body)))
+          .catch(error => errorHandler(res, error));
         } else {
           const error = `Invalid json received from Payment Hub: ${JSON.stringify(result)}`;
           return errorHandler(res, error);
