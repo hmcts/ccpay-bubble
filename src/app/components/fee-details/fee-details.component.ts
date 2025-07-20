@@ -56,6 +56,15 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
       }
     }
 
+    // Ranged percentage fee needs to be taken from feeAmountFormControl
+    if (this.fee.current_version !== undefined && this.fee.current_version.percentage_amount !== undefined && this.fee.fee_type === 'ranged') {
+      this.fee.current_version.percentage_amount.percentage = this.feeDetailFormGroup.get('feeAmountFormControl').value;
+
+      if (this.selectedFeeVersion != null) {
+        this.selectedFeeVersion.percentage_amount.percentage = this.feeDetailFormGroup.get('feeAmountFormControl').value;
+      }
+    }
+
     if (this.fee.current_version === undefined
         && this.fee.fee_versions.length > 0
         && this.validOldVersionArray.length === 1) {
