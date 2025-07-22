@@ -52,7 +52,7 @@ module.exports = {
     I.see(feeAmount);
     I.see('Description');
     I.see('Quantity');
-    I.see('Remission,HWF-A1B-23C');
+    I.see('Remission HWF-A1B-23C');
     I.see(remissionAmount);
     I.see('Total to pay:');
     I.see(totalAfterRemission);
