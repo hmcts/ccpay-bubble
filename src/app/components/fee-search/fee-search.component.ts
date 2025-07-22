@@ -134,7 +134,7 @@ export class FeeSearchComponent implements OnInit {
         description: selectedFeeVersion.description,
         volume: ((feeType === 'rateable' && flatAmt) || (feeType === 'ranged' && percentageAmt))
         ? 1 : this.outputEmitterFeesDetails.volumeAmount,
-        fee_amount: fee_amount ? fee_amount : null
+        fee_amount: fee_amount
       }]
     };
 
