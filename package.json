@@ -113,7 +113,7 @@
     "@angular-eslint/template-parser": "18.0.1",
     "@angular/animations": "~18.2.13",
     "@angular/cdk": "^16.1.6",
-    "@angular/cli": "18.2.18",
+    "@angular/cli": "18.2.20",
     "@angular/common": "18.2.13",
     "@angular/compiler": "~18.2.13",
     "@angular/compiler-cli": "~18.2.13",
