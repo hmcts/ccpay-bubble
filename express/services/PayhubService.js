@@ -230,7 +230,7 @@ class PayhubService {
       report_type: req.query.report_type
     }).toString();
     const resp = await fetchWithAuth(url, req.authToken);
-    return resp.buffer();
+    return resp.json();
   }
 
   async validateCaseReference(req) {
