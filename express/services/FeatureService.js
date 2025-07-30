@@ -1,19 +1,13 @@
 const config = require('config');
-const request = require('request-promise-native');
+const { fetchWithAuth } = require("./UtilService");
 
 const payhubUrl = config.get('payhub.url');
 
 class FeatureService {
-  getFeatures(req, token) {
-    return request.get({
-      uri: `${payhubUrl}/api/ff4j/store/features`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    });
+  async getFeatures(req) {
+    const url = `${payhubUrl}/api/ff4j/store/features`;
+    const resp = await fetchWithAuth(url, req.authToken);
+    return resp.json();
   }
 }
 
