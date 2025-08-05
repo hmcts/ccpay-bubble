@@ -361,6 +361,8 @@ module.exports = {
     I.see(refundReturnText);
   },
 
+  // Updating the steps for Liberata Rejection RefundWhenContacted
+  // PAY-7934 - Remove Card Refunds PayIT journey for RefundWhenContacted
   verifyRefundDetailsAfterLiberataRejection(reviewRefundDetailsDataAfterApproval, viewNotificationFlag = false, refundNotificationPreviewData = null) {
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Refund details');
@@ -396,23 +398,24 @@ module.exports = {
     I.see('Approved');
     I.see('Accepted');
     I.see('Rejected');
-    I.see('Approved');
+    // I.see('Approved');
     I.see('Users');
     I.see(reviewRefundDetailsDataAfterApproval.refundRequester);
     I.see(reviewRefundDetailsDataAfterApproval.refundApprover);
     I.see('Middle office provider');
-    I.see('System user');
+    I.dontSee('System user');
     I.see('Notes');
     I.see('Refund initiated and sent to team leader');
     I.see('Sent to middle office');
     I.see('Sent to Middle Office for Processing');
     I.see('Unable to apply refund to Card');
-    I.see('Refund approved by system');
+    I.dontSee('Refund approved by system');
 
     if (viewNotificationFlag) {
       I.click('View');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      verifySystemApprovedRefundWhenContactedNotification(refundNotificationPreviewData);
+      // verifySystemApprovedRefundWhenContactedNotification(refundNotificationPreviewData);
+      verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData);
       I.click('Hide');
       I.wait(CCPBATConstants.twoSecondWaitTime);
     }
