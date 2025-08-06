@@ -1,36 +1,22 @@
 /* eslint-disable no-undefined */
 const config = require('config');
-const otp = require('otp');
-const request = require('request-promise-native');
+const { fetchWithAuth } = require('./UtilService');
 
 const notificationUrl = config.get('notification.url');
 
-const s2sUrl = config.get('s2s.url');
-const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
-const microService = config.get('ccpaybubble.microservice');
 
 class NotificationService {
-  getRefundNotification(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${notificationUrl}/notifications/${req.params.id}`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+
+  async getRefundNotification(req) {
+    const url = `${notificationUrl}/notifications/${req.params.id}`;
+    const resp = await fetchWithAuth(url, req.authToken);
+    return resp.json();
   }
-  getaddressByPostcode(req) {
-    return this.createAuthToken().then(token => request.get({
-      uri: `${notificationUrl}/notifications/postcode-lookup/${req.params.postcode}`,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
+
+  async getaddressByPostcode(req) {
+    const url = `${notificationUrl}/notifications/postcode-lookup/${req.params.postcode}`;
+    const resp = await fetchWithAuth(url, req.authToken);
+    return resp.json();
     /*
     Logger.getLogger('postcode: user').info(postcodeLookupKey);
     return request.get({
@@ -39,30 +25,15 @@ class NotificationService {
       json: true
     });*/
   }
-  docPreview(req) {
-    /* eslint-disable no-console */
-    return this.createAuthToken().then(token => request.post({
-      uri: `${notificationUrl}/notifications/doc-preview`,
-      body: req.body,
-      headers: {
-        Authorization: `Bearer ${req.authToken}`,
-        ServiceAuthorization: `${token}`,
-        'Content-Type': 'application/json'
-      },
-      json: true
-    }));
-  }
-  createAuthToken() {
-    const otpPassword = otp({ secret: ccpayBubbleSecret }).totp();
-    const serviceAuthRequest = {
-      microservice: microService,
-      oneTimePassword: otpPassword
-    };
-    return request.post({
-      uri: `${s2sUrl}/lease`,
-      body: serviceAuthRequest,
-      json: true
-    });
+
+  async docPreview(req) {
+    const url = `${notificationUrl}/notifications/doc-preview`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    }
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 }
 
