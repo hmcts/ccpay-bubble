@@ -90,6 +90,57 @@ describe('Filter fees pipe', () => {
     expect(filterFeesPipe.isConjunction('divorce')).toBeFalsy();
     expect(filterFeesPipe.isConjunction('or')).toBeTruthy();
     expect(filterFeesPipe.isConjunction('and')).toBeTruthy();
+  });
 
+  it('Should include fee if valid_from is in the past and valid_to is in the future', () => {
+    const now = new Date();
+    const fee = {
+      current_version: {
+        status: 'approved',
+        valid_from: new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString(), // yesterday
+        valid_to: new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString(),   // tomorrow
+      }
+    };
+    const result = filterFeesPipe.filterValidFee([fee as any]);
+    expect(result.length).toBe(1);
+  });
+
+  it('Should exclude fee if valid_from is in the future', () => {
+    const now = new Date();
+    const fee = {
+      current_version: {
+        status: 'approved',
+        valid_from: new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString(), // tomorrow
+        valid_to: new Date(now.getTime() + 48 * 60 * 60 * 1000).toISOString(),   // day after tomorrow
+      }
+    };
+    const result = filterFeesPipe.filterValidFee([fee as any]);
+    expect(result.length).toBe(0);
+  });
+
+  it('Should include fee if valid_to is null (no end date) and valid_from is in the past', () => {
+    const now = new Date();
+    const fee = {
+      current_version: {
+        status: 'approved',
+        valid_from: new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString(), // yesterday
+        valid_to: null,
+      }
+    };
+    const result = filterFeesPipe.filterValidFee([fee as any]);
+    expect(result.length).toBe(1);
+  });
+
+  it('Should exclude fee if valid_to is in the past', () => {
+    const now = new Date();
+    const fee = {
+      current_version: {
+        status: 'approved',
+        valid_from: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days ago
+        valid_to: new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString(),      // yesterday
+      }
+    };
+    const result = filterFeesPipe.filterValidFee([fee as any]);
+    expect(result.length).toBe(0);
   });
 });
