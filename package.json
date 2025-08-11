@@ -244,7 +244,8 @@
     "cookie": "^1.0.2",
     "cross-spawn": "7.0.6",
     "brace-expansion": "1.1.12",
-    "form-data": "~2.5.4"
+    "form-data": "~2.5.4",
+    "tmp": "^0.2.4"
   },
   "packageManager": "yarn@3.5.1"
 }

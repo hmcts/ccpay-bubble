@@ -110,7 +110,8 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     I.clearCookie();
   }).tag('@pipeline @nightly');
 
-Scenario('Refund journey for complete cheque amount(500) with OverPayment option(280) and Refund(220) and Liberata rejected System approved RefundWhenContacted notification',
+// Updating the tests due to PAY-7934 - Remove Card Refunds PayIT journey for RefundWhenContacted
+Scenario('Refund journey for complete cheque amount(500) with OverPayment option(280) and Refund(220) and Liberata rejected',
   async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
            PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
