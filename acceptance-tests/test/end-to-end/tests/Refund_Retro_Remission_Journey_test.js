@@ -432,7 +432,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     CaseTransaction.checkBulkCaseShortfallSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid', '23.00');
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
-    //  remission refund - 100
+    //  remission refund - 50 -> 27
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '23.00', '0.00');
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
@@ -501,5 +501,4 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-  }); //.tag('@pipeline @nightly');
+  }).tag('@pipeline @nightly');
