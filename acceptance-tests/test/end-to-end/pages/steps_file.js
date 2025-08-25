@@ -40,6 +40,8 @@ module.exports = () => actor({
     this.AcceptPayBubbleCookies();
   },
 
+
+
   // Logout() {
   //   this.wait(CCPBConstants.fiveSecondWaitTime);
   //   this.click('Logout');
