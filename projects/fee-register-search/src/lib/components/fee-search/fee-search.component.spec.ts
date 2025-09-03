@@ -9,13 +9,13 @@ describe('Fee search component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FeeSearchComponent],
-      imports: [
+    imports: [
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
-      ],
-    });
+        ReactiveFormsModule,
+        FeeSearchComponent
+    ],
+});
 
     fixture = TestBed.createComponent(FeeSearchComponent);
     component = fixture.componentInstance;

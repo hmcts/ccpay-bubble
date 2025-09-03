@@ -13,16 +13,14 @@ describe('Fee list component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+    imports: [
+        CommonModule,
+        NgxPaginationModule,
         FeeListComponent,
         FilterFeesPipe
-      ],
-      imports: [
-        CommonModule,
-        NgxPaginationModule
-      ],
-      schemas: [NO_ERRORS_SCHEMA],
-    });
+    ],
+    schemas: [NO_ERRORS_SCHEMA],
+});
 
     fixture = TestBed.createComponent(FeeListComponent);
     component = fixture.componentInstance;

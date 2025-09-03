@@ -29,30 +29,30 @@ describe('Payment History case transaction component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PaymentHistoryComponent],
-      providers: [
+    imports: [PaymentHistoryComponent],
+    providers: [
         {
-          provide: ActivatedRoute, useValue: {
-            params: of({ ccdCaseNumber: '1111-2222-3333-4444' }),
-            snapshot: {
-              queryParams: {
-                takePayment: true,
-                view: 'case-transations'
-              }
+            provide: ActivatedRoute, useValue: {
+                params: of({ ccdCaseNumber: '1111-2222-3333-4444' }),
+                snapshot: {
+                    queryParams: {
+                        takePayment: true,
+                        view: 'case-transations'
+                    }
+                }
             }
-          }
         },
         { provide: Router, useValue: routerMock1 },
         {
-          provide: IdamDetails,
-          useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+            provide: IdamDetails,
+            useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
         },
         { provide: PaymentGroupService,
-          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
-         }
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
-    });
+            useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        }
+    ],
+    schemas: [NO_ERRORS_SCHEMA]
+});
 
     fixture = TestBed.createComponent(PaymentHistoryComponent);
     component = fixture.componentInstance;
@@ -92,33 +92,33 @@ describe('Payment History component case-transations', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PaymentHistoryComponent],
-      providers: [{
-        provide: ActivatedRoute,
-        useValue: {
-          params: of({ ccdCaseNumber: '1111-2222-3333-4444' }),
-          snapshot: {
-            queryParams: {
-              takePayment: true,
-              view: 'case-transations'
+    imports: [PaymentHistoryComponent],
+    providers: [{
+            provide: ActivatedRoute,
+            useValue: {
+                params: of({ ccdCaseNumber: '1111-2222-3333-4444' }),
+                snapshot: {
+                    queryParams: {
+                        takePayment: true,
+                        view: 'case-transations'
+                    }
+                }
             }
-          }
-        }
-      },
-      { provide: Router, useValue: routerMock },
-      { provide: PaymentGroupService ,
-        useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
-      },
-      {
-        provide: IdamDetails,
-        useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
-      },
-      {
-        provide: PaymentGroupService,
-        useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
-      }],
-      schemas: [NO_ERRORS_SCHEMA]
-    });
+        },
+        { provide: Router, useValue: routerMock },
+        { provide: PaymentGroupService,
+            useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        },
+        {
+            provide: IdamDetails,
+            useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        },
+        {
+            provide: PaymentGroupService,
+            useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        }],
+    schemas: [NO_ERRORS_SCHEMA]
+});
 
     fixture = TestBed.createComponent(PaymentHistoryComponent);
     component = fixture.componentInstance;
@@ -153,30 +153,30 @@ describe('Payment History component fee-summary', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PaymentHistoryComponent],
-      providers: [{
-        provide: ActivatedRoute,
-        useValue: {
-          params: of({ ccdCaseNumber: '1111-2222-3333-4444', view: '' }),
-          snapshot: {
-            queryParams: { view: 'fee-summary', paymentGroupRef: '123' }
-          }
-        }
-      },
-      { provide: Router, useValue: routerMock },
-      { provide: PaymentGroupService ,
-        useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
-      },
-      {
-        provide: IdamDetails,
-        useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
-      },
-      {
-        provide: PaymentGroupService,
-        useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
-      } ],
-      schemas: [NO_ERRORS_SCHEMA]
-    });
+    imports: [PaymentHistoryComponent],
+    providers: [{
+            provide: ActivatedRoute,
+            useValue: {
+                params: of({ ccdCaseNumber: '1111-2222-3333-4444', view: '' }),
+                snapshot: {
+                    queryParams: { view: 'fee-summary', paymentGroupRef: '123' }
+                }
+            }
+        },
+        { provide: Router, useValue: routerMock },
+        { provide: PaymentGroupService,
+            useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        },
+        {
+            provide: IdamDetails,
+            useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        },
+        {
+            provide: PaymentGroupService,
+            useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        }],
+    schemas: [NO_ERRORS_SCHEMA]
+});
 
     fixture = TestBed.createComponent(PaymentHistoryComponent);
     component = fixture.componentInstance;
@@ -224,30 +224,30 @@ describe('Payment History component Reports', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PaymentHistoryComponent],
-      providers: [{
-        provide: ActivatedRoute,
-        useValue: {
-          params: of({ view: 'reports' }),
-          snapshot: {
-            queryParams: { view: '' }
-          }
-        }
-      },
-      { provide: Router, useValue: routerMock },
-      { provide: PaymentGroupService,
-        useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
-      },
-      {
-        provide: IdamDetails,
-        useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
-      },
-      {
-        provide: PaymentGroupService,
-        useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
-      }],
-      schemas: [NO_ERRORS_SCHEMA]
-    });
+    imports: [PaymentHistoryComponent],
+    providers: [{
+            provide: ActivatedRoute,
+            useValue: {
+                params: of({ view: 'reports' }),
+                snapshot: {
+                    queryParams: { view: '' }
+                }
+            }
+        },
+        { provide: Router, useValue: routerMock },
+        { provide: PaymentGroupService,
+            useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        },
+        {
+            provide: IdamDetails,
+            useValue: new IdamDetails(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        },
+        {
+            provide: PaymentGroupService,
+            useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        }],
+    schemas: [NO_ERRORS_SCHEMA]
+});
 
     fixture = TestBed.createComponent(PaymentHistoryComponent);
     component = fixture.componentInstance;

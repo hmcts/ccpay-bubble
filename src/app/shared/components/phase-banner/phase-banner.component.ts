@@ -1,12 +1,13 @@
 import { Component, Input, ViewEncapsulation, ViewChild } from '@angular/core';
 import { BulkScanService } from 'express/services/';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-phase-banner',
-  standalone: false,
-  templateUrl: './phase-banner.component.html',
-  styleUrls: ['./phase-banner.component.css'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-phase-banner',
+    templateUrl: './phase-banner.component.html',
+    styleUrls: ['./phase-banner.component.css'],
+    encapsulation: ViewEncapsulation.None,
+    imports: [UpperCasePipe]
 })
 export class PhaseBannerComponent {
   @Input() type = 'beta';

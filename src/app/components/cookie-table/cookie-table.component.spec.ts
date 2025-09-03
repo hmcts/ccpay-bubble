@@ -18,11 +18,11 @@ describe('CookieTableComponentTest', () => {
   beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
-      declarations: [ CookieTableComponent ],
-      imports: [
-        RouterTestingModule
-      ]
-    })
+    imports: [
+        RouterTestingModule,
+        CookieTableComponent
+    ]
+})
       .compileComponents();
   }));
 

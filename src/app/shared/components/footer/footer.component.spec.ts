@@ -8,11 +8,11 @@ describe('FooterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FooterComponent],
-      imports: [
-        RouterTestingModule
-      ],
-    });
+    imports: [
+        RouterTestingModule,
+        FooterComponent
+    ],
+});
     fixture = TestBed.createComponent(FooterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

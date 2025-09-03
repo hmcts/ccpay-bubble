@@ -18,11 +18,11 @@ describe('Service failure component', () => {
   beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
-      declarations: [ServiceFailureComponent],
-      imports: [
-        RouterTestingModule
-      ]
-    })
+    imports: [
+        RouterTestingModule,
+        ServiceFailureComponent
+    ]
+})
       .compileComponents();
   }));
 

@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
 import * as ls from 'local-storage';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-ccd-search',
-  standalone: false,
-  templateUrl: './ccd-search.component.html',
-  styleUrls: ['./ccd-search.component.scss']
+    selector: 'app-ccd-search',
+    templateUrl: './ccd-search.component.html',
+    styleUrls: ['./ccd-search.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, NgIf, NgClass]
 })
 export class CcdSearchComponent implements OnInit {
   searchForm: FormGroup;

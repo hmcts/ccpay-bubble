@@ -12,9 +12,8 @@ describe('View payment component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [ViewPaymentComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    imports: [],
+    imports: [ViewPaymentComponent],
     providers: [
         {
             provide: ActivatedRoute,

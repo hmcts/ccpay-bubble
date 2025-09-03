@@ -17,12 +17,12 @@ describe('CookieBannerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [ CookieBannerComponent ],
-      providers: [
+    imports: [CookieBannerComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    providers: [
         { provide: windowToken, useValue: windowMock }
-      ]
-    })
+    ]
+})
     .compileComponents();
   }));
 

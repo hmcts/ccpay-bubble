@@ -256,17 +256,17 @@ describe('Fee search component', () => {
       navigate: jasmine.createSpy('navigate')
     };
     TestBed.configureTestingModule({
-      declarations: [FeeSearchComponent],
-      providers: [
+    imports: [FeeSearchComponent],
+    providers: [
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: Router, useValue: routerService },
         {
-          provide: PaymentGroupService,
-          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+            provide: PaymentGroupService,
+            useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
         }
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
-    });
+    ],
+    schemas: [NO_ERRORS_SCHEMA]
+});
 
     fixture = TestBed.createComponent(FeeSearchComponent);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
