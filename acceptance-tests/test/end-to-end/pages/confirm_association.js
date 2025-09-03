@@ -34,7 +34,7 @@ module.exports = {
     I.see('Amount Due');
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
-    //I.see(volume);
+    I.see(volume);
     I.see(`£${FeeAmount}`);
     I.see('Amount left to be allocated £0.00');
     I.see('Confirm');
