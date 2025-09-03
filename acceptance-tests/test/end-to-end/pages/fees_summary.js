@@ -14,7 +14,7 @@ module.exports = {
     I.see('Quantity');
     I.see('Amount');
     I.see(PaybubbleStaticData.fee_description[feeCode]);
-    //I.see('1');
+    I.see('1');
     I.see(`£${amount}`);
     I.see('Add fee');
     I.see('Total to pay:');
