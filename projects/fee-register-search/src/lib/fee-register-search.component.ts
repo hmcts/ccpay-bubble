@@ -7,6 +7,7 @@ import { Jurisdictions } from './models/Jurisdictions';
 
 @Component({
   selector: 'pay-fee-register-search',
+  standalone: false,
   templateUrl: './fee-register-search.component.html'
 })
 export class FeeRegisterSearchComponent implements OnInit {
