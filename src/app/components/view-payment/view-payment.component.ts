@@ -4,7 +4,6 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { CcpayViewPaymentComponent } from '../../../../projects/view-payment/src/lib/view-payment.component';
 
-
 @Component({
     selector: 'app-view-payment',
     standalone: true,

@@ -3,21 +3,21 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 import { ViewPaymentService } from './view-payment.service';
-import { ViewPaymentComponent } from './view-payment.component';
+import { CcpayViewPaymentComponent } from './view-payment.component';
 
 describe('View payment component', () => {
-  let component: ViewPaymentComponent;
-  let fixture: ComponentFixture<ViewPaymentComponent>;
+  let component: CcpayViewPaymentComponent;
+  let fixture: ComponentFixture<CcpayViewPaymentComponent>;
   let testBedService: ViewPaymentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
     schemas: [NO_ERRORS_SCHEMA],
-    imports: [ViewPaymentComponent],
+    imports: [CcpayViewPaymentComponent],
     providers: [ViewPaymentService, provideHttpClient(withInterceptorsFromDi())]
 });
 
-    fixture = TestBed.createComponent(ViewPaymentComponent);
+    fixture = TestBed.createComponent(CcpayViewPaymentComponent);
     component = fixture.componentInstance;
     testBedService = TestBed.inject(ViewPaymentService);
   });
