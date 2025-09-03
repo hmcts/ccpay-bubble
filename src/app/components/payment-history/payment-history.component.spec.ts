@@ -1,6 +1,6 @@
 import {ComponentFixture, TestBed } from '@angular/core/testing';
 import { PaymentHistoryComponent } from './payment-history.component';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { of, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -9,23 +9,28 @@ import { IdamDetails } from '../../services/idam-details/idam-details';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
 import { instance, mock } from 'ts-mockito';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 const roles: string[] = ['caseworker', 'payments'];
 const routerMock = {
   navigateByUrl: jasmine.createSpy('navigateByUrl'),
-  url: '/test?test=view'
+  url: 'http://localhost:3000/fee-search?selectedOption=ccdorexception&ccdCaseNumber=1710520696220397&isBulkScanning=Enable&isTurnOff=Disable&isStFixEnable=Disable&caseType=GrantOfRepresentation'
 };
 const routerMock1 = {
   navigateByUrl: jasmine.createSpy('navigateByUrl'),
-  url: 'http://google.com/payment-history/view'
+  url: 'http://localhost:3000/fee-search?selectedOption=ccdorexception&ccdCaseNumber=1710520696220397&isBulkScanning=Enable&isTurnOff=Disable&isStFixEnable=Disable&caseType=GrantOfRepresentation'
 };
+Object.defineProperty(document, 'cookie', {
+  writable: true,
+  value: 'XSRF-TOKEN=mock-csrf-token-123'
+});
+
 describe('Payment History case transaction component', () => {
   let component: PaymentHistoryComponent,
     fixture: ComponentFixture<PaymentHistoryComponent>,
     idamDetails: IdamDetails,
     paymentGroupService: PaymentGroupService;
   let activatedRoute: ActivatedRoute;
-
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,7 +42,17 @@ describe('Payment History case transaction component', () => {
                 snapshot: {
                     queryParams: {
                         takePayment: true,
-                        view: 'case-transations'
+                        view: 'case-transations',
+                        isBulkScanning: 'Enable',
+                        isStFixEnable: 'Enable',
+                        isTurnOff: 'Enable',
+                        exceptionRecord: 'EXC123',
+                        paymentGroupRef: '123',
+                        dcn: 'DCN456',
+                        selectedOption: 'option1',
+                        caseType: 'all',
+                        servicerequest: 'SR789',
+                        refundlist: 'RL101'
                     }
                 }
             }
@@ -157,9 +172,23 @@ describe('Payment History component fee-summary', () => {
     providers: [{
             provide: ActivatedRoute,
             useValue: {
-                params: of({ ccdCaseNumber: '1111-2222-3333-4444', view: '' }),
+                params: of({ ccdCaseNumber: '1111-2222-3333-4444', view: '', isTurnOff: false, caseType: 'all' }),
                 snapshot: {
-                    queryParams: { view: 'fee-summary', paymentGroupRef: '123' }
+                    queryParams: {
+                        takePayment: true,
+                        view: 'fee-summary',
+                        isBulkScanning: 'Disable',
+                        isStFixEnable: 'Disable',
+                        isTurnOff: 'Enable',
+                        exceptionRecord: 'EXC123',
+                        paymentGroupRef: '123',
+                        dcn: 'DCN456',
+                        selectedOption: 'option1',
+                        caseType: 'all',
+                        servicerequest: 'SR789',
+                        refundlist: 'RL101',
+                        ccdCaseNumber: '1111-2222-3333-4444'
+                    }
                 }
             }
         },
@@ -193,9 +222,11 @@ describe('Payment History component fee-summary', () => {
     spyOn(idamDetails, 'getUserRoles').and.callFake(() => new BehaviorSubject(roles));
     spyOn(paymentGroupService, 'getEnvironment').and.callFake(() => Promise.resolve('demo'));
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
+
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
+
     expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
     //  expect(component.view).toBe('fee-summary');
     expect(component.paymentGroupRef).toBe('123');
@@ -228,9 +259,9 @@ describe('Payment History component Reports', () => {
     providers: [{
             provide: ActivatedRoute,
             useValue: {
-                params: of({ view: 'reports' }),
+                params: of({ ccdCaseNumber: '1111-2222-3333-4444', paymentGroupRef: '123', view: 'reports' }),
                 snapshot: {
-                    queryParams: { view: '' }
+                    queryParams: { view: '', paymentGroupRef: '123' }
                 }
             }
         },
@@ -267,8 +298,10 @@ describe('Payment History component Reports', () => {
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(component.view).toBe('');
-    expect(component.bulkscanapiRoot).toBe('api/bulk-scan');
+
+    expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
+    expect(component.paymentGroupRef).toBe('123');
+    expect(component.apiRoot).toBe('api/payment-history');
   });
 
   it('check if queryparam is undefined or not activatedRoute', async () => {

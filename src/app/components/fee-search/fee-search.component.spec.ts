@@ -7,7 +7,7 @@ import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.cl
 import { instance, mock, anyFunction } from 'ts-mockito';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('Fee search component', () => {
   let component: FeeSearchComponent,
@@ -256,7 +256,7 @@ describe('Fee search component', () => {
       navigate: jasmine.createSpy('navigate')
     };
     TestBed.configureTestingModule({
-    imports: [FeeSearchComponent],
+    imports: [FeeSearchComponent, HttpClientTestingModule],
     providers: [
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: Router, useValue: routerService },

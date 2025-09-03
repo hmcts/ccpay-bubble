@@ -5,12 +5,11 @@ import { PaymentGroupService } from '../../services/payment-group/payment-group.
 import * as ls from 'local-storage';
 import {Router} from '@angular/router';
 import { NgIf } from '@angular/common';
-import { PaymentLibModule } from '@hmcts/ccpay-web-component';
 @Component({
     selector: 'app-payment-history',
     templateUrl: './payment-history.component.html',
     styleUrls: ['./payment-history.component.scss'],
-    imports: [NgIf, PaymentLibModule]
+    imports: [NgIf]
 })
 export class PaymentHistoryComponent implements OnInit {
   apiRoot: string;
