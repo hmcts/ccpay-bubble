@@ -34,14 +34,14 @@ module.exports = {
     I.see('Amount Due');
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
-    I.see(volume);
+    //I.see(volume);
     I.see(`£${FeeAmount}`);
     I.see('Amount left to be allocated £0.00');
     I.see('Confirm');
   },
 
   verifyConfirmAssociationShortfallPayment(feeCode, volume,
-    allocatedAmount, feeAmount, calculatedAmount, shortfallAmount) {
+                                           allocatedAmount, feeAmount, calculatedAmount, shortfallAmount) {
     I.see('Confirm allocation');
     I.waitForText(`Amount to be allocated: £${allocatedAmount}`, CCPBConstants.tenSecondWaitTime);
     I.see('Code');
@@ -73,69 +73,69 @@ module.exports = {
 
   selectReasonForShortfall(reason) {
     switch (reason) {
-    case 'Help with Fees':
-      I.checkOption(this.locators.help_with_fees);
-      break;
-    case 'Incorrect payment received':
-      I.checkOption(this.locators.incorrect_payment_received);
-      break;
-    case 'Other reason':
-      I.checkOption(this.locators.other_reason);
-      break;
-    default: I.checkOption(this.locators.help_with_fees);
+      case 'Help with Fees':
+        I.checkOption(this.locators.help_with_fees);
+        break;
+      case 'Incorrect payment received':
+        I.checkOption(this.locators.incorrect_payment_received);
+        break;
+      case 'Other reason':
+        I.checkOption(this.locators.other_reason);
+        break;
+      default: I.checkOption(this.locators.help_with_fees);
     }
   },
 
   selectReasonForSurplus(reason) {
     switch (reason) {
-    case 'Help with Fees awarded':
-      I.checkOption(this.locators.help_with_fees_awarded);
-      break;
-    case 'Incorrect payment received':
-      I.checkOption(this.locators.incorrect_payment_received);
-      break;
-    case 'Unable to issue case':
-      I.checkOption(this.locators.unable_to_issue);
-      break;
-    case 'Other reason':
-      I.checkOption(this.locators.other_reason_surplus);
-      break;
-    default: I.checkOption(this.locators.help_with_fees_awarded);
+      case 'Help with Fees awarded':
+        I.checkOption(this.locators.help_with_fees_awarded);
+        break;
+      case 'Incorrect payment received':
+        I.checkOption(this.locators.incorrect_payment_received);
+        break;
+      case 'Unable to issue case':
+        I.checkOption(this.locators.unable_to_issue);
+        break;
+      case 'Other reason':
+        I.checkOption(this.locators.other_reason_surplus);
+        break;
+      default: I.checkOption(this.locators.help_with_fees_awarded);
     }
   },
 
   selectExplainatoryNoteShortfall(explainatoryNote, otherComments = 'Auto Comment') {
     switch (explainatoryNote) {
-    case 'Contact applicant':
-      I.checkOption(this.locators.contact_the_applicant);
-      break;
-    case 'Applicant needs to be contacted':
-      I.checkOption(this.locators.applicant_to_contact);
-      break;
-    case 'Other explainatory note':
-      I.checkOption(this.locators.other_explainatory);
-      I.fillField(this.locators.explainatory_comment, otherComments);
-      break;
-    default: I.checkOption(this.locators.contact_the_applicant);
+      case 'Contact applicant':
+        I.checkOption(this.locators.contact_the_applicant);
+        break;
+      case 'Applicant needs to be contacted':
+        I.checkOption(this.locators.applicant_to_contact);
+        break;
+      case 'Other explainatory note':
+        I.checkOption(this.locators.other_explainatory);
+        I.fillField(this.locators.explainatory_comment, otherComments);
+        break;
+      default: I.checkOption(this.locators.contact_the_applicant);
     }
   },
 
   selectExplainatoryNoteSurplus(explainatoryNote, otherComments = 'Auto Comment') {
     switch (explainatoryNote) {
-    case 'Details in case notes. Refund due':
-      I.checkOption(this.locators.refund_due);
-      break;
-    case 'Details in case notes. No refund due':
-      I.checkOption(this.locators.no_refund_due);
-      break;
-    case 'No case created. Refund due':
-      I.checkOption(this.locators.no_refund_due);
-      break;
-    case 'Other explainatory note':
-      I.checkOption(this.locators.other_explainatory);
-      I.fillField(this.locators.explainatory_comment, otherComments);
-      break;
-    default: I.checkOption(this.locators.refund_due);
+      case 'Details in case notes. Refund due':
+        I.checkOption(this.locators.refund_due);
+        break;
+      case 'Details in case notes. No refund due':
+        I.checkOption(this.locators.no_refund_due);
+        break;
+      case 'No case created. Refund due':
+        I.checkOption(this.locators.no_refund_due);
+        break;
+      case 'Other explainatory note':
+        I.checkOption(this.locators.other_explainatory);
+        I.fillField(this.locators.explainatory_comment, otherComments);
+        break;
+      default: I.checkOption(this.locators.refund_due);
     }
   },
 

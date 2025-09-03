@@ -5,17 +5,18 @@ const { I } = inject();
 
 module.exports = {
   locators: {
-  fee_search: { xpath: '//*[@id="fee-search"]' },
-  locatoramountselect: { amount_select: { xpath: '//*[@id="fee-version0"]' } },
-  search_for_fee_text: {xpath:'//*[@id="content"]//h1'},
-  allocate_payment: {xpath:'//button[@class="button govuk-!-margin-right-1"]'},
-  // help_with_fee: {xpath:'//*[text()=" Help with Fees (HWF) application declined "]//../input'},
-  help_with_fee: {id:'otherDeduction'},
-  // i_have_put_a_stop_on_case: {xpath:'//*[text()=" I have put a stop on the case and contacted the applicant requesting the balance of payment "]//../input'},
-  i_have_put_a_stop_on_case: {id:'other'},
-  add_Notes: {id:'moreDetails'},
-  confirm_button: {xpath:'//button[@type="submit"]'}
-},
+    fee_search: { xpath: '//*[@id="fee-search"]' },
+    locatoramountselect: { amount_select: { xpath: '//*[@id="fee-version0"]' } },
+    locator_calculatedRangedFee: { xpath: '//*[@id="calculatedRangedFee"]' },
+    search_for_fee_text: {xpath:'//*[@id="content"]//h1'},
+    allocate_payment: {xpath:'//button[@class="button govuk-!-margin-right-1"]'},
+    // help_with_fee: {xpath:'//*[text()=" Help with Fees (HWF) application declined "]//../input'},
+    help_with_fee: {id:'otherDeduction'},
+    // i_have_put_a_stop_on_case: {xpath:'//*[text()=" I have put a stop on the case and contacted the applicant requesting the balance of payment "]//../input'},
+    i_have_put_a_stop_on_case: {id:'other'},
+    add_Notes: {id:'moreDetails'},
+    confirm_button: {xpath:'//button[@type="submit"]'}
+  },
 
   async addFees(amount, jurisdiction1, jurisdiction2) {
     I.see('Search for a fee');
@@ -33,9 +34,9 @@ module.exports = {
     /* Comment this out when fee change options expire for inflation update. */
     let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
     if(numOfElements) {
-     I.click('//input[@id=\'fee-version0\']');
-     I.click('Continue');
-     I.wait(CCPBConstants.fiveSecondWaitTime);
+      I.click('//input[@id=\'fee-version0\']');
+      I.click('Continue');
+      I.wait(CCPBConstants.fiveSecondWaitTime);
     }
     /* END: Comment this out when fee change options expire for inflation update. */
   },
@@ -61,11 +62,36 @@ module.exports = {
     /* Comment this out when fee change options expire for inflation update. */
     let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
     if(numOfElements) {
-     I.click('//input[@id=\'fee-version0\']');
-     I.click('Continue');
-     I.wait(CCPBConstants.fiveSecondWaitTime);
+      I.click('//input[@id=\'fee-version0\']');
+      I.click('Continue');
+      I.wait(CCPBConstants.fiveSecondWaitTime);
     }
     /* END: Comment this out when fee change options expire for inflation update. */
+  },
+
+  async addFeesAmountByFeeCode(feeCode, amount, amountType) {
+    I.see('Search for a fee');
+    I.see('For example: Application or £10.00. You don\'t need to use the whole description or amount.');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.fillField(this.locators.fee_search, feeCode);
+    I.click('Search');
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    I.click('Select');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+    if(amountType === 'Percentage') {
+      I.fillField(this.locators.locator_calculatedRangedFee, amount);
+      I.click(this.locators.confirm_button);
+      I.wait(CCPBConstants.fiveSecondWaitTime);
+    }
+    /* Comment this out when fee change options expire for inflation update. */
+    let numOfElements = await I.grabNumberOfVisibleElements('//input[@value=\'currentVersion\']');
+    if(numOfElements) {
+      I.click('//input[@value=\'currentVersion\']');
+      I.click('Continue');
+      I.wait(CCPBConstants.fiveSecondWaitTime);
+    }
+    /* END: Comment this out when fee change options expire for inflation update. */
+
   },
 
   async addFeesOverPayment(amount) {
@@ -80,9 +106,9 @@ module.exports = {
     /* Comment this out when fee change options expire for inflation update. */
     let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
     if(numOfElements) {
-     I.click('//input[@id=\'fee-version0\']');
-     I.click('Continue');
-     I.wait(CCPBConstants.fiveSecondWaitTime);
+      I.click('//input[@id=\'fee-version0\']');
+      I.click('Continue');
+      I.wait(CCPBConstants.fiveSecondWaitTime);
     }
     /* END: Comment this out when fee change options expire for inflation update. */
 

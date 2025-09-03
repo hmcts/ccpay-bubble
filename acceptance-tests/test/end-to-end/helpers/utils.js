@@ -303,7 +303,7 @@ async function getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumb
   const paymentLookUpResponseString = await makeRequest(url, 'GET', headers);
 
   const paymentLookupObject = await paymentLookUpResponseString.json();
-  return paymentLookupObject.payments[0].payment_reference;
+  return paymentLookupObject;
 }
 
 async function createAFailedPBAPayment() {
@@ -448,13 +448,61 @@ async function createAPBAPayment(amount, feeCode, version, volume, customerRefer
   const response = await makeRequest(url, 'POST', headers, saveBody);
   console.log(`The value of the response status code : ${response.status}`);
 
-  const paymentReference = await getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+  const paymentLookupObject = await getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
   await rollbackPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
 
   const paymentDetails = {
     ccdCaseNumber: `${ccdCaseNumber}`,
-    paymentReference: `${paymentReference}`
+    paymentReference: `${paymentLookupObject.payments[0].payment_reference}`
   };
+  return paymentDetails;
+}
+
+async function createAPBAPaymentForExistingCase(amount, feeCode, version, volume, ccdCaseNumber, customerReference = 'ABC98989/65654') {
+  const url = paymentBaseUrl + '/credit-account-payments';
+  const microservice = 'cmc';
+  const idamToken = await getIDAMToken();
+  const accountNumber = testConfig.TestAccountNumberActive;
+
+  const serviceToken = await getServiceToken(microservice);
+
+  // eslint-disable-next-line no-magic-numbers
+  // const ccdCaseNumber = await createACCDCaseForProbate();
+  console.log(`The value of the CCD Case Number : ${ccdCaseNumber}`);
+  const saveBody = JSON.stringify({
+    account_number: `${accountNumber}`,
+    amount: amount,
+    case_reference: '1253656',
+    ccd_case_number: `${ccdCaseNumber}`,
+    currency: 'GBP',
+    customer_reference: `${customerReference}`,
+    description: 'string',
+    fees: [
+      {
+        calculated_amount: amount,
+        code: `${feeCode}`,
+        fee_amount: amount,
+        version: `${version}`,
+        volume: volume
+      }
+    ],
+    organisation_name: 'string',
+    service: 'PROBATE',
+    site_id: 'ABA6'
+  });
+
+  const headers = {
+    Authorization: `${idamToken}`,
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+
+  const response = await makeRequest(url, 'POST', headers, saveBody);
+  console.log(`The value of the response status code : ${response.status}`);
+
+  const paymentDetails = await getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+  await rollbackPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+
   return paymentDetails;
 }
 
@@ -831,5 +879,6 @@ module.exports = {
   getPaymentDetailsPBAForChargebackEvent,
   getEmailFromNotifyWithMaxRetries,
   createAServiceRequest,
-  updateRefundStatusByRefundReference
+  updateRefundStatusByRefundReference,
+  createAPBAPaymentForExistingCase
 };
