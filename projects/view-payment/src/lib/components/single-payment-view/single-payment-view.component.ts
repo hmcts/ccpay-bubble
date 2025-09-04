@@ -3,7 +3,6 @@ import { IPayment } from '../../interfaces';
 
 @Component({
   selector: 'ccpay-single-payment-view',
-  standalone: false,
   templateUrl: './single-payment-view.component.html',
   styleUrls: ['./single-payment-view.component.scss']
 })

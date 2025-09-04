@@ -4,7 +4,6 @@ import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-det
 
 @Component({
   selector: 'app-confirmation',
-  standalone: false,
   templateUrl: './confirmation.component.html',
   styleUrls: ['./confirmation.component.scss']
 })

@@ -6,7 +6,6 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-fee-details',
-  standalone: false,
   templateUrl: './fee-details.component.html',
   styleUrls: ['./fee-details.component.scss']
 })

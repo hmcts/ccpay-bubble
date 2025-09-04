@@ -5,7 +5,6 @@ import { FeeRegisterSearchService } from '../../services/fee-register-search/fee
 
 @Component({
   selector: 'pay-fee-filter',
-  standalone: false,
   templateUrl: './fee-filter.component.html',
   styleUrls: ['./fee-filter.component.scss']
 })
