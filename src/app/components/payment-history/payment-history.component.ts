@@ -4,12 +4,11 @@ import { IdamDetails } from '../../services/idam-details/idam-details';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import * as ls from 'local-storage';
 import {Router} from '@angular/router';
-import { NgIf } from '@angular/common';
+
 @Component({
     selector: 'app-payment-history',
     templateUrl: './payment-history.component.html',
-    styleUrls: ['./payment-history.component.scss'],
-    imports: [NgIf]
+    styleUrls: ['./payment-history.component.scss']
 })
 export class PaymentHistoryComponent implements OnInit {
   apiRoot: string;

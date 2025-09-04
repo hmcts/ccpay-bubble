@@ -5,13 +5,13 @@ import { CaseRefService } from '../../services/caseref/caseref.service';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
 import * as ls from 'local-storage';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-ccd-search',
     templateUrl: './ccd-search.component.html',
     styleUrls: ['./ccd-search.component.scss'],
-    imports: [FormsModule, ReactiveFormsModule, NgIf, NgClass]
+    imports: [FormsModule, ReactiveFormsModule, NgClass]
 })
 export class CcdSearchComponent implements OnInit {
   searchForm: FormGroup;

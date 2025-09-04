@@ -8,7 +8,7 @@ import { SinglePaymentViewComponent } from './components/single-payment-view/sin
 @Component({
     selector: 'ccpay-view-payment',
     templateUrl: './view-payment.component.html',
-    imports: [NgIf, SinglePaymentViewComponent]
+    imports: [SinglePaymentViewComponent]
 })
 export class CcpayViewPaymentComponent implements OnInit {
   @Input() paymentReference: string;
