@@ -19,12 +19,12 @@ describe('CookieDetailsComponentTest', () => {
   beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
-      declarations: [ CookieDetailsComponent ],
-      imports: [
+    declarations: [CookieDetailsComponent],
+    imports: [
         RouterTestingModule
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
+    ],
+    schemas: [NO_ERRORS_SCHEMA]
+})
       .compileComponents();
   }));
 

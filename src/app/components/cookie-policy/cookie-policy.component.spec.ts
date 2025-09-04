@@ -21,15 +21,15 @@ describe('CookiePolicyComponentTest', () => {
   beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
-      declarations: [ CookiePolicyComponent ],
-      imports: [
+    declarations: [CookiePolicyComponent],
+    imports: [
         RouterTestingModule
-      ],
-      providers: [
+    ],
+    providers: [
         { provide: Location, useClass: SpyLocation },
         { provide: SpyLocation, useExisting: Location }
-      ]
-    })
+    ]
+})
       .compileComponents();
   }));
 
