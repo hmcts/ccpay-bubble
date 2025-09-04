@@ -3,7 +3,6 @@ import { BulkScanService } from 'express/services/';
 
 @Component({
   selector: 'app-phase-banner',
-  standalone: false,
   templateUrl: './phase-banner.component.html',
   styleUrls: ['./phase-banner.component.css'],
   encapsulation: ViewEncapsulation.None

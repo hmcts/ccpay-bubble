@@ -26,8 +26,7 @@ describe('CookiePolicyComponentTest', () => {
         RouterTestingModule
       ],
       providers: [
-        { provide: Location, useClass: SpyLocation },
-        { provide: SpyLocation, useExisting: Location }
+        { provide: Location, useClass: SpyLocation }
       ]
     })
       .compileComponents();
@@ -36,7 +35,7 @@ describe('CookiePolicyComponentTest', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CookiePolicyComponent);
     component = fixture.componentInstance;
-    location = TestBed.inject(SpyLocation);
+    location = TestBed.get(Location);
     fixture.detectChanges();
   });
 

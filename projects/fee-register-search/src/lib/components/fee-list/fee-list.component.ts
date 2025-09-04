@@ -4,7 +4,6 @@ import { Jurisdictions } from '../../models/Jurisdictions';
 
 @Component({
   selector: 'pay-fee-list',
-  standalone:false,
   templateUrl: './fee-list.component.html',
   styleUrls: ['./fee-list.component.scss']
 })
@@ -22,6 +21,6 @@ export class FeeListComponent {
     return str
       .split(' ')
       .map(word => word[0].toUpperCase() + word.slice(1))
-      .join(' ');
+      .join(' ')
   }
 }

@@ -5,7 +5,6 @@ import { IPayment } from './interfaces';
 
 @Component({
   selector: 'ccpay-view-payment',
-  standalone: false,
   templateUrl: './view-payment.component.html'
 })
 export class ViewPaymentComponent implements OnInit {

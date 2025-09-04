@@ -12,13 +12,12 @@ describe('AccessibilityStatementComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AccessibilityStatementComponent],
       providers: [
-        { provide: Location, useClass: SpyLocation },
-        { provide: SpyLocation, useExisting: Location }
+        { provide: Location, useClass: SpyLocation }
       ]
     });
     fixture = TestBed.createComponent(AccessibilityStatementComponent);
     component = fixture.componentInstance;
-    location = TestBed.inject(SpyLocation);
+    location = TestBed.get(Location);
     fixture.detectChanges();
   });
 

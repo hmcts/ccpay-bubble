@@ -3,7 +3,6 @@ import { IStatusHistory } from '../../../interfaces/IStatusHistory';
 
 @Component({
   selector: 'ccpay-status-history',
-  standalone: false,
   templateUrl: './status-history.component.html'
 })
 export class StatusHistoryComponent {

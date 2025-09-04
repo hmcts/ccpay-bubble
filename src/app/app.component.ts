@@ -6,10 +6,9 @@ import { DOCUMENT } from '@angular/common';
 
 declare let gtag;
 @Component({
-  selector: 'app-root',
-  standalone: false,
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+ selector: 'app-root',
+ templateUrl: './app.component.html',
+ styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
  title = 'ccpay-bubble';

@@ -3,10 +3,9 @@ import { windowToken } from '../../../window';
 import cookieManager from '@hmcts/cookie-manager';
 
 @Component({
-  selector: 'app-cookie-banner',
-  standalone: false,
-  templateUrl: './cookie-banner.component.html',
-  styleUrls: ['./cookie-banner.component.scss']
+    selector: 'app-cookie-banner',
+    templateUrl: './cookie-banner.component.html',
+    styleUrls: ['./cookie-banner.component.scss']
 })
 
 export class CookieBannerComponent implements OnInit {

@@ -6,7 +6,6 @@ import * as ls from 'local-storage';
 import {Router} from '@angular/router';
 @Component({
   selector: 'app-payment-history',
-  standalone: false,
   templateUrl: './payment-history.component.html',
   styleUrls: ['./payment-history.component.scss']
 })
