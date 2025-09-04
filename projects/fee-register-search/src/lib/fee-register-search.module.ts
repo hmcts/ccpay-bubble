@@ -10,20 +10,18 @@ import { FilterFeesPipe } from './pipes/filter-fees.pipe';
 import { FeeFilterComponent } from './components/fee-filter/fee-filter.component';
 
 @NgModule({
-  declarations: [
-    FeeRegisterSearchComponent,
-    FeeListComponent,
-    FeeSearchComponent,
-    FeeFilterComponent,
-    FilterFeesPipe
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxPaginationModule
-  ],
-  providers: [FeeRegisterSearchService],
-  exports: [FeeRegisterSearchComponent]
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxPaginationModule,
+        FeeRegisterSearchComponent,
+        FeeListComponent,
+        FeeSearchComponent,
+        FeeFilterComponent,
+        FilterFeesPipe
+    ],
+    providers: [FeeRegisterSearchService],
+    exports: [FeeRegisterSearchComponent]
 })
 export class FeeRegisterSearchModule { }

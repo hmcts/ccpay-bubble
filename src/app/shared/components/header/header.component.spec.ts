@@ -10,9 +10,9 @@ describe('HeaderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderComponent, NavigationComponent ],
-      providers: [ WindowUtil ]
-    })
+    imports: [HeaderComponent, NavigationComponent],
+    providers: [WindowUtil]
+})
     .compileComponents();
   }));
 

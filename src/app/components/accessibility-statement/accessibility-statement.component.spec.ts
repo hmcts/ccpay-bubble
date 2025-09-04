@@ -10,12 +10,12 @@ describe('AccessibilityStatementComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AccessibilityStatementComponent],
-      providers: [
+    imports: [AccessibilityStatementComponent],
+    providers: [
         { provide: Location, useClass: SpyLocation },
         { provide: SpyLocation, useExisting: Location }
-      ]
-    });
+    ]
+});
     fixture = TestBed.createComponent(AccessibilityStatementComponent);
     component = fixture.componentInstance;
     location = TestBed.inject(SpyLocation);

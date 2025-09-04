@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-accessibility-statement',
-  standalone: false,
-  templateUrl: './accessibility-statement.component.html',
-  styleUrls: ['./accessibility-statement.component.scss']
+    selector: 'app-accessibility-statement',
+    templateUrl: './accessibility-statement.component.html',
+    styleUrls: ['./accessibility-statement.component.scss']
 })
 export class AccessibilityStatementComponent {
   constructor(private _location: Location)

@@ -3,10 +3,9 @@ import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 
 @Component({
-  selector: 'app-confirmation',
-  standalone: false,
-  templateUrl: './confirmation.component.html',
-  styleUrls: ['./confirmation.component.scss']
+    selector: 'app-confirmation',
+    templateUrl: './confirmation.component.html',
+    styleUrls: ['./confirmation.component.scss']
 })
 export class ConfirmationComponent {
   constructor(
