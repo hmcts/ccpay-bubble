@@ -11,7 +11,7 @@ describe('Fee list table', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    declarations: [FeeListTableComponent]
+    imports: [FeeListTableComponent]
 })
     .compileComponents();
   }));

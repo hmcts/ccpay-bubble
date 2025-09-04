@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
+import { ViewPaymentComponent as ViewPaymentComponent_1 } from 'view-payment';
 
 @Component({
-  selector: 'app-view-payment',
-  standalone: false,
-  templateUrl: './view-payment.component.html'
+    selector: 'app-view-payment',
+    templateUrl: './view-payment.component.html',
+    imports: [ViewPaymentComponent_1]
 })
 export class ViewPaymentComponent implements OnInit {
   paymentRef: string;

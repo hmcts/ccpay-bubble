@@ -256,7 +256,7 @@ describe('Fee search component', () => {
       navigate: jasmine.createSpy('navigate')
     };
     TestBed.configureTestingModule({
-    declarations: [FeeSearchComponent],
+    imports: [FeeSearchComponent],
     providers: [
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: Router, useValue: routerService },

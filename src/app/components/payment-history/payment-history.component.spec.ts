@@ -29,7 +29,7 @@ describe('Payment History case transaction component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [PaymentHistoryComponent],
+    imports: [PaymentHistoryComponent],
     providers: [
         {
             provide: ActivatedRoute, useValue: {
@@ -92,7 +92,7 @@ describe('Payment History component case-transations', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [PaymentHistoryComponent],
+    imports: [PaymentHistoryComponent],
     providers: [{
             provide: ActivatedRoute,
             useValue: {
@@ -153,7 +153,7 @@ describe('Payment History component fee-summary', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [PaymentHistoryComponent],
+    imports: [PaymentHistoryComponent],
     providers: [{
             provide: ActivatedRoute,
             useValue: {
@@ -224,7 +224,7 @@ describe('Payment History component Reports', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [PaymentHistoryComponent],
+    imports: [PaymentHistoryComponent],
     providers: [{
             provide: ActivatedRoute,
             useValue: {

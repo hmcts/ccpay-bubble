@@ -19,9 +19,9 @@ describe('CookieDetailsComponentTest', () => {
   beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
-    declarations: [CookieDetailsComponent],
     imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        CookieDetailsComponent
     ],
     schemas: [NO_ERRORS_SCHEMA]
 })

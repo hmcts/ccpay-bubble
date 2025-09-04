@@ -8,9 +8,9 @@ describe('FooterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [FooterComponent],
     imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        FooterComponent
     ],
 });
     fixture = TestBed.createComponent(FooterComponent);

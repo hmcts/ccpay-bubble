@@ -18,7 +18,6 @@ describe('FeeDetailsComponent', () => {
   beforeEach(waitForAsync(() => {
     http = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     TestBed.configureTestingModule({
-    declarations: [FeeDetailsComponent],
     providers: [
         FormBuilder,
         {
@@ -28,7 +27,8 @@ describe('FeeDetailsComponent', () => {
     ],
     imports: [
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FeeDetailsComponent
     ]
 }).compileComponents();
   }));

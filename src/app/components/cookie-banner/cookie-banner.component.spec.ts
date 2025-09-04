@@ -17,8 +17,8 @@ describe('CookieBannerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+    imports: [CookieBannerComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    declarations: [CookieBannerComponent],
     providers: [
         { provide: windowToken, useValue: windowMock }
     ]
