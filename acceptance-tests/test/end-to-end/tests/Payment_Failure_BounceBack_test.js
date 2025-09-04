@@ -2,7 +2,7 @@
 const CCPBATConstants = require('./CCPBAcceptanceTestConstants');
 const miscUtils = require('../helpers/misc');
 
-const bulkScanApiCalls = require('../helpers/utils');
+const apiUtils = require('../helpers/utils');
 
 const {Logger} = require('@hmcts/nodejs-logging');
 
@@ -14,16 +14,16 @@ Feature('CC Pay Bubble Acceptance Tests payment failure for Bounceback and Charg
 
 Scenario('Payment Failure for Bounceback SR status Paid',
   async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
-         PaymentHistory, FailureEventDetails }) => {
+           PaymentHistory, FailureEventDetails }) => {
     const totalAmount = 612;
-    const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cash');
+    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, 'cash');
     const ccdCaseNumber = ccdAndDcn[1];
     const dcnNumber = ccdAndDcn[0];
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
     console.log('**** The value of the dcnNumber - ' + dcnNumber);
     logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
     logger.info(`The value of the dcnNumber : ${dcnNumber}`);
-    const paymentRefResult = await bulkScanApiCalls.getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber, dcnNumber);
+    const paymentRefResult = await apiUtils.getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber, dcnNumber);
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.twentySecondWaitTime);
@@ -43,12 +43,12 @@ Scenario('Payment Failure for Bounceback SR status Paid',
 Scenario('Payment Failure for chargeback SR status Partially Paid',
   async ({ I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails }) => {
 
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
+    const paymentDetails = await apiUtils.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentRefResult = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
     console.log('**** The value of the paymentReference - ' + paymentRefResult);
-    const requestBody = await bulkScanApiCalls.getPaymentDetailsPBA(ccdCaseNumber, paymentRefResult);
+    const requestBody = await apiUtils.getPaymentDetailsPBA(ccdCaseNumber, paymentRefResult);
     console.log("the payment rc ref and date and failure ref are - "
       + paymentRefResult[0] + 'and' + paymentRefResult[2] + 'and' + paymentRefResult[1]);
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
@@ -68,12 +68,12 @@ Scenario('Payment Failure for chargeback SR status Partially Paid',
 Scenario('Payment Failure for chargeback SR status Not Paid',
   async ({ I, CaseSearch, CaseTransaction }) => {
 
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
+    const paymentDetails = await apiUtils.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentRefResult = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
     console.log('**** The value of the paymentReference - ' + paymentRefResult);
-    const requestBody = await bulkScanApiCalls.getPaymentDetailsPBAForChargebackEvent(ccdCaseNumber, paymentRefResult);
+    const requestBody = await apiUtils.getPaymentDetailsPBAForChargebackEvent(ccdCaseNumber, paymentRefResult);
     console.log("the payment rc ref and date and failure ref are - "
       + paymentRefResult[0] + 'and' + paymentRefResult[2] + 'and' + paymentRefResult[1]);
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
@@ -87,12 +87,12 @@ Scenario('Payment Failure for chargeback SR status Not Paid',
 Scenario('Payment Failure for chargeback with SR status Disputed',
   async ({ I, CaseSearch, CaseTransaction }) => {
 
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment(215, 'FEE0226', '3', 1);
+    const paymentDetails = await apiUtils.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentRefResult = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
     console.log('**** The value of the paymentReference - ' + paymentRefResult);
-    const requestBody = await bulkScanApiCalls.getPaymentDetailsPBAForServiceStatus(ccdCaseNumber, paymentRefResult);
+    const requestBody = await apiUtils.getPaymentDetailsPBAForServiceStatus(ccdCaseNumber, paymentRefResult);
     console.log('**** payment ref - ' + requestBody.failure_reference);
     console.log('**** reason - ' + requestBody.reason);
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
@@ -100,4 +100,3 @@ Scenario('Payment Failure for chargeback with SR status Disputed',
     I.wait(CCPBATConstants.twentySecondWaitTime);
     await CaseTransaction.verifyServiceRequestStatus();
   }).tag('@pipeline @nightly');
-
