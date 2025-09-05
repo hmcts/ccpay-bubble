@@ -7,8 +7,6 @@ import { environment } from './environments/environment';
 import { PaybubbleHttpClient } from './app/services/httpclient/paybubble.http.client';
 import { AddFeeDetailService } from './app/services/add-fee-detail/add-fee-detail.service';
 import { HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { FeeSearchComponent } from './app/components/fee-search/fee-search.component';
-import { PaymentHistoryComponent } from './app/components/payment-history/payment-history.component';
 import { CaseRefService } from './app/services/caseref/caseref.service';
 import { IdamDetails } from './app/services/idam-details/idam-details';
 import { WindowUtil } from './app/services/window-util/window-util';
@@ -50,9 +48,6 @@ bootstrapApplication(AppComponent, {
         })),
         PaybubbleHttpClient,
         AddFeeDetailService,
-        HttpClient,
-        FeeSearchComponent,
-        PaymentHistoryComponent,
         CaseRefService,
         IdamDetails,
         WindowUtil,
