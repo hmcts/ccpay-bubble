@@ -13,6 +13,8 @@ ccpaybubble:
 pcipalantenna:
   url: PCIPAL_ANTENNA_URL
   microservice: CCPAY_BUBBLE_MICROSERVICE
+pci-pal:
+  telephony-selection: TELEPHONY_FEATURE
 s2s:
   url: S2S_URL
 payhub:
