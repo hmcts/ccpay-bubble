@@ -1,5 +1,6 @@
 <!-- ccpay-web-component integration -->
-<ccpay-payment-lib *ngIf='LOGGEDINUSERROLES.length > 0'
+@if (LOGGEDINUSERROLES.length > 0) {
+  <ccpay-payment-lib
     [API_ROOT]="apiRoot"
     [BULKSCAN_API_ROOT]="bulkscanapiRoot"
     [REFUNDS_API_ROOT] ="refundsapiRoot"
@@ -23,5 +24,6 @@
     [LOGGEDINUSEREMAIL]="LOGGEDINUSEREMAIL"
     [LOGGEDINUSERROLES]="LOGGEDINUSERROLES"
     >
-</ccpay-payment-lib>
+  </ccpay-payment-lib>
+}
 

@@ -3,7 +3,7 @@ import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-det
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
 import { SafeHtml } from '@angular/platform-browser';
-import { NgIf } from '@angular/common';
+
 import { FormatDisplayCurrencyPipe } from '../../shared/pipes/format-display-currency.pipe';
 import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitize-html.pipe';
 
@@ -11,7 +11,7 @@ import { SanitizeHtmlPipe } from 'src/app/shared/pipes/sanitize-html.pipe';
     selector: 'app-review-fee-detail',
     templateUrl: './review-fee-detail.component.html',
     styleUrls: ['./review-fee-detail.component.scss'],
-    imports: [NgIf, FormatDisplayCurrencyPipe, SanitizeHtmlPipe]
+    imports: [FormatDisplayCurrencyPipe, SanitizeHtmlPipe]
 })
 export class ReviewFeeDetailComponent {
   fee: FeeModel = null;

@@ -3,13 +3,13 @@ import { IVersion } from './../../../../projects/fee-register-search/src/lib/int
 import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from '@angular/core';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
 import { FormBuilder, FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgIf, NgFor, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-fee-details',
     templateUrl: './fee-details.component.html',
     styleUrls: ['./fee-details.component.scss'],
-    imports: [NgIf, NgFor, FormsModule, ReactiveFormsModule, DatePipe]
+    imports: [FormsModule, ReactiveFormsModule, DatePipe]
 })
 export class FeeDetailsComponent implements OnInit, OnChanges {
   selectedFeeVersion: IVersion;
