@@ -5,7 +5,8 @@ import cookieManager from '@hmcts/cookie-manager';
 @Component({
     selector: 'app-cookie-banner',
     templateUrl: './cookie-banner.component.html',
-    styleUrls: ['./cookie-banner.component.scss']
+    styleUrls: ['./cookie-banner.component.scss'],
+    standalone: true
 })
 
 export class CookieBannerComponent implements OnInit {

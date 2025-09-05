@@ -12,7 +12,6 @@ import { IdamDetails } from './app/services/idam-details/idam-details';
 import { WindowUtil } from './app/services/window-util/window-util';
 import { AuthDevInterceptor } from './app/shared/interceptors/auth.dev.interceptor';
 import { PaymentGroupService } from './app/services/payment-group/payment-group.service';
-import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
 import { windowToken, windowProvider } from './window';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { AppRoutingModule } from './app/routes/app-routing.module';
@@ -53,7 +52,6 @@ bootstrapApplication(AppComponent, {
         WindowUtil,
         !environment.production ? nonProductionProviders : [],
         PaymentGroupService,
-        ViewPaymentService,
         { provide: windowToken, useFactory: windowProvider },
         provideHttpClient(withInterceptorsFromDi()),
         provideNoopAnimations(),

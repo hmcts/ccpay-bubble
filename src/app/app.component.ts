@@ -13,6 +13,7 @@ declare let gtag;
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
+    standalone: true,
     imports: [CookieBannerComponent, HeaderComponent, PhaseBannerComponent, RouterOutlet, FooterComponent]
 })
 export class AppComponent implements OnInit {

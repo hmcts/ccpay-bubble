@@ -1,5 +1,4 @@
 import { Component, Input, ViewEncapsulation, ViewChild } from '@angular/core';
-import { BulkScanService } from 'express/services/';
 import { UpperCasePipe } from '@angular/common';
 
 @Component({
@@ -7,6 +6,7 @@ import { UpperCasePipe } from '@angular/common';
     templateUrl: './phase-banner.component.html',
     styleUrls: ['./phase-banner.component.css'],
     encapsulation: ViewEncapsulation.None,
+    standalone: true,
     imports: [UpperCasePipe]
 })
 export class PhaseBannerComponent {

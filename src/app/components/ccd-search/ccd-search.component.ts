@@ -11,6 +11,7 @@ import { NgClass } from '@angular/common';
     selector: 'app-ccd-search',
     templateUrl: './ccd-search.component.html',
     styleUrls: ['./ccd-search.component.scss'],
+    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, NgClass]
 })
 export class CcdSearchComponent implements OnInit {

@@ -5,6 +5,7 @@ import { NavigationComponent } from '../navigation/navigation.component';
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
+    standalone: true,
     imports: [NavigationComponent]
 })
 export class HeaderComponent implements OnInit {

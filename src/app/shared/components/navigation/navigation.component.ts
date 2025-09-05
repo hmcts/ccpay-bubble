@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
     selector: 'app-navigation',
     templateUrl: './navigation.component.html',
     styleUrls: ['./navigation.component.scss'],
+    standalone: true,
     imports: [DatePipe]
 })
 export class NavigationComponent implements OnInit {
