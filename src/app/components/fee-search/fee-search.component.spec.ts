@@ -8,6 +8,7 @@ import { instance, mock, anyFunction } from 'ts-mockito';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 import { FeeRegisterSearchService } from 'fee-register-search';
+import { of } from 'rxjs';
 
 
 describe('Fee search component', () => {
