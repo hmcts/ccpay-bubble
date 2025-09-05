@@ -1,4 +1,3 @@
-import { IVersion } from './../../../../dist/fee-register-search/lib/interfaces/IVersion.d';
 import { waitForAsync, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FeeSearchComponent } from './fee-search.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -6,8 +5,10 @@ import { PaymentGroupService } from '../../services/payment-group/payment-group.
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
 import { instance, mock, anyFunction } from 'ts-mockito';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
+import { FeeRegisterSearchService } from 'fee-register-search';
+import { of } from 'rxjs';
 
 
 describe('Fee search component', () => {
@@ -257,17 +258,27 @@ describe('Fee search component', () => {
       navigate: jasmine.createSpy('navigate')
     };
     TestBed.configureTestingModule({
-      declarations: [FeeSearchComponent],
-      providers: [
+    imports: [FeeSearchComponent],
+    providers: [
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: Router, useValue: routerService },
+        // Ensure HttpClient is available for any injected services
+        provideHttpClient(withInterceptorsFromDi()),
         {
-          provide: PaymentGroupService,
-          useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+            provide: PaymentGroupService,
+            useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
+        },
+        // Stub out FeeRegisterSearchService used by child component to avoid real HTTP
+        {
+            provide: FeeRegisterSearchService,
+            useValue: {
+                setURL: jasmine.createSpy('setURL'),
+                getFees: jasmine.createSpy('getFees').and.returnValue(of([]))
+            }
         }
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
-    });
+    ],
+    schemas: [NO_ERRORS_SCHEMA]
+});
 
     fixture = TestBed.createComponent(FeeSearchComponent);
     paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);

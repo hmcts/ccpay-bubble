@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CookieTableComponent } from '../cookie-table/cookie-table.component';
-@Component({
-  selector: 'app-cookie-details',
-  templateUrl: './cookie-details.component.html',
-  styleUrls: ['./cookie-details.component.scss']
 
+@Component({
+    selector: 'app-cookie-details',
+    templateUrl: './cookie-details.component.html',
+    styleUrls: ['./cookie-details.component.scss'],
+    imports: [CookieTableComponent]
 })
 
 export class CookieDetailsComponent {

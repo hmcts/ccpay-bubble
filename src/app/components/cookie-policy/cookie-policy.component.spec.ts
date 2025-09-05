@@ -21,21 +21,22 @@ describe('CookiePolicyComponentTest', () => {
   beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
-      declarations: [ CookiePolicyComponent ],
-      imports: [
-        RouterTestingModule
-      ],
-      providers: [
-        { provide: Location, useClass: SpyLocation }
-      ]
-    })
+    imports: [
+        RouterTestingModule,
+        CookiePolicyComponent
+    ],
+    providers: [
+        { provide: Location, useClass: SpyLocation },
+        { provide: SpyLocation, useExisting: Location }
+    ]
+})
       .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CookiePolicyComponent);
     component = fixture.componentInstance;
-    location = TestBed.get(Location);
+    location = TestBed.inject(SpyLocation);
     fixture.detectChanges();
   });
 

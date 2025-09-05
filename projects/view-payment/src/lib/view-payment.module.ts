@@ -6,15 +6,13 @@ import { FeeComponent } from './components/shared/fee/fee.component';
 import { StatusHistoryComponent } from './components/shared/status-history/status-history.component';
 
 @NgModule({
-  declarations: [
-    ViewPaymentComponent,
-    SinglePaymentViewComponent,
-    FeeComponent,
-    StatusHistoryComponent
-  ],
-  imports: [
-    CommonModule,
-  ],
-  exports: [ViewPaymentComponent]
+    imports: [
+        CommonModule,
+        ViewPaymentComponent,
+        SinglePaymentViewComponent,
+        FeeComponent,
+        StatusHistoryComponent,
+    ],
+    exports: [ViewPaymentComponent]
 })
 export class ViewPaymentModule { }

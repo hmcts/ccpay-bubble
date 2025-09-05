@@ -5,9 +5,14 @@ import { FeeRegisterSearchService } from './services/fee-register-search/fee-reg
 import { IFee } from './interfaces';
 import { Jurisdictions } from './models/Jurisdictions';
 
+import { FeeSearchComponent } from './components/fee-search/fee-search.component';
+import { FeeFilterComponent } from './components/fee-filter/fee-filter.component';
+import { FeeListComponent } from './components/fee-list/fee-list.component';
+
 @Component({
-  selector: 'pay-fee-register-search',
-  templateUrl: './fee-register-search.component.html'
+    selector: 'pay-fee-register-search',
+    templateUrl: './fee-register-search.component.html',
+    imports: [FeeSearchComponent, FeeFilterComponent, FeeListComponent]
 })
 export class FeeRegisterSearchComponent implements OnInit {
   @Input() APIRoot;

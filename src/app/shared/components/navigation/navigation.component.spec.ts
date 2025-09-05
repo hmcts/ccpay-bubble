@@ -9,9 +9,9 @@ describe('NavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavigationComponent ],
-      providers: [ WindowUtil ]
-    }).compileComponents();
+    imports: [NavigationComponent],
+    providers: [WindowUtil]
+}).compileComponents();
   }));
 
   beforeEach(() => {
@@ -29,7 +29,7 @@ describe('NavigationComponent', () => {
   });
 
   // it('should display payment history when the url has .internal', () => {
-  //   const windowUtil = TestBed.get(WindowUtil);
+  //   const windowUtil = TestBed.inject(WindowUtil);
   //   windowUtil.setWindowHref('www.testwith.internal');
   //   component.ngOnInit();
   //   fixture.detectChanges();
@@ -37,7 +37,7 @@ describe('NavigationComponent', () => {
   // });
 
   // it('should not display payment history when the url do not have .internal', () => {
-  //   const windowUtil = TestBed.get(WindowUtil);
+  //   const windowUtil = TestBed.inject(WindowUtil);
   //   windowUtil.setWindowHref('www.testwith.com');
   //   component.ngOnInit();
   //   fixture.detectChanges();

@@ -1,16 +1,20 @@
 <h3 class="heading-medium">{{title}}</h3>
 <p>{{content}}</p>
 <table aria-label="cookie-details" class="govuk-table" >
-    <thead>
-      <tr>
-        <th scope="col" *ngFor="let label of labelArray"> {{label}}</th>
+  <thead>
+    <tr>
+      @for (label of labelArray; track label) {
+        <th scope="col"> {{label}}</th>
+      }
     </tr>
-    </thead>
-    <tbody>
-    <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookieObject">
-      <td class="govuk-table__cell">{{cookie.name}}</td>
-      <td class="govuk-table__cell">{{cookie.purpose}}</td>
-      <td class="govuk-table__cell">{{cookie.expires}}</td>
-    </tr>
-    </tbody>
+  </thead>
+  <tbody>
+    @for (cookie of cookieObject; track cookie) {
+      <tr class="govuk-table__row" scope="col">
+        <td class="govuk-table__cell">{{cookie.name}}</td>
+        <td class="govuk-table__cell">{{cookie.purpose}}</td>
+        <td class="govuk-table__cell">{{cookie.expires}}</td>
+      </tr>
+    }
+  </tbody>
 </table>

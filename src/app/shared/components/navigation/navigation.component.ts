@@ -1,10 +1,13 @@
 import { Component, OnInit , Input} from '@angular/core';
 import { WindowUtil } from 'src/app/services/window-util/window-util';
+import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-navigation',
-  templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss']
+    selector: 'app-navigation',
+    templateUrl: './navigation.component.html',
+    styleUrls: ['./navigation.component.scss'],
+    standalone: true,
+    imports: [DatePipe]
 })
 export class NavigationComponent implements OnInit {
   @Input() isBulkscanningEnable: boolean;

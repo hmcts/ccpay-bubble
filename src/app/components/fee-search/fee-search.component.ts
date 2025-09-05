@@ -1,15 +1,19 @@
 import { FeeDetailsComponent } from './../fee-details/fee-details.component';
-import { IVersion } from './../../../../dist/fee-register-search/lib/interfaces/IVersion.d';
+import { IVersion } from './../../../../projects/fee-register-search/src/lib/interfaces/IVersion';
 import { Component, OnInit } from '@angular/core';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
 import * as ls from 'local-storage';
 
+import { FeeRegisterSearchComponent } from 'fee-register-search';
+import { FeeDetailsComponent as FeeDetailsComponent_1 } from '../fee-details/fee-details.component';
+
 @Component({
-  selector: 'app-fee-search',
-  templateUrl: './fee-search.component.html',
-  styleUrls: ['./fee-search.component.scss']
+    selector: 'app-fee-search',
+    templateUrl: './fee-search.component.html',
+    styleUrls: ['./fee-search.component.scss'],
+    imports: [FeeRegisterSearchComponent, FeeDetailsComponent_1]
 })
 export class FeeSearchComponent implements OnInit {
   outputEmitterFeesDetails: { volumeAmount: number, selectedVersionEmit: IVersion, isDiscontinuedFeeAvailable: boolean};

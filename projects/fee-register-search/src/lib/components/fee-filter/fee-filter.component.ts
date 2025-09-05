@@ -1,12 +1,14 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Jurisdictions } from '../../models/Jurisdictions';
 import { FeeRegisterSearchService } from '../../services/fee-register-search/fee-register-search.service';
+import { NgClass, TitleCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'pay-fee-filter',
-  templateUrl: './fee-filter.component.html',
-  styleUrls: ['./fee-filter.component.scss']
+    selector: 'pay-fee-filter',
+    templateUrl: './fee-filter.component.html',
+    styleUrls: ['./fee-filter.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, NgClass, TitleCasePipe]
 })
 export class FeeFilterComponent implements OnInit {
 

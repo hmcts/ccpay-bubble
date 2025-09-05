@@ -18,9 +18,8 @@ describe('ReviewFeeDetailComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    declarations: [ConfirmationComponent],
     imports: [RouterModule,
-        RouterTestingModule.withRoutes([])],
+        RouterTestingModule.withRoutes([]), ConfirmationComponent],
     providers: [
         PaybubbleHttpClient,
         AddFeeDetailService,

@@ -2,12 +2,14 @@ import { PaymentGroupService } from './../../services/payment-group/payment-grou
 import { IVersion } from './../../../../projects/fee-register-search/src/lib/interfaces/IVersion';
 import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from '@angular/core';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-fee-details',
-  templateUrl: './fee-details.component.html',
-  styleUrls: ['./fee-details.component.scss']
+    selector: 'app-fee-details',
+    templateUrl: './fee-details.component.html',
+    styleUrls: ['./fee-details.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, DatePipe]
 })
 export class FeeDetailsComponent implements OnInit, OnChanges {
   selectedFeeVersion: IVersion;
