@@ -186,7 +186,7 @@ describe('Fee search component', () => {
         memo_line: 'test-memoline',
         natural_account_code: '1234-1234-1234-1234',
         percentage_amount: {
-          percentage: 0.05
+          percentage: null
         },
         description: 'test-description'
       },
@@ -535,7 +535,7 @@ describe('Fee search component', () => {
           jurisdiction1: testRateableFlatFee.jurisdiction1.name,
           jurisdiction2: testRateableFlatFee.jurisdiction2.name,
           description: testRateableFlatFee.current_version.description,
-          volume: null,
+          volume: 1,
           fee_amount: testRateableFlatFee.current_version.flat_amount.amount
         }]
       });
@@ -565,7 +565,7 @@ describe('Fee search component', () => {
           jurisdiction1: testRangedPercentFee.jurisdiction1.name,
           jurisdiction2: testRangedPercentFee.jurisdiction2.name,
           description: testRangedPercentFee.current_version.description,
-          volume: null,
+          volume: 1,
           fee_amount: testRangedPercentFee.current_version.percentage_amount.percentage
         }]
       });
