@@ -1,8 +1,6 @@
 import {ComponentFixture, TestBed } from '@angular/core/testing';
 import { PaymentHistoryComponent } from './payment-history.component';
-import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { PaymentLibModule } from '@hmcts/ccpay-web-component';
-import { RpxTranslationModule } from 'rpx-xui-translation';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { of, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -31,12 +29,7 @@ describe('Payment History case transaction component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [PaymentHistoryComponent, PaymentLibModule, RpxTranslationModule.forRoot({
-      baseUrl: '/api/translation',
-      debounceTimeMs: 300,
-      validity: { days: 1 },
-      testMode: true
-    })],
+    imports: [PaymentHistoryComponent],
     providers: [
         {
             provide: ActivatedRoute, useValue: {
@@ -58,7 +51,7 @@ describe('Payment History case transaction component', () => {
             useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
         }
     ],
-    schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [NO_ERRORS_SCHEMA]
 });
 
     fixture = TestBed.createComponent(PaymentHistoryComponent);
@@ -83,7 +76,7 @@ describe('Payment History case transaction component', () => {
     component.ccdCaseNumber = '1111-2222-3333-4444';
     component.checkValidUser();
 
-    expect(component.cardPaymentReturnUrl).toBe('');
+    expect(component.cardPaymentReturnUrl).toBe(undefined);
     // expect(component.view).toBe('case-transations');
     expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
     expect(component.takePayment).toBeTruthy();
@@ -99,12 +92,7 @@ describe('Payment History component case-transations', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [PaymentHistoryComponent, PaymentLibModule, RpxTranslationModule.forRoot({
-      baseUrl: '/api/translation',
-      debounceTimeMs: 300,
-      validity: { days: 1 },
-      testMode: true
-    })],
+    imports: [PaymentHistoryComponent],
     providers: [{
             provide: ActivatedRoute,
             useValue: {
@@ -129,7 +117,7 @@ describe('Payment History component case-transations', () => {
             provide: PaymentGroupService,
             useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
         }],
-    schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [NO_ERRORS_SCHEMA]
 });
 
     fixture = TestBed.createComponent(PaymentHistoryComponent);
@@ -149,7 +137,7 @@ describe('Payment History component case-transations', () => {
     spyOn(paymentGroupService, 'getLDFeature').and.callFake(async () => true);
     component.ngOnInit();
 
-    expect(component.cardPaymentReturnUrl).toBe('');
+    expect(component.cardPaymentReturnUrl).toBe(undefined);
     //  expect(component.view).toBe('case-transations');
     expect(component.ccdCaseNumber).toBe('1111-2222-3333-4444');
     expect(component.takePayment).toBeTruthy();
@@ -165,12 +153,7 @@ describe('Payment History component fee-summary', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [PaymentHistoryComponent, PaymentLibModule, RpxTranslationModule.forRoot({
-      baseUrl: '/api/translation',
-      debounceTimeMs: 300,
-      validity: { days: 1 },
-      testMode: true
-    })],
+    imports: [PaymentHistoryComponent],
     providers: [{
             provide: ActivatedRoute,
             useValue: {
@@ -192,7 +175,7 @@ describe('Payment History component fee-summary', () => {
             provide: PaymentGroupService,
             useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
         }],
-    schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [NO_ERRORS_SCHEMA]
 });
 
     fixture = TestBed.createComponent(PaymentHistoryComponent);
@@ -241,12 +224,7 @@ describe('Payment History component Reports', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [PaymentHistoryComponent, PaymentLibModule, RpxTranslationModule.forRoot({
-      baseUrl: '/api/translation',
-      debounceTimeMs: 300,
-      validity: { days: 1 },
-      testMode: true
-    })],
+    imports: [PaymentHistoryComponent],
     providers: [{
             provide: ActivatedRoute,
             useValue: {
@@ -268,7 +246,7 @@ describe('Payment History component Reports', () => {
             provide: PaymentGroupService,
             useValue: new PaymentGroupService(new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta))))
         }],
-    schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [NO_ERRORS_SCHEMA]
 });
 
     fixture = TestBed.createComponent(PaymentHistoryComponent);
