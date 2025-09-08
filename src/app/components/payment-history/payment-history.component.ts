@@ -8,7 +8,8 @@ import {Router} from '@angular/router';
 @Component({
     selector: 'app-payment-history',
     templateUrl: './payment-history.component.html',
-    styleUrls: ['./payment-history.component.scss']
+    styleUrls: ['./payment-history.component.scss'],
+    standalone: true
 })
 export class PaymentHistoryComponent implements OnInit {
   apiRoot: string;
@@ -32,7 +33,7 @@ export class PaymentHistoryComponent implements OnInit {
   refundlist: string;
   isPaymentStatusEnabled: boolean;
   LOGGEDINUSEREMAIL: string;
-  LOGGEDINUSERROLES: string[];
+  LOGGEDINUSERROLES: string[] = [];
   cardPaymentReturnUrl: string;
   lsCcdNumber: any = ls.get<any>('ccdNumber');
 
