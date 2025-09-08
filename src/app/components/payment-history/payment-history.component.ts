@@ -4,12 +4,16 @@ import { IdamDetails } from '../../services/idam-details/idam-details';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import * as ls from 'local-storage';
 import {Router} from '@angular/router';
+import { PaymentLibModule } from '@hmcts/ccpay-web-component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @Component({
     selector: 'app-payment-history',
     templateUrl: './payment-history.component.html',
     styleUrls: ['./payment-history.component.scss'],
-    standalone: true
+    standalone: true,
+    imports: [PaymentLibModule],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PaymentHistoryComponent implements OnInit {
   apiRoot: string;
