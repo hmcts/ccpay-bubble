@@ -1,5 +1,5 @@
 <!-- ccpay-web-component integration -->
-@if (LOGGEDINUSERROLES && LOGGEDINUSERROLES.length > 0) {
+@if (LOGGEDINUSERROLES && LOGGEDINUSERROLES.length > 0 && apiRoot && bulkscanapiRoot && refundsapiRoot && notificationapiRoot && !isTestEnvironment()) {
   <ccpay-payment-lib
     [API_ROOT]="apiRoot"
     [BULKSCAN_API_ROOT]="bulkscanapiRoot"
