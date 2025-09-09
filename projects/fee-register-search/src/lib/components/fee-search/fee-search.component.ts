@@ -1,11 +1,13 @@
 import { Component, Output, ViewChild, EventEmitter, ElementRef, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'pay-fee-search',
-  standalone: false,
+  standalone: true,
   templateUrl: './fee-search.component.html',
-  styleUrls: ['./fee-search.component.scss']
+  styleUrls: ['./fee-search.component.scss'],
+  imports: [ReactiveFormsModule, NgIf]
 })
 export class FeeSearchComponent implements OnInit {
   @Output() feeSearchEventEmitter: EventEmitter<string> = new EventEmitter();

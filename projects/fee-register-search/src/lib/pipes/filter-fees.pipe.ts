@@ -5,7 +5,7 @@ import { Jurisdictions } from '../models/Jurisdictions';
 
 @Pipe({
   name: 'filterFees',
-  standalone: false
+  standalone: true
 })
 export class FilterFeesPipe implements PipeTransform {
   transform(fees: IFee[], searchFilter: string, jurisdictionsFilter?: Jurisdictions): IFee[] {

@@ -10,7 +10,7 @@ describe('AccessibilityStatementComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AccessibilityStatementComponent],
+      imports: [AccessibilityStatementComponent],
       providers: [
         { provide: Location, useClass: SpyLocation },
         { provide: SpyLocation, useExisting: Location }

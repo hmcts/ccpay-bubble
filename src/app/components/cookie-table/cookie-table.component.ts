@@ -1,10 +1,12 @@
 import { Component, Input } from '@angular/core';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-cookie-table',
-  standalone: false,
+  standalone: true,
   templateUrl: './cookie-table.component.html',
-  styleUrls: ['./cookie-table.component.scss']
+  styleUrls: ['./cookie-table.component.scss'],
+  imports: [NgFor]
 })
 export class CookieTableComponent {
   @Input() title: string;

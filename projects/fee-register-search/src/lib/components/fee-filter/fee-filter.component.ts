@@ -1,13 +1,15 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Jurisdictions } from '../../models/Jurisdictions';
 import { FeeRegisterSearchService } from '../../services/fee-register-search/fee-register-search.service';
+import { NgIf, NgFor, NgClass, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'pay-fee-filter',
-  standalone: false,
+  standalone: true,
   templateUrl: './fee-filter.component.html',
-  styleUrls: ['./fee-filter.component.scss']
+  styleUrls: ['./fee-filter.component.scss'],
+  imports: [ReactiveFormsModule, NgIf, NgFor, NgClass, TitleCasePipe]
 })
 export class FeeFilterComponent implements OnInit {
 

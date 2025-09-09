@@ -6,7 +6,7 @@ import { SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-review-fee-detail',
-  standalone: false,
+  standalone: true,
   templateUrl: './review-fee-detail.component.html',
   styleUrls: ['./review-fee-detail.component.scss']
 })

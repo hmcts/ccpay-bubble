@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @Component({
   selector: 'app-view-payment',
-  standalone: false,
-  templateUrl: './view-payment.component.html'
+  standalone: true,
+  templateUrl: './view-payment.component.html',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ViewPaymentComponent implements OnInit {
   paymentRef: string;

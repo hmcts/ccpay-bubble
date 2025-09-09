@@ -9,7 +9,7 @@ describe('PhaseBannerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PhaseBannerComponent ]
+      imports: [ PhaseBannerComponent ]
     })
     .compileComponents();
   }));

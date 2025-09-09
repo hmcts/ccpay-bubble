@@ -18,17 +18,17 @@ describe('FeeDetailsComponent', () => {
   beforeEach(waitForAsync(() => {
     http = new PaybubbleHttpClient(instance(mock(HttpClient)), instance(mock(Meta)));
     TestBed.configureTestingModule({
-      declarations: [FeeDetailsComponent],
+      imports: [
+        FeeDetailsComponent,
+        FormsModule,
+        ReactiveFormsModule
+      ],
       providers: [
         FormBuilder,
         {
           provide: PaymentGroupService,
           useValue: new PaymentGroupService(http),
         }
-      ],
-      imports: [
-        FormsModule,
-        ReactiveFormsModule
       ]
     }).compileComponents();
   }));

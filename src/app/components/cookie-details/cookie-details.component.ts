@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { CookieTableComponent } from '../cookie-table/cookie-table.component';
+import { NgFor } from '@angular/common';
+
 @Component({
   selector: 'app-cookie-details',
-  standalone: false,
+  standalone: true,
   templateUrl: './cookie-details.component.html',
-  styleUrls: ['./cookie-details.component.scss']
-
+  styleUrls: ['./cookie-details.component.scss'],
+  imports: [CookieTableComponent, NgFor]
 })
 
 export class CookieDetailsComponent {

@@ -21,8 +21,8 @@ describe('CookiePolicyComponentTest', () => {
   beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
-      declarations: [ CookiePolicyComponent ],
-      imports: [
+      imports: [ 
+        CookiePolicyComponent,
         RouterTestingModule
       ],
       providers: [

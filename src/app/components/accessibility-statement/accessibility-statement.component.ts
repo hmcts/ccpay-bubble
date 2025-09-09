@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-accessibility-statement',
-  standalone: false,
+  standalone: true,
   templateUrl: './accessibility-statement.component.html',
   styleUrls: ['./accessibility-statement.component.scss']
 })

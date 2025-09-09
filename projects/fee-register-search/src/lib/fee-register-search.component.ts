@@ -4,11 +4,16 @@ import { of } from 'rxjs';
 import { FeeRegisterSearchService } from './services/fee-register-search/fee-register-search.service';
 import { IFee } from './interfaces';
 import { Jurisdictions } from './models/Jurisdictions';
+import { FeeSearchComponent } from './components/fee-search/fee-search.component';
+import { FeeFilterComponent } from './components/fee-filter/fee-filter.component';
+import { FeeListComponent } from './components/fee-list/fee-list.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'pay-fee-register-search',
-  standalone: false,
-  templateUrl: './fee-register-search.component.html'
+  standalone: true,
+  templateUrl: './fee-register-search.component.html',
+  imports: [NgIf, FeeSearchComponent, FeeFilterComponent, FeeListComponent]
 })
 export class FeeRegisterSearchComponent implements OnInit {
   @Input() APIRoot;

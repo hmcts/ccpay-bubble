@@ -1,13 +1,14 @@
 import { Component, OnInit} from '@angular/core';
 import cookieManager from '@hmcts/cookie-manager';
 import { Location } from '@angular/common';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-cookie-policy',
-  standalone: false,
+  standalone: true,
   templateUrl: './cookie-policy.component.html',
-  styleUrls: ['./cookie-policy.component.scss']
-
+  styleUrls: ['./cookie-policy.component.scss'],
+  imports: [NgIf, NgFor]
 })
 
 export class CookiePolicyComponent implements OnInit {

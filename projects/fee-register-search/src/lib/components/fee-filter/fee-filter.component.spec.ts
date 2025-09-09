@@ -14,13 +14,13 @@ describe('Fee Filter component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [
-        FeeFilterComponent
+    imports: [
+        FeeFilterComponent,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule
     ],
     schemas: [NO_ERRORS_SCHEMA],
-    imports: [CommonModule,
-        FormsModule,
-        ReactiveFormsModule],
     providers: [
         { provide: FeeRegisterSearchService, useClass: MockFeeRegisterSearchService },
         provideHttpClient(withInterceptorsFromDi())

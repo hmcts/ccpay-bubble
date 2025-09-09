@@ -1,10 +1,12 @@
-<div *ngIf="validOldVersionArray.length === 0 ">
+@if (validOldVersionArray.length === 0) {
+<div>
   <legend>
     <h1 class="heading-xlarge">Fee details</h1>
   </legend>
   
   <input #myInput type='hidden' class='iFrameDrivenImageValue' value='FEEDETAILS'>
-  <table aria-describedby="Fee details" *ngIf="fee && fee.current_version" class="table" style="margin-bottom: 20px">
+  @if (fee && fee.current_version) {
+  <table aria-describedby="Fee details" class="table" style="margin-bottom: 20px">
     <tbody>
       <tr>
         <th class="bold" width="80px" scope="col">Fee code</th>
@@ -14,19 +16,21 @@
       <tr>
         <td>{{ fee.code }}</td>
         <td>{{ fee.current_version.description }}</td>
-        <td *ngIf="fee.current_version['percentage_amount']; else volumeOrFlat">
-          {{fee.current_version['percentage_amount'].percentage}}%</td>
-        <ng-template #volumeOrFlat>
+        @if (fee.current_version['percentage_amount']) {
+          <td>{{fee.current_version['percentage_amount'].percentage}}%</td>
+        } @else {
           <td>
             £{{ fee.current_version['volume_amount']? fee.current_version['volume_amount'].amount : fee.current_version['flat_amount'].amount}}
           </td>
-        </ng-template>
-
+        }
       </tr>
     </tbody>
   </table>
+  }
 </div>
-<main *ngIf="validOldVersionArray.length === 1 && !fee.current_version">
+}
+@if (validOldVersionArray.length === 1 && !fee.current_version) {
+<main>
   <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
   <p class="form-hint">{{ fee.discontinued_list[0].description }}</p>
   <input #myInput type='hidden' class='iFrameDrivenImageValue' value='FEEVERSION'>
@@ -43,7 +47,9 @@
   </div>
 
 </main>
-<main *ngIf="validOldVersionArray.length > 1 && !fee.current_version">
+}
+@if (validOldVersionArray.length > 1 && !fee.current_version) {
+<main>
 <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
 <p class="form-hint">{{ fee.discontinued_list[0].description }}</p>
 <input #myInput type='hidden' class='iFrameDrivenImageValue' value='FEEVERSION'>
@@ -54,36 +60,43 @@
       When was this application received?
     </legend>
 
-    <div
-      *ngFor="let feeVersion of validOldVersionArray; index as i; let firstversion = first; let lastversion = last"
-      class="govuk-radios">
+    @for (feeVersion of validOldVersionArray; track feeVersion; let i = $index; let firstversion = $first; let lastversion = $last) {
+    <div class="govuk-radios">
       <div class="govuk-radios__item">
         <input class="govuk-radios__input" id="{{ 'fee-version' + i }}" name="fee-version" type="radio"
           value="feeVersion" aria-describedby="fee-version-item-hint" (click)="getSelectedFeesVersion(feeVersion)">
-          <label  *ngIf="firstversion && !lastversion && validOldVersionArray.length > 0" class="govuk-label govuk-radios__label"
-          style="font-size: 16px;" for="current-version">
-          On or after {{ feeVersion.valid_from | date: 'd MMMM y' }}
-        </label>
-          <label *ngIf="!firstversion && validOldVersionArray.length > 1 && !lastversion" class="govuk-label govuk-radios__label"
-            style="font-size: 16px;" for="fee-version">
-            Between {{ feeVersion.valid_from | date: 'd MMMM'  }} and {{ feeVersion.valid_to | date: 'd MMMM y' }}
+          @if (firstversion && !lastversion && validOldVersionArray.length > 0) {
+            <label class="govuk-label govuk-radios__label"
+            style="font-size: 16px;" for="current-version">
+            On or after {{ feeVersion.valid_from | date: 'd MMMM y' }}
           </label>
-            <label *ngIf="!firstversion && (validOldVersionArray.length === 1 || validOldVersionArray.length > 1) && lastversion"class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
+          }
+          @if (!firstversion && validOldVersionArray.length > 1 && !lastversion) {
+            <label class="govuk-label govuk-radios__label"
+              style="font-size: 16px;" for="fee-version">
+              Between {{ feeVersion.valid_from | date: 'd MMMM'  }} and {{ feeVersion.valid_to | date: 'd MMMM y' }}
+            </label>
+          }
+          @if (!firstversion && (validOldVersionArray.length === 1 || validOldVersionArray.length > 1) && lastversion) {
+            <label class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
               Before {{ feeVersion.valid_to | date: 'd MMMM y' }}
             </label>
+          }
           <span id="{{ 'fee-version-item-hint' + i }}" class="govuk-hint govuk-radios__hint"
             style="font-size: 16px;">
             Use the old
             £ {{ getAmountFromFeeVersion(feeVersion) }} fee
           </span>
       </div>
-
     </div>
+    }
   </fieldset>
 </div>
 
 </main>
-<main *ngIf="validOldVersionArray.length > 0 && fee.current_version">
+}
+@if (validOldVersionArray.length > 0 && fee.current_version) {
+<main>
   <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
   <p class="form-hint">{{ fee.current_version.description }}</p>
   <input #myInput type='hidden' class='iFrameDrivenImageValue' value='FEEVERSION'>
@@ -101,7 +114,8 @@
         When was this application received?
       </legend>
 
-      <div *ngIf="fee.current_version" class="govuk-radios">
+      @if (fee.current_version) {
+      <div class="govuk-radios">
 
         <div class="govuk-radios__item">
           <input class="govuk-radios__input" id="fee-versions" name="fee-version" type="radio"
@@ -117,40 +131,49 @@
           </span>
         </div>
       </div>
-      <div
-        *ngFor="let feeVersion of validOldVersionArray; index as i; let lastversion = last"
-        class="govuk-radios">
+      }
+      @for (feeVersion of validOldVersionArray; track feeVersion; let i = $index; let lastversion = $last) {
+      <div class="govuk-radios">
         <div class="govuk-radios__item">
           <input class="govuk-radios__input" id="{{ 'fee-version' + i }}" name="fee-version" type="radio"
             value="feeVersion" aria-describedby="fee-version-item-hint" (click)="getSelectedFeesVersion(feeVersion)">
-            <label *ngIf="validOldVersionArray.length > 1 && !lastversion;" class="govuk-label govuk-radios__label"
-              style="font-size: 16px;" for="fee-version">
-              Between {{ feeVersion.valid_from | date: 'd MMMM'  }} and {{ feeVersion.valid_to | date: 'd MMMM y' }}
-            </label>
-              <label *ngIf="(validOldVersionArray.length === 1 || validOldVersionArray.length > 1) && lastversion;"class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
+            @if (validOldVersionArray.length > 1 && !lastversion) {
+              <label class="govuk-label govuk-radios__label"
+                style="font-size: 16px;" for="fee-version">
+                Between {{ feeVersion.valid_from | date: 'd MMMM'  }} and {{ feeVersion.valid_to | date: 'd MMMM y' }}
+              </label>
+            }
+            @if ((validOldVersionArray.length === 1 || validOldVersionArray.length > 1) && lastversion) {
+              <label class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
                 Before {{ feeVersion.valid_to | date: 'd MMMM y' }}
               </label>
+            }
             <span id="{{ 'fee-version-item-hint' + i }}" class="govuk-hint govuk-radios__hint"
               style="font-size: 16px;">
               Use the old
               £ {{ getAmountFromFeeVersion(feeVersion) }} fee
             </span>
         </div>
-
       </div>
+      }
     </fieldset>
   </div>
 
 </main>
+}
 
 <form>
-<div [formGroup]="feeDetailFormGroup" *ngIf="fee.current_version">
-  <label *ngIf="fee.current_version['volume_amount']" class="heading-small" for="volumeAmount">
-    How many copies do you want?
-  </label>
-  <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['volume_amount']" class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
+@if (fee.current_version) {
+<div [formGroup]="feeDetailFormGroup">
+  @if (fee.current_version['volume_amount']) {
+    <label class="heading-small" for="volumeAmount">
+      How many copies do you want?
+    </label>
+    <input formControlName="feeOrVolumeControl" class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
+  }
   <!--Following is the section for fee_type='flat' and amont_type='banded'-->
-  <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="heading-small" for="volumeAmount">
+  @if (fee.current_version['flat_amount'] && fee.fee_type == 'banded') {
+    <label class="heading-small" for="volumeAmount">
     <span class="form-hint">If the document has more than 10 pages, you must also choose a fee for the additional pages.</span>
     <p>
     <p>
@@ -176,31 +199,39 @@
     <p>
       How many copies of the document are required?
   </label>
-  <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
+    <input formControlName="feeOrVolumeControl" class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
+  }
   <p>
   <p>
-    <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="heading-small" for="calculatedAmount">
-      How much does the citizen need to pay for the selected fee?
-    </label>
-    <input formControlName="feeAmountFormControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedAmount" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" step=".01" min="0.01"/>
+    @if (fee.current_version['flat_amount'] && fee.fee_type == 'banded') {
+      <label class="heading-small" for="calculatedAmount">
+        How much does the citizen need to pay for the selected fee?
+      </label>
+      <input formControlName="feeAmountFormControl" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedAmount" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" step=".01" min="0.01"/>
+    }
     <!--Above is the section for fee_type='flat' and amont_type='banded'-->
 
     <!--Following is the section for fee_type='flat' and amont_type='rateable'-->
-    <label *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'" class="heading-small" for="calculateRateableFee">
-      Enter the calculated amount of fee
-    </label>
-  <div  *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'"  class="currencysymbol">£</div>
-  <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'rateable'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculateRateableFee" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" step=".01" min="0.01"/>
+    @if (fee.current_version['flat_amount'] && fee.fee_type == 'rateable') {
+      <label class="heading-small" for="calculateRateableFee">
+        Enter the calculated amount of fee
+      </label>
+      <div class="currencysymbol">£</div>
+      <input formControlName="feeOrVolumeControl" class="form-control short-input volume-amount-control" autocomplete="off" id="calculateRateableFee" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" step=".01" min="0.01"/>
+    }
   <!--Above is the section for fee_type='flat' and amont_type='rateable'-->
 
   <!--Following is the section for fee_type='ranged' and amont_type='percentage_amount'-->
-  <label *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'" class="heading-small" for="calculatedRangedFee">
-    Enter the calculated amount of fee
-  </label>
-  <div *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'"  class="currencysymbol">£</div>
-  <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['percentage_amount'] && fee.fee_type == 'ranged'" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedRangedFee" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" step=".01" min="0.01"/>
+  @if (fee.current_version['percentage_amount'] && fee.fee_type == 'ranged') {
+    <label class="heading-small" for="calculatedRangedFee">
+      Enter the calculated amount of fee
+    </label>
+    <div class="currencysymbol">£</div>
+    <input formControlName="feeOrVolumeControl" class="form-control short-input volume-amount-control" autocomplete="off" id="calculatedRangedFee" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" step=".01" min="0.01"/>
+  }
   <!--Above is the section for fee_type='flat' and amont_type='percentageranged'-->
 </div>
+}
 
 <div class="form-group">
   <div class="button-grid__button">
@@ -211,16 +242,22 @@
 
   <div class="button-grid__button">
 
-      <button *ngIf="validOldVersionArray.length === 0 && fee.current_version" class="button margin-left-10" type="submit" (click)="submitVolume()">
-        Submit
-      </button>
-      <button *ngIf="(validOldVersionArray.length > 0 && fee.current_version) || (validOldVersionArray.length > 1 && !fee.current_version)" class="button margin-left-10" [disabled]="!selectedFeeVersion" type="submit" (click)="submitVolume()">
-        Continue
-      </button>
+      @if (validOldVersionArray.length === 0 && fee.current_version) {
+        <button class="button margin-left-10" type="submit" (click)="submitVolume()">
+          Submit
+        </button>
+      }
+      @if ((validOldVersionArray.length > 0 && fee.current_version) || (validOldVersionArray.length > 1 && !fee.current_version)) {
+        <button class="button margin-left-10" [disabled]="!selectedFeeVersion" type="submit" (click)="submitVolume()">
+          Continue
+        </button>
+      }
 
-      <button *ngIf="validOldVersionArray.length === 1 && !fee.current_version" class="button margin-left-10" type="submit" (click)="submitVolume()">
-        Continue
-      </button>
+      @if (validOldVersionArray.length === 1 && !fee.current_version) {
+        <button class="button margin-left-10" type="submit" (click)="submitVolume()">
+          Continue
+        </button>
+      }
   </div>
 </div>
 </form>

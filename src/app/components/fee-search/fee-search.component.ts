@@ -4,13 +4,16 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
+import { FeeRegisterSearchComponent } from 'fee-register-search';
+import { NgIf } from '@angular/common';
 import * as ls from 'local-storage';
 
 @Component({
   selector: 'app-fee-search',
-  standalone: false,
+  standalone: true,
   templateUrl: './fee-search.component.html',
-  styleUrls: ['./fee-search.component.scss']
+  styleUrls: ['./fee-search.component.scss'],
+  imports: [FeeRegisterSearchComponent, FeeDetailsComponent]
 })
 export class FeeSearchComponent implements OnInit {
   outputEmitterFeesDetails: { volumeAmount: number, selectedVersionEmit: IVersion, isDiscontinuedFeeAvailable: boolean};

@@ -1,15 +1,20 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { filter } from 'rxjs/operators';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { PaymentGroupService } from './services/payment-group/payment-group.service';
 import { DOCUMENT } from '@angular/common';
+import { CookieBannerComponent } from './components/cookie-banner/cookie-banner.component';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { PhaseBannerComponent } from './shared/components/phase-banner/phase-banner.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 declare let gtag;
 @Component({
   selector: 'app-root',
-  standalone: false,
+  standalone: true,
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  imports: [CookieBannerComponent, HeaderComponent, PhaseBannerComponent, RouterOutlet, FooterComponent]
 })
 export class AppComponent implements OnInit {
  title = 'ccpay-bubble';
