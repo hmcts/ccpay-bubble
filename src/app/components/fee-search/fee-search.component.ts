@@ -5,7 +5,7 @@ import { PaymentGroupService } from '../../services/payment-group/payment-group.
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
 import { FeeRegisterSearchComponent } from 'fee-register-search';
-import { NgIf } from '@angular/common';
+
 import * as ls from 'local-storage';
 
 @Component({

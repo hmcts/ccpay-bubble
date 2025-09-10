@@ -1,13 +1,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FeeModel } from 'src/app/models/FeeModel';
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-fee-list-table',
   standalone: true,
   templateUrl: './fee-list-table.component.html',
   styleUrls: ['./fee-list-table.component.scss'],
-  imports: [NgIf, NgFor, NgClass]
+  imports: [NgClass]
 })
 export class FeeListTableComponent {
   @Input() fees: FeeModel[];

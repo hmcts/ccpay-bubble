@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import * as ls from 'local-storage';
 
 @Component({
@@ -12,7 +12,7 @@ import * as ls from 'local-storage';
   standalone: true,
   templateUrl: './ccd-search.component.html',
   styleUrls: ['./ccd-search.component.scss'],
-  imports: [ReactiveFormsModule, NgIf, NgClass]
+  imports: [ReactiveFormsModule, NgClass]
 })
 export class CcdSearchComponent implements OnInit {
   searchForm: FormGroup;

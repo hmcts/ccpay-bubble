@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { IFee } from '../../interfaces';
 import { Jurisdictions } from '../../models/Jurisdictions';
-import { NgIf, NgFor, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FilterFeesPipe } from '../../pipes/filter-fees.pipe';
 
@@ -10,7 +10,7 @@ import { FilterFeesPipe } from '../../pipes/filter-fees.pipe';
   standalone: true,
   templateUrl: './fee-list.component.html',
   styleUrls: ['./fee-list.component.scss'],
-  imports: [NgIf, NgFor, DecimalPipe, NgxPaginationModule, FilterFeesPipe]
+  imports: [DecimalPipe, NgxPaginationModule, FilterFeesPipe]
 })
 export class FeeListComponent {
   @Input() fees?: IFee[];
