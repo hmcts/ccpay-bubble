@@ -8,8 +8,7 @@ import { provideAnimations, provideNoopAnimations } from '@angular/platform-brow
 
 import { AppComponent } from './app/app.component';
 import { AppRoutingModule } from './app/routes/app-routing.module';
-import { ViewPaymentModule } from 'view-payment';
-import { FeeRegisterSearchModule } from 'fee-register-search';
+// Removed ViewPaymentModule and FeeRegisterSearchModule imports - using standalone components
 import { PaymentLibModule } from '@hmcts/ccpay-web-component';
 import { RpxTranslationModule } from 'rpx-xui-translation';
 import { environment } from './environments/environment';
@@ -43,8 +42,7 @@ bootstrapApplication(AppComponent, {
       AppRoutingModule,
       FormsModule,
       ReactiveFormsModule,
-      ViewPaymentModule,
-      FeeRegisterSearchModule,
+      // ViewPaymentModule and FeeRegisterSearchModule removed - using standalone components
       PaymentLibModule,
       RpxTranslationModule.forRoot({
         baseUrl: '/api/translation',
