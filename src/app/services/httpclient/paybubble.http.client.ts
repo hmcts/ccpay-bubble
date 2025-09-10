@@ -39,7 +39,7 @@ export class PaybubbleHttpClient {
       });
     }
     headers['X-Requested-With'] = 'XMLHttpRequest';
-    headers['CSRF-Token'] = csrfToken.content;
+    headers['CSRF-Token'] = csrfToken ? csrfToken.content : '';
     options.headers = new HttpHeaders(headers);
     options.responseType = 'text';
     return options;
