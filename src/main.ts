@@ -9,7 +9,8 @@ import { provideAnimations, provideNoopAnimations } from '@angular/platform-brow
 import { AppComponent } from './app/app.component';
 import { AppRoutingModule } from './app/routes/app-routing.module';
 // Removed ViewPaymentModule and FeeRegisterSearchModule imports - using standalone components
-import { PaymentLibModule } from '@hmcts/ccpay-web-component';
+import { PaymentLibComponent } from '@hmcts/ccpay-web-component';
+import { forwardRef } from '@angular/core';
 import { RpxTranslationModule } from 'rpx-xui-translation';
 import { environment } from './environments/environment';
 
@@ -42,8 +43,6 @@ bootstrapApplication(AppComponent, {
       AppRoutingModule,
       FormsModule,
       ReactiveFormsModule,
-      // ViewPaymentModule and FeeRegisterSearchModule removed - using standalone components
-      PaymentLibModule,
       RpxTranslationModule.forRoot({
         baseUrl: '/api/translation',
         debounceTimeMs: 300,
@@ -58,12 +57,15 @@ bootstrapApplication(AppComponent, {
     CaseRefService,
     IdamDetails,
     WindowUtil,
-    !environment.production ? nonProductionProviders : [],
+    ...(!environment.production ? nonProductionProviders : []),
     PaymentGroupService,
     ViewPaymentService,
     { provide: windowToken, useFactory: windowProvider },
+    { provide: 'PAYMENT_LIB', useExisting: forwardRef(() => PaymentLibComponent) },
+    { provide: 'PAYMENT_VIEW', useExisting: forwardRef(() => PaymentLibComponent) },
+    { provide: 'ADD_REMISSION', useExisting: forwardRef(() => PaymentLibComponent) },
+    { provide: 'SERVICE_REQUEST', useExisting: forwardRef(() => PaymentLibComponent) },
     provideHttpClient(withInterceptorsFromDi()),
-    provideNoopAnimations(),
     provideAnimations()
   ]
 })

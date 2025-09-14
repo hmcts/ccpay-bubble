@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IdamDetails } from '../../services/idam-details/idam-details';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
-import { PaymentLibModule } from '@hmcts/ccpay-web-component';
+import { PaymentLibComponent } from '@hmcts/ccpay-web-component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import * as ls from 'local-storage';
 import {Router} from '@angular/router';
@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
   standalone: true,
   templateUrl: './payment-history.component.html',
   styleUrls: ['./payment-history.component.scss'],
-  imports: [PaymentLibModule],
+  imports: [PaymentLibComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PaymentHistoryComponent implements OnInit {
