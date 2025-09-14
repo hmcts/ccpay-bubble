@@ -13,11 +13,9 @@ describe('Fee list component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        FeeListComponent,
-        FilterFeesPipe
-      ],
       imports: [
+        FeeListComponent,
+        FilterFeesPipe,
         CommonModule,
         NgxPaginationModule
       ],

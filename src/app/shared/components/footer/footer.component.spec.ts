@@ -8,8 +8,8 @@ describe('FooterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FooterComponent],
       imports: [
+        FooterComponent,
         RouterTestingModule
       ],
     });

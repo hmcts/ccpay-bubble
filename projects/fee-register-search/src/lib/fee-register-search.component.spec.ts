@@ -13,9 +13,8 @@ describe('FeeRegisterSearchComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    declarations: [FeeRegisterSearchComponent],
+    imports: [FeeRegisterSearchComponent],
     schemas: [NO_ERRORS_SCHEMA],
-    imports: [],
     providers: [FeeRegisterSearchService, provideHttpClient(withInterceptorsFromDi())]
 })
     .compileComponents();

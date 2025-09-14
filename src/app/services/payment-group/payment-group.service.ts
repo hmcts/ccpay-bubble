@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {PaybubbleHttpClient} from '../httpclient/paybubble.http.client';
 import { Observable, BehaviorSubject } from 'rxjs';
-import {IPaymentGroup} from '@hmcts/ccpay-web-component/lib/interfaces/IPaymentGroup';
-import { IBSPayments } from '@hmcts/ccpay-web-component/lib/interfaces/IBSPayments';
+import type {IPaymentGroup, IBSPayments} from '@hmcts/ccpay-web-component';
 
 const BULK_SCANNING_ENABLED = 'bulk-scan-enabling-fe';
 const DISCONTINUED_FEES_FEATURE_ENABLED = 'discontinued-fees-feature';

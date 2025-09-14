@@ -12,11 +12,10 @@ describe('View payment component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [ViewPaymentComponent],
-    schemas: [NO_ERRORS_SCHEMA],
-    imports: [],
-    providers: [ViewPaymentService, provideHttpClient(withInterceptorsFromDi())]
-});
+      imports: [ViewPaymentComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [ViewPaymentService, provideHttpClient(withInterceptorsFromDi())]
+    });
 
     fixture = TestBed.createComponent(ViewPaymentComponent);
     component = fixture.componentInstance;

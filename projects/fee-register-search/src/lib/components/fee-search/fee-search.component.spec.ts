@@ -9,8 +9,8 @@ describe('Fee search component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FeeSearchComponent],
       imports: [
+        FeeSearchComponent,
         CommonModule,
         FormsModule,
         ReactiveFormsModule

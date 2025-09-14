@@ -1,0 +1,57 @@
+#!/bin/bash
+
+echo "Settings Values"
+
+export PROBATE_CASE_WORKER_USER_NAME=probatebackoffice@gmail.com
+export PROBATE_CASE_WORKER_PASSWORD=Monday01
+export DIVORCE_CASE_WORKER_USER_NAME=robreallywantsccdaccess@mailinator.com
+export DIVORCE_CASE_WORKER_PASSWORD=Testing1234
+export DIVORCE_CLIENT_ID=divorce
+export DIVORCE_CLIENT_SECRET=thUphEveC2Ekuqedaneh4jEcRuba4t2t
+export DIVORCE_CLIENT_REDIRECT_URI=https://div-pfe-aat.service.core-compute-aat.internal/authenticated
+export REFUNDS_REQUESTOR_USER_NAME=payments.probate@mailinator.com
+export REFUNDS_REQUESTOR_PASSWORD=LevelAt12
+export REFUNDS_APPROVER_USER_NAME=approver.probate@mailinator.com
+export REFUNDS_APPROVER_PASSWORD=LevelAt12
+export FEE_PAY_WTP_PBA_ALL_ACCOUNTS_USERNAME=feeandpaydZtnfQ_external@mailnesia.com
+export FEE_PAY_WTP_PBA_ALL_ACCOUNTS_PASSWORD=Password123!
+export FEE_PAY_WTP_PBA_NO_ACCOUNTS_USERNAME=feeandpaynCdxFA_external@mailnesia.com
+export FEE_PAY_WTP_PBA_NO_ACCOUNTS_PASSWORD=Password123!
+export CLIENT_ID=cmc_citizen
+export OAUTH2_CLIENT_SECRET=wrubu7ruprupAq6trexe3enay4memej7
+export CLIENT_REDIRECT_URI=https://cmc-citizen-frontend.service.core-compute-aat.internal/receiver
+export PBA_ACCOUNT_NUMBER_ACTIVE=PBAFUNC12345
+export PBA_ACCOUNT_NUMBER_INACTIVE=PBAFUNC12350
+export CMC_S2S_SERVICE_SECRET=RD53IBEKQTO4WMQY
+export PAYBUBBLE_S2S_SERVICE_SECRET=G5XTFNBUW4P6ZP4F
+export NOTIFY_EMAIL_API_KEY=emailnotificationapikeyv1-ff5a9c4f-efd8-4553-9c18-80ab45d578ce-4e655f5c-f661-4d22-8ff9-eced30dbd5e8
+export TEST_URL=https://ccpay-bubble-frontend-pr-985.preview.platform.hmcts.net
+
+
+echo "Printing values "
+echo $PROBATE_CASE_WORKER_USER_NAME
+echo $PROBATE_CASE_WORKER_PASSWORD
+echo $DIVORCE_CASE_WORKER_USER_NAME
+echo $DIVORCE_CASE_WORKER_PASSWORD
+echo $DIVORCE_CLIENT_ID
+echo $DIVORCE_CLIENT_SECRET
+echo $DIVORCE_CLIENT_REDIRECT_URI
+echo $REFUNDS_REQUESTOR_USER_NAME
+echo $REFUNDS_REQUESTOR_PASSWORD
+echo $REFUNDS_APPROVER_USER_NAME
+echo $REFUNDS_APPROVER_PASSWORD
+echo $FEE_PAY_WTP_PBA_ALL_ACCOUNTS_USERNAME
+echo $FEE_PAY_WTP_PBA_ALL_ACCOUNTS_PASSWORD
+echo $FEE_PAY_WTP_PBA_NO_ACCOUNTS_USERNAME
+echo $FEE_PAY_WTP_PBA_NO_ACCOUNTS_PASSWORD
+echo $CLIENT_ID
+echo $OAUTH2_CLIENT_SECRET
+echo $CLIENT_REDIRECT_URI
+echo $PBA_ACCOUNT_NUMBER_ACTIVE
+echo $PBA_ACCOUNT_NUMBER_INACTIVE
+echo $CMC_S2S_SERVICE_SECRET
+echo $PAYBUBBLE_S2S_SERVICE_SECRET
+echo $NOTIFY_EMAIL_API_KEY
+echo $TEST_URL
+
+yarn test:functional

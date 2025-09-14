@@ -1,11 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { IFee } from '../../interfaces';
 import { Jurisdictions } from '../../models/Jurisdictions';
+import { DecimalPipe } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { FilterFeesPipe } from '../../pipes/filter-fees.pipe';
 
 @Component({
   selector: 'pay-fee-list',
+  standalone: true,
   templateUrl: './fee-list.component.html',
-  styleUrls: ['./fee-list.component.scss']
+  styleUrls: ['./fee-list.component.scss'],
+  imports: [DecimalPipe, NgxPaginationModule, FilterFeesPipe]
 })
 export class FeeListComponent {
   @Input() fees?: IFee[];
@@ -21,6 +26,6 @@ export class FeeListComponent {
     return str
       .split(' ')
       .map(word => word[0].toUpperCase() + word.slice(1))
-      .join(' ')
+      .join(' ');
   }
 }

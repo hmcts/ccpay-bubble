@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-service-failure',
+  standalone: true,
   templateUrl: './service-failure.component.html',
   styleUrls: ['./service-failure.component.scss']
 })
