@@ -8,6 +8,7 @@ import * as ls from 'local-storage';
 
 @Component({
   selector: 'app-ccd-search',
+  standalone: false,
   templateUrl: './ccd-search.component.html',
   styleUrls: ['./ccd-search.component.scss']
 })

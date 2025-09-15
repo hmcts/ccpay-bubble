@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'pay-fee-search',
+  standalone: false,
   templateUrl: './fee-search.component.html',
   styleUrls: ['./fee-search.component.scss']
 })
