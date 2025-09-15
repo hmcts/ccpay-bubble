@@ -32,6 +32,7 @@
       "fee-register-search/*": [
         "dist/fee-register-search/*"
       ]
-    }
+    },
+    "ignoreDeprecations": "5.0"
   }
 }
