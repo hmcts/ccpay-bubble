@@ -33,6 +33,6 @@
         "dist/fee-register-search/*"
       ]
     },
-    "ignoreDeprecations": 17
+    "ignoreDeprecations": "17"
   }
 }
