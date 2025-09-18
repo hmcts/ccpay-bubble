@@ -219,7 +219,7 @@ module.exports = {
     if (previewNotificationFlag) {
       I.click({xpath: '//tr[7]//a[.=" Preview "]'});
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      refundsList.verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData);
+      refundsList.verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       I.click('Hide Preview');
       I.wait(CCPBATConstants.twoSecondWaitTime);
     }
@@ -306,9 +306,9 @@ module.exports = {
       I.click({xpath: '//tr[8]//a[.=" Preview "]'});
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod === 'cash') {
-        refundsList.verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+        refundsList.verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       } else {
-        refundsList.verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData);
+        refundsList.verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       }
       I.click('Hide Preview');
       I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -371,9 +371,9 @@ module.exports = {
       I.click({xpath: '//tr[7]//a[.=" Preview "]'});
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod === 'cash') {
-        refundsList.verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+        refundsList.verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       } else {
-        refundsList.verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData);
+        refundsList.verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       }
       I.click('Hide Preview');
       I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -758,9 +758,9 @@ module.exports = {
       I.click({xpath: '//tr[8]//a[.=" Preview "]'});
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod === 'cash') {
-        refundsList.verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+        refundsList.verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       } else {
-        refundsList.verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData);
+        refundsList.verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       }
       I.click('Hide Preview');
       I.wait(CCPBATConstants.twoSecondWaitTime);
