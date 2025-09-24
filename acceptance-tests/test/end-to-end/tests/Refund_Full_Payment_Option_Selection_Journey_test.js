@@ -8,7 +8,7 @@ const assertionData = require("../fixture/data/refunds/assertion");
 Feature('CC Pay Bubble Refund Full payment option selection journey test').retry(CCPBATConstants.defaultNumberOfRetries);
 
 // Bulk scan cash full payment refund option, letter notification preview at all 3 stages(before refund request, refund approve and after approve) and Resend Notification
-Scenario('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter notification and Resend Notification journey',
+Scenario('Bulk scan cash Full Payment refund, preview SendRefund letter notification and Resend Notification journey',
   async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
            PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
@@ -61,7 +61,7 @@ Scenario('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
-    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£500.00', '', refundReason, '£500.00', '', postcode, 'RefundWhenContacted');
+    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£500.00', '', refundReason, '£500.00', '', postcode, 'SendRefund');
     const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '500', 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
 
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForFullPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false, true, refundNotificationPreviewDataBeforeRefundRequest);
@@ -77,7 +77,7 @@ Scenario('Bulk scan cash Full Payment refund, preview RefundWhenContacted letter
     await InitiateRefunds.verifyRefundsListPage(refundReference);
     I.wait(CCPBATConstants.twoSecondWaitTime);
 
-    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, refundReason, '£500.00', '', postcode, 'payments probate', 'RefundWhenContacted');
+    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, refundReason, '£500.00', '', postcode, 'payments probate', 'SendRefund');
     const refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, '500', 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
 
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction, true, refundNotificationPreviewDataBeforeRefundApproved);

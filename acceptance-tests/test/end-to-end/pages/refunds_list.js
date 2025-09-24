@@ -5,7 +5,7 @@ const stringUtils = require('../helpers/string_utils');
 const {I} = inject();
 
 // Offer and Contact template
-function verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotificationPreviewData) {
+function verifyBulkScanPaymentRefundWhenContactedNotification(refundNotificationPreviewData) {
   if (refundNotificationPreviewData.email) {
     I.waitForText('From: contactprobate@justice.gov.uk', 5);
     I.see(`To: ${refundNotificationPreviewData.email}`);
@@ -39,7 +39,7 @@ function verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotifica
 }
 
 // Offer and Send template
-function verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData) {
+function verifyCardOrPBASendRefundNotification(refundNotificationPreviewData) {
   if (refundNotificationPreviewData.email) {
     I.waitForText('From: contactprobate@justice.gov.uk', 5);
     I.see(`To: ${refundNotificationPreviewData.email}`);
@@ -181,9 +181,9 @@ module.exports = {
       I.click('View');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod === 'cash') {
-        verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+        verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       } else {
-        verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData);
+        verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       }
       I.click('Hide');
       I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -242,9 +242,9 @@ module.exports = {
           refundNotificationPreviewData.email = 'autoTestNotifyEditDetails@mailtest.gov.uk';
           refundNotificationPreviewData.postcode= '';
           if (refundNotificationPreviewData.bulkScanPaymentMethod === 'cash') {
-            verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+            verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
           } else {
-            verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData);
+            verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
           }
           I.click('Hide');
           I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -292,9 +292,9 @@ module.exports = {
           refundNotificationPreviewData.email = '';
           refundNotificationPreviewData.postcode= 'TW4 7EZ';
           if (refundNotificationPreviewData.bulkScanPaymentMethod === 'cash') {
-            verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+            verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
           } else {
-            verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData);
+            verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
           }
           I.click('Hide');
           I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -415,7 +415,7 @@ module.exports = {
       I.click('View');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       // verifySystemApprovedRefundWhenContactedNotification(refundNotificationPreviewData);
-      verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData);
+      verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       I.click('Hide');
       I.wait(CCPBATConstants.twoSecondWaitTime);
     }
@@ -476,8 +476,8 @@ module.exports = {
     }
   },
 
-  verifyBulkScanCashPaymentRefundWhenContactedNotification,
-  verifyChequeCardOrPBASendRefundNotification,
+  verifyBulkScanPaymentRefundWhenContactedNotification,
+  verifyCardOrPBASendRefundNotification,
   verifySystemApprovedRefundWhenContactedNotification
 
 };
