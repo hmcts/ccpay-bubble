@@ -109,6 +109,11 @@ module.exports = appInsights => express.Router()
   .get('/payment-history/LD-feature?*', (req, res) => {
     controllers.payhubController.getLDFeatures(req, res);
   })
+
+  .get('/pci-pal-telephony-selection/feature', (req, res) => {
+    controllers.payhubController.pciPalTelephonyFeature(req, res);
+  })
+
   .get('/get-environment', (req, res) => {
     controllers.payhubController.getEnvironment(res);
   })
