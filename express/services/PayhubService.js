@@ -39,7 +39,7 @@ class PayhubService {
 
   async postPaymentAntennaToPayHub(req) {
     const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}/telephony-card-payments`;
-    req.body.return_url = pcipalAntennaReturnUrl;
+    req.body.return_url = this.buildRedirectCallBack(req);
     const options = {
       method: 'POST',
       body: JSON.stringify(req.body),
@@ -47,6 +47,40 @@ class PayhubService {
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
   }
+
+
+
+  /**
+   * Builds a redirect callback URL for telephony payments based on the case number and case type.
+   * Ensures null and undefined safety for both values and logs appropriate messages for debugging.
+   *
+   * @param {Object} req - The HTTP request object containing the body with case details.
+   * @param {string} req.body.ccd_case_number - The unique identifier for the case.
+   * @param {string} req.body.case_type - The type of the case (e.g., "GrantOfRepresentation").
+   * @returns {string} - A full redirect URL if both values are present, otherwise the base URL.
+   */
+  buildRedirectCallBack(req) {
+    const caseNumber = req?.body?.ccd_case_number;
+    const caseType = req?.body?.case_type;
+
+    // Check both values are not null or undefined
+    if (caseNumber != null && caseType != null) {
+      const urlPath = `/${caseNumber}?selectedOption=CCDorException&view=case-transactions&caseType=${caseType}&takePayment=true`;
+      console.log('-------URL redirect:-------', pcipalAntennaReturnUrl.toString() + urlPath.toString());
+      return pcipalAntennaReturnUrl.toString() + urlPath.toString();
+    } else {
+      // Log which value is missing for debugging
+      if (caseNumber == null) {
+        console.warn('Missing ccd_case_number in the request');
+      }
+      if (caseType == null) {
+        console.warn('Missing case_type in the request');
+      }
+      console.warn('Default Telephony callback redirect is going to be used instead.');
+      return pcipalAntennaReturnUrl;
+    }
+  }
+
 
   async postPaymentGroup(req) {
     const options = {
