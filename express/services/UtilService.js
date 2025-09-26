@@ -15,7 +15,7 @@ async function handleFetchError(resp, url) {
     error.status = resp.status;
     // Log the error message
     logger.error(`Error response from ${url}: ${resp.status} - ${text}`);
-    conole.error(`Error response from ${url}: ${resp.status} - ${text}`);
+    console.error(`Error response from ${url}: ${resp.status} - ${text}`);
     error.message = text;
     throw error;
   }
