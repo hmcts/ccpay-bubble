@@ -6,13 +6,16 @@ const { Logger } = require('@hmcts/nodejs-logging');
 const s2sUrl = config.get('s2s.url');
 const ccpayBubbleSecret = config.get('secrets.ccpay.paybubble-s2s-secret');
 const microService = config.get('ccpaybubble.microservice');
-
+const logger = Logger.getLogger('UtilService');
 
 async function handleFetchError(resp, url) {
   if (!resp.ok) {
     const text = await resp.text();
     const error = new Error(`${text}`);
     error.status = resp.status;
+    // Log the error message
+    logger.error(`Error response from ${url}: ${resp.status} - ${text}`);
+    conole.error(`Error response from ${url}: ${resp.status} - ${text}`);
     error.message = text;
     throw error;
   }
