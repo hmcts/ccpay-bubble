@@ -11,13 +11,15 @@ const logger = Logger.getLogger('UtilService');
 async function handleFetchError(resp, url) {
   if (!resp.ok) {
     const text = await resp.text();
-    const error = new Error(`${text}`);
-    error.status = resp.status;
-    // Log the error message
-    logger.error(`Error response from ${url}: ${resp.status} - ${text}`);
-    console.error(`Error response from ${url}: ${resp.status} - ${text}`);
-    error.message = text;
-    throw error;
+    const errorObject = {
+      statusCode: resp.status,
+      message: `${text}`
+    };
+    const errorResponse = {
+      error: errorObject,
+      status: resp.status,
+    };
+    throw errorResponse;
   }
   return resp;
 }
