@@ -13,13 +13,9 @@ async function handleFetchError(resp, url) {
     const text = await resp.text();
     const errorObject = {
       statusCode: resp.status,
-      message: `${text}`
+      message: text
     };
-    const errorResponse = {
-      error: errorObject,
-      status: resp.status,
-    };
-    throw errorResponse;
+    throw JSON.stringify(errorObject);
   }
   return resp;
 }
