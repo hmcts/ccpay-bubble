@@ -13,8 +13,7 @@ async function handleFetchError(resp, url) {
     const text = await resp.text();
     const errorResponse = {
       message: `${text}`,
-      status: resp.status,
-      statusCode: resp.status
+      status: resp.status
     };
     throw errorResponse;
   }
