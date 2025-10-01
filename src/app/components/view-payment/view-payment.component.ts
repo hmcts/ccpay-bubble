@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-view-payment',
+  standalone: false,
   templateUrl: './view-payment.component.html'
 })
 export class ViewPaymentComponent implements OnInit {

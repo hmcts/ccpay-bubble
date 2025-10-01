@@ -5,8 +5,8 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/common": "~18.2.13",
-    "@angular/core": "^18.2.13",
+    "@angular/common": "^20.1.7",
+    "@angular/core": "^20.1.7",
     "ngx-pagination": "6.0.0"
   }
 }

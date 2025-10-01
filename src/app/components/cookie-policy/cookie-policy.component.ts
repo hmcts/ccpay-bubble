@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-cookie-policy',
+  standalone: false,
   templateUrl: './cookie-policy.component.html',
   styleUrls: ['./cookie-policy.component.scss']
 

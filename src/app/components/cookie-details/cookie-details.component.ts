@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CookieTableComponent } from '../cookie-table/cookie-table.component';
 @Component({
   selector: 'app-cookie-details',
+  standalone: false,
   templateUrl: './cookie-details.component.html',
   styleUrls: ['./cookie-details.component.scss']
 
