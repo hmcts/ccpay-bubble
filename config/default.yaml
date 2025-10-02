@@ -14,8 +14,10 @@ ccpaybubble:
   defaultPort: 3000
   microservice: ccpay_bubble
 pcipalantenna:
-  url: http://localhost:3000/payment-history
+  url: https://paybubble.platform.hmcts.net/payment-history
   microservice: ccpay_bubble
+pci-pal:
+  telephony-selection: TELEPHONY_FEATURE
 s2s:
   url: http://localhost:23443
 payhub:
