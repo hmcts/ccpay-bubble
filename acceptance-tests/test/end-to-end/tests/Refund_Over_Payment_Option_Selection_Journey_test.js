@@ -161,7 +161,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
 
     const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, `£${feeAmount}`, 'Over payment', `£${overPaymentRefundAmount}`, emailAddress, '', 'SendRefund');
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false);
-    const refundRefOverPayments = await InitiateRefunds.verifyRefundSubmittedPage(overPaymentRefundAmount);
+    const refundRefOverPayments = await InitiateRefunds.verifyRefundSubmittedPage(`${overPaymentRefundAmount}.00`);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', overPaymentAmount);
 
@@ -185,7 +185,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkYourAnswersDataBeforeSubmitRefund2 = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, '', refundReason, feePaymentRefundAmount, emailAddress, '', 'SendRefund');
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund2, false, false, false, false);
-    const refundRef = await InitiateRefunds.verifyRefundSubmittedPage(feePaymentRefundAmount);
+    const refundRef = await InitiateRefunds.verifyRefundSubmittedPage(`${feePaymentRefundAmount}.00`);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', overPaymentAmount);
     await I.Logout();
