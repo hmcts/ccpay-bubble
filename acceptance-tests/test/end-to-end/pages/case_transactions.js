@@ -174,7 +174,7 @@ module.exports = {
     I.click('Allocate to existing service request');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Select payment request');
-    I.see(amount);
+    I.see(`£${amount}`);
     I.click('//input[@name="orderLevelRecord"]');
     I.click('Continue');
     I.wait(CCPBConstants.fiveSecondWaitTime);
@@ -452,7 +452,7 @@ module.exports = {
     I.click(this.locators.view_details_for_status_paid);
     I.see(remissionCode);
     I.see(feeCode);
-    I.see(remissionAmount);
+    I.see(`£${remissionAmount}`);
   },
 
   async validateCaseTransactionsDetails(totalPayments, unallocatedPayments, totalRemissions, amountDue, overPayment) {

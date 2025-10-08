@@ -49,13 +49,13 @@ module.exports = {
     I.see('Summary');
     I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see('Amount');
-    I.see(feeAmount);
+    I.see(`£${feeAmount}`);
     I.see('Description');
     I.see('Quantity');
     I.see('Remission HWF-A1B-23C');
-    I.see(remissionAmount);
+    I.see(`£${remissionAmount}`);
     I.see('Total to pay:');
-    I.see(totalAfterRemission);
+    I.see(`£${totalAfterRemission}`);
     I.dontSee('What service is this fee for?');
   },
 
