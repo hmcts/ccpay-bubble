@@ -399,7 +399,7 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.allocate_new_service_request);
   },
-  validateTransactionPageForRefunds(refunds,refundRefOverPayments, feePaymentRefundAmount,  overPaymentRefundAmount {
+  validateTransactionPageForRefunds(refunds,refundRefOverPayments, feePaymentRefundAmount,  overPaymentRefundAmount) {
     I.see(refunds);
     I.see(refundRefOverPayments);
     I.see('Refunds');
