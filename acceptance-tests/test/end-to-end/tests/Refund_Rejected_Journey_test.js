@@ -15,7 +15,7 @@ Scenario('OverPayment Refund Rejected journey',
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
     const totalAmount = '500.00';
     const feeAmount = '227.00';
-    const overPaymentRefundAmount = '273';
+    const overPaymentRefundAmount = '273.00';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
     const ccdCaseNumber = ccdAndDcn[1];
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
@@ -48,7 +48,7 @@ Scenario('OverPayment Refund Rejected journey',
     I.click('Continue');
     const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, `£${feeAmount}`, 'Over payment', `£${overPaymentRefundAmount}`, emailAddress, '', 'SendRefund');
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false);
-    const refundRef = await InitiateRefunds.verifyRefundSubmittedPage(`${overPaymentRefundAmount}.00`);
+    const refundRef = await InitiateRefunds.verifyRefundSubmittedPage(overPaymentRefundAmount);
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);

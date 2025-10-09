@@ -16,7 +16,7 @@ Scenario('Bulk scan cash Full Payment refund, preview SendRefund letter notifica
     const bulkScanPaymentMethod = 'cash';
     const totalAmount = '500.00';
     const feeAmount = '227.00';
-    const refundAmount = '500';
+    const refundAmount = '500.00';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
     const ccdCaseNumber = ccdAndDcn[1];
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
@@ -67,7 +67,7 @@ Scenario('Bulk scan cash Full Payment refund, preview SendRefund letter notifica
     const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', refundAmount, 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
 
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForFullPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false, true, refundNotificationPreviewDataBeforeRefundRequest);
-    const refundReference = await InitiateRefunds.verifyRefundSubmittedPage(`${refundAmount}.00`);
+    const refundReference = await InitiateRefunds.verifyRefundSubmittedPage(refundAmount);
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);

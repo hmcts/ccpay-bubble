@@ -106,7 +106,7 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   PaymentHistory.validateCcdPaymentDetails(receiptReference, totalAmount, dcnNumber, 'success', 'Cheque', 'FEE0002');
   await I.runAccessibilityTest();
   I.Logout();
-}).tag('@pipeline @nightly @debug');
+}).tag('@pipeline @nightly');
 
 Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a Remission on the first Fee', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
