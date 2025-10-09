@@ -399,13 +399,13 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.allocate_new_service_request);
   },
-  validateTransactionPageForRefunds(refunds,refundRefOverPayments) {
+  validateTransactionPageForRefunds(refunds,refundRefOverPayments, feePaymentRefundAmount,  overPaymentRefundAmount {
     I.see(refunds);
     I.see(refundRefOverPayments);
     I.see('Refunds');
     I.see('Approved');
-    I.see('£280.00');
-    I.see('£220.00');
+    I.see(overPaymentRefundAmount);
+    I.see(feePaymentRefundAmount);
     I.see('Overpayment');
     I.see('System/technical error');
   },

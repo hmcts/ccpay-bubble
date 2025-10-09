@@ -162,7 +162,7 @@ module.exports = {
   verifyConfirmAssociationSurplusPayment(feeCode, amount, surplusAmount) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Confirm allocation');
-    I.waitForText('Amount to be allocated: '.concat(amount), CCPBConstants.tenSecondWaitTime);
+    I.waitForText('Amount to be allocated: £'.concat(amount), CCPBConstants.tenSecondWaitTime);
     I.see('Code');
     I.see('Description');
     I.see('Volume');

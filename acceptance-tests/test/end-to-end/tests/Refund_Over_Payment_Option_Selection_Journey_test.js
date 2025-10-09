@@ -222,7 +222,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', overPaymentAmount);
-    await CaseTransaction.validateTransactionPageForRefunds(refundRef, refundRefOverPayments);
+    await CaseTransaction.validateTransactionPageForRefunds(refundRef, refundRefOverPayments, `£${feePaymentRefundAmount}.00`, `£${overPaymentRefundAmount}.00`);
     await I.click(`//td[contains(.,'${refundRefOverPayments}')]/following-sibling::td/a[.=\'Review\'][1]`);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     const reviewOverPaymentRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefOverPayments, paymentRcReference, 'Overpayment', `£${overPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
