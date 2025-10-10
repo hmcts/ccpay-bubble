@@ -174,7 +174,7 @@ module.exports = {
     I.click('Allocate to existing service request');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Select payment request');
-    I.see(amount);
+    I.see(`£${amount}`);
     I.click('//input[@name="orderLevelRecord"]');
     I.click('Continue');
     I.wait(CCPBConstants.fiveSecondWaitTime);
@@ -399,13 +399,13 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.allocate_new_service_request);
   },
-  validateTransactionPageForRefunds(refunds,refundRefOverPayments) {
+  validateTransactionPageForRefunds(refunds,refundRefOverPayments, feePaymentRefundAmount,  overPaymentRefundAmount) {
     I.see(refunds);
     I.see(refundRefOverPayments);
     I.see('Refunds');
     I.see('Approved');
-    I.see('£280.00');
-    I.see('£220.00');
+    I.see(overPaymentRefundAmount);
+    I.see(feePaymentRefundAmount);
     I.see('Overpayment');
     I.see('System/technical error');
   },
@@ -452,7 +452,7 @@ module.exports = {
     I.click(this.locators.view_details_for_status_paid);
     I.see(remissionCode);
     I.see(feeCode);
-    I.see(remissionAmount);
+    I.see(`£${remissionAmount}`);
   },
 
   async validateCaseTransactionsDetails(totalPayments, unallocatedPayments, totalRemissions, amountDue, overPayment) {

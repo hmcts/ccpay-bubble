@@ -13,7 +13,9 @@ Scenario('OverPayment Refund Rejected journey',
            PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
-    const totalAmount = 500;
+    const totalAmount = '500.00';
+    const feeAmount = '227.00';
+    const overPaymentRefundAmount = '273.00';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
     const ccdCaseNumber = ccdAndDcn[1];
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
@@ -22,7 +24,7 @@ Scenario('OverPayment Refund Rejected journey',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await AddFees.addFeesOverPayment('220');
+    await AddFees.addFeesOverPayment(feeAmount);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
@@ -44,9 +46,9 @@ Scenario('OverPayment Refund Rejected journey',
     I.click('//*[@id="email"]');
     I.fillField('//*[@id="email"]', emailAddress);
     I.click('Continue');
-    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£500.00', '£220.00', 'Over payment', '£280.00', emailAddress, '', 'SendRefund');
+    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, `£${feeAmount}`, 'Over payment', `£${overPaymentRefundAmount}`, emailAddress, '', 'SendRefund');
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false);
-    const refundRef = await InitiateRefunds.verifyRefundSubmittedPage('280.00');
+    const refundRef = await InitiateRefunds.verifyRefundSubmittedPage(overPaymentRefundAmount);
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -55,7 +57,7 @@ Scenario('OverPayment Refund Rejected journey',
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRef, 'Overpayment', '£280.00', emailAddress, '', 'payments probate', 'SendRefund');
+    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRef, 'Overpayment', `£${overPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'SendRefund');
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
     InitiateRefunds.approverActionForRequestedRefund('Reject');
     await I.Logout();
@@ -68,7 +70,7 @@ Scenario('OverPayment Refund Rejected journey',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    const reviewRefundDetailsDataAfterRejection = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, 'Overpayment', '£280.00', emailAddress, '', 'payments probate', 'approver probate');
+    const reviewRefundDetailsDataAfterRejection = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, 'Overpayment', `£${overPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
     await RefundsList.verifyRefundDetailsAfterRefundRejected(reviewRefundDetailsDataAfterRejection);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.Logout();

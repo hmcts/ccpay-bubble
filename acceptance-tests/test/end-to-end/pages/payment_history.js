@@ -26,7 +26,7 @@ module.exports = {
     I.see('Date');
     I.see('Payment reference');
     I.see('Success');
-    I.see(paymentAmount);
+    I.see(`£${paymentAmount}`);
     I.see(paymentReference);
     I.see('Review');
 
@@ -124,7 +124,7 @@ module.exports = {
   validateCcdPaymentDetails(receiptReference, amount, dcnNumber, status, paymentMethod, feeCode) {
     this.validateCCDPaymentDetailsPage();
     I.see(receiptReference);
-    I.see(amount);
+    I.see(`£${amount}`);
     // I.see(dcnNumber);
     I.see(status);
     I.see(paymentMethod);
@@ -136,7 +136,7 @@ module.exports = {
     dcnNumber, paymentMethod) {
     this.validateTransferredUnidentifedPaymentDetailsPage();
     I.see(receiptReference);
-    I.see(amount);
+    I.see(`£${amount}`);
     // I.see(dcnNumber);
     I.see(paymentMethod);
   }

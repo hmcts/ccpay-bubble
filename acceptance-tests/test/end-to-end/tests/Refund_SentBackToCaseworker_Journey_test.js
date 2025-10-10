@@ -13,7 +13,9 @@ Scenario('FullPayment Refund Send To Caseworker journey',
            PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
-    const totalAmount = 500;
+    const totalAmount = '500.00';
+    const feeAmount = '227.00';
+    const fullPaymentRefundAmount = '500.00';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
     const ccdCaseNumber = ccdAndDcn[1];
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
@@ -22,7 +24,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await AddFees.addFeesOverPayment('220');
+    await AddFees.addFeesOverPayment(feeAmount);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
@@ -41,7 +43,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for 1.1 or 1.2 application. Only one payable if applications joined up.', '£220.00', '£500.00', '500', '1', '£0.00');
+    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for 1.1 or 1.2 application. Only one payable if applications joined up.', `£${feeAmount}`, `£${totalAmount}`, fullPaymentRefundAmount, '1', '£0.00');
     await InitiateRefunds.verifyProcessRefundSelectionPageForFullPaymentOption(reviewProcessRefundPageData, ccdCaseNumber);
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -53,9 +55,9 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
-    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£500.00', '', refundReason, '£500.00', emailAddress, '', 'SendRefund');
+    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, '', refundReason, `£${fullPaymentRefundAmount}`, emailAddress, '', 'SendRefund');
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForFullPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund);
-    const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('500.00');
+    const refundReference = await InitiateRefunds.verifyRefundSubmittedPage(fullPaymentRefundAmount);
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -67,7 +69,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     I.wait(CCPBATConstants.twoSecondWaitTime);
 
     const refundReturnText = 'Test Reason Only';
-    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, refundReason, '£500.00', emailAddress, '', 'payments probate', 'SendRefund');
+    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, refundReason, `£${fullPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'SendRefund');
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
     InitiateRefunds.approverActionForRequestedRefund('Return to caseworker', refundReturnText);
     await I.Logout();
@@ -81,7 +83,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, refundReason, '£500.00', emailAddress, '', 'payments probate', 'approver probate');
+    const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, refundReason, `£${fullPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
     await RefundsList.verifyRefundDetailsAfterRefundReturnToCaseWorker(reviewRefundDetailsDataAfterApproval, refundReturnText);
 
     await I.Logout();
