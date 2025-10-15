@@ -62,11 +62,11 @@ class PayhubService {
   buildRedirectCallBack(req) {
     const caseNumber = req?.body?.ccd_case_number;
     const caseType = req?.body?.case_type;
+    const selectedOption = req?.body?.selected_option;
 
     // Check both values are not null or undefined
-    if (caseNumber != null && caseType != null) {
-      const urlPath = `/${caseNumber}?selectedOption=CCDorException&view=case-transactions&caseType=${caseType}&takePayment=true`;
-      console.log('-------URL redirect:-------', pcipalAntennaReturnUrl.toString() + urlPath.toString());
+    if (caseNumber != null && caseType != null && selectedOption != null) {
+      const urlPath = this.buildUrl(req)
       return pcipalAntennaReturnUrl.toString() + urlPath.toString();
     } else {
       // Log which value is missing for debugging
@@ -79,6 +79,65 @@ class PayhubService {
       console.warn('Default Telephony callback redirect is going to be used instead.');
       return pcipalAntennaReturnUrl;
     }
+  }
+
+
+  /**
+   * Builds a case transaction URL using parameters from the request body.
+   *
+   * @param {Object} req - The HTTP request object.
+   * @returns {string} A formatted URL string with query parameters.
+   */
+  buildUrl(req){
+
+    const caseNumber = req?.body?.ccd_case_number;
+    const caseType = req?.body?.case_type;
+    const selectedOption = req?.body?.selected_option;
+    const dcnNumber = req?.body?.dcn_number;
+    const takePayment = req?.body?.take_payment;
+
+    const isBulkScanning = this.getEnableOrDisable(req?.body?.is_bulk_scanning);
+    const isStFixEnable = this.getEnableOrDisable(req?.body?.is_st_fix_enable);
+    const isTurnOff = this.getEnableOrDisable(req?.body?.is_turn_off);
+    const isPaymentStatusEnabled = this.getEnableOrDisable(req?.body?.is_payment_status_enabled);
+    const excReference = req?.body?.exc_reference;
+
+    const params = new URLSearchParams();
+
+    if (selectedOption) {
+      params.append('selectedOption', selectedOption);
+    }
+    if (excReference) {
+      params.append('exceptionRecord', excReference);
+    }
+    if (dcnNumber) {
+      params.append('dcn', dcnNumber);
+    }
+    params.append('view', 'case-transactions');
+
+    if (takePayment) {
+      params.append('takePayment', takePayment);
+    }
+    params.append('servicerequest', 'false');
+
+    if (caseType) {
+      params.append('caseType', caseType);
+    }
+    params.append('isBulkScanning', String(isBulkScanning));
+    params.append('isStFixEnable', String(isStFixEnable));
+    params.append('isTurnOff', String(isTurnOff));
+    params.append('isPaymentStatusEnabled', String(isPaymentStatusEnabled));
+
+    const url = `/${caseNumber}?${params.toString()}`;
+    return url.toString();
+  }
+
+
+  getEnableOrDisable(value){
+    if (value != null && (value == true || value == 'true')) {
+      return 'Enable'
+    }
+    return 'Disable'
   }
 
 
