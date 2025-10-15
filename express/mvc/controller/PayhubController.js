@@ -44,6 +44,28 @@ class PayhubController {
     });
   }
 
+  pciPalTelephonyFeature(req, res) {
+    const pciPalTelephonySelection = this.getPciPalTelephonyConf();
+    return res.status(200).send({ flag: pciPalTelephonySelection});
+  }
+
+  getPciPalTelephonyConf() {
+    if (config.has('pci-pal.telephony-selection')) {
+      var result = false;
+      const pciPalTelephonySelection = config.get('pci-pal.telephony-selection');
+      console.log('----------- This is the value of pci-pal.telephony-selection:' + pciPalTelephonySelection);
+      if (pciPalTelephonySelection === 'TELEPHONY_FEATURE') {
+        result = false;
+      } else {
+        if (pciPalTelephonySelection === 'enabled') {
+          result = true;
+        }
+      }
+    }
+    console.log('----------- The value of pci-pal.telephony-selection base on properties is :' + result);
+    return result
+  }
+
   postPaymentGroupToPayHub(req, res, appInsights) {
     return this.payhubService.postPaymentGroupToPayhub(req, res, appInsights)
     // eslint-disable-next-line

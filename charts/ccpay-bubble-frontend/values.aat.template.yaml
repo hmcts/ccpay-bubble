@@ -3,3 +3,5 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   devcpuRequests: 2000m
   devcpuLimits: 4000m
+  environment:
+    TELEPHONY_FEATURE: enabled

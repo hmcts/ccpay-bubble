@@ -48,6 +48,21 @@ export class PaymentGroupService {
       return !JSON.stringify(features);
     });
   }
+
+  getTelephonyFeature(): Promise<any> {
+    return this.http.get('api/pci-pal-telephony-selection/feature').toPromise().then(features => {
+      const result = JSON.parse(features);
+      if (result === null ) {
+        return false;
+      }
+      if (result.flag === true) {
+        return result.flag;
+      } else {
+        return false;
+      }
+    });
+  }
+
   getDiscontinuedFrFeature(): Promise<any> {
     return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
       const regFeature = JSON.parse(features).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);

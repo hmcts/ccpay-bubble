@@ -5,7 +5,7 @@ const stringUtils = require('../helpers/string_utils');
 const {I} = inject();
 
 // Offer and Contact template
-function verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotificationPreviewData) {
+function verifyBulkScanPaymentRefundWhenContactedNotification(refundNotificationPreviewData) {
   if (refundNotificationPreviewData.email) {
     I.waitForText('From: contactprobate@justice.gov.uk', 5);
     I.see(`To: ${refundNotificationPreviewData.email}`);
@@ -30,7 +30,7 @@ function verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotifica
   }
   I.see('These changes have been considered and you are entitled to a refund on your payment.');
   I.see(`Refund reference: ${refundNotificationPreviewData.refundReference}`);
-  I.see(`Refund amount: £${refundNotificationPreviewData.refundAmount}`);
+  I.see(`Refund amount: £${refundNotificationPreviewData.refundAmount.replace('.00','')}`);
   I.see(`Reason for refund: ${refundNotificationPreviewData.refundReason}`);
   I.see('To receive this refund, you must give us the correct bank details to process the request.');
   I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
@@ -39,7 +39,7 @@ function verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotifica
 }
 
 // Offer and Send template
-function verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData) {
+function verifyCardOrPBASendRefundNotification(refundNotificationPreviewData) {
   if (refundNotificationPreviewData.email) {
     I.waitForText('From: contactprobate@justice.gov.uk', 5);
     I.see(`To: ${refundNotificationPreviewData.email}`);
@@ -64,7 +64,7 @@ function verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewDa
   }
   I.see('These changes have been considered and you are entitled to a refund on your payment.');
   I.see(`Refund reference: ${refundNotificationPreviewData.refundReference}`);
-  I.see(`Refund amount: £${refundNotificationPreviewData.refundAmount}`);
+  I.see(`Refund amount: £${refundNotificationPreviewData.refundAmount.replace('.00','')}`);
   I.see(`Reason for refund: ${refundNotificationPreviewData.refundReason}`);
   I.see('Your refund will be processed and sent to the account you originally made the payment from within 14 days');
   I.see('If you have not received the refund by this time, you need further information or you do not have a bank account, contact contactprobate@justice.gov.uk');
@@ -97,7 +97,7 @@ function verifySystemApprovedRefundWhenContactedNotification(refundNotificationP
   }
   I.see('These changes have been considered and you are entitled to a refund on your payment.');
   I.see(`Refund reference: ${refundNotificationPreviewData.refundReference}`);
-  I.see(`Refund amount: £${refundNotificationPreviewData.refundAmount}`);
+  I.see(`Refund amount: £${refundNotificationPreviewData.refundAmount.replace('.00','')}`);
   I.see(`Reason for refund: ${refundNotificationPreviewData.refundReason}`);
   I.see('Unfortunately, our attempt to refund the payment card that you used was declined by your card provider. To receive this refund, you must give us the correct bank details to process the request.');
   I.see('To do this, visit https://bparefunds.liberata.com. You will need to quote your payment reference number and refund reference number.');
@@ -181,9 +181,9 @@ module.exports = {
       I.click('View');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod === 'cash') {
-        verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+        verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       } else {
-        verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData);
+        verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       }
       I.click('Hide');
       I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -242,9 +242,9 @@ module.exports = {
           refundNotificationPreviewData.email = 'autoTestNotifyEditDetails@mailtest.gov.uk';
           refundNotificationPreviewData.postcode= '';
           if (refundNotificationPreviewData.bulkScanPaymentMethod === 'cash') {
-            verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+            verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
           } else {
-            verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData);
+            verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
           }
           I.click('Hide');
           I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -292,9 +292,9 @@ module.exports = {
           refundNotificationPreviewData.email = '';
           refundNotificationPreviewData.postcode= 'TW4 7EZ';
           if (refundNotificationPreviewData.bulkScanPaymentMethod === 'cash') {
-            verifyBulkScanCashPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+            verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
           } else {
-            verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData);
+            verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
           }
           I.click('Hide');
           I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -415,7 +415,7 @@ module.exports = {
       I.click('View');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       // verifySystemApprovedRefundWhenContactedNotification(refundNotificationPreviewData);
-      verifyChequeCardOrPBASendRefundNotification(refundNotificationPreviewData);
+      verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       I.click('Hide');
       I.wait(CCPBATConstants.twoSecondWaitTime);
     }
@@ -476,8 +476,8 @@ module.exports = {
     }
   },
 
-  verifyBulkScanCashPaymentRefundWhenContactedNotification,
-  verifyChequeCardOrPBASendRefundNotification,
+  verifyBulkScanPaymentRefundWhenContactedNotification,
+  verifyCardOrPBASendRefundNotification,
   verifySystemApprovedRefundWhenContactedNotification
 
 };

@@ -11,7 +11,11 @@ const microService = config.get('ccpaybubble.microservice');
 async function handleFetchError(resp, url) {
   if (!resp.ok) {
     const text = await resp.text();
-    throw new Error(`Fetch to ${url} failed ${resp.status}: ${text}`);
+    const errorResponse = {
+      message: `${text}`,
+      status: resp.status
+    };
+    throw errorResponse;
   }
   return resp;
 }

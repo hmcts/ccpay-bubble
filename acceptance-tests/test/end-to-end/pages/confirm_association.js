@@ -162,7 +162,7 @@ module.exports = {
   verifyConfirmAssociationSurplusPayment(feeCode, amount, surplusAmount) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Confirm allocation');
-    I.waitForText('Amount to be allocated: '.concat(amount), CCPBConstants.tenSecondWaitTime);
+    I.waitForText('Amount to be allocated: £'.concat(amount), CCPBConstants.tenSecondWaitTime);
     I.see('Code');
     I.see('Description');
     I.see('Volume');
@@ -171,8 +171,8 @@ module.exports = {
     I.see('Amount Due');
     I.see(feeCode);
     I.see(PaybubbleStaticData.fee_description[feeCode]);
-    I.see(amount);
-    I.see('There is an Over payment of '.concat(surplusAmount));
+    I.see(`£${amount}`);
+    I.see('There is an Over payment of £'.concat(surplusAmount));
     I.see('Provide a reason. This will be used in the Refund process.');
     I.see('Help with Fees (HWF) awarded. Please include the HWF reference number in the explanatory note');
     I.see('Incorrect payment received');
