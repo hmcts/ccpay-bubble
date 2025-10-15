@@ -39,7 +39,7 @@ class PayhubService {
 
   async postPaymentAntennaToPayHub(req) {
     const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}/telephony-card-payments`;
-    req.body.return_url = pcipalAntennaReturnUrl;
+    req.body.return_url = this.buildRedirectCallBack(req);
     const options = {
       method: 'POST',
       body: JSON.stringify(req.body),
@@ -47,6 +47,99 @@ class PayhubService {
     const resp = await fetchWithAuth(url, req.authToken, options);
     return resp.json();
   }
+
+
+
+  /**
+   * Builds a redirect callback URL for telephony payments based on the case number and case type.
+   * Ensures null and undefined safety for both values and logs appropriate messages for debugging.
+   *
+   * @param {Object} req - The HTTP request object containing the body with case details.
+   * @param {string} req.body.ccd_case_number - The unique identifier for the case.
+   * @param {string} req.body.case_type - The type of the case (e.g., "GrantOfRepresentation").
+   * @returns {string} - A full redirect URL if both values are present, otherwise the base URL.
+   */
+  buildRedirectCallBack(req) {
+    const caseNumber = req?.body?.ccd_case_number;
+    const caseType = req?.body?.case_type;
+    const selectedOption = req?.body?.selected_option;
+
+    // Check both values are not null or undefined
+    if (caseNumber != null && caseType != null && selectedOption != null) {
+      const urlPath = this.buildUrl(req)
+      return pcipalAntennaReturnUrl.toString() + urlPath.toString();
+    } else {
+      // Log which value is missing for debugging
+      if (caseNumber == null) {
+        console.warn('Missing ccd_case_number in the request');
+      }
+      if (caseType == null) {
+        console.warn('Missing case_type in the request');
+      }
+      console.warn('Default Telephony callback redirect is going to be used instead.');
+      return pcipalAntennaReturnUrl;
+    }
+  }
+
+
+  /**
+   * Builds a case transaction URL using parameters from the request body.
+   *
+   * @param {Object} req - The HTTP request object.
+   * @returns {string} A formatted URL string with query parameters.
+   */
+  buildUrl(req){
+
+    const caseNumber = req?.body?.ccd_case_number;
+    const caseType = req?.body?.case_type;
+    const selectedOption = req?.body?.selected_option;
+    const dcnNumber = req?.body?.dcn_number;
+    const takePayment = req?.body?.take_payment;
+
+    const isBulkScanning = this.getEnableOrDisable(req?.body?.is_bulk_scanning);
+    const isStFixEnable = this.getEnableOrDisable(req?.body?.is_st_fix_enable);
+    const isTurnOff = this.getEnableOrDisable(req?.body?.is_turn_off);
+    const isPaymentStatusEnabled = this.getEnableOrDisable(req?.body?.is_payment_status_enabled);
+    const excReference = req?.body?.exc_reference;
+
+    const params = new URLSearchParams();
+
+    if (selectedOption) {
+      params.append('selectedOption', selectedOption);
+    }
+    if (excReference) {
+      params.append('exceptionRecord', excReference);
+    }
+    if (dcnNumber) {
+      params.append('dcn', dcnNumber);
+    }
+    params.append('view', 'case-transactions');
+
+    if (takePayment) {
+      params.append('takePayment', takePayment);
+    }
+    params.append('servicerequest', 'false');
+
+    if (caseType) {
+      params.append('caseType', caseType);
+    }
+    params.append('isBulkScanning', String(isBulkScanning));
+    params.append('isStFixEnable', String(isStFixEnable));
+    params.append('isTurnOff', String(isTurnOff));
+    params.append('isPaymentStatusEnabled', String(isPaymentStatusEnabled));
+
+    const url = `/${caseNumber}?${params.toString()}`;
+    return url.toString();
+  }
+
+
+  getEnableOrDisable(value){
+    if (value != null && (value == true || value == 'true')) {
+      return 'Enable'
+    }
+    return 'Disable'
+  }
+
 
   async postPaymentGroup(req) {
     const options = {
