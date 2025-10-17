@@ -241,6 +241,7 @@ async function createACCDCaseForProbate() {
   );
 
   const ccdCaseNumberPayload = await probateCaseCreatedResponse.json();
+  console.log(`CCD Case number created for the test: ${ccdCaseNumberPayload.id}`);
   return ccdCaseNumberPayload.id;
 }
 
@@ -360,17 +361,19 @@ async function createAFailedPBAPayment() {
   return paymentDetails;
 }
 
-async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, version, volume) {
+async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, version, volume, ccdCaseNumber = createACCDCaseForProbate(), callBackUrl = 'http://probate-back-office-aat.service.core-compute-aat.internal/payment/gor-payment-request-update') {
   const url = paymentBaseUrl + '/service-request';
   const idamToken = await getIDAMToken();
   const serviceToken = await getServiceToken();
+  if (paymentBaseUrl.includes("demo")) {
+    callBackUrl = callBackUrl.replaceAll("aat", "demo");
+  }
 
   // eslint-disable-next-line no-magic-numbers
-  const ccdCaseNumber = numUtil.randomInt(1, 9999999999999999);
   console.log(`The value of the CCD Case Number : ${ccdCaseNumber}`);
 
   const saveBody = JSON.stringify({
-    call_back_url: 'http://callback.hmcts.net',
+    call_back_url: callBackUrl,
     case_payment_request: {
       action: 'Action 1',
       responsible_party: 'Party 1'
@@ -382,7 +385,7 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
         calculated_amount: calculatedAmount,
         code: `${feeCode}`,
         version: `${version}`,
-        volume
+        volume: volume
       }
     ],
     hmcts_org_id: `${hmctsorgid}`
@@ -404,6 +407,37 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
   };
   // console.log(`The Payment Details Object${JSON.stringify(paymentDetails)}`);
   return serviceRequestResponseDetails;
+}
+
+async function initiateCardPaymentForServiceRequest(amount, serviceRequestReference, returnUrl = 'https://paymentoutcome-web.aat.platform.hmcts.net/payment') {
+  const url = paymentBaseUrl + `/service-request/${serviceRequestReference}/card-payments`;
+  const microservice = 'cmc';
+  const idamToken = await getIDAMToken();
+
+  if (paymentBaseUrl.includes("demo")) {
+    returnUrl = returnUrl.replaceAll("aat", "demo");
+  }
+
+  const serviceToken = await getServiceToken(microservice);
+
+  // eslint-disable-next-line no-magic-numbers
+  const saveBody = JSON.stringify({
+    amount: amount,
+    currency: 'GBP',
+    language: 'en',
+    'return-url': returnUrl
+  });
+
+  const headers = {
+    Authorization: `${idamToken}`,
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+
+  const response = await makeRequest(url, 'POST', headers, saveBody);
+  console.log(`The value of the response status code : ${response.status}`);
+  const responsePayload = await response.json();
+  return responsePayload;
 }
 
 async function createAPBAPayment(amount, feeCode, version, volume, customerReference = 'ABC98989/65654') {
@@ -880,5 +914,6 @@ module.exports = {
   getEmailFromNotifyWithMaxRetries,
   createAServiceRequest,
   updateRefundStatusByRefundReference,
-  createAPBAPaymentForExistingCase
+  createAPBAPaymentForExistingCase,
+  initiateCardPaymentForServiceRequest
 };
