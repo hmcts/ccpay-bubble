@@ -927,7 +927,7 @@ module.exports = () => actor({
     this.see('Partially paid');
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '300.00', '100.00', '£200.00');
+    FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '300.00', '100.00', '200.00');
     this.click('//*[@id="paymentSystem"][@value="Antenna"]');
     this.click('Take payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
