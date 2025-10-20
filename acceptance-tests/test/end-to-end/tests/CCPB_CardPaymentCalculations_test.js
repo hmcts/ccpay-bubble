@@ -8,14 +8,19 @@ const assertionData = require("../fixture/data/refunds/assertion");
 
 Feature('CC Pay Bubble Card payment calculations test').retry(CCPBATConstants.defaultNumberOfRetries);
 
-Scenario('Card payment with failed and success transaction should have the correct calculations on the Case Transaction page',
+let totalAmount = '300.00';
+let ccdCaseNumber;
+let serviceRequestDetails;
+let serviceRequestReference;
+
+BeforeSuite(async () => {
+  ccdCaseNumber = await apiUtils.createACCDCaseForProbate();
+  serviceRequestDetails = await apiUtils.createAServiceRequest('ABA6', totalAmount, 'FEE0219', '7', 1, ccdCaseNumber);
+  serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
+});
+
+Scenario('Card payment with failed transaction should have the correct calculations on the Case Transaction page',
   async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
-
-    const totalAmount = '300.00';
-    const ccdCaseNumber = await apiUtils.createACCDCaseForProbate();
-
-    const serviceRequestDetails = await apiUtils.createAServiceRequest('ABA6', totalAmount, 'FEE0219', '7', 1, ccdCaseNumber);
-    const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
 
     // Cancelled(failed) card payment 1
     const cardPaymentResponse1 = await apiUtils.initiateCardPaymentForServiceRequest(totalAmount, serviceRequestReference);
@@ -30,6 +35,11 @@ Scenario('Card payment with failed and success transaction should have the corre
     I.click('Return to service request');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Sign in or create an account');
+
+  }).tag('@serial @pipeline @nightly');
+
+  Scenario('Card payment with declined transaction should have the correct calculations on the Case Transaction page',
+    async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
 
     // declined(failed) card payment 2
     const cardPaymentResponse2 = await apiUtils.initiateCardPaymentForServiceRequest(totalAmount, serviceRequestReference);
@@ -50,7 +60,11 @@ Scenario('Card payment with failed and success transaction should have the corre
     I.click('Return to service request');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Sign in');
-    I.wait(CCPBATConstants.fortySecondWaitTime);
+
+  }).tag('@serial @pipeline @nightly');
+
+  Scenario('Card payment with success transaction should have the correct calculations on the Case Transaction page',
+    async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
 
     // successful card payment
     const cardPaymentResponse3 = await apiUtils.initiateCardPaymentForServiceRequest(totalAmount, serviceRequestReference);
@@ -82,4 +96,4 @@ Scenario('Card payment with failed and success transaction should have the corre
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-  }).tag('@pipeline @nightly');
+  }).tag('@serial @pipeline @nightly');
