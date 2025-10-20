@@ -1,7 +1,0 @@
-[31m[1mInternal Error[22m[39m: ccpay-bubble@workspace:.: This package doesn't seem to be present in your lockfile; run "yarn install" to update the lockfile
-    at HT.resolve (/Users/davidjones/Repositories/ccpay-bubble/.yarn/releases/yarn-4.10.3.cjs:204:4893)
-    at rm.resolve (/Users/davidjones/Repositories/ccpay-bubble/.yarn/releases/yarn-4.10.3.cjs:141:1488)
-    at /Users/davidjones/Repositories/ccpay-bubble/.yarn/releases/yarn-4.10.3.cjs:209:7257
-    at qE (/Users/davidjones/Repositories/ccpay-bubble/.yarn/releases/yarn-4.10.3.cjs:140:45033)
-    at X (/Users/davidjones/Repositories/ccpay-bubble/.yarn/releases/yarn-4.10.3.cjs:209:7237)
-    at /Users/davidjones/Repositories/ccpay-bubble/.yarn/releases/yarn-4.10.3.cjs:209:7868
