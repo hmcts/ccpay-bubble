@@ -69,9 +69,9 @@ module.exports = {
       logger.log('Enter valid report name');
     }
     I.wait(CCPBConstants.twoSecondWaitTime);
-    I.fillField(this.locators.date_from, dateFrom);
-    I.wait(CCPBConstants.twoSecondWaitTime);
     I.fillField(this.locators.date_to, dateTo);
+    I.wait(CCPBConstants.twoSecondWaitTime);
+    I.fillField(this.locators.date_from, dateFrom);
 
     // PAY-6928 UI issue with date selection.
      I.wait(CCPBConstants.twoSecondWaitTime);

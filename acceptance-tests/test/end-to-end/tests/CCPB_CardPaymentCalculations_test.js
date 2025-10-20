@@ -66,32 +66,49 @@ Scenario('Card payment with failed transaction should have the correct calculati
   Scenario('Card payment with success transaction should have the correct calculations on the Case Transaction page',
     async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
 
-    // successful card payment
-    const cardPaymentResponse3 = await apiUtils.initiateCardPaymentForServiceRequest(totalAmount, serviceRequestReference);
-    const next_url3 = `${cardPaymentResponse3.next_url}`;
-
-    I.amOnPage(next_url3);
-    I.waitForText('Enter card details', 5);
-    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£300.00');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    const paymentCardValues = assertionData.getPaymentCardValues('4444333322221111', '01',
-      '26', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
-      'Testcardpayment@mailnesia.com');
-    ServiceRequests.populateCardDetails(paymentCardValues);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£300.00');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
+    // In the event the test is retried with a successful payment, then check if payment exists
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.see('Payment successful');
-    I.click('Return to service request');
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    const caseAmountDue = await I.grabTextFrom('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[4]');
+    await I.Logout();
+    I.clearCookie();
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+
+    // Proceed with payment flow only if payment not found
+    if (caseAmountDue === '£300.00') {
+      // Payment not found, proceed with payment flow
+      // Successful card payment
+      const cardPaymentResponse3 = await apiUtils.initiateCardPaymentForServiceRequest(totalAmount, serviceRequestReference);
+      const next_url3 = `${cardPaymentResponse3.next_url}`;
+
+      I.amOnPage(next_url3);
+      I.waitForText('Enter card details', 5);
+      ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£300.00');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      const paymentCardValues = assertionData.getPaymentCardValues('4444333322221111', '01',
+        '26', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
+        'Testcardpayment@mailnesia.com');
+      ServiceRequests.populateCardDetails(paymentCardValues);
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£300.00');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.see('Payment successful');
+      I.click('Return to service request');
+    }
+
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Sign in');
 
+    // Validate Case Transactions details
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', '0.00');
     await I.Logout();
     I.clearCookie();
