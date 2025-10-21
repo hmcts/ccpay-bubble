@@ -7,7 +7,7 @@
   "scripts": {
     "debug": "node --inspect --proxy-server=http://proxyout.reform.hmcts.net:8080 start.js",
     "ng": "ng",
-    "start": "node --inspect-brk start.js",
+    "start": "node start.js",
     "start:angular-dev": "ng serve --proxy-config proxy.conf.json",
     "start:express-dev": "cross-env NODE_ENV=development nodemon --inspect start.js",
     "start:express-prod": "cross-env IGNORE_CERTS=true nodemon --inspect start.js",
@@ -53,7 +53,7 @@
   "dependencies": {
     "@babel/eslint-parser": "^7.11.0",
     "@babel/helper-create-class-features-plugin": "^7.21.8",
-    "@hmcts/ccpay-web-component": "file:../ccpay-web-component/dist/payment-lib",
+    "@hmcts/ccpay-web-component": "6.5.1-beta2",
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/nodejs-healthcheck": "^1.8.0",
     "@hmcts/nodejs-logging": "^4.0.4",
