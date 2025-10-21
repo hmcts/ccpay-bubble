@@ -7,7 +7,7 @@
   "scripts": {
     "debug": "node --inspect --proxy-server=http://proxyout.reform.hmcts.net:8080 start.js",
     "ng": "ng",
-    "start": "node start.js",
+    "start": "node --inspect-brk start.js",
     "start:angular-dev": "ng serve --proxy-config proxy.conf.json",
     "start:express-dev": "cross-env NODE_ENV=development nodemon --inspect start.js",
     "start:express-prod": "cross-env IGNORE_CERTS=true nodemon --inspect start.js",
@@ -39,8 +39,11 @@
     "test:functional-debug": "yarn playwright install && npm-run-all -scl test:functional:debug test:functional:report",
     "test:fullfunctional": "yarn playwright install && npm-run-all -scl test:functional:nightly test:functional:report",
     "test:functional:debug": "codeceptjs run-workers 6 parallel --config acceptance-tests/codecept.conf.js --grep @debug",
-    "test:functional:pipeline": "codeceptjs run-workers 6 parallel --config acceptance-tests/codecept.conf.js --grep @pipeline",
-    "test:functional:nightly": "codeceptjs run-workers 6 parallel --config acceptance-tests/codecept.conf.js --grep @nightly",
+    "test:functional:serial": "codeceptjs run --config acceptance-tests/codecept.conf.js --grep @serial",
+    "test:functional:pipeline:parallel": "codeceptjs run-workers 6 parallel --config acceptance-tests/codecept.conf.js --grep @pipeline --invert --grep @serial",
+    "test:functional:pipeline": "npm-run-all --parallel --continue-on-error test:functional:serial test:functional:pipeline:parallel",
+    "test:functional:nightly:parallel": "codeceptjs run-workers 6 parallel --config acceptance-tests/codecept.conf.js --grep @nightly --invert --grep @serial",
+    "test:functional:nightly": "npm-run-all --parallel --continue-on-error test:functional:serial test:functional:nightly:parallel",
     "test:functional:report": "allure generate functional-output/functional/reports -c -o functional-output/functional/allure",
     "test:crossbrowser": "yarn playwright install && npm-run-all -scl test:crossbrowser:e2e test:crossbrowser:report",
     "test:crossbrowser:e2e": "yarn playwright install && NODE_TLS_REJECT_UNAUTHORIZED=0 codeceptjs run-multiple --all --config acceptance-tests/saucelabs.conf.js --grep @crossbrowser",
@@ -50,7 +53,7 @@
   "dependencies": {
     "@babel/eslint-parser": "^7.11.0",
     "@babel/helper-create-class-features-plugin": "^7.21.8",
-    "@hmcts/ccpay-web-component": "6.5.1-beta",
+    "@hmcts/ccpay-web-component": "file:../ccpay-web-component/dist/payment-lib",
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/nodejs-healthcheck": "^1.8.0",
     "@hmcts/nodejs-logging": "^4.0.4",
@@ -247,5 +250,5 @@
     "form-data": "~2.5.4",
     "tmp": "^0.2.4"
   },
-  "packageManager": "yarn@3.5.1"
+  "packageManager": "yarn@4.10.3"
 }
