@@ -117,6 +117,8 @@ class PayhubService {
 
     if (takePayment) {
       params.append('takePayment', takePayment);
+    } else {
+      params.append('takePayment', 'true');
     }
     params.append('servicerequest', 'false');
 
