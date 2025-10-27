@@ -2,6 +2,8 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
 
 import {AppRoutingModule} from './routes/app-routing.module';
 import {AppComponent} from './app.component';
@@ -72,6 +74,8 @@ const nonProductionProviders = [{
         FooterComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
+        CommonModule,
+        RouterModule,
         AppRoutingModule,
         FormsModule,
         ReactiveFormsModule,
