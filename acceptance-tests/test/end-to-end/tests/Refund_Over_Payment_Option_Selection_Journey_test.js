@@ -13,7 +13,7 @@ const testConfig = require('./config/CCPBConfig');
 Feature('CC Pay Bubble Refund Over payment option selection journey test').retry(CCPBATConstants.defaultNumberOfRetries);
 
 // Bulk scan cash overpayment refund option (Over Paid Fee CANNOT have a Remission based Refund), email notification preview at all 3 stages(before refund request, refund approve and after approve) and Resend Notification
-Scenario('Bulk scan cash Over Payment refund, preview SendRefund email notification and Resend Notification journey',
+Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email notification and Resend Notification journey',
   async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
            PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
@@ -57,7 +57,7 @@ Scenario('Bulk scan cash Over Payment refund, preview SendRefund email notificat
     I.fillField('//*[@id="email"]', emailAddress);
     I.click('Continue');
 
-    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£327.00', '£300.00', 'Over payment', '£27.00', emailAddress, '', 'SendRefund');
+    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£327.00', '£300.00', 'Over payment', '£27.00', emailAddress, '', 'RefundWhenContacted');
     const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, 'RF-****-****-****-****', '27', 'Refund for Overpayment', bulkScanPaymentMethod);
 
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, refundNotificationPreviewDataBeforeRefundRequest);
@@ -74,7 +74,7 @@ Scenario('Bulk scan cash Over Payment refund, preview SendRefund email notificat
     await InitiateRefunds.verifyRefundsListPage(refundReference);
     I.wait(CCPBATConstants.tenSecondWaitTime);
 
-    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, 'Overpayment', '27.00', emailAddress, '', 'payments probate', 'SendRefund');
+    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, 'Overpayment', '27.00', emailAddress, '', 'payments probate', 'RefundWhenContacted');
     const refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundReference, '27', 'Refund for Overpayment', bulkScanPaymentMethod);
 
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction, true, refundNotificationPreviewDataBeforeRefundApproved);
