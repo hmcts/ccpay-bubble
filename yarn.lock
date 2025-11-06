@@ -2527,6 +2527,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.28.4":
+  version: 7.28.4
+  resolution: "@babel/runtime@npm:7.28.4"
+  checksum: 10/6c9a70452322ea80b3c9b2a412bcf60771819213a67576c8cec41e88a95bb7bf01fc983754cda35dc19603eef52df22203ccbf7777b9d6316932f9fb77c25163
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.0.0, @babel/template@npm:^7.27.1, @babel/template@npm:^7.27.2, @babel/template@npm:^7.4.0":
   version: 7.27.2
   resolution: "@babel/template@npm:7.27.2"
@@ -3211,15 +3218,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccpay-web-component@npm:6.4.1":
-  version: 6.4.1
-  resolution: "@hmcts/ccpay-web-component@npm:6.4.1"
+"@hmcts/ccpay-web-component@npm:6.5.14-rc1":
+  version: 6.5.14-rc1
+  resolution: "@hmcts/ccpay-web-component@npm:6.5.14-rc1"
   dependencies:
     tslib: "npm:^2.3.0"
   peerDependencies:
-    "@angular/common": ^18.2.13
-    "@angular/core": ^18.2.13
-  checksum: 10/18f0a41e9ac9f04a94b3f250e6a1dc87347fb9e83a20cae8b3b23d82cf546e0e110ecf0a4ddbcc8970e2386660fd10d5cf6f5a47924ec48be23a80bac289c3a7
+    "@angular/common": ^20.3.1
+    "@angular/core": ~20.3.1
+  checksum: 10/45ee8fd8b593e1aea05db0f2ff94aabe7de9f46c980783fd69c3c6e7de9d4400ad7177a6f44fde1e3e4362c0c9f107eefbd52a464eea84a88e7164744d38788a
   languageName: node
   linkType: hard
 
@@ -8531,9 +8538,10 @@ __metadata:
     "@angular/router": "npm:^20.0.0"
     "@babel/eslint-parser": "npm:^7.11.0"
     "@babel/helper-create-class-features-plugin": "npm:^7.21.8"
+    "@babel/runtime": "npm:^7.28.4"
     "@codeceptjs/allure-legacy": "npm:^1.0.2"
     "@codeceptjs/helper": "npm:^1.0.2"
-    "@hmcts/ccpay-web-component": "npm:6.4.1"
+    "@hmcts/ccpay-web-component": "npm:6.5.14-rc1"
     "@hmcts/cookie-manager": "npm:^1.0.0"
     "@hmcts/eslint-config": "npm:^1.4.0"
     "@hmcts/nodejs-healthcheck": "npm:^1.8.0"
