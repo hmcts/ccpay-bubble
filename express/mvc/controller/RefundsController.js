@@ -90,6 +90,17 @@ class RefundsController {
         return errorHandler(res, error);
       });
   }
+
+  postReIssueExpiredRefund(req, res, appInsights) {
+    return this.refundsService.postReIssueExpiredRefund(req, res, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        return errorHandler(res, error);
+      });
+  }
+
   patchResubmitRefund(req, res, appInsights) {
     return this.refundsService.patchResubmitRefund(req, appInsights)
       .then(result => {
