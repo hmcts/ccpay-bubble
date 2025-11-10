@@ -31,7 +31,6 @@
               "./src/assets/stylesheets/main.scss"
             ],
             "scripts": [
-              "src/assets/js/gtag.js",
               "src/assets/js/gtm.js"
             ]
           },
