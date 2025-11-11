@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { windowToken } from '../../../window';
-import cookieManager from '@hmcts/cookie-manager';
+import { CookiePreferencesService } from '../../services/cookie-preferences.service';
 
 @Component({
     selector: 'app-cookie-banner',
@@ -15,7 +15,8 @@ export class CookieBannerComponent implements OnInit {
   private readonly window: Window;
 
   constructor(
-   @Inject(windowToken) window: any,
+    @Inject(windowToken) window: any,
+    private cookiePrefs: CookiePreferencesService
   ) {
     this.window = window as Window;
   }

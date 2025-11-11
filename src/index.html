@@ -28,21 +28,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta property="og:image" content="/assets/stylesheets/lib/images/opengraph-image.png">
 
-<!-- Google Tag Manager -->
-<script async src="/assets/js/gtm.js"></script>
-<!-- End Google Tag Manager -->
-
-<!-- Cookie Manager -->
-<script src="/assets/js/cookie-manager-1.0.0.min.js"></script>
-<script src="/assets/js/cookie.js"></script>
-<!-- End Cookie Manager -->
+<!-- Google Tag Manager is injected dynamically by CookiePreferencesService after analytics consent. -->
+<!-- Legacy /assets/js/cookie.js removed; Angular service is now the single source of truth for consent + GTM/APM. -->
 </head>
 
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KPGLNSPT"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) placeholder: injected only after consent -->
+<noscript id="gtm-noscript-placeholder" hidden></noscript>
 <app-root></app-root>
 <div id="global-app-error" class="app-error hidden"></div>
 <!-- <script src="{{ asset_paths['js_vendor'] }}/govuk-template.js?{{ govuk_template_version }}"></script> -->
