@@ -1,4 +1,4 @@
-import { IVersion } from './../../../../dist/fee-register-search/lib/interfaces/IVersion.d';
+import { IVersion } from '../../../../projects/fee-register-search/src/lib/interfaces/IVersion';
 import { waitForAsync, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FeeSearchComponent } from './fee-search.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';

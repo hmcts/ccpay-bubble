@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import cookieManager from '@hmcts/cookie-manager';
+import { CookiePreferencesService } from '../../services/cookie-preferences.service';
 import { Location } from '@angular/common';
 
 @Component({
@@ -10,7 +10,7 @@ import { Location } from '@angular/common';
 })
 
 export class CookiePolicyComponent implements OnInit {
-    constructor(private _location: Location) {}
+  constructor(private _location: Location, private cookiePrefs: CookiePreferencesService) {}
     // Ideally this would be an enum but angular can't seem to cope with enums in templates
     public readonly USAGE = 'Usage';
     public readonly INTRO = 'Intro';
@@ -50,12 +50,7 @@ export class CookiePolicyComponent implements OnInit {
 
 
   ngOnInit(): void {
-    cookieManager.on('PreferenceFormSubmitted', () => {
-      const message = document.querySelector('.cookie-preference-success') as HTMLElement;
-      message.style.display = 'block';
-      document.body.scrollTop = 0; // For Safari
-      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    });
+    // Banner success handling now performed inside CookiePreferencesService event binding.
   }
 
   public countCookies(category: string): number {

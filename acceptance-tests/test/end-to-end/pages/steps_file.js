@@ -51,18 +51,36 @@ module.exports = () => actor({
     await this.click('Logout');
   },
 
-  AcceptPayBubbleCookies() {
-    this.waitForText('Cookies on ccpay-bubble', 5);
-    this.click({ css: 'button.cookie-banner-accept-button' });
-    this.click({ css: 'div.cookie-banner-accept-message > div.govuk-button-group > button' });
-    this.wait(CCPBConstants.twoSecondWaitTime);
+  async AcceptPayBubbleCookies() {
+    // Check if cookie banner is visible before trying to interact with it
+    const bannerVisible = await this.executeScript(() => {
+      const banner = document.querySelector('.cookie-banner');
+      return banner && !banner.hidden;
+    });
+    
+    if (bannerVisible) {
+      this.waitForText('Cookies on ccpay-bubble', 5);
+      this.click({ css: 'button.cookie-banner-accept-button' });
+      this.click({ css: 'div.cookie-banner-accept-message > div.govuk-button-group > button' });
+      this.wait(CCPBConstants.twoSecondWaitTime);
+    }
+    // If banner not visible, preferences already set - do nothing
   },
 
-  RejectPayBubbleCookies() {
-    this.waitForText('Cookies on ccpay-bubble', 5);
-    this.click({ css: 'button.cookie-banner-reject-button' });
-    this.click({ css: 'div.cookie-banner-reject-message > div.govuk-button-group > button' });
-    this.wait(CCPBConstants.twoSecondWaitTime);
+  async RejectPayBubbleCookies() {
+    // Check if cookie banner is visible before trying to interact with it
+    const bannerVisible = await this.executeScript(() => {
+      const banner = document.querySelector('.cookie-banner');
+      return banner && !banner.hidden;
+    });
+    
+    if (bannerVisible) {
+      this.waitForText('Cookies on ccpay-bubble', 5);
+      this.click({ css: 'button.cookie-banner-reject-button' });
+      this.click({ css: 'div.cookie-banner-reject-message > div.govuk-button-group > button' });
+      this.wait(CCPBConstants.twoSecondWaitTime);
+    }
+    // If banner not visible, preferences already set - do nothing
   },
 
   onefeeforpayment() {
