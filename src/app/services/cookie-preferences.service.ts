@@ -24,6 +24,14 @@ export class CookiePreferencesService {
         cookieName: 'ccpay-bubble-cookie-preferences'
       },
       preferencesForm: { class: 'cookie-preferences-form' },
+      cookieBanner: {
+        class: 'cookie-banner',
+        actions: [
+          { name: 'accept', buttonClass: 'cookie-banner-accept-button', confirmationClass: 'cookie-banner-accept-message', consent: true },
+          { name: 'reject', buttonClass: 'cookie-banner-reject-button', confirmationClass: 'cookie-banner-reject-message', consent: false },
+          { name: 'hide', buttonClass: 'cookie-banner-hide-button' }
+        ]
+      },
       cookieManifest: [
         { categoryName: 'analytics', cookies: ['_ga', '_gid', '_gat_UA-'] },
         { categoryName: 'apm', cookies: ['dtCookie', 'dtLatC', 'dtPC', 'dtSa', 'rxVisitor', 'rxvt'] },
