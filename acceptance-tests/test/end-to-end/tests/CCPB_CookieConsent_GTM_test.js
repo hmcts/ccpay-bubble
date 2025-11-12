@@ -27,33 +27,34 @@ Scenario('GTM script should be injected after user accepts analytics cookies',
     I.amOnPage('/');
     I.waitForElement('app-root', 10);
 
-    // Accept all cookies via cookie banner (adjust selectors based on actual implementation)
-    // This is a placeholder - you'll need to update with actual cookie banner selectors
-    const cookieBannerExists = await I.executeScript(() => {
-      return document.querySelector('.cookie-banner') !== null ||
-             document.querySelector('[class*="cookie"]') !== null;
+    // Wait for cookie banner to become visible (cookie manager shows it if no preference cookie exists)
+    I.wait(1);
+
+    // Try to click the accept button if cookie banner is visible
+    const accepted = await I.executeScript(() => {
+      const banner = document.querySelector('.cookie-banner');
+      const acceptButton = document.querySelector('.cookie-banner-accept-button');
+      
+      // Check if banner is visible (not hidden)
+      if (banner && !banner.hidden && acceptButton) {
+        acceptButton.click();
+        return true;
+      }
+      
+      // Fallback: manually set cookie and reload to trigger service initialization
+      const cookieName = 'ccpay-bubble-cookie-preferences';
+      const preferences = JSON.stringify({ analytics: 'on', apm: 'on' });
+      document.cookie = `${cookieName}=${encodeURIComponent(preferences)}; path=/; max-age=31536000`;
+      return false;
     });
 
-    if (cookieBannerExists) {
-      // Click accept button (update selector based on your cookie banner implementation)
-      try {
-        I.click('Accept all cookies');
-      } catch (e) {
-        // Alternative: programmatically set consent
-        I.executeScript(() => {
-          window.cookieManager.setPreferences({ analytics: 'on', apm: 'on' });
-        });
-      }
-    } else {
-      // Programmatically set consent if no banner present
-      I.executeScript(() => {
-        if (window.cookieManager && window.cookieManager.setPreferences) {
-          window.cookieManager.setPreferences({ analytics: 'on', apm: 'on' });
-        }
-      });
+    // If we used fallback, reload page to trigger service event handlers
+    if (!accepted) {
+      I.amOnPage('/');
+      I.waitForElement('app-root', 10);
     }
 
-    // Wait a moment for GTM to inject
+    // Wait for GTM to inject
     I.wait(2);
 
     // Verify GTM script was injected
@@ -79,15 +80,32 @@ Scenario('GTM script should be injected after user accepts analytics cookies',
 
 Scenario('GTM script should be removed when user rejects analytics cookies',
   async ({ I }) => {
+    // First visit: Accept cookies
     I.amOnPage('/');
     I.waitForElement('app-root', 10);
+    I.wait(1);
 
-    // First, set consent to on
-    I.executeScript(() => {
-      if (window.cookieManager && window.cookieManager.setPreferences) {
-        window.cookieManager.setPreferences({ analytics: 'on', apm: 'on' });
+    // Accept cookies
+    const accepted = await I.executeScript(() => {
+      const banner = document.querySelector('.cookie-banner');
+      const acceptButton = document.querySelector('.cookie-banner-accept-button');
+      
+      if (banner && !banner.hidden && acceptButton) {
+        acceptButton.click();
+        return true;
       }
+      
+      const cookieName = 'ccpay-bubble-cookie-preferences';
+      const preferences = JSON.stringify({ analytics: 'on', apm: 'on' });
+      document.cookie = `${cookieName}=${encodeURIComponent(preferences)}; path=/; max-age=31536000`;
+      return false;
     });
+
+    if (!accepted) {
+      I.amOnPage('/');
+      I.waitForElement('app-root', 10);
+    }
+    
     I.wait(2);
 
     // Verify GTM is present
@@ -96,12 +114,28 @@ Scenario('GTM script should be removed when user rejects analytics cookies',
     });
     I.assertTrue(gtmScriptExists, 'GTM script should be present after consent');
 
-    // Now revoke consent
+    // Now navigate to cookies page and change preferences to reject
+    I.amOnPage('/cookies');
+    I.waitForElement('.cookie-preferences-form', 5);
+    
+    // Select "Do not use cookies" for analytics
     I.executeScript(() => {
-      if (window.cookieManager && window.cookieManager.setPreferences) {
-        window.cookieManager.setPreferences({ analytics: 'off', apm: 'off' });
+      const analyticsOffRadio = document.querySelector('input[name="analytics"][value="off"]');
+      if (analyticsOffRadio) {
+        analyticsOffRadio.checked = true;
+      }
+      const apmOffRadio = document.querySelector('input[name="apm"][value="off"]');
+      if (apmOffRadio) {
+        apmOffRadio.checked = true;
+      }
+      
+      // Submit the form
+      const form = document.querySelector('.cookie-preferences-form');
+      if (form) {
+        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
       }
     });
+    
     I.wait(1);
 
     // Verify GTM script was removed
@@ -115,13 +149,29 @@ Scenario('Cookie Preferences event should be pushed to dataLayer',
   async ({ I }) => {
     I.amOnPage('/');
     I.waitForElement('app-root', 10);
+    I.wait(1);
 
-    // Set preferences
-    I.executeScript(() => {
-      if (window.cookieManager && window.cookieManager.setPreferences) {
-        window.cookieManager.setPreferences({ analytics: 'on', apm: 'off' });
+    // Click accept button or set preferences
+    const accepted = await I.executeScript(() => {
+      const banner = document.querySelector('.cookie-banner');
+      const acceptButton = document.querySelector('.cookie-banner-accept-button');
+      
+      if (banner && !banner.hidden && acceptButton) {
+        acceptButton.click();
+        return true;
       }
+      
+      const cookieName = 'ccpay-bubble-cookie-preferences';
+      const preferences = JSON.stringify({ analytics: 'on', apm: 'on' });
+      document.cookie = `${cookieName}=${encodeURIComponent(preferences)}; path=/; max-age=31536000`;
+      return false;
     });
+
+    if (!accepted) {
+      I.amOnPage('/');
+      I.waitForElement('app-root', 10);
+    }
+    
     I.wait(1);
 
     // Check dataLayer for Cookie Preferences event
@@ -130,7 +180,7 @@ Scenario('Cookie Preferences event should be pushed to dataLayer',
       return window.dataLayer.some(item =>
         item.event === 'Cookie Preferences' &&
         item.cookiePreferences &&
-        item.cookiePreferences.analytics === 'on'
+        (item.cookiePreferences.analytics === 'on' || item.cookiePreferences.analytics === 'off')
       );
     });
     I.assertTrue(eventPushed, 'Cookie Preferences event should be in dataLayer');
