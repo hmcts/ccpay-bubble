@@ -3218,15 +3218,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccpay-web-component@npm:6.5.14-rc1":
-  version: 6.5.14-rc1
-  resolution: "@hmcts/ccpay-web-component@npm:6.5.14-rc1"
+"@hmcts/ccpay-web-component@npm:6.5.14":
+  version: 6.5.14
+  resolution: "@hmcts/ccpay-web-component@npm:6.5.14"
   dependencies:
     tslib: "npm:^2.3.0"
   peerDependencies:
     "@angular/common": ^20.3.1
     "@angular/core": ~20.3.1
-  checksum: 10/45ee8fd8b593e1aea05db0f2ff94aabe7de9f46c980783fd69c3c6e7de9d4400ad7177a6f44fde1e3e4362c0c9f107eefbd52a464eea84a88e7164744d38788a
+  checksum: 10/db9415edf6cd2a26b5e15a2cbbe72c729038c15b9c13313837f92da0bcbbd764d8d7bb6e2a7b54e820879bffe48a705ae84fffbc019e16279311f3b611235731
   languageName: node
   linkType: hard
 
@@ -8541,7 +8541,7 @@ __metadata:
     "@babel/runtime": "npm:^7.28.4"
     "@codeceptjs/allure-legacy": "npm:^1.0.2"
     "@codeceptjs/helper": "npm:^1.0.2"
-    "@hmcts/ccpay-web-component": "npm:6.5.14-rc1"
+    "@hmcts/ccpay-web-component": "npm:6.5.14"
     "@hmcts/cookie-manager": "npm:^1.0.0"
     "@hmcts/eslint-config": "npm:^1.4.0"
     "@hmcts/nodejs-healthcheck": "npm:^1.8.0"
@@ -8631,7 +8631,7 @@ __metadata:
     protractor: "npm:~7.0.0"
     pug: "npm:3.0.3"
     pugit: "npm:5.0.2"
-    rpx-xui-translation: "npm:^1.0.11-upgrade-18-2"
+    rpx-xui-translation: "npm:^1.2.0"
     rxjs: "npm:~6.6.7"
     rxjs-compat: "npm:^6.5.2"
     sass: "npm:^1.64.1"
@@ -22145,17 +22145,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rpx-xui-translation@npm:^1.0.11-upgrade-18-2":
-  version: 1.1.1
-  resolution: "rpx-xui-translation@npm:1.1.1"
+"rpx-xui-translation@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "rpx-xui-translation@npm:1.2.0"
   dependencies:
     dexie: "npm:^3.2.2"
     luxon: "npm:^2.4.0"
     tslib: "npm:^2.0.0"
   peerDependencies:
-    "@angular/common": ^18.2.13
-    "@angular/core": ^18.2.13
-  checksum: 10/2e1204d293ef408503f774a65161ba84c21e1e8e4e5223cf0ee1a874d49d1185e7f71524cb1239e0effae6dfc0acae0a6132d26759adc1ada8ae1f9cc219a96e
+    "@angular/common": ^20.3.1
+    "@angular/core": ^20.3.1
+  checksum: 10/5eea929cc08f8d089adc64790201fbb24c248c29e8a9fcc5d35eac70c0e9f47bce211dec291eddfece69a8ba0ee5ffbcac3a3e1fb749a316a47f3b6fed48e7ec
   languageName: node
   linkType: hard
 
