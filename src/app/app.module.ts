@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {provideHttpClient, withInterceptors, withInterceptorsFromDi} from '@angular/common/http';
 
 import {AppRoutingModule} from './routes/app-routing.module';
 import {AppComponent} from './app.component';
@@ -26,7 +26,7 @@ import {PaymentHistoryComponent} from './components/payment-history/payment-hist
 import {PaymentLibModule} from '@hmcts/ccpay-web-component';
 import {WindowUtil} from './services/window-util/window-util';
 import {CcdSearchComponent} from './components/ccd-search/ccd-search.component';
-import {AuthDevInterceptor} from './shared/interceptors/auth.dev.interceptor';
+import {authDevInterceptor} from './shared/interceptors/auth.dev.interceptor';
 import {environment} from '../environments/environment';
 import { CaseRefService } from './services/caseref/caseref.service';
 import { ViewPaymentService } from 'projects/view-payment/src/lib/view-payment.service';
@@ -41,12 +41,6 @@ import { CookieTableComponent } from './components/cookie-table/cookie-table.com
 import { RpxTranslationModule } from 'rpx-xui-translation';
 import {FooterComponent} from "./shared/components/footer/footer.component";
 import {AccessibilityStatementComponent} from "./components/accessibility-statement/accessibility-statement.component";
-
-const nonProductionProviders = [{
-  provide: HTTP_INTERCEPTORS,
-  useClass: AuthDevInterceptor,
-  multi: true
-}];
 
 @NgModule({ declarations: [
         AppComponent,
@@ -90,17 +84,19 @@ const nonProductionProviders = [{
         })], providers: [
         PaybubbleHttpClient,
         AddFeeDetailService,
-        HttpClient,
         FeeSearchComponent,
         PaymentHistoryComponent,
         CaseRefService,
         IdamDetails,
         WindowUtil,
-        !environment.production ? nonProductionProviders : [],
         PaymentGroupService,
         ViewPaymentService,
         { provide: windowToken, useFactory: windowProvider },
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(
+          environment.production
+            ? withInterceptorsFromDi()
+            : withInterceptors([authDevInterceptor])
+        )
     ] })
 export class AppModule {
 }
