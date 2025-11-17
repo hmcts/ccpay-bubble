@@ -188,7 +188,6 @@
       }
     }
   },
-  "defaultProject": "ccpay-bubble",
   "cli": {
     "analytics": "740f19be-587b-4f7e-a5ac-ba6ffff3aa41",
     "schematicCollections": ["@angular-eslint/schematics"]
