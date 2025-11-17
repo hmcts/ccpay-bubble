@@ -226,6 +226,9 @@ module.exports = appInsights => express.Router()
     controllers.payhubController.postRefundRetroRemission(req, res);
   })
 
+  .post('/refund/reissue-expired/:refund_reference', (req, res) => {
+    controllers.refundController.postReIssueExpiredRefund(req, res, appInsights);
+  })
 
   // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {
