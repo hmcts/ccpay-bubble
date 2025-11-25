@@ -54,7 +54,7 @@
     "@babel/eslint-parser": "^7.11.0",
     "@babel/helper-create-class-features-plugin": "^7.21.8",
     "@babel/runtime": "^7.28.4",
-    "@hmcts/ccpay-web-component": "6.5.15-beta4",
+    "@hmcts/ccpay-web-component": "6.5.15-beta5",
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/nodejs-healthcheck": "^1.8.0",
     "@hmcts/nodejs-logging": "^4.0.4",
@@ -197,6 +197,7 @@
     "fsevents": "*"
   },
   "resolutions": {
+    "minimatch": "3.0.8",
     "on-headers": "~1.1.0",
     "path-to-regexp": "^0.1.12",
     "ws": "8.18.0",
