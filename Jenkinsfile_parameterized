@@ -38,4 +38,5 @@ withParameterizedPipeline(params.TYPE, params.PRODUCT_NAME, params.APP, params.E
     yarnBuilder.yarn('ng:build')
   }
   loadVaultSecrets(secrets)
+
 }
