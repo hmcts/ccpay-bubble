@@ -25,7 +25,6 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
     const ccdCaseNumber = ccdAndDcn[1];
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
@@ -89,29 +88,29 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
 
     // Review refund from case transaction page
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails('327.00', '0', '0.00', '0.00', '27.00');
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'Overpayment', '27.00', emailAddress, '', 'payments probate', 'approver probate');
-    const refundNotificationPreviewDataAfterApproval = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundReference, '27', 'Refund for Overpayment', bulkScanPaymentMethod);
-    await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval, true, true, false, refundNotificationPreviewDataAfterApproval);
+    await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval);
 
     // Refund Accepted by liberata
     await apiUtils.updateRefundStatusByRefundReference(refundReference, '', 'ACCEPTED');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.refreshPage();
+
+    I.click('Back');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails('327.00', '0', '0.00', '0.00', '0.00');
-
+    await I.click('(//*[text()[contains(.,"Review")]])[3]');
+    const reviewRefundDetailsDataAfterRefundAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'Overpayment', '27.00', emailAddress, '', 'payments probate', 'approver probate');
+    const refundNotificationPreviewDataAfterRefundAccepted = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundReference, '27', 'Refund for Overpayment', bulkScanPaymentMethod);
+    await RefundsList.verifyRefundDetailsAfterRefundAcceptedByLiberata(reviewRefundDetailsDataAfterRefundAccepted, true, true, false, refundNotificationPreviewDataAfterRefundAccepted);
     await I.Logout();
     I.clearCookie();
   }).tag('@pipeline @nightly');
 
-// Updating the tests due to PAY-7934 - Remove Card Refunds PayIT journey for RefundWhenContacted
-Scenario('Refund journey for complete cheque amount(500) with OverPayment option(273) and Refund(227) and Liberata rejected',
+Scenario('Refund journey for complete cheque amount(500) with OverPayment option(273) and Refund(227)',
   async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
            PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
@@ -127,7 +126,6 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     const ccdCaseNumber = ccdAndDcn[1];
 
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
@@ -159,8 +157,9 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.fillField('//*[@id="email"]', emailAddress);
     I.click('Continue');
 
-    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, `£${feeAmount}`, 'Over payment', `£${overPaymentRefundAmount}`, emailAddress, '', 'SendRefund');
-    await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false);
+    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, `£${feeAmount}`, 'Over payment', `£${overPaymentRefundAmount}`, emailAddress, '', 'RefundWhenContacted');
+    const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, 'RF-****-****-****-****', `${overPaymentRefundAmount}`, 'Refund for Overpayment', bulkScanPaymentMethod);
+    await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, refundNotificationPreviewDataBeforeRefundRequest);
     const refundRefOverPayments = await InitiateRefunds.verifyRefundSubmittedPage(overPaymentRefundAmount);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', overPaymentAmount);
@@ -183,7 +182,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.fillField('//*[@id="email"]', emailAddress);
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const checkYourAnswersDataBeforeSubmitRefund2 = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, '', refundReason, `£${feePaymentRefundAmount}`, emailAddress, '', 'SendRefund');
+    const checkYourAnswersDataBeforeSubmitRefund2 = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, '', refundReason, `£${feePaymentRefundAmount}`, emailAddress, '', 'RefundWhenContacted');
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund2, false, false, false, false);
     const refundRef = await InitiateRefunds.verifyRefundSubmittedPage(feePaymentRefundAmount);
     I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -195,18 +194,20 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     // Approve both refunds from Refund list page
     I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     let refundsDataBeforeApproverAction;
-
+    let refundNotificationPreviewDataBeforeRefundApproved;
     for (let i = 0; i <= 1; i++) {
       I.wait(CCPBATConstants.fifteenSecondWaitTime);
       if (i === 0) {
-        refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefOverPayments, 'Overpayment', `£${overPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'SendRefund');
+        refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefOverPayments, 'Overpayment', `£${overPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'RefundWhenContacted');
+        refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundRefOverPayments, `${overPaymentRefundAmount}`, 'Refund for Overpayment', bulkScanPaymentMethod);
       }
       if (i === 1) {
-        refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRef, refundReason, `£${feePaymentRefundAmount}`, emailAddress, '', 'payments probate', 'SendRefund');
+        refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRef, refundReason, `£${feePaymentRefundAmount}`, emailAddress, '', 'payments probate', 'RefundWhenContacted');
+        refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundRef, `${feePaymentRefundAmount}`, 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
       }
       await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
       I.wait(CCPBATConstants.twoSecondWaitTime);
-      InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
+      InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction, true, refundNotificationPreviewDataBeforeRefundApproved);
       InitiateRefunds.approverActionForRequestedRefund('Approve');
       I.wait(CCPBATConstants.twoSecondWaitTime);
       I.amOnPage('/refund-list?takePayment=false&refundlist=true');
@@ -218,7 +219,6 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
 
     // Review approved refunds from Case transactions page
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', overPaymentAmount);
@@ -230,29 +230,21 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     I.click('Back');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click(`//td[contains(.,'${refundRef}')]/following-sibling::td/a[.=\'Review\'][1]`);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, refundReason, `£${feePaymentRefundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval);
-    I.click('Back');
 
-    // Update refund reference with Rejection (called by Liberata) for System approved RefundWhenContacted email notification verification
+    // Liberata Accepted the Refund
     await apiUtils.updateRefundStatusByRefundReference(refundRef, '', 'ACCEPTED');
+
+    I.click('Back');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.refreshPage();
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', overPaymentAfterFeePaymentRefundAcceptedByLiberata);  // 46.00
-    await apiUtils.updateRefundStatusByRefundReference(refundRef, 'Unable to apply refund to Card', 'REJECTED');
-    await I.refreshPage();
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', overPaymentAmount);
 
     await I.click(`//td[contains(.,'${refundRef}')]/following-sibling::td/a[.=\'Review\'][1]`);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    const reviewRefundDetailsData = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, refundReason, `£${feePaymentRefundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
-    const refundNotificationPreviewData = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundRef, feePaymentRefundAmount, 'Due to a technical error a payment was taken incorrectly and has now been refunded');
-
-    await RefundsList.verifyRefundDetailsAfterLiberataRejection(reviewRefundDetailsData, true, refundNotificationPreviewData);
-
+    const reviewRefundDetailsDataAfterRefundAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, refundReason, `£${feePaymentRefundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
+    const refundNotificationPreviewDataAfterRefundAccepted = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundRef, `${feePaymentRefundAmount}`, 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
+    await RefundsList.verifyRefundDetailsAfterRefundAcceptedByLiberata(reviewRefundDetailsDataAfterRefundAccepted, true, false, false, refundNotificationPreviewDataAfterRefundAccepted);
     await I.Logout();
     I.clearCookie();
   }).tag('@pipeline @nightly');

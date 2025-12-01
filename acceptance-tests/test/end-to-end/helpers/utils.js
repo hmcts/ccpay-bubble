@@ -88,10 +88,7 @@ function searchForEmailInNotifyResults(notifications, searchEmail) {
   return result;
 }
 
-async function getIDAMToken() {
-  const username = testConfig.TestProbateCaseWorkerUserName;
-  const password = testConfig.TestProbateCaseWorkerPassword;
-
+async function getIDAMToken(username = testConfig.TestProbateCaseWorkerUserName, password = testConfig.TestProbateCaseWorkerPassword) {
   const idamClientID = testConfig.TestClientID;
   const idamClientSecret = testConfig.TestClientSecret;
   const redirectUri = testConfig.TestRedirectURI;
@@ -414,7 +411,9 @@ async function initiateCardPaymentForServiceRequest(amount, serviceRequestRefere
   const microservice = 'cmc';
   const idamToken = await getIDAMToken();
 
-  if (paymentBaseUrl.includes("demo")) {
+  if (paymentBaseUrl.includes("int-demo")) {
+    returnUrl = returnUrl.replaceAll("web.aat", "web-int.demo");
+  } else if (paymentBaseUrl.includes("demo")) {
     returnUrl = returnUrl.replaceAll("aat", "demo");
   }
 
@@ -894,6 +893,40 @@ async function updateRefundStatusByRefundReference(refundReference, reason, stat
   console.log(`The response Status Code for refund update : ${response.status}`);
 }
 
+async function updateRefundStatusByApprover(refundReference, reviewerAction = 'APPROVE', reason = '', code='') {
+  const username = testConfig.TestRefundsApproverUserName;
+  const password = testConfig.TestRefundsApproverPassword;
+  const serviceToken = await getServiceToken();
+  const idamToken = await getIDAMToken(username, password);
+  const url = refundsApiUrl + `/refund/${refundReference}/action/${reviewerAction}`
+
+  const saveBody = JSON.stringify({
+    code: `${code}`,
+    reason: `${reason}`
+  });
+  const headers = {
+    Authorization: `Bearer ${idamToken}`,
+    ServiceAuthorization: `${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+  const response = await makeRequest(url, 'PATCH', headers, saveBody);
+  console.log(`The response Status Code for refund update by approver : ${response.status}`);
+}
+
+async function updateCardPaymentStatus() {
+  const serviceToken = await getServiceToken();
+  const idamToken = await getIDAMToken();
+  const url = paymentBaseUrl + '/jobs/card-payments-status-update'
+
+  const headers = {
+    Authorization: `${idamToken}`,
+    ServiceAuthorization: `${serviceToken}`
+  };
+  const response = await makeRequest(url, 'PATCH', headers);
+  console.log(`The response Status Code for Card payment status update : ${response.status}`);
+}
+
+
 
 module.exports = {
   bulkScanNormalCcd,
@@ -914,6 +947,8 @@ module.exports = {
   getEmailFromNotifyWithMaxRetries,
   createAServiceRequest,
   updateRefundStatusByRefundReference,
+  updateRefundStatusByApprover,
   createAPBAPaymentForExistingCase,
-  initiateCardPaymentForServiceRequest
+  initiateCardPaymentForServiceRequest,
+  updateCardPaymentStatus
 };
