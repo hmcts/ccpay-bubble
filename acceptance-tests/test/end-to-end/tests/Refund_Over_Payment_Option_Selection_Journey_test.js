@@ -82,10 +82,6 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
-    // Verify the email from notify
-    const emailResponse = await apiUtils.getEmailFromNotifyWithMaxRetries(emailAddress);
-    assert.strictEqual('HMCTS refund request approved', emailResponse.subject);
-
     // Review refund from case transaction page
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
@@ -106,6 +102,11 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     const reviewRefundDetailsDataAfterRefundAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'Overpayment', '27.00', emailAddress, '', 'payments probate', 'approver probate');
     const refundNotificationPreviewDataAfterRefundAccepted = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundReference, '27', 'Refund for Overpayment', bulkScanPaymentMethod);
     await RefundsList.verifyRefundDetailsAfterRefundAcceptedByLiberata(reviewRefundDetailsDataAfterRefundAccepted, true, true, false, refundNotificationPreviewDataAfterRefundAccepted);
+
+    // Verify the email from notify
+    const emailResponse = await apiUtils.getEmailFromNotifyWithMaxRetries(emailAddress);
+    assert.strictEqual('HMCTS refund request approved', emailResponse.subject);
+
     await I.Logout();
     I.clearCookie();
   }).tag('@pipeline @nightly');
