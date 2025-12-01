@@ -88,7 +88,28 @@ function searchForEmailInNotifyResults(notifications, searchEmail) {
   return result;
 }
 
-async function getIDAMToken(username = testConfig.TestProbateCaseWorkerUserName, password = testConfig.TestProbateCaseWorkerPassword) {
+async function getIDAMToken() {
+  const username = testConfig.TestProbateCaseWorkerUserName;
+  const password = testConfig.TestProbateCaseWorkerPassword
+  const idamClientID = testConfig.TestClientID;
+  const idamClientSecret = testConfig.TestClientSecret;
+  const redirectUri = testConfig.TestRedirectURI;
+  const scope = 'openid profile roles';
+  const grantType = 'password';
+
+  const idamTokenPath = '/o/token';
+  const url = `${idamApiUrl}${idamTokenPath}`;
+  const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+  const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
+  const resp = await makeRequest(url, 'POST', headers, body);
+
+  const idamJson = await resp.json();
+  return idamJson.access_token;
+}
+
+async function getIDAMTokenForRefundApprover() {
+  const username = testConfig.TestRefundsApproverUserName;
+  const password = testConfig.TestRefundsApproverPassword;
   const idamClientID = testConfig.TestClientID;
   const idamClientSecret = testConfig.TestClientSecret;
   const redirectUri = testConfig.TestRedirectURI;
@@ -894,10 +915,8 @@ async function updateRefundStatusByRefundReference(refundReference, reason, stat
 }
 
 async function updateRefundStatusByApprover(refundReference, reviewerAction = 'APPROVE', reason = '', code='') {
-  const username = testConfig.TestRefundsApproverUserName;
-  const password = testConfig.TestRefundsApproverPassword;
   const serviceToken = await getServiceToken();
-  const idamToken = await getIDAMToken(username, password);
+  const idamToken = await getIDAMTokenForRefundApprover();
   const url = refundsApiUrl + `/refund/${refundReference}/action/${reviewerAction}`
 
   const saveBody = JSON.stringify({
