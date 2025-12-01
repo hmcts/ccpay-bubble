@@ -90,7 +90,8 @@ function searchForEmailInNotifyResults(notifications, searchEmail) {
 
 async function getIDAMToken() {
   const username = testConfig.TestProbateCaseWorkerUserName;
-  const password = testConfig.TestProbateCaseWorkerPassword
+  const password = testConfig.TestProbateCaseWorkerPassword;
+
   const idamClientID = testConfig.TestClientID;
   const idamClientSecret = testConfig.TestClientSecret;
   const redirectUri = testConfig.TestRedirectURI;
