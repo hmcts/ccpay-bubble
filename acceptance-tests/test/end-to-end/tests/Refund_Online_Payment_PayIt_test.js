@@ -250,4 +250,4 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
 
     await I.Logout();
     I.clearCookie();
-  }).tag('@pipeline @nightly @debug');
+  }).tag('@pipeline @nightly');

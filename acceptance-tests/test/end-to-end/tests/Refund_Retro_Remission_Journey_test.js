@@ -522,7 +522,6 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.see('Closed');
     I.see('Approved');
     const newRefundReference = await I.grabTextFrom('//td[contains(.,\'Approved\')]/ancestor::tr/td[4]');
-
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', '25.00');
 
     // Verify the Closed refund
@@ -533,6 +532,8 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
 
     // Verify the Reissued refund
     await I.click(`//td[contains(.,'${newRefundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    // Reissue refund details will have same data as previous refund except the reference number and reissued user
+    reviewRefundDetailsDataAfterRefundAccepted.refundRequester = 'approver probate';
     await RefundsList.verifyRefundDetailsAfterCaseworkerReissuedTheRefund(reviewRefundDetailsDataAfterRefundAccepted, newRefundReference);
 
     // Liberata Accepted the Reissued Refund
