@@ -18,6 +18,13 @@ export class CookiePreferencesService {
     this.bindEvents();
   }
 
+  private applyPreferences(prefs: CookiePreferences) {
+    this.preferences$.next(prefs);
+    this.handleAnalyticsConsent(prefs);
+    this.handleApmConsent(prefs);
+    this.pushPreferencesEvent(prefs);
+  }
+
   private initCookieManager() {
     const config = {
       userPreferences: {
@@ -43,15 +50,10 @@ export class CookiePreferencesService {
 
   private bindEvents() {
     cookieManager.on('UserPreferencesLoaded', (prefs: CookiePreferences) => {
-      this.preferences$.next(prefs);
-      this.handleAnalyticsConsent(prefs);
-      this.pushPreferencesEvent(prefs);
+      this.applyPreferences(prefs);
     });
     cookieManager.on('UserPreferencesSaved', (prefs: CookiePreferences) => {
-      this.preferences$.next(prefs);
-      this.handleAnalyticsConsent(prefs);
-      this.handleApmConsent(prefs);
-      this.pushPreferencesEvent(prefs);
+      this.applyPreferences(prefs);
     });
     cookieManager.on('PreferenceFormSubmitted', () => {
       const message = document.querySelector('.cookie-preference-success') as HTMLElement;

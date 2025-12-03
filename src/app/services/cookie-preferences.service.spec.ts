@@ -91,11 +91,14 @@ describe('CookiePreferencesService', () => {
           done();
         }
       });
-      
+      const dtrum = (window as any).dtrum;
+
       // Simulate the cookie manager calling our handler
       // In real usage, cookieManager.on('UserPreferencesLoaded', callback) is called
       // and then the library fires that callback
-      (service as any).preferences$.next(testPrefs);
+      (service as any).applyPreferences(testPrefs);
+      expect(dtrum.enable).toHaveBeenCalled();
+      expect(dtrum.enableSessionReplay).toHaveBeenCalled();
     });
 
     it('should handle UserPreferencesSaved event and inject GTM', (done) => {
@@ -114,9 +117,7 @@ describe('CookiePreferencesService', () => {
       });
       
       // Simulate UserPreferencesSaved event firing
-      (service as any).handleAnalyticsConsent(testPrefs);
-      (service as any).handleApmConsent(testPrefs);
-      (service as any).preferences$.next(testPrefs);
+      (service as any).applyPreferences(testPrefs);
     });
 
     it('should handle PreferenceFormSubmitted event', () => {
@@ -410,5 +411,4 @@ describe('CookiePreferencesService', () => {
     });
   });
 });
-
 
