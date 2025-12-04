@@ -244,7 +244,7 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     // Liberata Accepted the Reissued Refund
     await apiUtils.updateRefundStatusByRefundReference(newRefundReference, '', 'ACCEPTED');
     await I.click(`//td[contains(.,'${newRefundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
-    const reviewRefundDetailsDataAfterRefundReissuedAndAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, refundReason, `£${refundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
+    const reviewRefundDetailsDataAfterRefundReissuedAndAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, refundReason, `£${refundAmount}`, emailAddress, '', 'payments probate', 'payments probate');
     const refundNotificationPreviewDataAfterRefundReissuedAndAccepted = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, newRefundReference, refundAmount, 'Due to a technical error a payment was taken incorrectly and has now been refunded', '');
     await RefundsList.verifyRefundDetailsAfterCaseworkerReissuedTheRefundAndLiberataAccepted(reviewRefundDetailsDataAfterRefundReissuedAndAccepted, true, refundNotificationPreviewDataAfterRefundReissuedAndAccepted);
 

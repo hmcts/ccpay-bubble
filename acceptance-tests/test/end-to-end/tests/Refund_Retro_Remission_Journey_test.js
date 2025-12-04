@@ -543,7 +543,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
 
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', '0.00');
     await I.click(`//td[contains(.,'${newRefundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
-    const reviewRefundDetailsDataAfterRefundReissuedAndAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions, paymentRcReference, 'Retrospective remission', `£${refundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
+    const reviewRefundDetailsDataAfterRefundReissuedAndAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions, paymentRcReference, 'Retrospective remission', `£${refundAmount}`, emailAddress, '', 'approver probate', 'approver probate');
     const refundNotificationPreviewDataAfterRefundReissuedAndAccepted = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, newRefundReference, refundAmount, 'Retrospective remission', bulkScanPaymentMethod);
     await RefundsList.verifyRefundDetailsAfterCaseworkerReissuedTheRefundAndLiberataAccepted(reviewRefundDetailsDataAfterRefundReissuedAndAccepted, true, refundNotificationPreviewDataAfterRefundReissuedAndAccepted);
 
