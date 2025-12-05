@@ -75,6 +75,7 @@
     "js-money": "^0.6.3",
     "js-yaml": "^3.12.1",
     "jsdom": "24.1.0",
+    "jws": "3.2.3",
     "launchdarkly-node-client-sdk": "^1.4.5",
     "local-storage": "^2.0.0",
     "minimist": "^1.2.8",
@@ -197,6 +198,7 @@
     "fsevents": "*"
   },
   "resolutions": {
+    "jws": "3.2.3",
     "on-headers": "~1.1.0",
     "path-to-regexp": "^0.1.12",
     "ws": "8.18.0",
