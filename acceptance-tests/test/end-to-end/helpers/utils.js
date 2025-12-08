@@ -18,12 +18,11 @@ const rpeServiceAuthApiUrl = testConfig.TestS2SRpeServiceAuthApiUrl;
 const ccdDataStoreApiUrl = testConfig.TestCcdDataStoreApiUrl;
 const s2sAuthPath = '/testing-support/lease';
 
+let idamTokenCache = {};
 const IDAM_TOKEN_CACHE_DURATION_MS = 60 * 1000; // 60 seconds
 const MAX_NOTIFY_PAGES = 3;  //max notify results pages to search
 const MAX_RETRIES = 5;  //max retries on each notify results page
 
-let cachedIdamTokenProbateCaseWorker = null;
-let cachedIdamTokenTimestampProbateCaseWorker = 0;
 let notifyClient;
 
 const NotifyClient = require('notifications-node-client').NotifyClient;
@@ -94,14 +93,16 @@ function searchForEmailInNotifyResults(notifications, searchEmail) {
 }
 
 async function getIDAMToken() {
+  const username = testConfig.TestProbateCaseWorkerUserName;
   const now = Date.now();
-  if (cachedIdamTokenProbateCaseWorker && (now - cachedIdamTokenTimestampProbateCaseWorker < IDAM_TOKEN_CACHE_DURATION_MS)) {
-    return cachedIdamTokenProbateCaseWorker;
+  if (
+    idamTokenCache[username] &&
+    (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)
+  ) {
+    return idamTokenCache[username].token;
   }
 
-  const username = testConfig.TestProbateCaseWorkerUserName;
   const password = testConfig.TestProbateCaseWorkerPassword;
-
   const idamClientID = testConfig.TestClientID;
   const idamClientSecret = testConfig.TestClientSecret;
   const redirectUri = testConfig.TestRedirectURI;
@@ -115,15 +116,21 @@ async function getIDAMToken() {
   const resp = await makeRequest(url, 'POST', headers, body);
 
   const idamJson = await resp.json();
-  cachedIdamTokenProbateCaseWorker = idamJson.access_token;
-  cachedIdamTokenTimestampProbateCaseWorker = now;
-  return cachedIdamTokenProbateCaseWorker;
+  idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
+  return idamJson.access_token;
 }
 
 async function getIDAMTokenForDivorceUser() {
   const username = testConfig.TestDivorceCaseWorkerUserName;
-  const password = testConfig.TestDivorceCaseWorkerPassword;
+  const now = Date.now();
+  if (
+    idamTokenCache[username] &&
+    (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)
+  ) {
+    return idamTokenCache[username].token;
+  }
 
+  const password = testConfig.TestDivorceCaseWorkerPassword;
   const idamClientID = testConfig.TestDivorceClientID;
   const idamClientSecret = testConfig.TestDivorceClientSecret;
   const redirectUri = testConfig.TestDivorceClientRedirectURI;
@@ -137,6 +144,7 @@ async function getIDAMTokenForDivorceUser() {
   const resp = await makeRequest(url, 'POST', headers, body);
 
   const idamJson = await resp.json();
+  idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
   return idamJson.access_token;
 }
 
