@@ -17,10 +17,15 @@ const idamApiUrl = testConfig.TestIdamApiUrl;
 const rpeServiceAuthApiUrl = testConfig.TestS2SRpeServiceAuthApiUrl;
 const ccdDataStoreApiUrl = testConfig.TestCcdDataStoreApiUrl;
 const s2sAuthPath = '/testing-support/lease';
+
+const IDAM_TOKEN_CACHE_DURATION_MS = 60 * 1000; // 60 seconds
 const MAX_NOTIFY_PAGES = 3;  //max notify results pages to search
 const MAX_RETRIES = 5;  //max retries on each notify results page
 
+let cachedIdamTokenProbateCaseWorker = null;
+let cachedIdamTokenTimestampProbateCaseWorker = 0;
 let notifyClient;
+
 const NotifyClient = require('notifications-node-client').NotifyClient;
 if (testConfig.NotifyEmailApiKey) {
   notifyClient = new NotifyClient(testConfig.NotifyEmailApiKey);
@@ -89,6 +94,11 @@ function searchForEmailInNotifyResults(notifications, searchEmail) {
 }
 
 async function getIDAMToken() {
+  const now = Date.now();
+  if (cachedIdamTokenProbateCaseWorker && (now - cachedIdamTokenTimestampProbateCaseWorker < IDAM_TOKEN_CACHE_DURATION_MS)) {
+    return cachedIdamTokenProbateCaseWorker;
+  }
+
   const username = testConfig.TestProbateCaseWorkerUserName;
   const password = testConfig.TestProbateCaseWorkerPassword;
 
@@ -105,7 +115,9 @@ async function getIDAMToken() {
   const resp = await makeRequest(url, 'POST', headers, body);
 
   const idamJson = await resp.json();
-  return idamJson.access_token;
+  cachedIdamTokenProbateCaseWorker = idamJson.access_token;
+  cachedIdamTokenTimestampProbateCaseWorker = now;
+  return cachedIdamTokenProbateCaseWorker;
 }
 
 async function getIDAMTokenForDivorceUser() {
