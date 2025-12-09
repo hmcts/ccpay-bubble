@@ -197,6 +197,7 @@
     "fsevents": "*"
   },
   "resolutions": {
+    "minimatch": "3.0.8",
     "on-headers": "~1.1.0",
     "path-to-regexp": "^0.1.12",
     "ws": "8.18.0",
