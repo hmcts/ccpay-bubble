@@ -221,7 +221,7 @@ describe('Cookie Manager Integration (cookie.js)', () => {
 
   const triggerEvent = (eventName: string, data?: any) => {
     if (eventHandlers[eventName]) {
-      eventHandlers[eventName].forEach((handler: Function) => handler(data));
+      eventHandlers[eventName].forEach((handler: (data?: any) => void) => handler(data));
     }
   };
 
