@@ -107,6 +107,11 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     const emailResponse = await apiUtils.getEmailFromNotifyWithMaxRetries(emailAddress);
     assert.strictEqual('HMCTS refund request approved', emailResponse.subject);
 
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click(`//td[contains(.,'${refundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await RefundsList.verifyNotificationDetailsAfterResend(refundNotificationPreviewDataAfterRefundAccepted);
+
     await I.Logout();
     I.clearCookie();
   }).tag('@pipeline @nightly');

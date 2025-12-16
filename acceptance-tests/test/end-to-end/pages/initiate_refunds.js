@@ -220,7 +220,7 @@ module.exports = {
       I.click({xpath: '//tr[7]//a[.=" Preview "]'});
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
-        refundsList.verifyBulkScanPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+        refundsList.verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         refundsList.verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       }
@@ -310,7 +310,7 @@ module.exports = {
       I.click({xpath: '//tr[8]//a[.=" Preview "]'});
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
-        refundsList.verifyBulkScanPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+        refundsList.verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         refundsList.verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       }
@@ -375,7 +375,7 @@ module.exports = {
       I.click({xpath: '//tr[7]//a[.=" Preview "]'});
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
-        refundsList.verifyBulkScanPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+        refundsList.verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         refundsList.verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       }
@@ -762,7 +762,7 @@ module.exports = {
       I.click({xpath: '//tr[8]//a[.=" Preview "]'});
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
-        refundsList.verifyBulkScanPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+        refundsList.verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         refundsList.verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       }

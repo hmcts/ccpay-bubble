@@ -111,13 +111,25 @@ Scenario('Card payment refund PayIt journey',
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     await RefundsList.verifyRefundDetailsAfterLiberataRejection(reviewRefundDetailsDataAfterRefundAccepted, true, refundNotificationPreviewDataAfterRefundAccepted);
 
+    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click(`//td[contains(.,'${refundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await RefundsList.resendNotification(refundReference);
+
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click(`//td[contains(.,'${refundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await RefundsList.verifyNotificationDetailsAfterResend(refundNotificationPreviewDataAfterRefundAccepted, true);
+
+
     await I.Logout();
     I.clearCookie();
 
   }).tag('@pipeline @nightly');
 
 Scenario('Card payment refund PayIt expired(21 days) journey',
-  async ({ I, ServiceRequests, CaseSearch, CaseTransaction, InitiateRefunds, RefundsList }) => {
+  async ({ I, ServiceRequests, CaseSearch, CaseTransaction, InitiateRefunds, RefundsList, ResetRefund }) => {
 
     const emailAddress = stringUtils.getTodayDateAndTimeInString() + 'refundspaybubbleft1@mailtest.gov.uk';
     const totalAmount = '300.00';
@@ -183,8 +195,7 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     // Liberata Accepted the Refund
     await apiUtils.updateRefundStatusByRefundReference(refundReference, '', 'ACCEPTED');
 
-    I.click('Case Transaction');
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     const reviewRefundDetailsDataAfterRefundAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, refundReason, `£${refundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
     const refundNotificationPreviewDataAfterRefundAccepted = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundReference, refundAmount, 'Due to a technical error a payment was taken incorrectly and has now been refunded', '');
@@ -214,15 +225,7 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     I.see('Reset Refund');
     I.click('Reset Refund');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.see(`Close current refund reference number ${refundReference}`);
-    I.see('Reissue refund with a new reference number');
-    I.see('Issue a new Offer and Contact notification for the reissued refund');
-    I.see('Cancel')
-    I.click('Cancel');
-    I.waitForText('Reset Refund', '5');
-    I.click('Reset Refund');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.click('Submit');
+    ResetRefund.verifyResetRefundPage(refundReference)
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.waitForText('Case transactions', '5');
     I.see('Closed');
@@ -247,6 +250,23 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     const reviewRefundDetailsDataAfterRefundReissuedAndAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, refundReason, `£${refundAmount}`, emailAddress, '', 'payments probate', 'payments probate');
     const refundNotificationPreviewDataAfterRefundReissuedAndAccepted = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, newRefundReference, refundAmount, 'Due to a technical error a payment was taken incorrectly and has now been refunded', '');
     await RefundsList.verifyRefundDetailsAfterCaseworkerReissuedTheRefundAndLiberataAccepted(reviewRefundDetailsDataAfterRefundReissuedAndAccepted, true, refundNotificationPreviewDataAfterRefundReissuedAndAccepted);
+
+    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click(`//td[contains(.,'${newRefundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await RefundsList.resendNotification(newRefundReference);
+
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click(`//td[contains(.,'${newRefundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await RefundsList.verifyNotificationDetailsAfterResend(refundNotificationPreviewDataAfterRefundReissuedAndAccepted, true);
+
+    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click(`//td[contains(.,'${newRefundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await RefundsList.editAndVerifyNotificationDetails(refundNotificationPreviewDataAfterRefundReissuedAndAccepted, 'RefundWhenContacted',true);
 
     await I.Logout();
     I.clearCookie();

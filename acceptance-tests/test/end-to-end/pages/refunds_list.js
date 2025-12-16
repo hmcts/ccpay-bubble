@@ -5,7 +5,7 @@ const stringUtils = require('../helpers/string_utils');
 const {I} = inject();
 
 // Offer and Contact template
-function verifyBulkScanPaymentRefundWhenContactedNotification(refundNotificationPreviewData) {
+function verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData) {
   if (refundNotificationPreviewData.email) {
     I.waitForText('From: contactprobate@justice.gov.uk', 5);
     I.see(`To: ${refundNotificationPreviewData.email}`);
@@ -272,7 +272,7 @@ module.exports = {
       I.click('View');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
-        verifyBulkScanPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+        verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       }
@@ -333,7 +333,7 @@ module.exports = {
           refundNotificationPreviewData.email = 'autoTestNotifyEditDetails@mailtest.gov.uk';
           refundNotificationPreviewData.postcode= '';
           if (refundNotificationPreviewData.bulkScanPaymentMethod) {
-            verifyBulkScanPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+            verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
           } else {
             verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
           }
@@ -383,7 +383,7 @@ module.exports = {
           refundNotificationPreviewData.email = '';
           refundNotificationPreviewData.postcode= 'TW4 7EZ';
           if (refundNotificationPreviewData.bulkScanPaymentMethod === 'cash') {
-            verifyBulkScanPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+            verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
           } else {
             verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
           }
@@ -476,8 +476,8 @@ module.exports = {
       I.see('89 MARTINDALE ROAD HOUNSLOW LONDON BOROUGH OF HOUNSLOW United Kingdom TW4 7EZ');
     }
     I.see('Actions');
-    I.see('Resend');
-    I.see('Edit details');
+    I.dontSeeElement('Resend');
+    I.dontSeeElement('Edit details');
     I.see('View');
     I.see('Refund status history');
     I.see('Status');
@@ -508,7 +508,7 @@ module.exports = {
       I.click('View');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
-        verifyBulkScanPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+        verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         verifyOnlineCardRefundWhenContactedNotification(refundNotificationPreviewData);
       }
@@ -543,8 +543,8 @@ module.exports = {
       I.see('89 MARTINDALE ROAD HOUNSLOW LONDON BOROUGH OF HOUNSLOW United Kingdom TW4 7EZ');
     }
     I.see('Actions');
-    I.see('Resend');
-    I.see('Edit details');
+    I.dontSeeElement('Resend');
+    I.dontSeeElement('Edit details');
     I.see('View');
     I.see('Refund status history');
     I.see('Status');
@@ -577,7 +577,7 @@ module.exports = {
       I.click('View');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
-        verifyBulkScanPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+        verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         verifyOnlineCardRefundWhenContactedNotification(refundNotificationPreviewData);
       }
@@ -659,9 +659,149 @@ module.exports = {
       I.click('View');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
-        verifyBulkScanPaymentRefundWhenContactedNotification(refundNotificationPreviewData);
+        verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         verifyOnlineCardRefundWhenContactedNotification(refundNotificationPreviewData);
+      }
+      I.click('Hide');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+    }
+  },
+
+  resendNotification(refundReference) {
+    I.click('Resend');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.see('Notification sent');
+    I.see(`Refund reference: ${refundReference}`);
+    I.click('Return to case');
+  },
+
+  verifyNotificationDetailsAfterResend(refundNotificationData, isOnlineCardPaymentRefundRejected = false) {
+    I.click('View');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    if (refundNotificationData.bulkScanPaymentMethod) {
+      verifyBulkScanPaymentOfferAndContactNotification(refundNotificationData);
+    } else if (isOnlineCardPaymentRefundRejected) {
+      verifyOnlineCardRefundWhenContactedNotification(refundNotificationData);
+    } else {
+      verifyCardOrPBASendRefundNotification(refundNotificationData)
+    }
+    I.click('Hide');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+  },
+
+  editAndVerifyNotificationDetails(refundNotificationPreviewData, refundNotificationType, isOnlineCardPaymentRefundRejected = false) {
+    // Change notification to opposite of earlier one (email -> post, post -> email)
+    I.click('Edit details');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    if (refundNotificationPreviewData.postcode) {
+      refundNotificationPreviewData.email = 'autoTestNotifyEditDetails@mailtest.gov.uk';
+      refundNotificationPreviewData.postcode= '';
+      I.waitForElement('//*[@id="contact"]', 5);
+      I.click('//*[@id="contact"]');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.click('//*[@id="email"]');
+      I.fillField('//*[@id="email"]', refundNotificationPreviewData.email);
+      I.click('Continue');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.waitForText('Check your answers', 5);
+      I.see('Refund reference');
+      I.see(`${refundNotificationPreviewData.refundReference}`);
+      I.see('Send via');
+      I.see('Email');
+      I.see(refundNotificationPreviewData.email);
+      I.see('Change');
+      I.click('Change');
+      I.click('Continue');
+      I.see('Notification');
+      I.see('Preview');
+      I.click('Preview');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.waitForText('HMCTS refund request approved', 5);
+      if (refundNotificationPreviewData.bulkScanPaymentMethod) {
+        verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
+      } else if (isOnlineCardPaymentRefundRejected) {
+        verifyOnlineCardRefundWhenContactedNotification(refundNotificationPreviewData);
+      } else {
+        verifyCardOrPBASendRefundNotification(refundNotificationPreviewData)
+      }
+      I.click('Hide Preview');
+      I.click('Send notification');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.see('Notification sent');
+      I.see(`Refund reference: ${refundNotificationPreviewData.refundReference}`);
+      I.click('Return to case');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.click(`//td[contains(.,'${refundNotificationPreviewData.refundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForText('Refund details', 5);
+      I.see(refundNotificationPreviewData.email);
+      I.click('View');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      if (refundNotificationPreviewData.bulkScanPaymentMethod) {
+        verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
+      } else if (isOnlineCardPaymentRefundRejected) {
+        verifyOnlineCardRefundWhenContactedNotification(refundNotificationPreviewData);
+      } else {
+        verifyCardOrPBASendRefundNotification(refundNotificationPreviewData)
+      }
+      I.click('Hide');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+    } else if (refundNotificationPreviewData.email) {
+      refundNotificationPreviewData.email = '';
+      refundNotificationPreviewData.postcode = 'TW4 7EZ';
+      I.waitForElement('//*[@id="contact-2"]', 5);
+      I.click('//*[@id="contact-2"]');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.click('//*[@id="address-postcode"]');
+      I.fillField('//*[@id="address-postcode"]', refundNotificationPreviewData.postcode);
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.click('Find address');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
+      I.click('Continue');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.waitForText('Check your answers', 5);
+      I.see('Refund reference');
+      I.see(`${refundNotificationPreviewData.refundReference}`);
+      I.see('Send via');
+      I.see('Post');
+      I.see(refundNotificationPreviewData.postcode);
+      I.see('Change');
+      I.click('Change');
+      I.click('Continue');
+      I.see('Notification');
+      I.see(refundNotificationType);
+      I.see('Preview');
+      I.click('Preview');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.waitForText('HMCTS refund request approved', 5);
+      if (refundNotificationPreviewData.bulkScanPaymentMethod) {
+        verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
+      } else if (isOnlineCardPaymentRefundRejected) {
+        verifyOnlineCardRefundWhenContactedNotification(refundNotificationPreviewData);
+      } else {
+        verifyCardOrPBASendRefundNotification(refundNotificationPreviewData)
+      }
+      I.click('Hide Preview');
+      I.click('Send notification');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.see('Notification sent');
+      I.see(`Refund reference: ${refundNotificationPreviewData.refundReference}`);
+      I.click('Return to case');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.click(`//td[contains(.,'${refundNotificationPreviewData.refundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+      I.wait(CCPBATConstants.tenSecondWaitTime);
+      I.waitForText('Refund details', 5);
+      I.see(refundNotificationPreviewData.postcode);
+      I.click('View');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      if (refundNotificationPreviewData.bulkScanPaymentMethod) {
+        verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
+      } else if (isOnlineCardPaymentRefundRejected) {
+        verifyOnlineCardRefundWhenContactedNotification(refundNotificationPreviewData);
+      } else {
+        verifyCardOrPBASendRefundNotification(refundNotificationPreviewData)
       }
       I.click('Hide');
       I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -723,7 +863,7 @@ module.exports = {
     }
   },
 
-  verifyBulkScanPaymentRefundWhenContactedNotification,
+  verifyBulkScanPaymentOfferAndContactNotification,
   verifyCardOrPBASendRefundNotification
 
 };

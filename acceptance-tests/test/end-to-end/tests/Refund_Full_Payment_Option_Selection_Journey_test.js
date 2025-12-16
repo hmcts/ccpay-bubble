@@ -104,7 +104,12 @@ Scenario('Bulk scan postal order Full Payment refund, preview RefundWhenContacte
     const reviewRefundDetailsDataAfterRefundAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, refundReason, `£${refundAmount}`, '', postcode, 'payments probate', 'approver probate');
     const refundNotificationPreviewDataAfterRefundAccepted = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, refundAmount, 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
     await RefundsList.verifyRefundDetailsAfterRefundAcceptedByLiberata(reviewRefundDetailsDataAfterRefundAccepted, true, true, false, refundNotificationPreviewDataAfterRefundAccepted);
+
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click(`//td[contains(.,'${refundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await RefundsList.verifyNotificationDetailsAfterResend(refundNotificationPreviewDataAfterRefundAccepted);
+
     await I.Logout();
     I.clearCookie();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
   }).tag('@pipeline @nightly');

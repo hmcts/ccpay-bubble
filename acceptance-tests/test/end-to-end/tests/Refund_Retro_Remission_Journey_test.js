@@ -393,7 +393,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
 
 Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITIVE Balance Due CAN have relevant Remission Refunded - (positive balance value)',
   async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
-           PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
+           PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList, ResetRefund }) => {
 
     const bulkScanPaymentMethod = 'cheque';
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
@@ -508,15 +508,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.see('Reset Refund');
     I.click('Reset Refund');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.see(`Close current refund reference number ${refundRefRemissions}`);
-    I.see('Reissue refund with a new reference number');
-    I.see('Issue a new Offer and Contact notification for the reissued refund');
-    I.see('Cancel')
-    I.click('Cancel');
-    I.waitForText('Reset Refund', '5');
-    I.click('Reset Refund');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.click('Submit');
+    ResetRefund.verifyResetRefundPage(refundRefRemissions);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.waitForText('Case transactions', '5');
     I.see('Closed');
@@ -547,7 +539,17 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     const refundNotificationPreviewDataAfterRefundReissuedAndAccepted = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, newRefundReference, refundAmount, 'Retrospective remission', bulkScanPaymentMethod);
     await RefundsList.verifyRefundDetailsAfterCaseworkerReissuedTheRefundAndLiberataAccepted(reviewRefundDetailsDataAfterRefundReissuedAndAccepted, true, refundNotificationPreviewDataAfterRefundReissuedAndAccepted);
 
+    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click(`//td[contains(.,'${newRefundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await RefundsList.resendNotification(newRefundReference);
+
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click(`//td[contains(.,'${newRefundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await RefundsList.verifyNotificationDetailsAfterResend(refundNotificationPreviewDataAfterRefundReissuedAndAccepted);
+
     await I.Logout();
     I.clearCookie();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
   }).tag('@pipeline @nightly');
