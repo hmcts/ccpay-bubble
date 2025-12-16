@@ -138,9 +138,14 @@ module.exports = appInsights => express.Router()
   .get('/notification/postcode-lookup/:postcode', (req, res) => {
     controllers.notificationController.getaddressByPostcode(req, res);
   })
-  .post('/notification/doc-preview', (req, res) => {
-    controllers.notificationController.docPreview(req, res);
+//  .post('/notification/doc-preview', (req, res) => {
+//    controllers.notificationController.docPreview(req, res);
+//  })
+  .post('/refund/notifications/doc-preview', (req, res) => {
+    // Proxy to refund controller for doc preview to add correct template-id handling
+    controllers.refundController.docPreview(req, res);
   })
+
   // Bulk scanning services
   .get('/bulk-scan/cases/:id', (req, res) => {
     controllers.bulkScanController.getPaymentDetailsForCcd(req, res);

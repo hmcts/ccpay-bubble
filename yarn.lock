@@ -3805,15 +3805,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccpay-web-component@https://github.com/hmcts/ccpay-web-component/releases/download/6.5.15-beta11/hmcts-ccpay-web-component-6.5.15-beta11.tgz":
-  version: 6.5.15-beta11
-  resolution: "@hmcts/ccpay-web-component@https://github.com/hmcts/ccpay-web-component/releases/download/6.5.15-beta11/hmcts-ccpay-web-component-6.5.15-beta11.tgz"
+"@hmcts/ccpay-web-component@file:../ccpay-web-component/dist/payment-lib::locator=ccpay-bubble%40workspace%3A.":
+  version: 6.5.15-beta9
+  resolution: "@hmcts/ccpay-web-component@file:../ccpay-web-component/dist/payment-lib#../ccpay-web-component/dist/payment-lib::hash=c659c6&locator=ccpay-bubble%40workspace%3A."
   dependencies:
     tslib: "npm:^2.3.0"
   peerDependencies:
     "@angular/common": ^20.3.1
     "@angular/core": ~20.3.1
-  checksum: 10/eba506b82185a27813c2f8cddab4206e4b420522272dcfde2c374d32f66e4fefd4328b18a154c88c624a65ab1bb2baeaff2ec8474631cd1f435db5510bf22070
+  checksum: 10/1f9a2f31bb47f9b035cc7282e3ba2c5f17540c10aaf0ee63fec066b4e6361a9819e0848e5262f5e099c79ae479523b69e36b26160b619c51bfd95a470c4cd97f
   languageName: node
   linkType: hard
 
@@ -9551,7 +9551,7 @@ __metadata:
     "@babel/runtime": "npm:^7.28.4"
     "@codeceptjs/allure-legacy": "npm:^1.0.2"
     "@codeceptjs/helper": "npm:^1.0.2"
-    "@hmcts/ccpay-web-component": "https://github.com/hmcts/ccpay-web-component/releases/download/6.5.15-beta11/hmcts-ccpay-web-component-6.5.15-beta11.tgz"
+    "@hmcts/ccpay-web-component": "file:../ccpay-web-component/dist/payment-lib"
     "@hmcts/cookie-manager": "npm:^1.0.0"
     "@hmcts/eslint-config": "npm:^1.4.0"
     "@hmcts/nodejs-healthcheck": "npm:^1.8.0"
