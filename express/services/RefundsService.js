@@ -100,6 +100,18 @@ class RefundsService {
     return await resp.json();
   }
 
+    async getRefundsReport(req) {
+      /* eslint-disable no-console */
+      console.log(req, `${refundsUrl}/refund/refunds-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}`);
+      const url = new URL(`${refundsUrl}/refund/refunds-report`);
+      url.search = new URLSearchParams({
+        date_from: req.query.date_from,
+        date_to: req.query.date_to
+      }).toString();
+      const resp = await fetchWithAuth(url, req.authToken);
+      return resp.json();
+    }
+
 
   // getUserDetails(req) {
   //   Logger.getLogger('Refundservice: enter').info(req);

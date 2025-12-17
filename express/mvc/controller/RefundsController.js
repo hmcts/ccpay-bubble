@@ -111,6 +111,16 @@ class RefundsController {
       });
   }
 
+  getRefundsReport(req, res) {
+        return this.refundsService.getRefundsReport(req)
+          .then(result => {
+            res.status(200).json(result);
+          })
+          .catch(error => {
+            return errorHandler(res, error);
+          });
+      }
+
   getUserDetails(req, res, appInsights) {
     Logger.getLogger('Get-User-Details').info(req);
     return this.refundsService.getUserDetails(req, res, appInsights)

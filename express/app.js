@@ -230,6 +230,10 @@ module.exports = appInsights => express.Router()
     controllers.refundController.postReIssueExpiredRefund(req, res, appInsights);
   })
 
+  .get('/refund/refunds-report?*', (req, res) => {
+      controllers.refundController.getRefundsReport(req, res);
+    })
+
   // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {
     controllers.payhubController.ccpayWebComponentIntegration(req, res);
