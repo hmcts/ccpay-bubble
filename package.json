@@ -59,7 +59,7 @@
     "@hmcts/nodejs-healthcheck": "^1.8.0",
     "@hmcts/nodejs-logging": "^4.0.4",
     "@hmcts/properties-volume": "^1.0.0",
-    "applicationinsights": "^1.1.0",
+    "applicationinsights": "2.9.8",
     "applicationinsights-js": "^1.0.20",
     "config": "^3.3.9",
     "cookie-parser": "^1.4.3",
