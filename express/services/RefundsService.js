@@ -1,7 +1,7 @@
 /* eslint-disable no-undefined */
 const config = require('config');
 const { fetchWithAuth } = require('./UtilService');
-const { URL, URLSearchParams } = require('url');
+const { URL } = require('url');
 
 const { Logger } = require('@hmcts/nodejs-logging');
 
@@ -42,11 +42,9 @@ class RefundsService {
     Logger.getLogger('result-BUBBLE: user').info(req.roles);
 
     const url = new URL(refundsUrl);
-    url.search = new URLSearchParams({
-      status: req.query.status,
-      excludeCurrentUser: req.query.selfExclusive
-    }).toString();
-    const resp = await fetchWithAuth(url, req.authToken);
+    url.searchParams.set('status', req.query.status);
+    url.searchParams.set('excludeCurrentUser', req.query.selfExclusive);
+    const resp = await fetchWithAuth(url.toString(), req.authToken);
     return await resp.json();
   }
 
@@ -100,18 +98,17 @@ class RefundsService {
     return await resp.json();
   }
 
-    async getRefundsReport(req) {
-      /* eslint-disable no-console */
-      console.log(req, `${refundsUrl}/refund/refunds-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}`);
-      const url = new URL(`${refundsUrl}/refund/refunds-report`);
-      url.search = new URLSearchParams({
-        date_from: req.query.date_from,
-        date_to: req.query.date_to
-      }).toString();
-      const resp = await fetchWithAuth(url, req.authToken);
-      return resp.json();
-    }
-
+  async getRefundsReport(req) {
+    /* eslint-disable no-console */
+    console.log(req, `${refundsUrl}/refund/refunds-report?date_from=${req.query.date_from}&date_to=${req.query.date_to}`);
+    const url = new URL(`${refundsUrl}/refund/refunds-report`);
+    url.search = new URLSearchParams({
+      date_from: req.query.date_from,
+      date_to: req.query.date_to
+    }).toString();
+    const resp = await fetchWithAuth(url, req.authToken);
+    return resp.json();
+  }
 
   // getUserDetails(req) {
   //   Logger.getLogger('Refundservice: enter').info(req);
