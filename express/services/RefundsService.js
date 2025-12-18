@@ -80,6 +80,16 @@ class RefundsService {
     return await resp.json();
   }
 
+  async postReIssueExpiredRefund(req) {
+    const url = `${refundsUrl}/refund/reissue-expired/${req.params.refund_reference}`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    };
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return await resp.json();
+  }
+
   async patchResubmitRefund(req) {
     const url = `${refundsUrl}/refund/resubmit/${req.params.refund_reference}`;
     const options = {
@@ -123,6 +133,16 @@ class RefundsService {
     const url = `${idamurl}/details`;
     const resp = await fetchWithAuth(url, req.authToken);
     return await resp.json();
+  }
+
+  async docPreview(req) {
+    const url = `${refundsUrl}/refund/notifications/doc-preview`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    }
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
   }
 }
 
