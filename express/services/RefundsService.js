@@ -143,6 +143,16 @@ class RefundsService {
     const resp = await fetchWithAuth(url, req.authToken);
     return await resp.json();
   }
+
+  async docPreview(req) {
+    const url = `${refundsUrl}/refund/notifications/doc-preview`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(req.body),
+    }
+    const resp = await fetchWithAuth(url, req.authToken, options);
+    return resp.json();
+  }
 }
 
 module.exports = RefundsService;

@@ -266,7 +266,7 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click(`//td[contains(.,'${newRefundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await RefundsList.editAndVerifyNotificationDetails(refundNotificationPreviewDataAfterRefundReissuedAndAccepted, 'RefundWhenContacted',true);
+    await RefundsList.editAndVerifyNotificationDetails(refundNotificationPreviewDataAfterRefundReissuedAndAccepted, 'SendRefund',true);
 
     await I.Logout();
     I.clearCookie();

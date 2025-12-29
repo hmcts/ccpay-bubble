@@ -138,9 +138,7 @@ module.exports = appInsights => express.Router()
   .get('/notification/postcode-lookup/:postcode', (req, res) => {
     controllers.notificationController.getaddressByPostcode(req, res);
   })
-  .post('/notification/doc-preview', (req, res) => {
-    controllers.notificationController.docPreview(req, res);
-  })
+
   // Bulk scanning services
   .get('/bulk-scan/cases/:id', (req, res) => {
     controllers.bulkScanController.getPaymentDetailsForCcd(req, res);
@@ -227,6 +225,9 @@ module.exports = appInsights => express.Router()
   })
   .post('/refund/reissue-expired/:refund_reference', (req, res) => {
     controllers.refundController.postReIssueExpiredRefund(req, res, appInsights);
+  })
+  .post('/refund/notifications/doc-preview', (req, res) => {
+    controllers.refundController.docPreview(req, res);
   })
 
   // @hmcts/ccpay-web-component integration point

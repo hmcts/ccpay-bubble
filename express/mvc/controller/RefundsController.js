@@ -133,6 +133,15 @@ class RefundsController {
         return errorHandler(res, error);
       });
   }
+  docPreview(req, res) {
+    return this.refundsService.docPreview(req)
+      .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(error => {
+        return errorHandler(res, error);
+      });
+  }
 }
 
 module.exports = RefundsController;
