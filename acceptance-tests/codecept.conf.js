@@ -64,7 +64,8 @@ exports.config = {
     ServiceRequests: './test/end-to-end/pages/service_requests.js',
     RefundsList: './test/end-to-end/pages/refunds_list.js',
     Reports: './test/end-to-end/pages/reports.js',
-    FailureEventDetails: './test/end-to-end/pages/failure_event_details.js'
+    FailureEventDetails: './test/end-to-end/pages/failure_event_details.js',
+    ResetRefund: './test/end-to-end/pages/reset_refund.js'
   },
   mocha: {}
 };

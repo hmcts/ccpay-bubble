@@ -2,6 +2,7 @@
 /* eslint-disable no-negated-condition */
 const { refundsService } = require('../../services');
 const {errorHandler} = require("../../services/UtilService");
+const { Logger } = require('@hmcts/nodejs-logging');
 
 class RefundsController {
   constructor() {
@@ -90,8 +91,30 @@ class RefundsController {
         return errorHandler(res, error);
       });
   }
+
+  postReIssueExpiredRefund(req, res, appInsights) {
+    return this.refundsService.postReIssueExpiredRefund(req, res, appInsights)
+      .then(result => {
+        res.status(200).json({ data: result, success: true });
+      })
+      .catch(error => {
+        return errorHandler(res, error);
+      });
+  }
+
   patchResubmitRefund(req, res, appInsights) {
     return this.refundsService.patchResubmitRefund(req, appInsights)
+      .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(error => {
+        return errorHandler(res, error);
+      });
+  }
+
+  getRefundsReport(req, res) {
+    Logger.getLogger('Get-Refunds-Report').info(req);
+    return this.refundsService.getRefundsReport(req)
       .then(result => {
         res.status(200).json(result);
       })
@@ -105,6 +128,15 @@ class RefundsController {
     return this.refundsService.getUserDetails(req, res, appInsights)
       .then(result => {
         res.status(200).json({ data: JSON.stringify(result.body), success: true });
+      })
+      .catch(error => {
+        return errorHandler(res, error);
+      });
+  }
+  docPreview(req, res) {
+    return this.refundsService.docPreview(req)
+      .then(result => {
+        res.status(200).json(result);
       })
       .catch(error => {
         return errorHandler(res, error);
