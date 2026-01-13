@@ -119,9 +119,9 @@
     "@angular/cdk": "^20.2.14",
     "@angular/cli": "^20.3.12",
     "@angular/common": "^20.3.14",
-    "@angular/compiler": "^20.3.14",
-    "@angular/compiler-cli": "^20.3.14",
-    "@angular/core": "^20.3.14",
+    "@angular/compiler": "^20.3.16",
+    "@angular/compiler-cli": "^20.3.16",
+    "@angular/core": "^20.3.16",
     "@angular/forms": "^20.3.14",
     "@angular/language-service": "^20.3.14",
     "@angular/material": "^20.2.14",
@@ -251,7 +251,8 @@
     "form-data": "~2.5.4",
     "tmp": "^0.2.4",
     "js-yaml": "^4.1.1",
-    "jws": "^3.2.3"
+    "jws": "^3.2.3",
+    "debug": "^4.4.3"
   },
   "packageManager": "yarn@4.10.3"
 }
