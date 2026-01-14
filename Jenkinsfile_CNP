@@ -7,7 +7,7 @@ def component = "bubble-frontend"
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 // Configure branches to sync with master branch
-def branchesToSync = ['demo', 'ithc', 'perftest']
+def branchesToSync = [ 'ithc', 'perftest']
 
 def secrets = [
   'ccpay-${env}': [
