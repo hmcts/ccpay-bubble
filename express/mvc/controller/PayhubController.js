@@ -37,7 +37,7 @@ class PayhubController {
   }
 
   getLDFeatures(req, res) {
-    const ldClient = LaunchDarkly.initialize(ccpayBubbleLDclientId, user);
+    const ldClient = LaunchDarkly.initialize(ccpayBubbleLDclientId, user, { diagnosticOptOut: true });
     ldClient.on('ready', () => {
       const showFeature = ldClient.variation(req.query.flag, false);
       return res.status(200).send({ flag: showFeature, u: user, id: ccpayBubbleLDclientId });
@@ -53,7 +53,6 @@ class PayhubController {
     if (config.has('pci-pal.telephony-selection')) {
       var result = false;
       const pciPalTelephonySelection = config.get('pci-pal.telephony-selection');
-      console.log('----------- This is the value of pci-pal.telephony-selection:' + pciPalTelephonySelection);
       if (pciPalTelephonySelection === 'TELEPHONY_FEATURE') {
         result = false;
       } else {
@@ -62,7 +61,6 @@ class PayhubController {
         }
       }
     }
-    console.log('----------- The value of pci-pal.telephony-selection base on properties is :' + result);
     return result
   }
 
