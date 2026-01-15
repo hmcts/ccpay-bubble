@@ -47,6 +47,7 @@ package-lock.json
 /reports/*
 mochawesome-report/
 functional-output/
+.eslintcache
 
 # System Files
 .DS_Store
