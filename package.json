@@ -93,8 +93,8 @@
     "rpx-xui-translation": "^1.2.0",
     "rxjs": "~6.6.7",
     "rxjs-compat": "^6.5.2",
-    "superagent": "8.0.8",
-    "supertest": "^6.3.3",
+    "superagent": "10.3.0",
+    "supertest": "^7.2.2",
     "ts-mockito": "^2.3.1",
     "tslib": "^2.0.0",
     "underscore": "^1.12.1",
@@ -252,7 +252,8 @@
     "js-yaml": "^4.1.1",
     "jws": "^3.2.3",
     "debug": "^4.4.3",
-    "diff": "^8.0.3"
+    "diff": "^8.0.3",
+    "glob": "^13.0.0"
   },
   "packageManager": "yarn@4.10.3"
 }
