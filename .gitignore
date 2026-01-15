@@ -70,3 +70,4 @@ stryker.log
 /config/local-development.yaml
 /config/local-development.yaml.aat
 /config/local-development.yaml.demo
+/config/local-development.yaml.demo-int
