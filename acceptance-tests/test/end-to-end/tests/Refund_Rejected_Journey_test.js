@@ -19,7 +19,6 @@ Scenario('OverPayment Refund Rejected journey',
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
     const ccdCaseNumber = ccdAndDcn[1];
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
@@ -46,7 +45,7 @@ Scenario('OverPayment Refund Rejected journey',
     I.click('//*[@id="email"]');
     I.fillField('//*[@id="email"]', emailAddress);
     I.click('Continue');
-    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, `£${feeAmount}`, 'Over payment', `£${overPaymentRefundAmount}`, emailAddress, '', 'SendRefund');
+    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, `£${feeAmount}`, 'Over payment', `£${overPaymentRefundAmount}`, emailAddress, '', 'RefundWhenContacted');
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false);
     const refundRef = await InitiateRefunds.verifyRefundSubmittedPage(overPaymentRefundAmount);
     await I.Logout();
@@ -57,7 +56,7 @@ Scenario('OverPayment Refund Rejected journey',
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundRef);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRef, 'Overpayment', `£${overPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'SendRefund');
+    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRef, 'Overpayment', `£${overPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'RefundWhenContacted');
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
     InitiateRefunds.approverActionForRequestedRefund('Reject');
     await I.Logout();
@@ -65,7 +64,6 @@ Scenario('OverPayment Refund Rejected journey',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[3]');

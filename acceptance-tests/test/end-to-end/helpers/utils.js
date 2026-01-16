@@ -120,6 +120,25 @@ async function getIDAMToken() {
   return idamJson.access_token;
 }
 
+async function getIDAMTokenForRefundApprover() {
+  const username = testConfig.TestRefundsApproverUserName;
+  const password = testConfig.TestRefundsApproverPassword;
+  const idamClientID = testConfig.TestClientID;
+  const idamClientSecret = testConfig.TestClientSecret;
+  const redirectUri = testConfig.TestRedirectURI;
+  const scope = 'openid profile roles';
+  const grantType = 'password';
+
+  const idamTokenPath = '/o/token';
+  const url = `${idamApiUrl}${idamTokenPath}`;
+  const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+  const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
+  const resp = await makeRequest(url, 'POST', headers, body);
+
+  const idamJson = await resp.json();
+  return idamJson.access_token;
+}
+
 async function getIDAMTokenForDivorceUser() {
   const username = testConfig.TestDivorceCaseWorkerUserName;
   const now = Date.now();
@@ -434,7 +453,9 @@ async function initiateCardPaymentForServiceRequest(amount, serviceRequestRefere
   const microservice = 'cmc';
   const idamToken = await getIDAMToken();
 
-  if (paymentBaseUrl.includes("demo")) {
+  if (paymentBaseUrl.includes("int-demo")) {
+    returnUrl = returnUrl.replaceAll("web.aat", "web-int.demo");
+  } else if (paymentBaseUrl.includes("demo")) {
     returnUrl = returnUrl.replaceAll("aat", "demo");
   }
 
@@ -914,6 +935,38 @@ async function updateRefundStatusByRefundReference(refundReference, reason, stat
   console.log(`The response Status Code for refund update : ${response.status}`);
 }
 
+async function updateRefundStatusByApprover(refundReference, reviewerAction = 'APPROVE', reason = '', code='') {
+  const serviceToken = await getServiceToken();
+  const idamToken = await getIDAMTokenForRefundApprover();
+  const url = refundsApiUrl + `/refund/${refundReference}/action/${reviewerAction}`
+
+  const saveBody = JSON.stringify({
+    code: `${code}`,
+    reason: `${reason}`
+  });
+  const headers = {
+    Authorization: `Bearer ${idamToken}`,
+    ServiceAuthorization: `${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+  const response = await makeRequest(url, 'PATCH', headers, saveBody);
+  console.log(`The response Status Code for refund update by approver : ${response.status}`);
+}
+
+async function updateCardPaymentStatus() {
+  const serviceToken = await getServiceToken();
+  const idamToken = await getIDAMToken();
+  const url = paymentBaseUrl + '/jobs/card-payments-status-update'
+
+  const headers = {
+    Authorization: `${idamToken}`,
+    ServiceAuthorization: `${serviceToken}`
+  };
+  const response = await makeRequest(url, 'PATCH', headers);
+  console.log(`The response Status Code for Card payment status update : ${response.status}`);
+}
+
+
 
 module.exports = {
   bulkScanNormalCcd,
@@ -934,6 +987,8 @@ module.exports = {
   getEmailFromNotifyWithMaxRetries,
   createAServiceRequest,
   updateRefundStatusByRefundReference,
+  updateRefundStatusByApprover,
   createAPBAPaymentForExistingCase,
-  initiateCardPaymentForServiceRequest
+  initiateCardPaymentForServiceRequest,
+  updateCardPaymentStatus
 };
