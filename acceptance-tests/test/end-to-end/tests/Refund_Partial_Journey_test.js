@@ -8,7 +8,7 @@ const assertionData = require("../fixture/data/refunds/assertion");
 Feature('CC Pay Bubble Partial Refund journey test').retry(CCPBATConstants.defaultNumberOfRetries);
 
 Scenario('PBA Partial Refund, preview SendRefund letter notification journey and resend notification to email from letter edit',
-  async ({ I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, FailureEventDetails, RefundsList }) => {
+  async ({ I, CaseSearch, CaseTransaction, InitiateRefunds, PaymentHistory, RefundsList }) => {
 
     const postcode = 'TW4 7EZ';
     // Create Payment and back date for refund eligibility
@@ -20,7 +20,6 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
     console.log('**** The value of the paymentReference - ' + paymentRef);
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForPartialPayments(totalAmount);
@@ -86,15 +85,22 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
 
     // Review refund from case transaction page
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'CoP-Auto test', '£200.00', '', postcode, 'payments probate', 'approver probate');
-    const refundNotificationPreviewDataAfterApproval = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, '200', 'Other', '', customerReference);
+    await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval);
 
-    await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval, true, false, true, refundNotificationPreviewDataAfterApproval);
+    // Liberata Accepted the Refund
+    await apiUtils.updateRefundStatusByRefundReference(refundReference, '', 'ACCEPTED');
+
+    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click('(//*[text()[contains(.,"Review")]])[3]');
+    const reviewRefundDetailsDataAfterRefundAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'CoP-Auto test', '£200.00', '', postcode, 'payments probate', 'approver probate');
+    const refundNotificationPreviewDataAfterRefundAccepted = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, '200', 'Other', '', customerReference);
+    await RefundsList.verifyRefundDetailsAfterRefundAcceptedByLiberata(reviewRefundDetailsDataAfterRefundAccepted, true, false, true, refundNotificationPreviewDataAfterRefundAccepted);
     await I.Logout();
-
+    I.clearCookie();
   }).tag('@pipeline @nightly');

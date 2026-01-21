@@ -31,7 +31,6 @@ Scenario('Remissions refunds on Multiple Service requests',
     const paymentRCRef1 = `${paymentDetails1.paymentReference}`;
 
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(serviceRequest1feeAmount, '0', '0.00', '0.00', '0.00');
@@ -112,7 +111,6 @@ Scenario('Remissions refunds on Multiple Service requests',
 
     // 2nd service request Remission refund - 545.00 - 445.00
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', serviceRequest1remissionAmount, '0.00', '0.00');
