@@ -25,7 +25,6 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded a
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
 
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
@@ -61,7 +60,7 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded a
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, remissionAmount);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, hwfReference, '£100.00', `£${totalAmount}`, `£${feeAmount}`, 'FEE0219', 'FEE0219 - Application for a grant of probate (Estate over 5000 GBP)',
-      emailAddress, '', 'SendRefund', `£${remissionAmount}`);
+      emailAddress, '', 'RefundWhenContacted', `£${remissionAmount}`);
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyRemissionSubmittedPage(true, 100.00);
@@ -84,7 +83,7 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded a
     let refundsDataBeforeApproverAction;
 
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', '£100.00', emailAddress, '', 'payments probate', 'SendRefund');
+    refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', '£100.00', emailAddress, '', 'payments probate', 'RefundWhenContacted');
     await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
     InitiateRefunds.approverActionForRequestedRefund('Approve');
@@ -110,7 +109,6 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded a
 
     // PAY-7150 - process refund page to display Remission Amount in Fees refund details table and populate the calculated refund value
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
@@ -137,8 +135,8 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded a
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
-    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£300.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'SendRefund');
-    const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other');
+    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£300.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'RefundWhenContacted');
+    const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other', bulkScanPaymentMethod);
 
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, false, false, refundNotificationPreviewDataBeforeRefundRequest);
     await InitiateRefunds.verifyRefundSubmittedPage('200.00');
@@ -164,7 +162,6 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a ZERO Balance Du
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
 
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
@@ -202,7 +199,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a ZERO Balance Du
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, remissionAmount);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, hwfReference, '', `£${totalAmount}`, `£${feeAmount}`, 'FEE0219', 'FEE0219 - Application for a grant of probate (Estate over 5000 GBP)',
-      emailAddress, '', 'SendRefund', `£${remissionAmount}`);
+      emailAddress, '', 'RefundWhenContacted', `£${remissionAmount}`);
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyRemissionSubmittedPage(false, 100.00);
@@ -238,7 +235,6 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a NEGATIVE Balanc
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
 
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
@@ -276,7 +272,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a NEGATIVE Balanc
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, remissionAmount);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, hwfReference, '', `£${totalAmount}`, `£${feeAmount}`, 'FEE0219', 'FEE0219 - Application for a grant of probate (Estate over 5000 GBP)',
-      emailAddress, '', 'SendRefund', `£${remissionAmount}`);
+      emailAddress, '', 'RefundWhenContacted', `£${remissionAmount}`);
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyRemissionSubmittedPage(false, 100.00);
@@ -309,7 +305,6 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
 
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
@@ -347,7 +342,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, '100.00');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, 'HWF-A1B-23C', '£63.00', '£200.00', '£237.00', 'FEE0475', 'FEE0475 - Where the party filing the request is legally aided',
-      emailAddress, '', 'SendRefund', '£100.00');
+      emailAddress, '', 'RefundWhenContacted', '£100.00');
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyRemissionSubmittedPage(true, 100.00);
@@ -370,7 +365,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
     let refundsDataBeforeApproverAction;
 
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', '£63.00', emailAddress, '', 'payments probate', 'SendRefund');
+    refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', '£63.00', emailAddress, '', 'payments probate', 'RefundWhenContacted');
     await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
     InitiateRefunds.approverActionForRequestedRefund('Approve');
@@ -398,7 +393,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
 
 Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITIVE Balance Due CAN have relevant Remission Refunded - (positive balance value)',
   async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
-           PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
+           PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList, ResetRefund }) => {
 
     const bulkScanPaymentMethod = 'cheque';
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
@@ -414,7 +409,6 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
 
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
@@ -451,15 +445,15 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
       I.wait(CCPBATConstants.tenSecondWaitTime);
     }
     I.waitForText('Add remission', 5);
-    // adding a retro remission amount of [£50] against the second fee [£50]
-    I.click('//*[@id="main-content"]/div/div[5]/div[3]/button');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
+    // adding a retro remission amount of [£50] against the second fee FEE0258 [£57]
+    I.click('//table/tbody/tr[2]/td[contains(text(),\'FEE0258\')]//ancestor::table//parent::div/button');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, 'HWF-A1B-23C');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, remissionAmount);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, 'HWF-A1B-23C', `£${refundAmount}`, totalAmount, `£${feeAmount2}`, 'FEE0258', 'FEE0258 - Application for a maintenance order to be registered 1950 Act or 1958 Act',
-      emailAddress, '', 'SendRefund', `£${remissionAmount}`);
+      emailAddress, '', 'RefundWhenContacted', `£${remissionAmount}`);
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyRemissionSubmittedPage(true, remissionAmount);
@@ -482,7 +476,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     let refundsDataBeforeApproverAction;
 
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', `£${refundAmount}`, emailAddress, '', 'payments probate', 'SendRefund');
+    refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', `£${refundAmount}`, emailAddress, '', 'payments probate', 'RefundWhenContacted');
     await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
     InitiateRefunds.approverActionForRequestedRefund('Approve');
@@ -492,18 +486,70 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', '25.00');
     await I.click(`//td[contains(.,'${refundRefRemissions}')]/following-sibling::td/a[.=\'Review\'][1]`);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const reviewRemissionRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions, paymentRcReference, 'Retrospective remission', `£${refundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRemissionRefundDetailsDataAfterApproval);
 
     // Refund Accepted by liberata
     await apiUtils.updateRefundStatusByRefundReference(refundRefRemissions, '', 'ACCEPTED');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    // Liberata updated the refund with Expired status after 21 days
+    await apiUtils.updateRefundStatusByRefundReference(refundRefRemissions, 'Unable to process expired refund', 'EXPIRED');
     I.click('Back');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
+
+    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', '25.00');
+
+    await I.click(`//td[contains(.,'${refundRefRemissions}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    const reviewRefundDetailsDataAfterRefundAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions, paymentRcReference, 'Retrospective remission', `£${refundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
+    const refundNotificationPreviewDataAfterRefundAccepted = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundRefRemissions, refundAmount, 'Retrospective remission', bulkScanPaymentMethod);
+    await RefundsList.verifyRefundDetailsAfterLiberataExpiredTheRefund(reviewRefundDetailsDataAfterRefundAccepted, true, refundNotificationPreviewDataAfterRefundAccepted);
+
+    // Reset the refund to Reissue the new refund
+    I.see('Reset Refund');
+    I.click('Reset Refund');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    ResetRefund.verifyResetRefundPage(refundRefRemissions);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Case transactions', '5');
+    I.see('Closed');
+    I.see('Approved');
+    const newRefundReference = await I.grabTextFrom('//td[contains(.,\'Approved\')]/ancestor::tr/td[4]');
+    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', '25.00');
+
+    // Verify the Closed refund
+    await I.click(`//td[contains(.,'${refundRefRemissions}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    await RefundsList.verifyRefundDetailsAfterCaseworkerClosedTheRefund(reviewRefundDetailsDataAfterRefundAccepted, true, refundNotificationPreviewDataAfterRefundAccepted);
+    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+
+    // Verify the Reissued refund
+    await I.click(`//td[contains(.,'${newRefundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    // Reissue refund details will have same data as previous refund except the reference number and reissued user
+    reviewRefundDetailsDataAfterRefundAccepted.refundRequester = 'approver probate';
+    await RefundsList.verifyRefundDetailsAfterCaseworkerReissuedTheRefund(reviewRefundDetailsDataAfterRefundAccepted, newRefundReference);
+
+    // Liberata Accepted the Reissued Refund
+    await apiUtils.updateRefundStatusByRefundReference(newRefundReference, '', 'ACCEPTED');
+    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', '0.00');
+    await I.click(`//td[contains(.,'${newRefundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    const reviewRefundDetailsDataAfterRefundReissuedAndAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions, paymentRcReference, 'Retrospective remission', `£${refundAmount}`, emailAddress, '', 'approver probate', 'approver probate');
+    const refundNotificationPreviewDataAfterRefundReissuedAndAccepted = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, newRefundReference, refundAmount, 'Retrospective remission', bulkScanPaymentMethod);
+    await RefundsList.verifyRefundDetailsAfterCaseworkerReissuedTheRefundAndLiberataAccepted(reviewRefundDetailsDataAfterRefundReissuedAndAccepted, true, refundNotificationPreviewDataAfterRefundReissuedAndAccepted);
+
+    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click(`//td[contains(.,'${newRefundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await RefundsList.resendNotification(newRefundReference);
+
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.click(`//td[contains(.,'${newRefundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await RefundsList.verifyNotificationDetailsAfterResend(refundNotificationPreviewDataAfterRefundReissuedAndAccepted);
 
     await I.Logout();
     I.clearCookie();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
   }).tag('@pipeline @nightly');

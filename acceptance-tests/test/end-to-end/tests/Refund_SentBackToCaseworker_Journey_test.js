@@ -13,13 +13,13 @@ Scenario('FullPayment Refund Send To Caseworker journey',
            PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
+    const bulkScanPaymentMethod = 'cheque';
     const totalAmount = '500.00';
     const feeAmount = '227.00';
     const fullPaymentRefundAmount = '500.00';
-    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
+    const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
     const ccdCaseNumber = ccdAndDcn[1];
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
@@ -55,7 +55,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
-    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, '', refundReason, `£${fullPaymentRefundAmount}`, emailAddress, '', 'SendRefund');
+    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, '', refundReason, `£${fullPaymentRefundAmount}`, emailAddress, '', 'RefundWhenContacted');
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForFullPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund);
     const refundReference = await InitiateRefunds.verifyRefundSubmittedPage(fullPaymentRefundAmount);
     await I.Logout();
@@ -69,7 +69,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     I.wait(CCPBATConstants.twoSecondWaitTime);
 
     const refundReturnText = 'Test Reason Only';
-    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, refundReason, `£${fullPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'SendRefund');
+    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, refundReason, `£${fullPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'RefundWhenContacted');
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
     InitiateRefunds.approverActionForRequestedRefund('Return to caseworker', refundReturnText);
     await I.Logout();
@@ -78,7 +78,6 @@ Scenario('FullPayment Refund Send To Caseworker journey',
 
     // Review refund from case transaction page
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[3]');

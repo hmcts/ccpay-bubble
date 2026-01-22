@@ -36,7 +36,7 @@ module.exports = () => actor({
     this.fillField('Password', password);
     this.wait(CCPBConstants.twoSecondWaitTime);
     this.click({ css: '[type="submit"]' });
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.wait(CCPBConstants.twoSecondWaitTime);
     this.AcceptPayBubbleCookies();
   },
 
