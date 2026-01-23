@@ -197,6 +197,11 @@ module.exports = appInsights => express.Router()
   .patch('/refund/:id/action/*', (req, res) => {
     controllers.refundController.patchRefundAction(req, res, appInsights);
   })
+  // Specific refunds report route must be before generic '/refund?*'
+  .get('/refund/refunds-report?*', (req, res) => {
+    controllers.refundController.getRefundsReport(req, res);
+  })
+  // Generic refund list/status route
   .get('/refund?*', (req, res) => {
     controllers.refundController.getRefundStatusList(req, res);
   })

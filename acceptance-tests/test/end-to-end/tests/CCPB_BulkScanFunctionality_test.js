@@ -480,5 +480,8 @@ Scenario('Download reports in paybubble', ({ I, Reports }) => {
   Reports.selectReportAndDownload('Unprocessed transactions');
   Reports.selectReportAndDownload('Processed unallocated');
   Reports.selectReportAndDownload('Under payment and Over payment');
+  Reports.selectReportAndDownload('Payment failure event');
+  Reports.selectReportAndDownload('Telephony Payments');
+  Reports.selectReportAndDownload('Refunds');
   I.Logout();
 }).tag('@pipeline @nightly');
