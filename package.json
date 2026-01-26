@@ -41,6 +41,7 @@
     "test:functional-debug": "yarn playwright install && npm-run-all -scl test:functional:debug test:functional:report",
     "test:fullfunctional": "yarn playwright install && npm-run-all -scl test:functional:nightly test:functional:report",
     "test:functional:debug": "codeceptjs run-workers 6 parallel --config acceptance-tests/codecept.conf.js --grep @debug",
+    "test:functional:debug:single": "codeceptjs run --config acceptance-tests/codecept.conf.js --grep @debug --verbose",
     "test:functional:serial": "codeceptjs run --config acceptance-tests/codecept.conf.js --grep @serial",
     "test:functional:pipeline:parallel": "codeceptjs run-workers 6 parallel --config acceptance-tests/codecept.conf.js --grep @pipeline --invert --grep @serial",
     "test:functional:pipeline": "npm-run-all --parallel --continue-on-error test:functional:serial test:functional:pipeline:parallel",
