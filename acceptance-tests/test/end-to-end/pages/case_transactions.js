@@ -457,7 +457,6 @@ module.exports = {
 
   async validateCaseTransactionsDetails(totalPayments, unallocatedPayments, totalRemissions, amountDue, overPayment) {
     I.see('Total payments');
-    // let actualTotalPayments = await I.grabTextFrom('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[1]');
     I.seeTextEquals(`£${totalPayments}`, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[1]');
     I.see('Unallocated payments');
     I.seeTextEquals(unallocatedPayments, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[2]');

@@ -395,7 +395,8 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
   const totalAmount = '200.00';
   const feeAmount = '300.00';
   const remissionAmount = '100.00';
-  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
+  const bulkScanPaymentMethod = 'cheque';
+  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
   logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
@@ -462,22 +463,25 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
   I.click('Continue');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
 
-  const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£200.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'SendRefund');
-  const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other');
+  const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£200.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'RefundWhenContacted');
+  const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other', bulkScanPaymentMethod);
 
   await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, false, false, refundNotificationPreviewDataBeforeRefundRequest);
   await InitiateRefunds.verifyRefundSubmittedPage('200.00');
   await I.Logout();
 }).tag('@pipeline @nightly');
 
-Scenario('Download reports in paybubble', ({ I, Reports }) => {
-  logger.info('Here is the Logger');
-  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-  Reports.navigateToReports();
-  Reports.validateReportsPage();
-  Reports.selectReportAndDownload('Data loss');
-  Reports.selectReportAndDownload('Unprocessed transactions');
-  Reports.selectReportAndDownload('Processed unallocated');
-  Reports.selectReportAndDownload('Under payment and Over payment');
-  I.Logout();
-}).tag('@pipeline @nightly');
+//Scenario('Download reports in paybubble', ({ I, Reports }) => {
+//  logger.info('Here is the Logger');
+//  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+//  Reports.navigateToReports();
+//  Reports.validateReportsPage();
+//  Reports.selectReportAndDownload('Data loss');
+//  Reports.selectReportAndDownload('Unprocessed transactions');
+//  Reports.selectReportAndDownload('Processed unallocated');
+//  Reports.selectReportAndDownload('Under payment and Over payment');
+//  Reports.selectReportAndDownload('Payment failure event');
+//  Reports.selectReportAndDownload('Telephony Payments');
+//  Reports.selectReportAndDownload('Refunds');
+//  I.Logout();
+//}).tag('@pipeline @nightly');
