@@ -19,6 +19,7 @@ module.exports = {
     shortfall_and_surplus: { xpath: '//*[@id="ShortfallsandSurplus"]' },
     payment_failure_event: { xpath: '//*[@id="PaymentFailureEvent"]' },
     telephony_payments: { xpath: '//*[@id="TelephonyPayments"]' },
+    refunds: { xpath: '//*[@id="RefundsEvent"]' },
     date_from: { xpath: '//*[@id="date-from"]' },
     date_to: { xpath: '//*[@id="date-to"]' }
   },
@@ -59,12 +60,15 @@ module.exports = {
     case 'Under payment and Over payment':
       I.checkOption(this.locators.shortfall_and_surplus);
       break;
-   // case 'Payment failure event':
-   //   I.checkOption(this.locators.payment_failure_event);
-    //  break;
-    //case 'Telephony Payments':
-    //  I.checkOption(this.locators.telephony_payments);
-    //  break;
+    case 'Payment failure event':
+     I.checkOption(this.locators.payment_failure_event);
+     break;
+    case 'Telephony Payments':
+     I.checkOption(this.locators.telephony_payments);
+     break;
+    case 'Refunds':
+     I.checkOption(this.locators.refunds);
+     break;
     default:
       logger.log('Enter valid report name');
     }
