@@ -477,11 +477,11 @@ Scenario('Download reports in paybubble', async ({ I, Reports }) => {
   Reports.navigateToReports();
   Reports.validateReportsPage();
   await Reports.selectReportAndDownload('Data loss');
-//  Reports.selectReportAndDownload('Unprocessed transactions');
-//  Reports.selectReportAndDownload('Processed unallocated');
-//  Reports.selectReportAndDownload('Under payment and Over payment');
-//  Reports.selectReportAndDownload('Payment failure event');
-//  Reports.selectReportAndDownload('Telephony Payments');
-//  Reports.selectReportAndDownload('Refunds');
+  await Reports.selectReportAndDownload('Unprocessed transactions');
+  await Reports.selectReportAndDownload('Processed unallocated');
+  await Reports.selectReportAndDownload('Under payment and Over payment');
+  await Reports.selectReportAndDownload('Payment failure event');
+  await Reports.selectReportAndDownload('Telephony Payments');
+  await Reports.selectReportAndDownload('Refunds');
   await I.Logout();
 }).tag('@pipeline @nightly @debug');

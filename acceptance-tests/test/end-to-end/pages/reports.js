@@ -9,9 +9,7 @@ const stringUtil = require('../helpers/string_utils');
 const logger = Logger.getLogger('helpers/utils');
 const { I } = inject();
 
-// Use yesterday/today defaults to satisfy <input type="date" max constraints.
-const defaultFromDate = stringUtil.getYesterdayDateInYYYYMMDD();
-const defaultToDate = stringUtil.getTodayDateInYYYYMMDD();
+const todayDate = stringUtil.getTodayDateInYYYYMMDD();
 
 module.exports = {
   locators: {
@@ -46,7 +44,7 @@ module.exports = {
     I.see('Download report');
   },
 
-  async selectReportAndDownload(report, dateFrom = defaultFromDate, dateTo = defaultToDate) {
+  async selectReportAndDownload(report, dateFrom = todayDate, dateTo = todayDate) {
     switch (report) {
     case 'Data loss':
       I.checkOption(this.locators.data_loss);

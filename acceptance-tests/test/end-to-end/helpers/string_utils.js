@@ -79,15 +79,8 @@ function getTodayDateTimeInYYYYMMDDTHHMMSSZ(){
   return `${todayDate[2]}-${todayDate[1]}-${todayDate[0]}T${todayTime[0]}:${todayTime[1]}:${todayTime[2]}.${timeInMS}Z`;
 }
 
-function getYesterdayDateInYYYYMMDD() {
-  const d = new Date();
-  d.setDate(d.getDate() - 1);
-  const parts = getDayMonthYear(d);
-  return `${parts[2]}-${parts[1]}-${parts[0]}`;
-}
-
 module.exports = {
   getTodayDateAndTimeInString,
-  getTodayDateInYYYYMMDD, getYesterdayDateInYYYYMMDD, getTodayDateInDDMMYYY,
+  getTodayDateInYYYYMMDD, getTodayDateInDDMMYYY,
   getCcdCaseInFormat, getMillisecond, getTodayDateTimeInYYYYMMDDTHHMMSSZ, getTodayDateInDDMMMYYYY
 };

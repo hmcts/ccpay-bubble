@@ -73,11 +73,11 @@ withNightlyPipeline("nodejs", product, component) {
 
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-//  enableFortifyScan()
-//  enableCrossBrowserTest()
+  enableFortifyScan()
+  enableCrossBrowserTest()
   enableFullFunctionalTest(180)
-//  enableMutationTest(150)
-//  enableSecurityScan()
+  enableMutationTest(150)
+  enableSecurityScan()
   afterAlways('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
