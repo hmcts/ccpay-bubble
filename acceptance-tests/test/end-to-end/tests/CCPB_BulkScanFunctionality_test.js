@@ -471,17 +471,17 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
   await I.Logout();
 }).tag('@pipeline @nightly');
 
-//Scenario('Download reports in paybubble', ({ I, Reports }) => {
-//  logger.info('Here is the Logger');
-//  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-//  Reports.navigateToReports();
-//  Reports.validateReportsPage();
-//  Reports.selectReportAndDownload('Data loss');
-//  Reports.selectReportAndDownload('Unprocessed transactions');
-//  Reports.selectReportAndDownload('Processed unallocated');
-//  Reports.selectReportAndDownload('Under payment and Over payment');
-//  Reports.selectReportAndDownload('Payment failure event');
-//  Reports.selectReportAndDownload('Telephony Payments');
-//  Reports.selectReportAndDownload('Refunds');
-//  I.Logout();
-//}).tag('@pipeline @nightly');
+Scenario('Download reports in paybubble', async ({ I, Reports }) => {
+  logger.info('Here is the Logger');
+  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  Reports.navigateToReports();
+  Reports.validateReportsPage();
+  await Reports.selectReportAndDownload('Data loss');
+  await Reports.selectReportAndDownload('Unprocessed transactions');
+  await Reports.selectReportAndDownload('Processed unallocated');
+  await Reports.selectReportAndDownload('Under payment and Over payment');
+  await Reports.selectReportAndDownload('Payment failure event');
+  await Reports.selectReportAndDownload('Telephony Payments');
+  await Reports.selectReportAndDownload('Refunds');
+  await I.Logout();
+}).tag('@pipeline @nightly @debug');
