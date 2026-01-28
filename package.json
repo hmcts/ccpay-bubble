@@ -197,6 +197,7 @@
     "fsevents": "*"
   },
   "resolutions": {
+    "tar": "^7.5.7",
     "minimatch": "^3.1.2",
     "qs": "6.14.1",
     "on-headers": "~1.1.0",
@@ -219,7 +220,6 @@
     "moment": "^2.29.4",
     "nwmatcher": "^1.4.4",
     "set-value": "^4.0.1",
-    "tar": "^7.5.4",
     "trim-newlines": "^3.0.1",
     "glob-parent": "^5.1.2",
     "socket.io-parser": "^4.2.1",
