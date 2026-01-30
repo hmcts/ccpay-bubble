@@ -41,7 +41,12 @@ async function makeRequest(url, method = 'GET', headers = {}, body = null) {
   });
   if (!resp.ok) {
     const text = await resp.text();
-    throw new Error(`Fetch failed ${resp.status}: ${text}`);
+    const error = new Error(`Fetch failed ${resp.status}: ${text}`);
+    error.status = resp.status;
+    error.statusText = resp.statusText;
+    error.url = url;
+    error.responseText = text;
+    throw error;
   }
   return resp;
 }
@@ -113,7 +118,15 @@ async function getIDAMToken() {
   const url = `${idamApiUrl}${idamTokenPath}`;
   const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
   const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
-  const resp = await makeRequest(url, 'POST', headers, body);
+  let resp;
+  try {
+    resp = await makeRequest(url, 'POST', headers, body);
+  } catch (error) {
+    const status = error && error.status ? ` status=${error.status}` : '';
+    logger.error(`IDAM token request failed (probate user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri}).${status}`);
+    logger.error(error);
+    throw error;
+  }
 
   const idamJson = await resp.json();
   idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
@@ -133,7 +146,15 @@ async function getIDAMTokenForRefundApprover() {
   const url = `${idamApiUrl}${idamTokenPath}`;
   const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
   const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
-  const resp = await makeRequest(url, 'POST', headers, body);
+  let resp;
+  try {
+    resp = await makeRequest(url, 'POST', headers, body);
+  } catch (error) {
+    const status = error && error.status ? ` status=${error.status}` : '';
+    logger.error(`IDAM token request failed (refund approver user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri}).${status}`);
+    logger.error(error);
+    throw error;
+  }
 
   const idamJson = await resp.json();
   return idamJson.access_token;
@@ -160,7 +181,15 @@ async function getIDAMTokenForDivorceUser() {
   const url = `${idamApiUrl}${idamTokenPath}`;
   const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
   const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
-  const resp = await makeRequest(url, 'POST', headers, body);
+  let resp;
+  try {
+    resp = await makeRequest(url, 'POST', headers, body);
+  } catch (error) {
+    const status = error && error.status ? ` status=${error.status}` : '';
+    logger.error(`IDAM token request failed (divorce user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri}).${status}`);
+    logger.error(error);
+    throw error;
+  }
 
   const idamJson = await resp.json();
   idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
@@ -175,7 +204,7 @@ async function getServiceToken(service = 'ccpay_bubble') {
   return serviceToken;
 }
 
-async function getUserID(idamToken) {
+async function getUserID(idamToken, username = 'unknown') {
   // const idamToken = await getIDAMToken();
 
   const url = `${idamApiUrl}/details`;
@@ -183,7 +212,15 @@ async function getUserID(idamToken) {
     Authorization: `Bearer ${idamToken}`,
     'Content-Type': 'application/json'
   }
-  const resp = await makeRequest(url, 'GET', headers);
+  let resp;
+  try {
+    resp = await makeRequest(url, 'GET', headers);
+  } catch (error) {
+    const status = error && error.status ? ` status=${error.status}` : '';
+    logger.error(`IDAM user details request failed (user: ${username}).${status}`);
+    logger.error(error);
+    throw error;
+  }
   console.log(resp);
   const responsePayload = await resp.json();
   const idValue = responsePayload.id;
@@ -192,7 +229,7 @@ async function getUserID(idamToken) {
 
 async function getCREATEEventForProbate() {
   const idamToken = await getIDAMToken();
-  const userID = await getUserID(idamToken);
+  const userID = await getUserID(idamToken, testConfig.TestProbateCaseWorkerUserName);
   const serviceAuthorizationToken = await getServiceToken();
   const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/PROBATE/case-types/GrantOfRepresentation/event-triggers/createDraft/token`;
 
@@ -212,7 +249,7 @@ async function getCREATEEventForProbate() {
 
 async function getCREATEEventForDivorce() {
   const idamTokenForDivorce = await getIDAMTokenForDivorceUser();
-  const userID = await getUserID(idamTokenForDivorce);
+  const userID = await getUserID(idamTokenForDivorce, testConfig.TestDivorceCaseWorkerUserName);
   const serviceAuthorizationToken = await getServiceToken();
   const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/DIVORCE/case-types/DIVORCE/event-triggers/createCase/token`;
 
