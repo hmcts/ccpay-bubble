@@ -235,7 +235,7 @@
     "semver": "^7.5.2",
     "tough-cookie": "^4.1.3",
     "word-wrap": "1.2.4",
-    "flat": "5.0.1",
+    "flat": "5.0.2",
     "ip": "^2.0.1",
     "minimist": "1.2.8",
     "mocha-junit-reporter": "2.2.1",
