@@ -50,7 +50,7 @@ Scenario('Card payment with failed transaction should have the correct calculati
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£300.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const declinePaymentCardValues = assertionData.getPaymentCardValues('4000000000000002', '01',
-      '26', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
+      '30', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
       'Testcardpayment@mailnesia.com');
     ServiceRequests.populateCardDetails(declinePaymentCardValues);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -87,7 +87,7 @@ Scenario('Card payment with failed transaction should have the correct calculati
       ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£300.00');
       I.wait(CCPBATConstants.twoSecondWaitTime);
       const paymentCardValues = assertionData.getPaymentCardValues('4444333322221111', '01',
-        '26', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
+        '30', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
         'Testcardpayment@mailnesia.com');
       ServiceRequests.populateCardDetails(paymentCardValues);
       I.wait(CCPBATConstants.twoSecondWaitTime);
