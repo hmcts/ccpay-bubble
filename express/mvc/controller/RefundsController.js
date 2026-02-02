@@ -2,6 +2,7 @@
 /* eslint-disable no-negated-condition */
 const { refundsService } = require('../../services');
 const {errorHandler} = require("../../services/UtilService");
+const { Logger } = require('@hmcts/nodejs-logging');
 
 class RefundsController {
   constructor() {
@@ -103,6 +104,17 @@ class RefundsController {
 
   patchResubmitRefund(req, res, appInsights) {
     return this.refundsService.patchResubmitRefund(req, appInsights)
+      .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(error => {
+        return errorHandler(res, error);
+      });
+  }
+
+  getRefundsReport(req, res) {
+    Logger.getLogger('Get-Refunds-Report').info(req);
+    return this.refundsService.getRefundsReport(req)
       .then(result => {
         res.status(200).json(result);
       })
