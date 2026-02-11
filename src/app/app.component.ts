@@ -4,7 +4,6 @@ import { Router, NavigationEnd } from '@angular/router';
 import { PaymentGroupService } from './services/payment-group/payment-group.service';
 import { DOCUMENT } from '@angular/common';
 
-declare let gtag;
 @Component({
   selector: 'app-root',
   standalone: false,
@@ -23,7 +22,11 @@ export class AppComponent implements OnInit {
      filter(event => event instanceof NavigationEnd)
    );
    navEndEvents.subscribe((event: NavigationEnd) => {
-     gtag('config', 'UA-146285829-2', {'page_path': event.urlAfterRedirects} );
+     const dataLayer = (window as any).dataLayer || ((window as any).dataLayer = []);
+     dataLayer.push({
+       event: 'virtualPageview',
+       page_path: event.urlAfterRedirects
+     });
    });
    }
    ngOnInit() {
