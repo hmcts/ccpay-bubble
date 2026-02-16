@@ -33,6 +33,19 @@ if (testConfig.NotifyEmailApiKey) {
   console.log("Notify client API key is not defined");
 }
 
+// This function is used to create a detailed error message when a fetch request fails,
+// including the response status, status text, URL, and response body text.
+// It then throws this error to be handled by the calling code.
+async function createAndThrowFetchError(resp, url) {
+  const text = await resp.text();
+  const error = new Error(`Fetch failed ${resp.status}: ${text}`);
+  error.status = resp.status;
+  error.statusText = resp.statusText;
+  error.url = url;
+  error.responseText = text;
+  throw error;
+}
+
 async function makeRequest(url, method = 'GET', headers = {}, body = null) {
   const resp = await fetch(url, {
     method,
@@ -40,13 +53,7 @@ async function makeRequest(url, method = 'GET', headers = {}, body = null) {
     body
   });
   if (!resp.ok) {
-    const text = await resp.text();
-    const error = new Error(`Fetch failed ${resp.status}: ${text}`);
-    error.status = resp.status;
-    error.statusText = resp.statusText;
-    error.url = url;
-    error.responseText = text;
-    throw error;
+    await createAndThrowFetchError(resp, url);
   }
   return resp;
 }
