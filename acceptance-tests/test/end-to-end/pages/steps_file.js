@@ -936,15 +936,15 @@ module.exports = () => actor({
     this.click('Finish Session');
   },
 
-  async initiateAndCancelTheTelephonyPayment(ccdCaseNumberFormatted) {
+  async initiateAndCancelTheTelephonyPayment(ccdCaseNumberFormatted, feeCode, feeAmount, jurisdiction1, jurisdiction2) {
     this.wait(CCPBATConstants.fiveSecondWaitTime);
     this.see('Case transactions');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
     this.click('Create service request and pay');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await AddFees.addFeesAmount('300.00', 'family', 'probate_registry');
-    FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, 'FEE0219', '300.00', false);
+    await AddFees.addFeesAmount(feeAmount, jurisdiction1, jurisdiction2);
+    FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, feeCode, feeAmount, false);
     this.click('//*[@id="paymentSystem"][@value="Kerv"]');
     this.click('Take payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
@@ -955,15 +955,15 @@ module.exports = () => actor({
   },
 
   async updateTheInitiatedTelephonyPaymentStatusToFailed(paymentRcReference, amount, transactionResult) {
-    await utils.updatePaymentStatusWithPciPalCallbackResponse(paymentRcReference, 300, transactionResult)
+    await utils.updatePaymentStatusWithPciPalCallbackResponse(paymentRcReference, amount, transactionResult)
   },
 
-  async addUpfrontRemissionForFailedTelephonyPayment() {
+  async addUpfrontRemissionForFailedTelephonyPayment(feeCode, amount) {
     this.see('Failed');
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     FeesSummary.deductRemission();
-    Remission.processRemission('FEE0219', '200');
+    Remission.processRemission(feeCode, amount);
     Remission.confirmProcessRemission();
   },
 

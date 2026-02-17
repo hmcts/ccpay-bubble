@@ -44,12 +44,18 @@ Scenario('Partially paid (Upfront remission) case for Telephony flow', async({ I
   await I.partiallyPaidUpfrontRemissionCaseForTelephonyFlow();
 }).tag('@nightly @pipeline');
 
-Scenario('Upfront remission added after failed Telephony Payment and allocate bulk scan payment or remaining amount', async({ I, CaseTransaction, FeesSummary, ConfirmAssociation }) => {
+Scenario('Upfront remission added after failed Telephony Payment and allocate bulk scan payment for remaining amount', async({ I, CaseTransaction, FeesSummary, ConfirmAssociation }) => {
+  const feeCode = 'FEE0219';
+  const feeAmount = '300.00';
+  const remissionAmount= '100.00';
+  const amountDue = '200.00';
+  const totalPaymentAmount = '200.00';
+  const bulkScanPayment = '200.00';
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const ccdNumber = await utils.createACCDCaseForProbate();
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
   await miscUtils.multipleSearch(searchCase, I, ccdCaseNumberFormatted);
-  await I.initiateAndCancelTheTelephonyPayment(ccdCaseNumberFormatted);
+  await I.initiateAndCancelTheTelephonyPayment(ccdCaseNumberFormatted, feeCode, feeAmount, 'family', 'probate_registry');
   I.clearCookie();
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   await miscUtils.multipleSearch(searchCase, I, ccdCaseNumberFormatted);
@@ -57,24 +63,24 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
   await I.click('(//*[text()[contains(.,"Review")]])[2]');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
-  I.updateTheInitiatedTelephonyPaymentStatusToFailed(paymentRcReference, 300, 'FAILED');
+  I.updateTheInitiatedTelephonyPaymentStatusToFailed(paymentRcReference, feeAmount, 'FAILED');
   I.click('Back');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  I.addUpfrontRemissionForFailedTelephonyPayment();
+  I.addUpfrontRemissionForFailedTelephonyPayment(feeCode, totalPaymentAmount);
   I.see('Partially paid');
-  await apiUtils.bulkScanPaymentForExistingNormalCase('AA08', '200', 'cheque', ccdNumber);
+  await apiUtils.bulkScanPaymentForExistingNormalCase('AA08', bulkScanPayment, 'cheque', ccdNumber);
   I.refreshPage();
-  await CaseTransaction.validateCaseTransactionsDetails('0.00', '1', '100.00', '200.00', '0.00');
-  CaseTransaction.allocateToExistingServiceRequest(300);
-  FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '300.00', '100.00', '200.00');
+  await CaseTransaction.validateCaseTransactionsDetails('0.00', '1', remissionAmount, amountDue, '0.00');
+  CaseTransaction.allocateToExistingServiceRequest(feeAmount);
+  FeesSummary.verifyFeeSummaryAfterRemission(feeCode, feeAmount, remissionAmount, amountDue);
   I.click('Allocate payment');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0219', '1', 200, 300);
+  ConfirmAssociation.verifyConfirmAssociationFullPayment(feeCode, '1', totalPaymentAmount, feeAmount);
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   I.see('Success');
-  await CaseTransaction.validateCaseTransactionsDetails('200.00', '0', '100.00', '0.00', '0.00');
-}).tag('@nightly @pipeline');
+  await CaseTransaction.validateCaseTransactionsDetails(totalPaymentAmount, '0', remissionAmount, '0.00', '0.00');
+}).tag('@nightly @pipeline @debug');
 
 Scenario('Remove fee from case transaction page Telephony flow', async({ I }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
