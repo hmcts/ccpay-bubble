@@ -80,7 +80,7 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   I.see('Success');
   await CaseTransaction.validateCaseTransactionsDetails(totalPaymentAmount, '0', remissionAmount, '0.00', '0.00');
-}).tag('@nightly @pipeline @debug');
+}).tag('@nightly @pipeline');
 
 Scenario('Remove fee from case transaction page Telephony flow', async({ I }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);

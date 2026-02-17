@@ -958,12 +958,12 @@ module.exports = () => actor({
     await utils.updatePaymentStatusWithPciPalCallbackResponse(paymentRcReference, amount, transactionResult)
   },
 
-  async addUpfrontRemissionForFailedTelephonyPayment(feeCode, amount) {
+  async addUpfrontRemissionForFailedTelephonyPayment(feeCode, paymentAmount) {
     this.see('Failed');
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     FeesSummary.deductRemission();
-    Remission.processRemission(feeCode, amount);
+    Remission.processRemission(feeCode, paymentAmount);
     Remission.confirmProcessRemission();
   },
 
