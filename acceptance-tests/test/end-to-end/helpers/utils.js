@@ -141,6 +141,8 @@ async function getIDAMToken() {
 }
 
 async function getIDAMTokenForRefundApprover() {
+
+
   const username = testConfig.TestRefundsApproverUserName;
   const password = testConfig.TestRefundsApproverPassword;
   const idamClientID = testConfig.TestClientID;
@@ -154,6 +156,15 @@ async function getIDAMTokenForRefundApprover() {
   const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
   const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
   let resp;
+
+  const now = Date.now();
+  if (
+    idamTokenCache[username] &&
+    (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)
+  ) {
+    return idamTokenCache[username].token;
+  }
+
   try {
     resp = await makeRequest(url, 'POST', headers, body);
   } catch (error) {
@@ -164,7 +175,15 @@ async function getIDAMTokenForRefundApprover() {
   }
 
   const idamJson = await resp.json();
+  idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
   return idamJson.access_token;
+}
+
+function logAndThrowError(error, message) {
+  const status = error && error.status ? ` status=${error.status}` : '';
+  logger.error(`${message}.${status}`);
+  logger.error(error);
+  throw error;
 }
 
 async function getIDAMTokenForDivorceUser() {
