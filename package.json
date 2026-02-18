@@ -197,7 +197,7 @@
     "fsevents": "*"
   },
   "resolutions": {
-    "tar": "^7.5.7",
+    "tar": "^7.5.9",
     "minimatch": "^3.1.2",
     "qs": "6.14.1",
     "on-headers": "~1.1.0",
