@@ -129,7 +129,7 @@ async function getIDAMToken() {
   try {
     resp = await makeRequest(url, 'POST', headers, body);
   } catch (error) {
-    const message = `IDAM token request failed (probate user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri}).${status}`;
+    const message = `IDAM token request failed (probate user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri})`;
     logAndThrowError(error, message);
   }
 
@@ -163,7 +163,7 @@ async function getIDAMTokenForRefundApprover() {
   try {
     resp = await makeRequest(url, 'POST', headers, body);
   } catch (error) {
-    const message = `IDAM token request failed (refund approver user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri}).${status}`;
+    const message = `IDAM token request failed (refund approver user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri})`;
     logAndThrowError(error, message);
   }
   const idamJson = await resp.json();
@@ -203,7 +203,7 @@ async function getIDAMTokenForDivorceUser() {
   try {
     resp = await makeRequest(url, 'POST', headers, body);
   } catch (error) {
-    const message = `IDAM token request failed (divorce user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri}).${status}`;
+    const message = `IDAM token request failed (divorce user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri});
     logAndThrowError(error, message);
   }
 
@@ -231,7 +231,7 @@ async function getUserID(idamToken, username = 'unknown') {
   try {
     resp = await makeRequest(url, 'GET', headers);
   } catch (error) {
-    const message = `IDAM user details request failed (user: ${username}).${status}`;
+    const message = `IDAM user details request failed (user: ${username})`;
     logAndThrowError(error, message);
   }
   console.log(resp);
