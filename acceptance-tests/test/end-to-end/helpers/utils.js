@@ -221,7 +221,6 @@ async function getServiceToken(service = 'ccpay_bubble') {
 }
 
 async function getUserID(idamToken, username = 'unknown') {
-  // const idamToken = await getIDAMToken();
 
   const url = `${idamApiUrl}/details`;
   const headers = {
@@ -232,10 +231,8 @@ async function getUserID(idamToken, username = 'unknown') {
   try {
     resp = await makeRequest(url, 'GET', headers);
   } catch (error) {
-    const status = error && error.status ? ` status=${error.status}` : '';
-    logger.error(`IDAM user details request failed (user: ${username}).${status}`);
-    logger.error(error);
-    throw error;
+    const message = `IDAM user details request failed (user: ${username}).${status}`;
+    logAndThrowError(error, message);
   }
   console.log(resp);
   const responsePayload = await resp.json();
