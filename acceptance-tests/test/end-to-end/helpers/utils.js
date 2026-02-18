@@ -37,20 +37,19 @@ if (testConfig.NotifyEmailApiKey) {
 // including the response status, status text, URL, and response body text.
 // It then throws this error to be handled by the calling code.
 async function createAndThrowFetchError(resp, url) {
-
-console.error('Fetch failed response toString():', resp.toString());
   try {
     const respProps = {
       status: resp.status,
       statusText: resp.statusText,
       url: resp.url,
     };
-    const error = new Error(`Fetch failed ${resp.status} : ${resp.statusText} : ${resp.url}`);
+    var error = new Error(`Fetch failed ${resp.status} : ${resp.statusText} : ${resp.url}`);
     console.error('Fetch failed response properties:', JSON.stringify(respProps, null, 2));
-    throw error;
   } catch (e) {
     console.error('Error serializing resp object:', e && e.toString ? e.toString() : e);
+    error = new Error(`Fetch failed ${resp} : ${url}`);
   }
+  throw error;
 }
 
 async function makeRequest(url, method = 'GET', headers = {}, body = null) {
