@@ -15,7 +15,7 @@ const searchCase = require('../pages/case_search');
 
 const stringUtils = require('../helpers/string_utils');
 
-const bulkScanApiCalls = require('../helpers/utils');
+const utils = require('../helpers/utils');
 const CCPBATConstants = require('../tests/CCPBAcceptanceTestConstants');
 const AddFees = require('../pages/add_fees');
 const FeesSummary = require('../pages/fees_summary');
@@ -787,7 +787,7 @@ module.exports = () => actor({
   },
 
   async searchForCorrectCCDNumber() {
-    const ccdNumber = await bulkScanApiCalls.createACCDCaseForProbate();
+    const ccdNumber = await utils.createACCDCaseForProbate();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
@@ -802,7 +802,7 @@ module.exports = () => actor({
   },
 
   async caseforTelephonyFlow() {
-    const ccdNumber = await bulkScanApiCalls.createACCDCaseForProbate();
+    const ccdNumber = await utils.createACCDCaseForProbate();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
     // this.waitInUrl(`/payment-history/${ccdNumber}?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Enable&isNewPcipalOff=Disable`, CCPBConstants.nineSecondWaitTime);
@@ -852,7 +852,7 @@ module.exports = () => actor({
   },
 
   async AmountDueCaseForTelephonyFlow() {
-    const ccdNumber = await bulkScanApiCalls.createACCDCaseForProbate();
+    const ccdNumber = await utils.createACCDCaseForProbate();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
     // this.waitInUrl(`/payment-history/${ccdNumber}?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Enable&isNewPcipalOff=Disable`, CCPBConstants.nineSecondWaitTime);
@@ -902,7 +902,7 @@ module.exports = () => actor({
   },
 
   async partiallyPaidUpfrontRemissionCaseForTelephonyFlow() {
-    const ccdNumber = await bulkScanApiCalls.createACCDCaseForProbate();
+    const ccdNumber = await utils.createACCDCaseForProbate();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
     this.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -936,10 +936,41 @@ module.exports = () => actor({
     this.click('Finish Session');
   },
 
+  async initiateAndCancelTheTelephonyPayment(ccdCaseNumberFormatted, feeCode, feeAmount, jurisdiction1, jurisdiction2) {
+    this.wait(CCPBATConstants.fiveSecondWaitTime);
+    this.see('Case transactions');
+    this.see('Case reference:');
+    this.see(ccdCaseNumberFormatted);
+    this.click('Create service request and pay');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    await AddFees.addFeesAmount(feeAmount, jurisdiction1, jurisdiction2);
+    FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, feeCode, feeAmount, false);
+    this.click('//*[@id="paymentSystem"][@value="Kerv"]');
+    this.click('Take payment');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitInUrl('pcipal', 2);
+    this.click('Cancel');
+    this.click('Finish Session');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+  },
+
+  async updateTheInitiatedTelephonyPaymentStatusToFailed(paymentRcReference, amount, transactionResult) {
+    await utils.updatePaymentStatusWithPciPalCallbackResponse(paymentRcReference, amount, transactionResult)
+  },
+
+  async addUpfrontRemissionForFailedTelephonyPayment(feeCode, paymentAmount) {
+    this.see('Failed');
+    this.click('Take telephony payment');
+    this.wait(CCPBConstants.fiveSecondWaitTime);
+    FeesSummary.deductRemission();
+    Remission.processRemission(feeCode, paymentAmount);
+    Remission.confirmProcessRemission();
+  },
+
   async removeFeeFromCaseTransactionPageTelephonyFlow() {
     /* const randomNumber = numUtils.getRandomNumber(numberTwo);
     const ccdNumber = stringUtils.getTodayDateAndTimeInString() + randomNumber;*/
-    const ccdNumber = await bulkScanApiCalls.createACCDCaseForProbate();
+    const ccdNumber = await utils.createACCDCaseForProbate();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
     this.see('Case transaction');
@@ -992,7 +1023,7 @@ module.exports = () => actor({
 
   /* async setUpRefund() {
     console.log('Starting the PBA Payment');
-    const paymentDetails = await bulkScanApiCalls.createAPBAPayment('90.00');
+    const paymentDetails = await utils.createAPBAPayment('90.00');
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
     const paymentReference = `${paymentDetails.paymentReference}`;
     console.info(ccdCaseNumber);
