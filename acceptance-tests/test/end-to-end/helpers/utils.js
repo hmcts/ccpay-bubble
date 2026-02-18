@@ -37,13 +37,20 @@ if (testConfig.NotifyEmailApiKey) {
 // including the response status, status text, URL, and response body text.
 // It then throws this error to be handled by the calling code.
 async function createAndThrowFetchError(resp, url) {
-  const text = await resp.text();
-  const error = new Error(`Fetch failed ${resp.status}: ${text}`);
-  error.status = resp.status;
-  error.statusText = resp.statusText;
-  error.url = url;
-  error.responseText = text;
-  throw error;
+
+console.error('Fetch failed response toString():', resp.toString());
+  try {
+    const respProps = {
+      status: resp.status,
+      statusText: resp.statusText,
+      url: resp.url,
+    };
+    const error = new Error(`Fetch failed ${resp.status} : ${resp.statusText} : ${resp.url}`);
+    console.error('Fetch failed response properties:', JSON.stringify(respProps, null, 2));
+    throw error;
+  } catch (e) {
+    console.error('Error serializing resp object:', e && e.toString ? e.toString() : e);
+  }
 }
 
 async function makeRequest(url, method = 'GET', headers = {}, body = null) {
@@ -203,7 +210,7 @@ async function getIDAMTokenForDivorceUser() {
   try {
     resp = await makeRequest(url, 'POST', headers, body);
   } catch (error) {
-    const message = `IDAM token request failed (divorce user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri});
+    const message = `IDAM token request failed (divorce user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri})`;
     logAndThrowError(error, message);
   }
 
