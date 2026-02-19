@@ -19,6 +19,7 @@ const ccdDataStoreApiUrl = testConfig.TestCcdDataStoreApiUrl;
 const s2sAuthPath = '/testing-support/lease';
 
 let idamTokenCache = {};
+let idamUserCache = {};
 const IDAM_TOKEN_CACHE_DURATION_MS = 60 * 1000; // 60 seconds
 const MAX_NOTIFY_PAGES = 3;  //max notify results pages to search
 const MAX_RETRIES = 5;  //max retries on each notify results page
@@ -46,7 +47,7 @@ async function createAndThrowFetchError(resp, url) {
     var error = new Error(`Fetch failed ${resp.status} : ${resp.statusText} : ${resp.url}`);
     console.error('Fetch failed response properties:', JSON.stringify(respProps, null, 2));
   } catch (e) {
-    console.error('Error serializing resp object:', e && e.toString ? e.toString() : e);
+    console.error('Error reading properties from response:', e && e.toString ? e.toString() : e);
     error = new Error(`Fetch failed ${resp} : ${url}`);
   }
   throw error;
@@ -113,10 +114,7 @@ function searchForEmailInNotifyResults(notifications, searchEmail) {
 async function getIDAMToken() {
   const username = testConfig.TestProbateCaseWorkerUserName;
   const now = Date.now();
-  if (
-    idamTokenCache[username] &&
-    (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)
-  ) {
+  if ( idamTokenCache[username] && (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)) {
     return idamTokenCache[username].token;
   }
 
@@ -177,6 +175,23 @@ async function getIDAMTokenForRefundApprover() {
   return idamJson.access_token;
 }
 
+
+
+/**
+ * Logs an error message and rethrows the error.
+ *
+ * This helper centralises error logging for HTTP / service calls. It logs:
+ *  - a formatted message (provided by the caller) optionally including the
+ *    numeric `status` property from the `error` object
+ *  - the error object itself (so stack trace and details are captured by the logger)
+ *
+ * After logging it rethrows the original error so callers can handle or fail
+ * the test as appropriate.
+ *
+ * @param {Error|Object} error - The error object to log and rethrow. May contain a `status` property.
+ * @param {string} message - Human readable message describing the context of the error.
+ * @throws {Error|Object} Re-throws the original `error` argument.
+ */
 function logAndThrowError(error, message) {
   const status = error && error.status ? ` status=${error.status}` : '';
   logger.error(`${message}.${status}`);
@@ -187,10 +202,7 @@ function logAndThrowError(error, message) {
 async function getIDAMTokenForDivorceUser() {
   const username = testConfig.TestDivorceCaseWorkerUserName;
   const now = Date.now();
-  if (
-    idamTokenCache[username] &&
-    (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)
-  ) {
+  if ( idamTokenCache[username] && (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS) ) {
     return idamTokenCache[username].token;
   }
 
@@ -227,6 +239,13 @@ async function getServiceToken(service = 'ccpay_bubble') {
 }
 
 async function getUserID(idamToken, username = 'unknown') {
+  if (username == 'unknown' || username == undefined) {
+    username = testConfig.TestDivorceCaseWorkerUserName;
+  }
+  const now = Date.now();
+  if ( idamUserCache[username] && (now - idamUserCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS) ) {
+    return idamUserCache[username].id;
+  }
 
   const url = `${idamApiUrl}/details`;
   const headers = {
@@ -242,8 +261,8 @@ async function getUserID(idamToken, username = 'unknown') {
   }
   console.log(resp);
   const responsePayload = await resp.json();
-  const idValue = responsePayload.id;
-  return idValue;
+  idamUserCache[username] = { id: responsePayload.id, timestamp: now };
+  return responsePayload.id;
 }
 
 async function getCREATEEventForProbate() {
