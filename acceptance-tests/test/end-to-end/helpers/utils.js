@@ -940,6 +940,31 @@ async function bulkScanNormalCcd(siteId, amount, paymentMethod) {
   return bulkDcnCcd;
 }
 
+async function bulkScanPaymentForExistingNormalCase(siteId, amount, paymentMethod, ccdCaseNumber) {
+  const numberSeven = 7;
+  const creditSlipNumber = '967865';
+  const serviceToken = await getServiceToken();
+  const bankedDate = stringUtil.getTodayDateInYYYYMMDD();
+  const successResponse = 201;
+
+  const randomNumber = numUtil.getRandomNumber(numberSeven);
+  let dcnNumber = stringUtil.getTodayDateAndTimeInString() + randomNumber;
+  const responseExelaRecord = await bulkScanExelaRecord(serviceToken, amount,
+    creditSlipNumber, bankedDate, dcnNumber, paymentMethod).catch(error => {
+    logger.log(error);
+  });
+  if (responseExelaRecord === successResponse) console.log('Exela record created');
+  else console.log('Exela record not created');
+
+  const responseBulkScanRecord = await bulkScanRecord(serviceToken, ccdCaseNumber, dcnNumber,
+    siteId, 'false').catch(error => {
+    logger.log(error);
+  });
+  if (responseBulkScanRecord === successResponse) console.log('BulkScan record created');
+  else console.log('BulkScan record not created');
+  return dcnNumber;
+}
+
 async function getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber, dcnNumber) {
   const serviceToken = await getServiceToken();
   const paymentGroupRef = await getPaymentGroupRef(serviceToken, ccdCaseNumber);
@@ -1041,6 +1066,18 @@ async function updateCardPaymentStatus() {
   console.log(`The response Status Code for Card payment status update : ${response.status}`);
 }
 
+async function updatePaymentStatusWithPciPalCallbackResponse(paymentRcReference, amount, transactionResult) {
+  const serviceToken = await getServiceToken();
+  const url = paymentBaseUrl + '/telephony/callback'
+  const headers = {
+    ServiceAuthorization: `${serviceToken}`,
+    'Content-Type': 'application/x-www-form-urlencoded'
+  };
+  const body = `orderReference=${paymentRcReference}&orderAmount=${amount}&transactionResult=${transactionResult}`;
+  const response = await makeRequest(url, 'POST', headers, body);
+  console.log(`The response Status Code for Card payment status update : ${response.status}`);
+}
+
 
 
 module.exports = {
@@ -1065,5 +1102,7 @@ module.exports = {
   updateRefundStatusByApprover,
   createAPBAPaymentForExistingCase,
   initiateCardPaymentForServiceRequest,
-  updateCardPaymentStatus
+  updateCardPaymentStatus,
+  updatePaymentStatusWithPciPalCallbackResponse,
+  bulkScanPaymentForExistingNormalCase
 };
