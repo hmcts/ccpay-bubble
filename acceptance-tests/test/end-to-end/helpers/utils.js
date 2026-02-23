@@ -17,10 +17,14 @@ const idamApiUrl = testConfig.TestIdamApiUrl;
 const rpeServiceAuthApiUrl = testConfig.TestS2SRpeServiceAuthApiUrl;
 const ccdDataStoreApiUrl = testConfig.TestCcdDataStoreApiUrl;
 const s2sAuthPath = '/testing-support/lease';
+
+let idamTokenCache = {};
+const IDAM_TOKEN_CACHE_DURATION_MS = 60 * 1000; // 60 seconds
 const MAX_NOTIFY_PAGES = 3;  //max notify results pages to search
 const MAX_RETRIES = 5;  //max retries on each notify results page
 
 let notifyClient;
+
 const NotifyClient = require('notifications-node-client').NotifyClient;
 if (testConfig.NotifyEmailApiKey) {
   notifyClient = new NotifyClient(testConfig.NotifyEmailApiKey);
@@ -90,8 +94,35 @@ function searchForEmailInNotifyResults(notifications, searchEmail) {
 
 async function getIDAMToken() {
   const username = testConfig.TestProbateCaseWorkerUserName;
-  const password = testConfig.TestProbateCaseWorkerPassword;
+  const now = Date.now();
+  if (
+    idamTokenCache[username] &&
+    (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)
+  ) {
+    return idamTokenCache[username].token;
+  }
 
+  const password = testConfig.TestProbateCaseWorkerPassword;
+  const idamClientID = testConfig.TestClientID;
+  const idamClientSecret = testConfig.TestClientSecret;
+  const redirectUri = testConfig.TestRedirectURI;
+  const scope = 'openid profile roles';
+  const grantType = 'password';
+
+  const idamTokenPath = '/o/token';
+  const url = `${idamApiUrl}${idamTokenPath}`;
+  const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+  const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
+  const resp = await makeRequest(url, 'POST', headers, body);
+
+  const idamJson = await resp.json();
+  idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
+  return idamJson.access_token;
+}
+
+async function getIDAMTokenForRefundApprover() {
+  const username = testConfig.TestRefundsApproverUserName;
+  const password = testConfig.TestRefundsApproverPassword;
   const idamClientID = testConfig.TestClientID;
   const idamClientSecret = testConfig.TestClientSecret;
   const redirectUri = testConfig.TestRedirectURI;
@@ -110,8 +141,15 @@ async function getIDAMToken() {
 
 async function getIDAMTokenForDivorceUser() {
   const username = testConfig.TestDivorceCaseWorkerUserName;
-  const password = testConfig.TestDivorceCaseWorkerPassword;
+  const now = Date.now();
+  if (
+    idamTokenCache[username] &&
+    (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)
+  ) {
+    return idamTokenCache[username].token;
+  }
 
+  const password = testConfig.TestDivorceCaseWorkerPassword;
   const idamClientID = testConfig.TestDivorceClientID;
   const idamClientSecret = testConfig.TestDivorceClientSecret;
   const redirectUri = testConfig.TestDivorceClientRedirectURI;
@@ -125,6 +163,7 @@ async function getIDAMTokenForDivorceUser() {
   const resp = await makeRequest(url, 'POST', headers, body);
 
   const idamJson = await resp.json();
+  idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
   return idamJson.access_token;
 }
 
@@ -414,7 +453,9 @@ async function initiateCardPaymentForServiceRequest(amount, serviceRequestRefere
   const microservice = 'cmc';
   const idamToken = await getIDAMToken();
 
-  if (paymentBaseUrl.includes("demo")) {
+  if (paymentBaseUrl.includes("int-demo")) {
+    returnUrl = returnUrl.replaceAll("web.aat", "web-int.demo");
+  } else if (paymentBaseUrl.includes("demo")) {
     returnUrl = returnUrl.replaceAll("aat", "demo");
   }
 
@@ -824,6 +865,31 @@ async function bulkScanNormalCcd(siteId, amount, paymentMethod) {
   return bulkDcnCcd;
 }
 
+async function bulkScanPaymentForExistingNormalCase(siteId, amount, paymentMethod, ccdCaseNumber) {
+  const numberSeven = 7;
+  const creditSlipNumber = '967865';
+  const serviceToken = await getServiceToken();
+  const bankedDate = stringUtil.getTodayDateInYYYYMMDD();
+  const successResponse = 201;
+
+  const randomNumber = numUtil.getRandomNumber(numberSeven);
+  let dcnNumber = stringUtil.getTodayDateAndTimeInString() + randomNumber;
+  const responseExelaRecord = await bulkScanExelaRecord(serviceToken, amount,
+    creditSlipNumber, bankedDate, dcnNumber, paymentMethod).catch(error => {
+    logger.log(error);
+  });
+  if (responseExelaRecord === successResponse) console.log('Exela record created');
+  else console.log('Exela record not created');
+
+  const responseBulkScanRecord = await bulkScanRecord(serviceToken, ccdCaseNumber, dcnNumber,
+    siteId, 'false').catch(error => {
+    logger.log(error);
+  });
+  if (responseBulkScanRecord === successResponse) console.log('BulkScan record created');
+  else console.log('BulkScan record not created');
+  return dcnNumber;
+}
+
 async function getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber, dcnNumber) {
   const serviceToken = await getServiceToken();
   const paymentGroupRef = await getPaymentGroupRef(serviceToken, ccdCaseNumber);
@@ -894,6 +960,50 @@ async function updateRefundStatusByRefundReference(refundReference, reason, stat
   console.log(`The response Status Code for refund update : ${response.status}`);
 }
 
+async function updateRefundStatusByApprover(refundReference, reviewerAction = 'APPROVE', reason = '', code='') {
+  const serviceToken = await getServiceToken();
+  const idamToken = await getIDAMTokenForRefundApprover();
+  const url = refundsApiUrl + `/refund/${refundReference}/action/${reviewerAction}`
+
+  const saveBody = JSON.stringify({
+    code: `${code}`,
+    reason: `${reason}`
+  });
+  const headers = {
+    Authorization: `Bearer ${idamToken}`,
+    ServiceAuthorization: `${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+  const response = await makeRequest(url, 'PATCH', headers, saveBody);
+  console.log(`The response Status Code for refund update by approver : ${response.status}`);
+}
+
+async function updateCardPaymentStatus() {
+  const serviceToken = await getServiceToken();
+  const idamToken = await getIDAMToken();
+  const url = paymentBaseUrl + '/jobs/card-payments-status-update'
+
+  const headers = {
+    Authorization: `${idamToken}`,
+    ServiceAuthorization: `${serviceToken}`
+  };
+  const response = await makeRequest(url, 'PATCH', headers);
+  console.log(`The response Status Code for Card payment status update : ${response.status}`);
+}
+
+async function updatePaymentStatusWithPciPalCallbackResponse(paymentRcReference, amount, transactionResult) {
+  const serviceToken = await getServiceToken();
+  const url = paymentBaseUrl + '/telephony/callback'
+  const headers = {
+    ServiceAuthorization: `${serviceToken}`,
+    'Content-Type': 'application/x-www-form-urlencoded'
+  };
+  const body = `orderReference=${paymentRcReference}&orderAmount=${amount}&transactionResult=${transactionResult}`;
+  const response = await makeRequest(url, 'POST', headers, body);
+  console.log(`The response Status Code for Card payment status update : ${response.status}`);
+}
+
+
 
 module.exports = {
   bulkScanNormalCcd,
@@ -914,6 +1024,10 @@ module.exports = {
   getEmailFromNotifyWithMaxRetries,
   createAServiceRequest,
   updateRefundStatusByRefundReference,
+  updateRefundStatusByApprover,
   createAPBAPaymentForExistingCase,
-  initiateCardPaymentForServiceRequest
+  initiateCardPaymentForServiceRequest,
+  updateCardPaymentStatus,
+  updatePaymentStatusWithPciPalCallbackResponse,
+  bulkScanPaymentForExistingNormalCase
 };

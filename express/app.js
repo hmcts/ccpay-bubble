@@ -138,9 +138,7 @@ module.exports = appInsights => express.Router()
   .get('/notification/postcode-lookup/:postcode', (req, res) => {
     controllers.notificationController.getaddressByPostcode(req, res);
   })
-  .post('/notification/doc-preview', (req, res) => {
-    controllers.notificationController.docPreview(req, res);
-  })
+
   // Bulk scanning services
   .get('/bulk-scan/cases/:id', (req, res) => {
     controllers.bulkScanController.getPaymentDetailsForCcd(req, res);
@@ -199,33 +197,38 @@ module.exports = appInsights => express.Router()
   .patch('/refund/:id/action/*', (req, res) => {
     controllers.refundController.patchRefundAction(req, res, appInsights);
   })
+  // Specific refunds report route must be before generic '/refund?*'
+  .get('/refund/refunds-report?*', (req, res) => {
+    controllers.refundController.getRefundsReport(req, res);
+  })
+  // Generic refund list/status route
   .get('/refund?*', (req, res) => {
     controllers.refundController.getRefundStatusList(req, res);
   })
-
   .post('/refund/refund', (req, res) => {
     controllers.refundController.postIssueRefund(req, res);
   })
-
   .post('/refund/get-user-details', (req, res) => {
     controllers.refundController.getUserDetails(req, res);
   })
   .post('/payment-history/refund-for-payment', (req, res) => {
     controllers.payhubController.postRefundsReason(req, res);
   })
-
   .patch('/refund/resubmit/:refund_reference', (req, res) => {
     controllers.refundController.patchResubmitRefund(req, res, appInsights);
   })
-
   .patch('/resubmit/:refund_reference', (req, res) => {
     controllers.refundController.patchResubmitRefund(req, res, appInsights);
   })
-
   .post('/payment-history/refund-retro-remission', (req, res) => {
     controllers.payhubController.postRefundRetroRemission(req, res);
   })
-
+  .post('/refund/reissue-expired/:refund_reference', (req, res) => {
+    controllers.refundController.postReIssueExpiredRefund(req, res, appInsights);
+  })
+  .post('/refund/notifications/doc-preview', (req, res) => {
+    controllers.refundController.docPreview(req, res);
+  })
 
   // @hmcts/ccpay-web-component integration point
   .get('/payment-history/*', (req, res) => {
