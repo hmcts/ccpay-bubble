@@ -3,6 +3,7 @@ import { FeeModel } from 'src/app/models/FeeModel';
 
 @Component({
   selector: 'app-fee-list-table',
+  standalone: false,
   templateUrl: './fee-list-table.component.html',
   styleUrls: ['./fee-list-table.component.scss'],
 })

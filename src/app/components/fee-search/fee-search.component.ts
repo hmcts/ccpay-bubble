@@ -1,5 +1,5 @@
 import { FeeDetailsComponent } from './../fee-details/fee-details.component';
-import { IVersion } from './../../../../dist/fee-register-search/lib/interfaces/IVersion.d';
+import { IVersion } from './../../../../projects/fee-register-search/src/lib/interfaces/IVersion';
 import { Component, OnInit } from '@angular/core';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +8,7 @@ import * as ls from 'local-storage';
 
 @Component({
   selector: 'app-fee-search',
+  standalone: false,
   templateUrl: './fee-search.component.html',
   styleUrls: ['./fee-search.component.scss']
 })

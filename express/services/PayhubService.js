@@ -1,5 +1,5 @@
 const config = require('config');
-const UUID = require('uuid/v4');
+const { v4: UUID } = require('uuid');
 const { fetchWithAuth, plainFetch } = require('./UtilService');
 const FeatureService = require('./FeatureService');
 const { URL, URLSearchParams } = require('url');
