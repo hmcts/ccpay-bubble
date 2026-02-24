@@ -60,9 +60,10 @@ class PayhubService {
    * @returns {string} - A full redirect URL if both values are present, otherwise the base URL.
    */
   buildRedirectCallBack(req) {
-    const caseNumber = req?.body?.ccd_case_number;
-    const caseType = req?.body?.case_type;
-    const selectedOption = req?.body?.selected_option;
+    const caseNumber = req && req.body ? req.body.ccd_case_number : undefined;
+    const caseType = req && req.body ? req.body.case_type : undefined;
+    const selectedOption = req && req.body ? req.body.selected_option : undefined;
+
 
     // Check both values are not null or undefined
     if (caseNumber != null && caseType != null && selectedOption != null) {
@@ -89,18 +90,19 @@ class PayhubService {
    * @returns {string} A formatted URL string with query parameters.
    */
   buildUrl(req){
+    const caseNumber     = req && req.body ? req.body.ccd_case_number     : undefined;
+    const caseType       = req && req.body ? req.body.case_type           : undefined;
+    const selectedOption = req && req.body ? req.body.selected_option     : undefined;
+    const dcnNumber      = req && req.body ? req.body.dcn_number          : undefined;
+    const takePayment    = req && req.body ? req.body.take_payment        : undefined;
 
-    const caseNumber = req?.body?.ccd_case_number;
-    const caseType = req?.body?.case_type;
-    const selectedOption = req?.body?.selected_option;
-    const dcnNumber = req?.body?.dcn_number;
-    const takePayment = req?.body?.take_payment;
+    const body = (req && req.body) || {};
+    const isBulkScanning           = this.getEnableOrDisable(body.is_bulk_scanning);
+    const isStFixEnable            = this.getEnableOrDisable(body.is_st_fix_enable);
+    const isTurnOff                = this.getEnableOrDisable(body.is_turn_off);
+    const isPaymentStatusEnabled   = this.getEnableOrDisable(body.is_payment_status_enabled);
+    const excReference             = body.exc_reference;
 
-    const isBulkScanning = this.getEnableOrDisable(req?.body?.is_bulk_scanning);
-    const isStFixEnable = this.getEnableOrDisable(req?.body?.is_st_fix_enable);
-    const isTurnOff = this.getEnableOrDisable(req?.body?.is_turn_off);
-    const isPaymentStatusEnabled = this.getEnableOrDisable(req?.body?.is_payment_status_enabled);
-    const excReference = req?.body?.exc_reference;
 
     const params = new URLSearchParams();
 
