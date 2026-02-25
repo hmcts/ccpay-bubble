@@ -47,7 +47,7 @@ module.exports = {
     I.see('Your payment has been declined');
     I.see('No money has been taken from your account. Contact your');
     I.see('bank for more details.');
-    I.click('Continue');
+    I.click('Start again');
   },
 
   verifyConfirmYourPaymentPageCardDetails(paymentCardValues) {

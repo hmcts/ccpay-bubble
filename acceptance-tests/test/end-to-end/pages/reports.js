@@ -1,15 +1,15 @@
 'use strict';
+
 const { Logger } = require('@hmcts/nodejs-logging');
+const assert = require('assert');
 
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
-
-const logger = Logger.getLogger('helpers/utils');
-
 const stringUtil = require('../helpers/string_utils');
 
-const todayDate = stringUtil.getTodayDateInDDMMYYY();
-
+const logger = Logger.getLogger('helpers/utils');
 const { I } = inject();
+
+const todayDate = stringUtil.getTodayDateInYYYYMMDD();
 
 module.exports = {
   locators: {
@@ -19,11 +19,9 @@ module.exports = {
     shortfall_and_surplus: { xpath: '//*[@id="ShortfallsandSurplus"]' },
     payment_failure_event: { xpath: '//*[@id="PaymentFailureEvent"]' },
     telephony_payments: { xpath: '//*[@id="TelephonyPayments"]' },
-    refunds: { xpath: '//*[@id="RefundsEvent"]' },
-    date_from: { xpath: '//*[@id="date-from"]' },
-    date_to: { xpath: '//*[@id="date-to"]' }
+    refunds: { xpath: '//*[@id="RefundsEvent"]' }
   },
-  // done
+
   navigateToReports() {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click('Reports');
@@ -46,7 +44,7 @@ module.exports = {
     I.see('Download report');
   },
 
-  selectReportAndDownload(report, dateFrom = todayDate, dateTo = todayDate) {
+  async selectReportAndDownload(report, dateFrom = todayDate, dateTo = todayDate) {
     switch (report) {
     case 'Data loss':
       I.checkOption(this.locators.data_loss);
@@ -61,25 +59,48 @@ module.exports = {
       I.checkOption(this.locators.shortfall_and_surplus);
       break;
     case 'Payment failure event':
-     I.checkOption(this.locators.payment_failure_event);
-     break;
+      I.checkOption(this.locators.payment_failure_event);
+      break;
     case 'Telephony Payments':
-     I.checkOption(this.locators.telephony_payments);
-     break;
+      I.checkOption(this.locators.telephony_payments);
+      break;
     case 'Refunds':
-     I.checkOption(this.locators.refunds);
-     break;
+      I.checkOption(this.locators.refunds);
+      break;
     default:
       logger.log('Enter valid report name');
+      return;
     }
-    I.wait(CCPBConstants.twoSecondWaitTime);
-    I.fillField(this.locators.date_to, dateTo);
-    I.wait(CCPBConstants.twoSecondWaitTime);
-    I.fillField(this.locators.date_from, dateFrom);
 
-    // PAY-6928 UI issue with date selection.
-     I.wait(CCPBConstants.twoSecondWaitTime);
-     I.click('Download report');
-     I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.wait(CCPBConstants.twoSecondWaitTime);
+
+    const fromMax = await I.grabAttributeFrom('#date-from', 'max');
+    const toMax = await I.grabAttributeFrom('#date-to', 'max');
+
+    // Deterministic: use Playwright native fill for <input type="date">.
+    await I.usePlaywrightTo('set report dates', async ({ page }) => {
+      const from = page.locator('#date-from');
+      const to = page.locator('#date-to');
+
+      await from.waitFor({ state: 'visible' });
+      await to.waitFor({ state: 'visible' });
+
+      await from.fill(dateFrom);
+      await to.fill(dateTo);
+
+      await from.evaluate((el) => el.blur());
+      await to.evaluate((el) => el.blur());
+    });
+
+    // Read back and assert
+    const actualFrom = await I.grabValueFrom('#date-from');
+    const actualTo = await I.grabValueFrom('#date-to');
+
+    assert.strictEqual(actualFrom, dateFrom, 'reports date-from value mismatch');
+    assert.strictEqual(actualTo, dateTo, 'reports date-to value mismatch');
+
+    I.wait(CCPBConstants.twoSecondWaitTime);
+    I.click('Download report');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   }
 };
