@@ -19,6 +19,7 @@ const ccdDataStoreApiUrl = testConfig.TestCcdDataStoreApiUrl;
 const s2sAuthPath = '/testing-support/lease';
 
 let idamTokenCache = {};
+let idamUserCache = {};
 const IDAM_TOKEN_CACHE_DURATION_MS = 60 * 1000; // 60 seconds
 const MAX_NOTIFY_PAGES = 3;  //max notify results pages to search
 const MAX_RETRIES = 5;  //max retries on each notify results page
@@ -33,6 +34,25 @@ if (testConfig.NotifyEmailApiKey) {
   console.log("Notify client API key is not defined");
 }
 
+// This function is used to create a detailed error message when a fetch request fails,
+// including the response status, status text, URL, and response body text.
+// It then throws this error to be handled by the calling code.
+async function createAndThrowFetchError(resp, url) {
+  try {
+    const respProps = {
+      status: resp.status,
+      statusText: resp.statusText,
+      url: resp.url,
+    };
+    var error = new Error(`Fetch failed ${resp.status} : ${resp.statusText} : ${resp.url}`);
+    console.error('Fetch failed response properties:', JSON.stringify(respProps, null, 2));
+  } catch (e) {
+    console.error('Error reading properties from response:', e && e.toString ? e.toString() : e);
+    error = new Error(`Fetch failed ${resp} : ${url}`);
+  }
+  throw error;
+}
+
 async function makeRequest(url, method = 'GET', headers = {}, body = null) {
   const resp = await fetch(url, {
     method,
@@ -40,8 +60,7 @@ async function makeRequest(url, method = 'GET', headers = {}, body = null) {
     body
   });
   if (!resp.ok) {
-    const text = await resp.text();
-    throw new Error(`Fetch failed ${resp.status}: ${text}`);
+    await createAndThrowFetchError(resp, url);
   }
   return resp;
 }
@@ -95,10 +114,7 @@ function searchForEmailInNotifyResults(notifications, searchEmail) {
 async function getIDAMToken() {
   const username = testConfig.TestProbateCaseWorkerUserName;
   const now = Date.now();
-  if (
-    idamTokenCache[username] &&
-    (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)
-  ) {
+  if ( idamTokenCache[username] && (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)) {
     return idamTokenCache[username].token;
   }
 
@@ -113,7 +129,13 @@ async function getIDAMToken() {
   const url = `${idamApiUrl}${idamTokenPath}`;
   const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
   const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
-  const resp = await makeRequest(url, 'POST', headers, body);
+  let resp;
+  try {
+    resp = await makeRequest(url, 'POST', headers, body);
+  } catch (error) {
+    const message = `IDAM token request failed (probate user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri})`;
+    logAndThrowError(error, message);
+  }
 
   const idamJson = await resp.json();
   idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
@@ -121,6 +143,8 @@ async function getIDAMToken() {
 }
 
 async function getIDAMTokenForRefundApprover() {
+
+
   const username = testConfig.TestRefundsApproverUserName;
   const password = testConfig.TestRefundsApproverPassword;
   const idamClientID = testConfig.TestClientID;
@@ -133,19 +157,52 @@ async function getIDAMTokenForRefundApprover() {
   const url = `${idamApiUrl}${idamTokenPath}`;
   const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
   const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
-  const resp = await makeRequest(url, 'POST', headers, body);
+  let resp;
 
+  const now = Date.now();
+  if ( idamTokenCache[username] && (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)) {
+    return idamTokenCache[username].token;
+  }
+
+  try {
+    resp = await makeRequest(url, 'POST', headers, body);
+  } catch (error) {
+    const message = `IDAM token request failed (refund approver user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri})`;
+    logAndThrowError(error, message);
+  }
   const idamJson = await resp.json();
+  idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
   return idamJson.access_token;
+}
+
+
+
+/**
+ * Logs an error message and rethrows the error.
+ *
+ * This helper centralises error logging for HTTP / service calls. It logs:
+ *  - a formatted message (provided by the caller) optionally including the
+ *    numeric `status` property from the `error` object
+ *  - the error object itself (so stack trace and details are captured by the logger)
+ *
+ * After logging it rethrows the original error so callers can handle or fail
+ * the test as appropriate.
+ *
+ * @param {Error|Object} error - The error object to log and rethrow. May contain a `status` property.
+ * @param {string} message - Human readable message describing the context of the error.
+ * @throws {Error|Object} Re-throws the original `error` argument.
+ */
+function logAndThrowError(error, message) {
+  const status = error && error.status ? ` status=${error.status}` : '';
+  logger.error(`${message}.${status}`);
+  logger.error(error);
+  throw error;
 }
 
 async function getIDAMTokenForDivorceUser() {
   const username = testConfig.TestDivorceCaseWorkerUserName;
   const now = Date.now();
-  if (
-    idamTokenCache[username] &&
-    (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)
-  ) {
+  if ( idamTokenCache[username] && (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS) ) {
     return idamTokenCache[username].token;
   }
 
@@ -160,7 +217,13 @@ async function getIDAMTokenForDivorceUser() {
   const url = `${idamApiUrl}${idamTokenPath}`;
   const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
   const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
-  const resp = await makeRequest(url, 'POST', headers, body);
+  let resp;
+  try {
+    resp = await makeRequest(url, 'POST', headers, body);
+  } catch (error) {
+    const message = `IDAM token request failed (divorce user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri})`;
+    logAndThrowError(error, message);
+  }
 
   const idamJson = await resp.json();
   idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
@@ -175,24 +238,36 @@ async function getServiceToken(service = 'ccpay_bubble') {
   return serviceToken;
 }
 
-async function getUserID(idamToken) {
-  // const idamToken = await getIDAMToken();
+async function getUserID(idamToken, username = 'unknown') {
+  if (username == 'unknown' || username == undefined) {
+    username = testConfig.TestDivorceCaseWorkerUserName;
+  }
+  const now = Date.now();
+  if ( idamUserCache[username] && (now - idamUserCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS) ) {
+    return idamUserCache[username].id;
+  }
 
   const url = `${idamApiUrl}/details`;
   const headers = {
     Authorization: `Bearer ${idamToken}`,
     'Content-Type': 'application/json'
   }
-  const resp = await makeRequest(url, 'GET', headers);
+  let resp;
+  try {
+    resp = await makeRequest(url, 'GET', headers);
+  } catch (error) {
+    const message = `IDAM user details request failed (user: ${username})`;
+    logAndThrowError(error, message);
+  }
   console.log(resp);
   const responsePayload = await resp.json();
-  const idValue = responsePayload.id;
-  return idValue;
+  idamUserCache[username] = { id: responsePayload.id, timestamp: now };
+  return responsePayload.id;
 }
 
 async function getCREATEEventForProbate() {
   const idamToken = await getIDAMToken();
-  const userID = await getUserID(idamToken);
+  const userID = await getUserID(idamToken, testConfig.TestProbateCaseWorkerUserName);
   const serviceAuthorizationToken = await getServiceToken();
   const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/PROBATE/case-types/GrantOfRepresentation/event-triggers/createDraft/token`;
 
@@ -212,7 +287,7 @@ async function getCREATEEventForProbate() {
 
 async function getCREATEEventForDivorce() {
   const idamTokenForDivorce = await getIDAMTokenForDivorceUser();
-  const userID = await getUserID(idamTokenForDivorce);
+  const userID = await getUserID(idamTokenForDivorce, testConfig.TestDivorceCaseWorkerUserName);
   const serviceAuthorizationToken = await getServiceToken();
   const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/DIVORCE/case-types/DIVORCE/event-triggers/createCase/token`;
 
