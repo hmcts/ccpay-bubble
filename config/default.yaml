@@ -14,7 +14,7 @@ ccpaybubble:
   defaultPort: 3000
   microservice: ccpay_bubble
 pcipalantenna:
-  url: https://paybubble.platform.hmcts.net/ccd-search
+  url: https://paybubble.platform.hmcts.net/payment-history
   microservice: ccpay_bubble
 pci-pal:
   telephony-selection: TELEPHONY_FEATURE

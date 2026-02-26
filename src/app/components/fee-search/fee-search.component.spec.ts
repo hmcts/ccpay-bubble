@@ -476,7 +476,7 @@ describe('Fee search component', () => {
     component.sendPaymentGroup('test');
     tick();
     expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
-    const url = 'selectedOption=null&paymentGroupRef=test&dcn=11&isBulkScanning=Enable&isTurnOff=Enable';
+    const url = 'selectedOption=null&paymentGroupRef=test&dcn=11&takePayment=true&isBulkScanning=Enable&isTurnOff=Enable';
     expect(router.navigateByUrl).toHaveBeenCalledWith(`/payment-history/null?view=fee-summary&${url}`);
     }));
 
@@ -489,7 +489,7 @@ describe('Fee search component', () => {
       component.sendPaymentGroup('test');
       tick();
       expect(router.navigateByUrl).toHaveBeenCalledTimes(1);
-      const url = 'selectedOption=null&paymentGroupRef=2019-12341234&dcn=11&isBulkScanning=Enable&isTurnOff=Enable';
+      const url = 'selectedOption=null&paymentGroupRef=2019-12341234&dcn=11&takePayment=true&isBulkScanning=Enable&isTurnOff=Enable';
       expect(router.navigateByUrl).toHaveBeenCalledWith(`/payment-history/null?view=fee-summary&${url}`);
       }));
 
