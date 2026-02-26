@@ -51,3 +51,4 @@ secrets:
     launch-darkly-client-id: PAYBUBBLE-LD-CLIENT-ID
     postcode-address-lookup-id: POSTCODE_ADDRESS_LOOKUP_ID
     AppInsightsInstrumentationKey: some-key
+    paybubble-session-secret: PAYBUBBLE-SESSION-SECRET-KEY
