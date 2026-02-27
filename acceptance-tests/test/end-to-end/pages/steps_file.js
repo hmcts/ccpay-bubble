@@ -944,7 +944,6 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
     await AddFees.addFeesAmount(feeAmount, jurisdiction1, jurisdiction2);
     FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, feeCode, feeAmount, false);
-    this.click('//*[@id="paymentSystem"][@value="Kerv"]');
     this.click('Take payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.waitInUrl('pcipal', 2);
