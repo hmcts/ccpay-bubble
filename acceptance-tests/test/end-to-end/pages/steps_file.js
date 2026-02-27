@@ -928,10 +928,9 @@ module.exports = () => actor({
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '300.00', '100.00', '200.00');
-    this.click('//*[@id="paymentSystem"][@value="Kerv"]');
     this.click('Take payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    this.waitInUrl('pcipal', 2);
+    this.waitInUrl('https://euwest1.pcipalstaging.cloud/session/1288/view', 2);
     this.click('Cancel');
     this.click('Finish Session');
   },
