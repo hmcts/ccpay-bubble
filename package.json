@@ -169,7 +169,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
     "karma-phantomjs-launcher": "1.0.4",
-    "karma-spec-reporter": "^0.0.34",
+    "karma-spec-reporter": "^0.0.36",
     "lcov-result-merger": "3.1.0",
     "local-storage": "^2.0.0",
     "lodash": "^4.17.15",
