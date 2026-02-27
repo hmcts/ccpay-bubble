@@ -234,7 +234,7 @@
     "cookiejar": "^2.1.4",
     "semver": "^7.5.2",
     "tough-cookie": "^4.1.3",
-    "word-wrap": "1.2.4",
+    "word-wrap": "1.2.5",
     "flat": "5.0.1",
     "ip": "^2.0.1",
     "minimist": "1.2.8",
