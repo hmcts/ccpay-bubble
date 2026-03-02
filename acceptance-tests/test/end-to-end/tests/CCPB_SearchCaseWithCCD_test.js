@@ -59,13 +59,17 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
   I.clearCookie();
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   await miscUtils.multipleSearch(searchCase, I, ccdCaseNumberFormatted);
-  I.see('Initiated');
-  await I.click('(//*[text()[contains(.,"Review")]])[2]');
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
-  I.updateTheInitiatedTelephonyPaymentStatusToFailed(paymentRcReference, feeAmount, 'FAILED');
-  I.click('Back');
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  let url = await I.grabCurrentUrl();
+  // No callback on non-demo envts, so updating the payment status to failed
+  if(!url.includes("demo")) {
+    I.see('Initiated');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
+    I.updateTheInitiatedTelephonyPaymentStatusToFailed(paymentRcReference, feeAmount, 'FAILED');
+    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+  }
   I.addUpfrontRemissionForFailedTelephonyPayment(feeCode, totalPaymentAmount);
   I.see('Partially paid');
   await apiUtils.bulkScanPaymentForExistingNormalCase('AA08', bulkScanPayment, 'cheque', ccdNumber);
@@ -80,7 +84,7 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   I.see('Success');
   await CaseTransaction.validateCaseTransactionsDetails(totalPaymentAmount, '0', remissionAmount, '0.00', '0.00');
-}).tag('@nightly @pipeline');
+}).tag('@nightly @pipeline @debug');
 
 Scenario('Remove fee from case transaction page Telephony flow', async({ I }) => {
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
