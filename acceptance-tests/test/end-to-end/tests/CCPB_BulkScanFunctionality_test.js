@@ -484,4 +484,4 @@ Scenario('Download reports in paybubble', async ({ I, Reports }) => {
   await Reports.selectReportAndDownload('Telephony Payments');
   await Reports.selectReportAndDownload('Refunds');
   await I.Logout();
-}).tag('@pipeline @nightly @debug');
+}).tag('@pipeline @nightly');

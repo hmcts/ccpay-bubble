@@ -28,7 +28,7 @@ Scenario('Card payment refund PayIt journey',
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£300.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const paymentCardValues = assertionData.getPaymentCardValues('4444333322221111', '01',
-      '26', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
+      '30', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
       'Testcardpayment@mailnesia.com');
     ServiceRequests.populateCardDetails(paymentCardValues);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -148,7 +148,7 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£300.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const paymentCardValues = assertionData.getPaymentCardValues('4444333322221111', '01',
-      '26', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
+      '30', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
       'Testcardpayment@mailnesia.com');
     ServiceRequests.populateCardDetails(paymentCardValues);
     I.wait(CCPBATConstants.twoSecondWaitTime);

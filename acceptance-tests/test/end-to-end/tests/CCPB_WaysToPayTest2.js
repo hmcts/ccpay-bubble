@@ -323,7 +323,7 @@ Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Pay
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£612.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const paymentCardValues = assertionData.getPaymentCardValues('4444333322221111', '01',
-      '26', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
+      '30', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
       'Testcardpayment@mailnesia.com');
     ServiceRequests.populateCardDetails(paymentCardValues);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -389,7 +389,7 @@ Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Pay
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£612.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const paymentCardValues = assertionData.getPaymentCardValues('4000000000000002', '01',
-      '26', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
+      '30', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
       'Testcardpayment@mailnesia.com');
     ServiceRequests.populateCardDetails(paymentCardValues);
     I.wait(CCPBATConstants.twoSecondWaitTime);
