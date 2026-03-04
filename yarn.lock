@@ -8892,7 +8892,7 @@ __metadata:
     tslib: "npm:^2.0.0"
     tslint: "npm:~6.1.3"
     typescript: "npm:~5.8.0"
-    underscore: "npm:^1.12.1"
+    underscore: "npm:^1.13.8"
     uuid: "npm:^9.0.1"
     web-animations-js: "npm:^2.3.2"
     webdriverio: "npm:^6.12.1"
