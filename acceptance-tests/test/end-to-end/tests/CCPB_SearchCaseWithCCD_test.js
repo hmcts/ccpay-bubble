@@ -59,13 +59,15 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
   I.clearCookie();
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   await miscUtils.multipleSearch(searchCase, I, ccdCaseNumberFormatted);
-  I.see('Initiated');
-  await I.click('(//*[text()[contains(.,"Review")]])[2]');
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
-  I.updateTheInitiatedTelephonyPaymentStatusToFailed(paymentRcReference, feeAmount, 'FAILED');
-  I.click('Back');
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  // Checking the payment status and updating to Failed, PciPal Call back works on Demo but it's slow sometimes
+  if (paymentStatus === 'Initiated')  {
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
+    I.updateTheInitiatedTelephonyPaymentStatusToFailed(paymentRcReference, feeAmount, 'FAILED');
+    I.click('Back');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
+  }
   I.addUpfrontRemissionForFailedTelephonyPayment(feeCode, totalPaymentAmount);
   I.see('Partially paid');
   await apiUtils.bulkScanPaymentForExistingNormalCase('AA08', bulkScanPayment, 'cheque', ccdNumber);
