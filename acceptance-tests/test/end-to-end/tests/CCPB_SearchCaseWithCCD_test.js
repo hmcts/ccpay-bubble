@@ -60,6 +60,7 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
   I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   await miscUtils.multipleSearch(searchCase, I, ccdCaseNumberFormatted);
   // Checking the payment status and updating to Failed, PciPal Call back works on Demo but it's slow sometimes
+  let paymentStatus = await I.grabTextFrom('//ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr[1]/td[1]');
   if (paymentStatus === 'Initiated')  {
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
