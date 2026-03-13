@@ -27,9 +27,6 @@ export class AppComponent implements OnInit {
    });
    }
    ngOnInit() {
-    this.paymentGroupService.getBSFeature().then((status) => {
-      this.isBulkscanningEnable = status;
-    });
 
     this.document.documentElement.lang = 'en';
   }

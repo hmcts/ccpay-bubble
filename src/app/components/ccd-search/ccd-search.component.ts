@@ -46,9 +46,6 @@ export class CcdSearchComponent implements OnInit {
   ngOnInit() {
     this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'] === 'false' ? null : true ;
     this.servicerequest = this.activatedRoute.snapshot.queryParams['servicerequest'] ;
-    this.paymentGroupService.getBSFeature().then((status) => {
-      this.isBulkscanningEnable = status;
-    });
     this.paymentGroupService.getLDFeature('bspayments-strategic').then((status) => {
       this.isStrategicFixEnable = status;
     });

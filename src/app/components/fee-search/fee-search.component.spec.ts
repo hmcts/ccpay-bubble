@@ -282,7 +282,6 @@ describe('Fee search component', () => {
   it('Should pass selected fee into POST call for backend', async () => {
     spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
     spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
-    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
     await component.ngOnInit();
     component.selectFee(testFixedFlatFee);
     fixture.detectChanges();
@@ -304,7 +303,6 @@ describe('Fee search component', () => {
   });
 
   it('Should set ccd number from URL', async () => {
-    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
     await component.ngOnInit();
     expect(component.ccdNo).toBe('1234-1234-1234-1234');
     expect(component.paymentGroupRef).toBe(null);
@@ -323,7 +321,6 @@ describe('Fee search component', () => {
   it('Should navigate to fee-summary page using correct CCD case number and payment group reference', async () => {
     spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
     spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
-    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
     await component.ngOnInit();
 
     component.paymentGroupRef = 'paymentgroup';
@@ -345,7 +342,6 @@ describe('Fee search component', () => {
   describe('If fixed volume fee is selected', async () => {
     it('should make fee-details component visible and fee-search component invisible', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
-      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
       await component.ngOnInit();
       component.selectFee(testFixedVolumeFee);
       fixture.detectChanges();
@@ -354,7 +350,6 @@ describe('Fee search component', () => {
 
     it('should remember which fee was selected', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
-      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
       await component.ngOnInit();
       component.selectFee(testFixedVolumeFee);
       fixture.detectChanges();
@@ -366,7 +361,6 @@ describe('Fee search component', () => {
   describe('If banded flat fee is selected', () => {
     it('should make fee-details component visible and fee-search component invisible', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
-      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
       await component.ngOnInit();
       component.selectFee(testFixedVolumeFee);
       fixture.detectChanges();
@@ -375,7 +369,6 @@ describe('Fee search component', () => {
 
     it('should remember which fee was selected', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
-      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
       await component.ngOnInit();
       component.selectFee(testBandedFlatFee);
       fixture.detectChanges();
@@ -545,7 +538,6 @@ describe('Fee search component', () => {
     it('should call backend with ranged fee and percentage amount', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
       spyOn(paymentGroupService, 'putPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
-      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
       await component.ngOnInit();
 
       const emitted_value = { volumeAmount: 2, selectedVersionEmit: null, isDiscontinuedFeeAvailable: false };
