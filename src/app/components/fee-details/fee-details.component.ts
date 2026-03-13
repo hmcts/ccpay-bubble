@@ -1,6 +1,5 @@
-import { PaymentGroupService } from './../../services/payment-group/payment-group.service';
 import { IVersion } from './../../../../projects/fee-register-search/src/lib/interfaces/IVersion';
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
@@ -10,10 +9,9 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
   templateUrl: './fee-details.component.html',
   styleUrls: ['./fee-details.component.scss']
 })
-export class FeeDetailsComponent implements OnInit, OnChanges {
+export class FeeDetailsComponent implements OnInit {
   selectedFeeVersion: IVersion;
   validOldVersionArray: IVersion[] = [];
-  isDiscontinuedFeatureEnabled = true;
   @Input() fee: any;
   @Output() submitFeeVolumeEvent: EventEmitter<{ volumeAmount: number, selectedVersionEmit: IVersion,
     isDiscontinuedFeeAvailable: boolean }> = new EventEmitter();
@@ -26,17 +24,10 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
   calculatedAmountFormControl: FormControl;
 
   constructor(
-    private paymentGroupService: PaymentGroupService,
     private formBuilder: FormBuilder
   ) {
   }
 
-  async ngOnChanges() {
-    this.isDiscontinuedFeatureEnabled = await this.paymentGroupService.getDiscontinuedFrFeature();
-    if (this.isDiscontinuedFeatureEnabled) {
-      this.validOldVersionArray = this.validOldFeesVersions(this.fee);
-    }
-  }
   ngOnInit() {
     this.feeDetailFormGroup = this.formBuilder.group({
       feeOrVolumeControl: new FormControl({ value: 1, disabled: false }),

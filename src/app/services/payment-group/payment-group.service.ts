@@ -4,9 +4,6 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component';
 import { IBSPayments } from '@hmcts/ccpay-web-component';
 
-const BULK_SCANNING_ENABLED = 'bulk-scan-enabling-fe';
-const DISCONTINUED_FEES_FEATURE_ENABLED = 'discontinued-fees-feature';
-
 
 @Injectable()
 export class PaymentGroupService {
@@ -36,13 +33,6 @@ export class PaymentGroupService {
     });
   }
 
-  getBSFeature(): Promise<any> {
-    return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
-      const regFeature = JSON.parse(features).find(feature => feature.uid === BULK_SCANNING_ENABLED);
-      return regFeature ? regFeature.enable : false;
-    });
-  }
-
   getLDFeature(flagKey): Promise<any> {
     return this.http.get(`api/payment-history/LD-feature?flag=${flagKey}`).toPromise().then(features => {
       return !JSON.stringify(features);
@@ -63,12 +53,6 @@ export class PaymentGroupService {
     });
   }
 
-  getDiscontinuedFrFeature(): Promise<any> {
-    return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
-      const regFeature = JSON.parse(features).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
-      return regFeature ? regFeature.enable : false;
-    });
-  }
 
   getEnvironment(): Promise<any> {
     return this.http.get('api/get-environment').toPromise().then(env => {
