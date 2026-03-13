@@ -17,6 +17,8 @@ export class FeeSearchComponent implements OnInit {
   selectedFee: any;
   ccdNo: string = null;
   dcnNo: string = null;
+  takePayment: true;
+  forceTelephony: null;
   preselectedFee: IFee;
   showFeeDetails = false;
   paymentGroupRef: string = null;
@@ -36,6 +38,9 @@ export class FeeSearchComponent implements OnInit {
     this.ccdNo = this.activatedRoute.snapshot.queryParams['ccdCaseNumber'];
     this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
     this.dcnNo = this.activatedRoute.snapshot.queryParams['dcn'];
+    this.takePayment = this.activatedRoute.snapshot.queryParams['takePayment'];
+    this.forceTelephony = this.activatedRoute.snapshot.queryParams['forceTelephony'];
+
     this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
     this.bulkScanningTxt = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable' ?
                                 '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
@@ -136,6 +141,7 @@ export class FeeSearchComponent implements OnInit {
         volume: ((feeType === 'rateable' && flatAmt) || (feeType === 'ranged' && percentageAmt))
         ? 1 : this.outputEmitterFeesDetails.volumeAmount,
         fee_amount: fee_amount
+
       }]
     };
 
@@ -143,14 +149,18 @@ export class FeeSearchComponent implements OnInit {
   }
 
   sendPaymentGroup(paymentGroup: any) {
-    const dcnQueryParams = this.dcnNo ? `&dcn=${this.dcnNo}` : '';
+
+    let urlQueryParams = this.dcnNo ? `&dcn=${this.dcnNo}` : '';
+    urlQueryParams += this.takePayment ? `&takePayment=${this.takePayment}` : '&takePayment=true';
+    urlQueryParams += this.forceTelephony ? `&forceTelephony=${this.forceTelephony}` : '';
+
 
     if (this.paymentGroupRef) {
 
       this.paymentGroupService.putPaymentGroup(this.paymentGroupRef, paymentGroup)
         .then(response => {
          // tslint:disable-next-line:max-line-length
-          let url = `/payment-history/${this.ccdNo}?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${this.paymentGroupRef}${dcnQueryParams}${this.bulkScanningTxt}`;
+          let url = `/payment-history/${this.ccdNo}?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${this.paymentGroupRef}${urlQueryParams}${this.bulkScanningTxt}`;
           url = url.replace(/[\r\n]+/g, ' ');
           this.router.navigateByUrl(url);
         })
@@ -160,7 +170,7 @@ export class FeeSearchComponent implements OnInit {
     } else {
       this.paymentGroupService.postPaymentGroup(paymentGroup).then(paymentGroupReceived => {
         // tslint:disable-next-line:max-line-length
-        let url = `/payment-history/${this.ccdNo}?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${dcnQueryParams}${this.bulkScanningTxt}`;
+        let url = `/payment-history/${this.ccdNo}?view=fee-summary&selectedOption=${this.selectedOption}&paymentGroupRef=${JSON.parse(<any>paymentGroupReceived)['data'].payment_group_reference}${urlQueryParams}${this.bulkScanningTxt}`;
         url = url.replace(/[\r\n]+/g, ' ');
         this.router.navigateByUrl(url);
       })
