@@ -208,6 +208,7 @@
     "braces": "^3.0.3",
     "chokidar": "^2.1.8",
     "micromatch": "^4.0.8",
+    "picomatch": "^4.0.4",
     "karma-cli": "^2.0.0",
     "karma": "^6.4.2",
     "typescript": "~5.8.0",
