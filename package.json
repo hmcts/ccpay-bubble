@@ -57,7 +57,7 @@
     "@babel/eslint-parser": "^7.11.0",
     "@babel/helper-create-class-features-plugin": "^7.21.8",
     "@babel/runtime": "^7.28.4",
-    "@hmcts/ccpay-web-component": "^6.5.19",
+    "@hmcts/ccpay-web-component": "6.5.21",
     "@hmcts/cookie-manager": "^1.0.0",
     "@hmcts/nodejs-healthcheck": "^1.8.0",
     "@hmcts/nodejs-logging": "^4.0.4",
@@ -98,7 +98,7 @@
     "supertest": "^7.2.2",
     "ts-mockito": "^2.3.1",
     "tslib": "^2.0.0",
-    "underscore": "^1.12.1",
+    "underscore": "1.13.8",
     "uuid": "^9.0.1",
     "web-animations-js": "^2.3.2",
     "yargs-parser": "^20.2.7",
@@ -197,8 +197,9 @@
     "fsevents": "*"
   },
   "resolutions": {
-    "tar": "^7.5.9",
-    "minimatch": "^3.1.2",
+    "serialize-javascript": "7.0.4",
+    "tar": "^7.5.11",
+    "minimatch": "3.1.5",
     "qs": "6.14.1",
     "on-headers": "~1.1.0",
     "path-to-regexp": "^0.1.12",
@@ -207,6 +208,7 @@
     "braces": "^3.0.3",
     "chokidar": "^2.1.8",
     "micromatch": "^4.0.8",
+    "picomatch": "^4.0.4",
     "karma-cli": "^2.0.0",
     "karma": "^6.4.2",
     "typescript": "~5.8.0",
@@ -224,7 +226,7 @@
     "glob-parent": "^5.1.2",
     "socket.io-parser": "^4.2.1",
     "xmlhttprequest-ssl": "^1.6.2",
-    "underscore": "^1.12.1",
+    "underscore": "1.13.8",
     "ansi-regex": "^5.0.1",
     "sockjs": "^0.3.20",
     "json-schema": "^0.4.0",
@@ -253,7 +255,8 @@
     "js-yaml": "^4.1.1",
     "jws": "^3.2.3",
     "debug": "^4.4.3",
-    "diff": "^8.0.3"
+    "diff": "^8.0.3",
+    "@tootallnate/once": "^3.0.1"
   },
   "packageManager": "yarn@4.10.3"
 }
