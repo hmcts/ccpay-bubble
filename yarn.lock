@@ -6271,13 +6271,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:4.14.108":
-  version: 4.14.108
-  resolution: "@types/lodash@npm:4.14.108"
-  checksum: 10/aa9f04f7a1772b940a9c7ab390b61d11fe6e58d0eb182883a1505d36c7866651c148f63d47add655a03c3985f22e294c442e45d4a2e43b72cebf11f1c7bd2388
-  languageName: node
-  linkType: hard
-
 "@types/mime@npm:^1":
   version: 1.3.5
   resolution: "@types/mime@npm:1.3.5"
@@ -8854,7 +8847,6 @@ __metadata:
     "@stryker-mutator/typescript": "npm:^3.0.1"
     "@types/file-saver": "npm:^2.0.1"
     "@types/jasmine": "npm:~5.1.0"
-    "@types/lodash": "npm:4.14.108"
     "@types/node": "npm:^18.11.9"
     "@types/node-fetch": "npm:^2.6.12"
     "@typescript-eslint/eslint-plugin": "npm:^8.0.0"
@@ -8902,7 +8894,6 @@ __metadata:
     launchdarkly-node-client-sdk: "npm:^3.3.1"
     lcov-result-merger: "npm:3.1.0"
     local-storage: "npm:^2.0.0"
-    lodash: "npm:^4.18.1"
     minimist: "npm:^1.2.8"
     mocha: "npm:^11.7.5"
     mocha-junit-reporter: "npm:2.2.1"
@@ -17000,13 +16991,6 @@ __metadata:
   linkType: hard
 
 "lodash@npm:4.x.x, lodash@npm:^4.0.1, lodash@npm:^4.13.1, lodash@npm:^4.17.11, lodash@npm:^4.17.15, lodash@npm:^4.17.21, lodash@npm:^4.17.5":
-  version: 4.17.23
-  resolution: "lodash@npm:4.17.23"
-  checksum: 10/82504c88250f58da7a5a4289f57a4f759c44946c005dd232821c7688b5fcfbf4a6268f6a6cdde4b792c91edd2f3b5398c1d2a0998274432cff76def48735e233
-  languageName: node
-  linkType: hard
-
-"lodash@npm:^4.18.1":
   version: 4.18.1
   resolution: "lodash@npm:4.18.1"
   checksum: 10/306fea53dfd39dad1f03d45ba654a2405aebd35797b673077f401edb7df2543623dc44b9effbb98f69b32152295fff725a4cec99c684098947430600c6af0c3f
