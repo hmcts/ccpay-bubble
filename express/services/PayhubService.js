@@ -6,7 +6,7 @@ const { URL, URLSearchParams } = require('url');
 
 const payhubUrl = config.get('payhub.url');
 const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
-const pcipalAntennaReturnUrl = config.get('pcipalantenna.url');
+const pcipalTelephonyReturnUrl = config.get('pci-pal.return-url');
 const ccdUrl = config.get('ccd.url');
 const CASE_REF_VALIDATION_ENABLED = 'caseref-validation';
 
@@ -37,9 +37,9 @@ class PayhubService {
     return resp.json();
   }
 
-  async postPaymentAntennaToPayHub(req) {
+  async postTelephonyPaymentToPayHub(req) {
     const url = `${payhubUrl}/payment-groups/${req.params.paymentGroup}/telephony-card-payments`;
-    req.body.return_url = pcipalAntennaReturnUrl;
+    req.body.return_url = pcipalTelephonyReturnUrl;
     const options = {
       method: 'POST',
       body: JSON.stringify(req.body),

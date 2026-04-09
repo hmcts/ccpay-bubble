@@ -82,8 +82,8 @@ class PayhubController {
       });
   }
 
-  postPaymentAntennaToPayHub(req, res, appInsights) {
-    return this.payhubService.postPaymentAntennaToPayHub(req, res, appInsights)
+  postTelephonyPaymentToPayHub(req, res, appInsights) {
+    return this.payhubService.postTelephonyPaymentToPayHub(req, res, appInsights)
     // eslint-disable-next-line
     .then(result => {
         const pcipalData = {
