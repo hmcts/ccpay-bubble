@@ -13,11 +13,9 @@ ccpaybubble:
   url: https://localhost
   defaultPort: 3000
   microservice: ccpay_bubble
-pcipalantenna:
-  url: https://paybubble.platform.hmcts.net/ccd-search
-  microservice: ccpay_bubble
 pci-pal:
   telephony-selection: TELEPHONY_FEATURE
+  return-url: https://paybubble.platform.hmcts.net/ccd-search
 s2s:
   url: http://localhost:23443
 payhub:
