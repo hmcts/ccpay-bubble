@@ -22,7 +22,6 @@ export class FeeSearchComponent implements OnInit {
   paymentGroupRef: string = null;
   selectedOption: string = null;
   bulkScanningTxt = '&isBulkScanning=Enable&isTurnOff=Enable';
-  isDiscontinuedFeatureEnabled = true;
   lsCcdNumber: any = ls.get<any>('ccdNumber');
 
   constructor(
@@ -54,11 +53,6 @@ export class FeeSearchComponent implements OnInit {
     if (this.lsCcdNumber !== this.ccdNo) {
       this.router.navigateByUrl('/ccd-search?takePayment=true');
     }
-
-
-    this.paymentGroupService.getDiscontinuedFrFeature().then((status) => {
-      this.isDiscontinuedFeatureEnabled = status;
-    });
   }
 
   selectFee(fee: IFee) {
@@ -67,16 +61,15 @@ export class FeeSearchComponent implements OnInit {
     const flatAmt = fee.current_version ? fee.current_version['flat_amount'] : fee.fee_versions['flat_amount'];
     const percentageAmt = fee.current_version ? fee.current_version['percentage_amount'] : fee.fee_versions['percentage_amount'];
     let paymentGroup;
-    const feeDetailsComponent = new FeeDetailsComponent(null, null);
+    const feeDetailsComponent = new FeeDetailsComponent(null);
     if ((feeType === 'fixed' && volAmt)
       || (feeType === 'banded' && flatAmt)
       || (feeType === 'rateable' && flatAmt)
       || (feeType === 'ranged' && percentageAmt)
-      || (this.isDiscontinuedFeatureEnabled && fee.fee_versions.length > 0 && feeDetailsComponent.validOldFeesVersions(fee).length > 0)) {
+      || (fee.fee_versions.length > 0 && feeDetailsComponent.validOldFeesVersions(fee).length > 0)) {
       this.preselectedFee = fee;
       this.showFeeDetails = true;
     } else if (fee.current_version === undefined
-      && this.isDiscontinuedFeatureEnabled
       && fee.fee_versions.length > 0
       && feeDetailsComponent.validOldFeesVersions(fee).length > 0) {
       this.preselectedFee = fee;

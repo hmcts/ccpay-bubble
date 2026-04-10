@@ -1,10 +1,9 @@
 import { PaymentGroupService } from './../../services/payment-group/payment-group.service';
 import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
-import {of} from 'rxjs';
 import {FeeDetailsComponent} from './fee-details.component';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { PaybubbleHttpClient } from '../../services/httpclient/paybubble.http.client';
-import { instance, mock, anyFunction } from 'ts-mockito';
+import { instance, mock } from 'ts-mockito';
 import { HttpClient } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser';
 
@@ -12,7 +11,6 @@ describe('FeeDetailsComponent', () => {
   let component: FeeDetailsComponent;
   let fixture: ComponentFixture<FeeDetailsComponent>;
   let testFeeVersions: any;
-  let paymentGroupService: PaymentGroupService;
   let http: PaybubbleHttpClient;
 
   beforeEach(waitForAsync(() => {
@@ -45,7 +43,6 @@ describe('FeeDetailsComponent', () => {
         description: 'test-description'
     };
     fixture = TestBed.createComponent(FeeDetailsComponent);
-    paymentGroupService = fixture.debugElement.injector.get(PaymentGroupService);
     component = fixture.componentInstance;
     component.fee = {
       code: 'test-code',
@@ -92,25 +89,6 @@ describe('FeeDetailsComponent', () => {
     spyOn(component.restartSearchEvent, 'emit');
     component.goBack();
     expect(component.restartSearchEvent.emit).toHaveBeenCalled();
-  });
-
-  it('Should set isDiscontinuedFeatureEnabled from URL', async () => {
-    const features = <any>[
-      {
-        uid: 'discontinued-fees-feature',
-        enable: true,
-        description: 'To enable discontinued fees FeesRegister Feature',
-        group: null,
-        permissions: [],
-        flippingStrategy: null,
-        customProperties: {}
-      }
-    ];
-    spyOn(features, 'find').and.returnValue(features[0]);
-    spyOn(http, 'get').and.callFake(() => of(JSON.stringify(features)));
-
-    await component.ngOnChanges();
-    expect(component.isDiscontinuedFeatureEnabled).toBeTruthy();
   });
 
   it('Should  submit fee volume', () => {
@@ -463,6 +441,4 @@ describe('FeeDetailsComponent', () => {
   });
 
 });
-
-
 

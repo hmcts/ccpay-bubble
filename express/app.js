@@ -102,10 +102,6 @@ module.exports = appInsights => express.Router()
     controllers.feeController.getFees(req, res);
   })
 
-  .get('/payment-history/bulk-scan-feature', (req, res) => {
-    controllers.payhubController.bulkScanToggleFeature(req, res);
-  })
-
   .get('/payment-history/LD-feature?*', (req, res) => {
     controllers.payhubController.getLDFeatures(req, res);
   })

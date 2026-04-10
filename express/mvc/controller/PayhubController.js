@@ -320,16 +320,6 @@ class PayhubController {
       });
   }
 
-  bulkScanToggleFeature(req, res) {
-    return this.payhubService.getBSfeature(req)
-      .then(result => {
-        res.status(200).json(result);
-      })
-      .catch(error => {
-        return errorHandler(res, error);
-      });
-  }
-
   validateCaseReference(req, res) {
     return this.payhubService.validateCaseReference(req)
       .then(result => {
