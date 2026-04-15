@@ -880,13 +880,13 @@ module.exports = () => actor({
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }
     this.see('Add fee');
+    this.see('Return to the case');
     this.click('Case Transaction');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
-    this.see('Return to the case');
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Summary');
