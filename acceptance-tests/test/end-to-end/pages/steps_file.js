@@ -886,6 +886,7 @@ module.exports = () => actor({
     this.see('Case transactions');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
+    this.see('Return to the case');
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Summary');
@@ -1000,6 +1001,7 @@ module.exports = () => actor({
     this.see('Quantity');
     this.see('Amount');
     this.see('Add fee');
+    this.see('Return to the case');
     this.see(PaybubbleStaticData.fee_description.FEE0219);
     this.see('300.00');
     this.see('Total to pay: £300.00');
