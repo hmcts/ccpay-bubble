@@ -2,8 +2,8 @@ const config = require('config');
 const appInsights = require('applicationinsights');
 
 function fineGrainedSampling(envelope) {
-  const baseType = envelope?.data?.baseType;
-  const name = envelope?.data?.baseData?.name;
+  const baseType = envelope && envelope.data && envelope.data.baseType;
+  const name = envelope && envelope.data && envelope.data.baseData && envelope.data.baseData.name;
 
   if (
     ['RequestData', 'RemoteDependencyData'].includes(baseType) &&
@@ -24,11 +24,15 @@ module.exports = {
         .setAutoDependencyCorrelation(true)
         .setAutoCollectConsole(true, true);
 
-      if (appInsights.defaultClient?.context?.tags && appInsights.defaultClient?.context?.keys?.cloudRole) {
+      if (appInsights.defaultClient &&
+        appInsights.defaultClient.context &&
+        appInsights.defaultClient.context.tags &&
+        appInsights.defaultClient.context.keys &&
+        appInsights.defaultClient.context.keys.cloudRole) {
         appInsights.defaultClient.context.tags[appInsights.defaultClient.context.keys.cloudRole] = config.get('appInsights.roleName');
       }
 
-      if (appInsights.defaultClient?.addTelemetryProcessor) {
+      if (appInsights.defaultClient && appInsights.defaultClient.addTelemetryProcessor) {
         appInsights.defaultClient.addTelemetryProcessor(fineGrainedSampling);
       }
 
@@ -36,7 +40,7 @@ module.exports = {
     } catch (error) {
       // Telemetry must never prevent application startup.
       // eslint-disable-next-line no-console
-      console.warn('Application Insights initialization failed, continuing without telemetry', error?.message || error);
+      console.warn('Application Insights initialization failed, continuing without telemetry', error && error.message ? error.message : error);
     }
 
     return appInsights;
