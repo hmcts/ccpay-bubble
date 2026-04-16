@@ -1,5 +1,13 @@
 const config = require('config');
 const appInsights = require('applicationinsights');
+const EMPTY_INSTRUMENTATION_KEY = '00000000-0000-0000-0000-000000000000';
+
+function createNoopAppInsights() {
+  return {
+    defaultClient: null,
+    setAuthenticatedUserContext() {}
+  };
+}
 
 function fineGrainedSampling(envelope) {
   const baseType = envelope && envelope.data && envelope.data.baseType;
@@ -20,6 +28,11 @@ module.exports = {
   enable() {
     try {
       const instrumentationKey = config.get('secrets.ccpay.AppInsightsInstrumentationKey');
+
+      if (!instrumentationKey || instrumentationKey === EMPTY_INSTRUMENTATION_KEY) {
+        return createNoopAppInsights();
+      }
+
       appInsights.setup(instrumentationKey)
         .setAutoDependencyCorrelation(true)
         .setAutoCollectConsole(true, true);
@@ -41,6 +54,7 @@ module.exports = {
       // Telemetry must never prevent application startup.
       // eslint-disable-next-line no-console
       console.warn('Application Insights initialization failed, continuing without telemetry', error && error.message ? error.message : error);
+      return createNoopAppInsights();
     }
 
     return appInsights;
