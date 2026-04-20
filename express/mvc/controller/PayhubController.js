@@ -37,7 +37,7 @@ class PayhubController {
   }
 
   getLDFeatures(req, res) {
-    const ldClient = LaunchDarkly.initialize(ccpayBubbleLDclientId, user);
+    const ldClient = LaunchDarkly.initialize(ccpayBubbleLDclientId, user, { diagnosticOptOut: true });
     ldClient.on('ready', () => {
       const showFeature = ldClient.variation(req.query.flag, false);
       return res.status(200).send({ flag: showFeature, u: user, id: ccpayBubbleLDclientId });
