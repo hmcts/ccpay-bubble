@@ -141,13 +141,11 @@ module.exports = (security, appInsights) => {
 
   const duration = Date.now() - startTime;
 
-  if (client) {
-      client.trackEvent({ name: 'my custom event', properties: { customProperty: 'custom property value' } });
-      client.trackException({ exception: new Error('handled exceptions can be logged with this method') });
-      client.trackMetric({ name: 'custom metric', value: 3 });
-      client.trackTrace({ message: 'trace message' });
-      client.trackMetric({ name: 'server startup time', value: duration });
-    }
+  client.trackEvent({ name: 'my custom event', properties: { customProperty: 'custom property value' } });
+  client.trackException({ exception: new Error('handled exceptions can be logged with this method') });
+  client.trackMetric({ name: 'custom metric', value: 3 });
+  client.trackTrace({ message: 'trace message' });
+  client.trackMetric({ name: 'server startup time', value: duration });
 
   return app;
 };
