@@ -2,6 +2,16 @@ const config = require('@hmcts/properties-volume').addTo(require('config'));
 const security = require('./express/infrastructure/security-factory');
 const { enable } = require('./app-insights');
 
+process.on('uncaughtException', error => {
+  console.error('Uncaught exception during startup', error);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', error => {
+  console.error('Unhandled rejection during startup', error);
+  process.exit(1);
+});
+
 // App Insights needs to be enabled as early as possible as it monitors other libraries as well
 const appInsights = enable();
 appInsights.setAuthenticatedUserContext = userId => {
