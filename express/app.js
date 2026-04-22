@@ -234,6 +234,6 @@ module.exports = appInsights => express.Router()
   .get('/payment-history/*', (req, res) => {
     controllers.payhubController.ccpayWebComponentIntegration(req, res);
   })
-  .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('secrets.ccpay.AppInsightsInstrumentationKey') }))
+  .get('/monitoring-tools', (req, res) => res.status(HttpStatus.OK).json({ key: config.get('secrets.ccpay.app-insights-connection-string') }))
 
   .get('/cases/:caseref', (req, res) => controllers.payhubController.validateCaseReference(req, res));

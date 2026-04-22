@@ -1,6 +1,6 @@
 const config = require('config');
 const appInsights = require('applicationinsights');
-const EMPTY_INSTRUMENTATION_KEY = '00000000-0000-0000-0000-000000000000';
+const EMPTY_CONNECTION_STRING = 'InstrumentationKey=00000000-0000-0000-0000-000000000000';
 
 function createNoopAppInsights() {
   return {
@@ -27,13 +27,13 @@ function fineGrainedSampling(envelope) {
 module.exports = {
   enable() {
     try {
-      const instrumentationKey = config.get('secrets.ccpay.AppInsightsInstrumentationKey');
+      const connectionString = config.get('secrets.ccpay.app-insights-connection-string');
 
-      if (!instrumentationKey || instrumentationKey === EMPTY_INSTRUMENTATION_KEY) {
+      if (!connectionString || connectionString === EMPTY_CONNECTION_STRING) {
         return createNoopAppInsights();
       }
 
-      appInsights.setup(instrumentationKey)
+      appInsights.setup(connectionString)
         .setAutoDependencyCorrelation(true)
         .setAutoCollectConsole(true, true);
 
