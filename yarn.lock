@@ -804,11 +804,11 @@ __metadata:
   linkType: hard
 
 "@angular/compiler@npm:^20.3.16":
-  version: 20.3.16
-  resolution: "@angular/compiler@npm:20.3.16"
+  version: 20.3.19
+  resolution: "@angular/compiler@npm:20.3.19"
   dependencies:
     tslib: "npm:^2.3.0"
-  checksum: 10/2b5b324dbfe06f9be44e2355e9af2856ceebc57d70cf405dd2eb59687182e089c303c140ba9157b561534ab7f49552e8d2fcd4488a7850c1905c7799220079e3
+  checksum: 10/bd4377767ee744d0d4d7392599ff105856ec8d1069c7e7c553c21eafb710944b95f7307de960f4b77cc80c2a563ebb35be209f6569d075bdd1f8693fcb05cb63
   languageName: node
   linkType: hard
 
