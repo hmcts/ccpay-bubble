@@ -48,4 +48,4 @@ secrets:
     paybubble-idam-client-secret: PAYBUBBLE-IDAM-CLIENT-SECRET-KEY
     launch-darkly-client-id: PAYBUBBLE-LD-CLIENT-ID
     postcode-address-lookup-id: POSTCODE_ADDRESS_LOOKUP_ID
-    AppInsightsInstrumentationKey: some-key
+    app-insights-connection-string: some-key
