@@ -79,7 +79,7 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, totalAmount, 'cheque');
   I.waitForClickable({ xpath: '//button[contains(text() , "Allocate to new service request")]' });
   I.seeElement({ xpath: '//button[contains(text() , "Allocate to existing service request") and contains(@class, "button--disabled")]' });
-  I.click('Create service request and pay');
+  I.click('Create service request');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   await AddFees.addFeesAmount(feeAmount, 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', feeAmount, false);
