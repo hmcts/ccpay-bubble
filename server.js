@@ -13,6 +13,7 @@ const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
 const crypto = require('crypto');
+const config = require('config');
 const seed = 'my-secret-seed';
 
 const app = express();
@@ -134,7 +135,8 @@ module.exports = (security, appInsights) => {
   // fallback to this route (so that Angular will handle all routing)
   app.get('**', security.protectWithAnyOf(roles.allRoles, ['/assets/']), csrfProtection,
     (req, res) => {
-      res.render('index', { csrfToken: req.csrfToken() });
+      const dynatraceScriptUrl = config.has('dynatrace.scriptUrl') ? config.get('dynatrace.scriptUrl') : '';
+      res.render('index', { csrfToken: req.csrfToken(), dynatraceScriptUrl });
     });
 
   app.use(errorHandler);

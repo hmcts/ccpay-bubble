@@ -32,6 +32,8 @@ postcodelookup:
   url: https://api.os.uk/search/places/v1
 appInsights:
   roleName: paybubble
+dynatrace:
+  scriptUrl: ''
 e2e:
   frontendUrl: https://localhost:4200/
 certs:
