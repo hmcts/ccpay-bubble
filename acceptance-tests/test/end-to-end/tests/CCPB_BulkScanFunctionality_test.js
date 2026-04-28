@@ -142,10 +142,10 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   FeesSummary.verifyFeeSummaryAfterRemission('FEE0002', feeAmount1, remissionAmount, totalAmount);
   FeesSummary.addFeeFromSummary();
   await AddFees.addFees(feeAmount2, 'civil', 'magistrates_court');
-  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0345', feeAmount2, true);
+  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0362', feeAmount2, true);
   I.wait(CCPBATConstants.tenSecondWaitTime);
   ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1', totalAmount, feeAmount1, feeAmount1, shortfallAmount);
-  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0345', '1', totalAmount, feeAmount2, feeAmount2, shortfallAmount);
+  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0362', '1', totalAmount, feeAmount2, feeAmount2, shortfallAmount);
   ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.tenSecondWaitTime);
