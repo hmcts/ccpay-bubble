@@ -11,7 +11,8 @@ properties([
     string(name: 'S2S_RPE_SERVICE_AUTH_API_URL', defaultValue: 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal', description: 'The s2s rpe service api url you want to run these tests against'),
     string(name: 'PAYMENT_API_URL', defaultValue: 'http://payment-api-aat.service.core-compute-aat.internal', description: 'The payment api url you want to run these tests against'),
     string(name: 'REFUNDS_API_URL', defaultValue: 'http://ccpay-refunds-api-aat.service.core-compute-aat.internal', description: 'The refunds api url you want to run these tests against'),
-    string(name: 'BULKSCANNING_API_URL', defaultValue: 'http://ccpay-bulkscanning-api-aat.service.core-compute-aat.internal', description: 'The bulkscanning api url you want to run these tests against')
+    string(name: 'BULKSCANNING_API_URL', defaultValue: 'http://ccpay-bulkscanning-api-aat.service.core-compute-aat.internal', description: 'The bulkscanning api url you want to run these tests against'),
+    booleanParam(name: 'MUTATION_TESTS',defaultValue: true, description: 'mutation tests')
   ])
 ])
 
@@ -76,7 +77,9 @@ withNightlyPipeline("nodejs", product, component) {
   enableFortifyScan()
   enableCrossBrowserTest()
   enableFullFunctionalTest(180)
-  enableMutationTest(150)
+  if (params.MUTATION_TESTS) {
+    enableMutationTest(150)
+  }
   enableSecurityScan()
   afterAlways('checkout') {
     sh "yarn cache clean"

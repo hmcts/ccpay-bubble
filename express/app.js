@@ -59,7 +59,7 @@ module.exports = appInsights => express.Router()
   })
 
   .post('/payment-history/payment-groups/:paymentGroup/telephony-card-payments', (req, res) => {
-    controllers.payhubController.postPaymentAntennaToPayHub(req, res, appInsights);
+    controllers.payhubController.postTelephonyPaymentToPayHub(req, res, appInsights);
   })
 
   .post('/payment-history/payment-groups/:paymentGroup/bulk-scan-payments-strategic', (req, res) => {
