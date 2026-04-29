@@ -245,8 +245,8 @@ class PayhubService {
     return resp.json();
   }
 
-  getBSfeature(req) {
-    return this.featureService.getFeatures(req);
+  getBSfeature(_req) {
+    return true;
   }
 
   getFees() {
