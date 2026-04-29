@@ -65,8 +65,7 @@ export class FeeSearchComponent implements OnInit {
     if ((feeType === 'fixed' && volAmt)
       || (feeType === 'banded' && flatAmt)
       || (feeType === 'rateable' && flatAmt)
-      || (feeType === 'ranged' && percentageAmt)
-      || (fee.fee_versions.length > 0 && feeDetailsComponent.validOldFeesVersions(fee).length > 0)) {
+      || (feeType === 'ranged' && percentageAmt)) {
       this.preselectedFee = fee;
       this.showFeeDetails = true;
     } else if (fee.current_version === undefined
