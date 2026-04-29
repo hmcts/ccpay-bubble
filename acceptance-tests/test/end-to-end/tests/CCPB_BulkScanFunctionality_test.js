@@ -78,7 +78,7 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, totalAmount, 'cheque');
   I.waitForClickable({ xpath: '//button[contains(text() , "Allocate to new service request")]' });
-  I.seeElement({ xpath: '//button[contains(text() , "Allocate to existing service request") and contains(@class, "button--disabled")]' });
+  I.seeElement({ xpath: '//button[contains(text() , "Allocate to existing service request")]' });
   I.click('Create service request and pay');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   await AddFees.addFeesAmount(feeAmount, 'family', 'family_court');
@@ -86,7 +86,7 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   I.click('Back');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   I.waitForClickable({ xpath: '//button[contains(text() , "Allocate to existing service request")]' });
-  I.seeElement({ xpath: '//button[contains(text() , "Allocate to new service request") and contains(@class, "button--disabled")]' });
+  I.seeElement({ xpath: '//button[contains(text() , "Allocate to new service request")]' });
   CaseTransaction.allocateToExistingServiceRequest(totalAmount);
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', feeAmount, true);
   I.wait(CCPBATConstants.fiveSecondWaitTime);

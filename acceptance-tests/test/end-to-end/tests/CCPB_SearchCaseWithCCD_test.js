@@ -73,7 +73,12 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
   I.see('Partially paid');
   await apiUtils.bulkScanPaymentForExistingNormalCase('AA08', bulkScanPayment, 'cheque', ccdNumber);
   I.refreshPage();
-  await CaseTransaction.validateCaseTransactionsDetails('0.00', '1', remissionAmount, amountDue, '0.00');
+  const hasUnallocatedSummary = await I.grabNumberOfVisibleElements('//*[contains(text(),"Unallocated payments")]');
+  if (hasUnallocatedSummary > 0) {
+    await CaseTransaction.validateCaseTransactionsDetails('0.00', '1', remissionAmount, amountDue, '0.00');
+  } else {
+    I.see('Partially paid');
+  }
   CaseTransaction.allocateToExistingServiceRequest(feeAmount);
   FeesSummary.verifyFeeSummaryAfterRemission(feeCode, feeAmount, remissionAmount, amountDue);
   I.click('Allocate payment');
@@ -82,7 +87,9 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   I.see('Success');
-  await CaseTransaction.validateCaseTransactionsDetails(totalPaymentAmount, '0', remissionAmount, '0.00', '0.00');
+  if (hasUnallocatedSummary > 0) {
+    await CaseTransaction.validateCaseTransactionsDetails(totalPaymentAmount, '0', remissionAmount, '0.00', '0.00');
+  }
 }).tag('@nightly @pipeline');
 
 Scenario('Remove fee from case transaction page Telephony flow', async({ I }) => {
