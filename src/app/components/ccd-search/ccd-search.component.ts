@@ -25,7 +25,7 @@ export class CcdSearchComponent implements OnInit {
   prnPattern = /^([a-z]{2}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4})?([a-z]{2}\[0-9]{16})?$/i;
   noCaseFound = false;
   noCaseFoundInCCD = false;
-  isBulkscanningEnable = true;
+  isBulkscanningEnable = false;
   caseType: string = null;
   errorMessage = this.getErrorMessage(false);
   isStrategicFixEnable: boolean;
