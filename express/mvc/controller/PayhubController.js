@@ -1,14 +1,10 @@
 /* eslint-disable no-magic-numbers */
 const { payhubService } = require('../../services');
 const config = require('config');
-const LaunchDarkly = require('launchdarkly-node-client-sdk');
 const { Logger } = require('@hmcts/nodejs-logging');
 const {errorHandler, plainFetch} = require("../../services/UtilService");
 
-const ccpayBubbleLDclientId = config.get('secrets.ccpay.launch-darkly-client-id');
-const LDprefix = config.get('environment.ldPrefix');
 const currentEnv = config.get('environment.currentEnv');
-const user = { key: `${LDprefix}@test.com` };
 const constants = Object.freeze({ PCIPAL_SECURITY_INFO: '__pcipal-info' });
 
 class PayhubController {
@@ -34,36 +30,6 @@ class PayhubController {
       .catch(error => {
         return errorHandler(res, error);
       });
-  }
-
-  getLDFeatures(req, res) {
-    const ldClient = LaunchDarkly.initialize(ccpayBubbleLDclientId, user);
-    ldClient.on('ready', () => {
-      const showFeature = ldClient.variation(req.query.flag, false);
-      return res.status(200).send({ flag: showFeature, u: user, id: ccpayBubbleLDclientId });
-    });
-  }
-
-  pciPalTelephonyFeature(req, res) {
-    const pciPalTelephonySelection = this.getPciPalTelephonyConf();
-    return res.status(200).send({ flag: pciPalTelephonySelection});
-  }
-
-  getPciPalTelephonyConf() {
-    if (config.has('pci-pal.telephony-selection')) {
-      var result = false;
-      const pciPalTelephonySelection = config.get('pci-pal.telephony-selection');
-      console.log('----------- This is the value of pci-pal.telephony-selection:' + pciPalTelephonySelection);
-      if (pciPalTelephonySelection === 'TELEPHONY_FEATURE') {
-        result = false;
-      } else {
-        if (pciPalTelephonySelection === 'enabled') {
-          result = true;
-        }
-      }
-    }
-    console.log('----------- The value of pci-pal.telephony-selection base on properties is :' + result);
-    return result
   }
 
   postPaymentGroupToPayHub(req, res, appInsights) {
@@ -314,16 +280,6 @@ class PayhubController {
     return this.payhubService.getSelectedReport(req)
       .then(result => {
         res.status(200).json({ data: result, success: true });
-      })
-      .catch(error => {
-        return errorHandler(res, error);
-      });
-  }
-
-  bulkScanToggleFeature(req, res) {
-    return this.payhubService.getBSfeature(req)
-      .then(result => {
-        res.status(200).json(result);
       })
       .catch(error => {
         return errorHandler(res, error);

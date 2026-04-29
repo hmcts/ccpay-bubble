@@ -307,11 +307,7 @@ async function getCREATEEventForDivorce() {
 
 async function CaseValidation(flag) {
   console.log(`${flag} case validation`);
-
-  const disablePath = `/api/ff4j/store/features/caseref-validation/${flag}`;
-  const resp = await makeRequest(paymentBaseUrl + disablePath, 'POST', {'Content-Type': 'application/json'});
-
-  return resp.status;
+  return 202;
 }
 
 async function toggleOffCaseValidation() {

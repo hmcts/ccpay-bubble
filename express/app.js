@@ -102,18 +102,6 @@ module.exports = appInsights => express.Router()
     controllers.feeController.getFees(req, res);
   })
 
-  .get('/payment-history/bulk-scan-feature', (req, res) => {
-    controllers.payhubController.bulkScanToggleFeature(req, res);
-  })
-
-  .get('/payment-history/LD-feature?*', (req, res) => {
-    controllers.payhubController.getLDFeatures(req, res);
-  })
-
-  .get('/pci-pal-telephony-selection/feature', (req, res) => {
-    controllers.payhubController.pciPalTelephonyFeature(req, res);
-  })
-
   .get('/get-environment', (req, res) => {
     controllers.payhubController.getEnvironment(res);
   })

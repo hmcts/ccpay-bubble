@@ -1,20 +1,13 @@
 const config = require('config');
 const { v4: UUID } = require('uuid');
 const { fetchWithAuth, plainFetch } = require('./UtilService');
-const FeatureService = require('./FeatureService');
 const { URL, URLSearchParams } = require('url');
 
 const payhubUrl = config.get('payhub.url');
 const ccpayBubbleReturnUrl = config.get('ccpaybubble.url');
 const pcipalTelephonyReturnUrl = config.get('pci-pal.return-url');
 const ccdUrl = config.get('ccd.url');
-const CASE_REF_VALIDATION_ENABLED = 'caseref-validation';
-
 class PayhubService {
-  constructor() {
-    this.featureService = new FeatureService();
-  }
-
   async sendToPayhub(req) {
     const url = `${payhubUrl}/card-payments`;
     const options = {
@@ -245,17 +238,8 @@ class PayhubService {
     return resp.json();
   }
 
-  getBSfeature(req) {
-    return this.featureService.getFeatures(req);
-  }
-
   getFees() {
     return plainFetch(config.get('fee.feeRegistrationUrl'));
-  }
-
-  isCaseRefValidationEnabled(features) {
-    const regFeature = features.find(feature => feature.uid === CASE_REF_VALIDATION_ENABLED);
-    return regFeature ? regFeature.enable : false;
   }
 
   async getPartyDetails(req) {
