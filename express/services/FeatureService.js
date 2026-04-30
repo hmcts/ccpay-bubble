@@ -8,5 +8,7 @@ class FeatureService {
     const url = `${payhubUrl}/api/ff4j/store/features`;
     const resp = await fetchWithAuth(url, req.authToken);
     return resp.json();
+    }
+}
 
 module.exports = FeatureService;
