@@ -10,7 +10,7 @@ nodejs:
         - paybubble-idam-client-secret
         - launch-darkly-client-id
         - postcode-address-lookup-id
-        - AppInsightsInstrumentationKey
+        - app-insights-connection-string
   environment:
     REFORM_TEAM: ccpay
     REFORM_SERVICE_NAME: ccpay-bubble-frontend
