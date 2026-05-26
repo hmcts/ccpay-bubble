@@ -98,7 +98,7 @@
     "ts-mockito": "^2.3.1",
     "tslib": "^2.0.0",
     "underscore": "1.13.8",
-    "uuid": "14.0.0",
+    "uuid": "11.1.1",
     "web-animations-js": "^2.3.2",
     "yargs-parser": "^20.2.7",
     "zone.js": "~0.16.0"
@@ -231,7 +231,6 @@
     "socket.io-parser": "^4.2.1",
     "xmlhttprequest-ssl": "^1.6.2",
     "underscore": "1.13.8",
-    "uuid": "14.0.0",
     "ansi-regex": "^5.0.1",
     "sockjs": "^0.3.20",
     "json-schema": "^0.4.0",
