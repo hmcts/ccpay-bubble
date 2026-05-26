@@ -9424,7 +9424,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bluebird@npm:^3.5.0, bluebird@npm:^3.5.4, bluebird@npm:^3.7.2":
+"bluebird@npm:^3.5.4, bluebird@npm:^3.7.2":
   version: 3.7.2
   resolution: "bluebird@npm:3.7.2"
   checksum: 10/007c7bad22c5d799c8dd49c85b47d012a1fe3045be57447721e6afbd1d5be43237af1db62e26cb9b0d9ba812d2e4ca3bac82f6d7e016b6b88de06ee25ceb96e7
@@ -10071,7 +10071,7 @@ __metadata:
     nock: "npm:^10.0.6"
     node-fetch: "npm:^2.7.0"
     nodemon: "npm:^1.18.10"
-    notifications-node-client: "npm:^4.7.3"
+    notifications-node-client: "npm:^8.4.0"
     npm-run-all: "npm:^4.1.5"
     nyc: "npm:^13.2.0"
     otp: "npm:^0.1.3"
@@ -14929,7 +14929,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"har-validator@npm:~5.1.0, har-validator@npm:~5.1.3":
+"har-validator@npm:~5.1.3":
   version: 5.1.5
   resolution: "har-validator@npm:5.1.5"
   dependencies:
@@ -17293,24 +17293,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:8.2.1":
-  version: 8.2.1
-  resolution: "jsonwebtoken@npm:8.2.1"
-  dependencies:
-    jws: "npm:^3.1.4"
-    lodash.includes: "npm:^4.3.0"
-    lodash.isboolean: "npm:^3.0.3"
-    lodash.isinteger: "npm:^4.0.4"
-    lodash.isnumber: "npm:^3.0.3"
-    lodash.isplainobject: "npm:^4.0.6"
-    lodash.isstring: "npm:^4.0.1"
-    lodash.once: "npm:^4.0.0"
-    ms: "npm:^2.1.1"
-    xtend: "npm:^4.0.1"
-  checksum: 10/8268f1e2f10d92dfe2ade4bc4ca58b5ce961934ee74a55ca1b8ac13d21db98e4dd1935c0edfb387f0c58fcb5d45218c1d0ff3c82bcb34b56b4bceb95cf2cf97f
-  languageName: node
-  linkType: hard
-
 "jsonwebtoken@npm:^9.0.0":
   version: 9.0.2
   resolution: "jsonwebtoken@npm:9.0.2"
@@ -17326,6 +17308,24 @@ __metadata:
     ms: "npm:^2.1.1"
     semver: "npm:^7.5.4"
   checksum: 10/6e9b6d879cec2b27f2f3a88a0c0973edc7ba956a5d9356b2626c4fddfda969e34a3832deaf79c3e1c6c9a525bc2c4f2c2447fa477f8ac660f0017c31a59ae96b
+  languageName: node
+  linkType: hard
+
+"jsonwebtoken@npm:^9.0.2":
+  version: 9.0.3
+  resolution: "jsonwebtoken@npm:9.0.3"
+  dependencies:
+    jws: "npm:^4.0.1"
+    lodash.includes: "npm:^4.3.0"
+    lodash.isboolean: "npm:^3.0.3"
+    lodash.isinteger: "npm:^4.0.4"
+    lodash.isnumber: "npm:^3.0.3"
+    lodash.isplainobject: "npm:^4.0.6"
+    lodash.isstring: "npm:^4.0.1"
+    lodash.once: "npm:^4.0.0"
+    ms: "npm:^2.1.1"
+    semver: "npm:^7.5.4"
+  checksum: 10/a67a276db41fbfb458ebdc4938d5d7b01d4743e16bda0f25ac01996fe5b5819d66656153f6cfce19b4680b79ae9f9ca185965defc22e77e0abddf443573238d6
   languageName: node
   linkType: hard
 
@@ -19963,15 +19963,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"notifications-node-client@npm:^4.7.3":
-  version: 4.9.0
-  resolution: "notifications-node-client@npm:4.9.0"
+"notifications-node-client@npm:^8.4.0":
+  version: 8.4.0
+  resolution: "notifications-node-client@npm:8.4.0"
   dependencies:
-    jsonwebtoken: "npm:8.2.1"
-    request: "npm:2.88.0"
-    request-promise: "npm:4.2.2"
-    underscore: "npm:^1.9.0"
-  checksum: 10/13d93e93537a9e8d1d5b135bf044984c9564378c929cfd14225f48837e5b8681cf27269635696ec76bd7586f0d1f1475ba74a6dff6ef19e436d4bb28910febc9
+    axios: "npm:^1.7.2"
+    jsonwebtoken: "npm:^9.0.2"
+  checksum: 10/e6c8125805bce41193b4991ca9f2a21cdc5ecd0545c3e0d9960f64cc653cfd8fbfc5e9385607987ea406a4ca0ac80e0e14ec75c16902406bbca5b1bda0dfb889
   languageName: node
   linkType: hard
 
@@ -22482,59 +22480,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"request-promise-core@npm:1.1.1":
-  version: 1.1.1
-  resolution: "request-promise-core@npm:1.1.1"
-  dependencies:
-    lodash: "npm:^4.13.1"
-  peerDependencies:
-    request: ^2.34
-  checksum: 10/9e4c9925fae74d2cb4e355078ec739eaad1e8725a6853fee45fd0016a74955ec635cd1a0a090611556115dc7486ff7961154740a82ce88d7e597bad4b486f609
-  languageName: node
-  linkType: hard
-
-"request-promise@npm:4.2.2":
-  version: 4.2.2
-  resolution: "request-promise@npm:4.2.2"
-  dependencies:
-    bluebird: "npm:^3.5.0"
-    request-promise-core: "npm:1.1.1"
-    stealthy-require: "npm:^1.1.0"
-    tough-cookie: "npm:>=2.3.3"
-  peerDependencies:
-    request: ^2.34
-  checksum: 10/5495ebcfa72455d1cbe26db57403feaab9a384e270073623b73c046ffed76f8a49c1eb39877b5494f21e6a0747dfaa55bb0c4aaea821c0396883d4d35d27615b
-  languageName: node
-  linkType: hard
-
-"request@npm:2.88.0":
-  version: 2.88.0
-  resolution: "request@npm:2.88.0"
-  dependencies:
-    aws-sign2: "npm:~0.7.0"
-    aws4: "npm:^1.8.0"
-    caseless: "npm:~0.12.0"
-    combined-stream: "npm:~1.0.6"
-    extend: "npm:~3.0.2"
-    forever-agent: "npm:~0.6.1"
-    form-data: "npm:~2.3.2"
-    har-validator: "npm:~5.1.0"
-    http-signature: "npm:~1.2.0"
-    is-typedarray: "npm:~1.0.0"
-    isstream: "npm:~0.1.2"
-    json-stringify-safe: "npm:~5.0.1"
-    mime-types: "npm:~2.1.19"
-    oauth-sign: "npm:~0.9.0"
-    performance-now: "npm:^2.1.0"
-    qs: "npm:~6.5.2"
-    safe-buffer: "npm:^5.1.2"
-    tough-cookie: "npm:~2.4.3"
-    tunnel-agent: "npm:^0.6.0"
-    uuid: "npm:^3.3.2"
-  checksum: 10/f4cef6f9af7f6d7c05e73f9a16f974e48a5b8f180cafe0272acf12c59460274034854b8f1e558472966c91906f38e3922644827ff5db5b922b601075e99ee1d5
-  languageName: node
-  linkType: hard
-
 "request@npm:^2.81.0, request@npm:^2.87.0":
   version: 2.88.2
   resolution: "request@npm:2.88.2"
@@ -24142,13 +24087,6 @@ __metadata:
   version: 0.2.2
   resolution: "stdin-discarder@npm:0.2.2"
   checksum: 10/642ffd05bd5b100819d6b24a613d83c6e3857c6de74eb02fc51506fa61dc1b0034665163831873868157c4538d71e31762bcf319be86cea04c3aba5336470478
-  languageName: node
-  linkType: hard
-
-"stealthy-require@npm:^1.1.0":
-  version: 1.1.1
-  resolution: "stealthy-require@npm:1.1.1"
-  checksum: 10/a408a51f5b6c1fe535e4459732ac0b66d7921583f89fc8289bfdc937a497fe8196219d1e04d234047349b90723ecff1a1cb4a92bef2315e01a3081dc72db8d41
   languageName: node
   linkType: hard
 
@@ -26783,7 +26721,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"xtend@npm:^4.0.0, xtend@npm:^4.0.1, xtend@npm:^4.0.2, xtend@npm:~4.0.0, xtend@npm:~4.0.1":
+"xtend@npm:^4.0.0, xtend@npm:^4.0.2, xtend@npm:~4.0.0, xtend@npm:~4.0.1":
   version: 4.0.2
   resolution: "xtend@npm:4.0.2"
   checksum: 10/ac5dfa738b21f6e7f0dd6e65e1b3155036d68104e67e5d5d1bde74892e327d7e5636a076f625599dc394330a731861e87343ff184b0047fef1360a7ec0a5a36a
