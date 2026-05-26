@@ -314,16 +314,6 @@ async function CaseValidation(flag) {
   return resp.status;
 }
 
-async function toggleOffCaseValidation() {
-  const response = await CaseValidation('disable');
-  return Promise.all([response]);
-}
-
-async function toggleOnCaseValidation() {
-  const response = await CaseValidation('enable');
-  return Promise.all([response]);
-}
-
 async function createACCDCaseForProbate() {
   const idamToken = await getIDAMToken();
   const serviceToken = await getServiceToken();
@@ -1084,8 +1074,6 @@ module.exports = {
   bulkScanNormalCcd,
   bulkScanExceptionCcd,
   bulkScanCcdLinkedToException,
-  toggleOffCaseValidation,
-  toggleOnCaseValidation,
   createAPBAPayment,
   createAFailedPBAPayment,
   createACCDCaseForProbate,

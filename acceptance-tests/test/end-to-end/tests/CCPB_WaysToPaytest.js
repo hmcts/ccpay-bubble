@@ -21,24 +21,6 @@ const successResponse = 202;
 
 Feature('CC Pay Bubble Acceptance Tests For the Ways To Pay feature').retry(CCPBATConstants.retryScenario);
 
-BeforeSuite(async({ I }) => {
-  // console.log('Before Suite');
-  const response = await bulkScanApiCalls.toggleOffCaseValidation();
-  // console.log('After Response');
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  if (response === successResponse) {
-    logger.info('Disabled CCD validation');
-  }
-});
-
-AfterSuite(async({ I }) => {
-  const response = await bulkScanApiCalls.toggleOnCaseValidation();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  if (response === successResponse) {
-    logger.info('Enabled CCD validation');
-  }
-});
-
 Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
   async({ I, CaseSearch, CaseTransaction, ServiceRequests }) => {
     logger.log('Creating the Service Request');
