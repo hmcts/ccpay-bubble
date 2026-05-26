@@ -200,7 +200,7 @@
     "serialize-javascript": "7.0.5",
     "tar": "^7.5.11",
     "minimatch": "3.1.5",
-    "qs": "6.14.2",
+    "qs": "6.15.2",
     "@protobufjs/utf8": "^1.1.1",
     "protobufjs@npm:^7.5.3": "7.5.8",
     "protobufjs@npm:8.0.1": "8.2.0",
@@ -261,7 +261,8 @@
     "debug": "^4.4.3",
     "diff": "^8.0.3",
     "@tootallnate/once": "^3.0.1",
-    "ip-address": "10.2.0"
+    "ip-address": "10.2.0",
+    "uuid": "12.0.1"
   },
   "packageManager": "yarn@4.10.3"
 }
