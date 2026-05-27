@@ -86,15 +86,17 @@ function sleep(ms) {
 
 async function getEmailFromNotify(searchEmail) {
   let notificationsResponse = await notifyClient.getNotifications("email", null);
-  let emailResponse = searchForEmailInNotifyResults(notificationsResponse.body.notifications, searchEmail);
+  let currentPayload = notificationsResponse && (notificationsResponse.data || notificationsResponse.body || notificationsResponse);
+  let emailResponse = searchForEmailInNotifyResults(currentPayload.notifications || [], searchEmail);
   let i = 1;
-  while (i < MAX_NOTIFY_PAGES && !emailResponse && notificationsResponse.body.links.next) {
-    console.log("Searching notify emails, next page " + notificationsResponse.body.links.next);
-    let nextPageLink = notificationsResponse.body.links.next;
+  while (i < MAX_NOTIFY_PAGES && !emailResponse && currentPayload.links && currentPayload.links.next) {
+    console.log("Searching notify emails, next page " + currentPayload.links.next);
+    let nextPageLink = currentPayload.links.next;
     let nextPageLinkUrl = new URL(nextPageLink);
     let olderThanId = nextPageLinkUrl.searchParams.get("older_than");
     notificationsResponse = await notifyClient.getNotifications("email", null, null, olderThanId);
-    emailResponse = searchForEmailInNotifyResults(notificationsResponse.body.notifications, searchEmail);
+    currentPayload = notificationsResponse && (notificationsResponse.data || notificationsResponse.body || notificationsResponse);
+    emailResponse = searchForEmailInNotifyResults(currentPayload.notifications || [], searchEmail);
     i++;
   }
   return emailResponse;
