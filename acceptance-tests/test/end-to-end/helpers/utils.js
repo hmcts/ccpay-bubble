@@ -86,15 +86,17 @@ function sleep(ms) {
 
 async function getEmailFromNotify(searchEmail) {
   let notificationsResponse = await notifyClient.getNotifications("email", null);
-  let emailResponse = searchForEmailInNotifyResults(notificationsResponse.body.notifications, searchEmail);
+  let currentPayload = notificationsResponse && (notificationsResponse.data || notificationsResponse.body || notificationsResponse);
+  let emailResponse = searchForEmailInNotifyResults(currentPayload.notifications || [], searchEmail);
   let i = 1;
-  while (i < MAX_NOTIFY_PAGES && !emailResponse && notificationsResponse.body.links.next) {
-    console.log("Searching notify emails, next page " + notificationsResponse.body.links.next);
-    let nextPageLink = notificationsResponse.body.links.next;
+  while (i < MAX_NOTIFY_PAGES && !emailResponse && currentPayload.links && currentPayload.links.next) {
+    console.log("Searching notify emails, next page " + currentPayload.links.next);
+    let nextPageLink = currentPayload.links.next;
     let nextPageLinkUrl = new URL(nextPageLink);
     let olderThanId = nextPageLinkUrl.searchParams.get("older_than");
     notificationsResponse = await notifyClient.getNotifications("email", null, null, olderThanId);
-    emailResponse = searchForEmailInNotifyResults(notificationsResponse.body.notifications, searchEmail);
+    currentPayload = notificationsResponse && (notificationsResponse.data || notificationsResponse.body || notificationsResponse);
+    emailResponse = searchForEmailInNotifyResults(currentPayload.notifications || [], searchEmail);
     i++;
   }
   return emailResponse;
@@ -312,16 +314,6 @@ async function CaseValidation(flag) {
   const resp = await makeRequest(paymentBaseUrl + disablePath, 'POST', {'Content-Type': 'application/json'});
 
   return resp.status;
-}
-
-async function toggleOffCaseValidation() {
-  const response = await CaseValidation('disable');
-  return Promise.all([response]);
-}
-
-async function toggleOnCaseValidation() {
-  const response = await CaseValidation('enable');
-  return Promise.all([response]);
 }
 
 async function createACCDCaseForProbate() {
@@ -1084,8 +1076,6 @@ module.exports = {
   bulkScanNormalCcd,
   bulkScanExceptionCcd,
   bulkScanCcdLinkedToException,
-  toggleOffCaseValidation,
-  toggleOnCaseValidation,
   createAPBAPayment,
   createAFailedPBAPayment,
   createACCDCaseForProbate,

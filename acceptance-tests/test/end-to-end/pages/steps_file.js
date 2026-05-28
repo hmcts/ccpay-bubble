@@ -782,7 +782,7 @@ module.exports = () => actor({
   async searchForCCDdummydata() {
     const ccdNumber = numUtils.getRandomNumber(CCPBConstants.CCDCaseNumber, true);
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
-    await miscUtils.ccdSearchEnabledValidation(searchCase, this, ccdCaseNumberFormatted);
+    await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
     this.see('No matching cases found');
   },
 

@@ -41,7 +41,7 @@ def secrets = [
     secret('fee-pay-divorce-client-id', 'DIVORCE_CLIENT_ID'),
     secret('fee-pay-divorce-client-secret', 'DIVORCE_CLIENT_SECRET'),
     secret('fee-pay-divorce-client-redirect-url', 'DIVORCE_CLIENT_REDIRECT_URI'),
-    secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+    secret('app-insights-connection-string', 'APPINSIGHTS_CONNECTION_STRING'),
     secret('notifications-email-apikey', 'NOTIFY_EMAIL_API_KEY')
   ]
 ]
