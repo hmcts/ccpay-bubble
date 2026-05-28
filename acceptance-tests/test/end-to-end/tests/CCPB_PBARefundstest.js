@@ -24,24 +24,6 @@ function RefundException(message) {
 
 Feature('CC Pay Bubble Acceptance Tests For Refunds and Remissions').retry(CCPBATConstants.defaultNumberOfRetries);
 
-BeforeSuite(async({ I }) => {
-  // console.log('Before Suite');
-  const response = await bulkScanApiCalls.toggleOffCaseValidation();
-  // console.log('After Response');
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  if (response === successResponse) {
-    logger.info('Disabled CCD validation');
-  }
-});
-
-AfterSuite(async({ I }) => {
-  const response = await bulkScanApiCalls.toggleOnCaseValidation();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  if (response === successResponse) {
-    logger.info('Enabled CCD validation');
-  }
-});
-
 Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through the Payments @pipeline @nightly',
   async({ I, CaseSearch, CaseTransaction, InitiateRefunds }) => {
     // logger.log('Starting the PBA Payment');
