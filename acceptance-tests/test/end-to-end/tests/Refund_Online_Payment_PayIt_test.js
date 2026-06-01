@@ -43,16 +43,19 @@ Scenario('Card payment refund PayIt journey',
 
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', '0.00');
-    // rollback payment date for the refund eligibility
-    await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
-
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
+    if (I.dontSeeElement('Issue refund')) {
+      console.log('found disabled button');
+      await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
+      I.click('Back');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+    }
     I.click('Issue refund');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£300.00', '£300.00', '300', '1', '£0.00');
     await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelection(reviewProcessRefundPageData, ccdCaseNumber);
     I.click('Continue');
@@ -165,14 +168,19 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', '0.00');
-    // rollback payment date for the refund eligibility
-    await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
 
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
+    if (I.dontSeeElement('Issue refund')) {
+      console.log('found disabled button');
+      await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
+      I.click('Back');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+    }
     I.click('Issue refund');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£300.00', '£300.00', '300', '1', '£0.00');
     await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelection(reviewProcessRefundPageData, ccdCaseNumber);
     I.click('Continue');

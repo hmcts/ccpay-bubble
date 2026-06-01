@@ -7,7 +7,7 @@ const miscUtils = require("../helpers/misc");
 const assertionData = require("../fixture/data/refunds/assertion");
 const stringUtils = require("../helpers/string_utils");
 
-Feature('CC Pay Bubble Refund Retro Remission journey tests').retry(CCPBATConstants.defaultNumberOfRetries);
+Feature('CC Pay Bubble Refund Retro Remission multiple SRs journey tests').retry(CCPBATConstants.defaultNumberOfRetries);
 
 // PAY-7868
 Scenario('Remissions refunds on Multiple Service requests',
@@ -30,33 +30,27 @@ Scenario('Remissions refunds on Multiple Service requests',
     const ccdCaseNumber = `${paymentDetails1.ccdCaseNumber}`;
     const paymentRCRef1 = `${paymentDetails1.paymentReference}`;
 
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails(serviceRequest1feeAmount, '0', '0.00', '0.00', '0.00');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-
-    I.click('Case Transaction');
     const paymentDetails2 = await apiUtils.createAPBAPaymentForExistingCase(serviceRequest2feeAmount, 'FEE0441', '2', 1, ccdCaseNumber);
     const paymentRCRef2 = `${paymentDetails2.payments[1].payment_reference}`;
+
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', '0.00');
 
     // 1st service request Remission refund - 779.15 - 259.15
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
       await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       await I.click('(//*[text()[contains(.,"Review")]])[3]');
-      I.wait(CCPBATConstants.tenSecondWaitTime);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
     }
     I.waitForText('Add remission', 5);
     InitiateRefunds.verifyPaymentDetailsPage('Add remission');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, serviceRequest1hwfReference);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, serviceRequest1remissionAmount);
@@ -72,9 +66,9 @@ Scenario('Remissions refunds on Multiple Service requests',
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyCheckYourAnswersPageForRemissionFinalSubmission(checkYourAnswersData, false, false);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const refundRefRemissions1 = await InitiateRefunds.verifyRefundSubmittedPage(serviceRequest1remissionAmount);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', serviceRequest1remissionAmount, '0.00', serviceRequest1remissionAmount);
     await I.Logout();
     I.clearCookie();
@@ -92,10 +86,9 @@ Scenario('Remissions refunds on Multiple Service requests',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('Case Transaction');
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', serviceRequest1remissionAmount, '0.00', serviceRequest1remissionAmount);
     await I.click(`//td[contains(.,'${refundRefRemissions1}')]/following-sibling::td/a[.=\'Review\'][1]`);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const reviewRemissionRefund1DetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions1, paymentRCRef1, 'Retrospective remission', `£${serviceRequest1remissionAmount}`, emailAddress, '', 'payments probate', 'approver probate');
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRemissionRefund1DetailsDataAfterApproval);
 
@@ -112,15 +105,13 @@ Scenario('Remissions refunds on Multiple Service requests',
     // 2nd service request Remission refund - 545.00 - 445.00
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', serviceRequest1remissionAmount, '0.00', '0.00');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.waitForText('Add remission', 5);
     InitiateRefunds.verifyPaymentDetailsPage('Add remission');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, serviceRequest2hwfReference);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, serviceRequest2remissionAmount);
@@ -138,7 +129,7 @@ Scenario('Remissions refunds on Multiple Service requests',
     InitiateRefunds.verifyCheckYourAnswersPageForRemissionFinalSubmission(checkYourAnswersData2, false, false);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     const refundRefRemissions2 = await InitiateRefunds.verifyRefundSubmittedPage(serviceRequest2remissionAmount);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', totalRemissionAmount, '0.00', serviceRequest2remissionAmount);
     await I.Logout();
     I.clearCookie();
@@ -156,10 +147,9 @@ Scenario('Remissions refunds on Multiple Service requests',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('Case Transaction');
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', totalRemissionAmount, '0.00', serviceRequest2remissionAmount);
     await I.click(`//td[contains(.,'${refundRefRemissions2}')]/following-sibling::td/a[.=\'Review\'][1]`);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const reviewRemissionRefund2DetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions2, paymentRCRef2, 'Retrospective remission', `£${serviceRequest2remissionAmount}`, emailAddress, '', 'payments probate', 'approver probate');
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRemissionRefund2DetailsDataAfterApproval);
 
