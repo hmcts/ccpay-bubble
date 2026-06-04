@@ -19,8 +19,10 @@ module.exports = {
     I.see('Add fee');
     I.see('Total to pay:');
     I.see(`£${amount}`);
+    I.see('What would you like to do next?');
+    I.see('Return to the case');
+    I.see('Allocate payment');
     if (allocatePaymentFlag) {
-      I.see('Allocate payment');
       I.click('Allocate payment');
     }
   },
@@ -45,7 +47,7 @@ module.exports = {
   },
 
 
-  verifyFeeSummaryAfterRemission(feeCode, feeAmount, remissionAmount, totalAfterRemission) {
+  verifyFeeSummaryAfterRemission(feeCode, feeAmount, remissionAmount, totalAfterRemission, isBulkScanPayment = false) {
     I.see('Summary');
     I.see(PaybubbleStaticData.fee_description[feeCode]);
     I.see('Amount');
@@ -57,6 +59,13 @@ module.exports = {
     I.see('Total to pay:');
     I.see(`£${totalAfterRemission}`);
     I.dontSee('What service is this fee for?');
+    I.see('What would you like to do next?');
+    I.see('Return to the case');
+    if(isBulkscanPayment) {
+      I.see('Allocate payment');
+    } else {
+      I.see('Take payment');
+    }
   },
 
   allocateBulkPayment() {

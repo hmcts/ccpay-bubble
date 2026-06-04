@@ -70,6 +70,9 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
     I.wait(CCPBATConstants.fiveSecondWaitTime);
   }
   I.addUpfrontRemissionForFailedTelephonyPayment(feeCode, totalPaymentAmount);
+  FeesSummary.verifyFeeSummaryAfterRemission(feeCode, feeAmount, remissionAmount, amountDue);
+  I.click('Return to the case');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   I.see('Partially paid');
   await apiUtils.bulkScanPaymentForExistingNormalCase('AA08', bulkScanPayment, 'cheque', ccdNumber);
   I.refreshPage();

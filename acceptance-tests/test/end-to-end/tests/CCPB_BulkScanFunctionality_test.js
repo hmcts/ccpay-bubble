@@ -138,8 +138,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   Remission.remissionAmountExceed('1000');
   Remission.processRemission('FEE0002', totalAmount);
   Remission.confirmProcessRemission();
-  I.wait(CCPBATConstants.tenSecondWaitTime);
-  FeesSummary.verifyFeeSummaryAfterRemission('FEE0002', feeAmount1, remissionAmount, totalAmount);
+  FeesSummary.verifyFeeSummaryAfterRemission('FEE0002', feeAmount1, remissionAmount, totalAmount, true);
   FeesSummary.addFeeFromSummary();
   await AddFees.addFees(feeAmount2, 'civil', 'magistrates_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0362', feeAmount2, true);
@@ -415,7 +414,7 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
   Remission.processRemission('FEE0219', totalAmount);
   Remission.confirmProcessRemission();
   I.wait(CCPBATConstants.tenSecondWaitTime);
-  FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', feeAmount, remissionAmount, totalAmount);
+  FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', feeAmount, remissionAmount, totalAmount, true);
   FeesSummary.allocateBulkPayment();
   ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0219', '1', totalAmount, feeAmount);
   ConfirmAssociation.confirmPayment();

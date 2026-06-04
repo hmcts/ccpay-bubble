@@ -880,12 +880,11 @@ module.exports = () => actor({
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }
     this.see('Add fee');
+    this.see('What would you like to do next?');
+    this.see('Take payment');
     this.see('Return to the case');
-    this.click('Case Transaction');
+    this.click('Return to the case');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await miscUtils.multipleSearch(searchCase, this, ccdNumber);
-    this.see('Case transactions');
-    this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
@@ -918,13 +917,9 @@ module.exports = () => actor({
     Remission.processRemission('FEE0219', '200');
     Remission.confirmProcessRemission();
     this.wait(CCPBATConstants.fiveSecondWaitTime);
-    this.click('Case Transaction');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
-    await miscUtils.multipleSearch(searchCase, this, ccdNumber);
+    FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '300.00', '100.00', '200.00');
+    this.click('Return to the case');
     this.wait(CCPBATConstants.fiveSecondWaitTime);
-    this.see('Case transactions');
-    this.see('Case reference:');
-    this.see(ccdCaseNumberFormatted);
     this.see('Partially paid');
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
