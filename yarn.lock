@@ -804,11 +804,11 @@ __metadata:
   linkType: hard
 
 "@angular/compiler@npm:^20.3.16":
-  version: 20.3.16
-  resolution: "@angular/compiler@npm:20.3.16"
+  version: 20.3.23
+  resolution: "@angular/compiler@npm:20.3.23"
   dependencies:
     tslib: "npm:^2.3.0"
-  checksum: 10/2b5b324dbfe06f9be44e2355e9af2856ceebc57d70cf405dd2eb59687182e089c303c140ba9157b561534ab7f49552e8d2fcd4488a7850c1905c7799220079e3
+  checksum: 10/376cb2c6471bf0f7ab23ce70ed9952f3b887f961c30363a28d95f68ffe2fc967ac7bce32fa1461b8258995aa143b9e6c675620cc8d00a7f3872728f5568eaa9b
   languageName: node
   linkType: hard
 
@@ -24804,10 +24804,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tmp@npm:^0.2.4":
-  version: 0.2.5
-  resolution: "tmp@npm:0.2.5"
-  checksum: 10/dd4b78b32385eab4899d3ae296007b34482b035b6d73e1201c4a9aede40860e90997a1452c65a2d21aee73d53e93cd167d741c3db4015d90e63b6d568a93d7ec
+"tmp@npm:^0.2.6":
+  version: 0.2.7
+  resolution: "tmp@npm:0.2.7"
+  checksum: 10/0a3bc90beb0c6275273c3475fb57e466eaab1c9c4a101d029ff62b18146ce136e7f75d09de34863d9f2c2a492751402508f9e028bc98eb34a1416195d4b15619
   languageName: node
   linkType: hard
 
