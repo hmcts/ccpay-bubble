@@ -21,8 +21,8 @@ module.exports = {
     I.see(`£${amount}`);
     I.see('What would you like to do next?');
     I.see('Return to the case');
-    I.see('Allocate payment');
     if (allocatePaymentFlag) {
+      I.see('Allocate payment');
       I.click('Allocate payment');
     }
   },
@@ -61,7 +61,7 @@ module.exports = {
     I.dontSee('What service is this fee for?');
     I.see('What would you like to do next?');
     I.see('Return to the case');
-    if(isBulkscanPayment) {
+    if(isBulkScanPayment) {
       I.see('Allocate payment');
     } else {
       I.see('Take payment');
