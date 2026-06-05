@@ -10,11 +10,12 @@ nodejs:
         - paybubble-idam-client-secret
         - launch-darkly-client-id
         - postcode-address-lookup-id
-        - AppInsightsInstrumentationKey
+        - app-insights-connection-string
   environment:
     REFORM_TEAM: ccpay
     REFORM_SERVICE_NAME: ccpay-bubble-frontend
     NODE_ENV: production
+    OTEL_SERVICE_NAME: ccpay-bubble-frontend
     TELEPHONY_FEATURE: disabled
     CCPAY_BUBBLE_MICROSERVICE: ccpay_bubble
     CCPAY_BUBBLE_URL:  https://ccpay-bubble-frontend-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal

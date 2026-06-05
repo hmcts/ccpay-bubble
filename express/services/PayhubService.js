@@ -1,7 +1,6 @@
 const config = require('config');
 const { v4: UUID } = require('uuid');
 const { fetchWithAuth, plainFetch } = require('./UtilService');
-const FeatureService = require('./FeatureService');
 const { URL, URLSearchParams } = require('url');
 
 const payhubUrl = config.get('payhub.url');
@@ -11,9 +10,6 @@ const ccdUrl = config.get('ccd.url');
 const CASE_REF_VALIDATION_ENABLED = 'caseref-validation';
 
 class PayhubService {
-  constructor() {
-    this.featureService = new FeatureService();
-  }
 
   async sendToPayhub(req) {
     const url = `${payhubUrl}/card-payments`;
@@ -246,7 +242,7 @@ class PayhubService {
   }
 
   getBSfeature(req) {
-    return this.featureService.getFeatures(req);
+    return Promise.resolve(true);
   }
 
   getFees() {

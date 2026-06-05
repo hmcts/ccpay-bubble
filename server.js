@@ -125,11 +125,18 @@ module.exports = (security, appInsights) => {
 
   const duration = Date.now() - startTime;
 
-  client.trackEvent({ name: 'my custom event', properties: { customProperty: 'custom property value' } });
-  client.trackException({ exception: new Error('handled exceptions can be logged with this method') });
-  client.trackMetric({ name: 'custom metric', value: 3 });
-  client.trackTrace({ message: 'trace message' });
-  client.trackMetric({ name: 'server startup time', value: duration });
+  // Never let telemetry startup calls crash the web process in local/dev environments.
+  if (client) {
+    try {
+      client.trackEvent && client.trackEvent({ name: 'my custom event', properties: { customProperty: 'custom property value' } });
+      client.trackException && client.trackException({ exception: new Error('handled exceptions can be logged with this method') });
+      client.trackMetric && client.trackMetric({ name: 'custom metric', value: 3 });
+      client.trackTrace && client.trackTrace({ message: 'trace message' });
+      client.trackMetric && client.trackMetric({ name: 'server startup time', value: duration });
+    } catch (error) {
+      Logger.getLogger('PAYBUBBLE: server.js -> telemetry').warn('Skipping startup telemetry due to App Insights client issue', error && error.message ? error.message : error);
+    }
+  }
 
   return app;
 };
