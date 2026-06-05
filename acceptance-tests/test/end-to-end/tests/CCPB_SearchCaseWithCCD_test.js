@@ -78,7 +78,7 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
   I.refreshPage();
   await CaseTransaction.validateCaseTransactionsDetails('0.00', '1', remissionAmount, amountDue, '0.00');
   CaseTransaction.allocateToExistingServiceRequest(feeAmount);
-  FeesSummary.verifyFeeSummaryAfterRemission(feeCode, feeAmount, remissionAmount, amountDue);
+  FeesSummary.verifyFeeSummaryAfterRemission(feeCode, feeAmount, remissionAmount, amountDue, true);
   I.click('Allocate payment');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   ConfirmAssociation.verifyConfirmAssociationFullPayment(feeCode, '1', totalPaymentAmount, feeAmount);
