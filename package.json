@@ -255,7 +255,7 @@
     "cross-spawn": "7.0.6",
     "brace-expansion": "1.1.13",
     "form-data": "~2.5.4",
-    "tmp": "^0.2.4",
+    "tmp": "^0.2.6",
     "js-yaml": "^4.1.1",
     "jws": "^3.2.3",
     "debug": "^4.4.3",

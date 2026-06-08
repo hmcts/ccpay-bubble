@@ -12,39 +12,23 @@ const moment = require('moment');
 const healthcheck = require('./express/infrastructure/health-info');
 const { Logger } = require('@hmcts/nodejs-logging');
 const { ApiCallError, ApiErrorFactory } = require('./express/infrastructure/errors');
-const crypto = require('crypto');
-const seed = 'my-secret-seed';
+const config = require('config');
 
 const app = express();
 
+const sessionSecret = config.get('secrets.ccpay.paybubble-session-secret');
+if (!sessionSecret) {
+  throw new Error('Session secret not configured');
+}
+
 app.use(session({
-  secret: generateSamePassword(seed, 16),
+  secret: sessionSecret,
   resave: false,
   saveUninitialized: true
 }));
 
 const errorFactory = ApiErrorFactory('server.js');
 let csrfProtection = csurf({ cookie: true, key: 'csrf-token', httpOnly: false, secure: true });
-
-
-/**
- * Generates a deterministic password based on a seed using the SHA-256 hashing algorithm.
- *
- * This function hashes the provided seed using the SHA-256 algorithm and returns a
- * password of the specified length. The same seed will always generate the same password.
- *
- * @param {string} seed - The seed value used to generate the password. The same seed will always produce the same password.
- * @param {number} [length=12] - The desired length of the generated password. Default is 12 characters.
- * @returns {string} A password consisting of the first `length` characters of the SHA-256 hash.
- **/
-
-function generateSamePassword(seed, length = 12) {
-  // Hash the seed using a cryptographic algorithm (e.g., SHA-256)
-  const hash = crypto.createHash('sha256').update(seed).digest('hex');
-
-  // Return the first `length` characters of the hash as the password
-  return hash.slice(0, length);
-}
 
 
 // eslint-disable-next-line no-unused-vars
@@ -141,12 +125,17 @@ module.exports = (security, appInsights) => {
 
   const duration = Date.now() - startTime;
 
+  // Never let telemetry startup calls crash the web process in local/dev environments.
   if (client) {
-    client.trackEvent({ name: 'my custom event', properties: { customProperty: 'custom property value' } });
-    client.trackException({ exception: new Error('handled exceptions can be logged with this method') });
-    client.trackMetric({ name: 'custom metric', value: 3 });
-    client.trackTrace({ message: 'trace message' });
-    client.trackMetric({ name: 'server startup time', value: duration });
+    try {
+      client.trackEvent && client.trackEvent({ name: 'my custom event', properties: { customProperty: 'custom property value' } });
+      client.trackException && client.trackException({ exception: new Error('handled exceptions can be logged with this method') });
+      client.trackMetric && client.trackMetric({ name: 'custom metric', value: 3 });
+      client.trackTrace && client.trackTrace({ message: 'trace message' });
+      client.trackMetric && client.trackMetric({ name: 'server startup time', value: duration });
+    } catch (error) {
+      Logger.getLogger('PAYBUBBLE: server.js -> telemetry').warn('Skipping startup telemetry due to App Insights client issue', error && error.message ? error.message : error);
+    }
   }
 
   return app;
