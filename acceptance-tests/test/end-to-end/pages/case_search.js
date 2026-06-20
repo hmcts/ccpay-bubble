@@ -23,7 +23,6 @@ module.exports = {
 
   // done
   searchCaseUsingCcdNumber(caseNumber) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateSearchPage();
     I.checkOption(this.locators.ccd_option);
     I.fillField(this.locators.ccd_field, caseNumber);
@@ -32,7 +31,6 @@ module.exports = {
   },
 
   searchCaseUsingDcnNumber(dcnNumber) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateSearchPage();
     I.checkOption(this.locators.dcn_option);
     I.fillField(this.locators.dcn_field, dcnNumber);
@@ -41,7 +39,6 @@ module.exports = {
   },
 
   searchCaseUsingPaymentRef(payReference) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateSearchPage();
     I.checkOption(this.locators.payment_option);
     I.fillField(this.locators.payment_ref_ield, payReference);

@@ -139,5 +139,16 @@ module.exports = {
     I.see(`£${amount}`);
     // I.see(dcnNumber);
     I.see(paymentMethod);
+  },
+
+  validateFailedPaymentStatusHistoryDetails(paymentStatus, amount, failureReason) {
+    I.see('Payment status history');
+    I.see('Status');
+    I.see(paymentStatus);
+    I.see('Failure reason');
+    I.see(failureReason);
+    I.see('Amount');
+    I.see(`£${amount}`);
+    I.see('Date and time');
   }
 };

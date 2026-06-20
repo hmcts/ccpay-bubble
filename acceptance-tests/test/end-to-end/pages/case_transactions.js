@@ -110,19 +110,16 @@ module.exports = {
 
   // done
   checkBulkCase(caseNumber, caseTitle) {
-    I.wait(CCPBConstants.fifteenSecondWaitTime);
     this.validateTransactionPage(caseNumber);
     I.see(caseTitle);
     I.click(this.locators.more_details_actions);
   },
 
   checkBulkCaseSuccessPayment(caseNumber, caseTitle) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateTransactionPageForSuccessPayment(caseNumber);
     I.see(caseTitle);
   },
   checkBulkCaseSuccessPaymentPartiallyPaid(caseNumber, caseTitle, allocationStatus) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateTransactionPageForSuccessPaymentPartiallyPaid(caseNumber, allocationStatus);
     I.see(caseTitle);
   },

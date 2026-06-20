@@ -19,8 +19,8 @@ BeforeSuite(async () => {
   serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
 });
 
-Scenario('Card payment with failed transaction should have the correct calculations on the Case Transaction page',
-  async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
+Scenario('Card payment with failed transaction should have the correct calculations on the Case Transaction page and failure details should be captured in payment status history',
+  async ({ I, PaymentHistory, CaseSearch, CaseTransaction }) => {
 
     // Cancelled(failed) card payment 1
     const cardPaymentResponse1 = await apiUtils.initiateCardPaymentForServiceRequest(totalAmount, serviceRequestReference);
@@ -36,10 +36,20 @@ Scenario('Card payment with failed transaction should have the correct calculati
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Sign in');
 
+    // Validate Case Transactions details and payment status history for failed payments
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    await CaseTransaction.validateCaseTransactionsDetails('0.00', '0', '0.00', '300.00', '0.00');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await PaymentHistory.validateFailedPaymentStatusHistoryDetails('Failed', '300.00', 'Payment was cancelled by the user');
+
+    await I.Logout();
+    I.clearCookie();
   }).tag('@serial @pipeline @nightly');
 
-  Scenario('Card payment with declined transaction should have the correct calculations on the Case Transaction page',
-    async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
+  Scenario('Card payment with declined transaction should have the correct calculations on the Case Transaction page and failure details should be captured in payment status history',
+    async ({ I, ServiceRequests, CaseSearch, CaseTransaction, PaymentHistory }) => {
 
     // declined(failed) card payment 2
     const cardPaymentResponse2 = await apiUtils.initiateCardPaymentForServiceRequest(totalAmount, serviceRequestReference);
@@ -61,7 +71,17 @@ Scenario('Card payment with failed transaction should have the correct calculati
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Sign in');
 
-  }).tag('@serial @pipeline @nightly');
+    // Validate Case Transactions details and payment status history for failed payments
+    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    await CaseTransaction.validateCaseTransactionsDetails('0.00', '0', '0.00', '300.00', '0.00');
+    await I.click('(//*[text()[contains(.,"Review")]])[3]');
+    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await PaymentHistory.validateFailedPaymentStatusHistoryDetails('Failed', '300.00', 'Payment method rejected');
+
+    await I.Logout();
+    I.clearCookie();
+    }).tag('@serial @pipeline @nightly');
 
   Scenario('Card payment with success transaction should have the correct calculations on the Case Transaction page',
     async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
@@ -69,7 +89,6 @@ Scenario('Card payment with failed transaction should have the correct calculati
     // In the event the test is retried with a successful payment, then check if payment exists
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const caseAmountDue = await I.grabTextFrom('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[4]');
     await I.Logout();
     I.clearCookie();
@@ -103,12 +122,10 @@ Scenario('Card payment with failed transaction should have the correct calculati
     I.see('Sign in');
 
     // Validate Case Transactions details
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', '0.00');
+
     await I.Logout();
     I.clearCookie();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
   }).tag('@serial @pipeline @nightly');
