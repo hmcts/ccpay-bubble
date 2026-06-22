@@ -892,6 +892,7 @@ module.exports = () => actor({
     this.see('Case transactions');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Summary');
@@ -1016,6 +1017,7 @@ module.exports = () => actor({
     this.see('Case transaction');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
+    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Remove');

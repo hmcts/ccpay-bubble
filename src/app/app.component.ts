@@ -4,7 +4,6 @@ import { Router, NavigationEnd } from '@angular/router';
 import { PaymentGroupService } from './services/payment-group/payment-group.service';
 import { DOCUMENT } from '@angular/common';
 
-declare let gtag;
 @Component({
   selector: 'app-root',
   standalone: false,
@@ -23,7 +22,11 @@ export class AppComponent implements OnInit {
      filter(event => event instanceof NavigationEnd)
    );
    navEndEvents.subscribe((event: NavigationEnd) => {
-     gtag('config', 'UA-146285829-2', {'page_path': event.urlAfterRedirects} );
+     const dataLayer = (window as any).dataLayer || ((window as any).dataLayer = []);
+     dataLayer.push({
+       event: 'virtualPageview',
+       page_path: event.urlAfterRedirects
+     });
    });
    }
    ngOnInit() {
@@ -32,5 +35,20 @@ export class AppComponent implements OnInit {
     });
 
     this.document.documentElement.lang = 'en';
+
+    this.loadDynatraceScript();
+  }
+
+  private loadDynatraceScript(): void {
+    const meta = this.document.querySelector('meta[name="dynatrace-script-url"]');
+    const url = meta ? meta.getAttribute('content') : null;
+    if (!url) {
+      return;
+    }
+    const script = this.document.createElement('script');
+    script.src = url;
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    this.document.head.appendChild(script);
   }
 }
