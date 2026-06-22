@@ -11,7 +11,7 @@ const FeesSummary = require("../pages/fees_summary");
 Feature('CC Pay Bubble Acceptance Tests').retry(CCPBATConstants.defaultNumberOfRetries);
 
 Scenario('Search for a case with actual case number from CCD', async({ I }) => {
-  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   await I.runAccessibilityTest();
   I.see('Search for a case');
   I.see('What do you want to search for?');
@@ -26,20 +26,20 @@ Scenario('Search for a case with actual case number from CCD', async({ I }) => {
 }).tag('@nightly @pipeline');
 
 Scenario('Search for a case with actual case for Telephony flow', async({ I }) => {
-  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   await I.caseforTelephonyFlow();
   I.Logout();
 }).tag('@nightly @pipeline');
 
 Scenario('Amount Due case for Telephony flow', async({ I }) => {
-  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   await I.AmountDueCaseForTelephonyFlow();
   I.Logout();
 }).tag('@nightly @pipeline @crossbrowser');
 
 Scenario('Partially paid (Upfront remission) case for Telephony flow', async({ I }) => {
-  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   await I.partiallyPaidUpfrontRemissionCaseForTelephonyFlow();
 }).tag('@nightly @pipeline');
@@ -51,13 +51,13 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
   const amountDue = '200.00';
   const totalPaymentAmount = '200.00';
   const bulkScanPayment = '200.00';
-  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const ccdNumber = await utils.createACCDCaseForProbate();
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
   await miscUtils.multipleSearch(searchCase, I, ccdCaseNumberFormatted);
   await I.initiateAndCancelTheTelephonyPayment(ccdCaseNumberFormatted, feeCode, feeAmount, 'family', 'probate_registry');
   I.clearCookie();
-  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   await miscUtils.multipleSearch(searchCase, I, ccdCaseNumberFormatted);
   // Checking the payment status and updating to Failed, PciPal Call back works on Demo but it's slow sometimes
   let paymentStatus = await I.grabTextFrom('//ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr[1]/td[1]');
@@ -86,13 +86,13 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
 }).tag('@nightly @pipeline');
 
 Scenario('Remove fee from case transaction page Telephony flow', async({ I }) => {
-  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   await I.removeFeeFromCaseTransactionPageTelephonyFlow();
   I.Logout();
 }).tag('@nightly @pipeline');
 
 Scenario('Search for a case with dummy case number @nightly', async({ I }) => {
-  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   await I.searchForCCDdummydata();
   I.Logout();

@@ -67,7 +67,7 @@ Scenario('Card payment with failed transaction should have the correct calculati
     async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
 
     // In the event the test is retried with a successful payment, then check if payment exists
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const caseAmountDue = await I.grabTextFrom('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[4]');
@@ -104,7 +104,7 @@ Scenario('Card payment with failed transaction should have the correct calculati
 
     // Validate Case Transactions details
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', '0.00');

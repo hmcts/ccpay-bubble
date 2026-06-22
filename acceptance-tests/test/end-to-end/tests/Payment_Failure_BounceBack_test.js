@@ -24,7 +24,7 @@ Scenario('Payment Failure for Bounceback SR status Paid',
     logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
     logger.info(`The value of the dcnNumber : ${dcnNumber}`);
     const paymentRefResult = await apiUtils.getPaymentReferenceUsingCCDCaseNumber(ccdCaseNumber, dcnNumber);
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.twentySecondWaitTime);
     console.log("the payment rc ref and date and failure ref are - "
@@ -51,7 +51,7 @@ Scenario('Payment Failure for chargeback SR status Partially Paid',
     const requestBody = await apiUtils.getPaymentDetailsPBA(ccdCaseNumber, paymentRefResult);
     console.log("the payment rc ref and date and failure ref are - "
       + paymentRefResult[0] + 'and' + paymentRefResult[2] + 'and' + paymentRefResult[1]);
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.twentySecondWaitTime);
     await CaseTransaction.verifyDisputedPaymentHistory(paymentRefResult[0], paymentRefResult[2]);
@@ -76,7 +76,7 @@ Scenario('Payment Failure for chargeback SR status Not Paid',
     const requestBody = await apiUtils.getPaymentDetailsPBAForChargebackEvent(ccdCaseNumber, paymentRefResult);
     console.log("the payment rc ref and date and failure ref are - "
       + paymentRefResult[0] + 'and' + paymentRefResult[2] + 'and' + paymentRefResult[1]);
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.twentySecondWaitTime);
     await CaseTransaction.verifyDisputedPaymentHistoryEvent(paymentRefResult[0], paymentRefResult[2]);
@@ -95,7 +95,7 @@ Scenario('Payment Failure for chargeback with SR status Disputed',
     const requestBody = await apiUtils.getPaymentDetailsPBAForServiceStatus(ccdCaseNumber, paymentRefResult);
     console.log('**** payment ref - ' + requestBody.failure_reference);
     console.log('**** reason - ' + requestBody.reason);
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.twentySecondWaitTime);
     await CaseTransaction.verifyServiceRequestStatus();
