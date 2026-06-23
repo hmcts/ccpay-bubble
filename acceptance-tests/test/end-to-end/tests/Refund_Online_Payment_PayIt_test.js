@@ -41,7 +41,7 @@ Scenario('Card payment refund PayIt journey',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Sign in');
 
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', '0.00');
@@ -74,7 +74,7 @@ Scenario('Card payment refund PayIt journey',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     // Approve refund
-    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
+    await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     // I.click('Refund List'); // Refund List menu is hidden on paybubble, navigating to the refund-list page itself -- see above url
     await InitiateRefunds.verifyRefundsListPage(refundReference);
@@ -93,7 +93,7 @@ Scenario('Card payment refund PayIt journey',
     await apiUtils.updateRefundStatusByRefundReference(refundReference, '', 'ACCEPTED');
 
     // Review refund from case transaction page
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
@@ -161,7 +161,7 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Sign in');
 
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', '0.00');

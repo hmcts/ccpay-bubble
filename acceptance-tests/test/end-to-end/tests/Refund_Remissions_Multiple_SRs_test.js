@@ -30,7 +30,7 @@ Scenario('Remissions refunds on Multiple Service requests',
     const ccdCaseNumber = `${paymentDetails1.ccdCaseNumber}`;
     const paymentRCRef1 = `${paymentDetails1.paymentReference}`;
 
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(serviceRequest1feeAmount, '0', '0.00', '0.00', '0.00');
@@ -81,7 +81,7 @@ Scenario('Remissions refunds on Multiple Service requests',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     // Approve the remission refund from Refund list page
-    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
+    await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     let refundsDataBeforeApproverAction;
 
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
@@ -110,7 +110,7 @@ Scenario('Remissions refunds on Multiple Service requests',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     // 2nd service request Remission refund - 545.00 - 445.00
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', serviceRequest1remissionAmount, '0.00', '0.00');
@@ -145,7 +145,7 @@ Scenario('Remissions refunds on Multiple Service requests',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     // Approve the remission refund from Refund list page
-    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
+    await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     let refundsDataBeforeApproverAction2;
 
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
