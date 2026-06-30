@@ -847,8 +847,8 @@ module.exports = () => actor({
     this.see('Amount');
     this.see('Add fee');
     this.see(PaybubbleStaticData.fee_description.FEE0219);
-    this.see('£300.00');
-    this.see('Total to pay: £300.00');
+    this.see('£526.00');
+    this.see('Total to pay: £526.00');
     this.click('Remove');
     this.see('Are you sure you want to delete this fee?');
     await this.runAccessibilityTest();
@@ -899,12 +899,12 @@ module.exports = () => actor({
     this.see(PaybubbleStaticData.fee_description.FEE0219);
     this.see('Amount');
     // this.see('Volume');
-    this.see('Total to pay: £300.00');
+    this.see('Total to pay: £526.00');
     this.see('Remove');
     this.see('Add help with fees or remission');
     this.see('Quantity');
     this.see('Description');
-    this.see('300.00');
+    this.see('526.00');
     this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
@@ -918,8 +918,8 @@ module.exports = () => actor({
     this.see(ccdCaseNumberFormatted);
     this.click('Create service request and pay');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await AddFees.addFeesAmount('300.00', 'family', 'probate_registry');
-    FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, 'FEE0219', '300.00', false);
+    await AddFees.addFeesAmount('526.00', 'family', 'probate_registry');
+    FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, 'FEE0219', '526.00', false);
     FeesSummary.deductRemission();
     Remission.processRemission('FEE0219', '200');
     Remission.confirmProcessRemission();
@@ -934,7 +934,7 @@ module.exports = () => actor({
     this.see('Partially paid');
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '300.00', '100.00', '200.00');
+    FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '526.00', '100.00', '200.00');
     this.click('Take payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.waitInUrl('https://euwest1.pcipalstaging.cloud/session/1288/view', 2);
@@ -1008,8 +1008,8 @@ module.exports = () => actor({
     this.see('Amount');
     this.see('Add fee');
     this.see(PaybubbleStaticData.fee_description.FEE0219);
-    this.see('300.00');
-    this.see('Total to pay: £300.00');
+    this.see('526.00');
+    this.see('Total to pay: £526.00');
     this.click('Case Transaction');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
