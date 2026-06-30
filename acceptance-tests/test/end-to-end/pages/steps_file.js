@@ -29,28 +29,22 @@ module.exports = () => actor({
     this.wait(CCPBConstants.twoSecondWaitTime);
   },
 
-  async login(email, password, uri = '/') {
+  login(email, password, uri = '/') {
     this.amOnPage(uri);
     this.wait(CCPBConstants.twoSecondWaitTime);
-    const header = await this.grabTextFrom('//h1');
-    if (header.trim() === 'Sign in') {
-      this.fillField('Email address', email);
-      this.fillField('Password', password);
-      this.click({ css: '[type="submit"]' });
-      this.AcceptPayBubbleCookies();
-      return;
-    }
-    if (header.trim() === 'Enter your email address') {
-      this.fillField('//*[@id="email"]', email);
-      this.click({ css: '[type="submit"]' });
-      this.fillField('//*[@id="password"]', password);
-      this.click({ css: '[type="submit"]' });
-      this.AcceptPayBubbleCookies();
-      return;
-    }
-
-    throw new Error(`Unexpected login heading "${header}"`);
+    this.fillField('Email address', email);
+    this.fillField('Password', password);
+    this.wait(CCPBConstants.twoSecondWaitTime);
+    this.click({ css: '[type="submit"]' });
+    this.wait(CCPBConstants.twoSecondWaitTime);
+    this.AcceptPayBubbleCookies();
   },
+
+  // Logout() {
+  //   this.wait(CCPBConstants.fiveSecondWaitTime);
+  //   this.click('Logout');
+  //   this.wait(CCPBConstants.fiveSecondWaitTime);
+  // },
 
   async Logout() {
     this.scrollPageToTop();
@@ -69,6 +63,24 @@ module.exports = () => actor({
     this.click({ css: 'button.cookie-banner-reject-button' });
     this.click({ css: 'div.cookie-banner-reject-message > div.govuk-button-group > button' });
     this.wait(CCPBConstants.twoSecondWaitTime);
+  },
+
+  async selectCurrentFeeVersionIfShown() {
+    const currentVersionOptions = [
+      '//input[@value=\'currentVersion\']',
+      '//input[@id=\'fee-version0\']',
+      '//input[@id=\'fee-versions\']'
+    ];
+
+    for (const option of currentVersionOptions) {
+      const visibleOptions = await this.grabNumberOfVisibleElements(option);
+      if (visibleOptions) {
+        this.click(option);
+        this.click('Continue');
+        this.wait(CCPBConstants.fiveSecondWaitTime);
+        return;
+      }
+    }
   },
 
   onefeeforpayment() {
@@ -831,12 +843,7 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
-    if(numOfElements) {
-      this.click('//input[@id=\'fee-versions\']');
-      this.click('Continue');
-      this.wait(CCPBConstants.fiveSecondWaitTime);
-    }
+    await this.selectCurrentFeeVersionIfShown();
     this.see('Add fee');
     await this.runAccessibilityTest();
     this.see('Summary');
@@ -847,8 +854,8 @@ module.exports = () => actor({
     this.see('Amount');
     this.see('Add fee');
     this.see(PaybubbleStaticData.fee_description.FEE0219);
-    this.see('£526.00');
-    this.see('Total to pay: £526.00');
+    this.see('£300.00');
+    this.see('Total to pay: £300.00');
     this.click('Remove');
     this.see('Are you sure you want to delete this fee?');
     await this.runAccessibilityTest();
@@ -879,12 +886,7 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
-    if(numOfElements) {
-      this.click('//input[@id=\'fee-versions\']');
-      this.click('Continue');
-      this.wait(CCPBConstants.fiveSecondWaitTime);
-    }
+    await this.selectCurrentFeeVersionIfShown();
     this.see('Add fee');
     this.click('Case Transaction');
     this.wait(CCPBConstants.fiveSecondWaitTime);
@@ -899,12 +901,12 @@ module.exports = () => actor({
     this.see(PaybubbleStaticData.fee_description.FEE0219);
     this.see('Amount');
     // this.see('Volume');
-    this.see('Total to pay: £526.00');
+    this.see('Total to pay: £300.00');
     this.see('Remove');
     this.see('Add help with fees or remission');
     this.see('Quantity');
     this.see('Description');
-    this.see('526.00');
+    this.see('300.00');
     this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
@@ -918,8 +920,8 @@ module.exports = () => actor({
     this.see(ccdCaseNumberFormatted);
     this.click('Create service request and pay');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await AddFees.addFeesAmount('526.00', 'family', 'probate_registry');
-    FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, 'FEE0219', '526.00', false);
+    await AddFees.addFeesAmount('300.00', 'family', 'probate_registry');
+    FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, 'FEE0219', '300.00', false);
     FeesSummary.deductRemission();
     Remission.processRemission('FEE0219', '200');
     Remission.confirmProcessRemission();
@@ -934,7 +936,7 @@ module.exports = () => actor({
     this.see('Partially paid');
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '526.00', '100.00', '200.00');
+    FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '300.00', '100.00', '200.00');
     this.click('Take payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.waitInUrl('https://euwest1.pcipalstaging.cloud/session/1288/view', 2);
@@ -994,12 +996,7 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
-    if(numOfElements) {
-      this.click('//input[@id=\'fee-versions\']');
-      this.click('Continue');
-      this.wait(CCPBConstants.fiveSecondWaitTime);
-    }
+    await this.selectCurrentFeeVersionIfShown();
     this.see('Summary');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
@@ -1008,8 +1005,8 @@ module.exports = () => actor({
     this.see('Amount');
     this.see('Add fee');
     this.see(PaybubbleStaticData.fee_description.FEE0219);
-    this.see('526.00');
-    this.see('Total to pay: £526.00');
+    this.see('300.00');
+    this.see('Total to pay: £300.00');
     this.click('Case Transaction');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
