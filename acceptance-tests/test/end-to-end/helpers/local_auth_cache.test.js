@@ -73,4 +73,27 @@ describe('local auth cache', () => {
   it('does not treat an active lock as stale during the wait budget', () => {
     assert.ok(authCache._private.lockStaleMs > authCache._private.lockWaitMs);
   });
+
+  it('logs cache decisions only when debug is enabled', async () => {
+    const originalLog = console.log;
+    const logs = [];
+    console.log = message => logs.push(message);
+
+    try {
+      await authCache.getOrCreate(['debug-off', Date.now()], async () => 'quiet-token');
+      assert.deepStrictEqual(logs, []);
+
+      process.env.CODECEPT_AUTH_CACHE_DEBUG = 'true';
+      const key = ['debug-on', Date.now()];
+      await authCache.getOrCreate(key, async () => 'debug-token');
+      await authCache.getOrCreate(key, async () => 'unused-token');
+
+      assert.ok(logs.some(line => line.includes('[auth-cache] miss:create ')));
+      assert.ok(logs.some(line => line.includes('[auth-cache] stored ')));
+      assert.ok(logs.some(line => line.includes('[auth-cache] hit:memory ')));
+    } finally {
+      console.log = originalLog;
+      delete process.env.CODECEPT_AUTH_CACHE_DEBUG;
+    }
+  });
 });

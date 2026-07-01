@@ -24,6 +24,12 @@ function cachePath(key) {
   return path.join(cacheDir(), `${hash}.json`);
 }
 
+function logCache(event, filePath) {
+  if (process.env.CODECEPT_AUTH_CACHE_DEBUG === 'true') {
+    console.log(`[auth-cache] ${event} ${path.basename(filePath)}`);
+  }
+}
+
 function isFresh(entry, now = Date.now()) {
   return entry && entry.value && entry.expiresAt > now;
 }
@@ -94,11 +100,13 @@ async function getOrCreate(key, createValue) {
   const filePath = cachePath(key);
   const memoryEntry = processCache.get(filePath);
   if (isFresh(memoryEntry)) {
+    logCache('hit:memory', filePath);
     return memoryEntry.value;
   }
 
   const fileEntry = readFreshEntry(filePath);
   if (fileEntry) {
+    logCache('hit:file', filePath);
     processCache.set(filePath, { value: fileEntry.value, expiresAt: fileEntry.expiresAt });
     return fileEntry.value;
   }
@@ -106,16 +114,19 @@ async function getOrCreate(key, createValue) {
   return withLock(filePath, async () => {
     const lockedFileEntry = readFreshEntry(filePath);
     if (lockedFileEntry) {
+      logCache('hit:file-after-lock', filePath);
       processCache.set(filePath, { value: lockedFileEntry.value, expiresAt: lockedFileEntry.expiresAt });
       return lockedFileEntry.value;
     }
 
+    logCache('miss:create', filePath);
     const value = await createValue();
     if (!value) {
       throw new Error(`Auth cache creator returned no value for ${JSON.stringify(key)}`);
     }
     const ttl = ttlMs();
     writeCache(filePath, value, ttl);
+    logCache('stored', filePath);
     processCache.set(filePath, { value, expiresAt: Date.now() + ttl });
     return value;
   });
