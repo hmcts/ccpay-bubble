@@ -74,6 +74,16 @@ describe('local auth cache', () => {
     assert.ok(authCache._private.lockStaleMs > authCache._private.lockWaitMs);
   });
 
+  it('invalidates a locally stored value', async () => {
+    const key = ['invalidate', Date.now()];
+    await authCache.getOrCreate(key, async () => 'old-token');
+
+    authCache.invalidate(key);
+    const value = await authCache.getOrCreate(key, async () => 'new-token');
+
+    assert.strictEqual(value, 'new-token');
+  });
+
   it('logs cache decisions only when debug is enabled', async () => {
     const originalLog = console.log;
     const logs = [];

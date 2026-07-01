@@ -6,7 +6,7 @@ const os = require('os');
 const path = require('path');
 
 const DEFAULT_TTL_MS = 4 * 60 * 1000;
-const LOCK_WAIT_MS = 30 * 1000;
+const LOCK_WAIT_MS = 75 * 1000;
 const LOCK_STALE_MS = 2 * LOCK_WAIT_MS;
 const POLL_MS = 100;
 const processCache = new Map();
@@ -15,8 +15,13 @@ function cacheDir() {
   return process.env.CODECEPT_AUTH_CACHE_DIR || path.join(os.tmpdir(), 'hmcts-codecept-auth-cache');
 }
 
+function positiveNumberFromEnv(name, fallback) {
+  const value = Number(process.env[name]);
+  return Number.isFinite(value) && value > 0 ? value : fallback;
+}
+
 function ttlMs() {
-  return Number(process.env.CODECEPT_AUTH_CACHE_TTL_MS || DEFAULT_TTL_MS);
+  return positiveNumberFromEnv('CODECEPT_AUTH_CACHE_TTL_MS', DEFAULT_TTL_MS);
 }
 
 function cachePath(key) {
@@ -122,7 +127,7 @@ async function getOrCreate(key, createValue) {
     logCache('miss:create', filePath);
     const value = await createValue();
     if (!value) {
-      throw new Error(`Auth cache creator returned no value for ${JSON.stringify(key)}`);
+      throw new Error(`Auth cache creator returned no value for ${path.basename(filePath)}`);
     }
     const ttl = ttlMs();
     writeCache(filePath, value, ttl);
@@ -132,7 +137,18 @@ async function getOrCreate(key, createValue) {
   });
 }
 
+function invalidate(key) {
+  const filePath = cachePath(key);
+  processCache.delete(filePath);
+  try {
+    fs.rmSync(filePath, { force: true });
+  } catch (_error) {
+    // Best effort only; the next read will recreate if the file is gone.
+  }
+}
+
 module.exports = {
   getOrCreate,
+  invalidate,
   _private: { cachePath, lockStaleMs: LOCK_STALE_MS, lockWaitMs: LOCK_WAIT_MS, writeCache }
 };
