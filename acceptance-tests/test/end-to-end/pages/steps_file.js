@@ -69,13 +69,14 @@ async function saveCookiePreferences(actor, consent) {
 async function submitFeeDetailsIfShown(actor) {
   const numOfElements = await actor.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
   if(numOfElements) {
-    actor.click('//input[@id=\'fee-version0\']');
+    await actor.click('//input[@id=\'fee-version0\']');
   }
 
+  const feeDetailsHeadingCount = await actor.grabNumberOfVisibleElements('//h1[normalize-space()="Fee details"]');
   const submitButtonCount = await actor.grabNumberOfVisibleElements('//button[@type="submit"]');
-  if(submitButtonCount) {
-    actor.click({ css: '[type="submit"]' });
-    actor.wait(CCPBConstants.fiveSecondWaitTime);
+  if((numOfElements || feeDetailsHeadingCount) && submitButtonCount) {
+    await actor.click({ css: '[type="submit"]' });
+    await actor.wait(CCPBConstants.fiveSecondWaitTime);
   }
 }
 

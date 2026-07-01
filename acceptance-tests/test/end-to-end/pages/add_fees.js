@@ -21,13 +21,14 @@ module.exports = {
   async submitFeeDetailsIfShown() {
     const numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
     if(numOfElements) {
-      I.click('//input[@id=\'fee-version0\']');
+      await I.click('//input[@id=\'fee-version0\']');
     }
 
+    const feeDetailsHeadingCount = await I.grabNumberOfVisibleElements('//h1[normalize-space()="Fee details"]');
     const submitButtonCount = await I.grabNumberOfVisibleElements(this.locators.confirm_button);
-    if(submitButtonCount) {
-      I.click(this.locators.confirm_button);
-      I.wait(CCPBConstants.fiveSecondWaitTime);
+    if((numOfElements || feeDetailsHeadingCount) && submitButtonCount) {
+      await I.click(this.locators.confirm_button);
+      await I.wait(CCPBConstants.fiveSecondWaitTime);
     }
   },
 
