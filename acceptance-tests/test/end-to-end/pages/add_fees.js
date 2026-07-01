@@ -35,7 +35,7 @@ module.exports = {
     let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
     if(numOfElements) {
       I.click('//input[@id=\'fee-version0\']');
-      I.click('Continue');
+      I.click(this.locators.confirm_button);
       I.wait(CCPBConstants.fiveSecondWaitTime);
     }
     /* END: Comment this out when fee change options expire for inflation update. */
@@ -63,7 +63,7 @@ module.exports = {
     let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
     if(numOfElements) {
       I.click('//input[@id=\'fee-version0\']');
-      I.click('Continue');
+      I.click(this.locators.confirm_button);
       I.wait(CCPBConstants.fiveSecondWaitTime);
     }
     /* END: Comment this out when fee change options expire for inflation update. */
@@ -87,7 +87,7 @@ module.exports = {
     let numOfElements = await I.grabNumberOfVisibleElements('//input[@value=\'currentVersion\']');
     if(numOfElements) {
       I.click('//input[@value=\'currentVersion\']');
-      I.click('Continue');
+      I.click(this.locators.confirm_button);
       I.wait(CCPBConstants.fiveSecondWaitTime);
     }
     /* END: Comment this out when fee change options expire for inflation update. */
@@ -107,7 +107,7 @@ module.exports = {
     let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
     if(numOfElements) {
       I.click('//input[@id=\'fee-version0\']');
-      I.click('Continue');
+      I.click(this.locators.confirm_button);
       I.wait(CCPBConstants.fiveSecondWaitTime);
     }
     /* END: Comment this out when fee change options expire for inflation update. */

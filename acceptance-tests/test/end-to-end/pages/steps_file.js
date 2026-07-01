@@ -901,7 +901,7 @@ module.exports = () => actor({
     let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
     if(numOfElements) {
       this.click('//input[@id=\'fee-version0\']');
-      this.click('Continue');
+      this.click({ css: '[type="submit"]' });
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }
     this.see('Add fee');
@@ -949,7 +949,7 @@ module.exports = () => actor({
     let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
     if(numOfElements) {
       this.click('//input[@id=\'fee-version0\']');
-      this.click('Continue');
+      this.click({ css: '[type="submit"]' });
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }
     this.see('Add fee');
@@ -1064,7 +1064,7 @@ module.exports = () => actor({
     let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
     if(numOfElements) {
       this.click('//input[@id=\'fee-version0\']');
-      this.click('Continue');
+      this.click({ css: '[type="submit"]' });
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }
     this.see('Summary');
