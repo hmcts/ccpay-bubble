@@ -66,6 +66,19 @@ async function saveCookiePreferences(actor, consent) {
   });
 }
 
+async function submitFeeDetailsIfShown(actor) {
+  const numOfElements = await actor.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+  if(numOfElements) {
+    actor.click('//input[@id=\'fee-version0\']');
+  }
+
+  const submitButtonCount = await actor.grabNumberOfVisibleElements('//button[@type="submit"]');
+  if(submitButtonCount) {
+    actor.click({ css: '[type="submit"]' });
+    actor.wait(CCPBConstants.fiveSecondWaitTime);
+  }
+}
+
 async function completeLogin(actor, email, password, uri) {
   await actor.amOnPage(uri);
   await actor.wait(CCPBConstants.twoSecondWaitTime);
@@ -898,12 +911,7 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
-    if(numOfElements) {
-      this.click('//input[@id=\'fee-version0\']');
-      this.click({ css: '[type="submit"]' });
-      this.wait(CCPBConstants.fiveSecondWaitTime);
-    }
+    await submitFeeDetailsIfShown(this);
     this.see('Add fee');
     await this.runAccessibilityTest();
     this.see('Summary');
@@ -946,12 +954,7 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
-    if(numOfElements) {
-      this.click('//input[@id=\'fee-version0\']');
-      this.click({ css: '[type="submit"]' });
-      this.wait(CCPBConstants.fiveSecondWaitTime);
-    }
+    await submitFeeDetailsIfShown(this);
     this.see('Add fee');
     this.click('Case Transaction');
     this.wait(CCPBConstants.fiveSecondWaitTime);
@@ -1061,12 +1064,7 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
-    if(numOfElements) {
-      this.click('//input[@id=\'fee-version0\']');
-      this.click({ css: '[type="submit"]' });
-      this.wait(CCPBConstants.fiveSecondWaitTime);
-    }
+    await submitFeeDetailsIfShown(this);
     this.see('Summary');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
