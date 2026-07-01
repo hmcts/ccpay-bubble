@@ -90,6 +90,10 @@ describe('local auth cache', () => {
     assert.ok(authCache._private.lockStaleMs > authCache._private.lockWaitMs);
   });
 
+  it('waits long enough for one Jenkins login to seed the shared cache', () => {
+    assert.ok(authCache._private.lockWaitMs >= 4 * 60 * 1000);
+  });
+
   it('invalidates a locally stored value', async () => {
     const key = ['invalidate', Date.now()];
     await authCache.getOrCreate(key, async () => 'old-token');

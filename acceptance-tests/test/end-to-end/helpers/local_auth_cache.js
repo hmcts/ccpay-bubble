@@ -6,7 +6,7 @@ const os = require('os');
 const path = require('path');
 
 const DEFAULT_TTL_MS = 4 * 60 * 1000;
-const LOCK_WAIT_MS = 75 * 1000;
+const LOCK_WAIT_MS = 5 * 60 * 1000;
 const LOCK_STALE_MS = 2 * LOCK_WAIT_MS;
 const POLL_MS = 100;
 const processCache = new Map();
