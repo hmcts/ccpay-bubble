@@ -40,7 +40,7 @@ module.exports = {
     I.see(`£${amount}`);
     if (takePaymentFlag) {
       I.see('Take payment');
-      I.cick('Take payment');
+      I.click('Take payment');
     }
   },
 

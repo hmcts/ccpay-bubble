@@ -22,7 +22,6 @@ const AddFees = require('../pages/add_fees');
 const FeesSummary = require('../pages/fees_summary');
 const Remission = require('../pages/remission');
 // const numberTwo = 2;
-let activeLoginEmail;
 const authShellSelector = '//a[contains(normalize-space(), "Logout")] | //button[contains(normalize-space(), "Logout")]';
 const cookiePreferenceName = 'ccpay-bubble-cookie-preferences';
 const cookieCategories = ['analytics', 'apm', 'essential'];
@@ -109,24 +108,14 @@ module.exports = () => actor({
 
   async login(email, password, uri = '/') {
     const key = browserSessionKey(email);
-    if (activeLoginEmail === email) {
-      await this.amOnPage(uri);
-      await this.wait(CCPBConstants.twoSecondWaitTime);
-      if (await hasAuthenticatedShell(this)) {
-        return;
-      }
-    }
-
     const state = await authCache.getOrCreate(key, () => completeLogin(this, email, password, uri));
     if (await restoreCachedLogin(this, state, uri)) {
-      activeLoginEmail = email;
       return;
     }
 
     authCache.invalidate(key);
     const freshState = await authCache.getOrCreate(key, () => completeLogin(this, email, password, uri));
     if (await restoreCachedLogin(this, freshState, uri)) {
-      activeLoginEmail = email;
       return;
     }
     throw new Error('Cached login did not restore an authenticated session');
@@ -135,7 +124,6 @@ module.exports = () => actor({
   async Logout() {
     await this.scrollPageToTop();
     await this.click('Logout');
-    activeLoginEmail = undefined;
   },
 
   async AcceptPayBubbleCookies() {
@@ -912,7 +900,7 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
     let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
     if(numOfElements) {
-      this.click('//input[@id=\'fee-versions\']');
+      this.click('//input[@id=\'fee-version0\']');
       this.click('Continue');
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }
@@ -960,7 +948,7 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
     let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
     if(numOfElements) {
-      this.click('//input[@id=\'fee-versions\']');
+      this.click('//input[@id=\'fee-version0\']');
       this.click('Continue');
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }
@@ -1075,7 +1063,7 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
     let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
     if(numOfElements) {
-      this.click('//input[@id=\'fee-versions\']');
+      this.click('//input[@id=\'fee-version0\']');
       this.click('Continue');
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }

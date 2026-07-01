@@ -21,7 +21,7 @@ const successResponse = 202;
 
 Feature('CC Pay Bubble Acceptance Tests For the Ways To Pay feature').retry(CCPBATConstants.retryScenario);
 
-Scenario.only('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
+Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
   async({ I, CaseSearch, CaseTransaction, ServiceRequests }) => {
     logger.log('Creating the Service Request');
     // eslint-disable-next-line no-magic-numbers
