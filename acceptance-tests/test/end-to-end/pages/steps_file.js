@@ -68,14 +68,14 @@ async function saveCookiePreferences(actor, consent) {
 
 async function submitFeeDetailsIfShown(actor) {
   const numOfElements = await actor.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+  const feeDetailsCount = await actor.grabNumberOfVisibleElements('//h1[normalize-space()="Fee details"]/following::th[normalize-space()="Fee code"]');
+  const submitButton = { xpath: '//h1[normalize-space()="Fee details"]/following::button[@type="submit" and normalize-space()="Submit"]' };
+  const submitButtonCount = await actor.grabNumberOfVisibleElements(submitButton);
   if(numOfElements) {
     await actor.click('//input[@id=\'fee-version0\']');
   }
-
-  const feeDetailsHeadingCount = await actor.grabNumberOfVisibleElements('//h1[normalize-space()="Fee details"]');
-  const submitButtonCount = await actor.grabNumberOfVisibleElements('//button[@type="submit"]');
-  if((numOfElements || feeDetailsHeadingCount) && submitButtonCount) {
-    await actor.click({ css: '[type="submit"]' });
+  if((numOfElements || feeDetailsCount) && submitButtonCount) {
+    await actor.click(submitButton);
     await actor.wait(CCPBConstants.fiveSecondWaitTime);
   }
 }

@@ -20,14 +20,14 @@ module.exports = {
 
   async submitFeeDetailsIfShown() {
     const numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    const feeDetailsCount = await I.grabNumberOfVisibleElements('//h1[normalize-space()="Fee details"]/following::th[normalize-space()="Fee code"]');
+    const submitButton = { xpath: '//h1[normalize-space()="Fee details"]/following::button[@type="submit" and normalize-space()="Submit"]' };
+    const submitButtonCount = await I.grabNumberOfVisibleElements(submitButton);
     if(numOfElements) {
       await I.click('//input[@id=\'fee-version0\']');
     }
-
-    const feeDetailsHeadingCount = await I.grabNumberOfVisibleElements('//h1[normalize-space()="Fee details"]');
-    const submitButtonCount = await I.grabNumberOfVisibleElements(this.locators.confirm_button);
-    if((numOfElements || feeDetailsHeadingCount) && submitButtonCount) {
-      await I.click(this.locators.confirm_button);
+    if((numOfElements || feeDetailsCount) && submitButtonCount) {
+      await I.click(submitButton);
       await I.wait(CCPBConstants.fiveSecondWaitTime);
     }
   },
