@@ -49,26 +49,26 @@ async function hasAuthenticatedShell(actor) {
 }
 
 async function completeLogin(actor, email, password, uri) {
-  actor.amOnPage(uri);
-  actor.wait(CCPBConstants.twoSecondWaitTime);
+  await actor.amOnPage(uri);
+  await actor.wait(CCPBConstants.twoSecondWaitTime);
   const header = await actor.grabTextFrom('//h1');
   const heading = header.trim();
   if (await hasAuthenticatedShell(actor)) {
     return captureBrowserState(actor);
   }
   if (heading === 'Sign in') {
-    actor.fillField('Email address', email);
-    actor.fillField('Password', password);
-    actor.click({ css: '[type="submit"]' });
-    actor.AcceptPayBubbleCookies();
+    await actor.fillField('Email address', email);
+    await actor.fillField('Password', password);
+    await actor.click({ css: '[type="submit"]' });
+    await actor.AcceptPayBubbleCookies();
     return captureBrowserState(actor);
   }
   if (heading === 'Enter your email address') {
-    actor.fillField('//*[@id="email"]', email);
-    actor.click({ css: '[type="submit"]' });
-    actor.fillField('//*[@id="password"]', password);
-    actor.click({ css: '[type="submit"]' });
-    actor.AcceptPayBubbleCookies();
+    await actor.fillField('//*[@id="email"]', email);
+    await actor.click({ css: '[type="submit"]' });
+    await actor.fillField('//*[@id="password"]', password);
+    await actor.click({ css: '[type="submit"]' });
+    await actor.AcceptPayBubbleCookies();
     return captureBrowserState(actor);
   }
   throw new Error(`Unexpected login heading "${header}"`);
@@ -76,8 +76,8 @@ async function completeLogin(actor, email, password, uri) {
 
 async function restoreCachedLogin(actor, state, uri) {
   await restoreBrowserState(actor, state);
-  actor.amOnPage(uri);
-  actor.wait(CCPBConstants.twoSecondWaitTime);
+  await actor.amOnPage(uri);
+  await actor.wait(CCPBConstants.twoSecondWaitTime);
   return hasAuthenticatedShell(actor);
 }
 
@@ -91,8 +91,8 @@ module.exports = () => actor({
   async login(email, password, uri = '/') {
     const key = browserSessionKey(email);
     if (activeLoginEmail === email) {
-      this.amOnPage(uri);
-      this.wait(CCPBConstants.twoSecondWaitTime);
+      await this.amOnPage(uri);
+      await this.wait(CCPBConstants.twoSecondWaitTime);
       if (await hasAuthenticatedShell(this)) {
         return;
       }
@@ -114,23 +114,23 @@ module.exports = () => actor({
   },
 
   async Logout() {
-    this.scrollPageToTop();
+    await this.scrollPageToTop();
     await this.click('Logout');
     activeLoginEmail = undefined;
   },
 
-  AcceptPayBubbleCookies() {
-    this.waitForText('Cookies on ccpay-bubble', 5);
-    this.click({ css: 'button.cookie-banner-accept-button' });
-    this.click({ css: 'div.cookie-banner-accept-message > div.govuk-button-group > button' });
-    this.wait(CCPBConstants.twoSecondWaitTime);
+  async AcceptPayBubbleCookies() {
+    await this.waitForText('Cookies on ccpay-bubble', 5);
+    await this.click({ css: 'button.cookie-banner-accept-button' });
+    await this.click({ css: 'div.cookie-banner-accept-message > div.govuk-button-group > button' });
+    await this.wait(CCPBConstants.twoSecondWaitTime);
   },
 
-  RejectPayBubbleCookies() {
-    this.waitForText('Cookies on ccpay-bubble', 5);
-    this.click({ css: 'button.cookie-banner-reject-button' });
-    this.click({ css: 'div.cookie-banner-reject-message > div.govuk-button-group > button' });
-    this.wait(CCPBConstants.twoSecondWaitTime);
+  async RejectPayBubbleCookies() {
+    await this.waitForText('Cookies on ccpay-bubble', 5);
+    await this.click({ css: 'button.cookie-banner-reject-button' });
+    await this.click({ css: 'div.cookie-banner-reject-message > div.govuk-button-group > button' });
+    await this.wait(CCPBConstants.twoSecondWaitTime);
   },
 
   onefeeforpayment() {
