@@ -24,6 +24,8 @@ const Remission = require('../pages/remission');
 // const numberTwo = 2;
 let activeLoginEmail;
 const authShellSelector = '//a[contains(normalize-space(), "Logout")] | //button[contains(normalize-space(), "Logout")]';
+const cookiePreferenceName = 'ccpay-bubble-cookie-preferences';
+const cookieCategories = ['analytics', 'apm', 'essential'];
 
 function browserSessionKey(email) {
   return ['ccpay-bubble', 'browser-session', email];
@@ -46,6 +48,23 @@ async function restoreBrowserState(actor, state) {
 
 async function hasAuthenticatedShell(actor) {
   return (await actor.grabNumberOfVisibleElements(authShellSelector)) > 0;
+}
+
+async function saveCookiePreferences(actor, consent) {
+  const preferences = cookieCategories.reduce((savedPreferences, category) => {
+    savedPreferences[category] = consent;
+    return savedPreferences;
+  }, {});
+
+  await actor.usePlaywrightTo('save ccpay-bubble cookie preferences', async ({ page }) => {
+    await page.evaluate(({ name, value }) => {
+      document.cookie = `${name}=${value};path=/;`;
+    }, {
+      name: cookiePreferenceName,
+      value: JSON.stringify(preferences)
+    });
+    await page.reload({ waitUntil: 'domcontentloaded' });
+  });
 }
 
 async function completeLogin(actor, email, password, uri) {
@@ -121,15 +140,13 @@ module.exports = () => actor({
 
   async AcceptPayBubbleCookies() {
     await this.waitForText('Cookies on ccpay-bubble', 5);
-    await this.click({ css: 'button.cookie-banner-accept-button' });
-    await this.click({ css: 'div.cookie-banner-accept-message > div.govuk-button-group > button' });
+    await saveCookiePreferences(this, 'on');
     await this.wait(CCPBConstants.twoSecondWaitTime);
   },
 
   async RejectPayBubbleCookies() {
     await this.waitForText('Cookies on ccpay-bubble', 5);
-    await this.click({ css: 'button.cookie-banner-reject-button' });
-    await this.click({ css: 'div.cookie-banner-reject-message > div.govuk-button-group > button' });
+    await saveCookiePreferences(this, 'off');
     await this.wait(CCPBConstants.twoSecondWaitTime);
   },
 
