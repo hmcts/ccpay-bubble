@@ -65,6 +65,7 @@ async function wait(ms) {
 async function withLock(filePath, action) {
   const lockPath = `${filePath}.lock`;
   const started = Date.now();
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
   while (true) {
     try {
       fs.mkdirSync(lockPath, { recursive: false });

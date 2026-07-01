@@ -50,6 +50,22 @@ describe('local auth cache', () => {
     assert.strictEqual(calls, 1);
   });
 
+  it('creates the cache directory before taking the lock', async () => {
+    const originalDir = process.env.CODECEPT_AUTH_CACHE_DIR;
+    const missingDir = path.join(originalDir, 'missing-cache-dir');
+    fs.rmSync(missingDir, { recursive: true, force: true });
+    process.env.CODECEPT_AUTH_CACHE_DIR = missingDir;
+
+    try {
+      const value = await authCache.getOrCreate(['missing-dir', Date.now()], async () => 'token');
+      assert.strictEqual(value, 'token');
+      assert.ok(fs.existsSync(missingDir));
+    } finally {
+      process.env.CODECEPT_AUTH_CACHE_DIR = originalDir;
+      fs.rmSync(missingDir, { recursive: true, force: true });
+    }
+  });
+
   it('coalesces concurrent creators for the same cache key', async () => {
     let calls = 0;
     const key = ['concurrent', Date.now()];
