@@ -7,6 +7,7 @@ const fetch = require('node-fetch');
 const stringUtil = require('./string_utils.js');
 const numUtil = require('./number_utils');
 const testConfig = require('../tests/config/CCPBConfig.js');
+const authCache = require('./local_auth_cache');
 
 const logger = Logger.getLogger('helpers/utils.js');
 
@@ -18,9 +19,6 @@ const rpeServiceAuthApiUrl = testConfig.TestS2SRpeServiceAuthApiUrl;
 const ccdDataStoreApiUrl = testConfig.TestCcdDataStoreApiUrl;
 const s2sAuthPath = '/testing-support/lease';
 
-let idamTokenCache = {};
-let idamUserCache = {};
-const IDAM_TOKEN_CACHE_DURATION_MS = 60 * 1000; // 60 seconds
 const MAX_NOTIFY_PAGES = 3;  //max notify results pages to search
 const MAX_RETRIES = 5;  //max retries on each notify results page
 
@@ -113,17 +111,7 @@ function searchForEmailInNotifyResults(notifications, searchEmail) {
   return result;
 }
 
-async function getIDAMToken() {
-  const username = testConfig.TestProbateCaseWorkerUserName;
-  const now = Date.now();
-  if ( idamTokenCache[username] && (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)) {
-    return idamTokenCache[username].token;
-  }
-
-  const password = testConfig.TestProbateCaseWorkerPassword;
-  const idamClientID = testConfig.TestClientID;
-  const idamClientSecret = testConfig.TestClientSecret;
-  const redirectUri = testConfig.TestRedirectURI;
+async function requestIDAMToken(username, password, idamClientID, idamClientSecret, redirectUri, userLabel) {
   const scope = 'openid profile roles';
   const grantType = 'password';
 
@@ -135,48 +123,45 @@ async function getIDAMToken() {
   try {
     resp = await makeRequest(url, 'POST', headers, body);
   } catch (error) {
-    const message = `IDAM token request failed (probate user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri})`;
+    const message = `IDAM token request failed (${userLabel}: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri})`;
     logAndThrowError(error, message);
   }
 
   const idamJson = await resp.json();
-  idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
+  if (!idamJson.access_token) {
+    throw new Error(`IDAM token response did not include access_token (${userLabel}: ${username})`);
+  }
   return idamJson.access_token;
+}
+
+async function cachedIDAMToken(username, password, idamClientID, idamClientSecret, redirectUri, userLabel) {
+  return authCache.getOrCreate(
+    ['ccpay-bubble', idamApiUrl, 'password', username, idamClientID, redirectUri],
+    () => requestIDAMToken(username, password, idamClientID, idamClientSecret, redirectUri, userLabel)
+  );
+}
+
+async function getIDAMToken() {
+  return cachedIDAMToken(
+    testConfig.TestProbateCaseWorkerUserName,
+    testConfig.TestProbateCaseWorkerPassword,
+    testConfig.TestClientID,
+    testConfig.TestClientSecret,
+    testConfig.TestRedirectURI,
+    'probate user'
+  );
 }
 
 async function getIDAMTokenForRefundApprover() {
-
-
-  const username = testConfig.TestRefundsApproverUserName;
-  const password = testConfig.TestRefundsApproverPassword;
-  const idamClientID = testConfig.TestClientID;
-  const idamClientSecret = testConfig.TestClientSecret;
-  const redirectUri = testConfig.TestRedirectURI;
-  const scope = 'openid profile roles';
-  const grantType = 'password';
-
-  const idamTokenPath = '/o/token';
-  const url = `${idamApiUrl}${idamTokenPath}`;
-  const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-  const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
-  let resp;
-
-  const now = Date.now();
-  if ( idamTokenCache[username] && (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)) {
-    return idamTokenCache[username].token;
-  }
-
-  try {
-    resp = await makeRequest(url, 'POST', headers, body);
-  } catch (error) {
-    const message = `IDAM token request failed (refund approver user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri})`;
-    logAndThrowError(error, message);
-  }
-  const idamJson = await resp.json();
-  idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
-  return idamJson.access_token;
+  return cachedIDAMToken(
+    testConfig.TestRefundsApproverUserName,
+    testConfig.TestRefundsApproverPassword,
+    testConfig.TestClientID,
+    testConfig.TestClientSecret,
+    testConfig.TestRedirectURI,
+    'refund approver user'
+  );
 }
-
 
 
 /**
@@ -202,34 +187,14 @@ function logAndThrowError(error, message) {
 }
 
 async function getIDAMTokenForDivorceUser() {
-  const username = testConfig.TestDivorceCaseWorkerUserName;
-  const now = Date.now();
-  if ( idamTokenCache[username] && (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS) ) {
-    return idamTokenCache[username].token;
-  }
-
-  const password = testConfig.TestDivorceCaseWorkerPassword;
-  const idamClientID = testConfig.TestDivorceClientID;
-  const idamClientSecret = testConfig.TestDivorceClientSecret;
-  const redirectUri = testConfig.TestDivorceClientRedirectURI;
-  const scope = 'openid profile roles';
-  const grantType = 'password';
-
-  const idamTokenPath = '/o/token';
-  const url = `${idamApiUrl}${idamTokenPath}`;
-  const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-  const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
-  let resp;
-  try {
-    resp = await makeRequest(url, 'POST', headers, body);
-  } catch (error) {
-    const message = `IDAM token request failed (divorce user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri})`;
-    logAndThrowError(error, message);
-  }
-
-  const idamJson = await resp.json();
-  idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
-  return idamJson.access_token;
+  return cachedIDAMToken(
+    testConfig.TestDivorceCaseWorkerUserName,
+    testConfig.TestDivorceCaseWorkerPassword,
+    testConfig.TestDivorceClientID,
+    testConfig.TestDivorceClientSecret,
+    testConfig.TestDivorceClientRedirectURI,
+    'divorce user'
+  );
 }
 
 async function getServiceToken(service = 'ccpay_bubble') {
@@ -244,27 +209,23 @@ async function getUserID(idamToken, username = 'unknown') {
   if (username == 'unknown' || username == undefined) {
     username = testConfig.TestDivorceCaseWorkerUserName;
   }
-  const now = Date.now();
-  if ( idamUserCache[username] && (now - idamUserCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS) ) {
-    return idamUserCache[username].id;
-  }
-
-  const url = `${idamApiUrl}/details`;
-  const headers = {
-    Authorization: `Bearer ${idamToken}`,
-    'Content-Type': 'application/json'
-  }
-  let resp;
-  try {
-    resp = await makeRequest(url, 'GET', headers);
-  } catch (error) {
-    const message = `IDAM user details request failed (user: ${username})`;
-    logAndThrowError(error, message);
-  }
-  console.log(resp);
-  const responsePayload = await resp.json();
-  idamUserCache[username] = { id: responsePayload.id, timestamp: now };
-  return responsePayload.id;
+  return authCache.getOrCreate(['ccpay-bubble', idamApiUrl, 'details', username], async () => {
+    const url = `${idamApiUrl}/details`;
+    const headers = {
+      Authorization: `Bearer ${idamToken}`,
+      'Content-Type': 'application/json'
+    };
+    let resp;
+    try {
+      resp = await makeRequest(url, 'GET', headers);
+    } catch (error) {
+      const message = `IDAM user details request failed (user: ${username})`;
+      logAndThrowError(error, message);
+    }
+    console.log(resp);
+    const responsePayload = await resp.json();
+    return responsePayload.id;
+  });
 }
 
 async function getCREATEEventForProbate() {

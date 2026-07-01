@@ -21,6 +21,7 @@ const AddFees = require('../pages/add_fees');
 const FeesSummary = require('../pages/fees_summary');
 const Remission = require('../pages/remission');
 // const numberTwo = 2;
+let activeLoginEmail;
 
 module.exports = () => actor({
 
@@ -33,18 +34,28 @@ module.exports = () => actor({
     this.amOnPage(uri);
     this.wait(CCPBConstants.twoSecondWaitTime);
     const header = await this.grabTextFrom('//h1');
-    if (header.trim() === 'Sign in') {
+    const heading = header.trim();
+    const isLoginPage = heading === 'Sign in' || heading === 'Enter your email address';
+    if (activeLoginEmail === email && !isLoginPage) {
+      const logoutLinks = await this.grabNumberOfVisibleElements('//a[contains(normalize-space(), "Logout")] | //button[contains(normalize-space(), "Logout")]');
+      if (logoutLinks > 0) {
+        return;
+      }
+    }
+    if (heading === 'Sign in') {
       this.fillField('Email address', email);
       this.fillField('Password', password);
       this.click({ css: '[type="submit"]' });
+      activeLoginEmail = email;
       this.AcceptPayBubbleCookies();
       return;
     }
-    if (header.trim() === 'Enter your email address') {
+    if (heading === 'Enter your email address') {
       this.fillField('//*[@id="email"]', email);
       this.click({ css: '[type="submit"]' });
       this.fillField('//*[@id="password"]', password);
       this.click({ css: '[type="submit"]' });
+      activeLoginEmail = email;
       this.AcceptPayBubbleCookies();
       return;
     }
@@ -55,6 +66,7 @@ module.exports = () => actor({
   async Logout() {
     this.scrollPageToTop();
     await this.click('Logout');
+    activeLoginEmail = undefined;
   },
 
   AcceptPayBubbleCookies() {
