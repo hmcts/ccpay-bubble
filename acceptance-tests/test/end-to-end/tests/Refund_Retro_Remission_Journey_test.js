@@ -130,7 +130,7 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded a
     I.fillField('//*[@id="address-postcode"]', postcode);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('Find address');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
+    I.waitForElement('//*[@id="postcodeAddress"]', CCPBATConstants.tenSecondWaitTime);
     I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);

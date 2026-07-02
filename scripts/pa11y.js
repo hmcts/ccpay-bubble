@@ -1,5 +1,4 @@
 'use strict';
-/* eslint-disable no-console */
 const pa11y = require('pa11y');
 const fs = require('fs');
 const htmlReporter = require('pa11y-reporter-html');
@@ -8,6 +7,14 @@ const bulkScanApiCalls = require('../acceptance-tests/test/end-to-end/helpers/ut
 const email = 'robreallywantsccdaccess@mailinator.com';
 const password = 'Testing1234';
 const totalAmount = 550;
+
+function missingPa11ySetupVars() {
+  return [
+    'PROBATE_CASE_WORKER_USER_NAME',
+    'PROBATE_CASE_WORKER_PASSWORD',
+    'OAUTH2_CLIENT_SECRET'
+  ].filter(envVar => !process.env[envVar]);
+}
 
 // Generates HTML reporter
 const generateHTMLReport = html => new Promise((resolve, reject) => {
@@ -175,7 +182,6 @@ async function runTest() {
       }
     });
 
-    // eslint-disable-next-line max-len
     const pa11yResults = [pa11yResult1, pa11yResult2, pa11yResult3, pa11yResult4, pa11yResult5, pa11yResult6, pa11yResult7];
 
     for (let index = 0; index < pa11yResults.length; index++) {
@@ -194,7 +200,7 @@ async function runTest() {
             .catch(console.error));
     }
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
 
@@ -294,7 +300,6 @@ async function runTest2() {
     });
 
 
-    // eslint-disable-next-line max-len
     const pa11yResults = [pa11yResult1, pa11yResult2, pa11yResult3];
 
     for (let index = 0; index < pa11yResults.length; index++) {
@@ -313,10 +318,29 @@ async function runTest2() {
             .catch(console.error));
     }
   } catch (error) {
-    console.log(error);
+    throw error;
 
   }
 }
 
-runTest();
-runTest2();
+async function main() {
+  const missingSetupVars = missingPa11ySetupVars();
+  if (missingSetupVars.length) {
+    console.log(`Skipping pa11y: missing ${missingSetupVars.join(', ')}`);
+    return;
+  }
+
+  await runTest();
+  await runTest2();
+}
+
+if (require.main === module) {
+  main().catch(error => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}
+
+module.exports = {
+  missingPa11ySetupVars
+};

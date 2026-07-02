@@ -91,7 +91,7 @@ module.exports = {
   },
 
   verifyProcessRefundSelectionPageForFullPaymentOption(checkYourAnswersData, ccdCaseNumber) {
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Process refund', CCPBATConstants.tenSecondWaitTime);
     I.see('Process refund');
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
@@ -113,7 +113,7 @@ module.exports = {
   },
 
   verifyProcessRefundPageForFeeRefundSelection(checkYourAnswersData, ccdCaseNumber) {
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Process refund', CCPBATConstants.tenSecondWaitTime);
     I.see('Process refund');
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
@@ -136,7 +136,7 @@ module.exports = {
   },
 
   verifyProcessRefundPageForFeeRefundSelectionWithRemissionAmount(checkYourAnswersData, ccdCaseNumber) {
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Process refund', CCPBATConstants.tenSecondWaitTime);
     I.see('Process refund');
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
@@ -218,14 +218,14 @@ module.exports = {
     I.see('Preview');
     if (previewNotificationFlag) {
       I.click({xpath: '//tr[7]//a[.=" Preview "]'});
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
         refundsList.verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         refundsList.verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       }
       I.click('Hide Preview');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.waitForInvisible({ xpath: '//*[normalize-space()="Hide Preview"]' }, CCPBATConstants.tenSecondWaitTime);
     }
     if (changeRefundReasonFlag) {
       I.click({xpath: '//tr[3]//a[.="Change"]'});
@@ -251,13 +251,13 @@ module.exports = {
       I.fillField('//*[@id="address-postcode"]', 'SL1 2JN');
       I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('Find address');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForElement('//*[@id="postcodeAddress"]', CCPBATConstants.tenSecondWaitTime);
       I.selectOption('//*[@id="postcodeAddress"]', 'APARTMENT 4, TREVITHICK 113-127, WINDSOR ROAD, SLOUGH, SL1 2JN');
       I.click('Continue');
       I.wait(CCPBATConstants.twoSecondWaitTime);
     }
     I.click('Submit refund');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Refund submitted', CCPBATConstants.tenSecondWaitTime);
   },
 
   async verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, changeEmailFlag, changeEmailTo, changePostCodeFlag, previewNotificationFlag, refundNotificationPreviewData = null) {
@@ -301,24 +301,24 @@ module.exports = {
       I.fillField('//*[@id="address-postcode"]', 'SL1 2JN');
       I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('Find address');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForElement('//*[@id="postcodeAddress"]', CCPBATConstants.tenSecondWaitTime);
       I.selectOption('//*[@id="postcodeAddress"]', 'APARTMENT 4, TREVITHICK 113-127, WINDSOR ROAD, SLOUGH, SL1 2JN');
       I.click('Continue');
       I.wait(CCPBATConstants.twoSecondWaitTime);
     }
     if (previewNotificationFlag) {
       I.click({xpath: '//tr[8]//a[.=" Preview "]'});
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
         refundsList.verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         refundsList.verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       }
       I.click('Hide Preview');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.waitForInvisible({ xpath: '//*[normalize-space()="Hide Preview"]' }, CCPBATConstants.tenSecondWaitTime);
     }
     I.click('Submit refund');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Refund submitted', CCPBATConstants.tenSecondWaitTime);
   },
 
   async verifyCheckYourAnswersPageAndSubmitRefundForFullPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, changeRefundReasonFlag, changeEmailFlag, changeEmailTo, changePostCodeFlag, previewNotificationFlag, refundNotificationPreviewData = null) {
@@ -366,24 +366,24 @@ module.exports = {
       I.fillField('//*[@id="address-postcode"]', 'SL1 2JN');
       I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('Find address');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForElement('//*[@id="postcodeAddress"]', CCPBATConstants.tenSecondWaitTime);
       I.selectOption('//*[@id="postcodeAddress"]', 'APARTMENT 4, TREVITHICK 113-127, WINDSOR ROAD, SLOUGH, SL1 2JN');
       I.click('Continue');
       I.wait(CCPBATConstants.twoSecondWaitTime);
     }
     if (previewNotificationFlag) {
       I.click({xpath: '//tr[7]//a[.=" Preview "]'});
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
         refundsList.verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         refundsList.verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       }
       I.click('Hide Preview');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.waitForInvisible({ xpath: '//*[normalize-space()="Hide Preview"]' }, CCPBATConstants.tenSecondWaitTime);
     }
     I.click('Submit refund');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Refund submitted', CCPBATConstants.tenSecondWaitTime);
   },
 
 
@@ -662,15 +662,14 @@ module.exports = {
     I.see('Last updated');
     I.see('Action');
     I.see('Refunds returned to caseworker');
-    I.waitForElement(this.locators.users_drop_down_for_refunds_to_be_approved, 10);
+    I.waitForElement(this.locators.users_drop_down_for_refunds_to_be_approved, CCPBATConstants.tenSecondWaitTime);
     I.selectOption(this.locators.users_drop_down_for_refunds_to_be_approved, 'payments probate');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.waitForElement(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker, 10);
+    I.waitForElement(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker, CCPBATConstants.tenSecondWaitTime);
     I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click(`//mat-cell[contains(.,'${refundRef}')]/following-sibling::mat-cell/a[.='Process refund'][1]`);
+    const processRefund = `//mat-cell[contains(.,'${refundRef}')]/following-sibling::mat-cell/a[.='Process refund'][1]`;
+    I.waitForElement(processRefund, CCPBATConstants.tenSecondWaitTime);
+    I.click(processRefund);
   },
 
   verifyRefundsListPageForCaseWorker() {
@@ -729,7 +728,7 @@ module.exports = {
   },
 
   verifyApproverReviewRefundsDetailsPage(refundsData, previewNotificationFlag = false, refundNotificationPreviewData = null) {
-    I.waitForText(refundsData.refundNotificationType, 10);
+    I.waitForText(refundsData.refundNotificationType, CCPBATConstants.tenSecondWaitTime);
     I.see('Review refund details');
     I.see('Payment to be refunded');
     I.see(refundsData.refundReference);
@@ -760,7 +759,7 @@ module.exports = {
     I.see('Return to caseworker');
     if (previewNotificationFlag) {
       I.click({xpath: '//tr[8]//a[.=" Preview "]'});
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
         refundsList.verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
@@ -777,18 +776,18 @@ module.exports = {
       I.wait(CCPBATConstants.twoSecondWaitTime);
       I.checkOption('//input[@id=\'refundRejectReason-0\']'); // No associated payment
       I.click({xpath: '//button[contains(text(),\'Submit\')]'});
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForText('Refund rejected', CCPBATConstants.tenSecondWaitTime);
       I.see('Refund rejected');
     } else if (refundApprovalRequest === 'Approve') {
       I.checkOption('//input[@id=\'refundAction-0\']');
       I.click({xpath: '//button[contains(text(),\'Submit\')]'});
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForText('Refund approved', CCPBATConstants.tenSecondWaitTime);
       I.see('Refund approved');
     } else if (refundApprovalRequest === 'Return to caseworker') {
       I.checkOption('//input[@id=\'refundAction-2\']');
       I.fillField('//textarea[@id=\'sendmeback\']', refundReturnText);
       I.click({xpath: '//button[contains(text(),\'Submit\')]'});
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForText('Refund returned to caseworker', CCPBATConstants.tenSecondWaitTime);
       I.see('Refund returned to caseworker');
     }
   },

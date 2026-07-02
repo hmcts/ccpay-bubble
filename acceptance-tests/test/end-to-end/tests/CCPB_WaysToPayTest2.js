@@ -21,7 +21,7 @@ const successResponse = 202;
 
 Feature('CC Pay Bubble Acceptance Tests For the Ways To Pay feature').retry(CCPBATConstants.retryScenario);
 
-Scenario.only('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
+Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
   async({ I, CaseSearch, CaseTransaction, ServiceRequests }) => {
     logger.log('Creating the Service Request');
     // eslint-disable-next-line no-magic-numbers
@@ -30,7 +30,7 @@ Scenario.only('A Service Request Journey for a Case Worker for Ways to Pay @pipe
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestRefundsApproverPassword);
+    await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
