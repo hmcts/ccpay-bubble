@@ -15,56 +15,12 @@ const searchCase = require('../pages/case_search');
 
 const stringUtils = require('../helpers/string_utils');
 
-const authCache = require('../helpers/local_auth_cache');
 const utils = require('../helpers/utils');
 const CCPBATConstants = require('../tests/CCPBAcceptanceTestConstants');
 const AddFees = require('../pages/add_fees');
 const FeesSummary = require('../pages/fees_summary');
 const Remission = require('../pages/remission');
 // const numberTwo = 2;
-const authShellSelector = '//a[contains(normalize-space(), "Logout")] | //button[contains(normalize-space(), "Logout")]';
-const cookiePreferenceName = 'ccpay-bubble-cookie-preferences';
-const cookieCategories = ['analytics', 'apm', 'essential'];
-
-function browserSessionKey(email) {
-  return ['ccpay-bubble', 'browser-session', email];
-}
-
-async function captureBrowserState(actor) {
-  let state;
-  await actor.usePlaywrightTo('capture cached login state', async ({ browserContext }) => {
-    state = await browserContext.storageState();
-  });
-  return state;
-}
-
-async function restoreBrowserState(actor, state) {
-  await actor.usePlaywrightTo('restore cached login state', async ({ browserContext }) => {
-    await browserContext.clearCookies();
-    await browserContext.addCookies(state.cookies || []);
-  });
-}
-
-async function hasAuthenticatedShell(actor) {
-  return (await actor.grabNumberOfVisibleElements(authShellSelector)) > 0;
-}
-
-async function saveCookiePreferences(actor, consent) {
-  const preferences = cookieCategories.reduce((savedPreferences, category) => {
-    savedPreferences[category] = consent;
-    return savedPreferences;
-  }, {});
-
-  await actor.usePlaywrightTo('save ccpay-bubble cookie preferences', async ({ page }) => {
-    await page.evaluate(({ name, value }) => {
-      document.cookie = `${name}=${value};path=/;`;
-    }, {
-      name: cookiePreferenceName,
-      value: JSON.stringify(preferences)
-    });
-    await page.reload({ waitUntil: 'domcontentloaded' });
-  });
-}
 
 async function submitFeeDetailsIfShown(actor) {
   const numOfElements = await actor.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
@@ -80,39 +36,6 @@ async function submitFeeDetailsIfShown(actor) {
   }
 }
 
-async function completeLogin(actor, email, password, uri) {
-  await actor.amOnPage(uri);
-  await actor.wait(CCPBConstants.twoSecondWaitTime);
-  const header = await actor.grabTextFrom('//h1');
-  const heading = header.trim();
-  if (await hasAuthenticatedShell(actor)) {
-    return captureBrowserState(actor);
-  }
-  if (heading === 'Sign in') {
-    await actor.fillField('Email address', email);
-    await actor.fillField('Password', password);
-    await actor.click({ css: '[type="submit"]' });
-    await actor.AcceptPayBubbleCookies();
-    return captureBrowserState(actor);
-  }
-  if (heading === 'Enter your email address') {
-    await actor.fillField('//*[@id="email"]', email);
-    await actor.click({ css: '[type="submit"]' });
-    await actor.fillField('//*[@id="password"]', password);
-    await actor.click({ css: '[type="submit"]' });
-    await actor.AcceptPayBubbleCookies();
-    return captureBrowserState(actor);
-  }
-  throw new Error(`Unexpected login heading "${header}"`);
-}
-
-async function restoreCachedLogin(actor, state, uri) {
-  await restoreBrowserState(actor, state);
-  await actor.amOnPage(uri);
-  await actor.wait(CCPBConstants.twoSecondWaitTime);
-  return hasAuthenticatedShell(actor);
-}
-
 module.exports = () => actor({
 
   returnBackToSite() {
@@ -121,35 +44,45 @@ module.exports = () => actor({
   },
 
   async login(email, password, uri = '/') {
-    const key = browserSessionKey(email);
-    const state = await authCache.getOrCreate(key, () => completeLogin(this, email, password, uri));
-    if (await restoreCachedLogin(this, state, uri)) {
+    this.amOnPage(uri);
+    this.wait(CCPBConstants.twoSecondWaitTime);
+    const header = await this.grabTextFrom('//h1');
+    if (header.trim() === 'Sign in') {
+      this.fillField('Email address', email);
+      this.fillField('Password', password);
+      this.click({ css: '[type="submit"]' });
+      this.AcceptPayBubbleCookies();
+      return;
+    }
+    if (header.trim() === 'Enter your email address') {
+      this.fillField('//*[@id="email"]', email);
+      this.click({ css: '[type="submit"]' });
+      this.fillField('//*[@id="password"]', password);
+      this.click({ css: '[type="submit"]' });
+      this.AcceptPayBubbleCookies();
       return;
     }
 
-    authCache.invalidate(key);
-    const freshState = await authCache.getOrCreate(key, () => completeLogin(this, email, password, uri));
-    if (await restoreCachedLogin(this, freshState, uri)) {
-      return;
-    }
-    throw new Error('Cached login did not restore an authenticated session');
+    throw new Error(`Unexpected login heading "${header}"`);
   },
 
   async Logout() {
-    await this.scrollPageToTop();
+    this.scrollPageToTop();
     await this.click('Logout');
   },
 
-  async AcceptPayBubbleCookies() {
-    await this.waitForText('Cookies on ccpay-bubble', 5);
-    await saveCookiePreferences(this, 'on');
-    await this.wait(CCPBConstants.twoSecondWaitTime);
+  AcceptPayBubbleCookies() {
+    this.waitForText('Cookies on ccpay-bubble', 5);
+    this.click({ css: 'button.cookie-banner-accept-button' });
+    this.click({ css: 'div.cookie-banner-accept-message > div.govuk-button-group > button' });
+    this.wait(CCPBConstants.twoSecondWaitTime);
   },
 
-  async RejectPayBubbleCookies() {
-    await this.waitForText('Cookies on ccpay-bubble', 5);
-    await saveCookiePreferences(this, 'off');
-    await this.wait(CCPBConstants.twoSecondWaitTime);
+  RejectPayBubbleCookies() {
+    this.waitForText('Cookies on ccpay-bubble', 5);
+    this.click({ css: 'button.cookie-banner-reject-button' });
+    this.click({ css: 'div.cookie-banner-reject-message > div.govuk-button-group > button' });
+    this.wait(CCPBConstants.twoSecondWaitTime);
   },
 
   onefeeforpayment() {
