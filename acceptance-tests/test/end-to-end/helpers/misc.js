@@ -38,10 +38,14 @@ function searchItemFor(searchOption) {
 }
 
 async function waitForSearchOutcome(I, searchOption) {
-  await I.waitForFunction((successText, notFoundText) => {
-    const bodyText = document.body.innerText;
-    return bodyText.includes(successText) || bodyText.includes(notFoundText);
-  }, [caseTransactionsText, noMatchingCasesText], searchOutcomeTimeout);
+  await I.usePlaywrightTo('wait for case search outcome', async ({ page }) => {
+    await page.waitForFunction(({ successText, notFoundText }) => {
+      const bodyText = document.body.innerText;
+      return bodyText.includes(successText) || bodyText.includes(notFoundText);
+    }, { successText: caseTransactionsText, notFoundText: noMatchingCasesText }, {
+      timeout: searchOutcomeTimeout * 1000
+    });
+  });
 
   const noMatchCount = await I.grabNumberOfVisibleElements(`//*[normalize-space()="${noMatchingCasesText}"]`);
   if (noMatchCount) {
