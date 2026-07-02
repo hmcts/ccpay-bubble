@@ -1,3 +1,4 @@
+const CCPBATConstants = require('../tests/CCPBAcceptanceTestConstants');
 const bulkScanApiCalls = require('../helpers/utils');
 
 function searchSpecificOption(searchItem, CaseSearch, searchOption) {
@@ -30,6 +31,7 @@ function multipleSearchForRefunds(CaseSearch, CaseTransaction, I, searchOption) 
     searchItem = 'RC Search';
   }
 
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   searchSpecificOption(searchItem, CaseSearch, searchOption);
 }
 
@@ -48,6 +50,7 @@ async function multipleSearch(CaseSearch, I, searchOption) {
     searchItem = 'RC Search';
   }
 
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   searchSpecificOption(searchItem, CaseSearch, searchOption);
   const headerValue1 = await CaseSearch.getHeaderValue();
   if (headerValue1 === 'Search for a case') {
