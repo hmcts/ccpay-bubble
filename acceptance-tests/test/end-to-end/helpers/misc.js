@@ -1,5 +1,9 @@
-const CCPBATConstants = require('../tests/CCPBAcceptanceTestConstants');
 const bulkScanApiCalls = require('../helpers/utils');
+
+const caseTransactionsText = 'Case transactions';
+const noMatchingCasesText = 'No matching cases found';
+const searchForCaseText = 'Search for a case';
+const searchOutcomeTimeout = 10;
 
 function searchSpecificOption(searchItem, CaseSearch, searchOption) {
   switch (searchItem) {
@@ -16,7 +20,7 @@ function searchSpecificOption(searchItem, CaseSearch, searchOption) {
   }
 }
 
-function multipleSearchForRefunds(CaseSearch, CaseTransaction, I, searchOption) {
+function searchItemFor(searchOption) {
   let searchItem = '';
   const searchOptionLen = searchOption.toString().length;
   const ccdNumberLen = 16;
@@ -30,57 +34,68 @@ function multipleSearchForRefunds(CaseSearch, CaseTransaction, I, searchOption) 
   } else if (searchOptionLen === rcLen) {
     searchItem = 'RC Search';
   }
+  return searchItem;
+}
 
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
+async function waitForSearchOutcome(I, searchOption) {
+  await I.waitForFunction((successText, notFoundText) => {
+    const bodyText = document.body.innerText;
+    return bodyText.includes(successText) || bodyText.includes(notFoundText);
+  }, [caseTransactionsText, noMatchingCasesText], searchOutcomeTimeout);
+
+  const noMatchCount = await I.grabNumberOfVisibleElements(`//*[normalize-space()="${noMatchingCasesText}"]`);
+  if (noMatchCount) {
+    throw new Error(`Search completed but no matching case/payment was found for "${searchOption}"`);
+  }
+}
+
+async function searchUntilFound(CaseSearch, I, searchOption) {
+  const searchItem = searchItemFor(searchOption);
+
   searchSpecificOption(searchItem, CaseSearch, searchOption);
+  await waitForSearchOutcome(I, searchOption);
+}
+
+async function multipleSearchForRefunds(CaseSearch, CaseTransaction, I, searchOption) {
+  await searchUntilFound(CaseSearch, I, searchOption);
 }
 
 async function multipleSearch(CaseSearch, I, searchOption) {
-  let searchItem = '';
-  const searchOptionLen = searchOption.toString().length;
-  const ccdNumberLen = 16;
-  const ccdNumberFormatLen = 19;
-  const dcnLen = 21;
-  const rcLen = 22;
-  if ((searchOptionLen === ccdNumberLen) || (searchOptionLen === ccdNumberFormatLen)) {
-    searchItem = 'CCD Search';
-  } else if (searchOptionLen === dcnLen) {
-    searchItem = 'DCN Search';
-  } else if (searchOptionLen === rcLen) {
-    searchItem = 'RC Search';
-  }
-
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  searchSpecificOption(searchItem, CaseSearch, searchOption);
+  const searchItem = searchItemFor(searchOption);
+  await searchUntilFound(CaseSearch, I, searchOption);
   const headerValue1 = await CaseSearch.getHeaderValue();
-  if (headerValue1 === 'Search for a case') {
+  if (headerValue1 === searchForCaseText) {
     const headerValue5 = await CaseSearch.getHeaderValue();
-    if (headerValue5 === 'Search for a case') {
+    if (headerValue5 === searchForCaseText) {
       searchSpecificOption(searchItem, CaseSearch, searchOption);
+      await waitForSearchOutcome(I, searchOption);
     }
   }
 
   const headerValue2 = await CaseSearch.getHeaderValue();
-  if (headerValue2 === 'Search for a case') {
+  if (headerValue2 === searchForCaseText) {
     const headerValue6 = await CaseSearch.getHeaderValue();
-    if (headerValue6 === 'Search for a case') {
+    if (headerValue6 === searchForCaseText) {
       searchSpecificOption(searchItem, CaseSearch, searchOption);
+      await waitForSearchOutcome(I, searchOption);
     }
   }
 
   const headerValue3 = await CaseSearch.getHeaderValue();
-  if (headerValue3 === 'Search for a case') {
+  if (headerValue3 === searchForCaseText) {
     const headerValue7 = await CaseSearch.getHeaderValue();
-    if (headerValue7 === 'Search for a case') {
+    if (headerValue7 === searchForCaseText) {
       searchSpecificOption(searchItem, CaseSearch, searchOption);
+      await waitForSearchOutcome(I, searchOption);
     }
   }
 
   const headerValue4 = await CaseSearch.getHeaderValue();
-  if (headerValue4 === 'Search for a case') {
+  if (headerValue4 === searchForCaseText) {
     const headerValue8 = await CaseSearch.getHeaderValue();
-    if (headerValue8 === 'Search for a case') {
+    if (headerValue8 === searchForCaseText) {
       searchSpecificOption(searchItem, CaseSearch, searchOption);
+      await waitForSearchOutcome(I, searchOption);
     }
   }
 }
