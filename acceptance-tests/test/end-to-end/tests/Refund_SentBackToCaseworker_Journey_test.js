@@ -19,71 +19,71 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     const fullPaymentRefundAmount = '500.00';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
     const ccdCaseNumber = ccdAndDcn[1];
-    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateTransactionPageForOverPayments();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await AddFees.addFeesOverPayment(feeAmount);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('(//*[text()[contains(.,"Review")]])[2]');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
-    if (I.dontSeeElement('Issue refund')) {
-      console.log('found disabled button');
-      await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
-      I.click('Back');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await I.click('(//*[text()[contains(.,"Review")]])[2]');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
-    }
-    I.click('Issue refund');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click('//*[@id="full-payment"]');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click('Continue');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for 1.1 or 1.2 application. Only one payable if applications joined up.', `£${feeAmount}`, `£${totalAmount}`, fullPaymentRefundAmount, '1', '£0.00');
-    await InitiateRefunds.verifyProcessRefundSelectionPageForFullPaymentOption(reviewProcessRefundPageData, ccdCaseNumber);
-    I.click('Continue');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const refundReason = 'System/technical error';
-    await InitiateRefunds.verifyProcessRefundPageFromTheRadioButtonReasons(ccdCaseNumber, refundReason);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click('//*[@id="email"]');
-    I.fillField('//*[@id="email"]', emailAddress);
-    I.click('Continue');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    let paymentRcReference;
+    let refundReference;
 
-    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, '', refundReason, `£${fullPaymentRefundAmount}`, emailAddress, '', 'RefundWhenContacted');
-    await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForFullPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund);
-    const refundReference = await InitiateRefunds.verifyRefundSubmittedPage(fullPaymentRefundAmount);
-    await I.Logout();
-    I.clearCookie();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.useLoggedInSession('refund-requestor', testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword, '/', async () => {
+      await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await CaseTransaction.validateTransactionPageForOverPayments();
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await AddFees.addFeesOverPayment(feeAmount);
+      I.wait(CCPBATConstants.tenSecondWaitTime);
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
+      I.wait(CCPBATConstants.fifteenSecondWaitTime);
+      paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
+      if (I.dontSeeElement('Issue refund')) {
+        console.log('found disabled button');
+        await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
+        I.click('Back');
+        I.wait(CCPBATConstants.fiveSecondWaitTime);
+        await I.click('(//*[text()[contains(.,"Review")]])[2]');
+        I.wait(CCPBATConstants.fiveSecondWaitTime);
+      }
+      I.click('Issue refund');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.click('//*[@id="full-payment"]');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.click('Continue');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for 1.1 or 1.2 application. Only one payable if applications joined up.', `£${feeAmount}`, `£${totalAmount}`, fullPaymentRefundAmount, '1', '£0.00');
+      await InitiateRefunds.verifyProcessRefundSelectionPageForFullPaymentOption(reviewProcessRefundPageData, ccdCaseNumber);
+      I.click('Continue');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      const refundReason = 'System/technical error';
+      await InitiateRefunds.verifyProcessRefundPageFromTheRadioButtonReasons(ccdCaseNumber, refundReason);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.click('//*[@id="email"]');
+      I.fillField('//*[@id="email"]', emailAddress);
+      I.click('Continue');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+
+      const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, '', refundReason, `£${fullPaymentRefundAmount}`, emailAddress, '', 'RefundWhenContacted');
+      await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForFullPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund);
+      refundReference = await InitiateRefunds.verifyRefundSubmittedPage(fullPaymentRefundAmount);
+    });
 
     // Approve refund
-    await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    await InitiateRefunds.verifyRefundsListPage(refundReference);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    const refundReason = 'System/technical error';
+    await I.useLoggedInSession('refund-approver', testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true', async () => {
+      I.wait(CCPBATConstants.fifteenSecondWaitTime);
+      await InitiateRefunds.verifyRefundsListPage(refundReference);
+      I.wait(CCPBATConstants.twoSecondWaitTime);
 
-    const refundReturnText = 'Test Reason Only';
-    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, refundReason, `£${fullPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'RefundWhenContacted');
-    InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
-    InitiateRefunds.approverActionForRequestedRefund('Return to caseworker', refundReturnText);
-    await I.Logout();
-    I.clearCookie();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+      const refundReturnText = 'Test Reason Only';
+      const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, refundReason, `£${fullPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'RefundWhenContacted');
+      InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
+      InitiateRefunds.approverActionForRequestedRefund('Return to caseworker', refundReturnText);
+    });
 
     // Review refund from case transaction page
-    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.click('(//*[text()[contains(.,"Review")]])[3]');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, refundReason, `£${fullPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
-    await RefundsList.verifyRefundDetailsAfterRefundReturnToCaseWorker(reviewRefundDetailsDataAfterApproval, refundReturnText);
-
-    await I.Logout();
+    await I.useLoggedInSession('refund-requestor', testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword, '/', async () => {
+      const refundReturnText = 'Test Reason Only';
+      await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await I.click('(//*[text()[contains(.,"Review")]])[3]');
+      I.wait(CCPBATConstants.fifteenSecondWaitTime);
+      const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, refundReason, `£${fullPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
+      await RefundsList.verifyRefundDetailsAfterRefundReturnToCaseWorker(reviewRefundDetailsDataAfterApproval, refundReturnText);
+    });
   }).tag('@pipeline @nightly');

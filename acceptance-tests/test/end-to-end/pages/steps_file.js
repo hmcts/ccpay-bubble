@@ -21,6 +21,7 @@ const AddFees = require('../pages/add_fees');
 const FeesSummary = require('../pages/fees_summary');
 const Remission = require('../pages/remission');
 // const numberTwo = 2;
+const browserLoginSessions = new Map();
 
 async function submitFeeDetailsIfShown(actor) {
   const numOfElements = await actor.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
@@ -36,6 +37,37 @@ async function submitFeeDetailsIfShown(actor) {
   }
 }
 
+async function isSignedIn(actor) {
+  const logoutLinks = await actor.grabNumberOfVisibleElements('//*[normalize-space()="Logout"]');
+  return Boolean(logoutLinks);
+}
+
+async function restoreBrowserLoginSession(actor, email, uri) {
+  const cookies = browserLoginSessions.get(email);
+  if (!cookies || !cookies.length) {
+    return false;
+  }
+
+  await actor.amOnPage('/');
+  await actor.setCookie(cookies);
+  await actor.amOnPage(uri);
+  await actor.wait(CCPBConstants.twoSecondWaitTime);
+
+  if (await isSignedIn(actor)) {
+    return true;
+  }
+
+  browserLoginSessions.delete(email);
+  return false;
+}
+
+async function storeBrowserLoginSession(actor, email) {
+  const cookies = await actor.grabCookie();
+  if (cookies && cookies.length) {
+    browserLoginSessions.set(email, cookies);
+  }
+}
+
 module.exports = () => actor({
 
   returnBackToSite() {
@@ -44,14 +76,23 @@ module.exports = () => actor({
   },
 
   async login(email, password, uri = '/') {
+    if (await restoreBrowserLoginSession(this, email, uri)) {
+      return;
+    }
+
     this.amOnPage(uri);
     this.wait(CCPBConstants.twoSecondWaitTime);
+    if (await isSignedIn(this)) {
+      await storeBrowserLoginSession(this, email);
+      return;
+    }
     const header = await this.grabTextFrom('//h1');
     if (header.trim() === 'Sign in') {
       this.fillField('Email address', email);
       this.fillField('Password', password);
       this.click({ css: '[type="submit"]' });
       this.AcceptPayBubbleCookies();
+      await storeBrowserLoginSession(this, email);
       return;
     }
     if (header.trim() === 'Enter your email address') {
@@ -60,10 +101,18 @@ module.exports = () => actor({
       this.fillField('//*[@id="password"]', password);
       this.click({ css: '[type="submit"]' });
       this.AcceptPayBubbleCookies();
+      await storeBrowserLoginSession(this, email);
       return;
     }
 
     throw new Error(`Unexpected login heading "${header}"`);
+  },
+
+  async useLoggedInSession(sessionName, email, password, uri, action) {
+    return session(sessionName, async () => {
+      await this.login(email, password, uri);
+      await action();
+    });
   },
 
   async Logout() {

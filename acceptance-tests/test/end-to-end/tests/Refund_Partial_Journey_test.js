@@ -19,88 +19,86 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
     const paymentRef = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
     console.log('**** The value of the paymentReference - ' + paymentRef);
-    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateTransactionPageForPartialPayments(totalAmount);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.click('(//*[text()[contains(.,"Review")]])[2]');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
-    if (I.dontSeeElement('Issue refund')) {
-      console.log('found disabled button');
-      await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
-      I.click('Back');
+    let paymentRcReference;
+    let refundReference;
+
+    await I.useLoggedInSession('refund-requestor', testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword, '/', async () => {
+      await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await CaseTransaction.validateTransactionPageForPartialPayments(totalAmount);
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       await I.click('(//*[text()[contains(.,"Review")]])[2]');
+      I.wait(CCPBATConstants.fifteenSecondWaitTime);
+      paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
+      if (I.dontSeeElement('Issue refund')) {
+        console.log('found disabled button');
+        await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
+        I.click('Back');
+        I.wait(CCPBATConstants.fiveSecondWaitTime);
+        await I.click('(//*[text()[contains(.,"Review")]])[2]');
+        I.wait(CCPBATConstants.fiveSecondWaitTime);
+        await PaymentHistory.validatePaymentDetailsForPartialPayment(paymentRef, totalAmount);
+        I.wait(CCPBATConstants.fiveSecondWaitTime);
+      }
+      // Submit refund
+      I.click('Issue refund');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await PaymentHistory.validatePaymentDetailsForPartialPayment(paymentRef, totalAmount);
+      const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£300.00', '£300.00', '200', '1', '£0.00');
+      await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelection(reviewProcessRefundPageData, ccdCaseNumber);
+      I.click('Continue');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-    }
-    // Submit refund
-    I.click('Issue refund');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£300.00', '£300.00', '200', '1', '£0.00');
-    await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelection(reviewProcessRefundPageData, ccdCaseNumber);
-    I.click('Continue');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const refundDropDownReason = 'Other - CoP';
-    const reasonText = 'Auto test';
-    await InitiateRefunds.verifyProcessRefundPageFromTheDropDownReasonsAndContinue(ccdCaseNumber, refundDropDownReason, reasonText);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click('//*[@id="contact-2"]');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.click('//*[@id="address-postcode"]');
-    I.fillField('//*[@id="address-postcode"]', postcode);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.click('Find address');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
-    I.click('Continue');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+      const refundDropDownReason = 'Other - CoP';
+      const reasonText = 'Auto test';
+      await InitiateRefunds.verifyProcessRefundPageFromTheDropDownReasonsAndContinue(ccdCaseNumber, refundDropDownReason, reasonText);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.click('//*[@id="contact-2"]');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.click('//*[@id="address-postcode"]');
+      I.fillField('//*[@id="address-postcode"]', postcode);
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.click('Find address');
+      I.wait(CCPBATConstants.tenSecondWaitTime);
+      I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
+      I.click('Continue');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
 
-    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£300.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'SendRefund');
-    const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other', '', customerReference);
+      const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£300.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'SendRefund');
+      const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other', '', customerReference);
 
-    await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, false, false, refundNotificationPreviewDataBeforeRefundRequest);
-    const refundReference = await InitiateRefunds.verifyRefundSubmittedPage('200.00');
-    await I.Logout();
-    I.clearCookie();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, false, false, refundNotificationPreviewDataBeforeRefundRequest);
+      refundReference = await InitiateRefunds.verifyRefundSubmittedPage('200.00');
+    });
 
     // Approve refund
-    await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    await InitiateRefunds.verifyRefundsListPage(refundReference);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await I.useLoggedInSession('refund-approver', testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true', async () => {
+      I.wait(CCPBATConstants.fifteenSecondWaitTime);
+      await InitiateRefunds.verifyRefundsListPage(refundReference);
+      I.wait(CCPBATConstants.twoSecondWaitTime);
 
-    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, 'CoP-Auto test', '£200.00', '', postcode, 'payments probate', 'SendRefund');
-    const refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, '200', 'Other','', customerReference);
+      const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, 'CoP-Auto test', '£200.00', '', postcode, 'payments probate', 'SendRefund');
+      const refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, '200', 'Other','', customerReference);
 
-    InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction, true, refundNotificationPreviewDataBeforeRefundApproved);
-    InitiateRefunds.approverActionForRequestedRefund('Approve');
-    await I.Logout();
-    I.clearCookie();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+      InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction, true, refundNotificationPreviewDataBeforeRefundApproved);
+      InitiateRefunds.approverActionForRequestedRefund('Approve');
+    });
 
     // Review refund from case transaction page
-    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.click('(//*[text()[contains(.,"Review")]])[3]');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'CoP-Auto test', '£200.00', '', postcode, 'payments probate', 'approver probate');
-    await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval);
+    await I.useLoggedInSession('refund-requestor', testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword, '/', async () => {
+      await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await I.click('(//*[text()[contains(.,"Review")]])[3]');
+      I.wait(CCPBATConstants.fifteenSecondWaitTime);
+      const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'CoP-Auto test', '£200.00', '', postcode, 'payments probate', 'approver probate');
+      await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval);
 
-    // Liberata Accepted the Refund
-    await apiUtils.updateRefundStatusByRefundReference(refundReference, '', 'ACCEPTED');
+      // Liberata Accepted the Refund
+      await apiUtils.updateRefundStatusByRefundReference(refundReference, '', 'ACCEPTED');
 
-    I.click('Back');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.click('(//*[text()[contains(.,"Review")]])[3]');
-    const reviewRefundDetailsDataAfterRefundAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'CoP-Auto test', '£200.00', '', postcode, 'payments probate', 'approver probate');
-    const refundNotificationPreviewDataAfterRefundAccepted = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, '200', 'Other', '', customerReference);
-    await RefundsList.verifyRefundDetailsAfterRefundAcceptedByLiberata(reviewRefundDetailsDataAfterRefundAccepted, true, false, true, refundNotificationPreviewDataAfterRefundAccepted);
-    await I.Logout();
-    I.clearCookie();
+      I.click('Back');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await I.click('(//*[text()[contains(.,"Review")]])[3]');
+      const reviewRefundDetailsDataAfterRefundAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'CoP-Auto test', '£200.00', '', postcode, 'payments probate', 'approver probate');
+      const refundNotificationPreviewDataAfterRefundAccepted = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, '200', 'Other', '', customerReference);
+      await RefundsList.verifyRefundDetailsAfterRefundAcceptedByLiberata(reviewRefundDetailsDataAfterRefundAccepted, true, false, true, refundNotificationPreviewDataAfterRefundAccepted);
+    });
   }).tag('@pipeline @nightly');

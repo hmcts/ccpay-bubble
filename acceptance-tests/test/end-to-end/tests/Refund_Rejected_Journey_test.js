@@ -18,59 +18,57 @@ Scenario('OverPayment Refund Rejected journey',
     const overPaymentRefundAmount = '273.00';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
     const ccdCaseNumber = ccdAndDcn[1];
-    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateTransactionPageForOverPayments();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await AddFees.addFeesOverPayment(feeAmount);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('(//*[text()[contains(.,"Review")]])[2]');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
-    if (I.dontSeeElement('Issue refund')) {
-      console.log('found disabled button');
-      await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
-      I.click('Back');
+    let paymentRcReference;
+    let refundRef;
+
+    await I.useLoggedInSession('refund-requestor', testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword, '/', async () => {
+      await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
       I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await CaseTransaction.validateTransactionPageForOverPayments();
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await AddFees.addFeesOverPayment(feeAmount);
+      I.wait(CCPBATConstants.tenSecondWaitTime);
       await I.click('(//*[text()[contains(.,"Review")]])[2]');
+      I.wait(CCPBATConstants.fifteenSecondWaitTime);
+      paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
+      if (I.dontSeeElement('Issue refund')) {
+        console.log('found disabled button');
+        await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
+        I.click('Back');
+        I.wait(CCPBATConstants.fiveSecondWaitTime);
+        await I.click('(//*[text()[contains(.,"Review")]])[2]');
+        I.wait(CCPBATConstants.fiveSecondWaitTime);
+      }
+      I.click('Issue refund');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-    }
-    I.click('Issue refund');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click('//*[@id="over-payment"]');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click('Continue');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click('//*[@id="email"]');
-    I.fillField('//*[@id="email"]', emailAddress);
-    I.click('Continue');
-    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, `£${feeAmount}`, 'Over payment', `£${overPaymentRefundAmount}`, emailAddress, '', 'RefundWhenContacted');
-    await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false);
-    const refundRef = await InitiateRefunds.verifyRefundSubmittedPage(overPaymentRefundAmount);
-    await I.Logout();
-    I.clearCookie();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.click('//*[@id="over-payment"]');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.click('Continue');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.click('//*[@id="email"]');
+      I.fillField('//*[@id="email"]', emailAddress);
+      I.click('Continue');
+      const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, `£${feeAmount}`, 'Over payment', `£${overPaymentRefundAmount}`, emailAddress, '', 'RefundWhenContacted');
+      await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForOverPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false);
+      refundRef = await InitiateRefunds.verifyRefundSubmittedPage(overPaymentRefundAmount);
+    });
 
-    await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    await InitiateRefunds.verifyRefundsListPage(refundRef);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRef, 'Overpayment', `£${overPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'RefundWhenContacted');
-    InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
-    InitiateRefunds.approverActionForRequestedRefund('Reject');
-    await I.Logout();
-    I.clearCookie();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.useLoggedInSession('refund-approver', testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true', async () => {
+      I.wait(CCPBATConstants.fifteenSecondWaitTime);
+      await InitiateRefunds.verifyRefundsListPage(refundRef);
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRef, 'Overpayment', `£${overPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'RefundWhenContacted');
+      InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
+      InitiateRefunds.approverActionForRequestedRefund('Reject');
+    });
 
-    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.click('(//*[text()[contains(.,"Review")]])[3]');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    const reviewRefundDetailsDataAfterRejection = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, 'Overpayment', `£${overPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
-    await RefundsList.verifyRefundDetailsAfterRefundRejected(reviewRefundDetailsDataAfterRejection);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.Logout();
-    I.clearCookie();
+    await I.useLoggedInSession('refund-requestor', testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword, '/', async () => {
+      await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await I.click('(//*[text()[contains(.,"Review")]])[3]');
+      I.wait(CCPBATConstants.fifteenSecondWaitTime);
+      const reviewRefundDetailsDataAfterRejection = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRef, paymentRcReference, 'Overpayment', `£${overPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
+      await RefundsList.verifyRefundDetailsAfterRefundRejected(reviewRefundDetailsDataAfterRejection);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+    });
   }).tag('@pipeline @nightly');
