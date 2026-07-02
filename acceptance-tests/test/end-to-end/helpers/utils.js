@@ -134,7 +134,21 @@ async function requestIDAMToken(username, password, idamClientID, idamClientSecr
   return idamJson.access_token;
 }
 
+function validateIDAMTokenConfig(username, password, idamClientID, idamClientSecret, redirectUri, userLabel) {
+  const missing = [];
+  if (!username) missing.push('username');
+  if (!password) missing.push('password');
+  if (!idamClientID) missing.push('client_id');
+  if (!idamClientSecret) missing.push('client_secret');
+  if (!redirectUri) missing.push('redirect_uri');
+
+  if (missing.length) {
+    throw new Error(`IDAM token request skipped (${userLabel}): missing ${missing.join(', ')}`);
+  }
+}
+
 async function cachedIDAMToken(username, password, idamClientID, idamClientSecret, redirectUri, userLabel) {
+  validateIDAMTokenConfig(username, password, idamClientID, idamClientSecret, redirectUri, userLabel);
   return authCache.getOrCreate(
     ['ccpay-bubble', idamApiUrl, 'password', username, idamClientID, redirectUri],
     () => requestIDAMToken(username, password, idamClientID, idamClientSecret, redirectUri, userLabel)
@@ -1055,5 +1069,8 @@ module.exports = {
   initiateCardPaymentForServiceRequest,
   updateCardPaymentStatus,
   updatePaymentStatusWithPciPalCallbackResponse,
-  bulkScanPaymentForExistingNormalCase
+  bulkScanPaymentForExistingNormalCase,
+  _private: {
+    validateIDAMTokenConfig
+  }
 };

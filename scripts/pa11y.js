@@ -1,5 +1,4 @@
 'use strict';
-/* eslint-disable no-console */
 const pa11y = require('pa11y');
 const fs = require('fs');
 const htmlReporter = require('pa11y-reporter-html');
@@ -175,7 +174,6 @@ async function runTest() {
       }
     });
 
-    // eslint-disable-next-line max-len
     const pa11yResults = [pa11yResult1, pa11yResult2, pa11yResult3, pa11yResult4, pa11yResult5, pa11yResult6, pa11yResult7];
 
     for (let index = 0; index < pa11yResults.length; index++) {
@@ -194,7 +192,7 @@ async function runTest() {
             .catch(console.error));
     }
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
 
@@ -294,7 +292,6 @@ async function runTest2() {
     });
 
 
-    // eslint-disable-next-line max-len
     const pa11yResults = [pa11yResult1, pa11yResult2, pa11yResult3];
 
     for (let index = 0; index < pa11yResults.length; index++) {
@@ -313,10 +310,19 @@ async function runTest2() {
             .catch(console.error));
     }
   } catch (error) {
-    console.log(error);
+    throw error;
 
   }
 }
 
-runTest();
-runTest2();
+async function main() {
+  await runTest();
+  await runTest2();
+}
+
+if (require.main === module) {
+  main().catch(error => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}
