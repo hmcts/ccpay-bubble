@@ -23,20 +23,6 @@ const Remission = require('../pages/remission');
 // const numberTwo = 2;
 const browserLoginSessions = new Map();
 
-async function submitFeeDetailsIfShown(actor) {
-  const numOfElements = await actor.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
-  const feeDetailsCount = await actor.grabNumberOfVisibleElements('//h1[normalize-space()="Fee details"]/following::th[normalize-space()="Fee code"]');
-  const submitButton = { xpath: '//h1[normalize-space()="Fee details"]/following::button[@type="submit" and normalize-space()="Submit"]' };
-  const submitButtonCount = await actor.grabNumberOfVisibleElements(submitButton);
-  if(numOfElements) {
-    await actor.click('//input[@id=\'fee-version0\']');
-  }
-  if((numOfElements || feeDetailsCount) && submitButtonCount) {
-    await actor.click(submitButton);
-    await actor.wait(CCPBConstants.fiveSecondWaitTime);
-  }
-}
-
 async function isSignedIn(actor) {
   const logoutLinks = await actor.grabNumberOfVisibleElements('//*[normalize-space()="Logout"]');
   return Boolean(logoutLinks);
@@ -894,7 +880,7 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await submitFeeDetailsIfShown(this);
+    await AddFees.submitFeeDetailsIfShown();
     this.see('Add fee');
     await this.runAccessibilityTest();
     this.see('Summary');
@@ -937,7 +923,7 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await submitFeeDetailsIfShown(this);
+    await AddFees.submitFeeDetailsIfShown();
     this.see('Add fee');
     this.click('Case Transaction');
     this.wait(CCPBConstants.fiveSecondWaitTime);
@@ -1047,7 +1033,7 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await submitFeeDetailsIfShown(this);
+    await AddFees.submitFeeDetailsIfShown();
     this.see('Summary');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);

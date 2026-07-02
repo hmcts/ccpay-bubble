@@ -1,5 +1,4 @@
 'use strict';
-const { Console } = require('console');
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const { I } = inject();
 

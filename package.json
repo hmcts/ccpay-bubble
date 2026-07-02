@@ -47,6 +47,7 @@
     "test:functional:pipeline:parallel": "codeceptjs run-workers 6 parallel --config acceptance-tests/codecept.conf.js --grep @pipeline --invert --grep @serial",
     "test:functional:pipeline": "npm-run-all --parallel --continue-on-error test:functional:serial test:functional:pipeline:parallel",
     "test:auth-cache": "mocha acceptance-tests/test/end-to-end/helpers/local_auth_cache.test.js",
+    "test:acceptance-helpers": "mocha acceptance-tests/test/end-to-end/helpers/*.test.js",
     "test:functional:nightly:parallel": "codeceptjs run-workers 6 parallel --config acceptance-tests/codecept.conf.js --grep @nightly --invert --grep @serial",
     "test:functional:nightly": "npm-run-all --parallel --continue-on-error test:functional:serial test:functional:nightly:parallel",
     "test:functional:report": "allure generate functional-output/functional/reports -c -o functional-output/functional/allure",

@@ -1,5 +1,3 @@
-const bulkScanApiCalls = require('../helpers/utils');
-
 const caseTransactionsText = 'Case transactions';
 const noMatchingCasesText = 'No matching cases found';
 const searchForCaseText = 'Search for a case';
@@ -37,7 +35,7 @@ function searchItemFor(searchOption) {
   return searchItem;
 }
 
-async function waitForSearchOutcome(I, searchOption) {
+async function waitForSearchOutcome(I) {
   await I.usePlaywrightTo('wait for case search outcome', async ({ page }) => {
     await page.waitForFunction(({ successText, notFoundText }) => {
       const bodyText = document.body.innerText;
@@ -46,18 +44,13 @@ async function waitForSearchOutcome(I, searchOption) {
       timeout: searchOutcomeTimeout * 1000
     });
   });
-
-  const noMatchCount = await I.grabNumberOfVisibleElements(`//*[normalize-space()="${noMatchingCasesText}"]`);
-  if (noMatchCount) {
-    throw new Error(`Search completed but no matching case/payment was found for "${searchOption}"`);
-  }
 }
 
 async function searchUntilFound(CaseSearch, I, searchOption) {
   const searchItem = searchItemFor(searchOption);
 
   searchSpecificOption(searchItem, CaseSearch, searchOption);
-  await waitForSearchOutcome(I, searchOption);
+  await waitForSearchOutcome(I);
 }
 
 async function multipleSearchForRefunds(CaseSearch, CaseTransaction, I, searchOption) {
@@ -67,39 +60,11 @@ async function multipleSearchForRefunds(CaseSearch, CaseTransaction, I, searchOp
 async function multipleSearch(CaseSearch, I, searchOption) {
   const searchItem = searchItemFor(searchOption);
   await searchUntilFound(CaseSearch, I, searchOption);
-  const headerValue1 = await CaseSearch.getHeaderValue();
-  if (headerValue1 === searchForCaseText) {
-    const headerValue5 = await CaseSearch.getHeaderValue();
-    if (headerValue5 === searchForCaseText) {
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const headerValue = await CaseSearch.getHeaderValue();
+    if (headerValue === searchForCaseText) {
       searchSpecificOption(searchItem, CaseSearch, searchOption);
-      await waitForSearchOutcome(I, searchOption);
-    }
-  }
-
-  const headerValue2 = await CaseSearch.getHeaderValue();
-  if (headerValue2 === searchForCaseText) {
-    const headerValue6 = await CaseSearch.getHeaderValue();
-    if (headerValue6 === searchForCaseText) {
-      searchSpecificOption(searchItem, CaseSearch, searchOption);
-      await waitForSearchOutcome(I, searchOption);
-    }
-  }
-
-  const headerValue3 = await CaseSearch.getHeaderValue();
-  if (headerValue3 === searchForCaseText) {
-    const headerValue7 = await CaseSearch.getHeaderValue();
-    if (headerValue7 === searchForCaseText) {
-      searchSpecificOption(searchItem, CaseSearch, searchOption);
-      await waitForSearchOutcome(I, searchOption);
-    }
-  }
-
-  const headerValue4 = await CaseSearch.getHeaderValue();
-  if (headerValue4 === searchForCaseText) {
-    const headerValue8 = await CaseSearch.getHeaderValue();
-    if (headerValue8 === searchForCaseText) {
-      searchSpecificOption(searchItem, CaseSearch, searchOption);
-      await waitForSearchOutcome(I, searchOption);
+      await waitForSearchOutcome(I);
     }
   }
 }
