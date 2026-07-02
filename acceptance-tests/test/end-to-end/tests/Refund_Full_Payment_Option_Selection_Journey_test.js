@@ -19,97 +19,96 @@ Scenario('Bulk scan postal order Full Payment refund, preview RefundWhenContacte
     const refundAmount = '500.00';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
     const ccdCaseNumber = ccdAndDcn[1];
-    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateTransactionPageForOverPayments();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await AddFees.addFeesOverPayment(feeAmount);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    await I.click('(//*[text()[contains(.,"Review")]])[2]');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
-    if (I.dontSeeElement('Issue refund')) {
-      console.log('found disabled button');
-      await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
-      I.click('Back');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await I.click('(//*[text()[contains(.,"Review")]])[2]');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
-    }
-    // Submit refund
-    I.click('Issue refund');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click('//*[@id="full-payment"]');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click('Continue');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for 1.1 or 1.2 application. Only one payable if applications joined up.', `£${feeAmount}`, `£${totalAmount}`, `£${refundAmount}`, '1', '£0.00');
-    await InitiateRefunds.verifyProcessRefundSelectionPageForFullPaymentOption(reviewProcessRefundPageData, ccdCaseNumber);
-    I.click('Continue');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const refundReason = 'System/technical error';
-    await InitiateRefunds.verifyProcessRefundPageFromTheRadioButtonReasons(ccdCaseNumber, refundReason);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.click('//*[@id="contact-2"]');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.click('//*[@id="address-postcode"]');
-    I.fillField('//*[@id="address-postcode"]', postcode);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.click('Find address');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
-    I.click('Continue');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    let paymentRcReference;
+    let refundReference;
 
-    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, '', refundReason, `£${refundAmount}`, '', postcode, 'RefundWhenContacted');
-    const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', refundAmount, 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
-    await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForFullPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false, true, refundNotificationPreviewDataBeforeRefundRequest);
-    const refundReference = await InitiateRefunds.verifyRefundSubmittedPage(refundAmount);
-    await I.Logout();
-    I.clearCookie();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    await I.useLoggedInSession('refund-requestor', testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword, '/', async () => {
+      await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await CaseTransaction.validateTransactionPageForOverPayments();
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await AddFees.addFeesOverPayment(feeAmount);
+      I.wait(CCPBATConstants.tenSecondWaitTime);
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
+      I.wait(CCPBATConstants.fifteenSecondWaitTime);
+      paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
+      if (I.dontSeeElement('Issue refund')) {
+        console.log('found disabled button');
+        await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
+        I.click('Back');
+        I.wait(CCPBATConstants.fiveSecondWaitTime);
+        await I.click('(//*[text()[contains(.,"Review")]])[2]');
+        I.wait(CCPBATConstants.fiveSecondWaitTime);
+      }
+      // Submit refund
+      I.click('Issue refund');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.click('//*[@id="full-payment"]');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.click('Continue');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for applications which attract fees 1.1, 1.2', `£${feeAmount}`, `£${totalAmount}`, `£${refundAmount}`, '1', '£0.00');
+      await InitiateRefunds.verifyProcessRefundSelectionPageForFullPaymentOption(reviewProcessRefundPageData, ccdCaseNumber);
+      I.click('Continue');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      const refundReason = 'System/technical error';
+      await InitiateRefunds.verifyProcessRefundPageFromTheRadioButtonReasons(ccdCaseNumber, refundReason);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.click('//*[@id="contact-2"]');
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.click('//*[@id="address-postcode"]');
+      I.fillField('//*[@id="address-postcode"]', postcode);
+      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.click('Find address');
+      I.waitForElement('//*[@id="postcodeAddress"]', CCPBATConstants.tenSecondWaitTime);
+      I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
+      I.click('Continue');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+
+      const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, `£${totalAmount}`, '', refundReason, `£${refundAmount}`, '', postcode, 'RefundWhenContacted');
+      const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', refundAmount, 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
+      await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForFullPaymentRefundOption(checkYourAnswersDataBeforeSubmitRefund, false, '', false, false, true, refundNotificationPreviewDataBeforeRefundRequest);
+      refundReference = await InitiateRefunds.verifyRefundSubmittedPage(refundAmount);
+    });
 
     // Approve refund
-    await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    // I.click('Refund List'); // Refund List menu is hidden on paybubble, navigating to the refund-list page itself -- see above url
-    await InitiateRefunds.verifyRefundsListPage(refundReference);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    const refundReason = 'System/technical error';
+    await I.useLoggedInSession('refund-approver', testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true', async () => {
+      I.wait(CCPBATConstants.fifteenSecondWaitTime);
+      // I.click('Refund List'); // Refund List menu is hidden on paybubble, navigating to the refund-list page itself -- see above url
+      await InitiateRefunds.verifyRefundsListPage(refundReference);
+      I.wait(CCPBATConstants.twoSecondWaitTime);
 
-    const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, refundReason, `£${refundAmount}`, '', postcode, 'payments probate', 'RefundWhenContacted');
-    const refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, refundAmount, 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
+      const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, refundReason, `£${refundAmount}`, '', postcode, 'payments probate', 'RefundWhenContacted');
+      const refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, refundAmount, 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
 
-    InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction, true, refundNotificationPreviewDataBeforeRefundApproved);
-    InitiateRefunds.approverActionForRequestedRefund('Approve');
-    await I.Logout();
-    I.clearCookie();
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+      InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction, true, refundNotificationPreviewDataBeforeRefundApproved);
+      InitiateRefunds.approverActionForRequestedRefund('Approve');
+    });
 
     // Review refund from case transaction page
-    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.click('(//*[text()[contains(.,"Review")]])[3]');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, refundReason, `£${refundAmount}`, '', postcode, 'payments probate', 'approver probate');
-    await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval);
+    await I.useLoggedInSession('refund-requestor', testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword, '/', async () => {
+      await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await I.click('(//*[text()[contains(.,"Review")]])[3]');
+      I.wait(CCPBATConstants.fifteenSecondWaitTime);
+      const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, refundReason, `£${refundAmount}`, '', postcode, 'payments probate', 'approver probate');
+      await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval);
 
-    // Liberata Accepted the Refund
-    await apiUtils.updateRefundStatusByRefundReference(refundReference, '', 'ACCEPTED');
+      // Liberata Accepted the Refund
+      await apiUtils.updateRefundStatusByRefundReference(refundReference, '', 'ACCEPTED');
 
-    I.click('Back');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.click('(//*[text()[contains(.,"Review")]])[3]');
-    const reviewRefundDetailsDataAfterRefundAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, refundReason, `£${refundAmount}`, '', postcode, 'payments probate', 'approver probate');
-    const refundNotificationPreviewDataAfterRefundAccepted = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, refundAmount, 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
-    await RefundsList.verifyRefundDetailsAfterRefundAcceptedByLiberata(reviewRefundDetailsDataAfterRefundAccepted, true, true, false, refundNotificationPreviewDataAfterRefundAccepted);
+      I.click('Back');
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await I.click('(//*[text()[contains(.,"Review")]])[3]');
+      const reviewRefundDetailsDataAfterRefundAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, refundReason, `£${refundAmount}`, '', postcode, 'payments probate', 'approver probate');
+      const refundNotificationPreviewDataAfterRefundAccepted = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, refundAmount, 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
+      await RefundsList.verifyRefundDetailsAfterRefundAcceptedByLiberata(reviewRefundDetailsDataAfterRefundAccepted, true, true, false, refundNotificationPreviewDataAfterRefundAccepted);
 
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.click(`//td[contains(.,'${refundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await RefundsList.verifyNotificationDetailsAfterResend(refundNotificationPreviewDataAfterRefundAccepted);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await I.click(`//td[contains(.,'${refundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
+      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      await RefundsList.verifyNotificationDetailsAfterResend(refundNotificationPreviewDataAfterRefundAccepted);
+    });
 
-    await I.Logout();
-    I.clearCookie();
   }).tag('@pipeline @nightly');
