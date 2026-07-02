@@ -29,17 +29,29 @@ module.exports = () => actor({
     this.wait(CCPBConstants.twoSecondWaitTime);
   },
 
-  login(email, password, uri = '/') {
+
+  async login(email, password, uri = '/') {
     this.amOnPage(uri);
     this.wait(CCPBConstants.twoSecondWaitTime);
-    this.fillField('Email address', email);
-    this.fillField('Password', password);
-    this.wait(CCPBConstants.twoSecondWaitTime);
-    this.click({ css: '[type="submit"]' });
-    this.wait(CCPBConstants.twoSecondWaitTime);
-    this.AcceptPayBubbleCookies();
-  },
+    const header = await this.grabTextFrom('//h1');
+    if (header.trim() === 'Sign in') {
+      this.fillField('Email address', email);
+      this.fillField('Password', password);
+      this.click({ css: '[type="submit"]' });
+      this.AcceptPayBubbleCookies();
+      return;
+    }
+    if (header.trim() === 'Enter your email address') {
+      this.fillField('//*[@id="email"]', email);
+      this.click({ css: '[type="submit"]' });
+      this.fillField('//*[@id="password"]', password);
+      this.click({ css: '[type="submit"]' });
+      this.AcceptPayBubbleCookies();
+      return;
+    }
 
+    throw new Error(`Unexpected login heading "${header}"`);
+  },
   // Logout() {
   //   this.wait(CCPBConstants.fiveSecondWaitTime);
   //   this.click('Logout');
