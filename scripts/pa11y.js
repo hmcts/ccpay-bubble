@@ -8,6 +8,14 @@ const email = 'robreallywantsccdaccess@mailinator.com';
 const password = 'Testing1234';
 const totalAmount = 550;
 
+function missingPa11ySetupVars() {
+  return [
+    'PROBATE_CASE_WORKER_USER_NAME',
+    'PROBATE_CASE_WORKER_PASSWORD',
+    'OAUTH2_CLIENT_SECRET'
+  ].filter(envVar => !process.env[envVar]);
+}
+
 // Generates HTML reporter
 const generateHTMLReport = html => new Promise((resolve, reject) => {
   fs.appendFile('functional-output/pa11y.html', html, err => {
@@ -316,6 +324,12 @@ async function runTest2() {
 }
 
 async function main() {
+  const missingSetupVars = missingPa11ySetupVars();
+  if (missingSetupVars.length) {
+    console.log(`Skipping pa11y: missing ${missingSetupVars.join(', ')}`);
+    return;
+  }
+
   await runTest();
   await runTest2();
 }
@@ -326,3 +340,7 @@ if (require.main === module) {
     process.exitCode = 1;
   });
 }
+
+module.exports = {
+  missingPa11ySetupVars
+};
