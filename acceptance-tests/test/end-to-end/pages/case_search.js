@@ -23,27 +23,30 @@ module.exports = {
 
   // done
   searchCaseUsingCcdNumber(caseNumber) {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateSearchPage();
     I.checkOption(this.locators.ccd_option);
     I.fillField(this.locators.ccd_field, caseNumber);
     I.click('Search');
-    I.waitForElement(this.locators.case_transaction_link, 10);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   searchCaseUsingDcnNumber(dcnNumber) {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateSearchPage();
     I.checkOption(this.locators.dcn_option);
     I.fillField(this.locators.dcn_field, dcnNumber);
     I.click('Search');
-    I.waitForElement(this.locators.case_transaction_link, 10);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   searchCaseUsingPaymentRef(payReference) {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateSearchPage();
     I.checkOption(this.locators.payment_option);
     I.fillField(this.locators.payment_ref_ield, payReference);
     I.click('Search');
-    I.waitForElement(this.locators.case_transaction_link, 10);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   validateSearchPage() {
@@ -56,6 +59,6 @@ module.exports = {
 
   navigateToCaseTransaction() {
     I.click(this.locators.case_transaction_link);
-    I.waitForText('Case transactions', 10);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   }
 };
