@@ -44,7 +44,7 @@ Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, 
   await AddFees.addFeesAmount(feeAmount, 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', feeAmount, true);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '9', totalAmount, feeAmount);
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', totalAmount, feeAmount);
   await I.runAccessibilityTest();
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -90,7 +90,7 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   CaseTransaction.allocateToExistingServiceRequest(totalAmount);
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', feeAmount, true);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '9', totalAmount, feeAmount);
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', totalAmount, feeAmount);
   await I.runAccessibilityTest();
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -128,7 +128,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, totalAmount, 'cheque');
   CaseTransaction.allocateToNewFee();
-  await AddFees.addFeesAmount(feeAmount1, 'family', 'family_court');
+  await AddFees.addFeesAmount(feeAmount2, 'tribunal', 'property_chamber');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', feeAmount1, false);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   FeesSummary.deductRemission();
@@ -142,10 +142,10 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   FeesSummary.verifyFeeSummaryAfterRemission('FEE0002', feeAmount1, remissionAmount, totalAmount);
   FeesSummary.addFeeFromSummary();
   await AddFees.addFees(feeAmount2, 'civil', 'magistrates_court');
-  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0362', feeAmount2, true);
+  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0370', feeAmount2, true);
   I.wait(CCPBATConstants.tenSecondWaitTime);
-  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '9', totalAmount, feeAmount1, feeAmount1, shortfallAmount);
-  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0362', '1', totalAmount, feeAmount2, feeAmount2, shortfallAmount);
+  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1', totalAmount, feeAmount1, feeAmount1, shortfallAmount);
+  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0370', '1', totalAmount, feeAmount2, feeAmount2, shortfallAmount);
   ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -337,7 +337,7 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
     await AddFees.addFeesAmount(feeAmount, 'family', 'family_court');
     FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', feeAmount, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '9',
+    ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1',
       totalAmount, feeAmount, feeAmount, shortFallAmount);
     ConfirmAssociation.confirmPayment();
     ConfirmAssociation.verifyConfirmAssociationShortfallPaymentErrorMessages();
@@ -394,7 +394,7 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
   await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
   const totalAmount = '200.00';
   const feeAmount = '526.00';
-  const remissionAmount = '100.00';
+  const remissionAmount = '326.00';
   const bulkScanPaymentMethod = 'cheque';
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
   const ccdCaseNumber = ccdAndDcn[1];
@@ -426,7 +426,7 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
   await CaseTransaction.validatePaymentDetailsPageForRemission('HWF-A1B-23C', 'FEE0219', remissionAmount);
   I.click('Back');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  //  remission refund - 100
+  //  remission refund - 326
   await I.click('(//*[text()[contains(.,"Review")]])[2]');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
@@ -443,7 +443,7 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
   I.seeElement({ xpath: '//button[contains(text(), "Issue refund")]' });
   I.click('Issue refund');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£526.00', '£526.00', '200', '1', '£100.00');
+  const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£526.00', '£526.00', '200', '1', '£326.00');
   await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelectionWithRemissionAmount(reviewProcessRefundPageData, ccdCaseNumber);
   I.click('Continue');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
