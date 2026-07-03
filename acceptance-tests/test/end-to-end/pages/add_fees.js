@@ -2,6 +2,56 @@
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const { I } = inject();
 
+async function clickSelectFeeResult() {
+  const selectLocator = '//a[normalize-space()="Select"] | //button[normalize-space()="Select"]';
+  let visibleSelect = await I.grabNumberOfVisibleElements(selectLocator);
+
+  if (!visibleSelect) {
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    visibleSelect = await I.grabNumberOfVisibleElements(selectLocator);
+  }
+
+  if (!visibleSelect) {
+    I.click('Search');
+    I.wait(CCPBConstants.tenSecondWaitTime);
+  }
+
+  I.waitForElement(selectLocator, CCPBConstants.tenSecondWaitTime);
+  I.click(selectLocator);
+}
+
+async function selectCurrentFeeVersionIfShown() {
+  const versionSelectors = [
+    '//input[@value=\'currentVersion\']',
+    '//input[@id=\'fee-version0\']',
+    '//input[@id=\'fee-versions\']'
+  ];
+
+  for (const selector of versionSelectors) {
+    const isVisible = await I.grabNumberOfVisibleElements(selector);
+    if (isVisible) {
+      I.click(selector);
+      I.click('Continue');
+      I.wait(CCPBConstants.fiveSecondWaitTime);
+      return;
+    }
+  }
+}
+
+async function submitFeeDetailsIfShown() {
+  const feeDetailsTitle = '//h1[normalize-space()="Fee details"]';
+  const submitButton = '//button[normalize-space()="Submit"]';
+  const cancelButton = '//button[normalize-space()="Cancel"]';
+  const hasFeeDetailsTitle = await I.grabNumberOfVisibleElements(feeDetailsTitle);
+  const hasSubmitButton = await I.grabNumberOfVisibleElements(submitButton);
+  const hasCancelButton = await I.grabNumberOfVisibleElements(cancelButton);
+
+  if (hasFeeDetailsTitle || (hasSubmitButton && hasCancelButton)) {
+    I.click(submitButton);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+  }
+}
+
 module.exports = {
   locators: {
     fee_search: { xpath: '//*[@id="fee-search"]' },
@@ -41,12 +91,11 @@ module.exports = {
     I.click('Jurisdiction 2');
     I.click({ css: '#'.concat(jurisdiction2) });
     I.click('Apply filters');
-    I.click('Select');
+    await clickSelectFeeResult();
     I.wait(CCPBConstants.fiveSecondWaitTime);
-
-    /* Comment this out when fee change options expire for inflation update. */
-    await this.submitFeeDetailsIfShown();
-    /* END: Comment this out when fee change options expire for inflation update. */
+    await selectCurrentFeeVersionIfShown();
+    await submitFeeDetailsIfShown();
+    await selectCurrentFeeVersionIfShown();
   },
 
   async addFeesAmount(amount, jurisdiction1, jurisdiction2) {
@@ -65,11 +114,11 @@ module.exports = {
     if (jurisdiction2 === 'family_court'){
       I.see('Family Court');
     }
-    I.click('Select');
+    await clickSelectFeeResult();
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    /* Comment this out when fee change options expire for inflation update. */
-    await this.submitFeeDetailsIfShown();
-    /* END: Comment this out when fee change options expire for inflation update. */
+    await selectCurrentFeeVersionIfShown();
+    await submitFeeDetailsIfShown();
+    await selectCurrentFeeVersionIfShown();
   },
 
   async addFeesAmountByFeeCode(feeCode, amount, amountType) {
@@ -79,21 +128,16 @@ module.exports = {
     I.fillField(this.locators.fee_search, feeCode);
     I.click('Search');
     I.wait(CCPBConstants.tenSecondWaitTime);
-    I.click('Select');
+    await clickSelectFeeResult();
     I.wait(CCPBConstants.fiveSecondWaitTime);
     if(amountType === 'Percentage') {
       I.fillField(this.locators.locator_calculatedRangedFee, amount);
       I.click(this.locators.confirm_button);
       I.wait(CCPBConstants.fiveSecondWaitTime);
     }
-    /* Comment this out when fee change options expire for inflation update. */
-    let numOfElements = await I.grabNumberOfVisibleElements('//input[@value=\'currentVersion\']');
-    if(numOfElements) {
-      I.click('//input[@value=\'currentVersion\']');
-      I.click(this.locators.confirm_button);
-      I.wait(CCPBConstants.fiveSecondWaitTime);
-    }
-    /* END: Comment this out when fee change options expire for inflation update. */
+    await selectCurrentFeeVersionIfShown();
+    await submitFeeDetailsIfShown();
+    await selectCurrentFeeVersionIfShown();
 
   },
 
@@ -103,12 +147,11 @@ module.exports = {
     I.fillField(this.locators.fee_search, amount);
     I.click('Search');
     I.wait(CCPBConstants.fiveSecondWaitTime, 10);
-    I.click('Select');
+    await clickSelectFeeResult();
     I.wait(CCPBConstants.fiveSecondWaitTime);
-
-    /* Comment this out when fee change options expire for inflation update. */
-    await this.submitFeeDetailsIfShown();
-    /* END: Comment this out when fee change options expire for inflation update. */
+    await selectCurrentFeeVersionIfShown();
+    await submitFeeDetailsIfShown();
+    await selectCurrentFeeVersionIfShown();
 
     I.click(this.locators.allocate_payment);
     I.wait(CCPBConstants.tenSecondWaitTime);
