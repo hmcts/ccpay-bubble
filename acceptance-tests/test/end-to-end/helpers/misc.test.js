@@ -3,12 +3,23 @@
 const assert = require('assert');
 const misc = require('./misc');
 
-function fakeActor() {
+function fakeActor(bodyText = 'No matching cases found') {
   return {
     async usePlaywrightTo(_label, action) {
-      await action({
+      return action({
         page: {
-          async waitForFunction() {}
+          async waitForFunction(predicate, expected) {
+            const document = { body: { innerText: bodyText } };
+            const matched = Function('document', 'expected', `return (${predicate.toString()})(expected);`)(document, expected);
+            if (!matched) {
+              throw new Error(`Search outcome was not recognised from: ${bodyText}`);
+            }
+            return {
+              async jsonValue() {
+                return matched;
+              }
+            };
+          }
         }
       });
     }
@@ -34,10 +45,23 @@ function fakeCaseSearch(headerValue = 'No matching cases found') {
 }
 
 describe('misc search helpers', () => {
-  it('lets callers assert an expected no-match search result', async () => {
+  it('lets explicit no-match callers assert an expected no-match search result', async () => {
     const CaseSearch = fakeCaseSearch('Search for a case');
+    const I = fakeActor();
 
-    await misc.multipleSearch(CaseSearch, fakeActor(), '1111222233334444');
+    await misc.multipleSearch(CaseSearch, I, '1111222233334444', { allowNoMatch: true });
+
+    assert.deepStrictEqual(CaseSearch.searchCalls, [['ccd', '1111222233334444']]);
+  });
+
+  it('retries positive searches before failing on no-match results', async () => {
+    const CaseSearch = fakeCaseSearch('Search for a case');
+    const I = fakeActor();
+
+    await assert.rejects(
+      () => misc.multipleSearch(CaseSearch, I, '1111222233334444'),
+      /Case search returned no matching cases for 1111222233334444/
+    );
 
     assert.deepStrictEqual(CaseSearch.searchCalls, [
       ['ccd', '1111222233334444'],
@@ -48,10 +72,11 @@ describe('misc search helpers', () => {
     ]);
   });
 
-  it('lets refund search callers assert an expected no-match search result', async () => {
+  it('recognises the rendered payments table as a case transaction search result', async () => {
     const CaseSearch = fakeCaseSearch();
+    const pageText = 'Payments Status Amount Date Payment reference Refunds No refunds recorded';
 
-    await misc.multipleSearchForRefunds(CaseSearch, null, fakeActor(), '1111222233334444');
+    await misc.multipleSearch(CaseSearch, fakeActor(pageText), '1111222233334444');
 
     assert.deepStrictEqual(CaseSearch.searchCalls, [['ccd', '1111222233334444']]);
   });

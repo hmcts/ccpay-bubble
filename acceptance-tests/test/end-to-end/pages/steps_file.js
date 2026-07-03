@@ -77,7 +77,7 @@ module.exports = () => actor({
       this.fillField('Email address', email);
       this.fillField('Password', password);
       this.click({ css: '[type="submit"]' });
-      this.AcceptPayBubbleCookies();
+      await this.AcceptPayBubbleCookies();
       await storeBrowserLoginSession(this, email);
       return;
     }
@@ -86,7 +86,7 @@ module.exports = () => actor({
       this.click({ css: '[type="submit"]' });
       this.fillField('//*[@id="password"]', password);
       this.click({ css: '[type="submit"]' });
-      this.AcceptPayBubbleCookies();
+      await this.AcceptPayBubbleCookies();
       await storeBrowserLoginSession(this, email);
       return;
     }
@@ -106,11 +106,18 @@ module.exports = () => actor({
     await this.click('Logout');
   },
 
-  AcceptPayBubbleCookies() {
-    this.waitForText('Cookies on ccpay-bubble', 5);
+  async AcceptPayBubbleCookies() {
+    const acceptButtons = await this.grabNumberOfVisibleElements('button.cookie-banner-accept-button');
+    if (!acceptButtons) {
+      return;
+    }
+
     this.click({ css: 'button.cookie-banner-accept-button' });
-    this.click({ css: 'div.cookie-banner-accept-message > div.govuk-button-group > button' });
-    this.wait(CCPBConstants.twoSecondWaitTime);
+
+    const confirmationButtons = await this.grabNumberOfVisibleElements('div.cookie-banner-accept-message > div.govuk-button-group > button');
+    if (confirmationButtons) {
+      this.click({ css: 'div.cookie-banner-accept-message > div.govuk-button-group > button' });
+    }
   },
 
   RejectPayBubbleCookies() {
@@ -837,7 +844,7 @@ module.exports = () => actor({
   async searchForCCDdummydata() {
     const ccdNumber = numUtils.getRandomNumber(CCPBConstants.CCDCaseNumber, true);
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
-    await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
+    await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted, { allowNoMatch: true });
     this.see('No matching cases found');
   },
 

@@ -1,7 +1,13 @@
 const caseTransactionsText = 'Case transactions';
+const paymentsText = 'Payments';
+const paymentReferenceText = 'Payment reference';
 const noMatchingCasesText = 'No matching cases found';
 const searchForCaseText = 'Search for a case';
 const searchOutcomeTimeout = 10;
+const searchOutcomes = {
+  caseFound: 'case-found',
+  noMatch: 'no-match'
+};
 
 function searchSpecificOption(searchItem, CaseSearch, searchOption) {
   switch (searchItem) {
@@ -36,35 +42,57 @@ function searchItemFor(searchOption) {
 }
 
 async function waitForSearchOutcome(I) {
-  await I.usePlaywrightTo('wait for case search outcome', async ({ page }) => {
-    await page.waitForFunction(({ successText, notFoundText }) => {
+  return I.usePlaywrightTo('wait for case search outcome', async ({ page }) => {
+    const outcomeHandle = await page.waitForFunction(({ successText, paymentsText, paymentReferenceText, notFoundText, outcomes }) => {
       const bodyText = document.body.innerText;
-      return bodyText.includes(successText) || bodyText.includes(notFoundText);
-    }, { successText: caseTransactionsText, notFoundText: noMatchingCasesText }, {
+      const hasCaseTransactionPage = bodyText.includes(successText) ||
+        (bodyText.includes(paymentsText) && bodyText.includes(paymentReferenceText));
+      if (hasCaseTransactionPage) {
+        return outcomes.caseFound;
+      }
+      if (bodyText.includes(notFoundText)) {
+        return outcomes.noMatch;
+      }
+      return false;
+    }, { successText: caseTransactionsText, paymentsText, paymentReferenceText, notFoundText: noMatchingCasesText, outcomes: searchOutcomes }, {
       timeout: searchOutcomeTimeout * 1000
     });
+    return outcomeHandle.jsonValue();
   });
 }
 
-async function searchUntilFound(CaseSearch, I, searchOption) {
+async function searchUntilFound(CaseSearch, I, searchOption, options = {}) {
   const searchItem = searchItemFor(searchOption);
+  const maxSearchAttempts = 5;
 
-  searchSpecificOption(searchItem, CaseSearch, searchOption);
-  await waitForSearchOutcome(I);
+  for (let attempt = 1; attempt <= maxSearchAttempts; attempt++) {
+    searchSpecificOption(searchItem, CaseSearch, searchOption);
+    const outcome = await waitForSearchOutcome(I);
+
+    if (outcome === searchOutcomes.caseFound || options.allowNoMatch) {
+      return outcome;
+    }
+
+    // case_search waits around each submit; do not add another fixed delay here.
+  }
+
+  throw new Error(`Case search returned no matching cases for ${searchOption}`);
 }
 
 async function multipleSearchForRefunds(CaseSearch, CaseTransaction, I, searchOption) {
   await searchUntilFound(CaseSearch, I, searchOption);
 }
 
-async function multipleSearch(CaseSearch, I, searchOption) {
-  const searchItem = searchItemFor(searchOption);
-  await searchUntilFound(CaseSearch, I, searchOption);
+async function multipleSearch(CaseSearch, I, searchOption, options = {}) {
+  const outcome = await searchUntilFound(CaseSearch, I, searchOption, options);
+  if (outcome !== searchOutcomes.caseFound) {
+    return;
+  }
+
   for (let attempt = 0; attempt < 4; attempt++) {
     const headerValue = await CaseSearch.getHeaderValue();
     if (headerValue === searchForCaseText) {
-      searchSpecificOption(searchItem, CaseSearch, searchOption);
-      await waitForSearchOutcome(I);
+      await searchUntilFound(CaseSearch, I, searchOption, options);
     }
   }
 }
