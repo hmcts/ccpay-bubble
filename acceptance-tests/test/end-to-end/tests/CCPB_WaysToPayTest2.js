@@ -31,7 +31,6 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£612.00');
@@ -39,16 +38,12 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
       true, checkPaymentValuesData);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
     I.see('Service Requests');
     I.click('Service Requests');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£612.00', false);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
     I.Logout();
   });
@@ -63,7 +58,6 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£612.00');
@@ -71,16 +65,12 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
       true, checkPaymentValuesData);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
     I.see('Service Requests');
     I.click('Service Requests');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£612.00', false);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
     I.Logout();
   });
@@ -91,10 +81,8 @@ Scenario('A Service Request Not available for Ways to Pay @pipeline @nightly',
     await I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.see('Service Requests');
     I.click('Service Requests');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestNotFoundErrorPage(true);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
   });
 
@@ -109,7 +97,6 @@ Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     // console.log(name); // output 'testing'
     await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£612.00');
@@ -117,27 +104,19 @@ Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA
       true, checkPaymentValuesData);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
     I.see('Service Requests');
     I.click('Service Requests');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00', true);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     // ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,'','£612.00');
     I.click('//a[.=\'Back\']');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[contains(.,\'Pay now\')]');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyPayFeePage('£612.00', 'PBAFUNC345', 'Test Reference');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyConfirmedBanner('Payment successful');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestTabPage('Paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00', false);
     I.Logout();
@@ -154,7 +133,6 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     // console.log(name); // output 'testing'
     await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£612.00');
@@ -162,31 +140,23 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
       true, checkPaymentValuesData);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
     I.see('Service Requests');
     I.click('Service Requests');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00', true);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
     I.click('//a[.=\'Back\']');
     I.click({ xpath: '//a[contains(text(),\'Pay now\')]' });
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyPayFeePage('£612.00', 'PBAFUNC360', 'Test Reference');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyWTPGeneralPBAErrorPage(false);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution',
       '£612.00', true);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
   });
 
@@ -202,7 +172,6 @@ Scenario('A Service Request for a Solicitor if a PBA Payment amount is over the 
     // console.log(name); // output 'testing'
     // console.log('Before Log In');
     await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£35,000.00');
@@ -210,28 +179,21 @@ Scenario('A Service Request for a Solicitor if a PBA Payment amount is over the 
       true, checkPaymentValuesData);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£35,000.00');
     I.see('Service Requests');
     I.click('Service Requests');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£35,000.00', true);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£35,000.00');
     I.click('//a[.=\'Back\']');
     I.click({ xpath: '//a[contains(text(),\'Pay now\')]' });
     ServiceRequests.verifyPayFeePage('£35,000.00', 'PBAFUNC345', 'Test Reference');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyNotEnoughFundsPage();
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//button[contains(text(),\'View Service Request\')]');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution',
       '£35,000.00', true);
@@ -250,7 +212,6 @@ Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Pay
     // console.log(name); // output 'testing'
     // console.log('Before Log In');
     await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£612.00');
@@ -258,41 +219,30 @@ Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Pay
       true, checkPaymentValuesData);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
     I.see('Service Requests');
     I.click('Service Requests');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00', true);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
     I.click('//a[.=\'Back\']');
     I.click({ xpath: '//a[contains(text(),\'Pay now\')]' });
     ServiceRequests.verifyPayFeePage('£612.00', 'PBAFUNC350', 'Test Reference');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyPBAPaymentErrorPage('PBAFUNC350', 'no longer exists.');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£612.00');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     const paymentCardValues = assertionData.getPaymentCardValues('4444333322221111', '01',
       '30', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
       'Testcardpayment@mailnesia.com');
     ServiceRequests.populateCardDetails(paymentCardValues);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£612.00');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
     I.returnBackToSite();
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     // TO DO - Assert on a Positive Payment as it is failing now...
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
   });
 
@@ -308,65 +258,49 @@ Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Pay
     // console.log(name); // output 'testing'
     // console.log('Before Log In');
     await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£612.00');
-    I.wait(CCPBATConstants.sevenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
       true, checkPaymentValuesData);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
     I.see('Service Requests');
     I.click('Service Requests');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution',
       '£612.00', true);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
     I.click('//a[.=\'Back\']');
     I.click({ xpath: '//a[contains(text(),\'Pay now\')]' });
     ServiceRequests.verifyPayFeePage('£612.00', 'PBAFUNC355', 'Test Reference');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyPBAPaymentErrorPage('PBAFUNC355', 'has been put on hold.');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£612.00');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     const paymentCardValues = assertionData.getPaymentCardValues('4000000000000002', '01',
       '30', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
       'Testcardpayment@mailnesia.com');
     ServiceRequests.populateCardDetails(paymentCardValues);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyYourPaymentHasBeenDeclinedPage();
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.returnBackToSite();
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
       true, checkPaymentValuesData);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     const statuses = ['Initiated', 'Failed'];
     CaseTransaction.verifyPaymentStatusOnCaseTransactionPage(statuses);
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
     I.see('Service Requests');
     I.click('Service Requests');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution',
       '£612.00', true);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
   });
 
@@ -381,7 +315,6 @@ Scenario('A Service Request for a Solicitor For No Payment Account @pipeline @ni
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     // console.log(name); // output 'testing'
     await I.login('feeandpaynCdxFA_external@mailnesia.com', 'Password123!');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£612.00');
@@ -389,17 +322,13 @@ Scenario('A Service Request for a Solicitor For No Payment Account @pipeline @ni
       true, checkPaymentValuesData);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
     I.see('Service Requests');
     I.click('Service Requests');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.click({ xpath: '//a[contains(text(),\'Pay now\')]' });
     ServiceRequests.verifyNoPBAFoundPage();
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click({ xpath: '//input[@id=\'cancel-payment\']' });
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyYourPaymentHasBeenCancelledPage();
   });

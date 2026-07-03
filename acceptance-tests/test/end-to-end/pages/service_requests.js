@@ -184,13 +184,12 @@ module.exports = {
     I.see(`${feeAmount}`);
     I.see('Select a PBA');
     I.selectOption(this.locators.pba_account_number_select, `${accountNumber}`);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.see('Enter a reference for your PBA account statements');
     I.see('This should be your own unique reference to identify the case. It will appear on your statements.');
+    I.waitForElement(this.locators.pba_reference_text_field, CCPBATConstants.tenSecondWaitTime);
     I.fillField(this.locators.pba_reference_text_field, `${reference}`);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//label[contains(text(),\'Enter a reference for your PBA account statements\')]');
-    I.wait(CCPBATConstants.oneSecondWaitTime);
+    I.waitForClickable('Continue', CCPBATConstants.tenSecondWaitTime);
     I.click('Continue');
   },
 

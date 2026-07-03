@@ -292,6 +292,7 @@ module.exports = {
   async validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
     paymentStatus, checkPaymentValuesData) {
     // console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
+    I.waitForText('Case reference:', CCPBConstants.tenSecondWaitTime);
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
     I.see('Total payments');
@@ -306,6 +307,7 @@ module.exports = {
   },
 
   verifyPaymentStatusOnCaseTransactionPage(statuses) {
+    I.waitForText(`${statuses[0]}`, CCPBConstants.tenSecondWaitTime);
     for (let i = 0; i < statuses.length; i++) {
       I.see(`${statuses[i]}`);
     }
