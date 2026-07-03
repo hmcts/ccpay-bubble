@@ -21,6 +21,8 @@ const s2sAuthPath = '/testing-support/lease';
 
 const MAX_NOTIFY_PAGES = 3;  //max notify results pages to search
 const MAX_RETRIES = 5;  //max retries on each notify results page
+const DEFAULT_API_POLL_TIMEOUT_MS = 60000;
+const DEFAULT_API_POLL_INTERVAL_MS = 2000;
 
 let notifyClient;
 
@@ -80,6 +82,34 @@ async function getEmailFromNotifyWithMaxRetries(searchEmail) {
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function pollUntil(description, check, options = {}) {
+  const timeoutMs = options.timeoutMs || DEFAULT_API_POLL_TIMEOUT_MS;
+  const intervalMs = options.intervalMs || DEFAULT_API_POLL_INTERVAL_MS;
+  const sleepFn = options.sleepFn || sleep;
+  const nowFn = options.nowFn || Date.now;
+  const startedAt = nowFn();
+  let attempt = 0;
+  let lastValue;
+
+  while (nowFn() - startedAt <= timeoutMs) {
+    attempt++;
+    lastValue = await check(attempt);
+
+    if (lastValue) {
+      return lastValue;
+    }
+
+    if (nowFn() - startedAt >= timeoutMs) {
+      break;
+    }
+
+    await sleepFn(intervalMs);
+  }
+
+  const lastValueSummary = lastValue === undefined ? 'undefined' : JSON.stringify(lastValue);
+  throw new Error(`Timed out waiting for ${description} after ${timeoutMs}ms. Last value: ${lastValueSummary}`);
 }
 
 async function getEmailFromNotify(searchEmail) {
@@ -388,6 +418,28 @@ async function getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumb
   return paymentLookupObject;
 }
 
+function paymentsFromLookup(paymentLookupObject) {
+  if (!paymentLookupObject || !Array.isArray(paymentLookupObject.payments)) {
+    return [];
+  }
+  return paymentLookupObject.payments;
+}
+
+async function waitForPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber, options = {}) {
+  const lookupFn = options.lookupFn || getPBAPaymentByCCDCaseNumber;
+
+  return pollUntil(`PBA payment for CCD case ${ccdCaseNumber}`, async () => {
+    const paymentLookupObject = await lookupFn(idamToken, serviceToken, ccdCaseNumber);
+    const payments = paymentsFromLookup(paymentLookupObject);
+    return payments.length > 0 ? paymentLookupObject : false;
+  }, {
+    timeoutMs: options.timeoutMs,
+    intervalMs: options.intervalMs,
+    sleepFn: options.sleepFn,
+    nowFn: options.nowFn
+  });
+}
+
 async function createAFailedPBAPayment() {
   const url = paymentBaseUrl + '/credit-account-payments';
   const microservice = 'cmc';
@@ -432,7 +484,7 @@ async function createAFailedPBAPayment() {
   console.log(`The value of the response status code : ${response.status}`);
   const paymentReference = payload.reference;
 
-  await rollbackPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+  await rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
 
 
   const paymentDetails = {
@@ -565,8 +617,8 @@ async function createAPBAPayment(amount, feeCode, version, volume, customerRefer
   const response = await makeRequest(url, 'POST', headers, saveBody);
   console.log(`The value of the response status code : ${response.status}`);
 
-  const paymentLookupObject = await getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
-  await rollbackPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+  const paymentLookupObject = await waitForPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+  await rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
 
   const paymentDetails = {
     ccdCaseNumber: `${ccdCaseNumber}`,
@@ -617,8 +669,8 @@ async function createAPBAPaymentForExistingCase(amount, feeCode, version, volume
   const response = await makeRequest(url, 'POST', headers, saveBody);
   console.log(`The value of the response status code : ${response.status}`);
 
-  const paymentDetails = await getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
-  await rollbackPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+  const paymentDetails = await waitForPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+  await rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
 
   return paymentDetails;
 }
@@ -1071,6 +1123,9 @@ module.exports = {
   updatePaymentStatusWithPciPalCallbackResponse,
   bulkScanPaymentForExistingNormalCase,
   _private: {
-    validateIDAMTokenConfig
+    paymentsFromLookup,
+    pollUntil,
+    validateIDAMTokenConfig,
+    waitForPBAPaymentByCCDCaseNumber
   }
 };
