@@ -176,6 +176,14 @@ module.exports = () => actor({
     }
   },
 
+  async waitForPaymentSummary() {
+    this.waitForElement(feeSummaryReadySelector, CCPBConstants.oneMinute);
+    await this.selectCurrentFeeVersionIfShown();
+    await this.submitFeeDetailsIfShown();
+    await this.selectCurrentFeeVersionIfShown();
+    this.waitForText('Summary', CCPBConstants.oneMinute);
+  },
+
   onefeeforpayment() {
     this.fillField({ css: '[type="text"]' }, CCDNumber);
     this.click('Search');
@@ -1025,7 +1033,7 @@ module.exports = () => actor({
     this.see(ccdCaseNumberFormatted);
     this.see('Partially paid');
     this.click('Take telephony payment');
-    this.waitForText('Summary', CCPBConstants.oneMinute);
+    await this.waitForPaymentSummary();
     FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '300.00', '100.00', '200.00');
     this.click('Take payment');
     this.waitInUrl('https://euwest1.pcipalstaging.cloud/session/1288/view', 2);
@@ -1055,7 +1063,7 @@ module.exports = () => actor({
   async addUpfrontRemissionForFailedTelephonyPayment(feeCode, paymentAmount) {
     this.see('Failed');
     this.click('Take telephony payment');
-    this.waitForText('Summary', CCPBConstants.oneMinute);
+    await this.waitForPaymentSummary();
     FeesSummary.deductRemission();
     Remission.processRemission(feeCode, paymentAmount);
     Remission.confirmProcessRemission();
@@ -1103,7 +1111,7 @@ module.exports = () => actor({
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
     this.click('Take telephony payment');
-    this.waitForText('Summary', CCPBConstants.oneMinute);
+    await this.waitForPaymentSummary();
     this.click('Remove');
     this.see('Are you sure you want to delete this fee?');
     this.click('Remove');

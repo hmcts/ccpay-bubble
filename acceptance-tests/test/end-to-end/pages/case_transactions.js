@@ -6,6 +6,23 @@ const disputedPaymentHistoryText = 'Disputed payment history';
 
 const { I } = inject();
 
+function xpathLiteral(value) {
+  const text = String(value);
+  if (!text.includes('\'')) {
+    return `'${text}'`;
+  }
+  if (!text.includes('"')) {
+    return `"${text}"`;
+  }
+  return `concat('${text.split('\'').join('\', "\'", \'')}')`;
+}
+
+function closedDisputedPaymentDetailsLink(paymentRCRef, eventName) {
+  return {
+    xpath: `//tr[td[normalize-space()="Closed"] and td[contains(normalize-space(), ${xpathLiteral(paymentRCRef)})] and td[contains(normalize-space(), ${xpathLiteral(eventName)})]]//a`
+  };
+}
+
 module.exports = {
   locators: {
     case_title: { xpath: '//*[@class = "heading-medium"]' },
@@ -114,6 +131,8 @@ module.exports = {
     I.waitForText('Total payments', CCPBConstants.tenSecondWaitTime);
     this.validateTransactionPage(caseNumber);
     I.see(caseTitle);
+    I.waitForClickable(this.locators.more_details_actions, CCPBConstants.tenSecondWaitTime);
+    I.click(this.locators.more_details_actions);
   },
 
   checkBulkCaseSuccessPayment(caseNumber, caseTitle) {
@@ -202,8 +221,9 @@ module.exports = {
 
     I.see(`${todayDate}`);
     I.see('Chargeback');
-    I.waitForElement(this.locators.disputed_closed_show_details, CCPBConstants.tenSecondWaitTime);
-    I.click(this.locators.disputed_closed_show_details);
+    const closedDetailsLink = closedDisputedPaymentDetailsLink(paymentRCRef, 'Chargeback');
+    I.waitForClickable(closedDetailsLink, CCPBConstants.tenSecondWaitTime);
+    I.click(closedDetailsLink);
     I.waitForText(disputedPaymentHistoryText, CCPBConstants.oneMinute);
   },
 
@@ -221,8 +241,9 @@ module.exports = {
     I.see(`${paymentRCRef}`);
     I.see(`${todayDate}`);
     I.see('Chargeback');
-    I.waitForElement(this.locators.disputed_closed_show_details, CCPBConstants.tenSecondWaitTime);
-    I.click(this.locators.disputed_closed_show_details);
+    const closedDetailsLink = closedDisputedPaymentDetailsLink(paymentRCRef, 'Chargeback');
+    I.waitForClickable(closedDetailsLink, CCPBConstants.tenSecondWaitTime);
+    I.click(closedDetailsLink);
     I.waitForText(disputedPaymentHistoryText, CCPBConstants.oneMinute);
   },
 
@@ -255,8 +276,9 @@ module.exports = {
     I.see(`${paymentRCRef}`);
     I.see(`${todayDate}`);
     I.see('Bounced Cheque');
-    I.waitForElement(this.locators.disputed_closed_show_details, CCPBConstants.tenSecondWaitTime);
-    I.click(this.locators.disputed_closed_show_details);
+    const closedDetailsLink = closedDisputedPaymentDetailsLink(paymentRCRef, 'Bounced Cheque');
+    I.waitForClickable(closedDetailsLink, CCPBConstants.tenSecondWaitTime);
+    I.click(closedDetailsLink);
     I.waitForText(disputedPaymentHistoryText, CCPBConstants.oneMinute);
   },
 
