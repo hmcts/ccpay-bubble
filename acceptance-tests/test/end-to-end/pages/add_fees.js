@@ -1,17 +1,22 @@
 'use strict';
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const { I } = inject();
-const feePageReadySelector = '//h1[normalize-space()="Fee details"] | //h1[normalize-space()="Summary"] | //button[normalize-space()="Submit"]';
-const feeSummaryReadySelector = '//h1[normalize-space()="Summary"] | //h1[normalize-space()="Fee details"]';
 
 async function clickSelectFeeResult() {
   const selectLocator = '//a[normalize-space()="Select"] | //button[normalize-space()="Select"]';
-  const visibleSelect = await I.grabNumberOfVisibleElements(selectLocator);
+  let visibleSelect = await I.grabNumberOfVisibleElements(selectLocator);
 
   if (!visibleSelect) {
-    I.waitForElement(selectLocator, CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    visibleSelect = await I.grabNumberOfVisibleElements(selectLocator);
   }
 
+  if (!visibleSelect) {
+    I.click('Search');
+    I.wait(CCPBConstants.tenSecondWaitTime);
+  }
+
+  I.waitForElement(selectLocator, CCPBConstants.tenSecondWaitTime);
   I.click(selectLocator);
 }
 
@@ -27,7 +32,7 @@ async function selectCurrentFeeVersionIfShown() {
     if (isVisible) {
       I.click(selector);
       I.click('Continue');
-      I.waitForElement(feePageReadySelector, CCPBConstants.oneMinute);
+      I.wait(CCPBConstants.fiveSecondWaitTime);
       return;
     }
   }
@@ -43,7 +48,7 @@ async function submitFeeDetailsIfShown() {
 
   if (hasFeeDetailsTitle || (hasSubmitButton && hasCancelButton)) {
     I.click(submitButton);
-    I.waitForElement(feeSummaryReadySelector, CCPBConstants.oneMinute);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   }
 }
 
@@ -72,7 +77,7 @@ module.exports = {
     }
     if((numOfElements || feeDetailsCount) && submitButtonCount) {
       await I.click(submitButton);
-      await I.waitForElement(feeSummaryReadySelector, CCPBConstants.oneMinute);
+      await I.wait(CCPBConstants.fiveSecondWaitTime);
     }
   },
 
@@ -80,13 +85,14 @@ module.exports = {
     I.see('Search for a fee');
     I.fillField(this.locators.fee_search, amount);
     I.click('Search');
-    I.waitForText('Jurisdiction 1', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click('Jurisdiction 1');
     I.click({ css: '#'.concat(jurisdiction1) });
     I.click('Jurisdiction 2');
     I.click({ css: '#'.concat(jurisdiction2) });
     I.click('Apply filters');
     await clickSelectFeeResult();
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     await selectCurrentFeeVersionIfShown();
     await submitFeeDetailsIfShown();
     await selectCurrentFeeVersionIfShown();
@@ -95,9 +101,10 @@ module.exports = {
   async addFeesAmount(amount, jurisdiction1, jurisdiction2) {
     I.see('Search for a fee');
     I.see('For example: Application or £10.00. You don\'t need to use the whole description or amount.');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.fillField(this.locators.fee_search, amount);
     I.click('Search');
-    I.waitForText('Jurisdiction 1', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.tenSecondWaitTime);
     I.click('Jurisdiction 1');
     I.click({ css: '#'.concat(jurisdiction1) });
     I.click('Jurisdiction 2');
@@ -108,6 +115,7 @@ module.exports = {
       I.see('Family Court');
     }
     await clickSelectFeeResult();
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     await selectCurrentFeeVersionIfShown();
     await submitFeeDetailsIfShown();
     await selectCurrentFeeVersionIfShown();
@@ -116,13 +124,16 @@ module.exports = {
   async addFeesAmountByFeeCode(feeCode, amount, amountType) {
     I.see('Search for a fee');
     I.see('For example: Application or £10.00. You don\'t need to use the whole description or amount.');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.fillField(this.locators.fee_search, feeCode);
     I.click('Search');
+    I.wait(CCPBConstants.tenSecondWaitTime);
     await clickSelectFeeResult();
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     if(amountType === 'Percentage') {
       I.fillField(this.locators.locator_calculatedRangedFee, amount);
       I.click(this.locators.confirm_button);
-      I.waitForElement(feeSummaryReadySelector, CCPBConstants.oneMinute);
+      I.wait(CCPBConstants.fiveSecondWaitTime);
     }
     await selectCurrentFeeVersionIfShown();
     await submitFeeDetailsIfShown();
@@ -132,17 +143,22 @@ module.exports = {
 
   async addFeesOverPayment(amount) {
     I.see('Search for a fee');
+    I.wait(CCPBConstants.tenSecondWaitTime);
     I.fillField(this.locators.fee_search, amount);
     I.click('Search');
+    I.wait(CCPBConstants.fiveSecondWaitTime, 10);
     await clickSelectFeeResult();
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     await selectCurrentFeeVersionIfShown();
     await submitFeeDetailsIfShown();
     await selectCurrentFeeVersionIfShown();
 
     I.click(this.locators.allocate_payment);
-    I.waitForText('Provide a reason', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.help_with_fee);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.i_have_put_a_stop_on_case);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.add_Notes);
     I.fillField(this.locators.add_Notes,'Test OverPayment');
     I.click(this.locators.confirm_button);

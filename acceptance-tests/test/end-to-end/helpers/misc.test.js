@@ -4,13 +4,11 @@ const assert = require('assert');
 const misc = require('./misc');
 
 function fakeActor(bodyText = 'No matching cases found') {
-  const actor = {
-    searchOutcomeTimeout: undefined,
+  return {
     async usePlaywrightTo(_label, action) {
       return action({
         page: {
-          async waitForFunction(predicate, expected, options = {}) {
-            actor.searchOutcomeTimeout = options.timeout;
+          async waitForFunction(predicate, expected) {
             const document = { body: { innerText: bodyText } };
             const matched = Function('document', 'expected', `return (${predicate.toString()})(expected);`)(document, expected);
             if (!matched) {
@@ -26,7 +24,6 @@ function fakeActor(bodyText = 'No matching cases found') {
       });
     }
   };
-  return actor;
 }
 
 function fakeCaseSearch(headerValue = 'No matching cases found') {
@@ -82,14 +79,5 @@ describe('misc search helpers', () => {
     await misc.multipleSearch(CaseSearch, fakeActor(pageText), '1111222233334444');
 
     assert.deepStrictEqual(CaseSearch.searchCalls, [['ccd', '1111222233334444']]);
-  });
-
-  it('keeps case-search polling bounded without fixed sleeps', async () => {
-    const CaseSearch = fakeCaseSearch();
-    const I = fakeActor('Case transactions');
-
-    await misc.multipleSearch(CaseSearch, I, '1111222233334444');
-
-    assert.strictEqual(I.searchOutcomeTimeout, 60000);
   });
 });

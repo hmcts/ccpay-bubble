@@ -38,18 +38,18 @@ module.exports = {
     I.fillField(this.locators.remission_code, 'HWF-A1B-23C');
     I.fillField(this.locators.amount, amount);
     I.click('Submit');
-    I.waitForText('Are you sure you want to add remission to this fee?', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.verifyRemissionConfirmationPage(feeCode, amount);
   },
 
   cancelprocessRemission() {
     I.click('Cancel');
-    I.waitForText('Summary', CCPBConstants.oneMinute);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   confirmProcessRemission() {
     I.click('Confirm');
-    I.waitForText('Summary', CCPBConstants.oneMinute);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   verifyAddRemissionPageText() {
@@ -75,8 +75,8 @@ module.exports = {
     I.fillField(this.locators.remission_code, 'HWF-A1B-23C');
     I.fillField(this.locators.amount, amount);
     I.click('Submit');
-    I.waitForText('The remission amount must be less than the total fee', CCPBConstants.tenSecondWaitTime);
     I.see('The remission amount must be less than the total fee');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   }
 
 

@@ -53,7 +53,7 @@ module.exports = {
 
   cancelTransferred() {
     I.click('Cancel');
-    I.waitForText('Mark payment as transferred', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click('Cancel');
     I.waitForText('Are you sure you want to cancel?', CCPBConstants.tenSecondWaitTime);
     I.click('Yes');
@@ -66,13 +66,11 @@ module.exports = {
   },
 
   whenNoReasonAndSiteid() {
-    I.waitForText('Enter a reason for marking this payment as transferred.', CCPBConstants.tenSecondWaitTime);
     I.see('Enter a reason for marking this payment as transferred.');
     I.see('Please select Receiving Site ID');
   },
 
   whenReasonLessThanLimit() {
-    I.waitForText('Reason should be at least 3 characters.', CCPBConstants.tenSecondWaitTime);
     I.see('Reason should be at least 3 characters.');
   }
 };

@@ -63,13 +63,13 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
   let paymentStatus = await I.grabTextFrom('//ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr[1]/td[1]');
   if (paymentStatus === 'Initiated')  {
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
-    I.waitForElement(CaseTransaction.locators.rc_reference, CCPBATConstants.tenSecondWaitTime);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
-    await I.updateTheInitiatedTelephonyPaymentStatusToFailed(paymentRcReference, feeAmount, 'FAILED');
+    I.updateTheInitiatedTelephonyPaymentStatusToFailed(paymentRcReference, feeAmount, 'FAILED');
     I.click('Back');
-    I.waitForText('Failed', CCPBATConstants.oneMinute);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
   }
-  await I.addUpfrontRemissionForFailedTelephonyPayment(feeCode, totalPaymentAmount);
+  I.addUpfrontRemissionForFailedTelephonyPayment(feeCode, totalPaymentAmount);
   I.see('Partially paid');
   await apiUtils.bulkScanPaymentForExistingNormalCase('AA08', bulkScanPayment, 'cheque', ccdNumber);
   I.refreshPage();

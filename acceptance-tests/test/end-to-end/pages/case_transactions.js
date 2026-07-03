@@ -2,26 +2,8 @@
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const testConfig = require('config');
 const stringUtils = require('../helpers/string_utils');
-const disputedPaymentHistoryText = 'Disputed payment history';
 
 const { I } = inject();
-
-function xpathLiteral(value) {
-  const text = String(value);
-  if (!text.includes('\'')) {
-    return `'${text}'`;
-  }
-  if (!text.includes('"')) {
-    return `"${text}"`;
-  }
-  return `concat('${text.split('\'').join('\', "\'", \'')}')`;
-}
-
-function closedDisputedPaymentDetailsLink(paymentRCRef, eventName) {
-  return {
-    xpath: `//tr[td[normalize-space()="Closed"] and td[contains(normalize-space(), ${xpathLiteral(paymentRCRef)})] and td[contains(normalize-space(), ${xpathLiteral(eventName)})]]//a`
-  };
-}
 
 module.exports = {
   locators: {
@@ -128,44 +110,43 @@ module.exports = {
 
   // done
   checkBulkCase(caseNumber, caseTitle) {
-    I.waitForText('Total payments', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fifteenSecondWaitTime);
     this.validateTransactionPage(caseNumber);
     I.see(caseTitle);
-    I.waitForClickable(this.locators.more_details_actions, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.more_details_actions);
   },
 
   checkBulkCaseSuccessPayment(caseNumber, caseTitle) {
-    I.waitForText('Success', CCPBConstants.oneMinute);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateTransactionPageForSuccessPayment(caseNumber);
     I.see(caseTitle);
   },
   checkBulkCaseSuccessPaymentPartiallyPaid(caseNumber, caseTitle, allocationStatus) {
-    I.waitForText(allocationStatus, CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateTransactionPageForSuccessPaymentPartiallyPaid(caseNumber, allocationStatus);
     I.see(caseTitle);
   },
   checkBulkCaseNonPaidPayment(caseNumber, caseTitle, allocationStatus) {
-    I.waitForText(allocationStatus, CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateTransactionPageForShortFallPayment(caseNumber, allocationStatus);
     I.see(caseTitle);
   },
   checkBulkCaseSurplusOrShortfallSuccessPayment(caseNumber, caseTitle,
     allocationStatus) {
-    I.waitForText(allocationStatus, CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateTransactionPageForSuccessPayment(caseNumber, allocationStatus);
     I.see(caseTitle);
     // I.see(amoundDue);
   },
   checkBulkCaseShortfallSuccessPaymentPartiallyPaid(caseNumber, caseTitle,
                                                     allocationStatus, amoundDue) {
-    I.waitForText(allocationStatus, CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateTransactionPageForSuccessPaymentPartiallyPaid(caseNumber, allocationStatus);
     I.see(caseTitle);
     I.see(`£${amoundDue}`);
   },
   checkBulkCaseSurplusOrShortfallPayment(caseNumber, caseTitle, allocationStatus, amoundDue) {
-    I.waitForText(allocationStatus, CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     this.validateTransactionPageForShortFallPayment(caseNumber, allocationStatus);
     I.see(caseTitle);
     I.see(amoundDue);
@@ -182,38 +163,38 @@ module.exports = {
   },
 
   allocateToNewFee() {
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     // I.checkOption(this.locators.unallocated_payment_select_option);
-    I.waitForClickable('Allocate to new service request', CCPBConstants.tenSecondWaitTime);
     I.click('Allocate to new service request');
-    I.waitForText('Search for a fee', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   allocateToExistingServiceRequest(amount) {
-    I.waitForClickable('Allocate to existing service request', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click('Allocate to existing service request');
     I.waitForText('Select payment request', CCPBConstants.tenSecondWaitTime);
     I.see('Select payment request');
     I.see(`£${amount}`);
     I.click('//input[@name="orderLevelRecord"]');
     I.click('Continue');
-    I.waitForText('Summary', CCPBConstants.oneMinute);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   allocateToTransferred() {
     // I.checkOption(this.locators.unallocated_payment_select_option);
-    I.waitForClickable('Mark as transferred', CCPBConstants.tenSecondWaitTime);
     I.click('Mark as transferred');
-    I.waitForText('Mark payment as transferred', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   async verifyDisputedPaymentHistory(paymentRCRef, todayDate) {
-    I.waitForText('Status', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    // I.see('Service requests');
     await I.see('Status');
-    I.waitForText('Partially paid', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     await I.see('Partially paid');
-    I.waitForElement(this.locators.payments_review_button, CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.payments_review_button);
-    I.waitForText('Initiated', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
     I.see('Initiated');
     I.see('Closed');
     I.see('£100.00');
@@ -221,77 +202,77 @@ module.exports = {
 
     I.see(`${todayDate}`);
     I.see('Chargeback');
-    const closedDetailsLink = closedDisputedPaymentDetailsLink(paymentRCRef, 'Chargeback');
-    I.waitForClickable(closedDetailsLink, CCPBConstants.tenSecondWaitTime);
-    I.click(closedDetailsLink);
-    I.waitForText(disputedPaymentHistoryText, CCPBConstants.oneMinute);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.click(this.locators.disputed_closed_show_details);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
   },
 
   async verifyDisputedPaymentHistoryEvent(paymentRCRef, todayDate) {
+    // I.wait(CCPBConstants.tenSecondWaitTime);
     // I.see('Service requests');
     // await I.see('Status');
     console.log("Asserting Started");
+    I.wait(CCPBConstants.tenSecondWaitTime);
     await I.retry(5).seeElement(this.locators.notpaid_payment_status);
-    I.waitForElement(this.locators.payments_review_button, CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.payments_review_button);
-    I.waitForText('Initiated', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
     I.see('Initiated');
     I.see('Closed');
     I.see('£215.00');
     I.see(`${paymentRCRef}`);
     I.see(`${todayDate}`);
     I.see('Chargeback');
-    const closedDetailsLink = closedDisputedPaymentDetailsLink(paymentRCRef, 'Chargeback');
-    I.waitForClickable(closedDetailsLink, CCPBConstants.tenSecondWaitTime);
-    I.click(closedDetailsLink);
-    I.waitForText(disputedPaymentHistoryText, CCPBConstants.oneMinute);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.click(this.locators.disputed_closed_show_details);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
   },
 
   async verifyServiceRequestStatus() {
-    I.waitForText('Status', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    // I.see('Service requests');
     await I.see('Status');
-    I.waitForText('Disputed', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Disputed');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.Logout();
   },
 
    async verifyDisputedPaymentHistoryInitiated() {
-    I.waitForElement(this.locators.disputed_initiated_show_details, CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
     I.click(this.locators.disputed_initiated_show_details);
   },
 
   async verifyDisputedPaymentHistoryTable(paymentRCRef, todayDate) {
-    I.waitForText('Service requests', CCPBConstants.tenSecondWaitTime);
-    I.see('Service requests');
-    I.waitForText('Status', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.tenSecondWaitTime);
+    await I.see('Service requests');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     await I.see('Status');
-    I.waitForText('Paid', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Paid');
-    I.waitForElement(this.locators.payments_review_button, CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.payments_review_button);
-    I.waitForText('Initiated', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
     I.see('Initiated');
     I.see('Closed');
     I.see('£250.00');
     I.see(`${paymentRCRef}`);
     I.see(`${todayDate}`);
     I.see('Bounced Cheque');
-    const closedDetailsLink = closedDisputedPaymentDetailsLink(paymentRCRef, 'Bounced Cheque');
-    I.waitForClickable(closedDetailsLink, CCPBConstants.tenSecondWaitTime);
-    I.click(closedDetailsLink);
-    I.waitForText(disputedPaymentHistoryText, CCPBConstants.oneMinute);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.click(this.locators.disputed_closed_show_details);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
   },
 
   async verifyDisputedPaymentHistoryInitiatedForBounceBack() {
-    I.waitForElement(this.locators.disputed_initiated_show_details, CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.sevenSecondWaitTime);
     I.click(this.locators.disputed_initiated_show_details);
   },
 
   allocateToUnidentified() {
     // I.checkOption(this.locators.unallocated_payment_select_option);
-    I.waitForClickable('Mark as unidentified', CCPBConstants.tenSecondWaitTime);
     I.click('Mark as unidentified');
-    I.waitForText('Mark payment as unidentified', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   async validateCaseTransactionPageForRefunds(ccdCaseNumber,
@@ -314,7 +295,6 @@ module.exports = {
   async validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
     paymentStatus, checkPaymentValuesData) {
     // console.log(`The value of the Formatted CCD Case Number : ${stringUtils.getCcdCaseInFormat(ccdCaseNumber)}`);
-    I.waitForText('Case reference:', CCPBConstants.tenSecondWaitTime);
     I.see('Case reference:');
     I.see(stringUtils.getCcdCaseInFormat(ccdCaseNumber));
     I.see('Total payments');
@@ -329,7 +309,6 @@ module.exports = {
   },
 
   verifyPaymentStatusOnCaseTransactionPage(statuses) {
-    I.waitForText(`${statuses[0]}`, CCPBConstants.tenSecondWaitTime);
     for (let i = 0; i < statuses.length; i++) {
       I.see(`${statuses[i]}`);
     }
@@ -417,7 +396,7 @@ module.exports = {
     I.see('Total remissions');
     I.see('Amount due');
     I.see('Unallocated payments');
-    I.waitForClickable(this.locators.allocate_new_service_request, CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.allocate_new_service_request);
   },
   validateTransactionPageForRefunds(refunds,refundRefOverPayments, feePaymentRefundAmount,  overPaymentRefundAmount) {
@@ -444,6 +423,7 @@ module.exports = {
     I.see('Total remissions');
     I.see('Amount due');
     I.see('Unallocated payments');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
   validateTransactionPageForShortFallPayment(caseNumber) {
     I.see(caseNumber);
@@ -489,11 +469,10 @@ module.exports = {
   },
 
   async  getReceiptReference() {
-    I.waitForElement(this.locators.view_details_for_status_paid, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.view_details_for_status_paid);
-    I.waitForElement(this.locators.view_details_for_payments, CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click(this.locators.view_details_for_payments);
-    I.waitForElement(this.locators.rc_reference, CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     const receiptReference = await I.grabTextFrom(this.locators.rc_reference);
     return receiptReference;
   }

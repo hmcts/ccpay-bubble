@@ -160,7 +160,7 @@ module.exports = {
   },
 
   verifyConfirmAssociationSurplusPayment(feeCode, amount, surplusAmount) {
-    I.waitForText('Confirm allocation', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Confirm allocation');
     I.waitForText('Amount to be allocated: £'.concat(amount), CCPBConstants.tenSecondWaitTime);
     I.see('Code');
@@ -187,7 +187,7 @@ module.exports = {
 
   cancelPayment() {
     I.click('Cancel');
-    I.waitForText('Case transaction', CCPBConstants.tenSecondWaitTime);
+    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   confirmPayment() {

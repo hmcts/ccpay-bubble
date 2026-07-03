@@ -3,7 +3,7 @@ const paymentsText = 'Payments';
 const paymentReferenceText = 'Payment reference';
 const noMatchingCasesText = 'No matching cases found';
 const searchForCaseText = 'Search for a case';
-const searchOutcomeTimeout = 60;
+const searchOutcomeTimeout = 10;
 const searchOutcomes = {
   caseFound: 'case-found',
   noMatch: 'no-match'
