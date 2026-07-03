@@ -44,7 +44,7 @@ Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, 
   await AddFees.addFeesAmount(feeAmount, 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', feeAmount, true);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', totalAmount, feeAmount);
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '9', totalAmount, feeAmount);
   await I.runAccessibilityTest();
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -90,7 +90,7 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   CaseTransaction.allocateToExistingServiceRequest(totalAmount);
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', feeAmount, true);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '1', totalAmount, feeAmount);
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0002', '9', totalAmount, feeAmount);
   await I.runAccessibilityTest();
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.tenSecondWaitTime);
@@ -144,7 +144,7 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   await AddFees.addFees(feeAmount2, 'civil', 'magistrates_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0362', feeAmount2, true);
   I.wait(CCPBATConstants.tenSecondWaitTime);
-  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1', totalAmount, feeAmount1, feeAmount1, shortfallAmount);
+  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '9', totalAmount, feeAmount1, feeAmount1, shortfallAmount);
   ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0362', '1', totalAmount, feeAmount2, feeAmount2, shortfallAmount);
   ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
   ConfirmAssociation.confirmPayment();
@@ -337,7 +337,7 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
     await AddFees.addFeesAmount(feeAmount, 'family', 'family_court');
     FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', feeAmount, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1',
+    ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '9',
       totalAmount, feeAmount, feeAmount, shortFallAmount);
     ConfirmAssociation.confirmPayment();
     ConfirmAssociation.verifyConfirmAssociationShortfallPaymentErrorMessages();

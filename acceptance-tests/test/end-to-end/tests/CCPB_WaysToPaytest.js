@@ -24,8 +24,8 @@ Feature('CC Pay Bubble Acceptance Tests For the Ways To Pay feature').retry(CCPB
 Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline @nightly',
   async({ I, CaseSearch, CaseTransaction, ServiceRequests }) => {
     logger.log('Creating the Service Request');
-    const calculatedAmount = 612.00;
-    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6', calculatedAmount, 'FEE0002', '1', 1);
+    const calculatedAmount = 628.00;
+    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6', calculatedAmount, 'FEE0002', '9', 1);
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
@@ -35,24 +35,24 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
-      '0', '£0.00', '£612.00');
+      '0', '£0.00', '£628.00');
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
       true, checkPaymentValuesData);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     // Takes you to the Service Request Page...
     I.click('//td[@class="govuk-table__cell"]/a[.="Review"]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£628.00');
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£612.00', false);
+    ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£628.00', false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00');
+    ServiceRequests.verifyServiceRequestPage('Not paid', serviceRequestReference, 'Filing an application for a divorce, nullity or civil partnership dissolution', '£628.00');
     I.Logout();
   });
 
@@ -173,7 +173,7 @@ Scenario('A Service Request for a Solicitor if a PBA Payment amount is over the 
   async({ I, CaseSearch, CaseTransaction, ServiceRequests }) => {
     // console.log('Creating the Service Request');
     const calculatedAmount = 35000.00;
-    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6', calculatedAmount, 'FEE0002', '1', 1);
+    const serviceRequestDetails = await bulkScanApiCalls.createAServiceRequest('ABA6', calculatedAmount, 'FEE0002', '9', 1);
     const ccdCaseNumber = `${serviceRequestDetails.ccdCaseNumber}`;
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);

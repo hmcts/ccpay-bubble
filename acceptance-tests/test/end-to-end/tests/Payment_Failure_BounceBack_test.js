@@ -15,7 +15,7 @@ Feature('CC Pay Bubble Acceptance Tests payment failure for Bounceback and Charg
 Scenario('Payment Failure for Bounceback SR status Paid',
   async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
            PaymentHistory, FailureEventDetails }) => {
-    const totalAmount = 612;
+    const totalAmount = 628;
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, 'cash');
     const ccdCaseNumber = ccdAndDcn[1];
     const dcnNumber = ccdAndDcn[0];

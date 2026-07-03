@@ -115,7 +115,7 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded a
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     I.click('Issue refund');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£300.00', '£300.00', '200', '1', '£100.00');
+    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£526.00', '£526.00', '426', '1', '£100.00');
     await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelectionWithRemissionAmount(reviewProcessRefundPageData, ccdCaseNumber);
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -135,11 +135,11 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded a
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
-    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£300.00', '', refundDropDownReason + '-' + reasonText, '£200.00', '', postcode, 'RefundWhenContacted');
-    const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '200', 'Other', bulkScanPaymentMethod);
+    const checkYourAnswersDataBeforeSubmitRefund = assertionData.checkYourAnswersBeforeSubmitRefund(paymentRcReference, '£526.00', '', refundDropDownReason + '-' + reasonText, '£426.00', '', postcode, 'RefundWhenContacted');
+    const refundNotificationPreviewDataBeforeRefundRequest = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, 'RF-****-****-****-****', '426', 'Other', bulkScanPaymentMethod);
 
     await InitiateRefunds.verifyCheckYourAnswersPageAndSubmitRefundForExactAmountPaidNonCashPartialOrFullRefunds(checkYourAnswersDataBeforeSubmitRefund, false, '', false, true, false, false, refundNotificationPreviewDataBeforeRefundRequest);
-    await InitiateRefunds.verifyRefundSubmittedPage('200.00');
+    await InitiateRefunds.verifyRefundSubmittedPage('426.00');
 
     await I.Logout();
     I.clearCookie();
@@ -397,10 +397,10 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
 
     const bulkScanPaymentMethod = 'cheque';
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
-    const totalAmount = '332.00';
+    const totalAmount = '559.00';
     const feeAmount1 = '526.00';
     const feeAmount2 = '58.00';
-    const shortfallAmount = '25.00'; // 25 = (300+57) - 332
+    const shortfallAmount = '25.00'; // 25 = (526+58) - 559
     const remissionAmount= '50.00'; // remission amount against the second fee
     const refundAmount= '25.00'; // refund amount against the remission (50 - 25)
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);

@@ -86,7 +86,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails('383.00', '0', '0.00', '0.00', '27.00');
+    await CaseTransaction.validateCaseTransactionsDetails('553.00', '0', '0.00', '0.00', '27.00');
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     const reviewRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'Overpayment', '27.00', emailAddress, '', 'payments probate', 'approver probate');
@@ -97,7 +97,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
 
     I.click('Back');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails('383.00', '0', '0.00', '0.00', '0.00');
+    await CaseTransaction.validateCaseTransactionsDetails('553.00', '0', '0.00', '0.00', '0.00');
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     const reviewRefundDetailsDataAfterRefundAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundReference, paymentRcReference, 'Overpayment', '27.00', emailAddress, '', 'payments probate', 'approver probate');
     const refundNotificationPreviewDataAfterRefundAccepted = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundReference, '27', 'Refund for Overpayment', bulkScanPaymentMethod);
