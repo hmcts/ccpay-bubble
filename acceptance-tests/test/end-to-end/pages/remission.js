@@ -44,12 +44,12 @@ module.exports = {
 
   cancelprocessRemission() {
     I.click('Cancel');
-    I.waitForText('Summary', CCPBConstants.tenSecondWaitTime);
+    I.waitForText('Summary', CCPBConstants.oneMinute);
   },
 
   confirmProcessRemission() {
     I.click('Confirm');
-    I.waitForText('Summary', CCPBConstants.tenSecondWaitTime);
+    I.waitForText('Summary', CCPBConstants.oneMinute);
   },
 
   verifyAddRemissionPageText() {

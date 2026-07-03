@@ -1,6 +1,8 @@
 'use strict';
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const { I } = inject();
+const feePageReadySelector = '//h1[normalize-space()="Fee details"] | //h1[normalize-space()="Summary"] | //button[normalize-space()="Submit"]';
+const feeSummaryReadySelector = '//h1[normalize-space()="Summary"] | //h1[normalize-space()="Fee details"]';
 
 async function clickSelectFeeResult() {
   const selectLocator = '//a[normalize-space()="Select"] | //button[normalize-space()="Select"]';
@@ -25,10 +27,7 @@ async function selectCurrentFeeVersionIfShown() {
     if (isVisible) {
       I.click(selector);
       I.click('Continue');
-      I.waitForElement(
-        '//h1[normalize-space()="Fee details"] | //h1[normalize-space()="Summary"] | //button[normalize-space()="Submit"]',
-        CCPBConstants.tenSecondWaitTime
-      );
+      I.waitForElement(feePageReadySelector, CCPBConstants.oneMinute);
       return;
     }
   }
@@ -44,7 +43,7 @@ async function submitFeeDetailsIfShown() {
 
   if (hasFeeDetailsTitle || (hasSubmitButton && hasCancelButton)) {
     I.click(submitButton);
-    I.waitForElement('//h1[normalize-space()="Summary"] | //h1[normalize-space()="Fee details"]', CCPBConstants.tenSecondWaitTime);
+    I.waitForElement(feeSummaryReadySelector, CCPBConstants.oneMinute);
   }
 }
 
@@ -73,7 +72,7 @@ module.exports = {
     }
     if((numOfElements || feeDetailsCount) && submitButtonCount) {
       await I.click(submitButton);
-      await I.waitForElement('//h1[normalize-space()="Summary"] | //h1[normalize-space()="Fee details"]', CCPBConstants.tenSecondWaitTime);
+      await I.waitForElement(feeSummaryReadySelector, CCPBConstants.oneMinute);
     }
   },
 
@@ -123,7 +122,7 @@ module.exports = {
     if(amountType === 'Percentage') {
       I.fillField(this.locators.locator_calculatedRangedFee, amount);
       I.click(this.locators.confirm_button);
-      I.waitForElement('//h1[normalize-space()="Fee details"] | //h1[normalize-space()="Summary"]', CCPBConstants.tenSecondWaitTime);
+      I.waitForElement(feeSummaryReadySelector, CCPBConstants.oneMinute);
     }
     await selectCurrentFeeVersionIfShown();
     await submitFeeDetailsIfShown();

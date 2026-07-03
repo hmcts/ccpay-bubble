@@ -22,6 +22,8 @@ const FeesSummary = require('../pages/fees_summary');
 const Remission = require('../pages/remission');
 // const numberTwo = 2;
 const browserLoginSessions = new Map();
+const feePageReadySelector = '//h1[normalize-space()="Fee details"] | //h1[normalize-space()="Summary"] | //button[normalize-space()="Submit"]';
+const feeSummaryReadySelector = '//h1[normalize-space()="Summary"] | //h1[normalize-space()="Fee details"]';
 
 async function isSignedIn(actor) {
   const logoutLinks = await actor.grabNumberOfVisibleElements('//*[normalize-space()="Logout"]');
@@ -154,7 +156,7 @@ module.exports = () => actor({
       if (isVisible) {
         this.click(selector);
         this.click('Continue');
-        this.wait(CCPBConstants.fiveSecondWaitTime);
+        this.waitForElement(feePageReadySelector, CCPBConstants.oneMinute);
         return;
       }
     }
@@ -170,7 +172,7 @@ module.exports = () => actor({
 
     if (hasFeeDetailsTitle || (hasSubmitButton && hasCancelButton)) {
       this.click(submitButton);
-      this.wait(CCPBConstants.fiveSecondWaitTime);
+      this.waitForElement(feeSummaryReadySelector, CCPBConstants.oneMinute);
     }
   },
 
@@ -915,17 +917,17 @@ module.exports = () => actor({
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
     // this.waitInUrl(`/payment-history/${ccdNumber}?selectedOption=CCDorException&dcn=null&view=case-transactions&takePayment=true&caseType=MoneyClaimCase&isBulkScanning=Enable&isStFixEnable=Disable&isTurnOff=Disable&isOldPcipalOff=Enable&isNewPcipalOff=Disable`, CCPBConstants.nineSecondWaitTime);
-    this.wait(CCPBConstants.nineSecondWaitTime);
+    this.waitForText('Case transactions', CCPBConstants.oneMinute);
     this.see('Case transactions');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
     this.click('Create service request and pay');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForText('Search for a fee', CCPBConstants.oneMinute);
     this.see('Search for a fee');
     await this.runAccessibilityTest();
     this.fillField({ css: '[type="text"]' }, '300');
     this.click('Search');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForText('Jurisdiction 1', CCPBConstants.oneMinute);
     await this.runAccessibilityTest();
     this.click('Jurisdiction 1');
     this.click({ css: '#family' });
@@ -933,7 +935,7 @@ module.exports = () => actor({
     this.click({ css: '#probate_registry' });
     this.click('Apply filters');
     this.click('Select');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForElement(feePageReadySelector, CCPBConstants.oneMinute);
     await this.selectCurrentFeeVersionIfShown();
     await this.submitFeeDetailsIfShown();
     await this.selectCurrentFeeVersionIfShown();
@@ -952,9 +954,7 @@ module.exports = () => actor({
     this.click('Remove');
     this.see('Are you sure you want to delete this fee?');
     await this.runAccessibilityTest();
-    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Remove');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   async AmountDueCaseForTelephonyFlow() {
@@ -967,31 +967,29 @@ module.exports = () => actor({
     this.see(ccdCaseNumberFormatted);
     // this.click('Take telephony payment');
     this.click('Create service request and pay');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForText('Search for a fee', CCPBConstants.oneMinute);
     this.see('Search for a fee');
     this.fillField({ css: '[type="text"]' }, '300');
     this.click('Search');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForText('Jurisdiction 1', CCPBConstants.oneMinute);
     this.click('Jurisdiction 1');
     this.click({ css: '#family' });
     this.click('Jurisdiction 2');
     this.click({ css: '#probate_registry' });
     this.click('Apply filters');
     this.click('Select');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForElement(feePageReadySelector, CCPBConstants.oneMinute);
     await this.selectCurrentFeeVersionIfShown();
     await this.submitFeeDetailsIfShown();
     await this.selectCurrentFeeVersionIfShown();
     this.see('Add fee');
     this.click('Case Transaction');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
     this.see('Case transactions');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
-    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Take telephony payment');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForText('Summary', CCPBConstants.oneMinute);
     this.see('Summary');
     this.see(PaybubbleStaticData.fee_description.FEE0219);
     this.see('Amount');
@@ -1002,58 +1000,52 @@ module.exports = () => actor({
     this.see('Quantity');
     this.see('Description');
     this.see('300.00');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   async partiallyPaidUpfrontRemissionCaseForTelephonyFlow() {
     const ccdNumber = await utils.createACCDCaseForProbate();
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
     await miscUtils.multipleSearch(searchCase, this, ccdCaseNumberFormatted);
-    this.wait(CCPBATConstants.fiveSecondWaitTime);
+    this.waitForText('Case transactions', CCPBConstants.oneMinute);
     this.see('Case transactions');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
     this.click('Create service request and pay');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForText('Search for a fee', CCPBConstants.oneMinute);
     await AddFees.addFeesAmount('300.00', 'family', 'probate_registry');
     FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, 'FEE0219', '300.00', false);
     FeesSummary.deductRemission();
     Remission.processRemission('FEE0219', '200');
     Remission.confirmProcessRemission();
-    this.wait(CCPBATConstants.fiveSecondWaitTime);
     this.click('Case Transaction');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
-    this.wait(CCPBATConstants.fiveSecondWaitTime);
+    this.waitForText('Case transactions', CCPBConstants.oneMinute);
     this.see('Case transactions');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
     this.see('Partially paid');
     this.click('Take telephony payment');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForText('Summary', CCPBConstants.oneMinute);
     FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '300.00', '100.00', '200.00');
     this.click('Take payment');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.waitInUrl('https://euwest1.pcipalstaging.cloud/session/1288/view', 2);
     this.click('Cancel');
     this.click('Finish Session');
   },
 
   async initiateAndCancelTheTelephonyPayment(ccdCaseNumberFormatted, feeCode, feeAmount, jurisdiction1, jurisdiction2) {
-    this.wait(CCPBATConstants.fiveSecondWaitTime);
+    this.waitForText('Case transactions', CCPBConstants.oneMinute);
     this.see('Case transactions');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
     this.click('Create service request and pay');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForText('Search for a fee', CCPBConstants.oneMinute);
     await AddFees.addFeesAmount(feeAmount, jurisdiction1, jurisdiction2);
     FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, feeCode, feeAmount, false);
     this.click('Take payment');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.waitInUrl('pcipal', 2);
     this.click('Cancel');
     this.click('Finish Session');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   async updateTheInitiatedTelephonyPaymentStatusToFailed(paymentRcReference, amount, transactionResult) {
@@ -1063,7 +1055,7 @@ module.exports = () => actor({
   async addUpfrontRemissionForFailedTelephonyPayment(feeCode, paymentAmount) {
     this.see('Failed');
     this.click('Take telephony payment');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForText('Summary', CCPBConstants.oneMinute);
     FeesSummary.deductRemission();
     Remission.processRemission(feeCode, paymentAmount);
     Remission.confirmProcessRemission();
@@ -1079,18 +1071,18 @@ module.exports = () => actor({
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
     this.click('Create service request and pay');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForText('Search for a fee', CCPBConstants.oneMinute);
     this.see('Search for a fee');
     this.fillField({ css: '[type="text"]' }, '300');
     this.click('Search');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForText('Jurisdiction 1', CCPBConstants.oneMinute);
     this.click('Jurisdiction 1');
     this.click({ css: '#family' });
     this.click('Jurisdiction 2');
     this.click({ css: '#probate_registry' });
     this.click('Apply filters');
     this.click('Select');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForElement(feePageReadySelector, CCPBConstants.oneMinute);
     await this.selectCurrentFeeVersionIfShown();
     await this.submitFeeDetailsIfShown();
     await this.selectCurrentFeeVersionIfShown();
@@ -1105,20 +1097,16 @@ module.exports = () => actor({
     this.see('300.00');
     this.see('Total to pay: £300.00');
     this.click('Case Transaction');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);
     await this.runAccessibilityTest();
     this.see('Case transaction');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
-    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Take telephony payment');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
+    this.waitForText('Summary', CCPBConstants.oneMinute);
     this.click('Remove');
     this.see('Are you sure you want to delete this fee?');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Remove');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   /* async setUpRefund() {

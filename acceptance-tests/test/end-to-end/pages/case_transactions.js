@@ -2,6 +2,7 @@
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const testConfig = require('config');
 const stringUtils = require('../helpers/string_utils');
+const disputedPaymentHistoryText = 'Disputed payment history';
 
 const { I } = inject();
 
@@ -117,7 +118,7 @@ module.exports = {
   },
 
   checkBulkCaseSuccessPayment(caseNumber, caseTitle) {
-    I.waitForText('Success', CCPBConstants.tenSecondWaitTime);
+    I.waitForText('Success', CCPBConstants.oneMinute);
     this.validateTransactionPageForSuccessPayment(caseNumber);
     I.see(caseTitle);
   },
@@ -177,7 +178,7 @@ module.exports = {
     I.see(`£${amount}`);
     I.click('//input[@name="orderLevelRecord"]');
     I.click('Continue');
-    I.waitForText('Summary', CCPBConstants.tenSecondWaitTime);
+    I.waitForText('Summary', CCPBConstants.oneMinute);
   },
 
   allocateToTransferred() {
@@ -204,7 +205,7 @@ module.exports = {
     I.see('Chargeback');
     I.waitForElement(this.locators.disputed_closed_show_details, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.disputed_closed_show_details);
-    I.waitForText('Disputed payment history', CCPBConstants.tenSecondWaitTime);
+    I.waitForText(disputedPaymentHistoryText, CCPBConstants.oneMinute);
   },
 
   async verifyDisputedPaymentHistoryEvent(paymentRCRef, todayDate) {
@@ -223,7 +224,7 @@ module.exports = {
     I.see('Chargeback');
     I.waitForElement(this.locators.disputed_closed_show_details, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.disputed_closed_show_details);
-    I.waitForText('Disputed payment history', CCPBConstants.tenSecondWaitTime);
+    I.waitForText(disputedPaymentHistoryText, CCPBConstants.oneMinute);
   },
 
   async verifyServiceRequestStatus() {
@@ -257,7 +258,7 @@ module.exports = {
     I.see('Bounced Cheque');
     I.waitForElement(this.locators.disputed_closed_show_details, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.disputed_closed_show_details);
-    I.waitForText('Disputed payment history', CCPBConstants.tenSecondWaitTime);
+    I.waitForText(disputedPaymentHistoryText, CCPBConstants.oneMinute);
   },
 
   async verifyDisputedPaymentHistoryInitiatedForBounceBack() {
