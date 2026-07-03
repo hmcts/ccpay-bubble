@@ -114,7 +114,6 @@ module.exports = {
     I.waitForText('Total payments', CCPBConstants.tenSecondWaitTime);
     this.validateTransactionPage(caseNumber);
     I.see(caseTitle);
-    I.click(this.locators.more_details_actions);
   },
 
   checkBulkCaseSuccessPayment(caseNumber, caseTitle) {
