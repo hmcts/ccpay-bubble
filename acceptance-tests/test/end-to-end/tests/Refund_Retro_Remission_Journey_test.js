@@ -403,6 +403,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     const shortfallAmount = '10.00'; // 10 = (526+18) - 534
     const remissionAmount= '18.00'; // remission amount against the second fee
     const refundAmount= '8.00'; // refund amount against the remission (18 - 10)
+    const postExpiredTotalPayments = '0.00';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
     const dcnNumber = ccdAndDcn[0];
     const ccdCaseNumber = ccdAndDcn[1];
@@ -466,7 +467,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.wait(CCPBATConstants.tenSecondWaitTime);
     const refundRefRemissions = await InitiateRefunds.verifyRefundSubmittedPage(refundAmount);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', refundAmount);
+    await CaseTransaction.validateCaseTransactionsDetails(postExpiredTotalPayments, '0', remissionAmount, '0.00', refundAmount);
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -484,7 +485,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.click('Case Transaction');
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', refundAmount);
+    await CaseTransaction.validateCaseTransactionsDetails(postExpiredTotalPayments, '0', remissionAmount, '0.00', refundAmount);
     await I.click(`//td[contains(.,'${refundRefRemissions}')]/following-sibling::td/a[.=\'Review\'][1]`);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const reviewRemissionRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions, paymentRcReference, 'Retrospective remission', `£${refundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
@@ -533,7 +534,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.click('Back');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
-    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', '0.00');
+    await CaseTransaction.validateCaseTransactionsDetails(postExpiredTotalPayments, '0', remissionAmount, '0.00', '0.00');
     await I.click(`//td[contains(.,'${newRefundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
     const reviewRefundDetailsDataAfterRefundReissuedAndAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions, paymentRcReference, 'Retrospective remission', `£${refundAmount}`, emailAddress, '', 'approver probate', 'approver probate');
     const refundNotificationPreviewDataAfterRefundReissuedAndAccepted = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, newRefundReference, refundAmount, 'Retrospective remission', bulkScanPaymentMethod);
