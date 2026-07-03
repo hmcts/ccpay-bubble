@@ -8,14 +8,14 @@ const assertionData = require("../fixture/data/refunds/assertion");
 
 Feature('CC Pay Bubble Card payment calculations test').retry(CCPBATConstants.defaultNumberOfRetries);
 
-let totalAmount = '300.00';
+let totalAmount = '526.00';
 let ccdCaseNumber;
 let serviceRequestDetails;
 let serviceRequestReference;
 
 BeforeSuite(async () => {
-  ccdCaseNumber = await apiUtils.createACCDCaseForProbate();
-  serviceRequestDetails = await apiUtils.createAServiceRequest('ABA6', totalAmount, 'FEE0219', '7', 1, ccdCaseNumber);
+   ccdCaseNumber = await apiUtils.createACCDCaseForProbate();
+   serviceRequestDetails = await apiUtils.createAServiceRequest('ABA6', totalAmount, 'FEE0219', '8', 1, ccdCaseNumber);
   serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
 });
 
@@ -47,7 +47,7 @@ Scenario('Card payment with failed transaction should have the correct calculati
 
     I.amOnPage(next_url2);
     I.waitForText('Enter card details', 5);
-    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£300.00');
+    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£526.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const declinePaymentCardValues = assertionData.getPaymentCardValues('4000000000000002', '01',
       '30', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
@@ -76,7 +76,7 @@ Scenario('Card payment with failed transaction should have the correct calculati
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     // Proceed with payment flow only if payment not found
-    if (caseAmountDue === '£300.00') {
+    if (caseAmountDue === '£526.00') {
       // Payment not found, proceed with payment flow
       // Successful card payment
       const cardPaymentResponse3 = await apiUtils.initiateCardPaymentForServiceRequest(totalAmount, serviceRequestReference);
@@ -84,14 +84,14 @@ Scenario('Card payment with failed transaction should have the correct calculati
 
       I.amOnPage(next_url3);
       I.waitForText('Enter card details', 5);
-      ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£300.00');
+      ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£526.00');
       I.wait(CCPBATConstants.twoSecondWaitTime);
       const paymentCardValues = assertionData.getPaymentCardValues('4444333322221111', '01',
         '30', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
         'Testcardpayment@mailnesia.com');
       ServiceRequests.populateCardDetails(paymentCardValues);
       I.wait(CCPBATConstants.twoSecondWaitTime);
-      ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£300.00');
+      ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£526.00');
       I.wait(CCPBATConstants.twoSecondWaitTime);
       ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
       I.wait(CCPBATConstants.fiveSecondWaitTime);

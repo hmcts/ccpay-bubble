@@ -9,14 +9,14 @@ const assertionData = require("../fixture/data/refunds/assertion");
 Feature('CC Pay Bubble Card payment refund PayIt journey').retry(CCPBATConstants.defaultNumberOfRetries);
 
 Scenario('Card payment refund PayIt journey',
-  async ({ I, ServiceRequests, CaseSearch, CaseTransaction, InitiateRefunds, RefundsList }) => {
+   async ({ I, ServiceRequests, CaseSearch, CaseTransaction, InitiateRefunds, RefundsList }) => {
 
-    const emailAddress = stringUtils.getTodayDateAndTimeInString() + 'refundspaybubbleft1@mailtest.gov.uk';
-    const totalAmount = '300.00';
-    const refundAmount = '300.00';
-    const ccdCaseNumber = await apiUtils.createACCDCaseForProbate();
+     const emailAddress = stringUtils.getTodayDateAndTimeInString() + 'refundspaybubbleft1@mailtest.gov.uk';
+     const totalAmount = '526.00';
+     const refundAmount = '526.00';
+     const ccdCaseNumber = await apiUtils.createACCDCaseForProbate();
 
-    const serviceRequestDetails = await apiUtils.createAServiceRequest('ABA6', totalAmount, 'FEE0219', '7', 1, ccdCaseNumber);
+     const serviceRequestDetails = await apiUtils.createAServiceRequest('ABA6', totalAmount, 'FEE0219', '8', 1, ccdCaseNumber);
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
 
     // successful card payment
@@ -25,14 +25,14 @@ Scenario('Card payment refund PayIt journey',
 
     I.amOnPage(next_url);
     I.waitForText('Enter card details', 5);
-    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£300.00');
+    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£526.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const paymentCardValues = assertionData.getPaymentCardValues('4444333322221111', '01',
       '30', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
       'Testcardpayment@mailnesia.com');
     ServiceRequests.populateCardDetails(paymentCardValues);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£300.00');
+    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£526.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -53,7 +53,7 @@ Scenario('Card payment refund PayIt journey',
     const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
     I.click('Issue refund');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£300.00', '£300.00', '300', '1', '£0.00');
+    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£526.00', '£526.00', '300', '1', '£0.00');
     await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelection(reviewProcessRefundPageData, ccdCaseNumber);
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -129,14 +129,14 @@ Scenario('Card payment refund PayIt journey',
   }).tag('@pipeline @nightly');
 
 Scenario('Card payment refund PayIt expired(21 days) journey',
-  async ({ I, ServiceRequests, CaseSearch, CaseTransaction, InitiateRefunds, RefundsList, ResetRefund }) => {
+   async ({ I, ServiceRequests, CaseSearch, CaseTransaction, InitiateRefunds, RefundsList, ResetRefund }) => {
 
-    const emailAddress = stringUtils.getTodayDateAndTimeInString() + 'refundspaybubbleft1@mailtest.gov.uk';
-    const totalAmount = '300.00';
-    const refundAmount = '300.00';
-    const ccdCaseNumber = await apiUtils.createACCDCaseForProbate();
+     const emailAddress = stringUtils.getTodayDateAndTimeInString() + 'refundspaybubbleft1@mailtest.gov.uk';
+     const totalAmount = '526.00';
+     const refundAmount = '526.00';
+     const ccdCaseNumber = await apiUtils.createACCDCaseForProbate();
 
-    const serviceRequestDetails = await apiUtils.createAServiceRequest('ABA6', totalAmount, 'FEE0219', '7', 1, ccdCaseNumber);
+     const serviceRequestDetails = await apiUtils.createAServiceRequest('ABA6', totalAmount, 'FEE0219', '8', 1, ccdCaseNumber);
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
 
     // successful card payment
@@ -145,14 +145,14 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
 
     I.amOnPage(next_url);
     I.waitForText('Enter card details', 5);
-    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£300.00');
+    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Enter card details', '£526.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     const paymentCardValues = assertionData.getPaymentCardValues('4444333322221111', '01',
       '30', '123', 'Mr Test', '1', 'Smith Street', 'Rotherham', 'SA1 1XW',
       'Testcardpayment@mailnesia.com');
     ServiceRequests.populateCardDetails(paymentCardValues);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£300.00');
+    ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£526.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -173,7 +173,7 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     const paymentRcReference = await I.grabTextFrom(CaseTransaction.locators.rc_reference);
     I.click('Issue refund');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£300.00', '£300.00', '300', '1', '£0.00');
+    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£526.00', '£526.00', '300', '1', '£0.00');
     await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelection(reviewProcessRefundPageData, ccdCaseNumber);
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);

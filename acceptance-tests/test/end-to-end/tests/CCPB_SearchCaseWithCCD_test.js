@@ -46,7 +46,7 @@ Scenario('Partially paid (Upfront remission) case for Telephony flow', async({ I
 
 Scenario('Upfront remission added after failed Telephony Payment and allocate bulk scan payment for remaining amount', async({ I, CaseTransaction, FeesSummary, ConfirmAssociation }) => {
   const feeCode = 'FEE0219';
-  const feeAmount = '300.00';
+  const feeAmount = '526.00';
   const remissionAmount= '100.00';
   const amountDue = '200.00';
   const totalPaymentAmount = '200.00';

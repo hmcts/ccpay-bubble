@@ -15,8 +15,8 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded a
 
     const bulkScanPaymentMethod = 'cheque';
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
-    const totalAmount = '300.00';
-    const feeAmount = '300.00';
+    const totalAmount = '526.00';
+    const feeAmount = '526.00';
     const remissionAmount= '100.00';
     const hwfReference= 'HWF-A1B-23C';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
@@ -153,7 +153,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a ZERO Balance Du
     const bulkScanPaymentMethod = 'cheque';
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
     const totalAmount = '200.00';
-    const feeAmount = '300.00';
+    const feeAmount = '526.00';
     const remissionAmount= '100.00';
     const hwfReference= 'HWF-A1B-23C';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
@@ -226,7 +226,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a NEGATIVE Balanc
     const bulkScanPaymentMethod = 'cheque';
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
     const totalAmount = '150.00';
-    const feeAmount = '300.00';
+    const feeAmount = '526.00';
     const remissionAmount= '100.00';
     const hwfReference= 'HWF-A1B-23C';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
@@ -311,11 +311,11 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
     CaseTransaction.checkUnallocatedPayments('1', dcnNumber, '200.00', 'cheque');
     CaseTransaction.allocateToNewFee();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await AddFees.addFeesAmount('237.00', 'civil', 'civil');
-    FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0475', '237.00', true);
+    await AddFees.addFeesAmount('296.00', 'civil', 'civil');
+    FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0475', '296.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0475', '1',
-      '200.00', '237.00', '237.00', '37.00');
+      '200.00', '296.00', '296.00', '37.00');
     ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
     ConfirmAssociation.confirmPayment();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -339,9 +339,9 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
     I.wait(CCPBATConstants.tenSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, 'HWF-A1B-23C');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, '100.00');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, 'HWF-A1B-23C', '£63.00', '£200.00', '£237.00', 'FEE0475', 'FEE0475 - Where the party filing the request is legally aided',
+     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, '100.00');
+     I.wait(CCPBATConstants.fiveSecondWaitTime);
+     const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, 'HWF-A1B-23C', '£63.00', '£200.00', '£296.00', 'FEE0475', 'FEE0475 - Where the party filing the request is legally aided',
       emailAddress, '', 'RefundWhenContacted', '£100.00');
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -398,8 +398,8 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     const bulkScanPaymentMethod = 'cheque';
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
     const totalAmount = '332.00';
-    const feeAmount1 = '300.00';
-    const feeAmount2 = '57.00';
+    const feeAmount1 = '526.00';
+    const feeAmount2 = '58.00';
     const shortfallAmount = '25.00'; // 25 = (300+57) - 332
     const remissionAmount= '50.00'; // remission amount against the second fee
     const refundAmount= '25.00'; // refund amount against the remission (50 - 25)
@@ -445,7 +445,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
       I.wait(CCPBATConstants.tenSecondWaitTime);
     }
     I.waitForText('Add remission', 5);
-    // adding a retro remission amount of [£50] against the second fee FEE0258 [£57]
+     // adding a retro remission amount of [£50] against the second fee FEE0258 [£58]
     I.click('//table/tbody/tr[2]/td[contains(text(),\'FEE0258\')]//ancestor::table//parent::div/button');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, 'HWF-A1B-23C');

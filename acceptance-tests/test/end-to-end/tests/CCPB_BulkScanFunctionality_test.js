@@ -25,8 +25,8 @@ Feature('CC Pay Bubble Bulk Scan Acceptance Tests').retry(CCPBATConstants.defaul
 Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory }) => {
   // logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
   await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-  const totalAmount = '612.00';
-  const feeAmount = '612.00';
+  const totalAmount = '628.00';
+  const feeAmount = '628.00';
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cash');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
@@ -63,9 +63,9 @@ Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, 
 }).tag('@pipeline @nightly');
 
 Scenario('Normal ccd case cheque payment full allocation to existing service request', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory }) => {
-  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-  const totalAmount = '612.00';
-  const feeAmount = '612.00';
+   await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+   const totalAmount = '628.00';
+   const feeAmount = '628.00';
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA07', totalAmount, 'cheque');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
@@ -109,12 +109,12 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
 }).tag('@pipeline @nightly');
 
 Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a Remission on the first Fee', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission }) => {
-  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-  const totalAmount = '512.00';
-  const remissionAmount = '100.00';
-  const feeAmount1 = '612.00';
-  const feeAmount2 = '22.00';
-  const shortfallAmount = '22.00'; //2nd fee is added after totalAmount satisfied with 1st fee and upfront remission 612-100 = 512
+   await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+   const totalAmount = '528.00';
+   const remissionAmount = '100.00';
+   const feeAmount1 = '628.00';
+   const feeAmount2 = '23.00';
+   const shortfallAmount = '23.00'; //2nd fee is added after totalAmount satisfied with 1st fee and upfront remission 628-100 = 528
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
@@ -314,13 +314,13 @@ Scenario('Exception Case DCN Search Cheque Payment Unidentified when no or less 
   I.Logout();
 }).tag('@nightly');
 
-Scenario('Ccd case search with exception record postal order payment shortfall payment',
-  async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary,
-    ConfirmAssociation, PaymentHistory }) => {
-    await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-    const feeAmount = '612.00';
-    const totalAmount = '512.00';
-    const shortFallAmount = '100.00';
+   Scenario('Ccd case search with exception record postal order payment shortfall payment',
+   async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary,
+     ConfirmAssociation, PaymentHistory }) => {
+     await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+     const feeAmount = '628.00';
+     const totalAmount = '528.00';
+     const shortFallAmount = '100.00';
     const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA08', totalAmount, 'PostalOrder');
     const dcnNumber = ccdAndDcn[0];
     const ccdCaseNumber = ccdAndDcn[1];
@@ -363,10 +363,10 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
   }).tag('@nightly @pipeline');
 
 Scenario('Exception search with ccd record postal order payment surplus payment', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation }) => {
-  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
-  const totalAmount = '700.00';
-  const feeAmount = '612.00';
-  const surplusAmount = '88.00';
+   await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+   const totalAmount = '700.00';
+   const feeAmount = '628.00';
+   const surplusAmount = '72.00';
   const ccdAndDcn = await bulkScanApiCalls.bulkScanCcdLinkedToException('AA07', totalAmount, 'PostalOrder');
   const dcnNumber = ccdAndDcn[0];
   const exNumber = ccdAndDcn[2];
@@ -393,7 +393,7 @@ Scenario('Exception search with ccd record postal order payment surplus payment'
 Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission refunded but the payment', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, Remission, InitiateRefunds }) => {
   await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
   const totalAmount = '200.00';
-  const feeAmount = '300.00';
+  const feeAmount = '526.00';
   const remissionAmount = '100.00';
   const bulkScanPaymentMethod = 'cheque';
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
@@ -407,7 +407,7 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, totalAmount, 'cheque');
   CaseTransaction.allocateToNewFee();
-  await AddFees.addFeesAmount('300.00', 'family', 'probate_registry');
+  await AddFees.addFeesAmount('526.00', 'family', 'probate_registry');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0219', feeAmount, false);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   FeesSummary.deductRemission();
@@ -443,7 +443,7 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
   I.seeElement({ xpath: '//button[contains(text(), "Issue refund")]' });
   I.click('Issue refund');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£300.00', '£300.00', '200', '1', '£100.00');
+  const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Application for a grant of probate (Estate over 5000 GBP)', '£526.00', '£526.00', '200', '1', '£100.00');
   await InitiateRefunds.verifyProcessRefundPageForFeeRefundSelectionWithRemissionAmount(reviewProcessRefundPageData, ccdCaseNumber);
   I.click('Continue');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
