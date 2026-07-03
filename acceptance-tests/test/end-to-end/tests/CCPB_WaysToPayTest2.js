@@ -30,7 +30,7 @@ Scenario.only('A Service Request Journey for a Case Worker for Ways to Pay @pipe
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestRefundsApproverPassword);
+    await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -65,7 +65,7 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     const serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    await I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -94,7 +94,7 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
 Scenario('A Service Request Not available for Ways to Pay @pipeline @nightly',
   async({ I, CaseSearch, CaseTransaction, ServiceRequests }) => {
     const ccdCaseNumber = '1234123412341234';
-    I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
+    await I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -115,7 +115,7 @@ Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     // console.log(name); // output 'testing'
-    I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
+    await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -163,7 +163,7 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     // console.log(name); // output 'testing'
-    I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
+    await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -216,7 +216,7 @@ Scenario('A Service Request for a Solicitor if a PBA Payment amount is over the 
     // console.log(name); // output 'testing'
     // console.log('Before Log In');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
+    await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
@@ -269,7 +269,7 @@ Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Pay
     // console.log(name); // output 'testing'
     // console.log('Before Log In');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
+    await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
@@ -333,7 +333,7 @@ Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Pay
     // console.log(name); // output 'testing'
     // console.log('Before Log In');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
+    await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
@@ -412,7 +412,7 @@ Scenario('A Service Request for a Solicitor For No Payment Account @pipeline @ni
     // console.info(`The value of the Service Request Reference : ${serviceRequestReference}`);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     // console.log(name); // output 'testing'
-    I.login('feeandpaynCdxFA_external@mailnesia.com', 'Password123!');
+    await I.login('feeandpaynCdxFA_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);

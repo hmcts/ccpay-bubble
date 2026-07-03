@@ -19,7 +19,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     const fullPaymentRefundAmount = '500.00';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
     const ccdCaseNumber = ccdAndDcn[1];
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
@@ -63,7 +63,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     // Approve refund
-    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
+    await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundReference);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -77,7 +77,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     // Review refund from case transaction page
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[3]');

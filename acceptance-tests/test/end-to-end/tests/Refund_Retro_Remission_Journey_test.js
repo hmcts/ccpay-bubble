@@ -24,7 +24,7 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded a
     const ccdCaseNumber = ccdAndDcn[1];
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
 
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
@@ -79,7 +79,7 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded a
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     // Approve the remission refund from Refund list page
-    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
+    await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     let refundsDataBeforeApproverAction;
 
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
@@ -108,7 +108,7 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded a
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     // PAY-7150 - process refund page to display Remission Amount in Fees refund details table and populate the calculated refund value
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
@@ -161,7 +161,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a ZERO Balance Du
     const ccdCaseNumber = ccdAndDcn[1];
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
 
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
@@ -234,7 +234,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a NEGATIVE Balanc
     const ccdCaseNumber = ccdAndDcn[1];
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
 
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
@@ -304,7 +304,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
     const ccdCaseNumber = ccdAndDcn[1];
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
 
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
@@ -361,7 +361,7 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     // Approve the remission refund from Refund list page
-    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
+    await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     let refundsDataBeforeApproverAction;
 
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
@@ -408,7 +408,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     const ccdCaseNumber = ccdAndDcn[1];
     const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
 
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
@@ -472,7 +472,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     // Approve the remission refund from Refund list page
-    I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
+    await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     let refundsDataBeforeApproverAction;
 
     I.wait(CCPBATConstants.fifteenSecondWaitTime);

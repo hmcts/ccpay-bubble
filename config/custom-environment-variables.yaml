@@ -43,6 +43,8 @@ fee:
   feeJurisdictionUrl: FEE_JURISDICTION_URL
 ccd:
   url: CCD_URL
+dynatrace:
+  scriptUrl: DYNATRACE_SCRIPT_URL
 secrets:
   ccpay:
     paybubble-s2s-secret: S2S_KEY

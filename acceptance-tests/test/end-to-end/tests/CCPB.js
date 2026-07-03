@@ -10,7 +10,7 @@ BeforeSuite(({ I }) => {
 });
 
 Scenario('Divorce: One fee and one full payment flow', ({ I }) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  await I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
   I.see('Search');
@@ -21,7 +21,7 @@ Scenario('Divorce: One fee and one full payment flow', ({ I }) => {
 });
 
 Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  await I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
   I.see('Search');
@@ -32,7 +32,7 @@ Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
 });
 
 Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  await I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
   I.see('Search');
@@ -43,7 +43,7 @@ Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
 });
 
 Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  await I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
   I.see('Search');
@@ -54,7 +54,7 @@ Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
 });
 
 Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  await I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
   I.see('Search');
@@ -65,7 +65,7 @@ Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
 });
 
 Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  await I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
   I.see('Search');
@@ -76,7 +76,7 @@ Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
 });
 
 Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  await I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
   I.see('Search');
@@ -87,7 +87,7 @@ Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
 });
 
 Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  await I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
   I.see('Search');
@@ -99,7 +99,7 @@ Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
 
 
 Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  await I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
   I.see('Search');
@@ -110,7 +110,7 @@ Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
 });
 
 Scenario('Divorce: multiple fees and one full payment flow', ({ I }) => {
-  I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
+  await I.login('robreallywantsccdaccess@mailinator.com', 'Testing1234');
   I.waitForText('Search for a case', CCPBATConstants.tenSecondWaitTime);
   I.see('Search for a case');
   I.see('Search');
