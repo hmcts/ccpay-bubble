@@ -110,43 +110,43 @@ module.exports = {
 
   // done
   checkBulkCase(caseNumber, caseTitle) {
-    I.wait(CCPBConstants.fifteenSecondWaitTime);
+    I.waitForText('Total payments', CCPBConstants.tenSecondWaitTime);
     this.validateTransactionPage(caseNumber);
     I.see(caseTitle);
     I.click(this.locators.more_details_actions);
   },
 
   checkBulkCaseSuccessPayment(caseNumber, caseTitle) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Success', CCPBConstants.tenSecondWaitTime);
     this.validateTransactionPageForSuccessPayment(caseNumber);
     I.see(caseTitle);
   },
   checkBulkCaseSuccessPaymentPartiallyPaid(caseNumber, caseTitle, allocationStatus) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText(allocationStatus, CCPBConstants.tenSecondWaitTime);
     this.validateTransactionPageForSuccessPaymentPartiallyPaid(caseNumber, allocationStatus);
     I.see(caseTitle);
   },
   checkBulkCaseNonPaidPayment(caseNumber, caseTitle, allocationStatus) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText(allocationStatus, CCPBConstants.tenSecondWaitTime);
     this.validateTransactionPageForShortFallPayment(caseNumber, allocationStatus);
     I.see(caseTitle);
   },
   checkBulkCaseSurplusOrShortfallSuccessPayment(caseNumber, caseTitle,
     allocationStatus) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText(allocationStatus, CCPBConstants.tenSecondWaitTime);
     this.validateTransactionPageForSuccessPayment(caseNumber, allocationStatus);
     I.see(caseTitle);
     // I.see(amoundDue);
   },
   checkBulkCaseShortfallSuccessPaymentPartiallyPaid(caseNumber, caseTitle,
                                                     allocationStatus, amoundDue) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText(allocationStatus, CCPBConstants.tenSecondWaitTime);
     this.validateTransactionPageForSuccessPaymentPartiallyPaid(caseNumber, allocationStatus);
     I.see(caseTitle);
     I.see(`£${amoundDue}`);
   },
   checkBulkCaseSurplusOrShortfallPayment(caseNumber, caseTitle, allocationStatus, amoundDue) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText(allocationStatus, CCPBConstants.tenSecondWaitTime);
     this.validateTransactionPageForShortFallPayment(caseNumber, allocationStatus);
     I.see(caseTitle);
     I.see(amoundDue);
@@ -163,38 +163,38 @@ module.exports = {
   },
 
   allocateToNewFee() {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
     // I.checkOption(this.locators.unallocated_payment_select_option);
+    I.waitForClickable('Allocate to new service request', CCPBConstants.tenSecondWaitTime);
     I.click('Allocate to new service request');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Search for a fee', CCPBConstants.tenSecondWaitTime);
   },
 
   allocateToExistingServiceRequest(amount) {
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForClickable('Allocate to existing service request', CCPBConstants.tenSecondWaitTime);
     I.click('Allocate to existing service request');
     I.waitForText('Select payment request', CCPBConstants.tenSecondWaitTime);
     I.see('Select payment request');
     I.see(`£${amount}`);
     I.click('//input[@name="orderLevelRecord"]');
     I.click('Continue');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Summary', CCPBConstants.tenSecondWaitTime);
   },
 
   allocateToTransferred() {
     // I.checkOption(this.locators.unallocated_payment_select_option);
+    I.waitForClickable('Mark as transferred', CCPBConstants.tenSecondWaitTime);
     I.click('Mark as transferred');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Mark payment as transferred', CCPBConstants.tenSecondWaitTime);
   },
 
   async verifyDisputedPaymentHistory(paymentRCRef, todayDate) {
-    I.wait(CCPBConstants.tenSecondWaitTime);
-    // I.see('Service requests');
+    I.waitForText('Status', CCPBConstants.tenSecondWaitTime);
     await I.see('Status');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Partially paid', CCPBConstants.tenSecondWaitTime);
     await I.see('Partially paid');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForElement(this.locators.payments_review_button, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.payments_review_button);
-    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.waitForText('Initiated', CCPBConstants.tenSecondWaitTime);
     I.see('Initiated');
     I.see('Closed');
     I.see('£100.00');
@@ -202,77 +202,74 @@ module.exports = {
 
     I.see(`${todayDate}`);
     I.see('Chargeback');
-    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.waitForElement(this.locators.disputed_closed_show_details, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.disputed_closed_show_details);
-    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.waitForText('Disputed payment history', CCPBConstants.tenSecondWaitTime);
   },
 
   async verifyDisputedPaymentHistoryEvent(paymentRCRef, todayDate) {
-    // I.wait(CCPBConstants.tenSecondWaitTime);
     // I.see('Service requests');
     // await I.see('Status');
     console.log("Asserting Started");
-    I.wait(CCPBConstants.tenSecondWaitTime);
     await I.retry(5).seeElement(this.locators.notpaid_payment_status);
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForElement(this.locators.payments_review_button, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.payments_review_button);
-    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.waitForText('Initiated', CCPBConstants.tenSecondWaitTime);
     I.see('Initiated');
     I.see('Closed');
     I.see('£215.00');
     I.see(`${paymentRCRef}`);
     I.see(`${todayDate}`);
     I.see('Chargeback');
-    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.waitForElement(this.locators.disputed_closed_show_details, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.disputed_closed_show_details);
-    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.waitForText('Disputed payment history', CCPBConstants.tenSecondWaitTime);
   },
 
   async verifyServiceRequestStatus() {
-    I.wait(CCPBConstants.tenSecondWaitTime);
-    // I.see('Service requests');
+    I.waitForText('Status', CCPBConstants.tenSecondWaitTime);
     await I.see('Status');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Disputed', CCPBConstants.tenSecondWaitTime);
     I.see('Disputed');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
     I.Logout();
   },
 
    async verifyDisputedPaymentHistoryInitiated() {
-    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.waitForElement(this.locators.disputed_initiated_show_details, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.disputed_initiated_show_details);
   },
 
   async verifyDisputedPaymentHistoryTable(paymentRCRef, todayDate) {
-    I.wait(CCPBConstants.tenSecondWaitTime);
-    await I.see('Service requests');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Service requests', CCPBConstants.tenSecondWaitTime);
+    I.see('Service requests');
+    I.waitForText('Status', CCPBConstants.tenSecondWaitTime);
     await I.see('Status');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Paid', CCPBConstants.tenSecondWaitTime);
     I.see('Paid');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForElement(this.locators.payments_review_button, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.payments_review_button);
-    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.waitForText('Initiated', CCPBConstants.tenSecondWaitTime);
     I.see('Initiated');
     I.see('Closed');
     I.see('£250.00');
     I.see(`${paymentRCRef}`);
     I.see(`${todayDate}`);
     I.see('Bounced Cheque');
-    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.waitForElement(this.locators.disputed_closed_show_details, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.disputed_closed_show_details);
-    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.waitForText('Disputed payment history', CCPBConstants.tenSecondWaitTime);
   },
 
   async verifyDisputedPaymentHistoryInitiatedForBounceBack() {
-    I.wait(CCPBConstants.sevenSecondWaitTime);
+    I.waitForElement(this.locators.disputed_initiated_show_details, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.disputed_initiated_show_details);
   },
 
   allocateToUnidentified() {
     // I.checkOption(this.locators.unallocated_payment_select_option);
+    I.waitForClickable('Mark as unidentified', CCPBConstants.tenSecondWaitTime);
     I.click('Mark as unidentified');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Mark payment as unidentified', CCPBConstants.tenSecondWaitTime);
   },
 
   async validateCaseTransactionPageForRefunds(ccdCaseNumber,
@@ -396,7 +393,7 @@ module.exports = {
     I.see('Total remissions');
     I.see('Amount due');
     I.see('Unallocated payments');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForClickable(this.locators.allocate_new_service_request, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.allocate_new_service_request);
   },
   validateTransactionPageForRefunds(refunds,refundRefOverPayments, feePaymentRefundAmount,  overPaymentRefundAmount) {
@@ -423,7 +420,6 @@ module.exports = {
     I.see('Total remissions');
     I.see('Amount due');
     I.see('Unallocated payments');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
   validateTransactionPageForShortFallPayment(caseNumber) {
     I.see(caseNumber);
@@ -469,10 +465,11 @@ module.exports = {
   },
 
   async  getReceiptReference() {
+    I.waitForElement(this.locators.view_details_for_status_paid, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.view_details_for_status_paid);
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForElement(this.locators.view_details_for_payments, CCPBConstants.tenSecondWaitTime);
     I.click(this.locators.view_details_for_payments);
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForElement(this.locators.rc_reference, CCPBConstants.tenSecondWaitTime);
     const receiptReference = await I.grabTextFrom(this.locators.rc_reference);
     return receiptReference;
   }

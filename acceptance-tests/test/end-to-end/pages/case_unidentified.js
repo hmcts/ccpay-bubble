@@ -22,12 +22,10 @@ module.exports = {
 
   continuePayment() {
     I.click('Continue');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   confirmPayment() {
     I.click('Confirm');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
   inputUnidentifiedComment(unidentifiedInvestigation) {
@@ -49,7 +47,7 @@ module.exports = {
 
   cancelUnidentified() {
     I.click('Cancel');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Mark payment as unidentified', CCPBConstants.tenSecondWaitTime);
     I.click('Cancel');
     I.waitForText('Are you sure you want to cancel?', CCPBConstants.tenSecondWaitTime);
     I.click('Yes');
@@ -62,10 +60,12 @@ module.exports = {
   },
 
   whenNoInvestigation() {
+    I.waitForText('Enter a reason for marking this payment as unidentified.', CCPBConstants.tenSecondWaitTime);
     I.see('Enter a reason for marking this payment as unidentified.');
   },
 
   whenCommentLessThanLimit() {
+    I.waitForText('Reason should be at least 3 characters.', CCPBConstants.tenSecondWaitTime);
     I.see('Reason should be at least 3 characters.');
   }
 };

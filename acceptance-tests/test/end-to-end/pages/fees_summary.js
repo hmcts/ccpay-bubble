@@ -60,23 +60,27 @@ module.exports = {
   },
 
   allocateBulkPayment() {
+    I.waitForClickable('Allocate payment', CCPBConstants.tenSecondWaitTime);
     I.click('Allocate payment');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Confirm allocation', CCPBConstants.tenSecondWaitTime);
   },
 
   addFeeFromSummary() {
+    I.waitForClickable('Add fee', CCPBConstants.tenSecondWaitTime);
     I.click('Add fee');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Search for a fee', CCPBConstants.tenSecondWaitTime);
   },
 
   deductRemission() {
+    I.waitForClickable('Add help with fees or remission', CCPBConstants.tenSecondWaitTime);
     I.click('Add help with fees or remission');
+    I.waitForText('Add remission', CCPBConstants.tenSecondWaitTime);
   },
   removeFeesFromSummary() {
     I.click('remove fee');
     I.waitForText('Are you sure you want to delete this fee?', CCPBConstants.tenSecondWaitTime);
     I.click('Remove');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Summary', CCPBConstants.tenSecondWaitTime);
   }
 
 
