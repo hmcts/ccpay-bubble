@@ -173,8 +173,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     //Fee Payment Refund - 227
     I.waitForElement('(//*[text()[contains(.,"Review")]])[2]', 5);
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.waitForText('Issue refund', 5);
+    I.waitForText('Issue refund', CCPBATConstants.fifteenSecondWaitTime);
     I.click('Issue refund');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for applications which attract fees 1.1, 1.2', `£${feeAmount}`, `£${feeAmount}`, '227', '1', '£0.00');

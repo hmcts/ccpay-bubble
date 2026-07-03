@@ -74,8 +74,7 @@ module.exports = {
   },
   removeFeesFromSummary() {
     I.click('remove fee');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.see('Are you sure you want to delete this fee?');
+    I.waitForText('Are you sure you want to delete this fee?', CCPBConstants.tenSecondWaitTime);
     I.click('Remove');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   }

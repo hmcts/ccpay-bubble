@@ -35,11 +35,9 @@ Scenario('Card payment refund PayIt journey',
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£300.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.see('Payment successful');
+    I.waitForText('Payment successful', CCPBATConstants.tenSecondWaitTime);
     I.click('Return to service request');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.see('Sign in');
+    I.waitForText('Sign in', CCPBATConstants.tenSecondWaitTime);
 
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
@@ -155,11 +153,9 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£300.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.see('Payment successful');
+    I.waitForText('Payment successful', CCPBATConstants.tenSecondWaitTime);
     I.click('Return to service request');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.see('Sign in');
+    I.waitForText('Sign in', CCPBATConstants.tenSecondWaitTime);
 
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
@@ -226,8 +222,7 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     I.click('Reset Refund');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ResetRefund.verifyResetRefundPage(refundReference)
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.waitForText('Case transactions', '5');
+    I.waitForText('Case transactions', CCPBATConstants.tenSecondWaitTime);
     I.see('Closed');
     I.see('Approved');
     const newRefundReference = await I.grabTextFrom('//td[contains(.,\'Approved\')]/ancestor::tr/td[4]');

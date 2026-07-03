@@ -892,8 +892,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Casewo
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('Refund List');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Refund list', CCPBATConstants.fifteenSecondWaitTime);
     InitiateRefunds.verifyRefundsListPage(refundReference);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyReviewRefundsDetailsPage(caseTransactionsData, 'Return to caseworker');

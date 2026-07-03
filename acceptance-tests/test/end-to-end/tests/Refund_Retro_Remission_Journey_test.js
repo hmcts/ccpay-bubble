@@ -205,12 +205,10 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a ZERO Balance Du
     InitiateRefunds.verifyRemissionSubmittedPage(false, 100.00);
 
     I.click('Return to case');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.waitForElement('(//*[text()[contains(.,"Review")]])[2]', 5);
+    I.waitForElement('(//*[text()[contains(.,"Review")]])[2]', CCPBATConstants.fifteenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', '0.00');
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.waitForText('Payment details', 5);
+    I.waitForText('Payment details', CCPBATConstants.fifteenSecondWaitTime);
     // verify that Add refund button is disabled for the remission
     I.dontSeeElement('Add refund')
 
@@ -278,12 +276,10 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a NEGATIVE Balanc
     InitiateRefunds.verifyRemissionSubmittedPage(false, 100.00);
 
     I.click('Return to case');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.waitForElement('(//*[text()[contains(.,"Review")]])[2]', 5);
+    I.waitForElement('(//*[text()[contains(.,"Review")]])[2]', CCPBATConstants.fifteenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '50.00', '0.00');
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.waitForText('Payment details', 5);
+    I.waitForText('Payment details', CCPBATConstants.fifteenSecondWaitTime);
     // verify that Add refund button is disabled for the remission
     I.dontSeeElement('Add refund')
 
@@ -509,8 +505,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.click('Reset Refund');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ResetRefund.verifyResetRefundPage(refundRefRemissions);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.waitForText('Case transactions', '5');
+    I.waitForText('Case transactions', CCPBATConstants.tenSecondWaitTime);
     I.see('Closed');
     I.see('Approved');
     const newRefundReference = await I.grabTextFrom('//td[contains(.,\'Approved\')]/ancestor::tr/td[4]');

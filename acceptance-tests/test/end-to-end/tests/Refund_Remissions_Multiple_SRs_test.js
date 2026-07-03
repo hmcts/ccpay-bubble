@@ -117,8 +117,7 @@ Scenario('Remissions refunds on Multiple Service requests',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
-    I.waitForText('Add remission', 5);
+    I.waitForText('Add remission', CCPBATConstants.twentySecondWaitTime);
     InitiateRefunds.verifyPaymentDetailsPage('Add remission');
     I.wait(CCPBATConstants.tenSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, serviceRequest2hwfReference);
