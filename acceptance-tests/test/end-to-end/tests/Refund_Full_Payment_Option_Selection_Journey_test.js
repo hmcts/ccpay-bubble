@@ -55,10 +55,8 @@ Scenario('Bulk scan postal order Full Payment refund, preview RefundWhenContacte
       await InitiateRefunds.verifyProcessRefundPageFromTheRadioButtonReasons(ccdCaseNumber, refundReason);
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       I.click('//*[@id="contact-2"]');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('//*[@id="address-postcode"]');
       I.fillField('//*[@id="address-postcode"]', postcode);
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('Find address');
       I.waitForElement('//*[@id="postcodeAddress"]', CCPBATConstants.tenSecondWaitTime);
       I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
@@ -74,10 +72,8 @@ Scenario('Bulk scan postal order Full Payment refund, preview RefundWhenContacte
     // Approve refund
     const refundReason = 'System/technical error';
     await I.useLoggedInSession('refund-approver', testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true', async () => {
-      I.wait(CCPBATConstants.fifteenSecondWaitTime);
       // I.click('Refund List'); // Refund List menu is hidden on paybubble, navigating to the refund-list page itself -- see above url
       await InitiateRefunds.verifyRefundsListPage(refundReference);
-      I.wait(CCPBATConstants.twoSecondWaitTime);
 
       const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, refundReason, `£${refundAmount}`, '', postcode, 'payments probate', 'RefundWhenContacted');
       const refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, refundAmount, 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);

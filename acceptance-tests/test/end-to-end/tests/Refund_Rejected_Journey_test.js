@@ -54,9 +54,7 @@ Scenario('OverPayment Refund Rejected journey',
     });
 
     await I.useLoggedInSession('refund-approver', testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true', async () => {
-      I.wait(CCPBATConstants.fifteenSecondWaitTime);
       await InitiateRefunds.verifyRefundsListPage(refundRef);
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRef, 'Overpayment', `£${overPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'RefundWhenContacted');
       InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
       InitiateRefunds.approverActionForRequestedRefund('Reject');

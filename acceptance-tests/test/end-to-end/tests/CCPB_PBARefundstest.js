@@ -466,9 +466,7 @@ Scenario('Approve action a  Refund for a Rejection @nightly',
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('Refund List');
-    I.wait(CCPBATConstants.twentySecondWaitTime);
-    InitiateRefunds.verifyRefundsListPage(refundReference);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await InitiateRefunds.verifyRefundsListPage(refundReference);
     InitiateRefunds.verifyReviewRefundsDetailsPage(caseTransactionsData, 'Reject');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyRefundApprovedPage('Reject');
@@ -534,9 +532,7 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly',
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('Refund List');
-    I.wait(CCPBATConstants.twentySecondWaitTime);
-    InitiateRefunds.verifyRefundsListPage(refundReference);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await InitiateRefunds.verifyRefundsListPage(refundReference);
     InitiateRefunds.verifyReviewRefundsDetailsPage(caseTransactionsData, 'Approve');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyRefundApprovedPage('Approve');
@@ -604,9 +600,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('Refund List');
-    I.wait(CCPBATConstants.twentySecondWaitTime);
-    InitiateRefunds.verifyRefundsListPage(refundReference);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await InitiateRefunds.verifyRefundsListPage(refundReference);
     InitiateRefunds.verifyReviewRefundsDetailsPage(caseTransactionsData, 'Return to caseworker');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyRefundApprovedPage('Return to caseworker');
@@ -712,9 +706,7 @@ Scenario.skip('Approve action a Refund Returned to Case Worker and Resubmit By A
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('Refund List');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    InitiateRefunds.verifyRefundsListPage(refundReference);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await InitiateRefunds.verifyRefundsListPage(refundReference);
     InitiateRefunds.verifyReviewRefundsDetailsPage(caseTransactionsData, 'Return to caseworker');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyRefundApprovedPage('Return to caseworker');
@@ -892,9 +884,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Casewo
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('Refund List');
-    I.waitForText('Refund list', CCPBATConstants.fifteenSecondWaitTime);
-    InitiateRefunds.verifyRefundsListPage(refundReference);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    await InitiateRefunds.verifyRefundsListPage(refundReference);
     InitiateRefunds.verifyReviewRefundsDetailsPage(caseTransactionsData, 'Return to caseworker');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyRefundApprovedPage('Return to caseworker');

@@ -69,9 +69,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
 
     // Approve refund
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundReference);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
 
     const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, 'Overpayment', '27.00', emailAddress, '', 'payments probate', 'RefundWhenContacted');
     const refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundReference, '27', 'Refund for Overpayment', bulkScanPaymentMethod);
@@ -211,7 +209,6 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
         refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundRef, `${feePaymentRefundAmount}`, 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
       }
       await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction, true, refundNotificationPreviewDataBeforeRefundApproved);
       InitiateRefunds.approverActionForRequestedRefund('Approve');
       I.wait(CCPBATConstants.twoSecondWaitTime);

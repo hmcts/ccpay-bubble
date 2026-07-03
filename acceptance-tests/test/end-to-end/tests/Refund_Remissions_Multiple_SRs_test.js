@@ -84,7 +84,6 @@ Scenario('Remissions refunds on Multiple Service requests',
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     let refundsDataBeforeApproverAction;
 
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
     refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions1, 'Retrospective remission', serviceRequest1remissionAmount, emailAddress, '', 'payments probate', 'SendRefund');
     await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
@@ -147,7 +146,6 @@ Scenario('Remissions refunds on Multiple Service requests',
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     let refundsDataBeforeApproverAction2;
 
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
     refundsDataBeforeApproverAction2 = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions2, 'Retrospective remission', `£${serviceRequest2remissionAmount}`, emailAddress, '', 'payments probate', 'SendRefund');
     await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction2.refundReference);
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction2);

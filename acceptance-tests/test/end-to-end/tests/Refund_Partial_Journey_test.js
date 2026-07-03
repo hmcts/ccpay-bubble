@@ -52,10 +52,8 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
       await InitiateRefunds.verifyProcessRefundPageFromTheDropDownReasonsAndContinue(ccdCaseNumber, refundDropDownReason, reasonText);
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       I.click('//*[@id="contact-2"]');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('//*[@id="address-postcode"]');
       I.fillField('//*[@id="address-postcode"]', postcode);
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('Find address');
       I.waitForElement('//*[@id="postcodeAddress"]', CCPBATConstants.tenSecondWaitTime);
       I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
@@ -71,9 +69,7 @@ Scenario('PBA Partial Refund, preview SendRefund letter notification journey and
 
     // Approve refund
     await I.useLoggedInSession('refund-approver', testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true', async () => {
-      I.wait(CCPBATConstants.fifteenSecondWaitTime);
       await InitiateRefunds.verifyRefundsListPage(refundReference);
-      I.wait(CCPBATConstants.twoSecondWaitTime);
 
       const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, 'CoP-Auto test', '£200.00', '', postcode, 'payments probate', 'SendRefund');
       const refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData('', postcode, ccdCaseNumber, refundReference, '200', 'Other','', customerReference);

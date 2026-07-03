@@ -82,7 +82,6 @@ Scenario('Fully Paid Fee with Retro Remission CAN have Full Remission Refunded a
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     let refundsDataBeforeApproverAction;
 
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
     refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', '£100.00', emailAddress, '', 'payments probate', 'RefundWhenContacted');
     await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
@@ -360,7 +359,6 @@ Scenario('Partially Paid Fee with Retro Remission resulting in a POSITIVE Balanc
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     let refundsDataBeforeApproverAction;
 
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
     refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', '£63.00', emailAddress, '', 'payments probate', 'RefundWhenContacted');
     await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);
@@ -471,7 +469,6 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
     let refundsDataBeforeApproverAction;
 
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
     refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundRefRemissions, 'Retrospective remission', `£${refundAmount}`, emailAddress, '', 'payments probate', 'RefundWhenContacted');
     await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
     InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction);

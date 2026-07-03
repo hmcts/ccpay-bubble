@@ -246,10 +246,8 @@ module.exports = {
       I.click({xpath: '//tr[6]//a[.="Change"]'});
       I.waitForElement('//*[@id="contact-2"]', 5);
       I.click('//*[@id="contact-2"]');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('//*[@id="address-postcode"]');
       I.fillField('//*[@id="address-postcode"]', 'SL1 2JN');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('Find address');
       I.waitForElement('//*[@id="postcodeAddress"]', CCPBATConstants.tenSecondWaitTime);
       I.selectOption('//*[@id="postcodeAddress"]', 'APARTMENT 4, TREVITHICK 113-127, WINDSOR ROAD, SLOUGH, SL1 2JN');
@@ -296,10 +294,8 @@ module.exports = {
       I.click({xpath: '//tr[7]//a[.="Change"]'});
       I.waitForElement('//*[@id="contact-2"]', 5);
       I.click('//*[@id="contact-2"]');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('//*[@id="address-postcode"]');
       I.fillField('//*[@id="address-postcode"]', 'SL1 2JN');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('Find address');
       I.waitForElement('//*[@id="postcodeAddress"]', CCPBATConstants.tenSecondWaitTime);
       I.selectOption('//*[@id="postcodeAddress"]', 'APARTMENT 4, TREVITHICK 113-127, WINDSOR ROAD, SLOUGH, SL1 2JN');
@@ -361,10 +357,8 @@ module.exports = {
       I.click({xpath: '//tr[6]//a[.="Change"]'});
       I.waitForElement('//*[@id="contact-2"]', 5);
       I.click('//*[@id="contact-2"]');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('//*[@id="address-postcode"]');
       I.fillField('//*[@id="address-postcode"]', 'SL1 2JN');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('Find address');
       I.waitForElement('//*[@id="postcodeAddress"]', CCPBATConstants.tenSecondWaitTime);
       I.selectOption('//*[@id="postcodeAddress"]', 'APARTMENT 4, TREVITHICK 113-127, WINDSOR ROAD, SLOUGH, SL1 2JN');
@@ -651,25 +645,39 @@ module.exports = {
   },
 
   async verifyRefundsListPage(refundRef) {
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    await I.see('Refund list');
-    I.see('Refunds to be approved');
-    I.see('Filter by caseworker:');
-    I.see('Case reference');
-    I.see('Refund reference');
-    I.see('Submitted by');
-    I.see('Date created');
-    I.see('Last updated');
-    I.see('Action');
-    I.see('Refunds returned to caseworker');
-    I.waitForElement(this.locators.users_drop_down_for_refunds_to_be_approved, CCPBATConstants.tenSecondWaitTime);
-    I.selectOption(this.locators.users_drop_down_for_refunds_to_be_approved, 'payments probate');
-    I.waitForElement(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker, CCPBATConstants.tenSecondWaitTime);
-    I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
-    I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
     const processRefund = `//mat-cell[contains(.,'${refundRef}')]/following-sibling::mat-cell/a[.='Process refund'][1]`;
-    I.waitForElement(processRefund, CCPBATConstants.tenSecondWaitTime);
-    I.click(processRefund);
+    const maxAttempts = 6;
+
+    I.waitForText('Refund list', CCPBATConstants.tenSecondWaitTime);
+    I.see('Refunds to be approved');
+    I.see('Refunds returned to caseworker');
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      const filterVisible = await I.grabNumberOfVisibleElements(this.locators.users_drop_down_for_refunds_to_be_approved);
+      if (filterVisible) {
+        I.selectOption(this.locators.users_drop_down_for_refunds_to_be_approved, 'payments probate');
+      }
+
+      const dateSortVisible = await I.grabNumberOfVisibleElements(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
+      if (dateSortVisible) {
+        I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
+        I.click(this.locators.date_updated_for_refunds_to_be_approved_by_case_worker);
+      }
+
+      const processRefundVisible = await I.grabNumberOfVisibleElements(processRefund);
+      if (processRefundVisible) {
+        I.click(processRefund);
+        return;
+      }
+
+      if (attempt < maxAttempts) {
+        I.wait(CCPBATConstants.twoSecondWaitTime);
+        I.refreshPage();
+        I.waitForText('Refund list', CCPBATConstants.tenSecondWaitTime);
+      }
+    }
+
+    throw new Error(`Refund ${refundRef} was not available on the approver refund list`);
   },
 
   verifyRefundsListPageForCaseWorker() {

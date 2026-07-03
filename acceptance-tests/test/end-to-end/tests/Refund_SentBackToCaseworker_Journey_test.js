@@ -66,9 +66,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     // Approve refund
     const refundReason = 'System/technical error';
     await I.useLoggedInSession('refund-approver', testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true', async () => {
-      I.wait(CCPBATConstants.fifteenSecondWaitTime);
       await InitiateRefunds.verifyRefundsListPage(refundReference);
-      I.wait(CCPBATConstants.twoSecondWaitTime);
 
       const refundReturnText = 'Test Reason Only';
       const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, refundReason, `£${fullPaymentRefundAmount}`, emailAddress, '', 'payments probate', 'RefundWhenContacted');
