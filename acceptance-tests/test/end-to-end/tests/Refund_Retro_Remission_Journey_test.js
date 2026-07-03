@@ -397,12 +397,12 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
 
     const bulkScanPaymentMethod = 'cheque';
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
-    const totalAmount = '559.00';
+    const totalAmount = '534.00';
     const feeAmount1 = '526.00';
-    const feeAmount2 = '58.00';
-    const shortfallAmount = '25.00'; // 25 = (526+58) - 559
-    const remissionAmount= '50.00'; // remission amount against the second fee
-    const refundAmount= '25.00'; // refund amount against the remission (50 - 25)
+    const feeAmount2 = '18.00';
+    const shortfallAmount = '10.00'; // 10 = (526+18) - 534
+    const remissionAmount= '18.00'; // remission amount against the second fee
+    const refundAmount= '8.00'; // refund amount against the remission (18 - 10)
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
     const dcnNumber = ccdAndDcn[0];
     const ccdCaseNumber = ccdAndDcn[1];
@@ -421,10 +421,10 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
 
     FeesSummary.addFeeFromSummary();
     await AddFees.addFees(feeAmount2, 'family', 'family_court');
-    FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0258', feeAmount2, true);
+    FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0342', feeAmount2, true);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0219', '1', totalAmount, feeAmount1, feeAmount1, shortfallAmount);
-    ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0258', '1', totalAmount, feeAmount2, feeAmount2, shortfallAmount);
+    ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0342', '1', totalAmount, feeAmount2, feeAmount2, shortfallAmount);
     ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
     ConfirmAssociation.confirmPayment();
 
@@ -445,14 +445,14 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
       I.wait(CCPBATConstants.tenSecondWaitTime);
     }
     I.waitForText('Add remission', 5);
-     // adding a retro remission amount of [£50] against the second fee FEE0258 [£58]
-    I.click('//table/tbody/tr[2]/td[contains(text(),\'FEE0258\')]//ancestor::table//parent::div/button');
+     // adding a retro remission amount of [£18] against the second fee FEE0342 [£18]
+    I.click('//table/tbody/tr[2]/td[contains(text(),\'FEE0342\')]//ancestor::table//parent::div/button');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, 'HWF-A1B-23C');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, remissionAmount);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, 'HWF-A1B-23C', `£${refundAmount}`, totalAmount, `£${feeAmount2}`, 'FEE0258', 'FEE0258 - Application for a maintenance order to be registered 1950 Act or 1958 Act',
+    const checkYourAnswersData = assertionData.checkYourAnswers(paymentRcReference, 'HWF-A1B-23C', `£${refundAmount}`, totalAmount, `£${feeAmount2}`, 'FEE0342', 'FEE0342 - Issue of default costs certificate - Family',
       emailAddress, '', 'RefundWhenContacted', `£${remissionAmount}`);
     InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, false, false);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -466,7 +466,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.wait(CCPBATConstants.tenSecondWaitTime);
     const refundRefRemissions = await InitiateRefunds.verifyRefundSubmittedPage(refundAmount);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', '25.00');
+    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', refundAmount);
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -484,7 +484,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.click('Case Transaction');
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', '25.00');
+    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', refundAmount);
     await I.click(`//td[contains(.,'${refundRefRemissions}')]/following-sibling::td/a[.=\'Review\'][1]`);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const reviewRemissionRefundDetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions, paymentRcReference, 'Retrospective remission', `£${refundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
@@ -497,7 +497,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.click('Back');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
 
-    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', '25.00');
+    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', refundAmount);
 
     await I.click(`//td[contains(.,'${refundRefRemissions}')]/following-sibling::td/a[.=\'Review\'][1]`);
     const reviewRefundDetailsDataAfterRefundAccepted = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions, paymentRcReference, 'Retrospective remission', `£${refundAmount}`, emailAddress, '', 'payments probate', 'approver probate');
@@ -514,7 +514,7 @@ Scenario('Partially Paid (multi-fees) with Retro Remission resulting in a POSITI
     I.see('Closed');
     I.see('Approved');
     const newRefundReference = await I.grabTextFrom('//td[contains(.,\'Approved\')]/ancestor::tr/td[4]');
-    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', '25.00');
+    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount, '0.00', refundAmount);
 
     // Verify the Closed refund
     await I.click(`//td[contains(.,'${refundRefRemissions}')]/following-sibling::td/a[.=\'Review\'][1]`);

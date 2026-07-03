@@ -8,6 +8,7 @@ module.exports = {
     FEE0258: 'Application for a maintenance order to be registered 1950 Act or 1958 Act',
     FEE0209: 'Money Claims - Claim Amount - 10000.01 up to 200000 GBP. FEE AMOUNT = 5% of claim value',
     FEE0441: 'Hearing fee: Fast track case',
-    FEE0370: 'Mobile homes application (pitch fee other than Local Authority sites)'
+    FEE0370: 'Mobile homes application (pitch fee other than Local Authority sites)',
+    FEE0342: 'Issue of default costs certificate - Family'
   }
 };
