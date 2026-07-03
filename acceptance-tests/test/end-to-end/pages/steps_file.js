@@ -54,6 +54,19 @@ async function storeBrowserLoginSession(actor, email) {
   }
 }
 
+function validateLoginConfig(email, password) {
+  const missing = [];
+  if (!email) {
+    missing.push('email');
+  }
+  if (!password) {
+    missing.push('password');
+  }
+  if (missing.length) {
+    throw new Error(`Cannot log in: missing ${missing.join(', ')}`);
+  }
+}
+
 module.exports = () => actor({
 
   returnBackToSite() {
@@ -62,6 +75,8 @@ module.exports = () => actor({
   },
 
   async login(email, password, uri = '/') {
+    validateLoginConfig(email, password);
+
     if (await restoreBrowserLoginSession(this, email, uri)) {
       return;
     }
