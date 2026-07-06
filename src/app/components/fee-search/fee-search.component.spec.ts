@@ -314,6 +314,60 @@ describe('Fee search component', () => {
     expect(component.bulkScanningTxt).toBe('&isBulkScanning=Enable&isTurnOff=Enable&isStFixEnable=Disable&caseType=undefined&isOldPcipalOff=Disable&isNewPcipalOff=Disable&isPaymentStatusEnabled=Disable');
   });
 
+  it('should not open fee-details before discontinued feature flag resolves', () => {
+    const unresolvedFeatureFlag = new Promise<boolean>(() => {
+      // Keep pending to simulate a slow feature flag call.
+    });
+    const recentCurrentVersionDate = new Date();
+    recentCurrentVersionDate.setMonth(recentCurrentVersionDate.getMonth() - 1);
+
+    const recentFee = {
+      code: 'FEE0219',
+      fee_type: 'fixed',
+      current_version: {
+        version: 2,
+        valid_from: recentCurrentVersionDate.toISOString(),
+        flat_amount: { amount: 526 },
+        memo_line: 'memo',
+        natural_account_code: '4481102171',
+        description: 'new fee'
+      },
+      fee_versions: [
+        {
+          version: 1,
+          status: 'approved',
+          valid_from: '2019-01-01T00:00:00.000+0000',
+          valid_to: recentCurrentVersionDate.toISOString(),
+          flat_amount: { amount: 300 },
+          memo_line: 'memo-old',
+          natural_account_code: '4481102171',
+          description: 'old fee'
+        },
+        {
+          version: 2,
+          status: 'approved',
+          valid_from: recentCurrentVersionDate.toISOString(),
+          valid_to: null,
+          flat_amount: { amount: 526 },
+          memo_line: 'memo',
+          natural_account_code: '4481102171',
+          description: 'new fee'
+        }
+      ],
+      jurisdiction1: { name: 'test-jurisdiction1' },
+      jurisdiction2: { name: 'test-jurisdiction2' }
+    };
+
+    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.returnValue(unresolvedFeatureFlag);
+    spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+
+    component.ngOnInit();
+    component.selectFee(recentFee as any);
+
+    expect(component.showFeeDetails).toBe(false);
+    expect(paymentGroupService.postPaymentGroup).toHaveBeenCalled();
+  });
+
   it('Should reset preselected fee and show fee details ongoback', () => {
     component.onGoBack();
     expect(component.preselectedFee).toBeNull();
@@ -488,6 +542,62 @@ describe('Fee search component', () => {
 
       expect(component.showFeeDetails).toBe(true);
       expect(component.preselectedFee).toEqual(recentFee as any);
+    });
+
+    it('should include discontinued_list versions in fee_versions for fee-details', async () => {
+      const recentCurrentVersionDate = new Date();
+      recentCurrentVersionDate.setMonth(recentCurrentVersionDate.getMonth() - 1);
+      const recentCurrentVersionDateString = recentCurrentVersionDate.toISOString();
+
+      const recentFeeWithDiscontinuedList = {
+        code: 'FEE0219',
+        fee_type: 'ranged',
+        current_version: {
+          version: 8,
+          valid_from: recentCurrentVersionDateString,
+          flat_amount: { amount: 526 },
+          memo_line: 'memo',
+          natural_account_code: '4481102158',
+          description: 'new fee'
+        },
+        fee_versions: [
+          {
+            version: 8,
+            status: 'approved',
+            valid_from: recentCurrentVersionDateString,
+            valid_to: null,
+            flat_amount: { amount: 526 },
+            memo_line: 'memo',
+            natural_account_code: '4481102158',
+            description: 'new fee'
+          }
+        ],
+        discontinued_list: [
+          {
+            version: 7,
+            status: 'approved',
+            valid_from: '2024-05-01',
+            valid_to: '2026-07-05',
+            flat_amount: { amount: 300 },
+            memo_line: 'memo-old',
+            natural_account_code: '4481102158',
+            description: 'old fee'
+          }
+        ],
+        jurisdiction1: { name: 'test-jurisdiction1' },
+        jurisdiction2: { name: 'test-jurisdiction2' }
+      };
+
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+      await component.ngOnInit();
+
+      component.selectFee(recentFeeWithDiscontinuedList as any);
+
+      expect(component.showFeeDetails).toBe(true);
+      expect(component.preselectedFee.fee_versions.length).toBe(2);
+      expect(component.preselectedFee.fee_versions.some(version => version.flat_amount.amount === 526)).toBe(true);
+      expect(component.preselectedFee.fee_versions.some(version => version.flat_amount.amount === 300)).toBe(true);
     });
   });
 

@@ -22,7 +22,7 @@ export class FeeSearchComponent implements OnInit {
   paymentGroupRef: string = null;
   selectedOption: string = null;
   bulkScanningTxt = '&isBulkScanning=Enable&isTurnOff=Enable';
-  isDiscontinuedFeatureEnabled = true;
+  isDiscontinuedFeatureEnabled = false;
   lsCcdNumber: any = ls.get<any>('ccdNumber');
 
   constructor(
@@ -32,7 +32,7 @@ export class FeeSearchComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.ccdNo = this.activatedRoute.snapshot.queryParams['ccdCaseNumber'];
     this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
     this.dcnNo = this.activatedRoute.snapshot.queryParams['dcn'];
@@ -56,49 +56,88 @@ export class FeeSearchComponent implements OnInit {
     }
 
 
-    this.paymentGroupService.getDiscontinuedFrFeature().then((status) => {
-      this.isDiscontinuedFeatureEnabled = status;
-    });
+    try {
+      this.isDiscontinuedFeatureEnabled = await this.paymentGroupService.getDiscontinuedFrFeature();
+    } catch (error) {
+      this.isDiscontinuedFeatureEnabled = false;
+    }
   }
 
   selectFee(fee: IFee) {
-    const feeType = fee.fee_type;
-    const volAmt = fee.current_version ? fee.current_version['volume_amount'] : fee.fee_versions['volume_amount'];
-    const flatAmt = fee.current_version ? fee.current_version['flat_amount'] : fee.fee_versions['flat_amount'];
-    const percentageAmt = fee.current_version ? fee.current_version['percentage_amount'] : fee.fee_versions['percentage_amount'];
+    const selectedFee = this.normaliseFeeForDetails(fee);
+    const feeType = selectedFee.fee_type;
+    const volAmt = selectedFee.current_version ? selectedFee.current_version['volume_amount'] : selectedFee.fee_versions['volume_amount'];
+    const flatAmt = selectedFee.current_version ? selectedFee.current_version['flat_amount'] : selectedFee.fee_versions['flat_amount'];
+    const percentageAmt = selectedFee.current_version ? selectedFee.current_version['percentage_amount'] : selectedFee.fee_versions['percentage_amount'];
     let paymentGroup;
     const feeDetailsComponent = new FeeDetailsComponent(null, null);
+    const hasFeeVersions = Array.isArray(selectedFee.fee_versions);
+    const eligibleOldVersions = this.isDiscontinuedFeatureEnabled
+      && hasFeeVersions
+      && selectedFee.fee_versions.length > 0
+      && feeDetailsComponent.validOldFeesVersions(this.deepClone(selectedFee)).length > 0;
+
     if ((feeType === 'fixed' && volAmt)
       || (feeType === 'banded' && flatAmt)
       || (feeType === 'rateable' && flatAmt)
       || (feeType === 'ranged' && percentageAmt)
-      || (this.isDiscontinuedFeatureEnabled && fee.fee_versions.length > 0 && feeDetailsComponent.validOldFeesVersions(fee).length > 0)) {
-      this.preselectedFee = fee;
+      || eligibleOldVersions) {
+      this.preselectedFee = selectedFee;
       this.showFeeDetails = true;
-    } else if (fee.current_version === undefined
-      && this.isDiscontinuedFeatureEnabled
-      && fee.fee_versions.length > 0
-      && feeDetailsComponent.validOldFeesVersions(fee).length > 0) {
-      this.preselectedFee = fee;
+    } else if (selectedFee.current_version === undefined && eligibleOldVersions) {
+      this.preselectedFee = selectedFee;
       this.showFeeDetails = true;
-    } else if (fee.current_version !== undefined) {
+    } else if (selectedFee.current_version !== undefined) {
       paymentGroup = {
         fees: [{
-          code: fee.code,
-          version: fee['current_version'].version.toString(),
-          'calculated_amount': fee['current_version'].flat_amount.amount.toString(),
-          'memo_line': fee['current_version'].memo_line,
-          'natural_account_code': fee['current_version'].natural_account_code,
+          code: selectedFee.code,
+          version: selectedFee['current_version'].version.toString(),
+          'calculated_amount': selectedFee['current_version'].flat_amount.amount.toString(),
+          'memo_line': selectedFee['current_version'].memo_line,
+          'natural_account_code': selectedFee['current_version'].natural_account_code,
           'ccd_case_number': this.ccdNo,
-          jurisdiction1: fee.jurisdiction1['name'],
-          jurisdiction2: fee.jurisdiction2['name'],
-          description: fee.current_version.description,
-          volume: fee.fee_type === 'relational' ? null : 1,
-          fee_amount: fee['current_version'].flat_amount.amount.toString()
+          jurisdiction1: selectedFee.jurisdiction1['name'],
+          jurisdiction2: selectedFee.jurisdiction2['name'],
+          description: selectedFee.current_version.description,
+          volume: selectedFee.fee_type === 'relational' ? null : 1,
+          fee_amount: selectedFee['current_version'].flat_amount.amount.toString()
         }]
       };
       this.sendPaymentGroup(paymentGroup);
     }
+  }
+
+  private normaliseFeeForDetails(fee: IFee): IFee {
+    const hasHistoricalVersions = Array.isArray((fee as any).discontinued_list) && (fee as any).discontinued_list.length > 0;
+    if (!hasHistoricalVersions) {
+      return fee;
+    }
+
+    const clone = this.deepClone(fee);
+    const currentVersion = clone.current_version ? [clone.current_version] : [];
+    const historicalVersions = Array.isArray((clone as any).discontinued_list) ? (clone as any).discontinued_list : [];
+    const existingVersions = Array.isArray(clone.fee_versions) ? clone.fee_versions : [];
+    const seen = new Set<string>();
+
+    clone.fee_versions = [...existingVersions, ...currentVersion, ...historicalVersions].filter((version: any) => {
+      const amount = version && version.flat_amount ? version.flat_amount.amount
+        : version && version.volume_amount ? version.volume_amount.amount
+          : version && version.percentage_amount ? version.percentage_amount.percentage : '';
+      const key = `${version && version.version}|${version && version.valid_from}|${amount}`;
+
+      if (seen.has(key)) {
+        return false;
+      }
+
+      seen.add(key);
+      return true;
+    });
+
+    return clone;
+  }
+
+  private deepClone<T>(value: T): T {
+    return JSON.parse(JSON.stringify(value));
   }
 
   onGoBack() {
