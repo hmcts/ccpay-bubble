@@ -31,11 +31,8 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
   ) {
   }
 
-  async ngOnChanges() {
-    this.isDiscontinuedFeatureEnabled = await this.paymentGroupService.getDiscontinuedFrFeature();
-    if (this.isDiscontinuedFeatureEnabled) {
-      this.validOldVersionArray = this.validOldFeesVersions(this.fee);
-    }
+  ngOnChanges(): void {
+    this.loadDiscontinuedFeatureFlag();
   }
   ngOnInit() {
     this.feeDetailFormGroup = this.formBuilder.group({
@@ -65,7 +62,7 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
 
     this.submitFeeVolumeEvent.emit({
       volumeAmount: this.feeDetailFormGroup.get('feeOrVolumeControl').value, selectedVersionEmit: this.selectedFeeVersion,
-      isDiscontinuedFeeAvailable: this.validOldVersionArray.length > 0 && (!this.fee.current_version || this.fee.current_version)
+      isDiscontinuedFeeAvailable: this.validOldVersionArray.length > 0
     });
   }
 
@@ -115,7 +112,8 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
 
     if (feesObject.current_version !== undefined && validOldFeeVersionArray.length > 1) {
       if (!this.isCurrentVersionWithinSixMonths(feesObject.current_version)) {
-        return this.validOldVersionArray = [];
+        this.validOldVersionArray = [];
+        return this.validOldVersionArray;
       }
 
       const historicalVersions = this.removeCurrentFeeFromFeeversion(validOldFeeVersionArray, feesObject.current_version);
@@ -128,7 +126,8 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
       return this.validOldVersionArray;
     }
 
-    return this.validOldVersionArray = [];
+    this.validOldVersionArray = [];
+    return this.validOldVersionArray;
   }
   removeCurrentFeeFromFeeversion(validOldFeeVersionArray, currentVersion) {
     return validOldFeeVersionArray.filter(feesVersion => {
@@ -155,12 +154,12 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
   }
 
   isCurrentVersionWithinSixMonths(currentVersion: IVersion) {
-    if (!currentVersion || !currentVersion.valid_from) {
+    if (!currentVersion?.valid_from) {
       return false;
     }
 
     const currentVersionStartDate = new Date(currentVersion.valid_from);
-    if (isNaN(currentVersionStartDate.getTime())) {
+    if (Number.isNaN(currentVersionStartDate.getTime())) {
       return false;
     }
 
@@ -170,12 +169,27 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
   }
 
   getAmountFromFeeVersion(feeVersion: any) {
-    if (feeVersion['volume_amount'] != null) {
+    if (feeVersion?.['volume_amount'] != null) {
       return feeVersion['volume_amount'].amount;
-    } else if (feeVersion['flat_amount'] != null) {
+    }
+
+    if (feeVersion?.['flat_amount'] != null) {
       return feeVersion['flat_amount'].amount;
-    } else if (feeVersion['percentage_amount'] != null) {
-      return feeVersion['percentage_amount'].percentage;
+    }
+
+    return feeVersion?.['percentage_amount']?.percentage;
+  }
+
+  private async loadDiscontinuedFeatureFlag(): Promise<void> {
+    try {
+      this.isDiscontinuedFeatureEnabled = await this.paymentGroupService.getDiscontinuedFrFeature();
+      if (this.isDiscontinuedFeatureEnabled) {
+        this.validOldVersionArray = this.validOldFeesVersions(this.fee);
+      }
+    } catch (error) {
+      this.isDiscontinuedFeatureEnabled = false;
+      this.validOldVersionArray = [];
+      console.warn('Failed to load discontinued fee feature flag', error);
     }
   }
 }

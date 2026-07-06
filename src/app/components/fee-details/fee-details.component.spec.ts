@@ -346,7 +346,12 @@ describe('FeeDetailsComponent', () => {
    };
     const result7 = component.validOldFeesVersions(component.fee);
 
-    expect(result7.length).toBe(1);
+    expect(result7).toEqual([
+      jasmine.objectContaining({
+        version: 6,
+        flat_amount: jasmine.objectContaining({ amount: 150.00 })
+      })
+    ]);
 
   });
 
@@ -418,7 +423,12 @@ describe('FeeDetailsComponent', () => {
 
     const validOldVersions = component.validOldFeesVersions(component.fee);
 
-    expect(validOldVersions.length).toBe(1);
+    expect(validOldVersions).toEqual([
+      jasmine.objectContaining({
+        version: 1,
+        flat_amount: jasmine.objectContaining({ amount: 300.00 })
+      })
+    ]);
     expect(validOldVersions[0].flat_amount.amount).toBe(300.00);
   });
 
@@ -458,7 +468,7 @@ describe('FeeDetailsComponent', () => {
 
     const validOldVersions = component.validOldFeesVersions(component.fee);
 
-    expect(validOldVersions.length).toBe(0);
+    expect(validOldVersions).toEqual([]);
   });
 
   it('Should return true if current version is undefined1', () => {

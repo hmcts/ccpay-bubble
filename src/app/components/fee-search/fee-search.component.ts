@@ -32,43 +32,36 @@ export class FeeSearchComponent implements OnInit {
   ) {
   }
 
-  async ngOnInit() {
-    this.ccdNo = this.activatedRoute.snapshot.queryParams['ccdCaseNumber'];
-    this.paymentGroupRef = this.activatedRoute.snapshot.queryParams['paymentGroupRef'];
-    this.dcnNo = this.activatedRoute.snapshot.queryParams['dcn'];
-    this.selectedOption = this.activatedRoute.snapshot.queryParams['selectedOption'];
-    this.bulkScanningTxt = this.activatedRoute.snapshot.queryParams['isBulkScanning'] === 'Enable' ?
-                                '&isBulkScanning=Enable' : '&isBulkScanning=Disable';
-    this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isTurnOff'] === 'Enable' ?
-                                '&isTurnOff=Enable' : '&isTurnOff=Disable';
-    this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isStFixEnable'] === 'Enable' ?
-                                '&isStFixEnable=Enable' : '&isStFixEnable=Disable';
-    this.bulkScanningTxt += `&caseType=${this.activatedRoute.snapshot.queryParams['caseType']}`;
-    this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isOldPcipalOff'] === 'Enable' ?
-                                '&isOldPcipalOff=Enable' : '&isOldPcipalOff=Disable';
-    this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isNewPcipalOff'] === 'Enable' ?
-                                '&isNewPcipalOff=Enable' : '&isNewPcipalOff=Disable';
-    this.bulkScanningTxt += this.activatedRoute.snapshot.queryParams['isPaymentStatusEnabled'] === 'Enable' ?
-                                '&isPaymentStatusEnabled=Enable' : '&isPaymentStatusEnabled=Disable';
+  ngOnInit(): void {
+    const queryParams = this.activatedRoute.snapshot?.queryParams || {};
+
+    this.ccdNo = queryParams['ccdCaseNumber'];
+    this.paymentGroupRef = queryParams['paymentGroupRef'];
+    this.dcnNo = queryParams['dcn'];
+    this.selectedOption = queryParams['selectedOption'];
+
+    this.bulkScanningTxt = '';
+    this.bulkScanningTxt += this.buildToggleQuery('isBulkScanning', queryParams['isBulkScanning']);
+    this.bulkScanningTxt += this.buildToggleQuery('isTurnOff', queryParams['isTurnOff']);
+    this.bulkScanningTxt += this.buildToggleQuery('isStFixEnable', queryParams['isStFixEnable']);
+    this.bulkScanningTxt += `&caseType=${queryParams['caseType']}`;
+    this.bulkScanningTxt += this.buildToggleQuery('isOldPcipalOff', queryParams['isOldPcipalOff']);
+    this.bulkScanningTxt += this.buildToggleQuery('isNewPcipalOff', queryParams['isNewPcipalOff']);
+    this.bulkScanningTxt += this.buildToggleQuery('isPaymentStatusEnabled', queryParams['isPaymentStatusEnabled']);
 
     if (this.lsCcdNumber !== this.ccdNo) {
       this.router.navigateByUrl('/ccd-search?takePayment=true');
     }
-
-
-    try {
-      this.isDiscontinuedFeatureEnabled = await this.paymentGroupService.getDiscontinuedFrFeature();
-    } catch (error) {
-      this.isDiscontinuedFeatureEnabled = false;
-    }
+    this.loadDiscontinuedFeatureFlag();
   }
 
   selectFee(fee: IFee) {
     const selectedFee = this.normaliseFeeForDetails(fee);
     const feeType = selectedFee.fee_type;
-    const volAmt = selectedFee.current_version ? selectedFee.current_version['volume_amount'] : selectedFee.fee_versions['volume_amount'];
-    const flatAmt = selectedFee.current_version ? selectedFee.current_version['flat_amount'] : selectedFee.fee_versions['flat_amount'];
-    const percentageAmt = selectedFee.current_version ? selectedFee.current_version['percentage_amount'] : selectedFee.fee_versions['percentage_amount'];
+    const feeVersionSource = selectedFee.current_version || selectedFee.fee_versions;
+    const volAmt = feeVersionSource?.['volume_amount'];
+    const flatAmt = feeVersionSource?.['flat_amount'];
+    const percentageAmt = feeVersionSource?.['percentage_amount'];
     let paymentGroup;
     const feeDetailsComponent = new FeeDetailsComponent(null, null);
     const hasFeeVersions = Array.isArray(selectedFee.fee_versions);
@@ -82,9 +75,6 @@ export class FeeSearchComponent implements OnInit {
       || (feeType === 'rateable' && flatAmt)
       || (feeType === 'ranged' && percentageAmt)
       || eligibleOldVersions) {
-      this.preselectedFee = selectedFee;
-      this.showFeeDetails = true;
-    } else if (selectedFee.current_version === undefined && eligibleOldVersions) {
       this.preselectedFee = selectedFee;
       this.showFeeDetails = true;
     } else if (selectedFee.current_version !== undefined) {
@@ -120,10 +110,8 @@ export class FeeSearchComponent implements OnInit {
     const seen = new Set<string>();
 
     clone.fee_versions = [...existingVersions, ...currentVersion, ...historicalVersions].filter((version: any) => {
-      const amount = version && version.flat_amount ? version.flat_amount.amount
-        : version && version.volume_amount ? version.volume_amount.amount
-          : version && version.percentage_amount ? version.percentage_amount.percentage : '';
-      const key = `${version && version.version}|${version && version.valid_from}|${amount}`;
+      const amount = this.getAmountFromVersion(version);
+      const key = `${version?.version}|${version?.valid_from}|${amount}`;
 
       if (seen.has(key)) {
         return false;
@@ -137,7 +125,37 @@ export class FeeSearchComponent implements OnInit {
   }
 
   private deepClone<T>(value: T): T {
-    return JSON.parse(JSON.stringify(value));
+    return structuredClone(value);
+  }
+
+  private async loadDiscontinuedFeatureFlag(): Promise<void> {
+    try {
+      this.isDiscontinuedFeatureEnabled = await this.paymentGroupService.getDiscontinuedFrFeature();
+    } catch (error) {
+      this.isDiscontinuedFeatureEnabled = false;
+      // Keep fee search usable even when feature flag retrieval fails.
+      console.warn('Failed to load discontinued fee feature flag', error);
+    }
+  }
+
+  private buildToggleQuery(paramName: string, value: string): string {
+    return value === 'Enable' ? `&${paramName}=Enable` : `&${paramName}=Disable`;
+  }
+
+  private getAmountFromVersion(version: any): any {
+    if (version?.flat_amount) {
+      return version.flat_amount.amount;
+    }
+
+    if (version?.volume_amount) {
+      return version.volume_amount.amount;
+    }
+
+    if (version?.percentage_amount) {
+      return version.percentage_amount.percentage;
+    }
+
+    return '';
   }
 
   onGoBack() {
@@ -154,13 +172,15 @@ export class FeeSearchComponent implements OnInit {
       selectedFeeVersion = fee['current_version'];
     }
 
-    const volAmt = selectedFeeVersion['volume_amount'];
-    const flatAmt = selectedFeeVersion['flat_amount'];
-    const percentageAmt = selectedFeeVersion['percentage_amount'];
-    const fee_amount = volAmt ? volAmt.amount : (flatAmt ? flatAmt.amount : null);
+    const volAmt = selectedFeeVersion?.['volume_amount'];
+    const flatAmt = selectedFeeVersion?.['flat_amount'];
+    const percentageAmt = selectedFeeVersion?.['percentage_amount'];
+    const fee_amount = this.getAmountFromVersion(selectedFeeVersion);
     const feeType = fee.fee_type;
-    const calculatedAmt = ((feeType === 'rateable' && flatAmt) || (feeType === 'ranged' && percentageAmt))
-    ? this.outputEmitterFeesDetails.volumeAmount : (fee_amount * this.outputEmitterFeesDetails.volumeAmount).toString();
+    const isRateableOrRanged = (feeType === 'rateable' && !!flatAmt) || (feeType === 'ranged' && !!percentageAmt);
+    const calculatedAmt = isRateableOrRanged
+      ? this.outputEmitterFeesDetails.volumeAmount
+      : (fee_amount * this.outputEmitterFeesDetails.volumeAmount).toString();
     const paymentGroup = {
       fees: [{
         code: fee.code,
@@ -172,8 +192,7 @@ export class FeeSearchComponent implements OnInit {
         jurisdiction1: fee.jurisdiction1['name'],
         jurisdiction2: fee.jurisdiction2['name'],
         description: selectedFeeVersion.description,
-        volume: ((feeType === 'rateable' && flatAmt) || (feeType === 'ranged' && percentageAmt))
-        ? 1 : this.outputEmitterFeesDetails.volumeAmount,
+        volume: isRateableOrRanged ? 1 : this.outputEmitterFeesDetails.volumeAmount,
         fee_amount: fee_amount
       }]
     };

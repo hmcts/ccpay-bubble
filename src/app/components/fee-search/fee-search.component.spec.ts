@@ -314,6 +314,17 @@ describe('Fee search component', () => {
     expect(component.bulkScanningTxt).toBe('&isBulkScanning=Enable&isTurnOff=Enable&isStFixEnable=Disable&caseType=undefined&isOldPcipalOff=Disable&isNewPcipalOff=Disable&isPaymentStatusEnabled=Disable');
   });
 
+  it('should default discontinued feature to false when feature call fails', fakeAsync(() => {
+    spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.returnValue(Promise.reject('feature failed'));
+    spyOn(console, 'warn');
+
+    component.ngOnInit();
+    tick();
+
+    expect(component.isDiscontinuedFeatureEnabled).toBe(false);
+    expect(console.warn).toHaveBeenCalled();
+  }));
+
   it('should not open fee-details before discontinued feature flag resolves', () => {
     const unresolvedFeatureFlag = new Promise<boolean>(() => {
       // Keep pending to simulate a slow feature flag call.
@@ -595,9 +606,17 @@ describe('Fee search component', () => {
       component.selectFee(recentFeeWithDiscontinuedList as any);
 
       expect(component.showFeeDetails).toBe(true);
-      expect(component.preselectedFee.fee_versions.length).toBe(2);
-      expect(component.preselectedFee.fee_versions.some(version => version.flat_amount.amount === 526)).toBe(true);
-      expect(component.preselectedFee.fee_versions.some(version => version.flat_amount.amount === 300)).toBe(true);
+      expect(component.preselectedFee.fee_versions).toEqual(jasmine.arrayContaining([
+        jasmine.objectContaining({
+          version: 8,
+          flat_amount: jasmine.objectContaining({ amount: 526 })
+        }),
+        jasmine.objectContaining({
+          version: 7,
+          flat_amount: jasmine.objectContaining({ amount: 300 })
+        })
+      ]));
+      expect(component.preselectedFee.fee_versions[2]).toBeUndefined();
     });
   });
 
