@@ -33,7 +33,7 @@
         </span>
         <span *ngIf="">-</span>
         <span class="fee-discontinued-version-amount" *ngFor="let oldVersions of fee?.discontinued_list; let i = index;">
-          <span *ngIf="fee.isCurrentAmount_available === 1 && oldVersions.flat_amount">
+          <span *ngIf="fee.isCurrentAmount_available === 1 && shouldShowHistoricalAmount(fee) && oldVersions.flat_amount">
             or £{{oldVersions?.flat_amount?.amount | number:'.2'}}
           </span>
           <span *ngIf="fee.isCurrentAmount_available !== 1 && i == 0 && oldVersions.flat_amount">
@@ -43,7 +43,7 @@
             or £{{oldVersions?.flat_amount?.amount | number:'.2'}}
           </span>
 
-          <span *ngIf="fee.isCurrentAmount_available === 1 && oldVersions.volume_amount">
+          <span *ngIf="fee.isCurrentAmount_available === 1 && shouldShowHistoricalAmount(fee) && oldVersions.volume_amount">
             or £{{oldVersions?.volume_amount?.amount | number:'.2'}}
           </span>
           <span *ngIf="fee.isCurrentAmount_available !== 1 && i == 0 && oldVersions.volume_amount">
@@ -53,7 +53,7 @@
             or £{{oldVersions?.volume_amount?.amount | number:'.2'}}
           </span>
 
-          <span *ngIf="fee.isCurrentAmount_available === 1 && oldVersions.percentage_amount">
+          <span *ngIf="fee.isCurrentAmount_available === 1 && shouldShowHistoricalAmount(fee) && oldVersions.percentage_amount">
             or {{oldVersions?.percentage_amount?.percentage | number:'.2'}}%
           </span>
           <span *ngIf="fee.isCurrentAmount_available !== 1 && i == 0 && oldVersions.percentage_amount">

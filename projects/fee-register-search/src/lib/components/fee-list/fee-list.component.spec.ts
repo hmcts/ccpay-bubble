@@ -48,6 +48,58 @@ describe('Fee list component', () => {
     expect(debugElement[0].nativeElement.innerText).toEqual('£10,000.00');
   });
 
+  it('Should display historical amount with "or" when current version is within six months', () => {
+    const recentDate = new Date();
+    recentDate.setMonth(recentDate.getMonth() - 1);
+
+    fixture.componentInstance.fees = [
+      {
+        code: 'FEE0219',
+        jurisdiction2: { name: 'probate registry' },
+        isCurrentAmount_available: 1,
+        current_version: {
+          valid_from: recentDate.toISOString(),
+          description: 'Application for a grant of probate (Estate over 5000 GBP)',
+          flat_amount: { amount: 526 }
+        },
+        discontinued_list: [
+          {
+            flat_amount: { amount: 300 }
+          }
+        ]
+      } as any
+    ];
+
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('or £300.00');
+  });
+
+  it('Should hide historical amount with "or" when current version is older than six months', () => {
+    const staleDate = new Date();
+    staleDate.setMonth(staleDate.getMonth() - 7);
+
+    fixture.componentInstance.fees = [
+      {
+        code: 'FEE0219',
+        jurisdiction2: { name: 'probate registry' },
+        isCurrentAmount_available: 1,
+        current_version: {
+          valid_from: staleDate.toISOString(),
+          description: 'Application for a grant of probate (Estate over 5000 GBP)',
+          flat_amount: { amount: 526 }
+        },
+        discontinued_list: [
+          {
+            flat_amount: { amount: 300 }
+          }
+        ]
+      } as any
+    ];
+
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).not.toContain('or £300.00');
+  });
+
   it('Should convert to upper case', () => {
     expect(component.capitalise('probate registry')).toEqual('Probate Registry');
   });

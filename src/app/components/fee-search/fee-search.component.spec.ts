@@ -342,7 +342,7 @@ describe('Fee search component', () => {
     expect(paymentGroupService.putPaymentGroup).toHaveBeenCalled();
   }));
 
-  describe('If fixed volume fee is selected', async () => {
+  describe('If fixed volume fee is selected', () => {
     it('should make fee-details component visible and fee-search component invisible', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
       spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
