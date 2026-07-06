@@ -384,6 +384,113 @@ describe('Fee search component', () => {
     });
   });
 
+  describe('Selecting a fee with historical versions', () => {
+    it('should go to fee-summary when current version is older than six months', async () => {
+      const staleCurrentVersionDate = new Date();
+      staleCurrentVersionDate.setMonth(staleCurrentVersionDate.getMonth() - 7);
+      const staleCurrentVersionDateString = staleCurrentVersionDate.toISOString();
+
+      const oldFee = {
+        code: 'FEE0219',
+        fee_type: 'fixed',
+        current_version: {
+          version: 2,
+          valid_from: staleCurrentVersionDateString,
+          flat_amount: { amount: 526 },
+          memo_line: 'memo',
+          natural_account_code: '4481102171',
+          description: 'new fee'
+        },
+        fee_versions: [
+          {
+            version: 1,
+            status: 'approved',
+            valid_from: '2019-01-01T00:00:00.000+0000',
+            valid_to: staleCurrentVersionDateString,
+            flat_amount: { amount: 300 },
+            memo_line: 'memo-old',
+            natural_account_code: '4481102171',
+            description: 'old fee'
+          },
+          {
+            version: 2,
+            status: 'approved',
+            valid_from: staleCurrentVersionDateString,
+            valid_to: null,
+            flat_amount: { amount: 526 },
+            memo_line: 'memo',
+            natural_account_code: '4481102171',
+            description: 'new fee'
+          }
+        ],
+        jurisdiction1: { name: 'test-jurisdiction1' },
+        jurisdiction2: { name: 'test-jurisdiction2' }
+      };
+
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+      await component.ngOnInit();
+
+      component.selectFee(oldFee as any);
+      await fixture.whenStable();
+
+      expect(component.showFeeDetails).toBe(false);
+      expect(paymentGroupService.postPaymentGroup).toHaveBeenCalled();
+    });
+
+    it('should open fee-details when current version is within six months', async () => {
+      const recentCurrentVersionDate = new Date();
+      recentCurrentVersionDate.setMonth(recentCurrentVersionDate.getMonth() - 1);
+      const recentCurrentVersionDateString = recentCurrentVersionDate.toISOString();
+
+      const recentFee = {
+        code: 'FEE0219',
+        fee_type: 'fixed',
+        current_version: {
+          version: 2,
+          valid_from: recentCurrentVersionDateString,
+          flat_amount: { amount: 526 },
+          memo_line: 'memo',
+          natural_account_code: '4481102171',
+          description: 'new fee'
+        },
+        fee_versions: [
+          {
+            version: 1,
+            status: 'approved',
+            valid_from: '2019-01-01T00:00:00.000+0000',
+            valid_to: recentCurrentVersionDateString,
+            flat_amount: { amount: 300 },
+            memo_line: 'memo-old',
+            natural_account_code: '4481102171',
+            description: 'old fee'
+          },
+          {
+            version: 2,
+            status: 'approved',
+            valid_from: recentCurrentVersionDateString,
+            valid_to: null,
+            flat_amount: { amount: 526 },
+            memo_line: 'memo',
+            natural_account_code: '4481102171',
+            description: 'new fee'
+          }
+        ],
+        jurisdiction1: { name: 'test-jurisdiction1' },
+        jurisdiction2: { name: 'test-jurisdiction2' }
+      };
+
+      spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));
+      spyOn(paymentGroupService, 'getDiscontinuedFrFeature').and.callFake(() => Promise.resolve(true));
+      await component.ngOnInit();
+
+      component.selectFee(recentFee as any);
+
+      expect(component.showFeeDetails).toBe(true);
+      expect(component.preselectedFee).toEqual(recentFee as any);
+    });
+  });
+
   describe('Submitting volume fee', () => {
     it('should call backend with correct fee details', async () => {
       spyOn(paymentGroupService, 'postPaymentGroup').and.callFake(() => Promise.resolve(mockResponse));

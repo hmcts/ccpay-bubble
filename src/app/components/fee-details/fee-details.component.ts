@@ -113,15 +113,21 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
     }
 
 
-    if ((feesObject.current_version !== undefined && validOldFeeVersionArray.length > 1)
-    || (feesObject.current_version === undefined && validOldFeeVersionArray.length > 0)) {
-      this.validOldVersionArray = validOldFeeVersionArray.filter(feesVersion => this.getValidFeeVersionsBasedOnDate(feesVersion));
-
-      if (feesObject.current_version === undefined) {
-        return this.validOldVersionArray;
+    if (feesObject.current_version !== undefined && validOldFeeVersionArray.length > 1) {
+      if (!this.isCurrentVersionWithinSixMonths(feesObject.current_version)) {
+        return this.validOldVersionArray = [];
       }
-      return this.removeCurrentFeeFromFeeversion(this.validOldVersionArray, feesObject.current_version);
+
+      const historicalVersions = this.removeCurrentFeeFromFeeversion(validOldFeeVersionArray, feesObject.current_version);
+      this.validOldVersionArray = historicalVersions.length > 0 ? [historicalVersions[0]] : [];
+      return this.validOldVersionArray;
     }
+
+    if (feesObject.current_version === undefined && validOldFeeVersionArray.length > 0) {
+      this.validOldVersionArray = validOldFeeVersionArray.filter(feesVersion => this.getValidFeeVersionsBasedOnDate(feesVersion));
+      return this.validOldVersionArray;
+    }
+
     return this.validOldVersionArray = [];
   }
   removeCurrentFeeFromFeeversion(validOldFeeVersionArray, currentVersion) {
@@ -146,6 +152,21 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
       return true;
     }
     return false;
+  }
+
+  isCurrentVersionWithinSixMonths(currentVersion: IVersion) {
+    if (!currentVersion || !currentVersion.valid_from) {
+      return false;
+    }
+
+    const currentVersionStartDate = new Date(currentVersion.valid_from);
+    if (isNaN(currentVersionStartDate.getTime())) {
+      return false;
+    }
+
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+    return currentVersionStartDate >= sixMonthsAgo;
   }
 
   getAmountFromFeeVersion(feeVersion: any) {

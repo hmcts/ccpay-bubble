@@ -250,7 +250,11 @@ describe('FeeDetailsComponent', () => {
     expect(result6).toBe(false);
   });
 
-  it('Should return false if valid_from  and no valid_to has nore than six 111month value', () => {
+  it('Should return only previous version when current version is within six months', () => {
+    const recentCurrentVersionDate = new Date();
+    recentCurrentVersionDate.setMonth(recentCurrentVersionDate.getMonth() - 1);
+    const recentCurrentVersionDateString = recentCurrentVersionDate.toISOString();
+
     component.fee = {
       'code': 'FEE0001',
       'fee_type': 'banded',
@@ -329,19 +333,20 @@ describe('FeeDetailsComponent', () => {
          }
       ],
       'current_version': {
-        version: 1,
-        calculatedAmount: 1234,
-        memo_line: 'test-memoline',
+        version: 7,
+        valid_from: recentCurrentVersionDateString,
+        status: 'approved',
+        memo_line: 'memoline-current',
         natural_account_code: '1234-1234-1234-1234',
         flat_amount: {
-          amount: 1234
+          amount: 526
         },
-        description: 'test-description'
+        description: 'test-description-current'
       }
    };
     const result7 = component.validOldFeesVersions(component.fee);
 
-    expect(result7.length).toBe(0);
+    expect(result7.length).toBe(1);
 
   });
 
@@ -375,6 +380,85 @@ describe('FeeDetailsComponent', () => {
    expect(component.fee.fee_versions.length).toBe(1);
    expect(component.fee.current_version).toBeUndefined();
    expect(component.validOldVersionArray.length).toBe(0);
+  });
+
+  it('Should keep historical version for changed fees when current version exists and is within six months', () => {
+    const recentCurrentVersionDate = new Date();
+    recentCurrentVersionDate.setMonth(recentCurrentVersionDate.getMonth() - 1);
+    const recentCurrentVersionDateString = recentCurrentVersionDate.toISOString();
+
+    const oldVersion = {
+      description: 'Application for a grant of probate (Estate over 5000 GBP)',
+      status: 'approved',
+      version: 1,
+      valid_from: '2019-01-01T00:00:00.000+0000',
+      valid_to: recentCurrentVersionDateString,
+      flat_amount: {
+        amount: 300.00
+      }
+    };
+
+    const currentVersion = {
+      description: 'Application for a grant of probate (Estate over 5000 GBP)',
+      status: 'approved',
+      version: 2,
+      valid_from: recentCurrentVersionDateString,
+      valid_to: null,
+      flat_amount: {
+        amount: 526.00
+      }
+    };
+
+    component.fee = {
+      code: 'FEE0219',
+      fee_type: 'ranged',
+      fee_versions: [oldVersion, currentVersion],
+      current_version: currentVersion
+    };
+
+    const validOldVersions = component.validOldFeesVersions(component.fee);
+
+    expect(validOldVersions.length).toBe(1);
+    expect(validOldVersions[0].flat_amount.amount).toBe(300.00);
+  });
+
+  it('Should not keep historical version when current version is older than six months', () => {
+    const staleCurrentVersionDate = new Date();
+    staleCurrentVersionDate.setMonth(staleCurrentVersionDate.getMonth() - 7);
+    const staleCurrentVersionDateString = staleCurrentVersionDate.toISOString();
+
+    const oldVersion = {
+      description: 'Application for a grant of probate (Estate over 5000 GBP)',
+      status: 'approved',
+      version: 1,
+      valid_from: '2019-01-01T00:00:00.000+0000',
+      valid_to: staleCurrentVersionDateString,
+      flat_amount: {
+        amount: 300.00
+      }
+    };
+
+    const currentVersion = {
+      description: 'Application for a grant of probate (Estate over 5000 GBP)',
+      status: 'approved',
+      version: 2,
+      valid_from: staleCurrentVersionDateString,
+      valid_to: null,
+      flat_amount: {
+        amount: 526.00
+      }
+    };
+
+    component.fee = {
+      code: 'FEE0219',
+      fee_type: 'ranged',
+      fee_versions: [oldVersion, currentVersion],
+      current_version: currentVersion
+    };
+
+    const validOldVersions = component.validOldFeesVersions(component.fee);
+
+    expect(validOldVersions.length).toBe(0);
   });
 
   it('Should return true if current version is undefined1', () => {
