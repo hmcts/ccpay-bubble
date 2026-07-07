@@ -71,38 +71,6 @@ module.exports = () => actor({
     this.wait(CCPBConstants.twoSecondWaitTime);
   },
 
-  async selectCurrentFeeVersionIfShown() {
-    const versionSelectors = [
-      '//input[@value=\'currentVersion\']',
-      '//input[@id=\'fee-version0\']',
-      '//input[@id=\'fee-versions\']'
-    ];
-
-    for (const selector of versionSelectors) {
-      const isVisible = await this.grabNumberOfVisibleElements(selector);
-      if (isVisible) {
-        this.click(selector);
-        this.click('Continue');
-        this.wait(CCPBConstants.fiveSecondWaitTime);
-        return;
-      }
-    }
-  },
-
-  async submitFeeDetailsIfShown() {
-    const feeDetailsTitle = '//h1[normalize-space()="Fee details"]';
-    const submitButton = '//button[normalize-space()="Submit"]';
-    const cancelButton = '//button[normalize-space()="Cancel"]';
-    const hasFeeDetailsTitle = await this.grabNumberOfVisibleElements(feeDetailsTitle);
-    const hasSubmitButton = await this.grabNumberOfVisibleElements(submitButton);
-    const hasCancelButton = await this.grabNumberOfVisibleElements(cancelButton);
-
-    if (hasFeeDetailsTitle || (hasSubmitButton && hasCancelButton)) {
-      this.click(submitButton);
-      this.wait(CCPBConstants.fiveSecondWaitTime);
-    }
-  },
-
   onefeeforpayment() {
     this.fillField({ css: '[type="text"]' }, CCDNumber);
     this.click('Search');
@@ -863,9 +831,12 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await this.selectCurrentFeeVersionIfShown();
-    await this.submitFeeDetailsIfShown();
-    await this.selectCurrentFeeVersionIfShown();
+    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    if(numOfElements) {
+      this.click('//input[@id=\'fee-versions\']');
+      this.click('Continue');
+      this.wait(CCPBConstants.fiveSecondWaitTime);
+    }
     this.see('Add fee');
     await this.runAccessibilityTest();
     this.see('Summary');
@@ -908,9 +879,12 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await this.selectCurrentFeeVersionIfShown();
-    await this.submitFeeDetailsIfShown();
-    await this.selectCurrentFeeVersionIfShown();
+    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    if(numOfElements) {
+      this.click('//input[@id=\'fee-versions\']');
+      this.click('Continue');
+      this.wait(CCPBConstants.fiveSecondWaitTime);
+    }
     this.see('Add fee');
     this.click('Case Transaction');
     this.wait(CCPBConstants.fiveSecondWaitTime);
@@ -1020,9 +994,12 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await this.selectCurrentFeeVersionIfShown();
-    await this.submitFeeDetailsIfShown();
-    await this.selectCurrentFeeVersionIfShown();
+    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    if(numOfElements) {
+      this.click('//input[@id=\'fee-versions\']');
+      this.click('Continue');
+      this.wait(CCPBConstants.fiveSecondWaitTime);
+    }
     this.see('Summary');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
