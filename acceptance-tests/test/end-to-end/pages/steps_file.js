@@ -847,8 +847,8 @@ module.exports = () => actor({
     this.see('Amount');
     this.see('Add fee');
     this.see(PaybubbleStaticData.fee_description.FEE0219);
-    this.see('£300.00');
-    this.see('Total to pay: £300.00');
+    this.see('£526.00');
+    this.see('Total to pay: £526.00');
     this.click('Remove');
     this.see('Are you sure you want to delete this fee?');
     await this.runAccessibilityTest();
@@ -899,12 +899,12 @@ module.exports = () => actor({
     this.see(PaybubbleStaticData.fee_description.FEE0219);
     this.see('Amount');
     // this.see('Volume');
-    this.see('Total to pay: £300.00');
+    this.see('Total to pay: £526.00');
     this.see('Remove');
     this.see('Add help with fees or remission');
     this.see('Quantity');
     this.see('Description');
-    this.see('300.00');
+    this.see('526.00');
     this.wait(CCPBConstants.fiveSecondWaitTime);
   },
 
@@ -1008,8 +1008,8 @@ module.exports = () => actor({
     this.see('Amount');
     this.see('Add fee');
     this.see(PaybubbleStaticData.fee_description.FEE0219);
-    this.see('300.00');
-    this.see('Total to pay: £300.00');
+    this.see('526.00');
+    this.see('Total to pay: £526.00');
     this.click('Case Transaction');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     await miscUtils.multipleSearch(searchCase, this, ccdNumber);

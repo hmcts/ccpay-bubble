@@ -94,12 +94,13 @@ module.exports = {
 
   },
 
-  async addFeesOverPayment(amount) {
+  async addFeesOverPayment(amount, feeCode) {
     I.see('Search for a fee');
     I.wait(CCPBConstants.tenSecondWaitTime);
-    I.fillField(this.locators.fee_search, amount);
+    I.fillField(this.locators.fee_search, feeCode);
     I.click('Search');
-    I.wait(CCPBConstants.fiveSecondWaitTime, 10);
+    I.wait(CCPBConstants.fiveSecondWaitTime, 5);
+    I.see(`£${amount}`);
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
 
