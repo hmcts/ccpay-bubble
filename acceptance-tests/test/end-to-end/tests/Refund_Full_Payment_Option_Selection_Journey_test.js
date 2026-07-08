@@ -15,7 +15,8 @@ Scenario('Bulk scan postal order Full Payment refund, preview RefundWhenContacte
     const postcode = 'TW4 7EZ';
     const bulkScanPaymentMethod = 'PostalOrder';
     const totalAmount = '500.00';
-    const feeAmount = '227.00';
+    const feeCode = 'FEE0225';
+    const feeAmount = '346.00';
     const refundAmount = '500.00';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
     const ccdCaseNumber = ccdAndDcn[1];
@@ -24,7 +25,7 @@ Scenario('Bulk scan postal order Full Payment refund, preview RefundWhenContacte
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await AddFees.addFeesOverPayment(feeAmount);
+    await AddFees.addFeesOverPayment(feeAmount, feeCode);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
@@ -44,7 +45,7 @@ Scenario('Bulk scan postal order Full Payment refund, preview RefundWhenContacte
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for applications which attract fees 1.1, 1.2', `£${feeAmount}`, `£${totalAmount}`, `£${refundAmount}`, '1', '£0.00');
+    const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Hearing fee: Small claims case (exceeds 3000 GBP)', `£${feeAmount}`, `£${totalAmount}`, `£${refundAmount}`, '1', '£0.00');
     await InitiateRefunds.verifyProcessRefundSelectionPageForFullPaymentOption(reviewProcessRefundPageData, ccdCaseNumber);
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);

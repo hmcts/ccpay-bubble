@@ -14,6 +14,7 @@ Scenario('OverPayment Refund Rejected journey',
 
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
     const totalAmount = '500.00';
+    const feeCode = 'FEE0578';
     const feeAmount = '227.00';
     const overPaymentRefundAmount = '273.00';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
@@ -23,7 +24,7 @@ Scenario('OverPayment Refund Rejected journey',
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateTransactionPageForOverPayments();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await AddFees.addFeesOverPayment(feeAmount);
+    await AddFees.addFeesOverPayment(feeAmount, feeCode);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.fifteenSecondWaitTime);
