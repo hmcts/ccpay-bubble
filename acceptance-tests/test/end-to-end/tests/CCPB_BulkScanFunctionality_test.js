@@ -112,8 +112,8 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   const totalAmount = '512.00';
   const remissionAmount = '100.00';
   const feeAmount1 = '612.00';
-  const feeAmount2 = '22.00';
-  const shortfallAmount = '22.00'; //2nd fee is added after totalAmount satisfied with 1st fee and upfront remission 612-100 = 512
+  const feeAmount2 = '23.00';
+  const shortfallAmount = '23.00'; //2nd fee is added after totalAmount satisfied with 1st fee and upfront remission 612-100 = 512
   const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
   const ccdCaseNumber = ccdAndDcn[1];
   const dcnNumber = ccdAndDcn[0];
@@ -141,10 +141,10 @@ Scenario('Normal ccd case cheque payment partial allocation 2 fees added with a 
   FeesSummary.verifyFeeSummaryAfterRemission('FEE0002', feeAmount1, remissionAmount, totalAmount);
   FeesSummary.addFeeFromSummary();
   await AddFees.addFees(feeAmount2, 'civil', 'magistrates_court');
-  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0362', feeAmount2, true);
+  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0532', feeAmount2, true);
   I.wait(CCPBATConstants.tenSecondWaitTime);
   ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0002', '1', totalAmount, feeAmount1, feeAmount1, shortfallAmount);
-  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0362', '1', totalAmount, feeAmount2, feeAmount2, shortfallAmount);
+  ConfirmAssociation.verifyConfirmAssociationShortfallPayment('FEE0532', '1', totalAmount, feeAmount2, feeAmount2, shortfallAmount);
   ConfirmAssociation.selectShortfallReasonExplainatoryAndUser('Help with Fees', 'Contact applicant');
   ConfirmAssociation.confirmPayment();
   I.wait(CCPBATConstants.tenSecondWaitTime);

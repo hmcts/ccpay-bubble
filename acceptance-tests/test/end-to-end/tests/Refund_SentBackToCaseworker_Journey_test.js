@@ -15,6 +15,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
     const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
     const bulkScanPaymentMethod = 'cheque';
     const totalAmount = '500.00';
+    const feeCode = 'FEE0578';
     const feeAmount = '227.00';
     const fullPaymentRefundAmount = '500.00';
     const ccdAndDcn = await apiUtils.bulkScanNormalCcd('AA08', totalAmount, bulkScanPaymentMethod);
@@ -27,7 +28,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       await CaseTransaction.validateTransactionPageForOverPayments();
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      await AddFees.addFeesOverPayment(feeAmount);
+      await AddFees.addFeesOverPayment(feeAmount, feeCode);
       I.wait(CCPBATConstants.tenSecondWaitTime);
       await I.click('(//*[text()[contains(.,"Review")]])[2]');
       I.wait(CCPBATConstants.fifteenSecondWaitTime);
@@ -46,7 +47,7 @@ Scenario('FullPayment Refund Send To Caseworker journey',
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       I.click('Continue');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
-      const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Notice of hearing date for applications which attract fees 1.1, 1.2', `£${feeAmount}`, `£${totalAmount}`, fullPaymentRefundAmount, '1', '£0.00');
+      const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Reduced hearing fee', `£${feeAmount}`, `£${totalAmount}`, fullPaymentRefundAmount, '1', '£0.00');
       await InitiateRefunds.verifyProcessRefundSelectionPageForFullPaymentOption(reviewProcessRefundPageData, ccdCaseNumber);
       I.click('Continue');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
