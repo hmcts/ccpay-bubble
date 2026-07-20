@@ -196,6 +196,7 @@
     "fsevents": "*"
   },
   "resolutions": {
+    "protobufjs": "8.6.1",
     "@angular/core": "20.3.25",
     "@opentelemetry/core": "^2.8.0",
     "serialize-javascript": "7.0.5",
