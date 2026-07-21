@@ -6,7 +6,7 @@ const { I } = inject();
 
 module.exports = {
 
-  verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, feeCode, amount, allocatePaymentFlag) {
+  verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, feeCode, amount, allocatePaymentFlag, volume = '1') {
     I.see('Summary');
     I.see('Case reference:');
     I.see(`${ccdCaseNumberFormatted}`);
@@ -14,7 +14,7 @@ module.exports = {
     I.see('Quantity');
     I.see('Amount');
     I.see(PaybubbleStaticData.fee_description[feeCode]);
-    I.see('1');
+    I.see(volume);
     I.see(`£${amount}`);
     I.see('Add fee');
     I.see('Total to pay:');
