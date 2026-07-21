@@ -74,3 +74,4 @@ Run the app with local config by setting up this environment variable: `spring_p
 Run the following commands: `yarn start:angular-dev` and `yarn start:express-dev`
 
 If you are running `yarn start:angular-dev` you'll need to connect using the following URL: `http://localhost:4200/`.
+
