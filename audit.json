@@ -54,5 +54,9 @@
   "10104_User Agent Fuzzer_https://paybubble.demo.platform.hmcts.net/robots.txt_GET": "ignore",
   "10104_User Agent Fuzzer_https://paybubble.demo.platform.hmcts.net/sitemap.xml_GET": "ignore",
   "10049_Non-Storable Content_https://idam-web-public.aat.platform.hmcts.net/enter-email_GET": "ignore",
-  "10112_Session Management Response Identified_https://idam-web-public.aat.platform.hmcts.net/enter-email_GET": "ignore"
+  "10112_Session Management Response Identified_https://idam-web-public.aat.platform.hmcts.net/enter-email_GET": "ignore",
+  "10049_Non-Storable Content_https://idam-web-public.aat.platform.hmcts.net_GET": "ignore",
+  "10049_Non-Storable Content_https://idam-web-public.aat.platform.hmcts.net/o/authorize_GET": "ignore",
+  "10112_Session Management Response Identified_https://idam-web-public.aat.platform.hmcts.net_GET": "ignore",
+  "10112_Session Management Response Identified_https://idam-web-public.aat.platform.hmcts.net/o/authorize_GET": "ignore"
 }
