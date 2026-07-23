@@ -62,6 +62,33 @@ Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, 
   I.Logout();
 }).tag('@pipeline @nightly');
 
+Scenario('Normal ccd case cheque payment full allocation with discontinued volume fee', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory }) => {
+  // logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
+  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  const totalAmount = '32.00';
+  const feeAmount = '16.00'; // FEE0546 = 16 * 2 volume = 32
+  const ccdAndDcn = await bulkScanApiCalls.bulkScanNormalCcd('AA08', totalAmount, 'cheque');
+  const ccdCaseNumber = ccdAndDcn[1];
+  const dcnNumber = ccdAndDcn[0];
+  logger.info(`The value of the ccdCaseNumber from the test: ${ccdCaseNumber}`);
+  logger.info(`The value of the dcnNumber : ${dcnNumber}`);
+  const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
+  await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
+  CaseTransaction.checkUnallocatedPayments('1', dcnNumber, totalAmount, 'cheque');
+  CaseTransaction.allocateToNewFee();
+  await AddFees.addFeesAmountByFeeCode('FEE0546', totalAmount, 'volume', 2);
+  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0546', totalAmount, true, '2');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  ConfirmAssociation.verifyConfirmAssociationFullPayment('FEE0546', '2', totalAmount, feeAmount);
+  ConfirmAssociation.confirmPayment();
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
+  CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
+  I.Logout();
+}).tag('@pipeline @nightly');
+
 Scenario('Normal ccd case cheque payment full allocation to existing service request', async({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation, PaymentHistory }) => {
   await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const totalAmount = '612.00';

@@ -1,7 +1,7 @@
-import { IVersion } from './../../../../projects/fee-register-search/src/lib/interfaces/IVersion';
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from '@angular/core';
-import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import {IVersion} from './../../../../projects/fee-register-search/src/lib/interfaces/IVersion';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {IFee} from '../../../../projects/fee-register-search/src/lib/interfaces';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-fee-details',
@@ -59,8 +59,12 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
 
     this.submitFeeVolumeEvent.emit({
       volumeAmount: this.feeDetailFormGroup.get('feeOrVolumeControl').value, selectedVersionEmit: this.selectedFeeVersion,
-      isDiscontinuedFeeAvailable: this.validOldVersionArray.length > 0 && (!this.fee.current_version || this.fee.current_version)
+      isDiscontinuedFeeAvailable: this.getDiscontinuedFeeAvailable()
     });
+  }
+
+  getDiscontinuedFeeAvailable(): boolean {
+    return this.validOldVersionArray.length > 0 && (!this.fee.current_version || this.fee.current_version);
   }
 
   getSelectedFeesVersion(currentSelectedFeeVersion: IVersion) {
