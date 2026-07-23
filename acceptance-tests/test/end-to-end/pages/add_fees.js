@@ -8,6 +8,7 @@ module.exports = {
     fee_search: { xpath: '//*[@id="fee-search"]' },
     locatoramountselect: { amount_select: { xpath: '//*[@id="fee-version0"]' } },
     locator_calculatedRangedFee: { xpath: '//*[@id="calculatedRangedFee"]' },
+    locator_volume: { id: 'volumeAmount' },
     search_for_fee_text: {xpath:'//*[@id="content"]//h1'},
     allocate_payment: {xpath:'//button[@class="button govuk-!-margin-right-1"]'},
     // help_with_fee: {xpath:'//*[text()=" Help with Fees (HWF) application declined "]//../input'},
@@ -69,7 +70,7 @@ module.exports = {
     /* END: Comment this out when fee change options expire for inflation update. */
   },
 
-  async addFeesAmountByFeeCode(feeCode, amount, amountType) {
+  async addFeesAmountByFeeCode(feeCode, amount, amountType, volume) {
     I.see('Search for a fee');
     I.see('For example: Application or £10.00. You don\'t need to use the whole description or amount.');
     I.wait(CCPBConstants.fiveSecondWaitTime);
@@ -78,8 +79,17 @@ module.exports = {
     I.wait(CCPBConstants.tenSecondWaitTime);
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    if(amountType === 'Percentage') {
+    if (amountType?.toLowerCase() === "percentage") {
       I.fillField(this.locators.locator_calculatedRangedFee, amount);
+      I.click(this.locators.confirm_button);
+      I.wait(CCPBConstants.fiveSecondWaitTime);
+    }
+    if (amountType?.toLowerCase() === "volume") {
+      if (volume) {
+        I.fillField(this.locators.locator_volume, volume);
+      } else {
+        throw new Error("Please provide the volume for the fee code: " + feeCode);
+      }
       I.click(this.locators.confirm_button);
       I.wait(CCPBConstants.fiveSecondWaitTime);
     }

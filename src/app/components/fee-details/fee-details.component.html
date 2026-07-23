@@ -26,6 +26,8 @@
     </tbody>
   </table>
 </div>
+
+<div [formGroup]="feeDetailFormGroup" *ngIf="validOldVersionArray.length === 1 && !fee.current_version">
 <main *ngIf="validOldVersionArray.length === 1 && !fee.current_version">
   <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
   <p class="form-hint">{{ fee.discontinued_list[0].description }}</p>
@@ -42,7 +44,15 @@
     <span>You should only use this for applications received before {{ fee.discontinued_list[0].valid_to | date: 'd MMMM y' }} </span>
   </div>
 
+
+  <label *ngIf="validOldVersionArray.length === 1 && !fee.current_version" class="heading-small" for="volumeAmount">
+    How many copies do you want?
+  </label>
+  <input formControlName="feeOrVolumeControl" *ngIf="validOldVersionArray.length === 1 && !fee.current_version" class="form-control short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
+
 </main>
+</div>
+
 <main *ngIf="validOldVersionArray.length > 1 && !fee.current_version">
 <h1 class="heading-large" style="margin-bottom: 0px;"> Add {{ fee.code }}</h1>
 <p class="form-hint">{{ fee.discontinued_list[0].description }}</p>
