@@ -7,12 +7,14 @@ const fetch = require('node-fetch');
 const stringUtil = require('./string_utils.js');
 const numUtil = require('./number_utils');
 const testConfig = require('../tests/config/CCPBConfig.js');
+const faker = require("faker");
 
 const logger = Logger.getLogger('helpers/utils.js');
 
 const paymentBaseUrl = testConfig.TestPaymentApiUrl;
 const refundsApiUrl = testConfig.TestRefundsApiUrl;
 const bulkScanApiUrl = testConfig.TestBulkScanApiUrl;
+const feesRegisterApiUrl = testConfig.TestFeesRegisterApiUrl;
 const idamApiUrl = testConfig.TestIdamApiUrl;
 const rpeServiceAuthApiUrl = testConfig.TestS2SRpeServiceAuthApiUrl;
 const ccdDataStoreApiUrl = testConfig.TestCcdDataStoreApiUrl;
@@ -113,14 +115,11 @@ function searchForEmailInNotifyResults(notifications, searchEmail) {
   return result;
 }
 
-async function getIDAMToken() {
-  const username = testConfig.TestProbateCaseWorkerUserName;
+async function getIDAMToken(username, password) {
   const now = Date.now();
   if ( idamTokenCache[username] && (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)) {
     return idamTokenCache[username].token;
   }
-
-  const password = testConfig.TestProbateCaseWorkerPassword;
   const idamClientID = testConfig.TestClientID;
   const idamClientSecret = testConfig.TestClientSecret;
   const redirectUri = testConfig.TestRedirectURI;
@@ -268,7 +267,9 @@ async function getUserID(idamToken, username = 'unknown') {
 }
 
 async function getCREATEEventForProbate() {
-  const idamToken = await getIDAMToken();
+  const username = testConfig.TestProbateCaseWorkerUserName;
+  const password = testConfig.TestProbateCaseWorkerPassword;
+  const idamToken = await getIDAMToken(username, password);
   const userID = await getUserID(idamToken, testConfig.TestProbateCaseWorkerUserName);
   const serviceAuthorizationToken = await getServiceToken();
   const createTokenCCDEventRelativeBaseUrl = `/caseworkers/${userID}/jurisdictions/PROBATE/case-types/GrantOfRepresentation/event-triggers/createDraft/token`;
@@ -317,7 +318,9 @@ async function CaseValidation(flag) {
 }
 
 async function createACCDCaseForProbate() {
-  const idamToken = await getIDAMToken();
+  const username = testConfig.TestProbateCaseWorkerUserName;
+  const password = testConfig.TestProbateCaseWorkerPassword;
+  const idamToken = await getIDAMToken(username, password);
   const serviceToken = await getServiceToken();
   const createToken = await getCREATEEventForProbate();
 
@@ -332,11 +335,11 @@ async function createACCDCaseForProbate() {
   const probateCCDCreateCaseRelativeBaseUrl = '/case-types/GrantOfRepresentation/cases';
 
   const headers = {
-      Authorization: `Bearer ${idamToken}`,
-      ServiceAuthorization: `${serviceToken}`,
-      'Content-Type': 'application/json',
-      experimental: true
-    };
+    Authorization: `Bearer ${idamToken}`,
+    ServiceAuthorization: `${serviceToken}`,
+    'Content-Type': 'application/json',
+    experimental: true
+  };
 
 
   const probateCaseCreatedResponse = await makeRequest(
@@ -387,15 +390,17 @@ async function createACCDCaseForDivorce() {
 async function rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber) {
   const lag_time = 20;
   const microservice = 'cmc';
-  const idamToken = await getIDAMToken();
+  const username = testConfig.TestProbateCaseWorkerUserName;
+  const password = testConfig.TestProbateCaseWorkerPassword;
+  const idamToken = await getIDAMToken(username, password);
   const serviceToken = await getServiceToken(microservice);
   const rollbackPaymentDateByCCDNumberEndPoint = `/payments/ccd_case_reference/${ccdCaseNumber}/lag_time/${lag_time}`;
   const url = paymentBaseUrl + rollbackPaymentDateByCCDNumberEndPoint;
   const headers = {
-      Authorization: `Bearer ${idamToken}`,
-      ServiceAuthorization: `${serviceToken}`,
-      'Content-Type': 'application/json'
-    }
+    Authorization: `Bearer ${idamToken}`,
+    ServiceAuthorization: `${serviceToken}`,
+    'Content-Type': 'application/json'
+  }
 
   await makeRequest(url, 'PATCH', headers);
 }
@@ -416,7 +421,9 @@ async function getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumb
 async function createAFailedPBAPayment() {
   const url = paymentBaseUrl + '/credit-account-payments';
   const microservice = 'cmc';
-  const idamToken = await getIDAMToken();
+  const username = testConfig.TestProbateCaseWorkerUserName;
+  const password = testConfig.TestProbateCaseWorkerPassword;
+  const idamToken = await getIDAMToken(username, password);
   const accountNumber = testConfig.TestAccountNumberInActive;
   const serviceToken = await getServiceToken(microservice);
 
@@ -469,7 +476,9 @@ async function createAFailedPBAPayment() {
 
 async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, version, volume, ccdCaseNumber = createACCDCaseForProbate(), callBackUrl = 'http://probate-back-office-aat.service.core-compute-aat.internal/payment/gor-payment-request-update') {
   const url = paymentBaseUrl + '/service-request';
-  const idamToken = await getIDAMToken();
+  const username = testConfig.TestProbateCaseWorkerUserName;
+  const password = testConfig.TestProbateCaseWorkerPassword;
+  const idamToken = await getIDAMToken(username, password);
   const serviceToken = await getServiceToken();
   if (paymentBaseUrl.includes("demo")) {
     callBackUrl = callBackUrl.replaceAll("aat", "demo");
@@ -518,7 +527,9 @@ async function createAServiceRequest(hmctsorgid, calculatedAmount, feeCode, vers
 async function initiateCardPaymentForServiceRequest(amount, serviceRequestReference, returnUrl = 'https://paymentoutcome-web.aat.platform.hmcts.net/payment') {
   const url = paymentBaseUrl + `/service-request/${serviceRequestReference}/card-payments`;
   const microservice = 'cmc';
-  const idamToken = await getIDAMToken();
+  const username = testConfig.TestProbateCaseWorkerUserName;
+  const password = testConfig.TestProbateCaseWorkerPassword;
+  const idamToken = await getIDAMToken(username, password);
 
   if (paymentBaseUrl.includes("int-demo")) {
     returnUrl = returnUrl.replaceAll("web.aat", "web-int.demo");
@@ -551,7 +562,9 @@ async function initiateCardPaymentForServiceRequest(amount, serviceRequestRefere
 async function createAPBAPayment(amount, feeCode, version, volume, customerReference = 'ABC98989/65654') {
   const url = paymentBaseUrl + '/credit-account-payments';
   const microservice = 'cmc';
-  const idamToken = await getIDAMToken();
+  const username = testConfig.TestProbateCaseWorkerUserName;
+  const password = testConfig.TestProbateCaseWorkerPassword;
+  const idamToken = await getIDAMToken(username, password);
   const accountNumber = testConfig.TestAccountNumberActive;
 
   const serviceToken = await getServiceToken(microservice);
@@ -603,7 +616,9 @@ async function createAPBAPayment(amount, feeCode, version, volume, customerRefer
 async function createAPBAPaymentForExistingCase(amount, feeCode, version, volume, ccdCaseNumber, customerReference = 'ABC98989/65654') {
   const url = paymentBaseUrl + '/credit-account-payments';
   const microservice = 'cmc';
-  const idamToken = await getIDAMToken();
+  const username = testConfig.TestProbateCaseWorkerUserName;
+  const password = testConfig.TestProbateCaseWorkerPassword;
+  const idamToken = await getIDAMToken(username, password);
   const accountNumber = testConfig.TestAccountNumberActive;
 
   const serviceToken = await getServiceToken(microservice);
@@ -1047,7 +1062,9 @@ async function updateRefundStatusByApprover(refundReference, reviewerAction = 'A
 
 async function updateCardPaymentStatus() {
   const serviceToken = await getServiceToken();
-  const idamToken = await getIDAMToken();
+  const username = testConfig.TestProbateCaseWorkerUserName;
+  const password = testConfig.TestProbateCaseWorkerPassword;
+  const idamToken = await getIDAMToken(username, password);
   const url = paymentBaseUrl + '/jobs/card-payments-status-update'
 
   const headers = {
@@ -1070,6 +1087,175 @@ async function updatePaymentStatusWithPciPalCallbackResponse(paymentRcReference,
   console.log(`The response Status Code for Card payment status update : ${response.status}`);
 }
 
+async function createFee(validFrom, validTo, feeKeyword, memoLineNumber, amount) {
+  const username = testConfig.TestFeeRegEditorUserName;
+  const password = testConfig.TestFeeRegEditorPassword;
+  const accessToken = await getIDAMToken(username, password);
+  const data = {
+    version: {
+      description: 'PayBubble',
+      status: 'draft',
+      version: 1,
+      valid_from: validFrom,
+      valid_to: validTo,
+      flat_amount: {
+        amount: amount
+      },
+      memo_line: memoLineNumber,
+      statutory_instrument: feeKeyword,
+      last_amending_si: feeKeyword,
+      consolidated_fee_order_name: feeKeyword,
+      direction: 'enhanced',
+      reason_for_update: 'New Fee Creation',
+      si_ref_id: feeKeyword,
+      natural_account_code: '232425'
+    },
+    jurisdiction1: 'family',
+    jurisdiction2: 'probate registry',
+    service: 'probate',
+    channel: 'default',
+    event: 'issue',
+    keyword: feeKeyword,
+    applicant_type: 'all'
+  };
+  return fetch(`${feesRegisterApiUrl}/fees-register/fixed-fees`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + accessToken},
+    body: JSON.stringify(data)
+  }).then(response => {
+    if (response.status !== 201) {
+      console.log(`Error creating the fee, response: ${response.status}`);
+      throw new Error(`Error creating the fee, response: ${response.status}`);
+    }
+    const location = response.headers.get('location');
+    const feeCode = location.split('/');
+    console.log(`New PayBubble Testing fee created: ${feeCode[3]}`);
+    return feeCode[3];
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+async function submitFeeForReview(feeCode, version) {
+  const username = testConfig.TestFeeRegEditorUserName;
+  const password = testConfig.TestFeeRegEditorPassword;
+  const accessToken = await getIDAMToken(username, password);
+  return fetch(`${feesRegisterApiUrl}/fees/${feeCode}/versions/${version}/submit-for-review`, {
+    method: 'PATCH',
+    headers: {'Authorization': 'Bearer ' + accessToken}
+  }).then(response => {
+    if (response.status !== 204) {
+      console.log(`Error submitting fee for approval, response: ${response.status}`);
+    }
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+async function approveFee(feeCode, version) {
+  const username = testConfig.TestFeeRegApproverUserName;
+  const password = testConfig.TestFeeRegApproverPassword;
+  const accessToken = await getIDAMToken(username, password);
+  return fetch(`${feesRegisterApiUrl}/fees/${feeCode}/versions/${version}/approve`, {
+    method: 'PATCH',
+    headers: {'Authorization': 'Bearer ' + accessToken}
+  }).then(response => {
+    if (response.status !== 204) {
+      console.log(`Error approving the fee, response: ${response.status}`);
+    }
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+async function createFeeVersion(validFrom, validTo, feeCode, version, feeKeyword, memoLineNumber, amount) {
+  const username = testConfig.TestFeeRegEditorUserName;
+  const password = testConfig.TestFeeRegEditorPassword;
+  const accessToken = await getIDAMToken(username, password);
+  const data =
+    {
+      description: 'PayBubble',
+      status: 'draft',
+      version: version,
+      valid_from: validFrom,
+      valid_to: validTo,
+      flat_amount: {
+        amount: amount
+      },
+      memo_line: memoLineNumber,
+      statutory_instrument: feeKeyword,
+      last_amending_si: feeKeyword,
+      consolidated_fee_order_name: feeKeyword,
+      direction: 'enhanced',
+      reason_for_update: 'New Fee version Creation',
+      si_ref_id: feeKeyword,
+      natural_account_code: '232425'
+    };
+  return fetch(`${feesRegisterApiUrl}/fees/${feeCode}/versions`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + accessToken},
+    body: JSON.stringify(data)
+  }).then(response => {
+    if (response.status !== 201) {
+      console.log(`Error creating the fee version, response: ${response.status}`);
+    }
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+async function searchForPayBubbleTestingFees(description = 'PayBubble') {
+  const username = testConfig.TestFeeRegEditorUserName;
+  const password = testConfig.TestFeeRegEditorPassword;
+  const accessToken = await getIDAMToken(username, password);
+  return fetch(`${feesRegisterApiUrl}/fees-register/fees?description=${description}`, {
+    method: 'GET',
+    headers: {'Authorization': 'Bearer ' + accessToken}
+  }).then(response => {
+    if (response.status !== 200) {
+      console.log(`Error searching for fees, response: ${response.status}`);
+    }
+    return response.json();
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+async function createInflationTestingFee() {
+  const feeKeyword = "SN" + new Date().valueOf().toString();
+  const memoLineNumber = faker.random.number(99999);
+  let feeCode;
+  let fromDate = new Date();
+  fromDate.setDate(fromDate.getDate() - 2);
+  let toDate = new Date();
+  toDate.setDate(toDate.getDate() - 1);
+  feeCode = await createFee(fromDate.toISOString(), toDate.toISOString(), feeKeyword, memoLineNumber, 100);
+  await submitFeeForReview(feeCode, 1);
+  await approveFee(feeCode, 1);
+  fromDate.setDate(new Date().getDate());
+  toDate.setMonth(new Date().getMonth() + 6);
+  await createFeeVersion(fromDate.toISOString(), toDate.toISOString(), feeCode, 2, feeKeyword, memoLineNumber, 150);
+  await submitFeeForReview(feeCode, 2);
+  await approveFee(feeCode, 2);
+  return feeCode;
+}
+
+
+async function deleteFee(feeCode) {
+  const username = testConfig.TestFeeRegAdminUserName;
+  const password = testConfig.TestFeeRegAdminPassword;
+  const accessToken = await getIDAMToken(username, password);
+  return fetch(`${feesRegisterApiUrl}/fees-register/fees/${feeCode}`, {
+    method: 'DELETE',
+    headers: {'Authorization': 'Bearer ' + accessToken}
+  }).then(response => {
+    if (response.status !== 204) {
+      console.log(`Error deleting the test fee code, response: ${response.status}`);
+    }
+  }).catch(err => {
+    console.log(err);
+  });
+}
 
 
 module.exports = {
@@ -1094,5 +1280,12 @@ module.exports = {
   initiateCardPaymentForServiceRequest,
   updateCardPaymentStatus,
   updatePaymentStatusWithPciPalCallbackResponse,
-  bulkScanPaymentForExistingNormalCase
+  bulkScanPaymentForExistingNormalCase,
+  createFee,
+  submitFeeForReview,
+  approveFee,
+  createFeeVersion,
+  searchForPayBubbleTestingFees,
+  createInflationTestingFee,
+  deleteFee
 };
