@@ -77,7 +77,8 @@ module.exports = (security, appInsights) => {
         styleSrc: ["'self'", "'unsafe-inline'", "https://maxcdn.bootstrapcdn.com"],
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://www.googletagmanager.com"],
         scriptSrcAttr: ["'unsafe-inline'"],
-        imgSrc: ["'self'", "data:"]
+        imgSrc: ["'self'", "data:"],
+        formAction: ["'self'", "https://euwest1.pcipalstaging.cloud"]
       }
     }
   }));
