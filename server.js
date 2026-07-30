@@ -71,9 +71,6 @@ module.exports = (security, appInsights) => {
 
   // use helmet for security
   app.use(helmet());
-  app.use(helmet.noCache());
-  app.use(helmet.frameguard());
-  app.use(helmet.xssFilter());
 
   app.set('view engine', 'pug');
   app.set('views', path.join(__dirname, 'express/mvc/views'));
