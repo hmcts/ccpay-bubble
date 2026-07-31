@@ -74,13 +74,22 @@ module.exports = (security, appInsights) => {
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://maxcdn.bootstrapcdn.com"],
+        baseUri: ["'self'"],
+        fontSrc: ["'self'", "https:", "data:"],
+        formAction: ["'self'",
+          "https://euwest1.pcipalstaging.cloud",
+          "https://euwest2.pcipalstaging.cloud",
+          "https://euwest1.pcipal.cloud",
+          "https://euwest2.pcipal.cloud"],
+        frameAncestors: ["'self'"],
+        imgSrc: ["'self'", "data:", "https://*.google-analytics.com", "https://*.g.doubleclick.net"],
+        connectSrc: ["'self'", "https://*.google-analytics.com", "https://*.analytics.google.com", "https://*.g.doubleclick.net"],
+        frameSrc: ["'self'", "https://www.googletagmanager.com"],
+        objectSrc: ["'none'"],
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://www.googletagmanager.com"],
         scriptSrcAttr: ["'unsafe-inline'"],
-        imgSrc: ["'self'", "data:"],
-        formAction: ["'self'",
-          "https://euwest1.pcipalstaging.cloud","https://euwest2.pcipalstaging.cloud",
-          "https://euwest1.pcipal.cloud","https://euwest2.pcipal.cloud"]
+        styleSrc: ["'self'", "'unsafe-inline'", "https://maxcdn.bootstrapcdn.com"],
+        upgradeInsecureRequests: true
       }
     }
   }));
