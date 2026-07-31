@@ -89,7 +89,7 @@ module.exports = (security, appInsights) => {
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://www.googletagmanager.com"],
         scriptSrcAttr: ["'unsafe-inline'"],
         styleSrc: ["'self'", "'unsafe-inline'", "https://maxcdn.bootstrapcdn.com"],
-        upgradeInsecureRequests: true
+        upgradeInsecureRequests: []
       }
     }
   }));
