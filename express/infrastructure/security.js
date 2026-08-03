@@ -157,15 +157,18 @@ Security.prototype.logout = function logout() {
       if (err) {
         Logger.getLogger('CCPAY-BUBBLE: security.js').error(err);
       }
-      const token = req.cookies[constants.SECURITY_COOKIE];
 
       res.clearCookie(constants.SECURITY_COOKIE);
       res.clearCookie(constants.REDIRECT_COOKIE);
       res.clearCookie(constants.USER_COOKIE);
-      res.clearCookie(constants.authToken);
-      res.clearCookie(constants.userInfo);
       res.clearCookie(constants.PCIPAL_SECURITY_INFO);
-      res.redirect('/');
+      res.clearCookie('connect.sid');
+
+      if (req.session) {
+        req.session.destroy(() => res.redirect('/'));
+      } else {
+        res.redirect('/');
+      }
     });
   };
 };
