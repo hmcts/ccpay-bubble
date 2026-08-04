@@ -348,7 +348,9 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
           if (!error) {
             const userInfo = resp.body;
             self.opts.appInsights.setAuthenticatedUserContext(userInfo.email);
-            self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
+            if (self.opts.appInsights.defaultClient) {
+              self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
+            }
           }
         }
       );
