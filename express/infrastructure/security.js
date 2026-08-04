@@ -168,8 +168,9 @@ Security.prototype.logout = function logout() {
       /* Single sign-out: redirect the browser to IDAM's OIDC end-session endpoint
        * so the shared SSO session is ended. Without this, IDAM silently
        * re-authenticates the user and the logout never appears to complete. */
-      const idamWebUrl = self.opts.loginUrl.replace(/\/login$/, '');
-      const logoutUrl = URL.parse(`${idamWebUrl}/o/endSession`, true);
+      const parsedLoginUrl = URL.parse(self.opts.loginUrl);
+      const idamWebOrigin = `${parsedLoginUrl.protocol}//${parsedLoginUrl.host}`;
+      const logoutUrl = URL.parse(`${idamWebOrigin}/o/endSession`, true);
 
       let postLogoutRedirectUri = `https://${req.get('host')}/`;
       if (process.env.NODE_ENV === 'development') {
