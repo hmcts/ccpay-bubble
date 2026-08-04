@@ -48,7 +48,6 @@ export class AppComponent implements OnInit {
     const script = this.document.createElement('script');
     script.src = url;
     script.async = true;
-    script.crossOrigin = 'anonymous';
     this.document.head.appendChild(script);
   }
 }
