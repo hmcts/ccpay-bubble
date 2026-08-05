@@ -10,6 +10,12 @@ function createNoopAppInsights() {
   };
 }
 
+function isValidConnectionString(connectionString) {
+  return typeof connectionString === 'string' &&
+    connectionString.startsWith('InstrumentationKey=') &&
+    connectionString !== EMPTY_CONNECTION_STRING;
+}
+
 function fineGrainedSampling(envelope) {
   const baseType = envelope && envelope.data && envelope.data.baseType;
   const name = envelope && envelope.data && envelope.data.baseData && envelope.data.baseData.name;
@@ -30,7 +36,7 @@ module.exports = {
     try {
       const connectionString = config.get('secrets.ccpay.app-insights-connection-string');
 
-      if (!connectionString || connectionString === EMPTY_CONNECTION_STRING) {
+      if (!isValidConnectionString(connectionString)) {
         return createNoopAppInsights();
       }
 

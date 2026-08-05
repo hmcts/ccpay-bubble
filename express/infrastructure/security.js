@@ -151,25 +151,41 @@ Security.prototype.pcipalForm = function pcipalForm(req, res) {
 Security.prototype.logout = function logout() {
   const self = { opts: this.opts };
 
-  // eslint-disable-next-line no-unused-vars
   return function ret(req, res) {
-    return invalidateToken(self, req).end(err => {
-      if (err) {
-        Logger.getLogger('CCPAY-BUBBLE: security.js').error(err);
-      }
+    /* Best-effort server-side token invalidation. Kept non-blocking and bounded
+     * so a hanging IDAM call can never prevent the logout redirect. */
+    if (req.cookies && req.cookies[constants.SECURITY_COOKIE]) {
+      invalidateToken(self, req).timeout(5000).end(() => {});
+    }
 
-      res.clearCookie(constants.SECURITY_COOKIE);
-      res.clearCookie(constants.REDIRECT_COOKIE);
-      res.clearCookie(constants.USER_COOKIE);
-      res.clearCookie(constants.PCIPAL_SECURITY_INFO);
-      res.clearCookie('connect.sid');
+    res.clearCookie(constants.SECURITY_COOKIE);
+    res.clearCookie(constants.REDIRECT_COOKIE);
+    res.clearCookie(constants.USER_COOKIE);
+    res.clearCookie(constants.PCIPAL_SECURITY_INFO);
+    res.clearCookie('connect.sid');
 
-      if (req.session) {
-        req.session.destroy(() => res.redirect('/'));
-      } else {
-        res.redirect('/');
+    const redirectToIdamLogout = () => {
+      /* Single sign-out: redirect the browser to IDAM's OIDC end-session endpoint
+       * so the shared SSO session is ended. Without this, IDAM silently
+       * re-authenticates the user and the logout never appears to complete. */
+      const parsedLoginUrl = URL.parse(self.opts.loginUrl);
+      const idamWebOrigin = `${parsedLoginUrl.protocol}//${parsedLoginUrl.host}`;
+      const logoutUrl = URL.parse(`${idamWebOrigin}/o/endSession`, true);
+
+      let postLogoutRedirectUri = `https://${req.get('host')}/`;
+      if (process.env.NODE_ENV === 'development') {
+        postLogoutRedirectUri = `http://${req.get('host')}/`;
       }
-    });
+      logoutUrl.query.post_logout_redirect_uri = postLogoutRedirectUri;
+
+      return res.redirect(logoutUrl.format());
+    };
+
+    if (req.session) {
+      req.session.destroy(redirectToIdamLogout);
+    } else {
+      redirectToIdamLogout();
+    }
   };
 };
 
@@ -348,7 +364,9 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
           if (!error) {
             const userInfo = resp.body;
             self.opts.appInsights.setAuthenticatedUserContext(userInfo.email);
-            self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
+            if (self.opts.appInsights.defaultClient) {
+              self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
+            }
           }
         }
       );
