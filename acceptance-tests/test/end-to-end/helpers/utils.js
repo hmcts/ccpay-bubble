@@ -1028,6 +1028,7 @@ async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
 
 async function updateRefundStatusByRefundReference(refundReference, reason, status) {
   const serviceToken = await getServiceToken();
+  const idamToken = await getIDAMTokenForRefundApprover();
   const url = refundsApiUrl + `/refund/${refundReference}`
 
   const saveBody = JSON.stringify({
@@ -1035,6 +1036,7 @@ async function updateRefundStatusByRefundReference(refundReference, reason, stat
     status: `${status}`,
   });
   const headers = {
+    Authorization: `Bearer ${idamToken}`,
     ServiceAuthorization: `${serviceToken}`,
     'Content-Type': 'application/json'
   };

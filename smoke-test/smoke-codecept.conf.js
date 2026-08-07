@@ -2,7 +2,7 @@ const CONF = require('config');
 
 exports.config = {
   name: 'ccpaybubble-smoke-test',
-  tests: './test/smoke-test.js',
+  tests: 'test/smoke-test.js',
   timeout: 10000,
   output: './output',
   helpers: {
