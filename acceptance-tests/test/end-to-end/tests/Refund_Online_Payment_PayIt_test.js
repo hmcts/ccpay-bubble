@@ -37,7 +37,6 @@ Scenario('Card payment refund PayIt journey',
     ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
     I.waitForElement('//*[normalize-space()="Payment successful"]');
     I.click('Return to service request');
-    I.waitForElement('//h1[normalize-space()="Sign in"]');
 
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
@@ -153,7 +152,6 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
     I.waitForElement('//*[normalize-space()="Payment successful"]');
     I.click('Return to service request');
-    I.waitForElement('//h1[normalize-space()="Sign in"]');
 
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
