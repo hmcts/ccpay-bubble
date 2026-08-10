@@ -157,12 +157,7 @@ module.exports = {
     I.see('Search for a fee');
     I.fillField(this.locators.fee_search, feeCode);
     I.click('Search');
-    await I.usePlaywrightTo('wait for inflation fee search result', async ({ page }) => {
-      await page.locator(`xpath=${inflationFeeSelect(feeCode).xpath}`).waitFor({
-        state: 'visible',
-        timeout: CCPBConstants.oneMinute * 1000
-      });
-    });
+    await I.waitForElement(inflationFeeSelect(feeCode), CCPBConstants.oneMinute);
 
     await I.click(inflationFeeSelect(feeCode));
     await I.waitForElement(this.locators.old_amount_select);
