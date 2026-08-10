@@ -1168,8 +1168,6 @@ async function createFee(validFrom, validTo, feeKeyword, memoLineNumber, amount)
     const feeCode = location.split('/');
     console.log(`New PayBubble Testing fee created: ${feeCode[3]}`);
     return feeCode[3];
-  }).catch(err => {
-    console.log(err);
   });
 }
 
@@ -1182,10 +1180,8 @@ async function submitFeeForReview(feeCode, version) {
     headers: {'Authorization': 'Bearer ' + accessToken}
   }).then(response => {
     if (response.status !== 204) {
-      console.log(`Error submitting fee for approval, response: ${response.status}`);
+      throw new Error(`Error submitting fee ${feeCode} version ${version} for approval, response: ${response.status}`);
     }
-  }).catch(err => {
-    console.log(err);
   });
 }
 
@@ -1198,10 +1194,8 @@ async function approveFee(feeCode, version) {
     headers: {'Authorization': 'Bearer ' + accessToken}
   }).then(response => {
     if (response.status !== 204) {
-      console.log(`Error approving the fee, response: ${response.status}`);
+      throw new Error(`Error approving fee ${feeCode} version ${version}, response: ${response.status}`);
     }
-  }).catch(err => {
-    console.log(err);
   });
 }
 
@@ -1234,10 +1228,8 @@ async function createFeeVersion(validFrom, validTo, feeCode, version, feeKeyword
     body: JSON.stringify(data)
   }).then(response => {
     if (response.status !== 201) {
-      console.log(`Error creating the fee version, response: ${response.status}`);
+      throw new Error(`Error creating fee ${feeCode} version ${version}, response: ${response.status}`);
     }
-  }).catch(err => {
-    console.log(err);
   });
 }
 
@@ -1274,6 +1266,12 @@ async function createInflationTestingFee() {
   await createFeeVersion(fromDate.toISOString(), toDate.toISOString(), feeCode, 2, feeKeyword, memoLineNumber, 150);
   await submitFeeForReview(feeCode, 2);
   await approveFee(feeCode, 2);
+
+  await pollUntil(`fee ${feeCode} to become searchable`, async () => {
+    const fees = await searchForPayBubbleTestingFees();
+    return JSON.stringify(fees || {}).includes(`"${feeCode}"`);
+  }, { timeoutMs: 120000, intervalMs: 2000 });
+
   return feeCode;
 }
 
