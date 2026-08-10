@@ -80,4 +80,22 @@ describe('misc search helpers', () => {
 
     assert.deepStrictEqual(CaseSearch.searchCalls, [['ccd', '1111222233334444']]);
   });
+
+  it('retries a rendered search error before failing with the error state', async () => {
+    const CaseSearch = fakeCaseSearch();
+    const I = fakeActor('Something went wrong Please try again later');
+
+    await assert.rejects(
+      () => misc.multipleSearch(CaseSearch, I, '1111222233334444'),
+      /Case search failed with a rendered error/
+    );
+
+    assert.deepStrictEqual(CaseSearch.searchCalls, [
+      ['ccd', '1111222233334444'],
+      ['ccd', '1111222233334444'],
+      ['ccd', '1111222233334444'],
+      ['ccd', '1111222233334444'],
+      ['ccd', '1111222233334444']
+    ]);
+  });
 });

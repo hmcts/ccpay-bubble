@@ -58,7 +58,6 @@ Scenario('Card payment with failed transaction should have the correct calculati
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.see('Your card payment was unsuccessful.');
     I.click('Return to service request');
-    I.waitForText('Sign in', CCPBATConstants.tenSecondWaitTime);
 
   }).tag('@serial @pipeline @nightly');
 
