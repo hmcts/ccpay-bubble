@@ -1,6 +1,14 @@
 'use strict';
+const { retryTo } = require('codeceptjs/effects');
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const { I } = inject();
+
+const inflationFeeSearchAttempts = 6;
+const inflationFeeSearchPollIntervalMs = 2_000;
+
+function inflationFeeSelect(feeCode) {
+  return { xpath: `//tr[td[normalize-space()="${feeCode}"]]//a[normalize-space()="Select"]` };
+}
 
 module.exports = {
   locators: {
@@ -152,15 +160,18 @@ module.exports = {
   async addInflationUpdatedFee(feeCode) {
     I.see('Search for a fee');
     I.fillField(this.locators.fee_search, feeCode);
-    I.click('Search');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.click('Select');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.seeElement(this.locators.old_amount_select);
-    I.seeElement(this.locators.new_amount_select);
+
+    await retryTo(async () => {
+      await I.click('Search');
+      await I.waitForElement(inflationFeeSelect(feeCode), CCPBConstants.fiveSecondWaitTime);
+    }, inflationFeeSearchAttempts, inflationFeeSearchPollIntervalMs);
+
+    await I.click(inflationFeeSelect(feeCode));
+    await I.waitForElement(this.locators.old_amount_select);
+    await I.waitForElement(this.locators.new_amount_select);
     I.click(this.locators.new_amount_select);
     I.click('Continue');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    await I.waitForElement('//h1[normalize-space()="Summary"]', CCPBConstants.oneMinute);
   },
 
 };

@@ -35,9 +35,9 @@ Scenario('Card payment refund PayIt journey',
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£300.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
-    I.waitForText('Payment successful', CCPBATConstants.tenSecondWaitTime);
+    I.waitForElement('//*[normalize-space()="Payment successful"]');
     I.click('Return to service request');
-    I.waitForText('Sign in', CCPBATConstants.tenSecondWaitTime);
+    I.waitForElement('//h1[normalize-space()="Sign in"]');
 
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
@@ -151,9 +151,9 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£300.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
-    I.waitForText('Payment successful', CCPBATConstants.tenSecondWaitTime);
+    I.waitForElement('//*[normalize-space()="Payment successful"]');
     I.click('Return to service request');
-    I.waitForText('Sign in', CCPBATConstants.tenSecondWaitTime);
+    I.waitForElement('//h1[normalize-space()="Sign in"]');
 
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
