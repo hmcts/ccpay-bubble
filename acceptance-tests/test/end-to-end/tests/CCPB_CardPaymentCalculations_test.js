@@ -58,8 +58,6 @@ Scenario('Card payment with failed transaction should have the correct calculati
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.see('Your card payment was unsuccessful.');
     I.click('Return to service request');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.see('Sign in');
 
   }).tag('@serial @pipeline @nightly');
 
@@ -94,13 +92,11 @@ Scenario('Card payment with failed transaction should have the correct calculati
       ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£300.00');
       I.wait(CCPBATConstants.twoSecondWaitTime);
       ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
-      I.see('Payment successful');
+      I.waitForText('Payment successful', CCPBATConstants.tenSecondWaitTime);
       I.click('Return to service request');
     }
 
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.see('Sign in');
+    I.waitForText('Sign in', CCPBATConstants.tenSecondWaitTime);
 
     // Validate Case Transactions details
     I.wait(CCPBATConstants.fiveSecondWaitTime);

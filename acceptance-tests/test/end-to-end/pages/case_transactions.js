@@ -172,7 +172,7 @@ module.exports = {
   allocateToExistingServiceRequest(amount) {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click('Allocate to existing service request');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Select payment request', CCPBConstants.tenSecondWaitTime);
     I.see('Select payment request');
     I.see(`£${amount}`);
     I.click('//input[@name="orderLevelRecord"]');
@@ -417,7 +417,7 @@ module.exports = {
     I.see('Overpayment');
   },
   validateTransactionPageForPartialPayments(amount) {
-    I.wait(CCPBConstants.tenSecondWaitTime);
+    I.waitForText('Total payments', CCPBConstants.tenSecondWaitTime);
     I.see('Total payments');
     I.see(`£${amount}`);
     I.see('Total remissions');

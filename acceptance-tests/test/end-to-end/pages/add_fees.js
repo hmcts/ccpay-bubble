@@ -1,7 +1,10 @@
 'use strict';
-const { Console } = require('console');
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const { I } = inject();
+
+function inflationFeeSelect(feeCode) {
+  return { xpath: `//tr[td[normalize-space()="${feeCode}"]]//a[normalize-space()="Select"]` };
+}
 
 module.exports = {
   locators: {
@@ -18,6 +21,20 @@ module.exports = {
     i_have_put_a_stop_on_case: {id:'other'},
     add_Notes: {id:'moreDetails'},
     confirm_button: {xpath:'//button[@type="submit"]'}
+  },
+
+  async submitFeeDetailsIfShown() {
+    const numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    const feeDetailsCount = await I.grabNumberOfVisibleElements('//h1[normalize-space()="Fee details"]/following::th[normalize-space()="Fee code"]');
+    const submitButton = { xpath: '//h1[normalize-space()="Fee details"]/following::button[@type="submit" and normalize-space()="Submit"]' };
+    const submitButtonCount = await I.grabNumberOfVisibleElements(submitButton);
+    if(numOfElements) {
+      await I.click('//input[@id=\'fee-version0\']');
+    }
+    if((numOfElements || feeDetailsCount) && submitButtonCount) {
+      await I.click(submitButton);
+      await I.wait(CCPBConstants.fiveSecondWaitTime);
+    }
   },
 
   async addFees(amount, jurisdiction1, jurisdiction2) {
@@ -140,14 +157,14 @@ module.exports = {
     I.see('Search for a fee');
     I.fillField(this.locators.fee_search, feeCode);
     I.click('Search');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.click('Select');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.seeElement(this.locators.old_amount_select);
-    I.seeElement(this.locators.new_amount_select);
+    await I.waitForElement(inflationFeeSelect(feeCode), CCPBConstants.oneMinute);
+
+    await I.click(inflationFeeSelect(feeCode));
+    await I.waitForElement(this.locators.old_amount_select);
+    await I.waitForElement(this.locators.new_amount_select);
     I.click(this.locators.new_amount_select);
     I.click('Continue');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    await I.waitForElement('//h1[normalize-space()="Summary"]', CCPBConstants.oneMinute);
   },
 
 };

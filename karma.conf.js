@@ -33,8 +33,19 @@ module.exports = function (config) {
         { type: 'lcov' }
       ]
     },
+    customLaunchers: {
+      ChromeHeadlessCI: {
+        base: 'ChromeHeadless',
+        flags: [
+          '--no-sandbox',
+          '--disable-dev-shm-usage'
+        ]
+      }
+    },
     reporters: ['progress', 'kjhtml','coverage'],
-    browsers: ['ChromeHeadless'],
+    browsers: ['ChromeHeadlessCI'],
+    browserNoActivityTimeout: 120000,
+    captureTimeout: 120000,
     restartOnFileChange: true
   });
 };

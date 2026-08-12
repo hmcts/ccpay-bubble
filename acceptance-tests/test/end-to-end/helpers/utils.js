@@ -7,6 +7,7 @@ const fetch = require('node-fetch');
 const stringUtil = require('./string_utils.js');
 const numUtil = require('./number_utils');
 const testConfig = require('../tests/config/CCPBConfig.js');
+const authCache = require('./local_auth_cache');
 const faker = require("faker");
 
 const logger = Logger.getLogger('helpers/utils.js');
@@ -20,11 +21,10 @@ const rpeServiceAuthApiUrl = testConfig.TestS2SRpeServiceAuthApiUrl;
 const ccdDataStoreApiUrl = testConfig.TestCcdDataStoreApiUrl;
 const s2sAuthPath = '/testing-support/lease';
 
-let idamTokenCache = {};
-let idamUserCache = {};
-const IDAM_TOKEN_CACHE_DURATION_MS = 60 * 1000; // 60 seconds
 const MAX_NOTIFY_PAGES = 3;  //max notify results pages to search
 const MAX_RETRIES = 5;  //max retries on each notify results page
+const DEFAULT_API_POLL_TIMEOUT_MS = 60000;
+const DEFAULT_API_POLL_INTERVAL_MS = 2000;
 
 let notifyClient;
 
@@ -86,6 +86,34 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+async function pollUntil(description, check, options = {}) {
+  const timeoutMs = options.timeoutMs || DEFAULT_API_POLL_TIMEOUT_MS;
+  const intervalMs = options.intervalMs || DEFAULT_API_POLL_INTERVAL_MS;
+  const sleepFn = options.sleepFn || sleep;
+  const nowFn = options.nowFn || Date.now;
+  const startedAt = nowFn();
+  let attempt = 0;
+  let lastValue;
+
+  while (nowFn() - startedAt <= timeoutMs) {
+    attempt++;
+    lastValue = await check(attempt);
+
+    if (lastValue) {
+      return lastValue;
+    }
+
+    if (nowFn() - startedAt >= timeoutMs) {
+      break;
+    }
+
+    await sleepFn(intervalMs);
+  }
+
+  const lastValueSummary = lastValue === undefined ? 'undefined' : JSON.stringify(lastValue);
+  throw new Error(`Timed out waiting for ${description} after ${timeoutMs}ms. Last value: ${lastValueSummary}`);
+}
+
 async function getEmailFromNotify(searchEmail) {
   let notificationsResponse = await notifyClient.getNotifications("email", null);
   let currentPayload = notificationsResponse && (notificationsResponse.data || notificationsResponse.body || notificationsResponse);
@@ -115,14 +143,7 @@ function searchForEmailInNotifyResults(notifications, searchEmail) {
   return result;
 }
 
-async function getIDAMToken(username, password) {
-  const now = Date.now();
-  if ( idamTokenCache[username] && (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)) {
-    return idamTokenCache[username].token;
-  }
-  const idamClientID = testConfig.TestClientID;
-  const idamClientSecret = testConfig.TestClientSecret;
-  const redirectUri = testConfig.TestRedirectURI;
+async function requestIDAMToken(username, password, idamClientID, idamClientSecret, redirectUri, userLabel) {
   const scope = 'openid profile roles';
   const grantType = 'password';
 
@@ -134,48 +155,66 @@ async function getIDAMToken(username, password) {
   try {
     resp = await makeRequest(url, 'POST', headers, body);
   } catch (error) {
-    const message = `IDAM token request failed (probate user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri})`;
+    const message = `IDAM token request failed (${userLabel}: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri})`;
     logAndThrowError(error, message);
   }
 
   const idamJson = await resp.json();
-  idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
+  if (!idamJson.access_token) {
+    throw new Error(`IDAM token response did not include access_token (${userLabel}: ${username})`);
+  }
   return idamJson.access_token;
+}
+
+function validateIDAMTokenConfig(username, password, idamClientID, idamClientSecret, redirectUri, userLabel) {
+  const missing = [];
+  if (!username) missing.push('username');
+  if (!password) missing.push('password');
+  if (!idamClientID) missing.push('client_id');
+  if (!idamClientSecret) missing.push('client_secret');
+  if (!redirectUri) missing.push('redirect_uri');
+
+  if (missing.length) {
+    throw new Error(`IDAM token request skipped (${userLabel}): missing ${missing.join(', ')}`);
+  }
+}
+
+async function cachedIDAMToken(username, password, idamClientID, idamClientSecret, redirectUri, userLabel) {
+  validateIDAMTokenConfig(username, password, idamClientID, idamClientSecret, redirectUri, userLabel);
+  return authCache.getOrCreate(
+    ['ccpay-bubble', idamApiUrl, 'password', username, idamClientID, redirectUri],
+    () => requestIDAMToken(username, password, idamClientID, idamClientSecret, redirectUri, userLabel)
+  );
+}
+
+async function getIDAMToken(
+  username = testConfig.TestProbateCaseWorkerUserName,
+  password = testConfig.TestProbateCaseWorkerPassword,
+  idamClientID = testConfig.TestClientID,
+  idamClientSecret = testConfig.TestClientSecret,
+  redirectUri = testConfig.TestRedirectURI,
+  userLabel = 'probate user'
+) {
+  return cachedIDAMToken(
+    username,
+    password,
+    idamClientID,
+    idamClientSecret,
+    redirectUri,
+    userLabel
+  );
 }
 
 async function getIDAMTokenForRefundApprover() {
-
-
-  const username = testConfig.TestRefundsApproverUserName;
-  const password = testConfig.TestRefundsApproverPassword;
-  const idamClientID = testConfig.TestClientID;
-  const idamClientSecret = testConfig.TestClientSecret;
-  const redirectUri = testConfig.TestRedirectURI;
-  const scope = 'openid profile roles';
-  const grantType = 'password';
-
-  const idamTokenPath = '/o/token';
-  const url = `${idamApiUrl}${idamTokenPath}`;
-  const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-  const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
-  let resp;
-
-  const now = Date.now();
-  if ( idamTokenCache[username] && (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS)) {
-    return idamTokenCache[username].token;
-  }
-
-  try {
-    resp = await makeRequest(url, 'POST', headers, body);
-  } catch (error) {
-    const message = `IDAM token request failed (refund approver user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri})`;
-    logAndThrowError(error, message);
-  }
-  const idamJson = await resp.json();
-  idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
-  return idamJson.access_token;
+  return cachedIDAMToken(
+    testConfig.TestRefundsApproverUserName,
+    testConfig.TestRefundsApproverPassword,
+    testConfig.TestClientID,
+    testConfig.TestClientSecret,
+    testConfig.TestRedirectURI,
+    'refund approver user'
+  );
 }
-
 
 
 /**
@@ -201,34 +240,14 @@ function logAndThrowError(error, message) {
 }
 
 async function getIDAMTokenForDivorceUser() {
-  const username = testConfig.TestDivorceCaseWorkerUserName;
-  const now = Date.now();
-  if ( idamTokenCache[username] && (now - idamTokenCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS) ) {
-    return idamTokenCache[username].token;
-  }
-
-  const password = testConfig.TestDivorceCaseWorkerPassword;
-  const idamClientID = testConfig.TestDivorceClientID;
-  const idamClientSecret = testConfig.TestDivorceClientSecret;
-  const redirectUri = testConfig.TestDivorceClientRedirectURI;
-  const scope = 'openid profile roles';
-  const grantType = 'password';
-
-  const idamTokenPath = '/o/token';
-  const url = `${idamApiUrl}${idamTokenPath}`;
-  const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-  const body = `grant_type=${grantType}&client_id=${idamClientID}&client_secret=${idamClientSecret}&redirect_uri=${redirectUri}&username=${username}&password=${password}&scope=${scope}`;
-  let resp;
-  try {
-    resp = await makeRequest(url, 'POST', headers, body);
-  } catch (error) {
-    const message = `IDAM token request failed (divorce user: ${username}, clientId: ${idamClientID}, redirectUri: ${redirectUri})`;
-    logAndThrowError(error, message);
-  }
-
-  const idamJson = await resp.json();
-  idamTokenCache[username] = { token: idamJson.access_token, timestamp: now };
-  return idamJson.access_token;
+  return cachedIDAMToken(
+    testConfig.TestDivorceCaseWorkerUserName,
+    testConfig.TestDivorceCaseWorkerPassword,
+    testConfig.TestDivorceClientID,
+    testConfig.TestDivorceClientSecret,
+    testConfig.TestDivorceClientRedirectURI,
+    'divorce user'
+  );
 }
 
 async function getServiceToken(service = 'ccpay_bubble') {
@@ -243,27 +262,23 @@ async function getUserID(idamToken, username = 'unknown') {
   if (username == 'unknown' || username == undefined) {
     username = testConfig.TestDivorceCaseWorkerUserName;
   }
-  const now = Date.now();
-  if ( idamUserCache[username] && (now - idamUserCache[username].timestamp < IDAM_TOKEN_CACHE_DURATION_MS) ) {
-    return idamUserCache[username].id;
-  }
-
-  const url = `${idamApiUrl}/details`;
-  const headers = {
-    Authorization: `Bearer ${idamToken}`,
-    'Content-Type': 'application/json'
-  }
-  let resp;
-  try {
-    resp = await makeRequest(url, 'GET', headers);
-  } catch (error) {
-    const message = `IDAM user details request failed (user: ${username})`;
-    logAndThrowError(error, message);
-  }
-  console.log(resp);
-  const responsePayload = await resp.json();
-  idamUserCache[username] = { id: responsePayload.id, timestamp: now };
-  return responsePayload.id;
+  return authCache.getOrCreate(['ccpay-bubble', idamApiUrl, 'details', username], async () => {
+    const url = `${idamApiUrl}/details`;
+    const headers = {
+      Authorization: `Bearer ${idamToken}`,
+      'Content-Type': 'application/json'
+    };
+    let resp;
+    try {
+      resp = await makeRequest(url, 'GET', headers);
+    } catch (error) {
+      const message = `IDAM user details request failed (user: ${username})`;
+      logAndThrowError(error, message);
+    }
+    console.log(resp);
+    const responsePayload = await resp.json();
+    return responsePayload.id;
+  });
 }
 
 async function getCREATEEventForProbate() {
@@ -418,6 +433,28 @@ async function getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumb
   return paymentLookupObject;
 }
 
+function paymentsFromLookup(paymentLookupObject) {
+  if (!paymentLookupObject || !Array.isArray(paymentLookupObject.payments)) {
+    return [];
+  }
+  return paymentLookupObject.payments;
+}
+
+async function waitForPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber, options = {}) {
+  const lookupFn = options.lookupFn || getPBAPaymentByCCDCaseNumber;
+
+  return pollUntil(`PBA payment for CCD case ${ccdCaseNumber}`, async () => {
+    const paymentLookupObject = await lookupFn(idamToken, serviceToken, ccdCaseNumber);
+    const payments = paymentsFromLookup(paymentLookupObject);
+    return payments.length > 0 ? paymentLookupObject : false;
+  }, {
+    timeoutMs: options.timeoutMs,
+    intervalMs: options.intervalMs,
+    sleepFn: options.sleepFn,
+    nowFn: options.nowFn
+  });
+}
+
 async function createAFailedPBAPayment() {
   const url = paymentBaseUrl + '/credit-account-payments';
   const microservice = 'cmc';
@@ -464,7 +501,7 @@ async function createAFailedPBAPayment() {
   console.log(`The value of the response status code : ${response.status}`);
   const paymentReference = payload.reference;
 
-  await rollbackPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+  await rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
 
 
   const paymentDetails = {
@@ -603,8 +640,8 @@ async function createAPBAPayment(amount, feeCode, version, volume, customerRefer
   const response = await makeRequest(url, 'POST', headers, saveBody);
   console.log(`The value of the response status code : ${response.status}`);
 
-  const paymentLookupObject = await getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
-  await rollbackPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+  const paymentLookupObject = await waitForPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+  await rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
 
   const paymentDetails = {
     ccdCaseNumber: `${ccdCaseNumber}`,
@@ -657,8 +694,8 @@ async function createAPBAPaymentForExistingCase(amount, feeCode, version, volume
   const response = await makeRequest(url, 'POST', headers, saveBody);
   console.log(`The value of the response status code : ${response.status}`);
 
-  const paymentDetails = await getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
-  await rollbackPaymentDateByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+  const paymentDetails = await waitForPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+  await rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
 
   return paymentDetails;
 }
@@ -1131,8 +1168,6 @@ async function createFee(validFrom, validTo, feeKeyword, memoLineNumber, amount)
     const feeCode = location.split('/');
     console.log(`New PayBubble Testing fee created: ${feeCode[3]}`);
     return feeCode[3];
-  }).catch(err => {
-    console.log(err);
   });
 }
 
@@ -1145,10 +1180,8 @@ async function submitFeeForReview(feeCode, version) {
     headers: {'Authorization': 'Bearer ' + accessToken}
   }).then(response => {
     if (response.status !== 204) {
-      console.log(`Error submitting fee for approval, response: ${response.status}`);
+      throw new Error(`Error submitting fee ${feeCode} version ${version} for approval, response: ${response.status}`);
     }
-  }).catch(err => {
-    console.log(err);
   });
 }
 
@@ -1161,10 +1194,8 @@ async function approveFee(feeCode, version) {
     headers: {'Authorization': 'Bearer ' + accessToken}
   }).then(response => {
     if (response.status !== 204) {
-      console.log(`Error approving the fee, response: ${response.status}`);
+      throw new Error(`Error approving fee ${feeCode} version ${version}, response: ${response.status}`);
     }
-  }).catch(err => {
-    console.log(err);
   });
 }
 
@@ -1197,10 +1228,8 @@ async function createFeeVersion(validFrom, validTo, feeCode, version, feeKeyword
     body: JSON.stringify(data)
   }).then(response => {
     if (response.status !== 201) {
-      console.log(`Error creating the fee version, response: ${response.status}`);
+      throw new Error(`Error creating fee ${feeCode} version ${version}, response: ${response.status}`);
     }
-  }).catch(err => {
-    console.log(err);
   });
 }
 
@@ -1237,6 +1266,12 @@ async function createInflationTestingFee() {
   await createFeeVersion(fromDate.toISOString(), toDate.toISOString(), feeCode, 2, feeKeyword, memoLineNumber, 150);
   await submitFeeForReview(feeCode, 2);
   await approveFee(feeCode, 2);
+
+  await pollUntil(`fee ${feeCode} to become searchable`, async () => {
+    const fees = await searchForPayBubbleTestingFees();
+    return JSON.stringify(fees || {}).includes(`"${feeCode}"`);
+  }, { timeoutMs: 120000, intervalMs: 2000 });
+
   return feeCode;
 }
 
@@ -1281,6 +1316,12 @@ module.exports = {
   updateCardPaymentStatus,
   updatePaymentStatusWithPciPalCallbackResponse,
   bulkScanPaymentForExistingNormalCase,
+  _private: {
+    paymentsFromLookup,
+    pollUntil,
+    validateIDAMTokenConfig,
+    waitForPBAPaymentByCCDCaseNumber
+  },
   createFee,
   submitFeeForReview,
   approveFee,
