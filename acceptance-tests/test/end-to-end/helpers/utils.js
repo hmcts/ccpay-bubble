@@ -663,6 +663,52 @@ async function createAPBAPaymentForExistingCase(amount, feeCode, version, volume
   return paymentDetails;
 }
 
+async function createAPBAPaymentForNumberOfFees(ccdCaseNumber, fees, customerReference = 'ABC01234/12345') {
+  const url = paymentBaseUrl + '/credit-account-payments';
+  const microservice = 'cmc';
+  const username = testConfig.TestProbateCaseWorkerUserName;
+  const password = testConfig.TestProbateCaseWorkerPassword;
+  const idamToken = await getIDAMToken(username, password);
+  const accountNumberPBA = testConfig.TestAccountNumberActive;
+
+  const serviceToken = await getServiceToken(microservice);
+
+  // Calculate the total amount from all fees.
+  const amount = fees.reduce(
+    (total, fee) => total + Number(fee.calculated_amount),
+    0
+  );
+
+  // eslint-disable-next-line no-magic-numbers
+  console.log(`The value of the CCD Case Number : ${ccdCaseNumber}`);
+  const saveBody = JSON.stringify({
+    account_number: `${accountNumberPBA}`,
+    amount: amount,
+    case_reference: '1253656',
+    ccd_case_number: `${ccdCaseNumber}`,
+    currency: 'GBP',
+    customer_reference: `${customerReference}`,
+    description: 'string',
+    fees,
+    organisation_name: 'string',
+    service: 'PROBATE',
+    site_id: 'ABA6'
+  });
+
+  const headers = {
+    Authorization: `${idamToken}`,
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'Content-Type': 'application/json'
+  };
+
+  const response = await makeRequest(url, 'POST', headers, saveBody);
+  console.log(`The value of the response status code : ${response.status}`);
+
+  const paymentDetails = await getPBAPaymentByCCDCaseNumber(idamToken, serviceToken, ccdCaseNumber);
+
+  return paymentDetails;
+}
+
 async function getPaymentGroupRef(serviceToken, ccdCaseNumberFormatted) {
   const ccdNumber = ccdCaseNumberFormatted;
   const saveBody = JSON.stringify({
@@ -1028,6 +1074,7 @@ async function bulkScanCcdLinkedToException(siteId, amount, paymentMethod) {
 
 async function updateRefundStatusByRefundReference(refundReference, reason, status) {
   const serviceToken = await getServiceToken();
+  const idamToken = await getIDAMTokenForRefundApprover();
   const url = refundsApiUrl + `/refund/${refundReference}`
 
   const saveBody = JSON.stringify({
@@ -1035,6 +1082,7 @@ async function updateRefundStatusByRefundReference(refundReference, reason, stat
     status: `${status}`,
   });
   const headers = {
+    Authorization: `Bearer ${idamToken}`,
     ServiceAuthorization: `${serviceToken}`,
     'Content-Type': 'application/json'
   };
@@ -1277,6 +1325,7 @@ module.exports = {
   updateRefundStatusByRefundReference,
   updateRefundStatusByApprover,
   createAPBAPaymentForExistingCase,
+  createAPBAPaymentForNumberOfFees,
   initiateCardPaymentForServiceRequest,
   updateCardPaymentStatus,
   updatePaymentStatusWithPciPalCallbackResponse,

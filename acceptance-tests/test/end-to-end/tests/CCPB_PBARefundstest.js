@@ -835,7 +835,7 @@ Scenario.skip('Add a Remissions Apply for Refund and Process Refunds As an Appro
   });
 
 Scenario('Check Page Access for a Refund Requestor @pipeline @nightly',
-  ({ I, InitiateRefunds }) => {
+  async({ I, InitiateRefunds }) => {
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);

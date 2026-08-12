@@ -7,10 +7,10 @@ const miscUtils = require("../helpers/misc");
 const assertionData = require("../fixture/data/refunds/assertion");
 const stringUtils = require("../helpers/string_utils");
 
-Feature('CC Pay Bubble Refund Retro Remission journey tests').retry(CCPBATConstants.defaultNumberOfRetries);
+Feature('CC Pay Bubble Refund Multiple Retro Remissions journey tests').retry(CCPBATConstants.defaultNumberOfRetries);
 
 // PAY-7868
-Scenario('Remissions refunds on Multiple Service requests',
+Scenario('Partial Remission Refunds Against Fully Paid Amounts for Multiple Service Requests with a Single Fee Each',
   async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
            PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList }) => {
 
@@ -169,6 +169,169 @@ Scenario('Remissions refunds on Multiple Service requests',
     I.click('Back');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', totalRemissionAmount, '0.00', '0.00');
+    await I.Logout();
+    I.clearCookie();
+  }).tag('@pipeline @nightly');
+
+Scenario('Full Remission Refunds Against Fully Paid Amount for a Single Service Request with Multiple Fees',
+  async ({ I, CaseSearch, CaseTransaction, AddFees, FeesSummary, ConfirmAssociation,
+           PaymentHistory, FailureEventDetails, InitiateRefunds, RefundsList, ResetRefund }) => {
+
+    const ccdCaseNumber = await apiUtils.createACCDCaseForProbate();
+    const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdCaseNumber);
+
+    const emailAddress = `${stringUtil.getTodayDateAndTimeInString()}refundspaybubbleft1@mailtest.gov.uk`;
+
+    const totalAmount = '489.00';
+
+    const feeCode1 = 'FEE0205';
+    const feeAmount1 = '80.00';
+    const calculatedAmount1 = '80.00';
+    const remissionAmount1= '80.00'; // remission amount against the 1st fee
+    const refundAmount1= '80.00'; // refund amount against the 1st remission
+    const hwfReference1= 'HWF-A1B-23C'; // HWF reference for the 1st fee
+
+    const feeCode2 = 'FEE0450';
+    const feeAmount2 = '377.00';
+    const calculatedAmount2 = '377.00';
+    const remissionAmount2= '377.00'; // remission amount against the 2nd fee
+    const refundAmount2= '377.00'; // refund amount against the 2nd remission
+    const hwfReference2= 'PA21-123456'; // HWF reference for the 2nd fee
+
+    const feeCode3 = 'FEE0574';
+    const feeAmount3 = '16.00' // FEE0574 = 16 * 2 volume = 32
+    const calculatedAmount3 = '32.00';
+    const remissionAmount3= '32.00'; // remission amount against the 3rd fee
+    const refundAmount3= '32.00'; // refund amount against the 3rd remission
+    const hwfReference3= 'AKD-C1E-24D'; // HWF reference for the 3rd fee
+
+    const fees = [
+      {
+        calculated_amount: calculatedAmount1,
+        code: feeCode1,
+        fee_amount: feeAmount1,
+        description:
+          "Civil Court fees - Money Claims - Claim Amount - 1000.01 up to 1500 GBP",
+        version: "6",
+        volume: 1,
+      },
+      {
+        calculated_amount: calculatedAmount2,
+        code: feeCode2,
+        fee_amount: feeAmount2,
+        description: "Any other remedy (County Court)",
+        version: "5",
+        volume: 1,
+      },
+      {
+        calculated_amount: calculatedAmount3,
+        code: feeCode3,
+        fee_amount: feeAmount3,
+        description:
+          "Copy of document of specific individual requested in all other cases where FEE0573 does not apply (for each copy)",
+        version: "1",
+        volume: 2,
+      },
+    ];
+    const paymentDetails = await apiUtils.createAPBAPaymentForNumberOfFees(ccdCaseNumber, fees);
+    const paymentRcReference = `${paymentDetails.payments[0].payment_reference}`;
+
+    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', '0.00');
+
+    //  remission refund - 1st fee - FEE0205 = 80.00
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    if (I.dontSeeElement('Issue refund')) {
+      console.log('found disabled button');
+      await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
+      I.click('Back');
+      await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    }
+    I.waitForText('Add remission', 5);
+    // adding a retro remission amount of [£80] against the 1st fee FEE0205
+    I.click(`//table/tbody/tr[2]/td[contains(text(), '${feeCode1}')]//ancestor::table//parent::div/button`);
+    InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, hwfReference1);
+    InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, remissionAmount1);
+    const checkYourAnswersData1 = assertionData.checkYourAnswers(paymentRcReference, hwfReference1, `£${refundAmount1}`, totalAmount, `£${feeAmount1}`, `${feeCode1}`, 'FEE0205 - Civil Court fees - Money Claims - Claim Amount - 1000.01 up to 1500 GBP',
+      emailAddress, '', 'SendRefund', `£${remissionAmount1}`);
+    InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData1, false, false);
+    InitiateRefunds.verifyRemissionSubmittedPage(true, remissionAmount1);
+    I.click('//*[@id="email"]');
+    I.fillField('//*[@id="email"]', emailAddress);
+    I.click('Continue');
+    InitiateRefunds.verifyCheckYourAnswersPageForRemissionFinalSubmission(checkYourAnswersData1, false, false);
+    const refundRefRemissions1 = await InitiateRefunds.verifyRefundSubmittedPage(refundAmount1);
+    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount1, '0.00', '80.00');
+
+    // Approver approved the refund
+    await apiUtils.updateRefundStatusByApprover(refundRefRemissions1, 'APPROVE');
+    // Refund Accepted by liberata
+    await apiUtils.updateRefundStatusByRefundReference(refundRefRemissions1, '', 'ACCEPTED');
+
+    I.refreshPage();
+    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', remissionAmount1, '0.00', '0.00');
+
+    //  remission refund - 2nd fee - FEE0450 = 377.00
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    I.waitForText('Add remission', 5);
+    // adding a retro remission amount of [£377] against the 2nd fee FEE0450
+    I.click(`//table/tbody/tr[2]/td[contains(text(), '${feeCode2}')]//ancestor::table//parent::div/button`);
+    InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, hwfReference2);
+    InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, remissionAmount2);
+    const checkYourAnswersData2 = assertionData.checkYourAnswers(paymentRcReference, hwfReference2, `£${refundAmount2}`, totalAmount, `£${feeAmount2}`, `${feeCode2}`, 'FEE0450 - Any other remedy (County Court)',
+      emailAddress, '', 'SendRefund', `£${remissionAmount2}`);
+    InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData2, false, false);
+    InitiateRefunds.verifyRemissionSubmittedPage(true, remissionAmount2);
+    I.click('//*[@id="email"]');
+    I.fillField('//*[@id="email"]', emailAddress);
+    I.click('Continue');
+    InitiateRefunds.verifyCheckYourAnswersPageForRemissionFinalSubmission(checkYourAnswersData2, false, false);
+    const refundRefRemissions2 = await InitiateRefunds.verifyRefundSubmittedPage(refundAmount2);
+    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', "457.00", '0.00', '377.00');
+
+    // Approver approved the refund
+    await apiUtils.updateRefundStatusByApprover(refundRefRemissions2, 'APPROVE');
+    // Refund Accepted by liberata
+    await apiUtils.updateRefundStatusByRefundReference(refundRefRemissions2, '', 'ACCEPTED');
+
+    I.refreshPage();
+    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', "457.00", '0.00', '0.00');
+
+    //  remission refund - 3rd fee - FEE0574 = 32.00
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    I.waitForText('Add remission', 5);
+    // adding a retro remission amount of [£377] against the 2nd fee FEE0450
+    I.click(`//table/tbody/tr[2]/td[contains(text(), '${feeCode3}')]//ancestor::table//parent::div/button`);
+    InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, hwfReference3);
+    InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, remissionAmount3);
+    const checkYourAnswersData3 = assertionData.checkYourAnswers(paymentRcReference, hwfReference3, `£${refundAmount3}`, totalAmount, `£${feeAmount3}`, `${feeCode3}`, 'FEE0574 - Copy of document of specific individual requested in all other cases where FEE0573 does not apply (for each copy)',
+      emailAddress, '', 'SendRefund', `£${remissionAmount3}`);
+    InitiateRefunds.verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData3, false, false);
+    InitiateRefunds.verifyRemissionAddedPage(false, remissionAmount3);
+
+    // PAY-8488 -  Returned to the Case and click on Payment details to add refund for the 3rd remission
+    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', "489.00", '0.00', '32.00');
+    await I.click('(//*[text()[contains(.,"Review")]])[2]');
+    I.scrollPageToBottom();
+    I.waitForText('Add refund', 5);
+    I.click(`//table/tbody/tr/td[contains(text(), '${feeCode3}')]//ancestor::tr//td[5]/button`);
+    I.click('//*[@id="email"]');
+    I.fillField('//*[@id="email"]', emailAddress);
+    I.click('Continue');
+    checkYourAnswersData3.paymentAmount = `£${calculatedAmount3}`;
+    InitiateRefunds.verifyCyaPageForAddRefundForPreExistingRemission(checkYourAnswersData3, false, false);
+    const refundRefRemissions3 = await InitiateRefunds.verifyRefundSubmittedPage(refundAmount3);
+    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', "489.00", '0.00', '32.00');
+
+    // Approver approved the refund
+    await apiUtils.updateRefundStatusByApprover(refundRefRemissions3, 'APPROVE');
+    // Refund Accepted by liberata
+    await apiUtils.updateRefundStatusByRefundReference(refundRefRemissions3, '', 'ACCEPTED');
+
+    I.refreshPage();
+    await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', "489.00", '0.00', '0.00');
+
     await I.Logout();
     I.clearCookie();
   }).tag('@pipeline @nightly');
