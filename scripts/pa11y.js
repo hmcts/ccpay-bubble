@@ -4,8 +4,8 @@ const fs = require('fs');
 const htmlReporter = require('pa11y-reporter-html');
 const bulkScanApiCalls = require('../acceptance-tests/test/end-to-end/helpers/utils');
 
-const email = 'robreallywantsccdaccess@mailinator.com';
-const password = 'Testing1234';
+const email = process.env.PROBATE_CASE_WORKER_USER_NAME;
+const password = process.env.PROBATE_CASE_WORKER_PASSWORD;
 const totalAmount = 550;
 
 function missingPa11ySetupVars() {
