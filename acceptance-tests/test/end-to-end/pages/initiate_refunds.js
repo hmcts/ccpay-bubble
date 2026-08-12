@@ -442,6 +442,40 @@ module.exports = {
 
   },
 
+  verifyCyaPageForAddRefundForPreExistingRemission(checkYourAnswersData, changeEmailOrPostCodeFlag, previewNotificationFlag) {
+    I.waitForText('Check your answers', '5');
+    I.see('Check your answers');
+    I.see('Reason for refund');
+    I.see('Retrospective remission');
+    I.see('Payment reference');
+    I.see(`${checkYourAnswersData.paymentReference}`);
+    I.see('Refund amount');
+    I.see(`${checkYourAnswersData.refundAmount}`);
+    I.see('Remission amount');
+    I.see(`${checkYourAnswersData.remissionAmount}`);
+    I.see('Fee code');
+    I.see(`${checkYourAnswersData.feeCode}`);
+    I.see('Fee amount');
+    I.see(`${checkYourAnswersData.paymentAmount}`);
+    I.see('Send to');
+    I.see('Send via');
+    I.see('Email');
+    I.see(checkYourAnswersData.email);
+    I.see('Change');
+    I.see('Notification');
+    I.see(checkYourAnswersData.refundNotificationType);
+    I.see('Preview');
+
+    if (changeEmailOrPostCodeFlag) {
+      I.click({xpath: '//tr[8]//a[.="Change"]'});
+    } else if (previewNotificationFlag) {
+      I.click({xpath: '//tr[9]//a[.=" Preview "]'});
+    } else {
+      I.click('Submit refund');
+    }
+
+  },
+
   verifyCheckYourAnswersPageForAddRemission(checkYourAnswersData, changeHWFCodeFlag, changeRefundAmountFlag) {
     I.waitForText('Check your answers', '5');
     I.see('Payment reference');
@@ -496,10 +530,10 @@ module.exports = {
     I.see('Remission added');
     I.see('The amount to be refunded should be');
     I.see(`£${refundAmount}`);
-    I.see('Submit refund');
+    I.see('Continue');
     I.see('Return to case');
     if (addRefundFlag) {
-      I.click('Submit refund');
+      I.click('Continue');
     } else {
       await I.click({xpath: '//a[contains(.,\'Return to case\')]'});
     }
