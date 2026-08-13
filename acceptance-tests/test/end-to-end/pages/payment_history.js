@@ -145,5 +145,14 @@ module.exports = {
     I.see(`£${amount}`);
     // I.see(dcnNumber);
     I.see(paymentMethod);
+  },
+
+  validateSuccessPaymentStatusHistoryDetails(paymentStatus, amount) {
+    I.waitForText('Payment status history', CCPBConstants.tenSecondWaitTime);
+    I.see('Status');
+    I.see(paymentStatus);
+    I.see('Amount');
+    I.see(`£${amount}`);
+    I.see('Date and time');
   }
 };
