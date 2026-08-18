@@ -1298,6 +1298,23 @@ async function searchForPayBubbleTestingFees(description = 'PayBubble') {
   });
 }
 
+async function fetchAllFees() {
+  const username = testConfig.TestFeeRegEditorUserName;
+  const password = testConfig.TestFeeRegEditorPassword;
+  const accessToken = await getIDAMToken(username, password);
+  return fetch(`${feesRegisterApiUrl}/fees-register/fees`, {
+    method: 'GET',
+    headers: {'Authorization': 'Bearer ' + accessToken}
+  }).then(response => {
+    if (response.status !== 200) {
+      console.log(`Error fetching all fees, response: ${response.status}`);
+    }
+    return response.json();
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
 async function createInflationTestingFee() {
   const feeKeyword = "SN" + new Date().valueOf().toString();
   const memoLineNumber = faker.random.number(99999);
@@ -1315,8 +1332,13 @@ async function createInflationTestingFee() {
   await submitFeeForReview(feeCode, 2);
   await approveFee(feeCode, 2);
 
-  await pollUntil(`fee ${feeCode} to become searchable`, async () => {
+  await pollUntil(`fee ${feeCode} to become searchable via description`, async () => {
     const fees = await searchForPayBubbleTestingFees();
+    return JSON.stringify(fees || {}).includes(`"${feeCode}"`);
+  }, { timeoutMs: 120000, intervalMs: 2000 });
+
+  await pollUntil(`fee ${feeCode} to appear in full fee list (UI endpoint)`, async () => {
+    const fees = await fetchAllFees();
     return JSON.stringify(fees || {}).includes(`"${feeCode}"`);
   }, { timeoutMs: 120000, intervalMs: 2000 });
 
@@ -1376,6 +1398,7 @@ module.exports = {
   approveFee,
   createFeeVersion,
   searchForPayBubbleTestingFees,
+  fetchAllFees,
   createInflationTestingFee,
   deleteFee
 };

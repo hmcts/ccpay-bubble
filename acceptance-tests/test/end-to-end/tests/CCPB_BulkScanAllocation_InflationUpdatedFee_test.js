@@ -15,9 +15,6 @@ const testConfig = require('./config/CCPBConfig');
 const apiUtils = require("../helpers/utils");
 const assertionData = require("../fixture/data/refunds/assertion");
 
-const faker = require('faker');
-const feeKeyword = "SN" + new Date().valueOf().toString();
-const memoLineNumber = faker.random.number(99999);
 let feeCode;
 
 Feature('CC Pay Bubble Bulk Scan Test for Inflation updated Fee').retry(CCPBATConstants.defaultNumberOfRetries);
