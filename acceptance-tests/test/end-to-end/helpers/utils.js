@@ -1332,15 +1332,27 @@ async function createInflationTestingFee() {
   await submitFeeForReview(feeCode, 2);
   await approveFee(feeCode, 2);
 
-  await pollUntil(`fee ${feeCode} to become searchable via description`, async () => {
+  await pollUntil(`fee ${feeCode} to become searchable via description`, async (attempt) => {
     const fees = await searchForPayBubbleTestingFees();
-    return JSON.stringify(fees || {}).includes(`"${feeCode}"`);
+    const found = JSON.stringify(fees || {}).includes(`"${feeCode}"`);
+    if (!found) {
+      console.log(`[attempt ${attempt}] Fee ${feeCode} not yet searchable via description endpoint`);
+    }
+    return found;
   }, { timeoutMs: 120000, intervalMs: 2000 });
 
-  await pollUntil(`fee ${feeCode} to appear in full fee list (UI endpoint)`, async () => {
+  console.log(`Fee ${feeCode} found via description endpoint, now checking full fee list...`);
+
+  await pollUntil(`fee ${feeCode} to appear in full fee list (UI endpoint)`, async (attempt) => {
     const fees = await fetchAllFees();
-    return JSON.stringify(fees || {}).includes(`"${feeCode}"`);
+    const found = JSON.stringify(fees || {}).includes(`"${feeCode}"`);
+    if (!found) {
+      console.log(`[attempt ${attempt}] Fee ${feeCode} not yet in full fee list`);
+    }
+    return found;
   }, { timeoutMs: 120000, intervalMs: 2000 });
+
+  console.log(`Fee ${feeCode} confirmed in full fee list, returning to test...`);
 
   return feeCode;
 }
