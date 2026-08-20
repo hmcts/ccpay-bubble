@@ -1345,11 +1345,26 @@ async function createInflationTestingFee() {
 
   await pollUntil(`fee ${feeCode} to appear in full fee list (UI endpoint)`, async (attempt) => {
     const fees = await fetchAllFees();
-    const found = JSON.stringify(fees || {}).includes(`"${feeCode}"`);
-    if (!found) {
+    const fee = (fees || []).find(f => f.code === feeCode);
+    if (!fee) {
       console.log(`[attempt ${attempt}] Fee ${feeCode} not yet in full fee list`);
+      return false;
     }
-    return found;
+    const cv = fee.current_version;
+    if (!cv || cv.status !== 'approved') {
+      console.log(`[attempt ${attempt}] Fee ${feeCode} current_version not approved: ${cv && cv.status}`);
+      return false;
+    }
+    const now = new Date();
+    const validFrom = cv.valid_from ? new Date(cv.valid_from) : null;
+    const validTo = cv.valid_to ? new Date(cv.valid_to) : null;
+    const validNow = (!validFrom || validFrom <= now) && (!validTo || validTo >= now);
+    if (!validNow) {
+      console.log(`[attempt ${attempt}] Fee ${feeCode} not valid today: valid_from=${cv.valid_from}, valid_to=${cv.valid_to}`);
+      return false;
+    }
+    console.log(`[attempt ${attempt}] Fee ${feeCode} visible to UI (approved, valid today)`);
+    return true;
   }, { timeoutMs: 120000, intervalMs: 2000 });
 
   console.log(`Fee ${feeCode} confirmed in full fee list, returning to test...`);
