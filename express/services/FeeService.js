@@ -13,7 +13,18 @@ class FeeService {
       headers: { 'Cache-Control': 'no-cache' }
     });
     const body = await resp.buffer();
-    logger.info(`[DIAG] getFees status: ${resp.status}, bytes: ${body.length}, body: ${body.toString('utf8').slice(0, 500)}`);
+    const text = body.toString('utf8');
+    let diag = `status: ${resp.status}, bytes: ${body.length}`;
+    try {
+      const fees = JSON.parse(text);
+      const pb = (fees || []).filter(f => f.description && String(f.description).toLowerCase().includes('paybubble'));
+      diag += `, totalFees: ${(fees || []).length}`;
+      diag += `, payBubbleFees: ${pb.length}`;
+      diag += `, payBubbleCodes: [${pb.map(f => `${f.code}(${f.current_version && f.current_version.status}@${f.current_version && f.current_version.valid_from}-${f.current_version && f.current_version.valid_to || ''})`).join(', ')}]`;
+    } catch (e) {
+      diag += `, body: ${text.slice(0, 500)}`;
+    }
+    logger.info(`[DIAG] getFees ${diag}`);
     return body;
   }
 
