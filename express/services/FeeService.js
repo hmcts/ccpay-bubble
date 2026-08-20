@@ -17,10 +17,21 @@ class FeeService {
     let diag = `status: ${resp.status}, bytes: ${body.length}`;
     try {
       const fees = JSON.parse(text);
-      const pb = (fees || []).filter(f => f.description && String(f.description).toLowerCase().includes('paybubble'));
+      const pb = (fees || []).filter(f => f.current_version && f.current_version.description && String(f.current_version.description).toLowerCase().includes('paybubble'));
+      const now = new Date();
+      const uiVisible = (fees || []).filter(f => {
+        const cv = f.current_version;
+        if (!cv) { return false; }
+        if (cv.status !== 'approved') { return false; }
+        const validFrom = cv.valid_from ? new Date(cv.valid_from) : null;
+        const validTo = cv.valid_to ? new Date(cv.valid_to) : null;
+        return (!validFrom || validFrom <= now) && (!validTo || validTo >= now);
+      });
       diag += `, totalFees: ${(fees || []).length}`;
       diag += `, payBubbleFees: ${pb.length}`;
       diag += `, payBubbleCodes: [${pb.map(f => `${f.code}(${f.current_version && f.current_version.status}@${f.current_version && f.current_version.valid_from}-${f.current_version && f.current_version.valid_to || ''})`).join(', ')}]`;
+      diag += `, uiVisibleApproved: ${uiVisible.length}`;
+      diag += `, uiVisibleCodes: [${uiVisible.slice(0, 30).map(f => f.code).join(', ')}]`;
     } catch (e) {
       diag += `, body: ${text.slice(0, 500)}`;
     }
