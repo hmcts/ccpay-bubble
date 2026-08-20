@@ -157,6 +157,22 @@ module.exports = {
     I.see('Search for a fee');
     I.fillField(this.locators.fee_search, feeCode);
     I.click('Search');
+    I.wait(CCPBConstants.fiveSecondWaitTime);
+
+    let feeFound = await I.grabNumberOfVisibleElements(inflationFeeSelect(feeCode));
+    if (!feeFound) {
+      console.log(`Fee ${feeCode} not found in initial search, reloading page to refresh fee list`);
+      const currentUrl = await I.grabCurrentUrl();
+      console.log(`Current URL before reload: ${currentUrl}`);
+      I.amOnPage(currentUrl);
+      I.wait(CCPBConstants.tenSecondWaitTime);
+      I.fillField(this.locators.fee_search, feeCode);
+      I.click('Search');
+      I.wait(CCPBConstants.fiveSecondWaitTime);
+      feeFound = await I.grabNumberOfVisibleElements(inflationFeeSelect(feeCode));
+      console.log(`Fee ${feeCode} found after reload: ${feeFound}`);
+    }
+
     await I.waitForElement(inflationFeeSelect(feeCode), CCPBConstants.oneMinute);
 
     await I.click(inflationFeeSelect(feeCode));
