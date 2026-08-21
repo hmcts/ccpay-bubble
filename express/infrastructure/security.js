@@ -108,10 +108,34 @@ function getTokenFromCode(self, req) {
     .send({ redirect_uri: `${redirectUri}` });
 }
 
+const USER_DETAILS_TIMEOUT_MS = 10000;
+const USER_DETAILS_RETRIES = 2;
+
 function getUserDetails(self, securityCookie) {
   return request.get(`${self.opts.apiUrl}/details`)
+    .timeout(USER_DETAILS_TIMEOUT_MS)
     .set('Accept', 'application/json')
     .set('Authorization', `Bearer ${securityCookie}`);
+}
+
+/* Retries getUserDetails on transient failures (timeout, network or 5xx).
+ * Non-retryable errors (e.g. 401/403) and final failures reject with the error. */
+function getUserDetailsWithRetry(self, securityCookie, retries = USER_DETAILS_RETRIES) {
+  return new Promise((resolve, reject) => {
+    const attempt = (remaining) => {
+      getUserDetails(self, securityCookie).end((err, response) => {
+        if (!err) {
+          return resolve(response);
+        }
+        const retryable = !err.status || err.status >= 500;
+        if (retryable && remaining > 0) {
+          return attempt(remaining - 1);
+        }
+        return reject(err);
+      });
+    };
+    attempt(retries);
+  });
 }
 
 function storeCookie(req, res, token) {
@@ -205,29 +229,28 @@ function protectImpl(req, res, next, self) {
   }
 
   Logger.getLogger('PAYBUBBLE: server.js').info('About to call user details endpoint');
-  return getUserDetails(self, securityCookie).end(
-    (err, response) => {
+  return getUserDetailsWithRetry(self, securityCookie).then(
+    (response) => {
       Logger.getLogger('CCPAY-BUBBLE: security.js').info('Welcome pay bubble');
-      if (err) {
-        Logger.getLogger('PAYBUBBLE: server.js -> error').info(`Get user details called with the result: err: ${err}`);
-        if (!err.status) {
-          err.status = 500;
-        }
-
-        switch (err.status) {
-        case UNAUTHORIZED:
-          return login(req, res, self.roles, self);
-        case FORBIDDEN:
-          return next(errorFactory.createForbiddenError(err, 'getUserDetails() call was forbidden'));
-        default:
-          return next(errorFactory.createServerError(err, 'getUserDetails() call failed'));
-        }
-      }
-
       self.opts.appInsights.setAuthenticatedUserContext(response.body.email);
       req.roles = response.body.roles;
       req.userInfo = response.body;
       return authorize(req, res, next, self);
+    },
+    (err) => {
+      Logger.getLogger('PAYBUBBLE: server.js -> error').info(`Get user details called with the result: err: ${err}`);
+      if (!err.status) {
+        err.status = 500;
+      }
+
+      switch (err.status) {
+      case UNAUTHORIZED:
+        return login(req, res, self.roles, self);
+      case FORBIDDEN:
+        return next(errorFactory.createForbiddenError(err, 'getUserDetails() call was forbidden'));
+      default:
+        return next(errorFactory.createServerError(err, 'getUserDetails() call failed'));
+      }
     });
 }
 
@@ -273,18 +296,8 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
       return login(req, res, self.role, self);
     }
 
-    return getUserDetails(self, securityCookie)
-      .end((err, response) => {
-        if (err) {
-          /* If the token is expired we want to go to login.
-          * - This invalidates correctly sessions of letter users that does not exist anymore
-          */
-          if (err.status === UNAUTHORIZED) {
-            return login(req, res, [], self);
-          }
-          return next(errorFactory.createUnatohorizedError(err, `getUserDetails() call failed: ${response.text}`));
-        }
-
+    return getUserDetailsWithRetry(self, securityCookie).then(
+      (response) => {
         req.roles = response.body.roles;
         req.userInfo = response.body;
 
@@ -307,6 +320,15 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
         url.query.jwt = securityCookie;
 
         return res.redirect(url.format());
+      },
+      (err) => {
+        /* If the token is expired we want to go to login.
+        * - This invalidates correctly sessions of letter users that does not exist anymore
+        */
+        if (err.status === UNAUTHORIZED) {
+          return login(req, res, [], self);
+        }
+        return next(errorFactory.createUnatohorizedError(err, `getUserDetails() call failed: ${err.message}`));
       });
   };
 };
