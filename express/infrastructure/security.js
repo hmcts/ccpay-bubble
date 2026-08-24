@@ -83,7 +83,7 @@ function authorize(req, res, next, self) {
   if (req.roles !== null) {
     for (const role in self.roles) {
       if (req.roles.includes(self.roles[role])) {
-        res.cookie(constants.USER_COOKIE, JSON.stringify(req.userInfo));
+        res.cookie(constants.USER_COOKIE, JSON.stringify(req.userInfo), {secure: true});
         return next();
       }
     }
