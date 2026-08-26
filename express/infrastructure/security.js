@@ -108,10 +108,34 @@ function getTokenFromCode(self, req) {
     .send({ redirect_uri: `${redirectUri}` });
 }
 
+const USER_DETAILS_TIMEOUT_MS = 10000;
+const USER_DETAILS_RETRIES = 2;
+
 function getUserDetails(self, securityCookie) {
   return request.get(`${self.opts.apiUrl}/details`)
+    .timeout(USER_DETAILS_TIMEOUT_MS)
     .set('Accept', 'application/json')
     .set('Authorization', `Bearer ${securityCookie}`);
+}
+
+/* Retries getUserDetails on transient failures (timeout, network or 5xx).
+ * Non-retryable errors (e.g. 401/403) and final failures reject with the error. */
+function getUserDetailsWithRetry(self, securityCookie, retries = USER_DETAILS_RETRIES) {
+  return new Promise((resolve, reject) => {
+    const attempt = (remaining) => {
+      getUserDetails(self, securityCookie).end((err, response) => {
+        if (!err) {
+          return resolve(response);
+        }
+        const retryable = !err.status || err.status >= 500;
+        if (retryable && remaining > 0) {
+          return attempt(remaining - 1);
+        }
+        return reject(err);
+      });
+    };
+    attempt(retries);
+  });
 }
 
 function storeCookie(req, res, token) {
@@ -151,22 +175,41 @@ Security.prototype.pcipalForm = function pcipalForm(req, res) {
 Security.prototype.logout = function logout() {
   const self = { opts: this.opts };
 
-  // eslint-disable-next-line no-unused-vars
   return function ret(req, res) {
-    return invalidateToken(self, req).end(err => {
-      if (err) {
-        Logger.getLogger('CCPAY-BUBBLE: security.js').error(err);
-      }
-      const token = req.cookies[constants.SECURITY_COOKIE];
+    /* Best-effort server-side token invalidation. Kept non-blocking and bounded
+     * so a hanging IDAM call can never prevent the logout redirect. */
+    if (req.cookies && req.cookies[constants.SECURITY_COOKIE]) {
+      invalidateToken(self, req).timeout(5000).end(() => {});
+    }
 
-      res.clearCookie(constants.SECURITY_COOKIE);
-      res.clearCookie(constants.REDIRECT_COOKIE);
-      res.clearCookie(constants.USER_COOKIE);
-      res.clearCookie(constants.authToken);
-      res.clearCookie(constants.userInfo);
-      res.clearCookie(constants.PCIPAL_SECURITY_INFO);
-      res.redirect('/');
-    });
+    res.clearCookie(constants.SECURITY_COOKIE);
+    res.clearCookie(constants.REDIRECT_COOKIE);
+    res.clearCookie(constants.USER_COOKIE);
+    res.clearCookie(constants.PCIPAL_SECURITY_INFO);
+    res.clearCookie('connect.sid');
+
+    const redirectToIdamLogout = () => {
+      /* Single sign-out: redirect the browser to IDAM's OIDC end-session endpoint
+       * so the shared SSO session is ended. Without this, IDAM silently
+       * re-authenticates the user and the logout never appears to complete. */
+      const parsedLoginUrl = URL.parse(self.opts.loginUrl);
+      const idamWebOrigin = `${parsedLoginUrl.protocol}//${parsedLoginUrl.host}`;
+      const logoutUrl = URL.parse(`${idamWebOrigin}/o/endSession`, true);
+
+      let postLogoutRedirectUri = `https://${req.get('host')}/`;
+      if (process.env.NODE_ENV === 'development') {
+        postLogoutRedirectUri = `http://${req.get('host')}/`;
+      }
+      logoutUrl.query.post_logout_redirect_uri = postLogoutRedirectUri;
+
+      return res.redirect(logoutUrl.format());
+    };
+
+    if (req.session) {
+      req.session.destroy(redirectToIdamLogout);
+    } else {
+      redirectToIdamLogout();
+    }
   };
 };
 
@@ -186,29 +229,28 @@ function protectImpl(req, res, next, self) {
   }
 
   Logger.getLogger('PAYBUBBLE: server.js').info('About to call user details endpoint');
-  return getUserDetails(self, securityCookie).end(
-    (err, response) => {
+  return getUserDetailsWithRetry(self, securityCookie).then(
+    (response) => {
       Logger.getLogger('CCPAY-BUBBLE: security.js').info('Welcome pay bubble');
-      if (err) {
-        Logger.getLogger('PAYBUBBLE: server.js -> error').info(`Get user details called with the result: err: ${err}`);
-        if (!err.status) {
-          err.status = 500;
-        }
-
-        switch (err.status) {
-        case UNAUTHORIZED:
-          return login(req, res, self.roles, self);
-        case FORBIDDEN:
-          return next(errorFactory.createForbiddenError(err, 'getUserDetails() call was forbidden'));
-        default:
-          return next(errorFactory.createServerError(err, 'getUserDetails() call failed'));
-        }
-      }
-
       self.opts.appInsights.setAuthenticatedUserContext(response.body.email);
       req.roles = response.body.roles;
       req.userInfo = response.body;
       return authorize(req, res, next, self);
+    },
+    (err) => {
+      Logger.getLogger('PAYBUBBLE: server.js -> error').info(`Get user details called with the result: err: ${err}`);
+      if (!err.status) {
+        err.status = 500;
+      }
+
+      switch (err.status) {
+      case UNAUTHORIZED:
+        return login(req, res, self.roles, self);
+      case FORBIDDEN:
+        return next(errorFactory.createForbiddenError(err, 'getUserDetails() call was forbidden'));
+      default:
+        return next(errorFactory.createServerError(err, 'getUserDetails() call failed'));
+      }
     });
 }
 
@@ -254,18 +296,8 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
       return login(req, res, self.role, self);
     }
 
-    return getUserDetails(self, securityCookie)
-      .end((err, response) => {
-        if (err) {
-          /* If the token is expired we want to go to login.
-          * - This invalidates correctly sessions of letter users that does not exist anymore
-          */
-          if (err.status === UNAUTHORIZED) {
-            return login(req, res, [], self);
-          }
-          return next(errorFactory.createUnatohorizedError(err, `getUserDetails() call failed: ${response.text}`));
-        }
-
+    return getUserDetailsWithRetry(self, securityCookie).then(
+      (response) => {
         req.roles = response.body.roles;
         req.userInfo = response.body;
 
@@ -288,6 +320,15 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
         url.query.jwt = securityCookie;
 
         return res.redirect(url.format());
+      },
+      (err) => {
+        /* If the token is expired we want to go to login.
+        * - This invalidates correctly sessions of letter users that does not exist anymore
+        */
+        if (err.status === UNAUTHORIZED) {
+          return login(req, res, [], self);
+        }
+        return next(errorFactory.createUnatohorizedError(err, `getUserDetails() call failed: ${err.message}`));
       });
   };
 };
@@ -345,7 +386,9 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
           if (!error) {
             const userInfo = resp.body;
             self.opts.appInsights.setAuthenticatedUserContext(userInfo.email);
-            self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
+            if (self.opts.appInsights.defaultClient) {
+              self.opts.appInsights.defaultClient.trackEvent({ name: 'login_event', properties: { role: userInfo.roles } });
+            }
           }
         }
       );

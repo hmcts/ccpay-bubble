@@ -73,9 +73,7 @@ Scenario('Bulk scan cash Over Payment refund, preview RefundWhenContacted email 
 
     // Approve refund
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
-    I.wait(CCPBATConstants.fifteenSecondWaitTime);
     await InitiateRefunds.verifyRefundsListPage(refundReference);
-    I.wait(CCPBATConstants.tenSecondWaitTime);
 
     const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, 'Overpayment', refundAmount, emailAddress, '', 'payments probate', 'RefundWhenContacted');
     const refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundReference, refundAmount, 'Refund for Overpayment', bulkScanPaymentMethod);
@@ -178,8 +176,7 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
     //Fee Payment Refund - 227
     I.waitForElement('(//*[text()[contains(.,"Review")]])[2]', 5);
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
-    I.waitForText('Issue refund', 5);
+    I.waitForText('Issue refund', CCPBATConstants.fifteenSecondWaitTime);
     I.click('Issue refund');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const reviewProcessRefundPageData = assertionData.reviewProcessRefundPageDataForFeeRefundSelection(paymentRcReference, 'Reduced hearing fee', `£${feeAmount}`, `£${feeAmount}`, '227', '1', '£0.00');
@@ -217,7 +214,6 @@ Scenario('Refund journey for complete cheque amount(500) with OverPayment option
         refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundRef, `${feePaymentRefundAmount}`, 'Due to a technical error a payment was taken incorrectly and has now been refunded', bulkScanPaymentMethod);
       }
       await InitiateRefunds.verifyRefundsListPage(refundsDataBeforeApproverAction.refundReference);
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       InitiateRefunds.verifyApproverReviewRefundsDetailsPage(refundsDataBeforeApproverAction, true, refundNotificationPreviewDataBeforeRefundApproved);
       InitiateRefunds.approverActionForRequestedRefund('Approve');
       I.wait(CCPBATConstants.twoSecondWaitTime);

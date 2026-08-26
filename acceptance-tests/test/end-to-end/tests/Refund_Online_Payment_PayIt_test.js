@@ -35,11 +35,8 @@ Scenario('Card payment refund PayIt journey',
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£300.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.see('Payment successful');
+    I.waitForElement('//*[normalize-space()="Payment successful"]');
     I.click('Return to service request');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.see('Sign in');
 
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
@@ -75,10 +72,8 @@ Scenario('Card payment refund PayIt journey',
 
     // Approve refund
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword, '/refund-list?takePayment=false&refundlist=true');
-    I.wait(CCPBATConstants.tenSecondWaitTime);
     // I.click('Refund List'); // Refund List menu is hidden on paybubble, navigating to the refund-list page itself -- see above url
     await InitiateRefunds.verifyRefundsListPage(refundReference);
-    I.wait(CCPBATConstants.twoSecondWaitTime);
 
     const refundsDataBeforeApproverAction = assertionData.reviewRefundDetailsDataBeforeApproverAction(refundReference, refundReason, `£${refundAmount}`, emailAddress, '', 'payments probate', 'SendRefund');
     const refundNotificationPreviewDataBeforeRefundApproved = assertionData.refundNotificationPreviewData(emailAddress, '', ccdCaseNumber, refundReference, refundAmount, 'Due to a technical error a payment was taken incorrectly and has now been refunded', '');
@@ -155,11 +150,8 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     ServiceRequests.verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage('Confirm your payment', '£300.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.see('Payment successful');
+    I.waitForElement('//*[normalize-space()="Payment successful"]');
     I.click('Return to service request');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.see('Sign in');
 
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
@@ -226,8 +218,7 @@ Scenario('Card payment refund PayIt expired(21 days) journey',
     I.click('Reset Refund');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     ResetRefund.verifyResetRefundPage(refundReference)
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
-    I.waitForText('Case transactions', '5');
+    I.waitForText('Case transactions', CCPBATConstants.tenSecondWaitTime);
     I.see('Closed');
     I.see('Approved');
     const newRefundReference = await I.grabTextFrom('//td[contains(.,\'Approved\')]/ancestor::tr/td[4]');
