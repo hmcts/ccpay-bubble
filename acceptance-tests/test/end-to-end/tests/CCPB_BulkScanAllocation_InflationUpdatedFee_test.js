@@ -19,7 +19,7 @@ let feeCode;
 
 Feature('CC Pay Bubble Bulk Scan Test for Inflation updated Fee').retry(CCPBATConstants.defaultNumberOfRetries);
 
-BeforeSuite(async() => {
+Before(async() => {
   feeCode = await apiUtils.createInflationTestingFee();
 });
 
@@ -48,7 +48,7 @@ Scenario('Normal ccd case cheque payment full allocation with Inflation updated 
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   ConfirmAssociation.verifyConfirmAssociationFullPayment(feeCode, '1', totalAmount, feeAmount);
   ConfirmAssociation.confirmPayment();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.wait(CCPBATConstants.tenSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   I.Logout();
