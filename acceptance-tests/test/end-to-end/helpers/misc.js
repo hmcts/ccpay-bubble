@@ -5,6 +5,8 @@ const noMatchingCasesText = 'No matching cases found';
 const searchErrorText = 'Something went wrong';
 const searchForCaseText = 'Search for a case';
 const searchOutcomeTimeout = 10;
+const defaultMaxSearchAttempts = 5;
+const retryableErrorPauseSeconds = 2;
 const searchOutcomes = {
   caseFound: 'case-found',
   noMatch: 'no-match',
@@ -66,9 +68,32 @@ async function waitForSearchOutcome(I) {
   });
 }
 
+async function recoverFromRetryableError(I, options, attempt, maxSearchAttempts) {
+  if (attempt >= maxSearchAttempts) {
+    return;
+  }
+
+  if (typeof options.onRetryableError === 'function') {
+    await options.onRetryableError(attempt);
+    return;
+  }
+
+  // Default recovery for transient rendered errors: refresh and wait briefly.
+  if (typeof I.refreshPage === 'function') {
+    await I.refreshPage();
+  }
+
+  if (typeof I.wait === 'function') {
+    await I.wait(retryableErrorPauseSeconds);
+  }
+}
+
 async function searchUntilFound(CaseSearch, I, searchOption, options = {}) {
   const searchItem = searchItemFor(searchOption);
-  const maxSearchAttempts = 5;
+  const configuredMaxAttempts = Number(options.maxSearchAttempts);
+  const maxSearchAttempts = Number.isInteger(configuredMaxAttempts) && configuredMaxAttempts > 0
+    ? configuredMaxAttempts
+    : defaultMaxSearchAttempts;
   let lastOutcome;
 
   for (let attempt = 1; attempt <= maxSearchAttempts; attempt++) {
@@ -76,8 +101,16 @@ async function searchUntilFound(CaseSearch, I, searchOption, options = {}) {
     const outcome = await waitForSearchOutcome(I);
     lastOutcome = outcome;
 
-    if (outcome === searchOutcomes.caseFound || options.allowNoMatch) {
+    if (outcome === searchOutcomes.caseFound) {
       return outcome;
+    }
+
+    if (outcome === searchOutcomes.noMatch && options.allowNoMatch) {
+      return outcome;
+    }
+
+    if (outcome === searchOutcomes.retryableError) {
+      await recoverFromRetryableError(I, options, attempt, maxSearchAttempts);
     }
 
     // case_search waits around each submit; do not add another fixed delay here.

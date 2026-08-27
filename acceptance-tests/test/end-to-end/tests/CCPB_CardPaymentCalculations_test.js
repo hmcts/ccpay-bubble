@@ -6,12 +6,23 @@ const CCPBATConstants = require("./CCPBAcceptanceTestConstants");
 const miscUtils = require("../helpers/misc");
 const assertionData = require("../fixture/data/refunds/assertion");
 
-Feature('CC Pay Bubble Card payment calculations test').retry(CCPBATConstants.defaultNumberOfRetries);
+Feature('CC Pay Bubble Card payment calculations test');
 
 let totalAmount = '300.00';
 let ccdCaseNumber;
 let serviceRequestDetails;
 let serviceRequestReference;
+
+async function searchCaseTransactionsWithRecovery(I, CaseSearch, caseNumber) {
+  await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+  await miscUtils.multipleSearch(CaseSearch, I, caseNumber, {
+    maxSearchAttempts: 7,
+    onRetryableError: async () => {
+      I.clearCookie();
+      await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
+    }
+  });
+}
 
 BeforeSuite(async () => {
   ccdCaseNumber = await apiUtils.createACCDCaseForProbate();
@@ -36,7 +47,7 @@ Scenario('Card payment with failed transaction should have the correct calculati
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.see('Sign in');
 
-  }).tag('@serial @pipeline @nightly');
+  }).retry(CCPBATConstants.defaultNumberOfRetries).tag('@serial @pipeline @nightly');
 
   Scenario('Card payment with declined transaction should have the correct calculations on the Case Transaction page',
     async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
@@ -59,16 +70,15 @@ Scenario('Card payment with failed transaction should have the correct calculati
     I.see('Your card payment was unsuccessful.');
     I.click('Return to service request');
 
-  }).tag('@serial @pipeline @nightly');
+  }).retry(CCPBATConstants.defaultNumberOfRetries).tag('@serial @pipeline @nightly');
 
   Scenario('Card payment with success transaction should have the correct calculations on the Case Transaction page',
     async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
 
     // In the event the test is retried with a successful payment, then check if payment exists
-    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    await searchCaseTransactionsWithRecovery(I, CaseSearch, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    const caseAmountDue = await I.grabTextFrom('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[4]');
+    const caseAmountDue = (await I.grabTextFrom('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[4]')).trim();
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -100,11 +110,10 @@ Scenario('Card payment with failed transaction should have the correct calculati
 
     // Validate Case Transactions details
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    await searchCaseTransactionsWithRecovery(I, CaseSearch, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', '0.00');
     await I.Logout();
     I.clearCookie();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-  }).tag('@serial @pipeline @nightly');
+  }).retry(CCPBATConstants.defaultNumberOfRetries).tag('@serial @pipeline @nightly');
