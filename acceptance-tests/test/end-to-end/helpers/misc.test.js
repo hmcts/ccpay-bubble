@@ -98,4 +98,42 @@ describe('misc search helpers', () => {
       ['ccd', '1111222233334444']
     ]);
   });
+
+  it('does not treat rendered errors as no-match even when allowNoMatch is set', async () => {
+    const CaseSearch = fakeCaseSearch();
+    const I = fakeActor('Something went wrong Please try again later');
+
+    await assert.rejects(
+      () => misc.multipleSearch(CaseSearch, I, '1111222233334444', { allowNoMatch: true, maxSearchAttempts: 2 }),
+      /Case search failed with a rendered error/
+    );
+
+    assert.deepStrictEqual(CaseSearch.searchCalls, [
+      ['ccd', '1111222233334444'],
+      ['ccd', '1111222233334444']
+    ]);
+  });
+
+  it('runs retryable-error recovery callback between attempts', async () => {
+    const CaseSearch = fakeCaseSearch();
+    const I = fakeActor('Something went wrong Please try again later');
+    let recoveryRuns = 0;
+
+    await assert.rejects(
+      () => misc.multipleSearch(CaseSearch, I, '1111222233334444', {
+        maxSearchAttempts: 3,
+        onRetryableError: async () => {
+          recoveryRuns++;
+        }
+      }),
+      /Case search failed with a rendered error/
+    );
+
+    assert.strictEqual(recoveryRuns, 2);
+    assert.deepStrictEqual(CaseSearch.searchCalls, [
+      ['ccd', '1111222233334444'],
+      ['ccd', '1111222233334444'],
+      ['ccd', '1111222233334444']
+    ]);
+  });
 });
