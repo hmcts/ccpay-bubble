@@ -19,7 +19,7 @@ BeforeSuite(async () => {
   serviceRequestReference = `${serviceRequestDetails.serviceRequestReference}`;
 });
 
-Scenario('Card payment with failed transaction should have the correct calculations on the Case Transaction page',
+Scenario('SR Card payment with failed transaction should have the correct calculations on the Case Transaction page',
   async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
 
     // Cancelled(failed) card payment 1
@@ -38,7 +38,7 @@ Scenario('Card payment with failed transaction should have the correct calculati
 
   }).tag('@serial @pipeline @nightly');
 
-  Scenario('Card payment with declined transaction should have the correct calculations on the Case Transaction page',
+  Scenario('SR Card payment with declined transaction should have the correct calculations on the Case Transaction page',
     async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
 
     // declined(failed) card payment 2
@@ -61,7 +61,7 @@ Scenario('Card payment with failed transaction should have the correct calculati
 
   }).tag('@serial @pipeline @nightly');
 
-  Scenario('Card payment with success transaction should have the correct calculations on the Case Transaction page',
+  Scenario('SR Card payment with success transaction should have the correct calculations on the Case Transaction page',
     async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
 
     // In the event the test is retried with a successful payment, then check if payment exists

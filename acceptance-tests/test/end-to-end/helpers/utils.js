@@ -596,6 +596,50 @@ async function initiateCardPaymentForServiceRequest(amount, serviceRequestRefere
   return responsePayload;
 }
 
+async function initiateCardPaymentForCitizen(ccdCaseNumber, service, feeCode, amount, version, volume, siteId, returnUrl = 'https://probate.aat.platform.hmcts.net/payment-status') {
+  const url = paymentBaseUrl + `/card-payments`;
+  const microservice = 'probate_frontend';
+  const username = testConfig.TestProbateCaseWorkerUserName;
+  const password = testConfig.TestProbateCaseWorkerPassword;
+  const idamToken = await getIDAMToken(username, password);
+
+  if (paymentBaseUrl.includes("demo")) {
+    returnUrl = returnUrl.replaceAll("aat", "demo");
+  }
+
+  const serviceToken = await getServiceToken(microservice);
+
+  // eslint-disable-next-line no-magic-numbers
+  const saveBody = JSON.stringify({
+    amount: amount,
+    case_reference: "test",
+    ccd_case_number: ccdCaseNumber,
+    currency: "GBP",
+    description: "Testing",
+    fees: [
+      {
+        calculated_amount: amount,
+        code: feeCode,
+        version: version,
+        volume: volume
+      }
+    ],
+    service: service,
+    site_id: siteId
+  });
+
+  const headers = {
+    Authorization: `${idamToken}`,
+    ServiceAuthorization: `Bearer ${serviceToken}`,
+    'return-url': returnUrl,
+    'Content-Type': 'application/json'
+  };
+  const response = await makeRequest(url, 'POST', headers, saveBody);
+  console.log(`The value of the response status code : ${response.status}`);
+  const responsePayload = await response.json();
+  return responsePayload;
+}
+
 async function createAPBAPayment(amount, feeCode, version, volume, customerReference = 'ABC98989/65654') {
   const url = paymentBaseUrl + '/credit-account-payments';
   const microservice = 'cmc';
@@ -1411,6 +1455,7 @@ module.exports = {
   createAPBAPaymentForExistingCase,
   createAPBAPaymentForNumberOfFees,
   initiateCardPaymentForServiceRequest,
+  initiateCardPaymentForCitizen,
   updateCardPaymentStatus,
   updatePaymentStatusWithPciPalCallbackResponse,
   bulkScanPaymentForExistingNormalCase,

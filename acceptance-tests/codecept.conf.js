@@ -65,7 +65,8 @@ exports.config = {
     RefundsList: './test/end-to-end/pages/refunds_list.js',
     Reports: './test/end-to-end/pages/reports.js',
     FailureEventDetails: './test/end-to-end/pages/failure_event_details.js',
-    ResetRefund: './test/end-to-end/pages/reset_refund.js'
+    ResetRefund: './test/end-to-end/pages/reset_refund.js',
+    CardPayments: './test/end-to-end/pages/card_payments.js'
   },
   mocha: {}
 };
