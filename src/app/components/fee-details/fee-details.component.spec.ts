@@ -377,7 +377,7 @@ describe('FeeDetailsComponent', () => {
 
     component.ngOnChanges();
     expect(component.validOldVersionArray.length).toBeGreaterThan(0);
-    expect(component.getDiscontinuedFeeAvailable()).toBe(true);
+    expect(component.getDiscontinuedFeeAvailable()).toBeTruthy();
   });
 
   afterEach(() => {

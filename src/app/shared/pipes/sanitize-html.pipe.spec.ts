@@ -1,17 +1,13 @@
-import { TestBed } from '@angular/core/testing';
-import { DomSanitizer } from '@angular/platform-browser';
 import { SanitizeHtmlPipe } from './sanitize-html.pipe';
 
 describe('SanitizeHtmlPipe', () => {
   let pipe: SanitizeHtmlPipe;
-  let sanitizer: DomSanitizer;
+  let sanitizerSpy: jasmine.SpyObj<any>;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [SanitizeHtmlPipe, DomSanitizer]
-    });
-    sanitizer = TestBed.inject(DomSanitizer);
-    pipe = new SanitizeHtmlPipe(sanitizer);
+    sanitizerSpy = jasmine.createSpyObj('DomSanitizer', ['bypassSecurityTrustHtml']);
+    sanitizerSpy.bypassSecurityTrustHtml.and.callFake((value: string) => value);
+    pipe = new SanitizeHtmlPipe(sanitizerSpy);
   });
 
   it('should create an instance', () => {
@@ -20,11 +16,13 @@ describe('SanitizeHtmlPipe', () => {
 
   it('should return safe HTML for a given string', () => {
     const result = pipe.transform('<b>bold</b>');
-    expect(result).toBeTruthy();
+    expect(sanitizerSpy.bypassSecurityTrustHtml).toHaveBeenCalledWith('<b>bold</b>');
+    expect(result).toBe('<b>bold</b>');
   });
 
   it('should return safe HTML for an empty string', () => {
     const result = pipe.transform('');
-    expect(result).toBeTruthy();
+    expect(sanitizerSpy.bypassSecurityTrustHtml).toHaveBeenCalledWith('');
+    expect(result).toBe('');
   });
 });
