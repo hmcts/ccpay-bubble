@@ -86,7 +86,9 @@ withNightlyPipeline("nodejs", product, component) {
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
   enableFortifyScan()
-  enableCrossBrowserTest()
+
+  // Disabled for now as SauceLabs license has expired.
+  //  enableCrossBrowserTest()
   enableFullFunctionalTest(180)
   if (params.MUTATION_TESTS) {
     enableMutationTest(150)
