@@ -204,7 +204,7 @@
     "shell-quote": "1.10.0",
     "tar": "7.5.21",
     "protobufjs": "8.6.1",
-    "@angular/core": "20.3.27",
+    "@angular/core": "20.3.30",
     "@opentelemetry/core": "2.9.0",
     "@opentelemetry/propagator-jaeger": "2.9.0",
     "serialize-javascript": "7.0.5",
