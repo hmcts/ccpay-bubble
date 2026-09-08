@@ -52,7 +52,7 @@
     "test:functional:nightly": "npm-run-all --parallel --continue-on-error test:functional:serial test:functional:nightly:parallel",
     "test:functional:report": "allure generate functional-output/functional/reports -c -o functional-output/functional/allure",
     "test:crossbrowser": "yarn playwright install && npm-run-all -scl test:crossbrowser:e2e test:crossbrowser:report",
-    "test:crossbrowser:e2e": "yarn playwright install && NODE_TLS_REJECT_UNAUTHORIZED=0 codeceptjs run-multiple --all --config acceptance-tests/saucelabs.conf.js --grep @crossbrowser",
+    "test:crossbrowser:e2e": "NODE_TLS_REJECT_UNAUTHORIZED=0 codeceptjs run-multiple --all --config acceptance-tests/crossbrowser.conf.js --grep @crossbrowser",
     "test:crossbrowser:report": "allure generate functional-output/cross-browser/reports/* -c -o functional-output/cross-browser/allure"
   },
   "private": true,
@@ -192,8 +192,7 @@
     "sonar-scanner": "^3.1.0",
     "ts-node": "~8.0.2",
     "tslint": "~6.1.3",
-    "typescript": "~5.8.0",
-    "webdriverio": "^6.12.1"
+    "typescript": "~5.8.0"
   },
   "optionalDependencies": {
     "fsevents": "*"
