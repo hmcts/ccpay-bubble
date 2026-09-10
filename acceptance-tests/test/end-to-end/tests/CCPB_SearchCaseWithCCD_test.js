@@ -7,6 +7,7 @@ const miscUtils = require("../helpers/misc");
 const searchCase = require("../pages/case_search");
 const apiUtils = require("../helpers/utils");
 const FeesSummary = require("../pages/fees_summary");
+const CCPBConstants = require("./CCPBAcceptanceTestConstants");
 
 Feature('CC Pay Bubble Acceptance Tests').retry(CCPBATConstants.defaultNumberOfRetries);
 
@@ -70,12 +71,17 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
     I.wait(CCPBATConstants.fiveSecondWaitTime);
   }
   I.addUpfrontRemissionForFailedTelephonyPayment(feeCode, totalPaymentAmount);
+  FeesSummary.verifyFeeSummaryAfterRemission(feeCode, feeAmount, remissionAmount, amountDue);
+  I.click('Return to the case');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
   I.see('Partially paid');
   await apiUtils.bulkScanPaymentForExistingNormalCase('AA08', bulkScanPayment, 'cheque', ccdNumber);
   I.refreshPage();
   await CaseTransaction.validateCaseTransactionsDetails('0.00', '1', remissionAmount, amountDue, '0.00');
   CaseTransaction.allocateToExistingServiceRequest(feeAmount);
-  FeesSummary.verifyFeeSummaryAfterRemission(feeCode, feeAmount, remissionAmount, amountDue);
+  FeesSummary.verifyFeeSummaryAfterRemission(feeCode, feeAmount, remissionAmount, amountDue, true);
+  I.dontSee('Add help with fees or remission');
+  I.dontSee('Remission added');
   I.click('Allocate payment');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   ConfirmAssociation.verifyConfirmAssociationFullPayment(feeCode, '1', totalPaymentAmount, feeAmount);
@@ -83,6 +89,30 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   I.see('Success');
   await CaseTransaction.validateCaseTransactionsDetails(totalPaymentAmount, '0', remissionAmount, '0.00', '0.00');
+}).tag('@nightly @pipeline');
+
+Scenario('Fee paid with full upfront remission', async({ I, AddFees, Remission, CaseTransaction }) => {
+  const feeCode = 'FEE0219';
+  const feeAmount = '300.00';
+  const remissionAmount= '300.00';
+  const totalPaymentAmount = '0.00';
+  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  const ccdNumber = await utils.createACCDCaseForProbate();
+  const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
+  await miscUtils.multipleSearch(searchCase, I, ccdCaseNumberFormatted);
+  I.click('Create service request');
+  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  await AddFees.addFeesAmount('300.00', 'family', 'probate_registry');
+  FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, feeCode, feeAmount, false);
+  FeesSummary.deductRemission();
+  I.wait(CCPBATConstants.twoSecondWaitTime);
+  Remission.processRemission(feeCode, totalPaymentAmount);
+  I.click('Confirm');
+  I.wait(CCPBConstants.fiveSecondWaitTime);
+  await CaseTransaction.validateCaseTransactionsDetails(totalPaymentAmount, '0', remissionAmount, '0.00', '0.00');
+  I.see('Paid');
+  I.see('No payments recorded');
+  I.Logout();
 }).tag('@nightly @pipeline');
 
 Scenario('Remove fee from case transaction page Telephony flow', async({ I }) => {
