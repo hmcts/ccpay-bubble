@@ -35,5 +35,19 @@ export class AppComponent implements OnInit {
     });
 
     this.document.documentElement.lang = 'en';
+
+    this.loadDynatraceScript();
+  }
+
+  private loadDynatraceScript(): void {
+    const meta = this.document.querySelector('meta[name="dynatrace-script-url"]');
+    const url = meta ? meta.getAttribute('content') : null;
+    if (!url) {
+      return;
+    }
+    const script = this.document.createElement('script');
+    script.src = url;
+    script.async = true;
+    this.document.head.appendChild(script);
   }
 }

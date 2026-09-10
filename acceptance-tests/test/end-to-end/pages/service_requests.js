@@ -28,6 +28,7 @@ module.exports = {
   },
 
   verifyServiceRequestNotFoundErrorPage(isCaseWorker) {
+    I.waitForText('If you are expecting to pay and are not', CCPBATConstants.tenSecondWaitTime);
     I.see('If you are expecting to pay and are not');
     I.see('able to see a service request');
     I.see('please refresh and try in some time.');
@@ -38,12 +39,14 @@ module.exports = {
   },
 
   verifyYourPaymentHasBeenCancelledPage() {
+    I.waitForText('Your payment has been cancelled', CCPBATConstants.tenSecondWaitTime);
     I.see('Your payment has been cancelled');
     I.see('No money has been taken from your account.');
     I.click('Continue');
   },
 
   verifyYourPaymentHasBeenDeclinedPage() {
+    I.waitForText('Your payment has been declined', CCPBATConstants.tenSecondWaitTime);
     I.see('Your payment has been declined');
     I.see('No money has been taken from your account. Contact your');
     I.see('bank for more details.');
@@ -51,6 +54,7 @@ module.exports = {
   },
 
   verifyConfirmYourPaymentPageCardDetails(paymentCardValues) {
+    I.waitForText('Card number', CCPBATConstants.tenSecondWaitTime);
     I.see('Card number');
     I.see('●●●●●●●●●●●');
     I.see('Expiry date');
@@ -72,6 +76,7 @@ module.exports = {
   },
 
   verifyHeaderDetailsOnCardPaymentOrConfirmYourPaymentPage(pageTitle, paymentAmount) {
+    I.waitForText(`${pageTitle}`, CCPBATConstants.tenSecondWaitTime);
     I.see(`${pageTitle}`);
     I.see('Payment summary');
     I.see('card payment');
@@ -94,6 +99,7 @@ module.exports = {
   },
 
   verifyServiceRequestTabPage(paymentStatus, serviceRequestReference, feeDescription, feeAmount, financeManagerFlag) {
+    I.waitForText('Request reference', CCPBATConstants.tenSecondWaitTime);
     I.see('Status');
     I.see('Amount');
     I.see('Party');
@@ -110,6 +116,7 @@ module.exports = {
   },
 
   verifyNotEnoughFundsPage() {
+    I.waitForText('There is a problem', CCPBATConstants.tenSecondWaitTime);
     I.see('There is a problem');
     I.see('You don\'t have enough funds in your PBA account to pay for this fee.');
     I.see('If you have already topped up your PBA account, wait up to 24 hours for the new balance to');
@@ -121,6 +128,7 @@ module.exports = {
   },
 
   verifyPBAPaymentErrorPage(pbaAccountNumber, errorMessage) {
+    I.waitForText('There is a problem', CCPBATConstants.tenSecondWaitTime);
     I.see('There is a problem');
     I.see(`Your PBA account (${pbaAccountNumber}) ${errorMessage}`);
     I.see('Should you need any further advice');
@@ -131,6 +139,7 @@ module.exports = {
   },
 
   verifyServiceRequestPage(paymentStatus, serviceRequestReference, feeDescription, feeAmount) {
+    I.waitForText('Service request', CCPBATConstants.tenSecondWaitTime);
     I.see('Service request');
     I.see('Status');
     I.see(`${paymentStatus}`);
@@ -148,6 +157,7 @@ module.exports = {
   },
 
   verifyNoPBAFoundPage() {
+    I.waitForText('Pay by credit or debit card', CCPBATConstants.tenSecondWaitTime);
     // I.see('You don'/'t have a registered PBA.');
     I.see('Pay by credit or debit card');
     I.see('We recommend that you apply to get a new PBA to pay for fees.');
@@ -168,6 +178,7 @@ module.exports = {
   },
 
   verifyPayFeePage(feeAmount, accountNumber, reference) {
+    I.waitForText('Pay fee using Payment by Account (PBA)', CCPBATConstants.tenSecondWaitTime);
     I.see('Pay fee using Payment by Account (PBA)');
     I.see('Amount to pay');
     I.see(`${feeAmount}`);
@@ -184,6 +195,7 @@ module.exports = {
   },
 
   verifyConfirmedBanner(bannerValue) {
+    I.waitForText(`${bannerValue}`, CCPBATConstants.tenSecondWaitTime);
     I.see(`${bannerValue}`);
     I.see('Your payment reference is');
     I.see('RC-');
@@ -191,6 +203,7 @@ module.exports = {
   },
 
   verifyWTPGeneralPBAErrorPage(payByCardFlag) {
+    I.waitForText('Sorry, there is a problem with the service', CCPBATConstants.tenSecondWaitTime);
     I.see('Sorry, there is a problem with the service');
     I.see('Try again later.');
     I.see('you can also pay by credit or debit card.');

@@ -1,5 +1,17 @@
-const CCPBATConstants = require('../tests/CCPBAcceptanceTestConstants');
-const bulkScanApiCalls = require('../helpers/utils');
+const caseTransactionsText = 'Case transactions';
+const paymentsText = 'Payments';
+const paymentReferenceText = 'Payment reference';
+const noMatchingCasesText = 'No matching cases found';
+const searchErrorText = 'Something went wrong';
+const searchForCaseText = 'Search for a case';
+const searchOutcomeTimeout = 10;
+const defaultMaxSearchAttempts = 5;
+const retryableErrorPauseSeconds = 2;
+const searchOutcomes = {
+  caseFound: 'case-found',
+  noMatch: 'no-match',
+  retryableError: 'retryable-error'
+};
 
 function searchSpecificOption(searchItem, CaseSearch, searchOption) {
   switch (searchItem) {
@@ -16,7 +28,7 @@ function searchSpecificOption(searchItem, CaseSearch, searchOption) {
   }
 }
 
-function multipleSearchForRefunds(CaseSearch, CaseTransaction, I, searchOption) {
+function searchItemFor(searchOption) {
   let searchItem = '';
   const searchOptionLen = searchOption.toString().length;
   const ccdNumberLen = 16;
@@ -30,57 +42,101 @@ function multipleSearchForRefunds(CaseSearch, CaseTransaction, I, searchOption) 
   } else if (searchOptionLen === rcLen) {
     searchItem = 'RC Search';
   }
-
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  searchSpecificOption(searchItem, CaseSearch, searchOption);
+  return searchItem;
 }
 
-async function multipleSearch(CaseSearch, I, searchOption) {
-  let searchItem = '';
-  const searchOptionLen = searchOption.toString().length;
-  const ccdNumberLen = 16;
-  const ccdNumberFormatLen = 19;
-  const dcnLen = 21;
-  const rcLen = 22;
-  if ((searchOptionLen === ccdNumberLen) || (searchOptionLen === ccdNumberFormatLen)) {
-    searchItem = 'CCD Search';
-  } else if (searchOptionLen === dcnLen) {
-    searchItem = 'DCN Search';
-  } else if (searchOptionLen === rcLen) {
-    searchItem = 'RC Search';
+async function waitForSearchOutcome(I) {
+  return I.usePlaywrightTo('wait for case search outcome', async ({ page }) => {
+      const outcomeHandle = await page.waitForFunction(({ successText, paymentsText, paymentReferenceText, notFoundText, errorText, outcomes }) => {
+        const bodyText = document.body.innerText;
+        const hasCaseTransactionPage = bodyText.includes(successText) ||
+          (bodyText.includes(paymentsText) && bodyText.includes(paymentReferenceText));
+        if (hasCaseTransactionPage) {
+          return outcomes.caseFound;
+        }
+        if (bodyText.includes(errorText)) {
+          return outcomes.retryableError;
+        }
+        if (bodyText.includes(notFoundText)) {
+          return outcomes.noMatch;
+        }
+        return false;
+      }, { successText: caseTransactionsText, paymentsText, paymentReferenceText, notFoundText: noMatchingCasesText, errorText: searchErrorText, outcomes: searchOutcomes }, {
+      timeout: searchOutcomeTimeout * 1000
+    });
+    return outcomeHandle.jsonValue();
+  });
+}
+
+async function recoverFromRetryableError(I, options, attempt, maxSearchAttempts) {
+  if (attempt >= maxSearchAttempts) {
+    return;
   }
 
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
-  searchSpecificOption(searchItem, CaseSearch, searchOption);
-  const headerValue1 = await CaseSearch.getHeaderValue();
-  if (headerValue1 === 'Search for a case') {
-    const headerValue5 = await CaseSearch.getHeaderValue();
-    if (headerValue5 === 'Search for a case') {
-      searchSpecificOption(searchItem, CaseSearch, searchOption);
+  if (typeof options.onRetryableError === 'function') {
+    await options.onRetryableError(attempt);
+    return;
+  }
+
+  // Default recovery for transient rendered errors: refresh and wait briefly.
+  if (typeof I.refreshPage === 'function') {
+    await I.refreshPage();
+  }
+
+  if (typeof I.wait === 'function') {
+    await I.wait(retryableErrorPauseSeconds);
+  }
+}
+
+async function searchUntilFound(CaseSearch, I, searchOption, options = {}) {
+  const searchItem = searchItemFor(searchOption);
+  const configuredMaxAttempts = Number(options.maxSearchAttempts);
+  const maxSearchAttempts = Number.isInteger(configuredMaxAttempts) && configuredMaxAttempts > 0
+    ? configuredMaxAttempts
+    : defaultMaxSearchAttempts;
+  let lastOutcome;
+
+  for (let attempt = 1; attempt <= maxSearchAttempts; attempt++) {
+    searchSpecificOption(searchItem, CaseSearch, searchOption);
+    const outcome = await waitForSearchOutcome(I);
+    lastOutcome = outcome;
+
+    if (outcome === searchOutcomes.caseFound) {
+      return outcome;
     }
-  }
 
-  const headerValue2 = await CaseSearch.getHeaderValue();
-  if (headerValue2 === 'Search for a case') {
-    const headerValue6 = await CaseSearch.getHeaderValue();
-    if (headerValue6 === 'Search for a case') {
-      searchSpecificOption(searchItem, CaseSearch, searchOption);
+    if (outcome === searchOutcomes.noMatch && options.allowNoMatch) {
+      return outcome;
     }
-  }
 
-  const headerValue3 = await CaseSearch.getHeaderValue();
-  if (headerValue3 === 'Search for a case') {
-    const headerValue7 = await CaseSearch.getHeaderValue();
-    if (headerValue7 === 'Search for a case') {
-      searchSpecificOption(searchItem, CaseSearch, searchOption);
+    if (outcome === searchOutcomes.retryableError) {
+      await recoverFromRetryableError(I, options, attempt, maxSearchAttempts);
     }
+
+    // case_search waits around each submit; do not add another fixed delay here.
   }
 
-  const headerValue4 = await CaseSearch.getHeaderValue();
-  if (headerValue4 === 'Search for a case') {
-    const headerValue8 = await CaseSearch.getHeaderValue();
-    if (headerValue8 === 'Search for a case') {
-      searchSpecificOption(searchItem, CaseSearch, searchOption);
+  if (lastOutcome === searchOutcomes.retryableError) {
+    throw new Error(`Case search failed with a rendered error for ${searchOption}`);
+  }
+
+  throw new Error(`Case search returned no matching cases for ${searchOption}`);
+}
+
+async function multipleSearchForRefunds(CaseSearch, CaseTransaction, I, searchOption) {
+  await searchUntilFound(CaseSearch, I, searchOption);
+}
+
+async function multipleSearch(CaseSearch, I, searchOption, options = {}) {
+  const outcome = await searchUntilFound(CaseSearch, I, searchOption, options);
+  if (outcome !== searchOutcomes.caseFound) {
+    return;
+  }
+
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const headerValue = await CaseSearch.getHeaderValue();
+    if (headerValue === searchForCaseText) {
+      await searchUntilFound(CaseSearch, I, searchOption, options);
     }
   }
 }

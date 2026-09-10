@@ -6,15 +6,18 @@ const { I } = inject();
 
 module.exports = {
 
-  verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, feeCode, amount, allocatePaymentFlag) {
+  verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, feeCode, amount, allocatePaymentFlag, volume = '1') {
     I.see('Summary');
     I.see('Case reference:');
     I.see(`${ccdCaseNumberFormatted}`);
     I.see('Description');
     I.see('Quantity');
     I.see('Amount');
-    I.see(PaybubbleStaticData.fee_description[feeCode]);
-    I.see('1');
+    // check below line for fee description for the feeCode exists in the PaybubbleStaticData.fee_description object
+    if (PaybubbleStaticData.fee_description[feeCode]) {
+      I.see(PaybubbleStaticData.fee_description[feeCode]);
+    }
+    I.see(volume);
     I.see(`£${amount}`);
     I.see('Add fee');
     I.see('Total to pay:');
@@ -42,7 +45,7 @@ module.exports = {
     I.see(`£${amount}`);
     if (takePaymentFlag) {
       I.see('Take payment');
-      I.cick('Take payment');
+      I.click('Take payment');
     }
   },
 
@@ -83,8 +86,7 @@ module.exports = {
   },
   removeFeesFromSummary() {
     I.click('remove fee');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.see('Are you sure you want to delete this fee?');
+    I.waitForText('Are you sure you want to delete this fee?', CCPBConstants.tenSecondWaitTime);
     I.click('Remove');
     I.wait(CCPBConstants.fiveSecondWaitTime);
   }

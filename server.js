@@ -70,10 +70,27 @@ module.exports = (security, appInsights) => {
   app.use(cookieParser());
 
   // use helmet for security
-  app.use(helmet());
-  app.use(helmet.noCache());
-  app.use(helmet.frameguard());
-  app.use(helmet.xssFilter());
+  app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        baseUri: ["'self'"],
+        fontSrc: ["'self'", "https:", "data:"],
+        formAction: ["'self'",
+          "https://*.pcipalstaging.cloud",
+          "https://*.pcipal.cloud"],
+        frameAncestors: ["'self'"],
+        imgSrc: ["'self'", "data:", "https://*.google-analytics.com", "https://*.g.doubleclick.net"],
+        connectSrc: ["'self'", "https://*.google-analytics.com", "https://*.analytics.google.com", "https://*.g.doubleclick.net", "https://*.dynatrace.com"],
+        frameSrc: ["'self'", "https://www.googletagmanager.com"],
+        objectSrc: ["'none'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://www.googletagmanager.com", "https://*.dynatrace.com"],
+        scriptSrcAttr: ["'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://maxcdn.bootstrapcdn.com"],
+        upgradeInsecureRequests: []
+      }
+    }
+  }));
 
   app.set('view engine', 'pug');
   app.set('views', path.join(__dirname, 'express/mvc/views'));
@@ -94,9 +111,9 @@ module.exports = (security, appInsights) => {
 
   // Middleware to serve static assets
   app.use('/public', express.static(path.join(__dirname, '/public')));
-  app.use('/assets', express.static(path.join(__dirname, 'node_modules', 'govuk-frontend', 'govuk', 'assets')));
+  app.use('/assets', express.static(path.join(__dirname, 'node_modules', 'govuk-frontend', 'assets')));
   app.use('/hmcts-assets', express.static(path.join(__dirname, '/node_modules/@hmcts/frontend/assets')));
-  app.use('/node_modules/govuk-frontend', express.static(path.join(__dirname, '/node_modules/govuk-frontend/govuk')));
+  app.use('/node_modules/govuk-frontend', express.static(path.join(__dirname, '/node_modules/govuk-frontend')));
 
 
   // allow access origin
@@ -118,7 +135,8 @@ module.exports = (security, appInsights) => {
   // fallback to this route (so that Angular will handle all routing)
   app.get('**', security.protectWithAnyOf(roles.allRoles, ['/assets/']), csrfProtection,
     (req, res) => {
-      res.render('index', { csrfToken: req.csrfToken() });
+      const dynatraceScriptUrl = config.has('dynatrace.scriptUrl') ? config.get('dynatrace.scriptUrl') : '';
+      res.render('index', { csrfToken: req.csrfToken(), dynatraceScriptUrl });
     });
 
   app.use(errorHandler);

@@ -1,5 +1,5 @@
 #!groovy
-@Library("Infrastructure")
+@Library("Infrastructure@2.5.1")
 
 def product = "ccpay"
 def component = "bubble-frontend"

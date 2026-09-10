@@ -4,9 +4,6 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import {IPaymentGroup} from '@hmcts/ccpay-web-component';
 import { IBSPayments } from '@hmcts/ccpay-web-component';
 
-const BULK_SCANNING_ENABLED = 'bulk-scan-enabling-fe';
-const DISCONTINUED_FEES_FEATURE_ENABLED = 'discontinued-fees-feature';
-
 
 @Injectable()
 export class PaymentGroupService {
@@ -36,11 +33,9 @@ export class PaymentGroupService {
     });
   }
 
-  getBSFeature(): Promise<any> {
-    return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
-      const regFeature = JSON.parse(features).find(feature => feature.uid === BULK_SCANNING_ENABLED);
-      return regFeature ? regFeature.enable : false;
-    });
+  getBSFeature(): Promise<boolean> {
+    // ff4j was removed; bulk-scan-enabling-fe is permanently enabled
+    return Promise.resolve(true);
   }
 
   getLDFeature(flagKey): Promise<any> {
@@ -63,11 +58,9 @@ export class PaymentGroupService {
     });
   }
 
-  getDiscontinuedFrFeature(): Promise<any> {
-    return this.http.get('api/payment-history/bulk-scan-feature').toPromise().then(features => {
-      const regFeature = JSON.parse(features).find(feature => feature.uid === DISCONTINUED_FEES_FEATURE_ENABLED);
-      return regFeature ? regFeature.enable : false;
-    });
+  getDiscontinuedFrFeature(): Promise<boolean> {
+    // ff4j was removed; discontinued-fees-feature is permanently enabled
+    return Promise.resolve(true);
   }
 
   getEnvironment(): Promise<any> {

@@ -11,15 +11,16 @@ module.exports = {
   // done
   navigateToPaymentHistory() {
     I.click('Payment history');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Search for a case', CCPBConstants.tenSecondWaitTime);
   },
 
   navigateToReceiptRefs(receiptRef) {
     I.click(receiptRef);
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Payment details', CCPBConstants.tenSecondWaitTime);
   },
 
   verifyPaymentHistoryPage(paymentAmount, paymentReference) {
+    I.waitForText('Payments', CCPBConstants.tenSecondWaitTime);
     I.see('Payments');
     I.see('Status');
     I.see('Amount');
@@ -39,10 +40,12 @@ module.exports = {
     I.see('No refunds recorded');
 
     I.click('//a[.=\'Review\']');
+    I.waitForText('Service request', CCPBConstants.tenSecondWaitTime);
   },
 
 
   validatePaymentHistoryPage() {
+    I.waitForText('Unprocessed payments', CCPBConstants.tenSecondWaitTime);
     I.dontSee('Total payments');
     I.see('Unprocessed payments');
     I.dontSee('Select');
@@ -66,6 +69,7 @@ module.exports = {
   },
 
   validateCCDPaymentDetailsPage() {
+    I.waitForText('Payment details', CCPBConstants.tenSecondWaitTime);
     I.see('Payment details');
     I.see('Payment reference');
     I.see('Payment amount');
@@ -86,6 +90,7 @@ module.exports = {
   },
 
   validateTransferredUnidentifedPaymentDetailsPage() {
+    I.waitForText('Payment details', CCPBConstants.tenSecondWaitTime);
     I.see('Payment details');
     I.see('Payment reference');
     I.see('Payment amount');
@@ -107,6 +112,7 @@ module.exports = {
 
   validatePaymentDetailsForPartialPayment(paymentReference, amount) {
     const currentYear = new Date().getFullYear();
+    I.waitForText('Payment details', CCPBConstants.tenSecondWaitTime);
     I.see('Payment details');
     I.see('Payment reference');
     I.see('Payment amount');

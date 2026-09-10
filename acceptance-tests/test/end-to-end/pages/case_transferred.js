@@ -47,7 +47,7 @@ module.exports = {
     this.inputTransferredReason(transferredReason);
     this.selectSiteId(siteId);
     this.confirmPayment();
-    I.wait(CCPBConstants.fiveSecondWaitTime);
+    I.waitForText('Are you sure you want to mark this payment as transferred?', CCPBConstants.tenSecondWaitTime);
     this.validateTransferredConfirmationPage(transferredReason, siteId);
   },
 
@@ -55,15 +55,13 @@ module.exports = {
     I.click('Cancel');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click('Cancel');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.see('Are you sure you want to cancel?');
+    I.waitForText('Are you sure you want to cancel?', CCPBConstants.tenSecondWaitTime);
     I.click('Yes');
   },
 
   cancelTransferredReason() {
     I.click('Cancel');
-    I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.see('Are you sure you want to cancel?');
+    I.waitForText('Are you sure you want to cancel?', CCPBConstants.tenSecondWaitTime);
     I.click('Yes');
   },
 
