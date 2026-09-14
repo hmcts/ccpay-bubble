@@ -21,6 +21,7 @@ const setupConfig = {
       browser: 'chromium',
       name: 'chromium',
       windowSize: '1400x1050',
+      getPageTimeout: 60000,
       waitForTimeout: 60002,
       waitForAction: 800,
       timeout: 20004,
