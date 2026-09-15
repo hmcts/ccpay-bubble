@@ -235,7 +235,7 @@ Scenario('Exception ccd case cash payment transferred', async({ I, CaseSearch, C
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   // Search using receipt number
   const receiptSearch = await CaseTransaction.getReceiptReference();
-  CaseSearch.navigateToCaseTransaction();
+  await CaseSearch.navigateToCaseTransaction();
   await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Exception reference', 'Transferred');
   I.Logout();
@@ -374,7 +374,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
     // Search using receipt number
     const receiptSearch = await CaseTransaction.getReceiptReference();
-    CaseSearch.navigateToCaseTransaction();
+    await CaseSearch.navigateToCaseTransaction();
     logger.info(`The value of the Payment Reference : ${receiptSearch}`);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);
