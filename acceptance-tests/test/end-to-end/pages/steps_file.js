@@ -872,7 +872,7 @@ module.exports = () => actor({
     this.see('Case transactions');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
-    this.click('Create service request and pay');
+    this.click('Create service request');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Search for a fee');
     await this.runAccessibilityTest();
@@ -922,7 +922,7 @@ module.exports = () => actor({
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
     // this.click('Take telephony payment');
-    this.click('Create service request and pay');
+    this.click('Create service request');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Search for a fee');
     this.fillField({ css: '[type="text"]' }, '300');
@@ -942,11 +942,11 @@ module.exports = () => actor({
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }
     this.see('Add fee');
-    this.click('Case Transaction');
+    this.see('What would you like to do next?');
+    this.see('Take payment');
+    this.see('Return to the case');
+    this.click('Return to the case');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await miscUtils.multipleSearch(searchCase, this, ccdNumber);
-    this.see('Case transactions');
-    this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Take telephony payment');
@@ -972,7 +972,7 @@ module.exports = () => actor({
     this.see('Case transactions');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
-    this.click('Create service request and pay');
+    this.click('Create service request');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     await AddFees.addFeesAmount('300.00', 'family', 'probate_registry');
     FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, 'FEE0219', '300.00', false);
@@ -980,13 +980,9 @@ module.exports = () => actor({
     Remission.processRemission('FEE0219', '200');
     Remission.confirmProcessRemission();
     this.wait(CCPBATConstants.fiveSecondWaitTime);
-    this.click('Case Transaction');
-    this.wait(CCPBConstants.fiveSecondWaitTime);
-    await miscUtils.multipleSearch(searchCase, this, ccdNumber);
+    FeesSummary.verifyFeeSummaryAfterRemission('FEE0219', '300.00', '100.00', '200.00');
+    this.click('Return to the case');
     this.wait(CCPBATConstants.fiveSecondWaitTime);
-    this.see('Case transactions');
-    this.see('Case reference:');
-    this.see(ccdCaseNumberFormatted);
     this.see('Partially paid');
     this.click('Take telephony payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
@@ -1003,7 +999,7 @@ module.exports = () => actor({
     this.see('Case transactions');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
-    this.click('Create service request and pay');
+    this.click('Create service request');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     await AddFees.addFeesAmount(feeAmount, jurisdiction1, jurisdiction2);
     FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, feeCode, feeAmount, false);
@@ -1037,7 +1033,7 @@ module.exports = () => actor({
     this.see('Case transaction');
     this.see('Case reference:');
     this.see(ccdCaseNumberFormatted);
-    this.click('Create service request and pay');
+    this.click('Create service request');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('Search for a fee');
     this.fillField({ css: '[type="text"]' }, '300');
@@ -1063,6 +1059,7 @@ module.exports = () => actor({
     this.see('Quantity');
     this.see('Amount');
     this.see('Add fee');
+    this.see('Return to the case');
     this.see(PaybubbleStaticData.fee_description.FEE0219);
     this.see('526.00');
     this.see('Total to pay: £526.00');
