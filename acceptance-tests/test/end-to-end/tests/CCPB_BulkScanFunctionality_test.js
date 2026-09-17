@@ -104,14 +104,12 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, totalAmount, 'cheque');
-  I.waitForClickable({ xpath: '//button[contains(text() , "Allocate to new service request")]' });
   I.seeElement({ xpath: '//button[contains(text() , "Allocate to existing service request") and contains(@class, "button--disabled")]' });
   I.click('Create service request and pay');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   await AddFees.addFeesAmount(feeAmount, 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', feeAmount, false);
   I.click('Back');
-  I.waitForClickable({ xpath: '//button[contains(text() , "Allocate to existing service request")]' });
   I.seeElement({ xpath: '//button[contains(text() , "Allocate to new service request") and contains(@class, "button--disabled")]' });
   CaseTransaction.allocateToExistingServiceRequest(totalAmount);
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', feeAmount, true);
@@ -235,7 +233,7 @@ Scenario('Exception ccd case cash payment transferred', async({ I, CaseSearch, C
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   // Search using receipt number
   const receiptSearch = await CaseTransaction.getReceiptReference();
-  CaseSearch.navigateToCaseTransaction();
+  await CaseSearch.navigateToCaseTransaction();
   await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Exception reference', 'Transferred');
   I.Logout();
@@ -374,7 +372,7 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
     // Search using receipt number
     const receiptSearch = await CaseTransaction.getReceiptReference();
-    CaseSearch.navigateToCaseTransaction();
+    await CaseSearch.navigateToCaseTransaction();
     logger.info(`The value of the Payment Reference : ${receiptSearch}`);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);
