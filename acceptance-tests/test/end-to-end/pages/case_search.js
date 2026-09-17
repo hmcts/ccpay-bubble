@@ -22,35 +22,29 @@ module.exports = {
     return headerValue;
   },
 
-  // done
+// done
   async searchCaseUsingCcdNumber(caseNumber) {
     await this.validateSearchPage();
-    await I.waitForElement(this.locators.ccd_option, CCPBConstants.twentySecondWaitTime);
-    await I.checkOption(this.locators.ccd_option);
     await I.waitForElement(this.locators.ccd_field, CCPBConstants.twentySecondWaitTime);
     await I.fillField(this.locators.ccd_field, caseNumber);
-    await I.waitForClickable(this.locators.search_button, CCPBConstants.twentySecondWaitTime);
-    await I.click(this.locators.search_button);
+    await I.pressKey('Enter');
+    await I.wait(CCPBConstants.tenSecondWaitTime);
   },
 
   async searchCaseUsingDcnNumber(dcnNumber) {
     await this.validateSearchPage();
-    await I.waitForElement(this.locators.dcn_option, CCPBConstants.twentySecondWaitTime);
-    await I.checkOption(this.locators.dcn_option);
     await I.waitForElement(this.locators.dcn_field, CCPBConstants.twentySecondWaitTime);
     await I.fillField(this.locators.dcn_field, dcnNumber);
-    await I.waitForClickable(this.locators.search_button, CCPBConstants.twentySecondWaitTime);
-    await I.click(this.locators.search_button);
+    await I.pressKey('Enter');
+    await I.wait(CCPBConstants.tenSecondWaitTime);
   },
 
   async searchCaseUsingPaymentRef(payReference) {
     await this.validateSearchPage();
-    await I.waitForElement(this.locators.payment_option, CCPBConstants.twentySecondWaitTime);
-    await I.checkOption(this.locators.payment_option);
     await I.waitForElement(this.locators.payment_ref_ield, CCPBConstants.twentySecondWaitTime);
     await I.fillField(this.locators.payment_ref_ield, payReference);
-    await I.waitForClickable(this.locators.search_button, CCPBConstants.twentySecondWaitTime);
-    await I.click(this.locators.search_button);
+    await I.pressKey('Enter');
+    await I.wait(CCPBConstants.tenSecondWaitTime);
   },
 
   async validateSearchPage() {
@@ -60,6 +54,7 @@ module.exports = {
     await I.see('Payment history');
     await I.see('Reports');
     await I.see('Logout');
+    await I.waitForElement(this.locators.ccd_field, CCPBConstants.twentySecondWaitTime);
   },
 
   async navigateToCaseTransaction() {
