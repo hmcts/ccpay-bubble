@@ -12,51 +12,53 @@ module.exports = {
     payment_option: { xpath: '//*[@id="RC"]' },
     payment_ref_ield: { xpath: '//*[@id="RC-search"]' },
     header: { xpath: '//h1' },
-    case_transaction_link: { xpath: '//*[@id="ccd-search-link"]' }
+    case_transaction_link: { xpath: '//*[@id="ccd-search-link"]' },
+    search_button: { css: 'form button[type="submit"]' }
   },
 
   async getHeaderValue() {
-    I.waitForElement(this.locators.header, CCPBConstants.fiveSecondWaitTime);
+    await I.waitForElement(this.locators.header, CCPBConstants.fiveSecondWaitTime);
     const headerValue = await I.grabTextFrom(this.locators.header);
     return headerValue;
   },
 
-  // done
-  searchCaseUsingCcdNumber(caseNumber) {
-    this.validateSearchPage();
-    I.checkOption(this.locators.ccd_option);
-    I.waitForElement(this.locators.ccd_field, CCPBConstants.tenSecondWaitTime);
-    I.fillField(this.locators.ccd_field, caseNumber);
-    I.click('Search');
+// done
+  async searchCaseUsingCcdNumber(caseNumber) {
+    await this.validateSearchPage();
+    await I.waitForElement(this.locators.ccd_field, CCPBConstants.twentySecondWaitTime);
+    await I.fillField(this.locators.ccd_field, caseNumber);
+    await I.pressKey('Enter');
+    await I.wait(CCPBConstants.tenSecondWaitTime);
   },
 
-  searchCaseUsingDcnNumber(dcnNumber) {
-    this.validateSearchPage();
-    I.checkOption(this.locators.dcn_option);
-    I.waitForElement(this.locators.dcn_field, CCPBConstants.tenSecondWaitTime);
-    I.fillField(this.locators.dcn_field, dcnNumber);
-    I.click('Search');
+  async searchCaseUsingDcnNumber(dcnNumber) {
+    await this.validateSearchPage();
+    await I.waitForElement(this.locators.dcn_field, CCPBConstants.twentySecondWaitTime);
+    await I.fillField(this.locators.dcn_field, dcnNumber);
+    await I.pressKey('Enter');
+    await I.wait(CCPBConstants.tenSecondWaitTime);
   },
 
-  searchCaseUsingPaymentRef(payReference) {
-    this.validateSearchPage();
-    I.checkOption(this.locators.payment_option);
-    I.waitForElement(this.locators.payment_ref_ield, CCPBConstants.tenSecondWaitTime);
-    I.fillField(this.locators.payment_ref_ield, payReference);
-    I.click('Search');
+  async searchCaseUsingPaymentRef(payReference) {
+    await this.validateSearchPage();
+    await I.waitForElement(this.locators.payment_ref_ield, CCPBConstants.twentySecondWaitTime);
+    await I.fillField(this.locators.payment_ref_ield, payReference);
+    await I.pressKey('Enter');
+    await I.wait(CCPBConstants.tenSecondWaitTime);
   },
 
-  validateSearchPage() {
-    I.waitForText('Search for a case', CCPBConstants.tenSecondWaitTime);
-    I.see('Search for a case');
-    I.see('Case Transaction');
-    I.see('Payment history');
-    I.see('Reports');
-    I.see('Logout');
+  async validateSearchPage() {
+    await I.waitForText('Search for a case', CCPBConstants.tenSecondWaitTime);
+    await I.see('Search for a case');
+    await I.see('Case Transaction');
+    await I.see('Payment history');
+    await I.see('Reports');
+    await I.see('Logout');
+    await I.waitForElement(this.locators.ccd_field, CCPBConstants.twentySecondWaitTime);
   },
 
-  navigateToCaseTransaction() {
-    I.click(this.locators.case_transaction_link);
-    this.validateSearchPage();
+  async navigateToCaseTransaction() {
+    await I.click(this.locators.case_transaction_link);
+    await this.validateSearchPage();
   }
 };
