@@ -13,18 +13,18 @@ const searchOutcomes = {
   retryableError: 'retryable-error'
 };
 
-function searchSpecificOption(searchItem, CaseSearch, searchOption) {
+async function searchSpecificOption(searchItem, CaseSearch, searchOption) {
   switch (searchItem) {
-  case 'CCD Search': CaseSearch.searchCaseUsingCcdNumber(searchOption);
+  case 'CCD Search': await CaseSearch.searchCaseUsingCcdNumber(searchOption);
     break;
 
-  case 'DCN Search': CaseSearch.searchCaseUsingDcnNumber(searchOption);
+  case 'DCN Search': await CaseSearch.searchCaseUsingDcnNumber(searchOption);
     break;
 
-  case 'RC Search': CaseSearch.searchCaseUsingPaymentRef(searchOption);
+  case 'RC Search': await CaseSearch.searchCaseUsingPaymentRef(searchOption);
     break;
 
-  default: CaseSearch.searchCaseUsingCcdNumber(searchOption);
+  default: await CaseSearch.searchCaseUsingCcdNumber(searchOption);
   }
 }
 
@@ -97,7 +97,7 @@ async function searchUntilFound(CaseSearch, I, searchOption, options = {}) {
   let lastOutcome;
 
   for (let attempt = 1; attempt <= maxSearchAttempts; attempt++) {
-    searchSpecificOption(searchItem, CaseSearch, searchOption);
+    await searchSpecificOption(searchItem, CaseSearch, searchOption);
     const outcome = await waitForSearchOutcome(I);
     lastOutcome = outcome;
 
