@@ -5,21 +5,21 @@ const supportedBrowsers = {
     {
       name: 'webkit',
       browser: 'webkit',
-      windowSize: '1024x768',
+      windowSize: '1400x1050',
     },
   ],
   chromium: [
     {
       name: 'chromium',
       browser: 'chromium',
-      windowSize: '1024x768',
+      windowSize: '1400x1050',
     },
   ],
   firefox: [
     {
       name: 'firefox',
       browser: 'firefox',
-      windowSize: '1024x768',
+      windowSize: '1400x1050',
     }
   ]
 };
