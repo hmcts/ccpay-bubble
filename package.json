@@ -149,7 +149,7 @@
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "allure-commandline": "^2.36.0",
-    "codeceptjs": "3.7.5",
+    "codeceptjs": "3.7.9",
     "cross-env": "^7.0.3",
     "eslint": "^9.0.0",
     "eslint-plugin-node": "^8.0.1",
