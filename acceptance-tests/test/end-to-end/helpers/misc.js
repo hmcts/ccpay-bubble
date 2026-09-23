@@ -1,8 +1,10 @@
+const caseTransactionsText = 'Case transactions';
+const paymentsText = 'Payments';
+const paymentReferenceText = 'Payment reference';
 const noMatchingCasesText = 'No matching cases found';
 const searchErrorText = 'Something went wrong';
 const searchForCaseText = 'Search for a case';
 const searchOutcomeTimeout = 10;
-const negativeSearchOutcomeMinWaitMs = 3000;
 const searchResultNavigationTimeoutMs = 3000;
 const defaultMaxSearchAttempts = 5;
 const retryableErrorPauseSeconds = 2;
@@ -46,19 +48,16 @@ function searchItemFor(searchOption) {
 
 async function waitForSearchOutcome(I) {
   return I.usePlaywrightTo('wait for case search outcome', async ({ page }) => {
-      const outcomeWaitId = `case-search-${Date.now()}-${Math.random()}`;
-      const outcomeHandle = await page.waitForFunction(({ notFoundText, errorText, outcomes, outcomeWaitId, negativeOutcomeMinWaitMs }) => {
+      const outcomeHandle = await page.waitForFunction(({ successText, paymentsText, paymentReferenceText, notFoundText, errorText, outcomes }) => {
         if (window.location.pathname.includes('/payment-history')) {
           return outcomes.caseFound;
         }
 
         const bodyText = document.body.innerText;
-        window.__ccpaySearchOutcomeWaits = window.__ccpaySearchOutcomeWaits || {};
-        if (!Object.prototype.hasOwnProperty.call(window.__ccpaySearchOutcomeWaits, outcomeWaitId)) {
-          window.__ccpaySearchOutcomeWaits[outcomeWaitId] = performance.now();
-        }
-        if (performance.now() - window.__ccpaySearchOutcomeWaits[outcomeWaitId] < negativeOutcomeMinWaitMs) {
-          return false;
+        const hasCaseTransactionPage = bodyText.includes(successText) ||
+          (bodyText.includes(paymentsText) && bodyText.includes(paymentReferenceText));
+        if (hasCaseTransactionPage) {
+          return outcomes.caseFound;
         }
         if (bodyText.includes(errorText)) {
           return outcomes.retryableError;
@@ -68,11 +67,12 @@ async function waitForSearchOutcome(I) {
         }
         return false;
       }, {
+      successText: caseTransactionsText,
+      paymentsText,
+      paymentReferenceText,
       notFoundText: noMatchingCasesText,
       errorText: searchErrorText,
-      outcomes: searchOutcomes,
-      outcomeWaitId,
-      negativeOutcomeMinWaitMs: negativeSearchOutcomeMinWaitMs
+      outcomes: searchOutcomes
     }, {
       timeout: searchOutcomeTimeout * 1000
     });

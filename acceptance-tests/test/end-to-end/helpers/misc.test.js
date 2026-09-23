@@ -21,15 +21,9 @@ function fakeActor(bodyText = 'No matching cases found', pathname = '/ccd-search
             const window = {
               location: {
                 pathname
-              },
-              __ccpaySearchOutcomeWaits: {
-                [expected.outcomeWaitId]: 0
               }
             };
-            const performance = {
-              now: () => expected.negativeOutcomeMinWaitMs || 0
-            };
-            const matched = Function('document', 'window', 'performance', 'expected', `return (${predicate.toString()})(expected);`)(document, window, performance, expected);
+            const matched = Function('document', 'window', 'expected', `return (${predicate.toString()})(expected);`)(document, window, expected);
             if (!matched) {
               throw new Error(`Search outcome was not recognised from: ${bodyText}`);
             }
@@ -91,11 +85,19 @@ describe('misc search helpers', () => {
     ]);
   });
 
-  it('does not submit another search when already on the case transaction route', async () => {
+  it('recognises the rendered payments table as a case transaction search result', async () => {
     const CaseSearch = fakeCaseSearch();
     const pageText = 'Payments Status Amount Date Payment reference Refunds No refunds recorded';
 
-    await misc.multipleSearch(CaseSearch, fakeActor(pageText, '/payment-history/1111222233334444'), '1111222233334444');
+    await misc.multipleSearch(CaseSearch, fakeActor(pageText), '1111222233334444');
+
+    assert.deepStrictEqual(CaseSearch.searchCalls, [['ccd', '1111222233334444']]);
+  });
+
+  it('does not submit another search when already on the case transaction route', async () => {
+    const CaseSearch = fakeCaseSearch();
+
+    await misc.multipleSearch(CaseSearch, fakeActor('', '/payment-history/1111222233334444'), '1111222233334444');
 
     assert.deepStrictEqual(CaseSearch.searchCalls, []);
   });

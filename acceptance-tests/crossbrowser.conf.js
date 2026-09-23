@@ -16,28 +16,28 @@ const setupConfig = {
   tests,
   output: `${process.cwd()}/functional-output/cross-browser/reports`,
   helpers: {
-Playwright: {
-      url: CONF.e2e.frontendUrl,
-      show: false,
-      browser: 'chromium',
-      name: 'chromium',
-      windowSize: '1024x768',
-      getPageTimeout: 60000,
-      waitForTimeout: 60005,
-      waitForAction: 1500,
-      timeout: 20005,
-      waitForNavigation: 'networkidle0',
-      ignoreHTTPSErrors: true,
-      fullPageScreenshots: true,
-      uniqueScreenshotNames: true,
-      recordVideo: {
-        dir: `${process.cwd()}/functional-output/cross-browser/videos`,
-        size : {
-          width: 1024,
-          height: 768
-        }
+      Playwright: {
+          url: CONF.e2e.frontendUrl,
+          show: false,
+          browser: 'chromium',
+          name: 'chromium',
+          windowSize: '1024x768',
+          getPageTimeout: 60000,
+          waitForTimeout: 60005,
+          waitForAction: 1500,
+          timeout: 20005,
+          waitForNavigation: 'networkidle0',
+          ignoreHTTPSErrors: true,
+          fullPageScreenshots: true,
+          uniqueScreenshotNames: true,
+          recordVideo: {
+            dir: `${process.cwd()}/functional-output/cross-browser/videos`,
+            size : {
+              width: 1024,
+              height: 768
+            }
+          }
       }
-    }
   },
   plugins: {
     retryFailedStep: {
