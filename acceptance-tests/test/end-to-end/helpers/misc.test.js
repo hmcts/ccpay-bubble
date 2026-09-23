@@ -3,14 +3,27 @@
 const assert = require('assert');
 const misc = require('./misc');
 
-function fakeActor(bodyText = 'No matching cases found') {
+function fakeActor(bodyText = 'No matching cases found', pathname = '/ccd-search') {
   return {
     async usePlaywrightTo(_label, action) {
       return action({
         page: {
+          url() {
+            return `http://localhost${pathname}`;
+          },
+          async waitForURL(predicate) {
+            if (!predicate(new URL(`http://localhost${pathname}`))) {
+              throw new Error(`URL did not match: ${pathname}`);
+            }
+          },
           async waitForFunction(predicate, expected) {
             const document = { body: { innerText: bodyText } };
-            const matched = Function('document', 'expected', `return (${predicate.toString()})(expected);`)(document, expected);
+            const window = {
+              location: {
+                pathname
+              }
+            };
+            const matched = Function('document', 'window', 'expected', `return (${predicate.toString()})(expected);`)(document, window, expected);
             if (!matched) {
               throw new Error(`Search outcome was not recognised from: ${bodyText}`);
             }
@@ -79,6 +92,14 @@ describe('misc search helpers', () => {
     await misc.multipleSearch(CaseSearch, fakeActor(pageText), '1111222233334444');
 
     assert.deepStrictEqual(CaseSearch.searchCalls, [['ccd', '1111222233334444']]);
+  });
+
+  it('does not submit another search when already on the case transaction route', async () => {
+    const CaseSearch = fakeCaseSearch();
+
+    await misc.multipleSearch(CaseSearch, fakeActor('', '/payment-history/1111222233334444'), '1111222233334444');
+
+    assert.deepStrictEqual(CaseSearch.searchCalls, []);
   });
 
   it('retries a rendered search error before failing with the error state', async () => {
