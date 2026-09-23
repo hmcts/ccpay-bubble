@@ -12,8 +12,7 @@ module.exports = {
     payment_option: { xpath: '//*[@id="RC"]' },
     payment_ref_ield: { xpath: '//*[@id="RC-search"]' },
     header: { xpath: '//h1' },
-    case_transaction_link: { xpath: '//*[@id="ccd-search-link"]' },
-    search_button: { css: 'form button[type="submit"]' }
+    case_transaction_link: { xpath: '//*[@id="ccd-search-link"]' }
   },
 
   async getHeaderValue() {
