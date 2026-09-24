@@ -1,10 +1,9 @@
-const caseTransactionsText = 'Case transactions';
-const paymentsText = 'Payments';
-const paymentReferenceText = 'Payment reference';
 const noMatchingCasesText = 'No matching cases found';
 const searchErrorText = 'Something went wrong';
 const searchForCaseText = 'Search for a case';
 const searchOutcomeTimeout = 10;
+const negativeSearchOutcomeMinWaitMs = 3000;
+const searchResultNavigationTimeoutMs = 3000;
 const defaultMaxSearchAttempts = 5;
 const retryableErrorPauseSeconds = 2;
 const searchOutcomes = {
@@ -13,18 +12,18 @@ const searchOutcomes = {
   retryableError: 'retryable-error'
 };
 
-function searchSpecificOption(searchItem, CaseSearch, searchOption) {
+async function searchSpecificOption(searchItem, CaseSearch, searchOption) {
   switch (searchItem) {
-  case 'CCD Search': CaseSearch.searchCaseUsingCcdNumber(searchOption);
+  case 'CCD Search': await CaseSearch.searchCaseUsingCcdNumber(searchOption);
     break;
 
-  case 'DCN Search': CaseSearch.searchCaseUsingDcnNumber(searchOption);
+  case 'DCN Search': await CaseSearch.searchCaseUsingDcnNumber(searchOption);
     break;
 
-  case 'RC Search': CaseSearch.searchCaseUsingPaymentRef(searchOption);
+  case 'RC Search': await CaseSearch.searchCaseUsingPaymentRef(searchOption);
     break;
 
-  default: CaseSearch.searchCaseUsingCcdNumber(searchOption);
+  default: await CaseSearch.searchCaseUsingCcdNumber(searchOption);
   }
 }
 
@@ -47,12 +46,19 @@ function searchItemFor(searchOption) {
 
 async function waitForSearchOutcome(I) {
   return I.usePlaywrightTo('wait for case search outcome', async ({ page }) => {
-      const outcomeHandle = await page.waitForFunction(({ successText, paymentsText, paymentReferenceText, notFoundText, errorText, outcomes }) => {
-        const bodyText = document.body.innerText;
-        const hasCaseTransactionPage = bodyText.includes(successText) ||
-          (bodyText.includes(paymentsText) && bodyText.includes(paymentReferenceText));
-        if (hasCaseTransactionPage) {
+      const outcomeWaitId = `case-search-${Date.now()}-${Math.random()}`;
+      const outcomeHandle = await page.waitForFunction(({ notFoundText, errorText, outcomes, outcomeWaitId, negativeOutcomeMinWaitMs }) => {
+        if (window.location.pathname.includes('/payment-history')) {
           return outcomes.caseFound;
+        }
+
+        const bodyText = document.body.innerText;
+        window.__ccpaySearchOutcomeWaits = window.__ccpaySearchOutcomeWaits || {};
+        if (!Object.prototype.hasOwnProperty.call(window.__ccpaySearchOutcomeWaits, outcomeWaitId)) {
+          window.__ccpaySearchOutcomeWaits[outcomeWaitId] = performance.now();
+        }
+        if (performance.now() - window.__ccpaySearchOutcomeWaits[outcomeWaitId] < negativeOutcomeMinWaitMs) {
+          return false;
         }
         if (bodyText.includes(errorText)) {
           return outcomes.retryableError;
@@ -61,10 +67,40 @@ async function waitForSearchOutcome(I) {
           return outcomes.noMatch;
         }
         return false;
-      }, { successText: caseTransactionsText, paymentsText, paymentReferenceText, notFoundText: noMatchingCasesText, errorText: searchErrorText, outcomes: searchOutcomes }, {
+      }, {
+      notFoundText: noMatchingCasesText,
+      errorText: searchErrorText,
+      outcomes: searchOutcomes,
+      outcomeWaitId,
+      negativeOutcomeMinWaitMs: negativeSearchOutcomeMinWaitMs
+    }, {
       timeout: searchOutcomeTimeout * 1000
     });
     return outcomeHandle.jsonValue();
+  });
+}
+
+async function waitForSearchResultPage(I, timeoutMs = searchResultNavigationTimeoutMs) {
+  return I.usePlaywrightTo('wait for case transaction route', async ({ page }) => {
+    const isPaymentHistoryPage = () => new URL(page.url()).pathname.includes('/payment-history');
+
+    if (isPaymentHistoryPage()) {
+      return true;
+    }
+
+    if (timeoutMs <= 0) {
+      return false;
+    }
+
+    try {
+      await page.waitForURL(url => url.pathname.includes('/payment-history'), {
+        timeout: timeoutMs,
+        waitUntil: 'domcontentloaded'
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
   });
 }
 
@@ -97,12 +133,20 @@ async function searchUntilFound(CaseSearch, I, searchOption, options = {}) {
   let lastOutcome;
 
   for (let attempt = 1; attempt <= maxSearchAttempts; attempt++) {
-    searchSpecificOption(searchItem, CaseSearch, searchOption);
+    if (await waitForSearchResultPage(I, 0)) {
+      return searchOutcomes.caseFound;
+    }
+
+    await searchSpecificOption(searchItem, CaseSearch, searchOption);
     const outcome = await waitForSearchOutcome(I);
     lastOutcome = outcome;
 
     if (outcome === searchOutcomes.caseFound) {
       return outcome;
+    }
+
+    if (await waitForSearchResultPage(I)) {
+      return searchOutcomes.caseFound;
     }
 
     if (outcome === searchOutcomes.noMatch && options.allowNoMatch) {
