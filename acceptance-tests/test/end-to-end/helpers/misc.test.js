@@ -136,4 +136,27 @@ describe('misc search helpers', () => {
       ['ccd', '1111222233334444']
     ]);
   });
+
+  it('runs the recovery callback between no-match attempts so a lagging search index recovers', async () => {
+    const CaseSearch = fakeCaseSearch();
+    const I = fakeActor();
+    let recoveryRuns = 0;
+
+    await assert.rejects(
+      () => misc.multipleSearch(CaseSearch, I, '1111222233334444', {
+        maxSearchAttempts: 3,
+        onRetryableError: async () => {
+          recoveryRuns++;
+        }
+      }),
+      /Case search returned no matching cases for 1111222233334444/
+    );
+
+    assert.strictEqual(recoveryRuns, 2);
+    assert.deepStrictEqual(CaseSearch.searchCalls, [
+      ['ccd', '1111222233334444'],
+      ['ccd', '1111222233334444'],
+      ['ccd', '1111222233334444']
+    ]);
+  });
 });
