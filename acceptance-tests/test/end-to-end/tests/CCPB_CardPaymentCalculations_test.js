@@ -57,7 +57,6 @@ Scenario('Card payment with failed transaction should have the correct calculati
 
     await I.Logout();
     I.clearCookie();
-  }).tag('@serial @pipeline @nightly');
   }).retry(CCPBATConstants.defaultNumberOfRetries).tag('@serial @pipeline @nightly');
 
   Scenario('Card payment with declined transaction should have the correct calculations on the Case Transaction page and failure details should be captured in payment status history',
@@ -91,8 +90,7 @@ Scenario('Card payment with failed transaction should have the correct calculati
 
     await I.Logout();
     I.clearCookie();
-    }).tag('@serial @pipeline @nightly');
-  }).retry(CCPBATConstants.defaultNumberOfRetries).tag('@serial @pipeline @nightly');
+    }).retry(CCPBATConstants.defaultNumberOfRetries).tag('@serial @pipeline @nightly');
 
   Scenario('Card payment with success transaction should have the correct calculations on the Case Transaction page',
     async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
