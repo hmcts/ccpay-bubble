@@ -48,8 +48,7 @@ Scenario('Card payment with failed transaction should have the correct calculati
     I.see('Sign in');
 
     // Validate Case Transactions details and payment status history for failed payments
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    await searchCaseTransactionsWithRecovery(I, CaseSearch, ccdCaseNumber);
     await CaseTransaction.validateCaseTransactionsDetails('0.00', '0', '0.00', '300.00', '0.00');
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -81,8 +80,7 @@ Scenario('Card payment with failed transaction should have the correct calculati
     I.click('Return to service request');
 
     // Validate Case Transactions details and payment status history for failed payments
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    await searchCaseTransactionsWithRecovery(I, CaseSearch, ccdCaseNumber);
     await CaseTransaction.validateCaseTransactionsDetails('0.00', '0', '0.00', '300.00', '0.00');
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.wait(CCPBATConstants.twoSecondWaitTime);
