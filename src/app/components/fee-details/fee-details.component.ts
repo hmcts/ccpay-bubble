@@ -1,8 +1,7 @@
-import { PaymentGroupService } from './../../services/payment-group/payment-group.service';
-import { IVersion } from './../../../../projects/fee-register-search/src/lib/interfaces/IVersion';
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from '@angular/core';
-import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import {IVersion} from './../../../../projects/fee-register-search/src/lib/interfaces/IVersion';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {IFee} from '../../../../projects/fee-register-search/src/lib/interfaces';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-fee-details',
@@ -13,7 +12,6 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 export class FeeDetailsComponent implements OnInit, OnChanges {
   selectedFeeVersion: IVersion;
   validOldVersionArray: IVersion[] = [];
-  isDiscontinuedFeatureEnabled = true;
   @Input() fee: any;
   @Output() submitFeeVolumeEvent: EventEmitter<{ volumeAmount: number, selectedVersionEmit: IVersion,
     isDiscontinuedFeeAvailable: boolean }> = new EventEmitter();
@@ -26,16 +24,12 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
   calculatedAmountFormControl: FormControl;
 
   constructor(
-    private paymentGroupService: PaymentGroupService,
     private formBuilder: FormBuilder
   ) {
   }
 
-  async ngOnChanges() {
-    this.isDiscontinuedFeatureEnabled = await this.paymentGroupService.getDiscontinuedFrFeature();
-    if (this.isDiscontinuedFeatureEnabled) {
-      this.validOldVersionArray = this.validOldFeesVersions(this.fee);
-    }
+  ngOnChanges() {
+    this.validOldVersionArray = this.validOldFeesVersions(this.fee);
   }
   ngOnInit() {
     this.feeDetailFormGroup = this.formBuilder.group({
@@ -65,8 +59,12 @@ export class FeeDetailsComponent implements OnInit, OnChanges {
 
     this.submitFeeVolumeEvent.emit({
       volumeAmount: this.feeDetailFormGroup.get('feeOrVolumeControl').value, selectedVersionEmit: this.selectedFeeVersion,
-      isDiscontinuedFeeAvailable: this.validOldVersionArray.length > 0 && (!this.fee.current_version || this.fee.current_version)
+      isDiscontinuedFeeAvailable: this.getDiscontinuedFeeAvailable()
     });
+  }
+
+  getDiscontinuedFeeAvailable(): boolean {
+    return this.validOldVersionArray.length > 0 && (!this.fee.current_version || this.fee.current_version);
   }
 
   getSelectedFeesVersion(currentSelectedFeeVersion: IVersion) {

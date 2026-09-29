@@ -139,7 +139,7 @@ module.exports = {
   },
 
   verifyRefundDetailsAfterRefundApproved(reviewRefundDetailsDataAfterApproval) {
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Refund details', CCPBATConstants.tenSecondWaitTime);
     I.see('Refund details');
     I.see('Refund reference');
     I.see(reviewRefundDetailsDataAfterApproval.refundReference);
@@ -198,7 +198,7 @@ module.exports = {
   },
 
   verifyRefundDetailsAfterRefundReturnToCaseWorker(reviewRefundDetailsDataAfterApproval, refundReturnText) {
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Refund details', CCPBATConstants.tenSecondWaitTime);
     I.see('Refund details');
     I.see('Refund reference');
     I.see(reviewRefundDetailsDataAfterApproval.refundReference);
@@ -227,7 +227,7 @@ module.exports = {
   },
 
   verifyRefundDetailsAfterRefundAcceptedByLiberata(reviewRefundDetailsDataAfterApproval, viewNotificationFlag = false, resendNotificationFlag = false, notifyEditDetailsFlag = false, refundNotificationPreviewData = null) {
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Refund details', CCPBATConstants.tenSecondWaitTime);
     I.see('Refund details');
     I.see('Refund reference');
     I.see(reviewRefundDetailsDataAfterApproval.refundReference);
@@ -270,38 +270,30 @@ module.exports = {
     I.see('Sent to Middle Office for Processing');
     if (viewNotificationFlag) {
       I.click('View');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
         verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
       }
       I.click('Hide');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
     }
     if (resendNotificationFlag) {
       I.click('Resend');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForText('Notification sent', CCPBATConstants.tenSecondWaitTime);
       I.see('Notification sent');
       I.see(`Refund reference: ${reviewRefundDetailsDataAfterApproval.refundReference}`);
       I.click('Return to case');
-      // I.wait(CCPBATConstants.fiveSecondWaitTime);
-      // I.click('(//*[text()[contains(.,"Review")]])[3]');
-      // I.wait(CCPBATConstants.tenSecondWaitTime);
-      // I.waitForText('Refund details', 5);
     }
     // Change notification to opposite of earlier one (email -> post, post -> email)
     if (notifyEditDetailsFlag) {
       I.click('Edit details');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
       if (reviewRefundDetailsDataAfterApproval.postcode) {
         I.waitForElement('//*[@id="contact"]', 5);
         I.click('//*[@id="contact"]');
-        I.wait(CCPBATConstants.twoSecondWaitTime);
         I.click('//*[@id="email"]');
         I.fillField('//*[@id="email"]', 'autoTestNotifyEditDetails@mailtest.gov.uk');
         I.click('Continue');
-        I.wait(CCPBATConstants.twoSecondWaitTime);
         I.waitForText('Check your answers', 5);
         I.see('Refund reference');
         I.see(`${reviewRefundDetailsDataAfterApproval.refundReference}`);
@@ -314,22 +306,21 @@ module.exports = {
         I.see('Notification');
         I.see('Preview');
         I.click('Preview');
-        I.wait(CCPBATConstants.twoSecondWaitTime);
-        I.waitForText('HMCTS refund request approved', 5);
+        I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
         I.click('Hide Preview');
         I.click('Send notification');
-        I.wait(CCPBATConstants.fiveSecondWaitTime);
+        I.waitForText('Notification sent', CCPBATConstants.tenSecondWaitTime);
         I.see('Notification sent');
         I.see(`Refund reference: ${reviewRefundDetailsDataAfterApproval.refundReference}`);
         I.click('Return to case');
-        I.wait(CCPBATConstants.fiveSecondWaitTime);
-        I.click('(//*[text()[contains(.,"Review")]])[3]');
-        I.wait(CCPBATConstants.tenSecondWaitTime);
-        I.waitForText('Refund details', 5);
+        const reviewRefund = '(//*[text()[contains(.,"Review")]])[3]';
+        I.waitForElement(reviewRefund, CCPBATConstants.tenSecondWaitTime);
+        I.click(reviewRefund);
+        I.waitForText('Refund details', CCPBATConstants.tenSecondWaitTime);
         I.see('autoTestNotifyEditDetails@mailtest.gov.uk');
         if (viewNotificationFlag) {
           I.click('View');
-          I.wait(CCPBATConstants.fiveSecondWaitTime);
+          I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
           refundNotificationPreviewData.email = 'autoTestNotifyEditDetails@mailtest.gov.uk';
           refundNotificationPreviewData.postcode= '';
           if (refundNotificationPreviewData.bulkScanPaymentMethod) {
@@ -338,20 +329,16 @@ module.exports = {
             verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
           }
           I.click('Hide');
-          I.wait(CCPBATConstants.twoSecondWaitTime);
         }
       } else if (reviewRefundDetailsDataAfterApproval.email) {
         I.waitForElement('//*[@id="contact-2"]', 5);
         I.click('//*[@id="contact-2"]');
-        I.wait(CCPBATConstants.twoSecondWaitTime);
         I.click('//*[@id="address-postcode"]');
         I.fillField('//*[@id="address-postcode"]', 'TW4 7EZ');
-        I.wait(CCPBATConstants.twoSecondWaitTime);
         I.click('Find address');
-        I.wait(CCPBATConstants.fiveSecondWaitTime);
+        I.waitForElement('//*[@id="postcodeAddress"]', CCPBATConstants.tenSecondWaitTime);
         I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
         I.click('Continue');
-        I.wait(CCPBATConstants.twoSecondWaitTime);
         I.waitForText('Check your answers', 5);
         I.see('Refund reference');
         I.see(`${reviewRefundDetailsDataAfterApproval.refundReference}`);
@@ -364,22 +351,21 @@ module.exports = {
         I.see('Notification');
         I.see('Preview');
         I.click('Preview');
-        I.wait(CCPBATConstants.twoSecondWaitTime);
-        I.waitForText('HMCTS refund request approved', 5);
+        I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
         I.click('Hide Preview');
         I.click('Send notification');
-        I.wait(CCPBATConstants.fiveSecondWaitTime);
+        I.waitForText('Notification sent', CCPBATConstants.tenSecondWaitTime);
         I.see('Notification sent');
         I.see(`Refund reference: ${reviewRefundDetailsDataAfterApproval.refundReference}`);
         I.click('Return to case');
-        I.wait(CCPBATConstants.fiveSecondWaitTime);
-        I.click('(//*[text()[contains(.,"Review")]])[3]');
-        I.wait(CCPBATConstants.tenSecondWaitTime);
-        I.waitForText('Refund details', 5);
+        const reviewRefund = '(//*[text()[contains(.,"Review")]])[3]';
+        I.waitForElement(reviewRefund, CCPBATConstants.tenSecondWaitTime);
+        I.click(reviewRefund);
+        I.waitForText('Refund details', CCPBATConstants.tenSecondWaitTime);
         I.see('TW4 7EZ');
         if (viewNotificationFlag) {
           I.click('View');
-          I.wait(CCPBATConstants.fiveSecondWaitTime);
+          I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
           refundNotificationPreviewData.email = '';
           refundNotificationPreviewData.postcode= 'TW4 7EZ';
           if (refundNotificationPreviewData.bulkScanPaymentMethod === 'cash') {
@@ -388,14 +374,13 @@ module.exports = {
             verifyCardOrPBASendRefundNotification(refundNotificationPreviewData);
           }
           I.click('Hide');
-          I.wait(CCPBATConstants.twoSecondWaitTime);
         }
       }
     }
   },
 
   verifyRefundDetailsAfterLiberataRejection(refundDetailsDataAfterRejected, viewNotificationFlag = false, refundNotificationPreviewData = null) {
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Refund details', CCPBATConstants.tenSecondWaitTime);
     I.see('Refund details');
     I.see('Refund reference');
     I.see(refundDetailsDataAfterRejected.refundReference);
@@ -443,15 +428,14 @@ module.exports = {
 
     if (viewNotificationFlag) {
       I.click('View');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
       verifyOnlineCardRefundWhenContactedNotification(refundNotificationPreviewData);
       I.click('Hide');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
     }
   },
 
   verifyRefundDetailsAfterLiberataExpiredTheRefund(refundDetailsDataAfterExpired, viewNotificationFlag = false, refundNotificationPreviewData = null) {
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Refund details', CCPBATConstants.tenSecondWaitTime);
     I.see('Refund details');
     I.see('Refund reference');
     I.see(refundDetailsDataAfterExpired.refundReference);
@@ -506,19 +490,18 @@ module.exports = {
     I.see('Unable to process expired refund');
     if (viewNotificationFlag) {
       I.click('View');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
         verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         verifyOnlineCardRefundWhenContactedNotification(refundNotificationPreviewData);
       }
       I.click('Hide');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
     }
   },
 
   verifyRefundDetailsAfterCaseworkerClosedTheRefund(refundDetailsDataAfterClosed, viewNotificationFlag = false, refundNotificationPreviewData = null) {
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Refund details', CCPBATConstants.tenSecondWaitTime);
     I.see('Refund details');
     I.see('Refund reference');
     I.see(refundDetailsDataAfterClosed.refundReference);
@@ -575,19 +558,18 @@ module.exports = {
     I.see('Refund closed by case worker');
     if (viewNotificationFlag) {
       I.click('View');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
         verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         verifyOnlineCardRefundWhenContactedNotification(refundNotificationPreviewData);
       }
       I.click('Hide');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
     }
   },
 
   verifyRefundDetailsAfterCaseworkerReissuedTheRefund(refundDetailsDataAfterReissued, newRefundReference) {
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Refund details', CCPBATConstants.tenSecondWaitTime);
     I.see('Refund details');
     I.see('Refund reference');
     I.see(newRefundReference);
@@ -615,7 +597,7 @@ module.exports = {
   },
 
   verifyRefundDetailsAfterCaseworkerReissuedTheRefundAndLiberataAccepted(refundDetailsDataAfterAccepted, viewNotificationFlag = false, refundNotificationPreviewData = null) {
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.waitForText('Refund details', CCPBATConstants.tenSecondWaitTime);
     I.see('Refund details');
     I.see('Refund reference');
     I.see(refundNotificationPreviewData.refundReference);
@@ -657,28 +639,26 @@ module.exports = {
     I.see('Sent to Middle Office for Processing');
     if (viewNotificationFlag) {
       I.click('View');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
         verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else {
         verifyOnlineCardRefundWhenContactedNotification(refundNotificationPreviewData);
       }
       I.click('Hide');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
     }
   },
 
   resendNotification(refundReference) {
     I.click('Resend');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
-    I.see('Notification sent');
+    I.waitForText('Notification sent', CCPBATConstants.tenSecondWaitTime);
     I.see(`Refund reference: ${refundReference}`);
     I.click('Return to case');
   },
 
   verifyNotificationDetailsAfterResend(refundNotificationData, isOnlineCardPaymentRefundRejected = false) {
     I.click('View');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
+    I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
     if (refundNotificationData.bulkScanPaymentMethod) {
       verifyBulkScanPaymentOfferAndContactNotification(refundNotificationData);
     } else if (isOnlineCardPaymentRefundRejected) {
@@ -687,23 +667,19 @@ module.exports = {
       verifyCardOrPBASendRefundNotification(refundNotificationData)
     }
     I.click('Hide');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
   },
 
   editAndVerifyNotificationDetails(refundNotificationPreviewData, refundNotificationType, isOnlineCardPaymentRefundRejected = false) {
     // Change notification to opposite of earlier one (email -> post, post -> email)
     I.click('Edit details');
-    I.wait(CCPBATConstants.twoSecondWaitTime);
     if (refundNotificationPreviewData.postcode) {
       refundNotificationPreviewData.email = 'autoTestNotifyEditDetails@mailtest.gov.uk';
       refundNotificationPreviewData.postcode= '';
       I.waitForElement('//*[@id="contact"]', 5);
       I.click('//*[@id="contact"]');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('//*[@id="email"]');
       I.fillField('//*[@id="email"]', refundNotificationPreviewData.email);
       I.click('Continue');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.waitForText('Check your answers', 5);
       I.see('Refund reference');
       I.see(`${refundNotificationPreviewData.refundReference}`);
@@ -716,8 +692,7 @@ module.exports = {
       I.see('Notification');
       I.see('Preview');
       I.click('Preview');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
-      I.waitForText('HMCTS refund request approved', 5);
+      I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
         verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else if (isOnlineCardPaymentRefundRejected) {
@@ -727,17 +702,16 @@ module.exports = {
       }
       I.click('Hide Preview');
       I.click('Send notification');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
-      I.see('Notification sent');
+      I.waitForText('Notification sent', CCPBATConstants.tenSecondWaitTime);
       I.see(`Refund reference: ${refundNotificationPreviewData.refundReference}`);
       I.click('Return to case');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
-      I.click(`//td[contains(.,'${refundNotificationPreviewData.refundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
-      I.waitForText('Refund details', 5);
+      const reviewRefund = `//td[contains(.,'${refundNotificationPreviewData.refundReference}')]/following-sibling::td/a[.=\'Review\'][1]`;
+      I.waitForElement(reviewRefund, CCPBATConstants.tenSecondWaitTime);
+      I.click(reviewRefund);
+      I.waitForText('Refund details', CCPBATConstants.tenSecondWaitTime);
       I.see(refundNotificationPreviewData.email);
       I.click('View');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
         verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else if (isOnlineCardPaymentRefundRejected) {
@@ -746,21 +720,17 @@ module.exports = {
         verifyCardOrPBASendRefundNotification(refundNotificationPreviewData)
       }
       I.click('Hide');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
     } else if (refundNotificationPreviewData.email) {
       refundNotificationPreviewData.email = '';
       refundNotificationPreviewData.postcode = 'TW4 7EZ';
       I.waitForElement('//*[@id="contact-2"]', 5);
       I.click('//*[@id="contact-2"]');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('//*[@id="address-postcode"]');
       I.fillField('//*[@id="address-postcode"]', refundNotificationPreviewData.postcode);
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.click('Find address');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.waitForElement('//*[@id="postcodeAddress"]', CCPBATConstants.tenSecondWaitTime);
       I.selectOption('//*[@id="postcodeAddress"]', '89, MARTINDALE ROAD, HOUNSLOW, TW4 7EZ');
       I.click('Continue');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
       I.waitForText('Check your answers', 5);
       I.see('Refund reference');
       I.see(`${refundNotificationPreviewData.refundReference}`);
@@ -774,8 +744,7 @@ module.exports = {
       I.see(refundNotificationType);
       I.see('Preview');
       I.click('Preview');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
-      I.waitForText('HMCTS refund request approved', 5);
+      I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
         verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else if (isOnlineCardPaymentRefundRejected) {
@@ -785,17 +754,16 @@ module.exports = {
       }
       I.click('Hide Preview');
       I.click('Send notification');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
-      I.see('Notification sent');
+      I.waitForText('Notification sent', CCPBATConstants.tenSecondWaitTime);
       I.see(`Refund reference: ${refundNotificationPreviewData.refundReference}`);
       I.click('Return to case');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
-      I.click(`//td[contains(.,'${refundNotificationPreviewData.refundReference}')]/following-sibling::td/a[.=\'Review\'][1]`);
-      I.wait(CCPBATConstants.tenSecondWaitTime);
-      I.waitForText('Refund details', 5);
+      const reviewRefund = `//td[contains(.,'${refundNotificationPreviewData.refundReference}')]/following-sibling::td/a[.=\'Review\'][1]`;
+      I.waitForElement(reviewRefund, CCPBATConstants.tenSecondWaitTime);
+      I.click(reviewRefund);
+      I.waitForText('Refund details', CCPBATConstants.tenSecondWaitTime);
       I.see(refundNotificationPreviewData.postcode);
       I.click('View');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
+      I.waitForText('HMCTS refund request approved', CCPBATConstants.tenSecondWaitTime);
       if (refundNotificationPreviewData.bulkScanPaymentMethod) {
         verifyBulkScanPaymentOfferAndContactNotification(refundNotificationPreviewData);
       } else if (isOnlineCardPaymentRefundRejected) {
@@ -804,7 +772,6 @@ module.exports = {
         verifyCardOrPBASendRefundNotification(refundNotificationPreviewData)
       }
       I.click('Hide');
-      I.wait(CCPBATConstants.twoSecondWaitTime);
     }
   },
 

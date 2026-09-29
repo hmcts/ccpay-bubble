@@ -47,6 +47,8 @@ package-lock.json
 /reports/*
 mochawesome-report/
 functional-output/
+src/test/java/build/
+src/test/java/.gradle/
 .eslintcache
 
 # System Files

@@ -1,13 +1,18 @@
 'use strict';
-const { Console } = require('console');
 const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const { I } = inject();
+
+function inflationFeeSelect(feeCode) {
+  return { xpath: `//tr[td[normalize-space()="${feeCode}"]]//a[normalize-space()="Select"]` };
+}
 
 module.exports = {
   locators: {
     fee_search: { xpath: '//*[@id="fee-search"]' },
-    locatoramountselect: { amount_select: { xpath: '//*[@id="fee-version0"]' } },
+    old_amount_select:  { xpath: '//input[@id="fee-version0"]' },
+    new_amount_select:  { xpath: '//input[@id="fee-versions"]' },
     locator_calculatedRangedFee: { xpath: '//*[@id="calculatedRangedFee"]' },
+    locator_volume: { id: 'volumeAmount' },
     search_for_fee_text: {xpath:'//*[@id="content"]//h1'},
     allocate_payment: {xpath:'//button[@class="button govuk-!-margin-right-1"]'},
     // help_with_fee: {xpath:'//*[text()=" Help with Fees (HWF) application declined "]//../input'},
@@ -16,6 +21,20 @@ module.exports = {
     i_have_put_a_stop_on_case: {id:'other'},
     add_Notes: {id:'moreDetails'},
     confirm_button: {xpath:'//button[@type="submit"]'}
+  },
+
+  async submitFeeDetailsIfShown() {
+    const numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    const feeDetailsCount = await I.grabNumberOfVisibleElements('//h1[normalize-space()="Fee details"]/following::th[normalize-space()="Fee code"]');
+    const submitButton = { xpath: '//h1[normalize-space()="Fee details"]/following::button[@type="submit" and normalize-space()="Submit"]' };
+    const submitButtonCount = await I.grabNumberOfVisibleElements(submitButton);
+    if(numOfElements) {
+      await I.click('//input[@id=\'fee-version0\']');
+    }
+    if((numOfElements || feeDetailsCount) && submitButtonCount) {
+      await I.click(submitButton);
+      await I.wait(CCPBConstants.fiveSecondWaitTime);
+    }
   },
 
   async addFees(amount, jurisdiction1, jurisdiction2) {
@@ -32,9 +51,9 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
 
     /* Comment this out when fee change options expire for inflation update. */
-    let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    let numOfElements = await I.grabNumberOfVisibleElements(this.locators.old_amount_select);
     if(numOfElements) {
-      I.click('//input[@id=\'fee-version0\']');
+      I.click(this.locators.old_amount_select);
       I.click('Continue');
       I.wait(CCPBConstants.fiveSecondWaitTime);
     }
@@ -60,16 +79,16 @@ module.exports = {
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     /* Comment this out when fee change options expire for inflation update. */
-    let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    let numOfElements = await I.grabNumberOfVisibleElements(this.locators.old_amount_select);
     if(numOfElements) {
-      I.click('//input[@id=\'fee-version0\']');
+      I.click(this.locators.old_amount_select);
       I.click('Continue');
       I.wait(CCPBConstants.fiveSecondWaitTime);
     }
     /* END: Comment this out when fee change options expire for inflation update. */
   },
 
-  async addFeesAmountByFeeCode(feeCode, amount, amountType) {
+  async addFeesAmountByFeeCode(feeCode, amount, amountType, volume) {
     I.see('Search for a fee');
     I.see('For example: Application or £10.00. You don\'t need to use the whole description or amount.');
     I.wait(CCPBConstants.fiveSecondWaitTime);
@@ -78,15 +97,24 @@ module.exports = {
     I.wait(CCPBConstants.tenSecondWaitTime);
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    if(amountType === 'Percentage') {
+    if (amountType?.toLowerCase() === "percentage") {
       I.fillField(this.locators.locator_calculatedRangedFee, amount);
       I.click(this.locators.confirm_button);
       I.wait(CCPBConstants.fiveSecondWaitTime);
     }
+    if (amountType?.toLowerCase() === "volume") {
+      if (volume) {
+        I.fillField(this.locators.locator_volume, volume);
+      } else {
+        throw new Error("Please provide the volume for the fee code: " + feeCode);
+      }
+      I.click(this.locators.confirm_button);
+      I.wait(CCPBConstants.fiveSecondWaitTime);
+    }
     /* Comment this out when fee change options expire for inflation update. */
-    let numOfElements = await I.grabNumberOfVisibleElements('//input[@value=\'currentVersion\']');
+    let numOfElements = await I.grabNumberOfVisibleElements(this.locators.new_amount_select);
     if(numOfElements) {
-      I.click('//input[@value=\'currentVersion\']');
+      I.click(this.locators.new_amount_select);
       I.click('Continue');
       I.wait(CCPBConstants.fiveSecondWaitTime);
     }
@@ -94,19 +122,20 @@ module.exports = {
 
   },
 
-  async addFeesOverPayment(amount) {
+  async addFeesOverPayment(amount, feeCode) {
     I.see('Search for a fee');
     I.wait(CCPBConstants.tenSecondWaitTime);
-    I.fillField(this.locators.fee_search, amount);
+    I.fillField(this.locators.fee_search, feeCode);
     I.click('Search');
-    I.wait(CCPBConstants.fiveSecondWaitTime, 10);
+    I.wait(CCPBConstants.fiveSecondWaitTime, 5);
+    I.see(`£${amount}`);
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
 
     /* Comment this out when fee change options expire for inflation update. */
-    let numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    let numOfElements = await I.grabNumberOfVisibleElements(this.locators.old_amount_select);
     if(numOfElements) {
-      I.click('//input[@id=\'fee-version0\']');
+      I.click(this.locators.old_amount_select);
       I.click('Continue');
       I.wait(CCPBConstants.fiveSecondWaitTime);
     }
@@ -123,4 +152,35 @@ module.exports = {
     I.click(this.locators.confirm_button);
 
   },
+
+  async addInflationUpdatedFee(feeCode) {
+    I.see('Search for a fee');
+
+    const maxSearchAttempts = 5;
+    for (let attempt = 1; attempt <= maxSearchAttempts; attempt++) {
+      I.fillField(this.locators.fee_search, feeCode);
+      I.click('Search');
+      I.wait(CCPBConstants.fiveSecondWaitTime);
+
+      const feeFound = await I.grabNumberOfVisibleElements(inflationFeeSelect(feeCode));
+      if (feeFound) {
+        break;
+      }
+
+      console.log(`Fee ${feeCode} not found in search (attempt ${attempt}/${maxSearchAttempts}), reloading page to refresh fee list`);
+      const currentUrl = await I.grabCurrentUrl();
+      I.amOnPage(currentUrl);
+      I.wait(CCPBConstants.tenSecondWaitTime);
+    }
+
+    await I.waitForElement(inflationFeeSelect(feeCode), CCPBConstants.oneMinute);
+
+    await I.click(inflationFeeSelect(feeCode));
+    await I.waitForElement(this.locators.old_amount_select);
+    await I.waitForElement(this.locators.new_amount_select);
+    I.click(this.locators.new_amount_select);
+    I.click('Continue');
+    await I.waitForElement('//h1[normalize-space()="Summary"]', CCPBConstants.oneMinute);
+  },
+
 };

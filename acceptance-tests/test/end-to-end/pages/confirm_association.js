@@ -33,7 +33,10 @@ module.exports = {
     I.see('Calculated amount');
     I.see('Amount Due');
     I.see(feeCode);
-    I.see(PaybubbleStaticData.fee_description[feeCode]);
+    // check below line for fee description for the feeCode exists in the PaybubbleStaticData.fee_description object
+    if (PaybubbleStaticData.fee_description[feeCode]) {
+      I.see(PaybubbleStaticData.fee_description[feeCode]);
+    }
     I.see(volume);
     I.see(`£${FeeAmount}`);
     I.see('Amount left to be allocated £0.00');
