@@ -51,10 +51,8 @@
     "test:functional:nightly:parallel": "codeceptjs run-workers 6 parallel --config acceptance-tests/codecept.conf.js --grep @nightly --invert --grep @serial",
     "test:functional:nightly": "npm-run-all --parallel --continue-on-error test:functional:serial test:functional:nightly:parallel",
     "test:functional:report": "allure generate functional-output/functional/reports -c -o functional-output/functional/allure",
-    "test:crossbrowser": "yarn playwright install --with-deps && npm-run-all -scl test:crossbrowser:e2e:chromium test:crossbrowser:e2e:firefox test:crossbrowser:e2e:webkit test:crossbrowser:report",
-    "test:crossbrowser:e2e:chromium": "NODE_TLS_REJECT_UNAUTHORIZED=0 codeceptjs run-multiple chromium --config acceptance-tests/crossbrowser.conf.js --grep @crossbrowser",
-    "test:crossbrowser:e2e:firefox": "NODE_TLS_REJECT_UNAUTHORIZED=0 codeceptjs run-multiple firefox --config acceptance-tests/crossbrowser.conf.js --grep @crossbrowser",
-    "test:crossbrowser:e2e:webkit": "NODE_TLS_REJECT_UNAUTHORIZED=0 codeceptjs run-multiple webkit --config acceptance-tests/crossbrowser.conf.js --grep @crossbrowser",
+    "test:crossbrowser": "yarn playwright install --with-deps && npm-run-all -scl test:crossbrowser:e2e test:crossbrowser:report",
+    "test:crossbrowser:e2e": "NODE_TLS_REJECT_UNAUTHORIZED=0 codeceptjs run-multiple --all --config acceptance-tests/crossbrowser.conf.js --grep @crossbrowser",
     "test:crossbrowser:report": "allure generate functional-output/cross-browser/reports/* -c -o functional-output/cross-browser/allure"
   },
   "private": true,

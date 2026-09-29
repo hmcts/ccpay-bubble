@@ -53,7 +53,7 @@ Scenario('Normal ccd case cash payment full allocation', async({ I, CaseSearch, 
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
   PaymentHistory.navigateToPaymentHistory();
-  await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptReference);
+  await miscUtils.multipleSearch(CaseSearch, I, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.verifyPaymentHistoryPage(totalAmount, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -123,7 +123,7 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
   PaymentHistory.navigateToPaymentHistory();
-  await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptReference);
+  await miscUtils.multipleSearch(CaseSearch, I, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.verifyPaymentHistoryPage(totalAmount, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -203,7 +203,7 @@ Scenario('Normal ccd case cash payment transferred', async({ I, CaseSearch, Case
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   const receiptReference = await CaseTransaction.getReceiptReference();
   PaymentHistory.navigateToPaymentHistory();
-  await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptReference);
+  await miscUtils.multipleSearch(CaseSearch, I, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.verifyPaymentHistoryPage(totalAmount, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -234,7 +234,7 @@ Scenario('Exception ccd case cash payment transferred', async({ I, CaseSearch, C
   // Search using receipt number
   const receiptSearch = await CaseTransaction.getReceiptReference();
   await CaseSearch.navigateToCaseTransaction();
-  await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);
+  await miscUtils.multipleSearch(CaseSearch, I, receiptSearch);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Exception reference', 'Transferred');
   I.Logout();
 }).tag('@pipeline @nightly');
@@ -308,7 +308,7 @@ Scenario('Exception Case Cheque Payment Unidentified', async({ I, CaseSearch, Ca
   const receiptReference = await CaseTransaction.getReceiptReference();
   PaymentHistory.navigateToPaymentHistory();
   I.wait(CCPBATConstants.fiveSecondWaitTime);
-  await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptReference);
+  await miscUtils.multipleSearch(CaseSearch, I, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   PaymentHistory.verifyPaymentHistoryPage(totalAmount, receiptReference);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -375,11 +375,11 @@ Scenario('Ccd case search with exception record postal order payment shortfall p
     await CaseSearch.navigateToCaseTransaction();
     logger.info(`The value of the Payment Reference : ${receiptSearch}`);
     I.wait(CCPBATConstants.tenSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);
+    await miscUtils.multipleSearch(CaseSearch, I, receiptSearch);
     CaseTransaction.checkBulkCaseSuccessPaymentPartiallyPaid(ccdCaseNumberFormatted, 'Case reference', 'Partially paid');
     PaymentHistory.navigateToPaymentHistory();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, receiptSearch);
+    await miscUtils.multipleSearch(CaseSearch, I, receiptSearch);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     PaymentHistory.verifyPaymentHistoryPage(totalAmount, receiptSearch);
     I.wait(CCPBATConstants.fiveSecondWaitTime);

@@ -32,7 +32,7 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£612.00');
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
@@ -44,7 +44,7 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£612.00', false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
@@ -64,7 +64,7 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login('probaterequesteraat@mailnesia.com', 'LevelAt12');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£612.00');
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
@@ -76,7 +76,7 @@ Scenario('A Service Request Journey for a Case Worker for Ways to Pay @pipeline 
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference, '', '£612.00', false);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('//a[.=\'Review\']');
@@ -92,7 +92,7 @@ Scenario('A Service Request Not available for Ways to Pay @pipeline @nightly',
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestNotFoundErrorPage(true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
@@ -110,7 +110,7 @@ Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA
     // console.log(name); // output 'testing'
     await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£612.00');
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
@@ -123,7 +123,7 @@ Scenario('A Service Request for a Solicitor For a Successful Payment using a PBA
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -155,7 +155,7 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
     // console.log(name); // output 'testing'
     await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£612.00');
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
@@ -168,7 +168,7 @@ Scenario('A Service Request for a Solicitor For a General Technical Error during
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -203,7 +203,7 @@ Scenario('A Service Request for a Solicitor if a PBA Payment amount is over the 
     // console.log('Before Log In');
     await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£35,000.00');
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
@@ -216,7 +216,7 @@ Scenario('A Service Request for a Solicitor if a PBA Payment amount is over the 
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£35,000.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -251,7 +251,7 @@ Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Pay
     // console.log('Before Log In');
     await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£612.00');
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
@@ -264,7 +264,7 @@ Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Pay
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution', '£612.00', true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -290,7 +290,7 @@ Scenario('A Service Request for a Solicitor if an Account is Deleted for PBA Pay
     ServiceRequests.verifyConfirmYourPaymentPageCardDetails(paymentCardValues);
     I.returnBackToSite();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     // TO DO - Assert on a Positive Payment as it is failing now...
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.Logout();
@@ -309,7 +309,7 @@ Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Pay
     // console.log('Before Log In');
     await I.login('feeandpaydZtnfQ_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£612.00');
     I.wait(CCPBATConstants.sevenSecondWaitTime);
@@ -323,7 +323,7 @@ Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Pay
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution',
       '£612.00', true);
@@ -349,7 +349,7 @@ Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Pay
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.returnBackToSite();
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
       true, checkPaymentValuesData);
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -362,7 +362,7 @@ Scenario('A Service Request for a Solicitor if an Account is On hold for PBA Pay
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     ServiceRequests.verifyServiceRequestTabPage('Not paid', serviceRequestReference,
       'Filing an application for a divorce, nullity or civil partnership dissolution',
       '£612.00', true);
@@ -382,7 +382,7 @@ Scenario('A Service Request for a Solicitor For No Payment Account @pipeline @ni
     // console.log(name); // output 'testing'
     await I.login('feeandpaynCdxFA_external@mailnesia.com', 'Password123!');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00',
       '0', '£0.00', '£612.00');
     await CaseTransaction.validateCaseTransactionPageWithoutRefunds(ccdCaseNumber,
@@ -395,7 +395,7 @@ Scenario('A Service Request for a Solicitor For No Payment Account @pipeline @ni
     I.see('Service Requests');
     I.click('Service Requests');
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.click({ xpath: '//a[contains(text(),\'Pay now\')]' });
     ServiceRequests.verifyNoPBAFoundPage();
     I.wait(CCPBATConstants.twoSecondWaitTime);
