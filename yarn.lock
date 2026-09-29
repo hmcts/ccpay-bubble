@@ -16106,10 +16106,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ip-address@npm:10.4.0":
-  version: 10.4.0
-  resolution: "ip-address@npm:10.4.0"
-  checksum: 10/8a286dd112a88c372b10c706caca14dcf5ed029a11c3911062ad8937ca0f951aa513ecacf82e15ffcf6343749ae6c079dd9741282fc94033a06ff1b7bd6ce69a
+"ip-address@npm:10.5.1":
+  version: 10.5.1
+  resolution: "ip-address@npm:10.5.1"
+  checksum: 10/5809efd2c8c09e03dc4df104cf0eb6ff81478255e782839fca66a52fbfd39f06636b68c68957f8930ce648a51acf5232df6174f0cd5b4c447775bc2e20f47077
   languageName: node
   linkType: hard
 
