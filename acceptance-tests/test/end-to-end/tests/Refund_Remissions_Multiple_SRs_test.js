@@ -39,25 +39,24 @@ Scenario('Partial Remission Refunds Against Fully Paid Amounts for Multiple Serv
     I.click('Case Transaction');
     const paymentDetails2 = await apiUtils.createAPBAPaymentForExistingCase(serviceRequest2feeAmount, 'FEE0441', '2', 1, ccdCaseNumber);
     const paymentRCRef2 = `${paymentDetails2.payments[1].payment_reference}`;
-
-    I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', '0.00', '0.00', '0.00');
 
     // 1st service request Remission refund - 779.15 - 259.15
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.fifteenSecondWaitTime);
     if (I.dontSeeElement('Issue refund')) {
       console.log('found disabled button');
       await apiUtils.rollbackPaymentDateByCCDCaseNumber(ccdCaseNumber);
       I.click('Back');
       I.wait(CCPBATConstants.fiveSecondWaitTime);
       await I.click('(//*[text()[contains(.,"Review")]])[3]');
-      I.wait(CCPBATConstants.fiveSecondWaitTime);
+      I.wait(CCPBATConstants.tenSecondWaitTime);
     }
     I.waitForText('Add remission', 5);
     InitiateRefunds.verifyPaymentDetailsPage('Add remission');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, serviceRequest1hwfReference);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, serviceRequest1remissionAmount);
@@ -73,9 +72,9 @@ Scenario('Partial Remission Refunds Against Fully Paid Amounts for Multiple Serv
     I.click('Continue');
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyCheckYourAnswersPageForRemissionFinalSubmission(checkYourAnswersData, false, false);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     const refundRefRemissions1 = await InitiateRefunds.verifyRefundSubmittedPage(serviceRequest1remissionAmount);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', serviceRequest1remissionAmount, '0.00', serviceRequest1remissionAmount);
     await I.Logout();
     I.clearCookie();
@@ -92,9 +91,10 @@ Scenario('Partial Remission Refunds Against Fully Paid Amounts for Multiple Serv
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('Case Transaction');
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', serviceRequest1remissionAmount, '0.00', serviceRequest1remissionAmount);
     await I.click(`//td[contains(.,'${refundRefRemissions1}')]/following-sibling::td/a[.=\'Review\'][1]`);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     const reviewRemissionRefund1DetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions1, paymentRCRef1, 'Retrospective remission', `£${serviceRequest1remissionAmount}`, emailAddress, '', 'payments probate', 'approver probate');
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRemissionRefund1DetailsDataAfterApproval);
 
@@ -111,12 +111,14 @@ Scenario('Partial Remission Refunds Against Fully Paid Amounts for Multiple Serv
     // 2nd service request Remission refund - 545.00 - 445.00
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', serviceRequest1remissionAmount, '0.00', '0.00');
+    I.wait(CCPBATConstants.fiveSecondWaitTime);
 
     await I.click('(//*[text()[contains(.,"Review")]])[3]');
     I.waitForText('Add remission', CCPBATConstants.twentySecondWaitTime);
     InitiateRefunds.verifyPaymentDetailsPage('Add remission');
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionHWFCodePage(ccdCaseNumber, serviceRequest2hwfReference);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     InitiateRefunds.verifyProcessRemissionAmountPage(ccdCaseNumber, serviceRequest2remissionAmount);
@@ -134,7 +136,7 @@ Scenario('Partial Remission Refunds Against Fully Paid Amounts for Multiple Serv
     InitiateRefunds.verifyCheckYourAnswersPageForRemissionFinalSubmission(checkYourAnswersData2, false, false);
     I.wait(CCPBATConstants.tenSecondWaitTime);
     const refundRefRemissions2 = await InitiateRefunds.verifyRefundSubmittedPage(serviceRequest2remissionAmount);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', totalRemissionAmount, '0.00', serviceRequest2remissionAmount);
     await I.Logout();
     I.clearCookie();
@@ -151,9 +153,10 @@ Scenario('Partial Remission Refunds Against Fully Paid Amounts for Multiple Serv
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('Case Transaction');
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     await CaseTransaction.validateCaseTransactionsDetails(totalAmount, '0', totalRemissionAmount, '0.00', serviceRequest2remissionAmount);
     await I.click(`//td[contains(.,'${refundRefRemissions2}')]/following-sibling::td/a[.=\'Review\'][1]`);
-    I.wait(CCPBATConstants.fiveSecondWaitTime);
+    I.wait(CCPBATConstants.tenSecondWaitTime);
     const reviewRemissionRefund2DetailsDataAfterApproval = assertionData.reviewRefundDetailsDataAfterApproverAction(refundRefRemissions2, paymentRCRef2, 'Retrospective remission', `£${serviceRequest2remissionAmount}`, emailAddress, '', 'payments probate', 'approver probate');
     await RefundsList.verifyRefundDetailsAfterRefundApproved(reviewRemissionRefund2DetailsDataAfterApproval);
 
