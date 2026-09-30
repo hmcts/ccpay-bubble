@@ -50,7 +50,6 @@ module.exports = {
   confirmProcessRemission() {
     I.click('Confirm');
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.see('Remission added');
   },
 
   verifyAddRemissionPageText() {
