@@ -86,9 +86,7 @@ withNightlyPipeline("nodejs", product, component) {
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
   enableFortifyScan()
-
-  // Disabled for now as SauceLabs license has expired.
-  //  enableCrossBrowserTest()
+  enableCrossBrowserTest()
   enableFullFunctionalTest(180)
   if (params.MUTATION_TESTS) {
     enableMutationTest(150)
@@ -104,27 +102,7 @@ withNightlyPipeline("nodejs", product, component) {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
    afterAlways('fortify-scan') {
-     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
-
-     stage('crossBrowserTest') {
-       warnError('Failure in crossBrowserTest') {
-         timeoutWithMsg(time: 120, unit: 'MINUTES', action: 'Cross browser test') {
-           try {
-             yarnBuilder.yarn('test:crossbrowser')
-           } finally {
-             publishHTML target: [
-               allowMissing         : true,
-               alwaysLinkToLastBuild: true,
-               keepAll              : true,
-               reportDir            : 'functional-output/cross-browser/allure',
-               reportFiles          : 'index.html',
-               reportName           : 'Cross Browser Test Report'
-             ]
-             steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/cross-browser/reports/**/*'
-           }
-         }
-       }
-     }
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
   }
 
   afterAlways('mutationTest') {
