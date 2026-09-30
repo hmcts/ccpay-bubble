@@ -6,6 +6,10 @@
 describe('Cookie Manager Integration (cookie.js)', () => {
   let cookieManagerMock: any;
   let eventHandlers: any;
+  // Scoped container for DOM assertions. Never touch document.body.innerHTML here:
+  // karma-jasmine-html-reporter renders into document.body and destroying it makes
+  // jasmine's HtmlReporter.jasmineDone throw "Cannot read properties of null (reading 'appendChild')".
+  let domFixture: HTMLElement;
   const COOKIE_NAME = 'ccpay-bubble-cookie-preferences';
   const GTM_ID = 'GTM-KPGLNSPT';
   const GTM_SCRIPT_ID = 'gtm-script';
@@ -35,11 +39,11 @@ describe('Cookie Manager Integration (cookie.js)', () => {
     let shouldShowNoscript = false;
     const applyNoscriptState = () => {
       let placeholder = document.getElementById(NOSCRIPT_PLACEHOLDER_ID);
-      if (!placeholder && document.body) {
+      if (!placeholder && domFixture) {
         placeholder = document.createElement('noscript');
         placeholder.id = NOSCRIPT_PLACEHOLDER_ID;
         placeholder.hidden = true;
-        document.body.insertBefore(placeholder, document.body.firstChild);
+        domFixture.insertBefore(placeholder, domFixture.firstChild);
       }
 
       if (!placeholder) {
@@ -145,8 +149,8 @@ describe('Cookie Manager Integration (cookie.js)', () => {
       if (message) {
         message.style.display = 'block';
       }
-      if (document.body) {
-        document.body.scrollTop = 0;
+      if (domFixture) {
+        domFixture.scrollTop = 0; // For Safari
       }
       if (document.documentElement) {
         document.documentElement.scrollTop = 0;
@@ -183,8 +187,10 @@ describe('Cookie Manager Integration (cookie.js)', () => {
   };
 
   beforeEach(() => {
-    // Reset DOM
-    document.body.innerHTML = '';
+    // Reset DOM (scoped, so the Karma/Jasmine reporter DOM survives)
+    domFixture = document.createElement('div');
+    domFixture.id = 'cookie-spec-fixture';
+    document.body.appendChild(domFixture);
     
     // Setup event handlers storage
     eventHandlers = {};
@@ -210,13 +216,14 @@ describe('Cookie Manager Integration (cookie.js)', () => {
     delete (window as any).cookieManager;
     delete (window as any).dataLayer;
     delete (window as any).dtrum;
-    document.body.innerHTML = '';
-    
+
     // Remove GTM script if exists
     const gtmScript = document.getElementById(GTM_SCRIPT_ID);
     if (gtmScript && gtmScript.parentNode) {
       gtmScript.parentNode.removeChild(gtmScript);
     }
+
+    domFixture?.remove();
   });
 
   const triggerEvent = (eventName: string, data?: any) => {
@@ -497,7 +504,7 @@ describe('Cookie Manager Integration (cookie.js)', () => {
       const successMessage = document.createElement('div');
       successMessage.className = 'cookie-preference-success';
       successMessage.style.display = 'none';
-      document.body.appendChild(successMessage);
+      domFixture.appendChild(successMessage);
       
       triggerEvent('PreferenceFormSubmitted');
       
@@ -505,12 +512,12 @@ describe('Cookie Manager Integration (cookie.js)', () => {
     });
 
     it('should scroll to top of page on form submission', () => {
-      document.body.scrollTop = 100;
+      domFixture.scrollTop = 100;
       document.documentElement.scrollTop = 100;
       
       triggerEvent('PreferenceFormSubmitted');
       
-      expect(document.body.scrollTop).toBe(0);
+      expect(domFixture.scrollTop).toBe(0);
       expect(document.documentElement.scrollTop).toBe(0);
     });
 

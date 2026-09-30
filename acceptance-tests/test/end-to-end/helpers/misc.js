@@ -6,7 +6,7 @@ const searchErrorText = 'Something went wrong';
 const searchForCaseText = 'Search for a case';
 const searchOutcomeTimeout = 10;
 const defaultMaxSearchAttempts = 5;
-const retryableErrorPauseSeconds = 2;
+const searchRecoveryPauseSeconds = 2;
 const searchOutcomes = {
   caseFound: 'case-found',
   noMatch: 'no-match',
@@ -68,7 +68,11 @@ async function waitForSearchOutcome(I) {
   });
 }
 
-async function recoverFromRetryableError(I, options, attempt, maxSearchAttempts) {
+// Runs between search attempts for both rendered errors and no-match results.
+// A case that was definitely created can still be missing from the search index
+// for a short window, so a no-match is treated as transient too and the caller
+// gets a chance to start the next attempt from a clean session.
+async function recoverBeforeNextSearchAttempt(I, options, attempt, maxSearchAttempts) {
   if (attempt >= maxSearchAttempts) {
     return;
   }
@@ -84,7 +88,7 @@ async function recoverFromRetryableError(I, options, attempt, maxSearchAttempts)
   }
 
   if (typeof I.wait === 'function') {
-    await I.wait(retryableErrorPauseSeconds);
+    await I.wait(searchRecoveryPauseSeconds);
   }
 }
 
@@ -109,11 +113,12 @@ async function searchUntilFound(CaseSearch, I, searchOption, options = {}) {
       return outcome;
     }
 
-    if (outcome === searchOutcomes.retryableError) {
-      await recoverFromRetryableError(I, options, attempt, maxSearchAttempts);
+    if (outcome === searchOutcomes.retryableError || outcome === searchOutcomes.noMatch) {
+      await recoverBeforeNextSearchAttempt(I, options, attempt, maxSearchAttempts);
     }
 
-    // case_search waits around each submit; do not add another fixed delay here.
+    // case_search already waits around each submit, so only add a delay here when
+    // the previous attempt failed and needs recovery.
   }
 
   if (lastOutcome === searchOutcomes.retryableError) {
