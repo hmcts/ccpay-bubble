@@ -84,7 +84,7 @@
     "minimist": "^1.2.8",
     "mocha-junit-reporter": "2.2.1",
     "mochawesome": "^7.0.1",
-    "moment": "2.29.4",
+    "moment": "2.31.0",
     "moment-timezone": "^0.5.35",
     "ngx-cookie-service": "^18.0.0",
     "ngx-pagination": "^6.0.3",
@@ -199,8 +199,8 @@
     "fsevents": "*"
   },
   "resolutions": {
-    "js-yaml": "5.2.2",
-    "brace-expansion": "2.1.4",
+    "js-yaml": "5.4.2",
+    "brace-expansion": "2.1.7",
     "shell-quote": "1.10.0",
     "tar": "7.5.21",
     "protobufjs": "8.6.1",
@@ -232,7 +232,7 @@
     "ejs": "^3.1.7",
     "pug": "3.0.3",
     "pugit": "5.0.2",
-    "moment": "^2.29.4",
+    "moment": "^2.31.0",
     "nwmatcher": "^1.4.4",
     "set-value": "^4.0.1",
     "trim-newlines": "^3.0.1",
