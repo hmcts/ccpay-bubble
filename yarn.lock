@@ -21401,7 +21401,6 @@ __metadata:
     jasmine: "npm:2.8.0"
     jasminewd2: "npm:^2.1.0"
     q: "npm:1.4.1"
-    saucelabs: "npm:^1.5.0"
     selenium-webdriver: "npm:3.6.0"
     source-map-support: "npm:~0.4.0"
     webdriver-js-extender: "npm:2.1.0"
@@ -23005,15 +23004,6 @@ __metadata:
   bin:
     sass: sass.js
   checksum: 10/409236ad975fbf0ea5bbf256d7a11da52b94489873ede6317cd85a44be376a3332daf439b95b39ea5b78e6e94d630541db3d128f3fbaffe4a72a0e34545f219c
-  languageName: node
-  linkType: hard
-
-"saucelabs@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "saucelabs@npm:1.5.0"
-  dependencies:
-    https-proxy-agent: "npm:^2.2.1"
-  checksum: 10/1790455242a6f6a5efb70c727843feeb72219910a30420808b6620bd3e1b6b48b10750db62725328669f8ac9826234299908c45bc533d762b636d483766bf963
   languageName: node
   linkType: hard
 

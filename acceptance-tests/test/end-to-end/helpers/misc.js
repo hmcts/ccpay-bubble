@@ -1,15 +1,15 @@
-function searchSpecificOption(searchItem, CaseSearch, searchOption) {
+async function searchSpecificOption(searchItem, CaseSearch, searchOption) {
   switch (searchItem) {
-    case 'CCD Search': CaseSearch.searchCaseUsingCcdNumber(searchOption);
+    case 'CCD Search': await CaseSearch.searchCaseUsingCcdNumber(searchOption);
       break;
 
-    case 'DCN Search': CaseSearch.searchCaseUsingDcnNumber(searchOption);
+    case 'DCN Search': await CaseSearch.searchCaseUsingDcnNumber(searchOption);
       break;
 
-    case 'RC Search': CaseSearch.searchCaseUsingPaymentRef(searchOption);
+    case 'RC Search': await CaseSearch.searchCaseUsingPaymentRef(searchOption);
       break;
 
-    default: CaseSearch.searchCaseUsingCcdNumber(searchOption);
+    default: await CaseSearch.searchCaseUsingCcdNumber(searchOption);
   }
 }
 
@@ -27,7 +27,7 @@ async function multipleSearch(CaseSearch, I, searchOption) {
   } else if (searchOptionLen === rcLen) {
     searchItem = 'RC Search';
   }
-  searchSpecificOption(searchItem, CaseSearch, searchOption);
+  await searchSpecificOption(searchItem, CaseSearch, searchOption);
 }
 
 module.exports = { multipleSearch };
