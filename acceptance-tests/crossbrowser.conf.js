@@ -3,40 +3,41 @@ const CONF = require('config');
 const supportedBrowsers = require('./test/end-to-end/crossbrowser/supportedBrowsers.js');
 const event = require('codeceptjs').event;
 const container = require('codeceptjs').container;
+const tests = 'test/end-to-end/tests/*_test.js';
 
-const getBrowserConfig = browserGroup => {
-  const browserConfig = [];
-
-  for (const candidateBrowser in supportedBrowsers[browserGroup]) {
-    if (candidateBrowser) {
-      const candidateCapabilities = supportedBrowsers[browserGroup][candidateBrowser];
-
-      browserConfig.push({
-        browser: candidateCapabilities.browserName,
-        capabilities: candidateCapabilities
-      });
-    } else {
-      console.error('ERROR: supportedBrowsers.js is empty or incorrectly defined');
-    }
-  }
-
-  return browserConfig;
-};
+const getBrowserConfig = browserGroup => supportedBrowsers[browserGroup].map(browserConfig => ({
+  browser: browserConfig.browser,
+  name: browserConfig.name,
+  windowSize: browserConfig.windowSize,
+}));
 
 const setupConfig = {
   name: 'cross-browser',
-  tests: './test/end-to-end/tests/*_test.js',
+  tests,
   output: `${process.cwd()}/functional-output/cross-browser/reports`,
   helpers: {
-    Playwright: {
-      url: CONF.e2e.frontendUrl,
-      waitForTimeout: 60002,
-      waitForAction: 800,
-      timeout: 20004,
-      waitForNavigation: 'domcontentloaded',
-      ignoreHTTPSErrors: true,
-      capabilities: {}
-    }
+      Playwright: {
+          url: CONF.e2e.frontendUrl,
+          show: false,
+          browser: 'chromium',
+          name: 'chromium',
+          windowSize: '1024x768',
+          getPageTimeout: 60000,
+          waitForTimeout: 60005,
+          waitForAction: 1500,
+          timeout: 20005,
+          waitForNavigation: 'networkidle0',
+          ignoreHTTPSErrors: true,
+          fullPageScreenshots: true,
+          uniqueScreenshotNames: true,
+          recordVideo: {
+            dir: `${process.cwd()}/functional-output/cross-browser/videos`,
+            size : {
+              width: 1024,
+              height: 768
+            }
+          }
+      }
   },
   plugins: {
     retryFailedStep: {
@@ -44,10 +45,7 @@ const setupConfig = {
       retries: 2
     },
     autoDelay: {
-      enabled: true
-    },
-    retryTo: {
-      enabled: true
+      enabled: false
     },
     allure: {
       enabled: true,
@@ -73,12 +71,15 @@ const setupConfig = {
   },
   multiple: {
     webkit: {
+      tests,
       browsers: getBrowserConfig('webkit')
     },
     chromium: {
+      tests,
       browsers: getBrowserConfig('chromium')
     },
     firefox: {
+      tests,
       browsers: getBrowserConfig('firefox')
     }
   }
@@ -86,7 +87,7 @@ const setupConfig = {
 
 event.dispatcher.on(event.test.before, function (test) {
   const {Playwright} = container.helpers();
-  test.title = test.title + ' - ' + Playwright.options.capabilities['sauce:options'].name;
+  test.title = test.title + ' - ' + Playwright.options.name;
 });
 
 exports.config = setupConfig;

@@ -15,39 +15,36 @@ module.exports = {
     case_transaction_link: { xpath: '//*[@id="ccd-search-link"]' }
   },
 
-  async getHeaderValue() {
-    I.waitForElement(this.locators.header, CCPBConstants.fiveSecondWaitTime);
-    const headerValue = await I.grabTextFrom(this.locators.header);
-    return headerValue;
-  },
-
   // done
-  searchCaseUsingCcdNumber(caseNumber) {
-    this.validateSearchPage();
+  async searchCaseUsingCcdNumber(caseNumber) {
+    await this.validateSearchPage();
     I.checkOption(this.locators.ccd_option);
     I.waitForElement(this.locators.ccd_field, CCPBConstants.tenSecondWaitTime);
     I.fillField(this.locators.ccd_field, caseNumber);
-    I.click('Search');
+    await I.pressKey('Enter');
+    I.wait(CCPBConstants.tenSecondWaitTime);
   },
 
-  searchCaseUsingDcnNumber(dcnNumber) {
-    this.validateSearchPage();
+  async searchCaseUsingDcnNumber(dcnNumber) {
+    await this.validateSearchPage();
     I.checkOption(this.locators.dcn_option);
     I.waitForElement(this.locators.dcn_field, CCPBConstants.tenSecondWaitTime);
     I.fillField(this.locators.dcn_field, dcnNumber);
-    I.click('Search');
+    await I.pressKey('Enter');
+    I.wait(CCPBConstants.tenSecondWaitTime);
   },
 
-  searchCaseUsingPaymentRef(payReference) {
-    this.validateSearchPage();
+  async searchCaseUsingPaymentRef(payReference) {
+    await this.validateSearchPage();
     I.checkOption(this.locators.payment_option);
     I.waitForElement(this.locators.payment_ref_ield, CCPBConstants.tenSecondWaitTime);
     I.fillField(this.locators.payment_ref_ield, payReference);
-    I.click('Search');
+    await I.pressKey('Enter');
+    I.wait(CCPBConstants.tenSecondWaitTime);
   },
 
-  validateSearchPage() {
-    I.waitForText('Search for a case', CCPBConstants.tenSecondWaitTime);
+  async validateSearchPage() {
+    await I.waitForText('Search for a case', CCPBConstants.tenSecondWaitTime);
     I.see('Search for a case');
     I.see('Case Transaction');
     I.see('Payment history');
@@ -55,8 +52,8 @@ module.exports = {
     I.see('Logout');
   },
 
-  navigateToCaseTransaction() {
-    I.click(this.locators.case_transaction_link);
-    this.validateSearchPage();
+  async navigateToCaseTransaction() {
+    await I.click(this.locators.case_transaction_link);
+    await this.validateSearchPage();
   }
 };
