@@ -19,3 +19,12 @@
 !dist/**
 !.git
 !version
+
+!.yarn/
+!.yarn/plugins/
+!.yarn/releases/
+!src/main/
+!config/
+!webpack/
+.yarn/cache
+.yarn/install-state.gz
