@@ -23,6 +23,73 @@ describe('utils IDAM token config', () => {
   });
 });
 
+describe('utils request retries', () => {
+  const okResponse = {ok: true, status: 200, statusText: 'OK', url: 'http://service/health'};
+
+  it('returns the first successful response', async () => {
+    const attempts = [];
+
+    const resp = await utils._private.makeRequestWithRetry(async () => {
+      attempts.push(Date.now());
+      return okResponse;
+    }, {url: 'http://service/health', sleepFn: async () => {}});
+
+    assert.strictEqual(resp, okResponse);
+    assert.strictEqual(attempts.length, 1);
+  });
+
+  it('retries gateway errors until the service responds', async () => {
+    const statuses = [503, 504, 200];
+    const waits = [];
+
+    const resp = await utils._private.makeRequestWithRetry(async () => {
+      const status = statuses.shift();
+      return status === 200 ? okResponse : {ok: false, status, statusText: 'Gateway Time-out', url: 'http://service/x'};
+    }, {url: 'http://service/x', attempts: 5, intervalMs: 1000, sleepFn: async ms => waits.push(ms)});
+
+    assert.strictEqual(resp, okResponse);
+    assert.deepStrictEqual(waits, [1000, 2000]);
+  });
+
+  it('retries transport errors and gives up with the last failure', async () => {
+    let calls = 0;
+
+    await assert.rejects(
+      () => utils._private.makeRequestWithRetry(async () => {
+        calls++;
+        throw new Error('request to http://service/x failed, reason: connect ECONNREFUSED');
+      }, {url: 'http://service/x', attempts: 3, intervalMs: 10, sleepFn: async () => {}}),
+      /ECONNREFUSED/
+    );
+
+    assert.strictEqual(calls, 3);
+  });
+
+  it('does not retry a client error response', async () => {
+    let calls = 0;
+
+    await assert.rejects(
+      () => utils._private.makeRequestWithRetry(async () => {
+        calls++;
+        return {ok: false, status: 400, statusText: 'Bad Request', url: 'http://service/x'};
+      }, {url: 'http://service/x', attempts: 5, intervalMs: 10, sleepFn: async () => {}}),
+      /Fetch failed 400 : Bad Request : http:\/\/service\/x/
+    );
+
+    assert.strictEqual(calls, 1);
+  });
+
+  it('reports the final gateway error once the attempts are exhausted', async () => {
+    await assert.rejects(
+      () => utils._private.makeRequestWithRetry(
+        async () => ({ok: false, status: 504, statusText: 'Gateway Time-out', url: 'http://service/x'}),
+        {url: 'http://service/x', attempts: 2, intervalMs: 10, sleepFn: async () => {}}
+      ),
+      /Fetch failed 504 : Gateway Time-out : http:\/\/service\/x/
+    );
+  });
+});
+
 describe('utils API polling', () => {
   it('returns the first truthy poll result', async () => {
     let currentTime = 0;
