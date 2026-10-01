@@ -4,7 +4,7 @@
 
 # exceptions from `exclude all` rule
 
-!.yarn/**
+!.yarn/releases/**
 !.yarnrc.yml
 !package.json
 !yarn.lock
