@@ -58,5 +58,9 @@
   "10049_Non-Storable Content_https://idam-web-public.aat.platform.hmcts.net_GET": "ignore",
   "10049_Non-Storable Content_https://idam-web-public.aat.platform.hmcts.net/o/authorize_GET": "ignore",
   "10112_Session Management Response Identified_https://idam-web-public.aat.platform.hmcts.net_GET": "ignore",
-  "10112_Session Management Response Identified_https://idam-web-public.aat.platform.hmcts.net/o/authorize_GET": "ignore"
+  "10112_Session Management Response Identified_https://idam-web-public.aat.platform.hmcts.net/o/authorize_GET": "ignore",
+  "40025_Proxy Disclosure_https://paybubble.aat.platform.hmcts.net_GET": "ignore",
+  "40025_Proxy Disclosure_https://paybubble.aat.platform.hmcts.net/_GET": "ignore",
+  "40025_Proxy Disclosure_https://paybubble.aat.platform.hmcts.net/robots.txt_GET": "ignore",
+  "40025_Proxy Disclosure_https://paybubble.aat.platform.hmcts.net/sitemap.xml_GET": "ignore"
 }
