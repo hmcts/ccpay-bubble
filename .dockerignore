@@ -23,8 +23,14 @@
 !.yarn/
 !.yarn/plugins/
 !.yarn/releases/
+!src/
 !src/main/
 !config/
 !webpack/
 .yarn/cache
 .yarn/install-state.gz
+
+!app
+!app/**
+!public
+!public/**
