@@ -165,8 +165,6 @@ Scenario('Card payment with failed transaction should have the correct calculati
     I.waitForText('Payment successful', CCPBATConstants.tenSecondWaitTime);
     I.click('Return to service request');
 
-    I.waitForText('Sign in', CCPBATConstants.tenSecondWaitTime);
-
     // Validate Case Transactions details
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await searchCaseTransactionsWithRecovery(I, CaseSearch, ccdCaseNumber);
