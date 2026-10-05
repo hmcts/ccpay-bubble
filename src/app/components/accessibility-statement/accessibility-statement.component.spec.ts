@@ -31,4 +31,17 @@ describe('AccessibilityStatementComponent', () => {
     component.backClicked();
     expect(location.back).toHaveBeenCalled();
   });
+
+  it('should render the accessibility statement links with their destinations', () => {
+    const links = Array.from(
+      fixture.nativeElement.querySelectorAll('a.govuk-link') as NodeListOf<HTMLAnchorElement>
+    );
+    const destinations = links.map(link => link.getAttribute('href'));
+
+    expect(destinations).toContain('https://paybubble.platform.hmcts.net');
+    expect(destinations).toContain('mailto:DTS-FeePayServiceDesk@hmcts.net');
+    expect(destinations).toContain('https://www.equalityadvisoryservice.com/');
+    expect(destinations).toContain('https://www.w3.org/TR/WCAG21/');
+    expect(destinations).toContain('https://www.w3.org/TR/WCAG22/');
+  });
 });
