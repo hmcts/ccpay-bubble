@@ -96,7 +96,7 @@ Scenario('Fee paid with full upfront remission', async({ I, AddFees, Remission, 
   const feeAmount = '300.00';
   const remissionAmount= '300.00';
   const totalPaymentAmount = '0.00';
-  I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
   const ccdNumber = await utils.createACCDCaseForProbate();
   const ccdCaseNumberFormatted = stringUtils.getCcdCaseInFormat(ccdNumber);
   await miscUtils.multipleSearch(searchCase, I, ccdCaseNumberFormatted);
@@ -112,7 +112,7 @@ Scenario('Fee paid with full upfront remission', async({ I, AddFees, Remission, 
   await CaseTransaction.validateCaseTransactionsDetails(totalPaymentAmount, '0', remissionAmount, '0.00', '0.00');
   I.see('Paid');
   I.see('No payments recorded');
-  I.Logout();
+  await I.Logout();
 }).tag('@nightly @pipeline');
 
 Scenario('Remove fee from case transaction page Telephony flow', async({ I }) => {
