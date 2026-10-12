@@ -36,7 +36,7 @@ Scenario('Add a Remissions and Add Refunds for a Successful PBA Payment through 
     // console.info(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00', '0', '£0.00', '£0.00');
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber,
@@ -110,7 +110,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
     // console.info(paymentReference);
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00',
       '0', '£0.00', '£0.00');
@@ -170,7 +170,7 @@ Scenario('Add a Remissions through Payments and Add Refunds for a Successful PBA
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00',
       '0', '£0.00', '£0.00');
@@ -235,7 +235,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     logger.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00', '0', '£0.00', '£0.00');
     await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber,
@@ -259,7 +259,7 @@ Scenario.skip('Add a Remissions through Payments and Add Refunds for a Successfu
     InitiateRefunds.verifyRemissionAddedPage(false, '200.00');
     I.wait(CCPBATConstants.twoSecondWaitTime);
     I.click('Payment history');
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.twoSecondWaitTime);
     InitiateRefunds.verifyPaymentHistoryPage('£215.00', 'Payments');
     I.wait(CCPBATConstants.twoSecondWaitTime);
@@ -285,7 +285,7 @@ Scenario('Add a Remissions for a failed Payment @pipeline @nightly',
     //  console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£0.00', '0',
       '£0.00', '£0.00');
@@ -326,7 +326,7 @@ Scenario('Issue a Refund for a PBA Payment through the Payment Details Page @pip
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00',
       '0', '£0.00', '£0.00');
@@ -379,7 +379,7 @@ Scenario('Issue a Refund for a PBA Payment through the Service Request Page @nig
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.sevenSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00',
       '0', '£0.00', '£0.00');
@@ -429,7 +429,7 @@ Scenario('Approve action a  Refund for a Rejection @nightly',
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00',
       '0', '£0.00', '£0.00');
@@ -475,7 +475,7 @@ Scenario('Approve action a  Refund for a Rejection @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const caseTransactionsDataForRejectedRefund = assertionData.getCaseTransactionsData(paymentReference, '£215.00',
       'Rejected', refundReference, 'CoP-COP Reason...', 'payments probate', 'More evidence is required');
@@ -497,7 +497,7 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly',
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.sevenSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00',
       '0', '£0.00', '£0.00');
@@ -540,7 +540,7 @@ Scenario('Approve action a Refund for an Approval @pipeline @nightly',
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const caseTransactionsDataForApprovedRefund = assertionData.getCaseTransactionsData(paymentReference, '£215.00',
       'Approved', refundReference,
@@ -564,7 +564,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00',
       '0', '£0.00', '£0.00');
@@ -609,7 +609,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Approv
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const caseTransactionsDataForUpdateRequiredRefund = assertionData.getCaseTransactionsData(paymentReference, '£215.00',
       'Update required', refundReference,
@@ -662,7 +662,7 @@ Scenario.skip('Approve action a Refund Returned to Case Worker and Resubmit By A
     I.wait(CCPBATConstants.twoSecondWaitTime);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00',
       '0', '£0.00', '£0.00');
@@ -758,7 +758,7 @@ Scenario.skip('Add a Remissions Apply for Refund and Process Refunds As an Appro
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00',
       '0', '£0.00', '£0.00');
@@ -807,7 +807,7 @@ Scenario.skip('Add a Remissions Apply for Refund and Process Refunds As an Appro
     I.Logout();
     await I.login(testConfig.TestRefundsApproverUserName, testConfig.TestRefundsApproverPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const caseTransactionsDataForSentForApprovalRefund = assertionData.getCaseTransactionsData(paymentReference, '£200.00',
       'Sent for approval', refundReference,
@@ -850,7 +850,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Casewo
     // console.log(`The length of the CCD Case Number ${ccdCaseNumber.toString().length}`);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     const checkPaymentValuesData = assertionData.checkPaymentValues('£215.00',
       '0', '£0.00', '£0.00');
@@ -893,7 +893,7 @@ Scenario('Approve action a Refund Returned to Case Worker and Resubmit By Casewo
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     I.wait(CCPBATConstants.twoSecondWaitTime);
-    await miscUtils.multipleSearchForRefunds(CaseSearch, CaseTransaction, I, ccdCaseNumber);
+    await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     // await CaseTransaction.validateCaseTransactionPageForRefunds(ccdCaseNumber, true);
     I.wait(CCPBATConstants.twoSecondWaitTime);
