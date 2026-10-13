@@ -12,6 +12,7 @@ const originalGet = superagent.get;
 
 let postResult = { res: { body: { access_token: 'test-token' } } };
 let getResult = { res: { body: { email: 'user@example.com', roles: ['payments'] } } };
+let postCallCount = 0;
 
 function chainable(result) {
   const chain = {};
@@ -56,7 +57,11 @@ const redirectCookie = (value) => `${constants.REDIRECT_COOKIE}=${encodeURICompo
 
 describe('OAuth2CallbackEndpoint', () => {
   beforeEach(() => {
-    superagent.post = () => chainable(postResult);
+    postCallCount = 0;
+    superagent.post = () => {
+      postCallCount += 1;
+      return chainable(postResult);
+    };
     superagent.get = () => chainable(getResult);
   });
 
@@ -72,11 +77,12 @@ describe('OAuth2CallbackEndpoint', () => {
     assert.strictEqual(response.body.title, '401 - Access Denied');
   });
 
-  it('recovers to / when the redirect cookie is missing but a code is present', async () => {
-    const response = await request(buildApp()).get('/oauth2/callback?code=valid-code&state=lost-state');
+  it('rejects a code-only callback with no redirect cookie and no session state (login CSRF)', async () => {
+    const response = await request(buildApp()).get('/oauth2/callback?code=attacker-code&state=forged-state');
 
-    assert.strictEqual(response.status, 302);
-    assert.strictEqual(response.headers.location, '/');
+    assert.strictEqual(response.status, 401);
+    assert.strictEqual(response.body.title, '401 - Access Denied');
+    assert.strictEqual(postCallCount, 0, 'must not redeem a code without a validated state');
   });
 
   it('redirects to the stored continue_url when the cookie and state match', async () => {
@@ -94,6 +100,7 @@ describe('OAuth2CallbackEndpoint', () => {
       .set('Cookie', redirectCookie({ continue_url: '/ccd-search', state: 'different-state' }));
 
     assert.strictEqual(response.status, 401);
+    assert.strictEqual(postCallCount, 0);
   });
 
   it('does not log out a working session when a callback fails', async () => {
@@ -107,13 +114,13 @@ describe('OAuth2CallbackEndpoint', () => {
       'a failed callback must not clear the existing auth token');
   });
 
-  it('treats a malformed redirect cookie as missing and recovers when a code is present', async () => {
+  it('treats a malformed redirect cookie as missing and rejects without a session match', async () => {
     const response = await request(buildApp())
       .get('/oauth2/callback?code=valid-code&state=any-state')
       .set('Cookie', `${constants.REDIRECT_COOKIE}=not-json`);
 
-    assert.strictEqual(response.status, 302);
-    assert.strictEqual(response.headers.location, '/');
+    assert.strictEqual(response.status, 401);
+    assert.strictEqual(postCallCount, 0);
   });
 
   it('allows a repeated callback for the same state to succeed via the session', async () => {

@@ -406,20 +406,19 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
 
       continueUrl = redirectInfo.continue_url;
     } else {
+      /* The cookie is gone, but the state may still be recoverable from the
+       * browser's own server-side session. That preserves the CSRF guarantee:
+       * the state was issued to, and stored for, this session only. We must not
+       * accept a bare code without it - doing so would let an attacker replay a
+       * code from their own flow and log the victim in as them (login CSRF). */
       const matchedState = consumeMatchedState(req, receivedState);
 
-      if (matchedState) {
-        logger.warn(`Redirect cookie missing but state matched an outstanding session state; recovering to ${matchedState.continueUrl}`);
-        continueUrl = matchedState.continueUrl;
-      } else if (hasCode) {
-        /* The redirect cookie is gone (dropped by the browser, or a retry that
-         * skipped login()) but IdAM returned a code. Recover instead of bouncing
-         * the user to a dead-end 401 - the code is still redeemed below. */
-        logger.warn(`Redirect cookie missing with a code present for state ${receivedState}; recovering to /`);
-        continueUrl = '/';
-      } else {
+      if (!matchedState || !String(matchedState.continueUrl || '').startsWith('/')) {
         return next(errorFactory.createUnatohorizedError(null, 'Redirect cookie is missing'));
       }
+
+      logger.warn(`Redirect cookie missing but state matched an outstanding session state; recovering to ${matchedState.continueUrl}`);
+      continueUrl = matchedState.continueUrl;
     }
 
     if (!hasCode) {
