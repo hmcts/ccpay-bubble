@@ -155,8 +155,24 @@ module.exports = {
 
   async addInflationUpdatedFee(feeCode) {
     I.see('Search for a fee');
-    I.fillField(this.locators.fee_search, feeCode);
-    I.click('Search');
+
+    const maxSearchAttempts = 5;
+    for (let attempt = 1; attempt <= maxSearchAttempts; attempt++) {
+      I.fillField(this.locators.fee_search, feeCode);
+      I.click('Search');
+      I.wait(CCPBConstants.fiveSecondWaitTime);
+
+      const feeFound = await I.grabNumberOfVisibleElements(inflationFeeSelect(feeCode));
+      if (feeFound) {
+        break;
+      }
+
+      console.log(`Fee ${feeCode} not found in search (attempt ${attempt}/${maxSearchAttempts}), reloading page to refresh fee list`);
+      const currentUrl = await I.grabCurrentUrl();
+      I.amOnPage(currentUrl);
+      I.wait(CCPBConstants.tenSecondWaitTime);
+    }
+
     await I.waitForElement(inflationFeeSelect(feeCode), CCPBConstants.oneMinute);
 
     await I.click(inflationFeeSelect(feeCode));

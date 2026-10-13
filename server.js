@@ -70,10 +70,27 @@ module.exports = (security, appInsights) => {
   app.use(cookieParser());
 
   // use helmet for security
-  app.use(helmet());
-  app.use(helmet.noCache());
-  app.use(helmet.frameguard());
-  app.use(helmet.xssFilter());
+  app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        baseUri: ["'self'"],
+        fontSrc: ["'self'", "https:", "data:"],
+        formAction: ["'self'",
+          "https://*.pcipalstaging.cloud",
+          "https://*.pcipal.cloud"],
+        frameAncestors: ["'self'"],
+        imgSrc: ["'self'", "data:", "https://*.google-analytics.com", "https://*.g.doubleclick.net"],
+        connectSrc: ["'self'", "https://*.google-analytics.com", "https://*.analytics.google.com", "https://*.g.doubleclick.net", "https://*.dynatrace.com"],
+        frameSrc: ["'self'", "https://www.googletagmanager.com"],
+        objectSrc: ["'none'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://www.googletagmanager.com", "https://*.dynatrace.com"],
+        scriptSrcAttr: ["'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://maxcdn.bootstrapcdn.com"],
+        upgradeInsecureRequests: []
+      }
+    }
+  }));
 
   app.set('view engine', 'pug');
   app.set('views', path.join(__dirname, 'express/mvc/views'));

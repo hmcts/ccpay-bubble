@@ -15,14 +15,11 @@ const testConfig = require('./config/CCPBConfig');
 const apiUtils = require("../helpers/utils");
 const assertionData = require("../fixture/data/refunds/assertion");
 
-const faker = require('faker');
-const feeKeyword = "SN" + new Date().valueOf().toString();
-const memoLineNumber = faker.random.number(99999);
 let feeCode;
 
 Feature('CC Pay Bubble Bulk Scan Test for Inflation updated Fee').retry(CCPBATConstants.defaultNumberOfRetries);
 
-BeforeSuite(async() => {
+Before(async() => {
   feeCode = await apiUtils.createInflationTestingFee();
 });
 
@@ -51,7 +48,7 @@ Scenario('Normal ccd case cheque payment full allocation with Inflation updated 
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   ConfirmAssociation.verifyConfirmAssociationFullPayment(feeCode, '1', totalAmount, feeAmount);
   ConfirmAssociation.confirmPayment();
-  I.wait(CCPBATConstants.fiveSecondWaitTime);
+  I.wait(CCPBATConstants.tenSecondWaitTime);
   CaseTransaction.checkBulkCaseSuccessPayment(ccdCaseNumberFormatted, 'Case reference', 'Allocated');
   CaseTransaction.checkIfBulkScanPaymentsAllocated(dcnNumber);
   I.Logout();

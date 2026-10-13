@@ -9,6 +9,7 @@ class FeeController {
   getFees(req, res) {
     return this.feeService.getFees()
       .then(result => {
+        res.set('Cache-Control', 'no-store');
         res.status(200).send(result);
       })
       .catch(error => {
@@ -19,6 +20,7 @@ class FeeController {
   getJurisdictions(req, res) {
     return this.feeService.getJurisdictions(req)
       .then(result => {
+        res.set('Cache-Control', 'no-store');
         res.status(200).send(result);
       })
       .catch(error => {

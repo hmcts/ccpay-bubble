@@ -277,6 +277,109 @@ describe('FeeDetailsComponent', () => {
     expect(component.fee.current_version).toBeUndefined();
   });
 
+  it('Should set valid_to from previous version when valid_to is null and i !== 0', () => {
+    const recentDate = new Date();
+    recentDate.setMonth(recentDate.getMonth() - 1);
+    const recentDateString = recentDate.toISOString();
+
+    const olderDate = new Date();
+    olderDate.setMonth(olderDate.getMonth() - 3);
+    const olderDateString = olderDate.toISOString();
+
+    component.fee = {
+      code: 'FEE0001', fee_type: 'banded',
+      fee_versions: [
+        { description: 'd1', status: 'approved', author: 'a1', approvedBy: 'b1', version: 1,
+          valid_from: recentDateString, valid_to: recentDateString,
+          flat_amount: { amount: 100 }, memo_line: 'm1', statutory_instrument: '2014 No 874',
+          si_ref_id: '4.1a', natural_account_code: '4481102150', fee_order_name: 'Civil', direction: 'enhanced' },
+        { description: 'd2', status: 'approved', author: 'a2', approvedBy: 'b2', version: 2,
+          valid_from: olderDateString, valid_to: null,
+          flat_amount: { amount: 200 }, memo_line: 'm2', statutory_instrument: '2014 No 874',
+          si_ref_id: '4.1b', natural_account_code: '4481102150', fee_order_name: 'Civil', direction: 'enhanced' }
+      ],
+      current_version: {
+        version: 3, valid_from: recentDateString, status: 'approved',
+        memo_line: 'memoline-current', natural_account_code: '1234-1234-1234-1234',
+        flat_amount: { amount: 300 }, description: 'test-description-current'
+      }
+    };
+
+    const result = component.validOldFeesVersions(component.fee);
+    expect(result.length).toBe(2);
+    const nullValidToVersion = result.find(v => v.version === 2);
+    expect(nullValidToVersion.valid_to).not.toBeNull();
+  });
+
+  it('Should set selectedFeeVersion when current_version undefined and validOldVersionArray has exactly one entry', () => {
+    const recentDate = new Date();
+    recentDate.setMonth(recentDate.getMonth() - 1);
+    const recentDateString = recentDate.toISOString();
+
+    component.fee = {
+      code: 'FEE0001', fee_type: 'banded',
+      fee_versions: [
+        { description: 'd1', status: 'approved', author: 'a1', approvedBy: 'b1', version: 1,
+          valid_from: recentDateString, valid_to: recentDateString,
+          flat_amount: { amount: 100 }, memo_line: 'm1', statutory_instrument: '2014 No 874',
+          si_ref_id: '4.1a', natural_account_code: '4481102150', fee_order_name: 'Civil', direction: 'enhanced' }
+      ]
+    };
+
+    component.ngOnChanges();
+    expect(component.validOldVersionArray.length).toBe(1);
+
+    spyOn(component.submitFeeVolumeEvent, 'emit');
+    component.submitVolume();
+    expect(component.selectedFeeVersion).toEqual(jasmine.objectContaining({ version: 1 }));
+    expect(component.submitFeeVolumeEvent.emit).toHaveBeenCalled();
+  });
+
+  it('Should return discontinued fee available when validOldVersionArray has entries and current_version is undefined', () => {
+    const recentDate = new Date();
+    recentDate.setMonth(recentDate.getMonth() - 1);
+    const recentDateString = recentDate.toISOString();
+
+    component.fee = {
+      code: 'FEE0001', fee_type: 'banded',
+      fee_versions: [
+        { description: 'd1', status: 'approved', author: 'a1', approvedBy: 'b1', version: 1,
+          valid_from: recentDateString, valid_to: recentDateString,
+          flat_amount: { amount: 100 }, memo_line: 'm1', statutory_instrument: '2014 No 874',
+          si_ref_id: '4.1a', natural_account_code: '4481102150', fee_order_name: 'Civil', direction: 'enhanced' }
+      ]
+    };
+
+    component.ngOnChanges();
+    expect(component.getDiscontinuedFeeAvailable()).toBe(true);
+  });
+
+  it('Should return discontinued fee available when validOldVersionArray has entries and current_version exists', () => {
+    const recentDate = new Date();
+    recentDate.setMonth(recentDate.getMonth() - 1);
+    const recentDateString = recentDate.toISOString();
+
+    const oldVersion = {
+      description: 'old', status: 'approved', version: 1,
+      valid_from: recentDateString, valid_to: recentDateString,
+      flat_amount: { amount: 100 }
+    };
+    const currentVersion = {
+      description: 'current', status: 'approved', version: 2,
+      valid_from: recentDateString, valid_to: null, flat_amount: { amount: 200 }
+    };
+
+    component.fee = {
+      code: 'FEE0001', fee_type: 'banded',
+      fee_versions: [oldVersion, currentVersion],
+      current_version: currentVersion
+    };
+
+    component.ngOnChanges();
+    expect(component.validOldVersionArray.length).toBeGreaterThan(0);
+    expect(component.getDiscontinuedFeeAvailable()).toBeTruthy();
+  });
+
   afterEach(() => {
     TestBed.resetTestingModule();
   });

@@ -25,6 +25,8 @@ const MAX_NOTIFY_PAGES = 3;  //max notify results pages to search
 const MAX_RETRIES = 5;  //max retries on each notify results page
 const DEFAULT_API_POLL_TIMEOUT_MS = 60000;
 const DEFAULT_API_POLL_INTERVAL_MS = 2000;
+const DEFAULT_REQUEST_ATTEMPTS = 5;
+const DEFAULT_REQUEST_RETRY_INTERVAL_MS = 5000;
 
 let notifyClient;
 
@@ -56,15 +58,60 @@ async function createAndThrowFetchError(resp, url) {
 }
 
 async function makeRequest(url, method = 'GET', headers = {}, body = null) {
-  const resp = await fetch(url, {
+  return makeRequestWithRetry(() => fetch(url, {
     method,
     headers,
     body
-  });
-  if (!resp.ok) {
-    await createAndThrowFetchError(resp, url);
+  }), {method, url});
+}
+
+// Shared environments regularly answer 502/503/504 or drop the connection while a
+// service is still starting up. A single transient blip used to abort BeforeSuite,
+// which CodeceptJS never retries, so one 504 cost the whole feature file.
+function isRetryableRequestFailure(resp) {
+  return resp && resp.status >= 500;
+}
+
+// Only transport level problems (DNS, connection reset, timeouts) are retried here.
+// An HTTP status error has already been decided by the response handler above.
+function isRetryableRequestError(error) {
+  if (!error) {
+    return false;
   }
-  return resp;
+
+  return !/^Fetch failed \d{3}/.test(error.message || '');
+}
+
+async function makeRequestWithRetry(requestFn, {method = 'GET', url = '', attempts = DEFAULT_REQUEST_ATTEMPTS, intervalMs = DEFAULT_REQUEST_RETRY_INTERVAL_MS, sleepFn = sleep} = {}) {
+  let lastError;
+
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const resp = await requestFn();
+
+      if (resp.ok || !isRetryableRequestFailure(resp)) {
+        if (!resp.ok) {
+          await createAndThrowFetchError(resp, url);
+        }
+        return resp;
+      }
+
+      lastError = new Error(`Fetch failed ${resp.status} : ${resp.statusText} : ${resp.url || url}`);
+      console.error(`Fetch attempt ${attempt} of ${attempts} got ${resp.status} ${resp.statusText} for ${method} ${url}`);
+    } catch (error) {
+      lastError = error;
+      if (attempt >= attempts || !isRetryableRequestError(error)) {
+        throw error;
+      }
+      console.error(`Fetch attempt ${attempt} of ${attempts} failed for ${method} ${url}: ${error.message}`);
+    }
+
+    if (attempt < attempts) {
+      await sleepFn(intervalMs * attempt);
+    }
+  }
+
+  throw lastError;
 }
 
 async function getEmailFromNotifyWithMaxRetries(searchEmail) {
@@ -1342,6 +1389,23 @@ async function searchForPayBubbleTestingFees(description = 'PayBubble') {
   });
 }
 
+async function fetchAllFees() {
+  const username = testConfig.TestFeeRegEditorUserName;
+  const password = testConfig.TestFeeRegEditorPassword;
+  const accessToken = await getIDAMToken(username, password);
+  return fetch(`${feesRegisterApiUrl}/fees-register/fees`, {
+    method: 'GET',
+    headers: {'Authorization': 'Bearer ' + accessToken}
+  }).then(response => {
+    if (response.status !== 200) {
+      console.log(`Error fetching all fees, response: ${response.status}`);
+    }
+    return response.json();
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
 async function createInflationTestingFee() {
   const feeKeyword = "SN" + new Date().valueOf().toString();
   const memoLineNumber = faker.random.number(99999);
@@ -1359,10 +1423,42 @@ async function createInflationTestingFee() {
   await submitFeeForReview(feeCode, 2);
   await approveFee(feeCode, 2);
 
-  await pollUntil(`fee ${feeCode} to become searchable`, async () => {
+  await pollUntil(`fee ${feeCode} to become searchable via description`, async (attempt) => {
     const fees = await searchForPayBubbleTestingFees();
-    return JSON.stringify(fees || {}).includes(`"${feeCode}"`);
+    const found = JSON.stringify(fees || {}).includes(`"${feeCode}"`);
+    if (!found) {
+      console.log(`[attempt ${attempt}] Fee ${feeCode} not yet searchable via description endpoint`);
+    }
+    return found;
   }, { timeoutMs: 120000, intervalMs: 2000 });
+
+  console.log(`Fee ${feeCode} found via description endpoint, now checking full fee list...`);
+
+  await pollUntil(`fee ${feeCode} to appear in full fee list (UI endpoint)`, async (attempt) => {
+    const fees = await fetchAllFees();
+    const fee = (fees || []).find(f => f.code === feeCode);
+    if (!fee) {
+      console.log(`[attempt ${attempt}] Fee ${feeCode} not yet in full fee list`);
+      return false;
+    }
+    const cv = fee.current_version;
+    if (!cv || cv.status !== 'approved') {
+      console.log(`[attempt ${attempt}] Fee ${feeCode} current_version not approved: ${cv && cv.status}`);
+      return false;
+    }
+    const now = new Date();
+    const validFrom = cv.valid_from ? new Date(cv.valid_from) : null;
+    const validTo = cv.valid_to ? new Date(cv.valid_to) : null;
+    const validNow = (!validFrom || validFrom <= now) && (!validTo || validTo >= now);
+    if (!validNow) {
+      console.log(`[attempt ${attempt}] Fee ${feeCode} not valid today: valid_from=${cv.valid_from}, valid_to=${cv.valid_to}`);
+      return false;
+    }
+    console.log(`[attempt ${attempt}] Fee ${feeCode} visible to UI (approved, valid today)`);
+    return true;
+  }, { timeoutMs: 120000, intervalMs: 2000 });
+
+  console.log(`Fee ${feeCode} confirmed in full fee list, returning to test...`);
 
   return feeCode;
 }
@@ -1411,6 +1507,8 @@ module.exports = {
   updatePaymentStatusWithPciPalCallbackResponse,
   bulkScanPaymentForExistingNormalCase,
   _private: {
+    isRetryableRequestError,
+    makeRequestWithRetry,
     paymentsFromLookup,
     pollUntil,
     validateIDAMTokenConfig,
@@ -1421,6 +1519,7 @@ module.exports = {
   approveFee,
   createFeeVersion,
   searchForPayBubbleTestingFees,
+  fetchAllFees,
   createInflationTestingFee,
   deleteFee
 };
