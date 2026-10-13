@@ -21,6 +21,11 @@ const constants = Object.freeze({
 
 const ACCESS_TOKEN_OAUTH2 = 'access_token';
 
+/* The redirect cookie and any session-held states only need to survive an IdAM
+ * round trip. Bounding them stops a stale login outliving the flow. */
+const REDIRECT_COOKIE_MAX_AGE_MS = 15 * 60 * 1000;
+const MAX_OUTSTANDING_STATES = 10;
+
 function Security(options) {
   this.opts = options || {};
 
@@ -51,13 +56,40 @@ function generateState() {
 function storeRedirectCookie(req, res, continueUrl, state) {
   const url = URL.parse(continueUrl);
   const cookieValue = { continue_url: url.path, state };
+  const cookieOptions = {
+    httpOnly: true,
+    sameSite: 'lax',
+    maxAge: REDIRECT_COOKIE_MAX_AGE_MS
+  };
   if (req.protocol === 'https') {
-    res.cookie(constants.REDIRECT_COOKIE, JSON.stringify(cookieValue),
-      { secure: true, httpOnly: true });
-  } else {
-    res.cookie(constants.REDIRECT_COOKIE, JSON.stringify(cookieValue),
-      { httpOnly: true });
+    cookieOptions.secure = true;
   }
+  res.cookie(constants.REDIRECT_COOKIE, JSON.stringify(cookieValue), cookieOptions);
+  rememberState(req, url.path, state);
+}
+
+/* Keeps every outstanding state in the session, not just the latest. The cookie
+ * is a single slot, so concurrent or repeated logins would otherwise clobber
+ * each other and fail the callback with "redirect cookie is missing". */
+function rememberState(req, continueUrl, state) {
+  if (!req.session) {
+    return;
+  }
+  const states = Array.isArray(req.session.oauthStates) ? req.session.oauthStates : [];
+  states.push({ state, continueUrl, issuedAt: Date.now() });
+  req.session.oauthStates = states.slice(-MAX_OUTSTANDING_STATES);
+}
+
+/* Returns and removes the outstanding state matching the one IdAM echoed back. */
+function consumeMatchedState(req, state) {
+  if (!req.session || !Array.isArray(req.session.oauthStates) || !state) {
+    return null;
+  }
+  const index = req.session.oauthStates.findIndex(entry => entry.state === state);
+  if (index === -1) {
+    return null;
+  }
+  return req.session.oauthStates.splice(index, 1)[0];
 }
 
 function login(req, res, roles, self) {
@@ -306,7 +338,7 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
         }
 
         if (!req.roles.includes(self.roleToUplift)) {
-          return next(errorFactory.createUnatohorizedError(err, 'This user can not uplift'));
+          return next(errorFactory.createUnatohorizedError(null, 'This user can not uplift'));
         }
 
         /* REDIRECT TO UPLIFT PAGE */
@@ -334,11 +366,18 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
 };
 
 function getRedirectCookie(req) {
-  if (!req.cookies[constants.REDIRECT_COOKIE]) {
+  const rawCookie = req.cookies && req.cookies[constants.REDIRECT_COOKIE];
+
+  if (!rawCookie) {
     return null;
   }
 
-  return JSON.parse(req.cookies[constants.REDIRECT_COOKIE]);
+  try {
+    return JSON.parse(rawCookie);
+  } catch (error) {
+    Logger.getLogger('CCPAY-BUBBLE: security.js').warn(`Ignoring malformed ${constants.REDIRECT_COOKIE} cookie`);
+    return null;
+  }
 }
 
 /* Callback endpoint */
@@ -346,33 +385,56 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
   const self = { opts: this.opts };
 
   return function ret(req, res, next) {
-    /* We clear any potential existing sessions first, as we want to start over even if we deny access */
-    res.clearCookie(constants.SECURITY_COOKIE);
-    res.clearCookie(constants.USER_COOKIE);
+    const logger = Logger.getLogger('CCPAY-BUBBLE: security.js');
+    const receivedState = req.query.state;
+    const hasCode = Boolean(req.query.code);
 
-    /* We check that our stored state matches the requested one */
+    /* We check that our stored state matches the requested one. The cookie is the
+     * primary record; the session keeps every outstanding state so a repeated or
+     * concurrent login cannot consume the single cookie slot and dead-end here. */
     const redirectInfo = getRedirectCookie(req);
+    let continueUrl = null;
 
-    if (!redirectInfo) {
-      return next(errorFactory.createUnatohorizedError(null, 'Redirect cookie is missing'));
+    if (redirectInfo) {
+      if (redirectInfo.state !== receivedState) {
+        return next(errorFactory.createUnatohorizedError(null, `States do not match: ${redirectInfo.state} is not ${receivedState}`));
+      }
+
+      if (!String(redirectInfo.continue_url || '').startsWith('/')) {
+        return next(errorFactory.createUnatohorizedError(null, `Invalid redirect_uri: ${redirectInfo.continue_url}`));
+      }
+
+      continueUrl = redirectInfo.continue_url;
+    } else {
+      const matchedState = consumeMatchedState(req, receivedState);
+
+      if (matchedState) {
+        logger.warn(`Redirect cookie missing but state matched an outstanding session state; recovering to ${matchedState.continueUrl}`);
+        continueUrl = matchedState.continueUrl;
+      } else if (hasCode) {
+        /* The redirect cookie is gone (dropped by the browser, or a retry that
+         * skipped login()) but IdAM returned a code. Recover instead of bouncing
+         * the user to a dead-end 401 - the code is still redeemed below. */
+        logger.warn(`Redirect cookie missing with a code present for state ${receivedState}; recovering to /`);
+        continueUrl = '/';
+      } else {
+        return next(errorFactory.createUnatohorizedError(null, 'Redirect cookie is missing'));
+      }
     }
 
-    if (redirectInfo.state !== req.query.state) {
-      return next(errorFactory.createUnatohorizedError(null, `States do not match: ${redirectInfo.state} is not ${req.query.state}`));
-    }
-
-    if (!redirectInfo.continue_url.startsWith('/')) {
-      return next(errorFactory.createUnatohorizedError(null, `Invalid redirect_uri: ${redirectInfo.continue_url}`));
-    }
-
-    if (!req.query.code) {
-      return res.redirect(redirectInfo.continue_url);
+    if (!hasCode) {
+      return res.redirect(continueUrl);
     }
 
     return getTokenFromCode(self, req).end((err, response) => { /* We ask for the token */
       if (err) {
         return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCode call failed'));
       }
+
+      /* Only clear the previous session now that we hold a token, so a stray or
+       * duplicated callback can no longer log a working user out. */
+      res.clearCookie(constants.SECURITY_COOKIE);
+      res.clearCookie(constants.USER_COOKIE);
 
       /* We store it in a session cookie */
       storeCookie(req, res, response.body[ACCESS_TOKEN_OAUTH2]);
@@ -394,7 +456,7 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       );
 
       /* And we redirect back to where we originally tried to access */
-      return res.redirect(redirectInfo.continue_url);
+      return res.redirect(continueUrl);
     });
   };
 };
