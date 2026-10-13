@@ -69,7 +69,7 @@ async function createTestCaseAndServiceRequest() {
   throw lastError;
 }
 
-Scenario('Card payment with failed transaction should have the correct calculations on the Case Transaction page and failure details should be captured in payment status history',
+Scenario('SR Card payment with failed transaction should have the correct calculations on the Case Transaction page and failure details should be captured in payment status history',
   async ({ I, PaymentHistory, CaseSearch, CaseTransaction }) => {
 
     await resetBrowserSession(I);
@@ -102,7 +102,7 @@ Scenario('Card payment with failed transaction should have the correct calculati
     I.clearCookie();
   }).retry(CCPBATConstants.defaultNumberOfRetries).tag('@serial @pipeline @nightly');
 
-  Scenario('Card payment with declined transaction should have the correct calculations on the Case Transaction page and failure details should be captured in payment status history',
+  Scenario('SR Card payment with declined transaction should have the correct calculations on the Case Transaction page and failure details should be captured in payment status history',
     async ({ I, ServiceRequests, CaseSearch, CaseTransaction, PaymentHistory }) => {
 
     await resetBrowserSession(I);
@@ -138,7 +138,7 @@ Scenario('Card payment with failed transaction should have the correct calculati
     I.clearCookie();
     }).retry(CCPBATConstants.defaultNumberOfRetries).tag('@serial @pipeline @nightly');
 
-  Scenario('Card payment with success transaction should have the correct calculations on the Case Transaction page',
+  Scenario('SR Card payment with success transaction should have the correct calculations on the Case Transaction page',
     async ({ I, ServiceRequests, CaseSearch, CaseTransaction }) => {
 
     await resetBrowserSession(I);
