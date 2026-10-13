@@ -16,10 +16,6 @@ const config = require('config');
 
 const app = express();
 
-// Behind the platform ingress TLS terminates upstream, so trust the proxy to
-// populate req.protocol/req.ip from the X-Forwarded-* headers.
-app.set('trust proxy', true);
-
 const sessionSecret = config.get('secrets.ccpay.paybubble-session-secret');
 if (!sessionSecret) {
   throw new Error('Session secret not configured');
