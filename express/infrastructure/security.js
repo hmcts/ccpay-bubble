@@ -379,7 +379,8 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     const redirectInfo = getRedirectCookie(req);
 
     if (!redirectInfo) {
-      return next(errorFactory.createUnatohorizedError(null, 'Redirect cookie is missing'));
+      //return next(errorFactory.createUnatohorizedError(null, 'Redirect cookie is missing'));
+      return res.redirect('/');
     }
 
     if (redirectInfo.state !== req.query.state) {
@@ -398,6 +399,9 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
       if (err) {
         return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCode call failed'));
       }
+
+      res.clearCookie(constants.SECURITY_COOKIE);
+      res.clearCookie(constants.USER_COOKIE);
 
       /* We store it in a session cookie */
       storeCookie(req, res, response.body[ACCESS_TOKEN_OAUTH2]);
