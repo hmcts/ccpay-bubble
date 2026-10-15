@@ -38,6 +38,7 @@ Scenario('Card payment refund PayIt journey',
     I.waitForElement('//*[normalize-space()="Payment successful"]');
     I.click('Return to service request');
 
+    I.wait(CCPBATConstants.twoSecondWaitTime);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.fiveSecondWaitTime);

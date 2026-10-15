@@ -66,6 +66,7 @@ module.exports = () => actor({
       return;
     }
 
+    this.wait(CCPBConstants.twoSecondWaitTime);
     this.amOnPage(uri);
     this.wait(CCPBConstants.twoSecondWaitTime);
     if (await isSignedIn(this)) {

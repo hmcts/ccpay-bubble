@@ -51,6 +51,16 @@ function generateState() {
 function storeRedirectCookie(req, res, continueUrl, state) {
   const url = URL.parse(continueUrl);
   const cookieValue = { continue_url: url.path, state };
+
+  // Keep a server-side copy so the flow can recover if the cookie is lost.
+  if (req.session) {
+    req.session.oauthRedirects = req.session.oauthRedirects || {};
+    req.session.oauthRedirects[state] = {
+      continue_url: url.path,
+      state
+    };
+  }
+
   if (req.protocol === 'https') {
     res.cookie(constants.REDIRECT_COOKIE, JSON.stringify(cookieValue),
       { secure: true, httpOnly: true });
@@ -157,6 +167,7 @@ function invalidateToken(self, req) {
   return request.delete(url.format())
     .auth(self.opts.clientId, self.opts.clientSecret);
 }
+
 Security.prototype.pcipalForm = function pcipalForm(req, res) {
   const pcipalData = req.cookies[constants.PCIPAL_SECURITY_INFO];
   let html = '';
@@ -244,12 +255,12 @@ function protectImpl(req, res, next, self) {
       }
 
       switch (err.status) {
-      case UNAUTHORIZED:
-        return login(req, res, self.roles, self);
-      case FORBIDDEN:
-        return next(errorFactory.createForbiddenError(err, 'getUserDetails() call was forbidden'));
-      default:
-        return next(errorFactory.createServerError(err, 'getUserDetails() call failed'));
+        case UNAUTHORIZED:
+          return login(req, res, self.roles, self);
+        case FORBIDDEN:
+          return next(errorFactory.createForbiddenError(err, 'getUserDetails() call was forbidden'));
+        default:
+          return next(errorFactory.createServerError(err, 'getUserDetails() call failed'));
       }
     });
 }
@@ -306,7 +317,7 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
         }
 
         if (!req.roles.includes(self.roleToUplift)) {
-          return next(errorFactory.createUnatohorizedError(err, 'This user can not uplift'));
+          return next(errorFactory.createUnatohorizedError(null, 'This user can not uplift'));
         }
 
         /* REDIRECT TO UPLIFT PAGE */
@@ -334,11 +345,25 @@ Security.prototype.protectWithUplift = function protectWithUplift(role, roleToUp
 };
 
 function getRedirectCookie(req) {
-  if (!req.cookies[constants.REDIRECT_COOKIE]) {
-    return null;
+  const cookie = req.cookies && req.cookies[constants.REDIRECT_COOKIE];
+
+  if (cookie) {
+    try {
+      return JSON.parse(cookie);
+    } catch (err) {
+      // Treat malformed cookies as missing, rather than throwing.
+    }
   }
 
-  return JSON.parse(req.cookies[constants.REDIRECT_COOKIE]);
+  // Recover only when the callback state matches server-side session state.
+  const state = req.query && req.query.state;
+  const redirects = req.session && req.session.oauthRedirects;
+
+  if (state && redirects && redirects[state]) {
+    return redirects[state];
+  }
+
+  return null;
 }
 
 /* Callback endpoint */
@@ -354,7 +379,8 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
     const redirectInfo = getRedirectCookie(req);
 
     if (!redirectInfo) {
-      return next(errorFactory.createUnatohorizedError(null, 'Redirect cookie is missing'));
+      //return next(errorFactory.createUnatohorizedError(null, 'Redirect cookie is missing'));
+      return res.redirect('/');
     }
 
     if (redirectInfo.state !== req.query.state) {
@@ -374,11 +400,19 @@ Security.prototype.OAuth2CallbackEndpoint = function OAuth2CallbackEndpoint() {
         return next(errorFactory.createUnatohorizedError(err, 'getTokenFromCode call failed'));
       }
 
+      res.clearCookie(constants.SECURITY_COOKIE);
+      res.clearCookie(constants.USER_COOKIE);
+
       /* We store it in a session cookie */
       storeCookie(req, res, response.body[ACCESS_TOKEN_OAUTH2]);
 
       /* We delete redirect cookie */
       res.clearCookie(constants.REDIRECT_COOKIE);
+
+      // Remove the server-side copy only after the code exchange succeeds.
+      if (req.session && req.session.oauthRedirects) {
+        delete req.session.oauthRedirects[redirectInfo.state];
+      }
 
       /* We initialise appinsight with user details */
       getUserDetails(self, req.authToken).end(
