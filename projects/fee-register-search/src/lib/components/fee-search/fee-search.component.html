@@ -4,5 +4,5 @@
 </label>
 <form [formGroup]="searchForm" [className]="hasErrors ? 'form-group form-group-error': 'form-group'">
   <input #searchInput [className]="hasErrors? 'form-control form-control-error': 'form-control'" id="fee-search" type="text" name="fee-search" formControlName="searchInput">
-  <button class="button button-search" (click)="searchFees()">Search</button>
+  <button class="button button-search" data-module="govuk-button" (click)="searchFees()">Search</button>
 </form>
