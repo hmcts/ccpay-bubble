@@ -1,6 +1,85 @@
-.govuk-footer-image{
+.app-footer__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.app-footer__meta-item {
+  margin: 0 15px 25px;
+}
+
+.app-footer__meta-item--grow {
+  flex: 1;
+}
+
+.app-footer__inline-list {
+  margin: 0 0 15px;
+  padding: 0;
+  list-style: none;
+}
+
+.app-footer__inline-list-item {
+  display: inline-block;
   margin-right: 15px;
-  margin-bottom: 25px;
-  margin-left: 15px;
-  margin-top: 40px;
+  margin-bottom: 5px;
+}
+
+.app-footer__link {
+  color: #505a5f;
+  text-decoration: underline;
+}
+
+.app-footer__link:hover {
+  color: #0b0c0c;
+  text-decoration-thickness: 2px;
+}
+
+.app-footer__link:focus {
+  color: #0b0c0c;
+}
+
+.app-footer__licence-logo {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: top;
+}
+
+.app-footer__licence-description {
+  display: inline-block;
+  text-wrap: balance;
+}
+
+.app-footer__crest {
+  margin: 40px 15px 25px;
+}
+
+.app-footer__crest .app-footer__link {
+  display: block;
+  width: 150px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.app-footer__crest .app-footer__link::before {
+  display: block;
+  height: 102px;
+  margin-bottom: 8px;
+  background-image: url('/assets/images/govuk-crest.png');
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  background-size: 125px 102px;
+  content: '';
+}
+
+@media (max-width: 767px) {
+  .app-footer__meta-item--grow {
+    flex-basis: 320px;
+  }
+
+  .app-footer__licence-logo {
+    margin-bottom: 15px;
+  }
 }

@@ -2,15 +2,12 @@
 // in the govuk frontend toolkit's url-helpers partial
 $path: '/public/images/';
 
+@use '../../../node_modules/govuk-frontend/dist/govuk' as *;
+
 @import '../../../node_modules/govuk-elements-sass/public/sass/govuk-elements';
-@import '../../../node_modules/govuk-frontend/dist/govuk/all.scss';
-@import '../../../node_modules/govuk_template_jinja/assets/stylesheets/govuk-template.css';
-@import '../../../node_modules/govuk_template_jinja/assets/stylesheets/fonts.css';
-@import '../../../node_modules/govuk-frontend/dist/govuk/all';
 @import './app/nav';
 
-// govuk_template_jinja sets the root to 62.5% for its rem-based typography.
-// GOV.UK Frontend 5 uses rem units assuming a 16px root, so restore that base.
+// Keep the 16px root size expected by GOV.UK Frontend rem-based typography.
 html {
   font-size: 100%;
 }
@@ -26,7 +23,7 @@ html {
 }
 
 body {
-  // Keep the legacy template's 160% body size from scaling up with the 16px root.
+  font-family: 'GDS Transport', arial, sans-serif;
   font-size: 100%;
   background: white !important;
 }

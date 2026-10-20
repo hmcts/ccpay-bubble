@@ -1,21 +1,19 @@
-<head>
-  <meta charset="utf-8" />
-  <title>GOV.UK - The best place to find government services and information</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b0c0c" />
+<div id="skiplink-container">
+  <a href="#content" class="govuk-skip-link">Skip to main content</a>
+</div>
 
-  <link rel="shortcut icon" href="/assets/images/favicon.ico" type="image/x-icon" />
-  <link rel="mask-icon" href="/assets/images/govuk-mask-icon.svg" color="#0b0c0c">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/govuk-apple-touch-icon-180x180.png">
-  <link rel="apple-touch-icon" sizes="167x167" href="/assets/images/govuk-apple-touch-icon-167x167.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/govuk-apple-touch-icon-152x152.png">
-  <link rel="apple-touch-icon" href="/assets/images/govuk-apple-touch-icon.png">
+<header class="app-header" role="banner">
+  <div class="govuk-width-container app-header__container">
+    <div class="govuk-generic-header app-generic-header">
+      <div class="govuk-generic-header__container">
+        <div class="govuk-generic-header__logo">
+          <a href="/ccd-search?takePayment=true" class="govuk-generic-header__homepage-link app-header__service-name">
+            HMCTS PayBubble
+          </a>
+        </div>
+      </div>
+    </div>
 
-  <meta property="og:image" content="/assets/images/govuk-opengraph-image.png">
-</head>
-
-<header class="govuk-header " role="banner" data-module="govuk-header">
-  <div class="govuk-header__container govuk-width-container">
     <app-navigation [isBulkscanningEnable]="isBSFlagEnable"></app-navigation>
   </div>
 </header>
