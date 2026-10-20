@@ -81,11 +81,11 @@
             <label *ngIf="!firstversion && (validOldVersionArray.length === 1 || validOldVersionArray.length > 1) && lastversion"class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
               Before {{ feeVersion.valid_to | date: 'd MMMM y' }}
             </label>
-          <span id="{{ 'fee-version-item-hint' + i }}" class="govuk-hint govuk-radios__hint"
+          <div id="{{ 'fee-version-item-hint' + i }}" class="govuk-hint govuk-radios__hint"
             style="font-size: 16px;">
             Use the old
             £ {{ getAmountFromFeeVersion(feeVersion) }} fee
-          </span>
+          </div>
       </div>
 
     </div>
@@ -120,11 +120,11 @@
             style="font-size: 16px;" for="current-version">
             On or after {{ fee.current_version['valid_from'] | date: 'd MMMM y' }}
           </label>
-          <span id="fee-version-item-hints"
+          <div id="fee-version-item-hints"
             class="govuk-hint govuk-radios__hint" style="font-size: 16px;">
             Use the current
             £ {{ getAmountFromFeeVersion(fee.current_version) }} fee
-          </span>
+          </div>
         </div>
       </div>
       <div
@@ -140,11 +140,11 @@
               <label *ngIf="(validOldVersionArray.length === 1 || validOldVersionArray.length > 1) && lastversion;"class="govuk-label govuk-radios__label" style="font-size: 16px;" for="fee-version">
                 Before {{ feeVersion.valid_to | date: 'd MMMM y' }}
               </label>
-            <span id="{{ 'fee-version-item-hint' + i }}" class="govuk-hint govuk-radios__hint"
+            <div id="{{ 'fee-version-item-hint' + i }}" class="govuk-hint govuk-radios__hint"
               style="font-size: 16px;">
               Use the old
               £ {{ getAmountFromFeeVersion(feeVersion) }} fee
-            </span>
+            </div>
         </div>
 
       </div>

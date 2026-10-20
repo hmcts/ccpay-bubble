@@ -2,11 +2,27 @@
 // in the govuk frontend toolkit's url-helpers partial
 $path: '/public/images/';
 
+// Keep the existing GOV.UK Elements, Template and Frontend Toolkit classes working.
+$govuk-compatibility-govukfrontendtoolkit: true;
+$govuk-compatibility-govuktemplate: true;
+$govuk-compatibility-govukelements: true;
+
+@import '../../../node_modules/govuk-elements-sass/public/sass/govuk-elements';
 @import '../../../node_modules/govuk-frontend/govuk/all.scss';
 @import '../../../node_modules/govuk_template_jinja/assets/stylesheets/govuk-template.css';
 @import '../../../node_modules/govuk_template_jinja/assets/stylesheets/fonts.css';
 @import '../../../node_modules/govuk-frontend/govuk/all';
+@import './app/nav';
 
+// Preserve the pre-upgrade warning icon geometry from GOV.UK Frontend 3.0.
+.govuk-warning-text .govuk-warning-text__icon {
+  box-sizing: content-box;
+  top: 50%;
+  min-width: 32px;
+  min-height: 29px;
+  margin-top: -20px;
+  padding-top: 3px;
+}
 
 body {
   background: white !important;
