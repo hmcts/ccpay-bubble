@@ -35,7 +35,7 @@
   <div class="govuk-warning-text">
     <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
     <strong class="govuk-warning-text__text" style="font-size: 16px;">
-      <span class="govuk-warning-text__assistive">Warning</span>
+      <span class="govuk-visually-hidden">Warning</span>
       This fee was retired on {{ fee.discontinued_list[0].valid_to | date: 'd MMMM y' }}
     </strong>
   </div>
@@ -100,7 +100,7 @@
   <div class="govuk-warning-text">
     <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
     <strong class="govuk-warning-text__text" style="font-size: 16px;">
-      <span class="govuk-warning-text__assistive">Warning</span>
+      <span class="govuk-visually-hidden">Warning</span>
       This fee changed on {{ fee.current_version['valid_from'] | date: 'd MMMM y' }}
     </strong>
   </div>
