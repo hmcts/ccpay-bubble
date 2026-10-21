@@ -7,16 +7,16 @@
   }
 
   &.blue {
-    background: $link-colour;
+    background: var(--govuk-brand-colour);
     a {
-      color: $page-colour;
+      color: var(--govuk-inverse-text-colour);
     }
   }
 
   &.white {
-    background: $page-colour;
+    background: var(--govuk-body-background-colour);
     a {
-      color: $text-colour;
+      color: var(--govuk-text-colour);
       font-weight: lighter;
     }
   }
@@ -40,7 +40,7 @@
   }
 
   a {
-    color: $white;
+    color: var(--govuk-inverse-text-colour);
     font-size: 18px;
     text-decoration: none;
     &:hover {
@@ -61,7 +61,7 @@
 }
 
 .bar-header {
-  background: $black;
+  background: var(--govuk-text-colour);
   display: block;
   font-size: 26px;
   font-weight: bold;
@@ -75,7 +75,7 @@
   }
 
   a {
-    color: $white;
+    color: var(--govuk-inverse-text-colour);
     text-decoration: none;
   }
 
@@ -86,7 +86,7 @@
 
   ul {
     li {
-      color: $white;
+      color: var(--govuk-inverse-text-colour);
       display: inline-block;
       font-size: 20px;      
       padding: 10px 10px 0;
@@ -105,9 +105,9 @@
   }
 
   .notifications-count {
-    background: $white;
+    background: var(--govuk-inverse-text-colour);
     border-radius: 50%;
-    color: $red;
+    color: var(--govuk-error-colour);
     font-size: 24px;
     padding: 3px 8px 0;
   }
@@ -138,14 +138,14 @@
   }
 
   .chevron {
-    // border: 1px solid $white;
+    // border: 1px solid white;
     &-up {
       display: none;
     }
   }
 
   .bar-header__dropdown {
-    background: $black;
+    background: var(--govuk-text-colour);
     display: none;
     padding-bottom: 10px;
     position: absolute;
@@ -170,12 +170,12 @@
 }
 
 .fee-edit-bar {
-  background: $link-colour;
+  background: var(--govuk-brand-colour);
   font-weight: bold;
   margin-bottom: 20px;
 
   .content {
-    color: $page-colour;
+    color: var(--govuk-inverse-text-colour);
     padding: 10px;
 
     span {
@@ -191,7 +191,7 @@
   }
 
   .link {
-    color: $page-colour;
+    color: var(--govuk-inverse-text-colour);
     float: left;
     text-decoration: none;
   }
@@ -201,7 +201,7 @@
     text-align: center;
     width: 5%;
     .content {
-      border-right: 2px solid $page-colour;
+      border-right: 2px solid var(--govuk-inverse-text-colour);
     }
   }
 
@@ -225,12 +225,12 @@
 }
 
 .advanced-search-block {
-  background: $link-colour;
-  color: $page-colour;
+  background: var(--govuk-brand-colour);
+  color: var(--govuk-inverse-text-colour);
 
   li { width: 30%; }
-  label { color: $page-colour; }
-  .form-control { width: 100%; }
+  label { color: var(--govuk-inverse-text-colour); }
+  .govuk-input { width: 100%; }
 
   &--pt30 {
     padding-top: 75px;

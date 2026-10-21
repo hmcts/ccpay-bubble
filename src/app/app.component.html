@@ -8,14 +8,16 @@ name="paybubble"
 <div class="govuk-width-container">
   <app-phase-banner></app-phase-banner>
 
-    <main id="content" role="main">
+    <main id="content" class="govuk-main-wrapper govuk-!-padding-bottom-9 govuk-!-margin-bottom-6" role="main">
       <div class="govuk-grid-row">
-        <router-outlet></router-outlet>
+        <div class="govuk-grid-column-full">
+          <router-outlet></router-outlet>
+        </div>
       </div>
     </main>
 
 </div>
 
-<footer class="app-footer" id="footer" role="contentinfo">
+<footer class="govuk-footer" id="footer" role="contentinfo">
 <ccpay-bubble-app-footer></ccpay-bubble-app-footer>
 </footer>

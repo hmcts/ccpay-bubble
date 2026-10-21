@@ -1,47 +1,12 @@
-// Path to assets for use with the file-url function
-// in the govuk frontend toolkit's url-helpers partial
-$path: '/public/images/';
+@use '../../../node_modules/govuk-frontend/dist/govuk' as * with (
+  $govuk-global-styles: true
+);
+@use './app/nav';
 
-@use '../../../node_modules/govuk-frontend/dist/govuk' as *;
-
-@import '../../../node_modules/govuk-elements-sass/public/sass/govuk-elements';
-@import './app/nav';
-
-// Keep the 16px root size expected by GOV.UK Frontend rem-based typography.
-html {
-  font-size: 100%;
-}
-
-// Preserve the pre-upgrade warning icon geometry from GOV.UK Frontend 3.0.
-.govuk-warning-text .govuk-warning-text__icon {
-  box-sizing: content-box;
-  top: 50%;
-  min-width: 32px;
-  min-height: 29px;
-  margin-top: -20px;
-  padding-top: 3px;
-}
-
+// Keep unclassed text (including the custom HMCTS header) in the GOV.UK typeface.
 body {
-  font-family: 'GDS Transport', arial, sans-serif;
-  font-size: 100%;
-  background: white !important;
-}
-
-.govuk-grid-row {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.grey-button.button {
-  color: black;
-  background-color: #dee0e2;
-  &:active {
-    box-shadow: 0 0 0 #9aa0a2;
-  }
-  &:hover {
-    background-color: #c0c2c4;
-  }
+  @include govuk-font($size: 16);
+  color: var(--govuk-text-colour);
 }
 
 .nocase-message {
