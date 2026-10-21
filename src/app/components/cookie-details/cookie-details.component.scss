@@ -3,40 +3,8 @@
     line-height: 1.15;
   }
   
-  .govuk-radios__conditional {
-    margin-bottom: 15px;
-    margin-left: 18px;
-    padding-left: 33px;
-    border-left: 4px solid #b1b4b6
-  }
-  
-  .govuk-radios__conditional--hidden {
-    display: none
-  }
-  
-  .govuk-label:not(.govuk-label--m):not(.govuk-label--l):not(.govuk-label--xl) + .govuk-hint {
-    margin-bottom: 10px;
-  }
-  
-  .govuk-fieldset__heading{
-    font-weight: 700;
-    font-size: 48px;
-  }
-  
-  .form-hint{
-   margin-top: 5px; 
-  }
-  
-  .govuk-label--m{
-    font-size: large;
-  }
-  
-  
-  .govuk-heading-l {
-      font-size: 24px;
-    }
-    .notification-fs {
-        font-size: 19px;
+.notification-fs {
+  font-size: 19px;
 }
   
   hr {

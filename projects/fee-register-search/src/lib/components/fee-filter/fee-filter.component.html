@@ -1,40 +1,40 @@
-<p>Filter Results</p>
+<p class="govuk-body">Filter Results</p>
 
-<button type="submit" class="govuk-button" data-module="govuk-button" (click)="applyFilter()">
+<button type="button" class="govuk-button" data-module="govuk-button" (click)="applyFilter()">
   Apply filters
 </button>
 
-<form [formGroup]="filterForm" class="form-group">
-    <div id="selectJurisdiction1" class="form-group">
-      <label class="form-label">
-          <p id="jurisdiction1Select" class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictionData.jurisdiction1)"><span [ngClass]="{ 'arrow-rotate': jurisdictionData.jurisdiction1.show }">&#9658;</span> Jurisdiction 1</p>
-      </label>
-      <div [hidden]="!jurisdictionData.jurisdiction1.show">
-        <div class="multiple-choice" *ngFor="let jurisdiction of jurisdictionData.jurisdiction1.data; let i = index">
-          <input [id]="formatJurisdictionId(jurisdiction.name)"
+<form [formGroup]="filterForm">
+    <div id="selectJurisdiction1" class="govuk-form-group">
+      <button id="jurisdiction1Select" class="govuk-label govuk-!-margin-bottom-3 jurisdiction-parent" type="button" aria-controls="jurisdiction1-options" [attr.aria-expanded]="jurisdictionData.jurisdiction1.show" (click)="toggleJurisdiction(jurisdictionData.jurisdiction1)"><span class="govuk-!-font-size-16 govuk-!-margin-right-2 jurisdiction-parent__arrow" aria-hidden="true">{{ jurisdictionData.jurisdiction1.show ? '▼' : '▶' }}</span><span class="govuk-link jurisdiction-parent__text">Jurisdiction 1</span></button>
+      <div id="jurisdiction1-options" [hidden]="!jurisdictionData.jurisdiction1.show">
+        <div class="govuk-radios">
+        <div class="govuk-radios__item" *ngFor="let jurisdiction of jurisdictionData.jurisdiction1.data">
+          <input class="govuk-radios__input" [id]="'jurisdiction1-' + formatJurisdictionId(jurisdiction.name)"
               formControlName="jurisdiction1"
               name="jurisdiction1"
               type="radio"
               [value]="jurisdiction.name" />
-            <label for="radio-inline-1">{{jurisdiction.name | titlecase}}</label>
+            <label class="govuk-label govuk-radios__label" [for]="'jurisdiction1-' + formatJurisdictionId(jurisdiction.name)">{{jurisdiction.name | titlecase}}</label>
         </div>
-        <div class="multiple-choice"><a (click)="clearFilter('jurisdiction1')">Clear filter</a></div>
+        </div>
+        <button class="govuk-link govuk-!-font-size-19 govuk-!-margin-left-7 govuk-!-margin-top-2 filter-clear-link" type="button" (click)="clearFilter('jurisdiction1')">Clear filter</button>
       </div>
     </div>
-    <div id="selectJurisdiction2" class="form-group">
-        <label class="form-label">
-            <p id="jurisdiction2Select" class="jurisdiction-parent" (click)="toggleJurisdiction(jurisdictionData.jurisdiction2)"><span [ngClass]="{ 'arrow-rotate': jurisdictionData.jurisdiction2.show }">&#9658;</span> Jurisdiction 2</p>
-        </label>
-        <div [hidden]="!jurisdictionData.jurisdiction2.show">
-          <div class="multiple-choice" *ngFor="let jurisdiction of jurisdictionData.jurisdiction2.data; let i = index">
-            <input [id]="formatJurisdictionId(jurisdiction.name)"
+    <div id="selectJurisdiction2" class="govuk-form-group">
+        <button id="jurisdiction2Select" class="govuk-label govuk-!-margin-bottom-3 jurisdiction-parent" type="button" aria-controls="jurisdiction2-options" [attr.aria-expanded]="jurisdictionData.jurisdiction2.show" (click)="toggleJurisdiction(jurisdictionData.jurisdiction2)"><span class="govuk-!-font-size-16 govuk-!-margin-right-2 jurisdiction-parent__arrow" aria-hidden="true">{{ jurisdictionData.jurisdiction2.show ? '▼' : '▶' }}</span><span class="govuk-link jurisdiction-parent__text">Jurisdiction 2</span></button>
+        <div id="jurisdiction2-options" [hidden]="!jurisdictionData.jurisdiction2.show">
+          <div class="govuk-radios">
+          <div class="govuk-radios__item" *ngFor="let jurisdiction of jurisdictionData.jurisdiction2.data">
+            <input class="govuk-radios__input" [id]="'jurisdiction2-' + formatJurisdictionId(jurisdiction.name)"
                 formControlName="jurisdiction2"
                 name="jurisdiction2"
                 type="radio"
                 [value]="jurisdiction.name" />
-              <label for="radio-inline-1">{{jurisdiction.name | titlecase}}</label>
+              <label class="govuk-label govuk-radios__label" [for]="'jurisdiction2-' + formatJurisdictionId(jurisdiction.name)">{{jurisdiction.name | titlecase}}</label>
           </div>
-          <div class="multiple-choice"><a (click)="clearFilter('jurisdiction2')">Clear filter</a></div>
+          </div>
+          <button class="govuk-link govuk-!-font-size-19 govuk-!-margin-left-7 govuk-!-margin-top-2 filter-clear-link" type="button" (click)="clearFilter('jurisdiction2')">Clear filter</button>
         </div>
       </div>
 </form>

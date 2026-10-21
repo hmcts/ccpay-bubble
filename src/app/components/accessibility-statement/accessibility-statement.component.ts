@@ -11,7 +11,8 @@ export class AccessibilityStatementComponent {
   constructor(private _location: Location)
   {}
 
-  backClicked() {
+  backClicked(event?: MouseEvent) {
+    event?.preventDefault();
     this._location.back();
   }
 }

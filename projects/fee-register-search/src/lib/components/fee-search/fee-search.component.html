@@ -1,8 +1,9 @@
-<label class="heading-small" for="fee-search">
-  <span class="form-hint">For example: Application or £10.00. You don't need to use the whole description or amount.</span>
-  <span *ngIf="hasErrors" class="error-message">You must provide a search value</span>
-</label>
-<form [formGroup]="searchForm" [className]="hasErrors ? 'form-group form-group-error': 'form-group'">
-  <input #searchInput [className]="hasErrors? 'form-control form-control-error': 'form-control'" id="fee-search" type="text" name="fee-search" formControlName="searchInput">
-  <button class="button button-search" data-module="govuk-button" (click)="searchFees()">Search</button>
+<form [formGroup]="searchForm">
+  <div class="govuk-form-group" [class.govuk-form-group--error]="hasErrors">
+    <label class="govuk-label govuk-visually-hidden" for="fee-search">Search by fee description or amount</label>
+    <div class="govuk-hint" id="fee-search-hint">For example: Application or £10.00. You don't need to use the whole description or amount.</div>
+    <p *ngIf="hasErrors" class="govuk-error-message" id="fee-search-error"><span class="govuk-visually-hidden">Error:</span> You must provide a search value</p>
+    <input #searchInput class="govuk-input govuk-!-width-one-half govuk-!-display-inline-block" [class.govuk-input--error]="hasErrors" [attr.aria-describedby]="hasErrors ? 'fee-search-hint fee-search-error' : 'fee-search-hint'" id="fee-search" type="text" name="fee-search" formControlName="searchInput">
+    <button type="button" class="govuk-button button-search govuk-!-margin-left-3 govuk-!-margin-bottom-0" data-module="govuk-button" (click)="searchFees()">Search</button>
+  </div>
 </form>
