@@ -6,16 +6,9 @@ Please note this project uses yarn
 
 ## Installation
 
-Use the Node 22 version pinned in `.nvmrc` and the repository's Yarn 4.10.3 release:
+Requires Node.js 22.23.4 (see `.nvmrc`).
 
-```sh
-nvm install
-nvm use
-corepack enable
-yarn install --immutable
-```
-
-Jenkins uses `.nvmrc` to select Node, and the production Docker image uses the HMCTS Node 22 Alpine base image.
+to install all the libraries into the node module run `yarn install` on the terminal
 
 ## Build
 
