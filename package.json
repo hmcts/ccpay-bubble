@@ -257,7 +257,7 @@
     "@angular-eslint/schematics": "^20.0.0",
     "jsdom": "24.1.0",
     "node-gyp": "9.0.0",
-    "body-parser": "^1.20.3",
+    "body-parser": "^1.20.9",
     "serve-static": "^1.16.0",
     "send": "^0.19.0",
     "cookie": "^1.0.2",
