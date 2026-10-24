@@ -212,7 +212,7 @@
     "qs": "6.16.0",
     "@protobufjs/utf8": "^1.1.1",
     "http-cache-semantics": "^4.2.1",
-    "protobufjs@npm:^7.5.3": "7.5.8",
+    "protobufjs@npm:^7.5.3": "8.6.6",
     "protobufjs@npm:8.0.1": "^8.6.2",
     "lodash": "^4.18.0",
     "on-headers": "~1.1.0",
