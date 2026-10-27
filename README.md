@@ -6,6 +6,8 @@ Please note this project uses yarn
 
 ## Installation
 
+Requires Node.js 22.23.4 (see `.nvmrc`).
+
 to install all the libraries into the node module run `yarn install` on the terminal
 
 ## Build
