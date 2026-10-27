@@ -14,7 +14,11 @@ properties([
     string(name: 'BULKSCANNING_API_URL', defaultValue: 'http://ccpay-bulkscanning-api-aat.service.core-compute-aat.internal', description: 'The bulkscanning api url you want to run these tests against'),
     string(name: 'FEES_REGISTER_API_URL', defaultValue: 'http://fees-register-api-aat.service.core-compute-aat.internal', description: 'The freg api url you want to run these tests against'),
     string(name: 'ZAP_URL_EXCLUSIONS', defaultValue: "-config globalexcludeurl.url_list.url\\(0\\).regex=https?:\\/\\/.*(?:idam-web-public|hmcts-access).*", description: 'ZAP regex exclusions for third-party auth/access endpoints'),
-    booleanParam(name: 'MUTATION_TESTS',defaultValue: true, description: 'mutation tests')
+    booleanParam(name: 'skipFortifyScan', defaultValue: false, description: 'Tick the checkbox for skip'),
+    booleanParam(name: 'skipSecurityScanTests', defaultValue: false, description: 'Tick the checkbox for skip'),
+    booleanParam(name: 'skipFullFunctionalTests', defaultValue: false, description: 'Tick the checkbox for skip'),
+    booleanParam(name: 'skipCrossBrowserTest', defaultValue: false, description: 'Tick the checkbox for skip'),
+    booleanParam(name: 'skipMutationTests', defaultValue: false, description: 'Tick the checkbox for skip'),
   ])
 ])
 
@@ -85,26 +89,60 @@ withNightlyPipeline("nodejs", product, component) {
 
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
-  enableFortifyScan()
 
-  // Disabled for now as SauceLabs license has expired.
-  //  enableCrossBrowserTest()
-  enableFullFunctionalTest(180)
-  if (params.MUTATION_TESTS) {
-    enableMutationTest(150)
-  }
-  enableSecurityScan(urlExclusion: urlExclusions, urlExclusions: urlExclusions)
   afterAlways('checkout') {
     sh "yarn cache clean"
     echo 'ccpay-bubble checked out'
   }
+
   afterAlways('build') {
     yarnBuilder.yarn('ng:build')
     sh 'chmod +x bin/run-mutation-tests.sh'
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
   }
-   afterAlways('fortify-scan') {
+
+  if (!params.skipFortifyScan) {
+    enableFortifyScan()
+  }
+
+  if (params.ENVIRONMENT == 'aat' && !params.skipSecurityScanTests) {
+    enableSecurityScan(urlExclusion: urlExclusions, urlExclusions: urlExclusions)
+  }
+
+  if (!params.skipMutationTests) {
+    enableMutationTest(150)
+  }
+
+  if (!params.skipFullFunctionalTests) {
+    enableFullFunctionalTest(180)
+  }
+
+  afterAlways('fortify-scan') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
+  }
+
+  if (!params.skipCrossBrowserTest) {
+    afterAlways('DependencyCheckNightly') {
+      stage('crossBrowserTest') {
+        warnError('Failure in crossBrowserTest') {
+          timeoutWithMsg(time: 120, unit: 'MINUTES', action: 'Cross browser test') {
+            try {
+              yarnBuilder.yarn('test:crossbrowser')
+            } finally {
+              publishHTML target: [
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : 'functional-output/cross-browser/allure',
+                reportFiles          : 'index.html',
+                reportName           : 'Cross Browser Test Report'
+              ]
+              steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/cross-browser/reports/**/*'
+            }
+          }
+        }
+      }
+    }
   }
 
   afterAlways('mutationTest') {
@@ -132,18 +170,5 @@ withNightlyPipeline("nodejs", product, component) {
     ]
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/functional/reports/**/*'
     env.E2E_TESTS_FOR_ACCESSIBILITY = false
-  }
-
-  afterAlways('crossBrowserTest') {
-    publishHTML target: [
-      allowMissing         : true,
-      alwaysLinkToLastBuild: true,
-      keepAll              : true,
-      reportDir            : "functional-output/cross-browser/allure",
-      reportFiles          : "index.html",
-      reportName           : "Cross Browser Test Report"
-    ]
-
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/cross-browser/reports/**/*'
   }
 }
