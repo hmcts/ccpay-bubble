@@ -45,10 +45,10 @@
   </div>
 
 
-  <label *ngIf="validOldVersionArray.length === 1 && !fee.current_version" class="govuk-label govuk-label--s" for="volumeAmount">
+  <label *ngIf="validOldVersionArray.length === 1 && !fee.current_version" class="govuk-label govuk-label--s" for="oldVersionVolumeAmount">
     How many copies do you want?
   </label>
-  <input formControlName="feeOrVolumeControl" *ngIf="validOldVersionArray.length === 1 && !fee.current_version" class="govuk-input short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
+  <input formControlName="feeOrVolumeControl" *ngIf="validOldVersionArray.length === 1 && !fee.current_version" class="govuk-input short-input volume-amount-control" autocomplete="off" id="oldVersionVolumeAmount" type="number" min="1"/>
 
 </main>
 </div>
@@ -144,10 +144,10 @@
 
 <form>
 <div [formGroup]="feeDetailFormGroup" *ngIf="fee.current_version">
-  <label *ngIf="fee.current_version['volume_amount']" class="govuk-label govuk-label--s" for="volumeAmount">
+  <label *ngIf="fee.current_version['volume_amount']" class="govuk-label govuk-label--s" for="currentVolumeAmount">
     How many copies do you want?
   </label>
-  <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['volume_amount']" class="govuk-input short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
+  <input formControlName="feeOrVolumeControl" *ngIf="fee.current_version['volume_amount']" class="govuk-input short-input volume-amount-control" autocomplete="off" id="currentVolumeAmount" type="number" min="1"/>
   <!--Following is the section for fee_type='flat' and amont_type='banded'-->
   <div class="govuk-form-group" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'">
     <p class="govuk-hint">If the document has more than 10 pages, you must also choose a fee for the additional pages.</p>
@@ -159,8 +159,8 @@
     <p class="govuk-hint">Step 2: Select the fee for the additional pages (if more than 10 pages). For example, 10 additional pages at 50p = £5.</p>
     <p class="govuk-hint">Step 3: £5 x 3 copies = £15. You’ll need to enter this against the new fee.</p>
     <p class="govuk-hint">The citizen needs to pay £45 for 3 copies of the 20-page document.</p>
-    <label class="govuk-label govuk-label--s" for="volumeAmount">How many copies of the document are required?</label>
-    <input formControlName="feeOrVolumeControl" class="govuk-input short-input volume-amount-control" autocomplete="off" id="volumeAmount" type="number" min="1"/>
+    <label class="govuk-label govuk-label--s" for="bandedVolumeAmount">How many copies of the document are required?</label>
+    <input formControlName="feeOrVolumeControl" class="govuk-input short-input volume-amount-control" autocomplete="off" id="bandedVolumeAmount" type="number" min="1"/>
   </div>
   <div class="govuk-form-group" *ngIf="fee.current_version['flat_amount'] && fee.fee_type == 'banded'">
     <label class="govuk-label govuk-label--s" for="calculatedAmount">
