@@ -3,6 +3,24 @@
 );
 @use './app/nav';
 
+.app-footer__licence {
+  position: relative;
+
+  @include govuk-media-query($from: tablet) {
+    padding-left: 53px;
+
+    .govuk-footer__licence-logo {
+      position: absolute;
+      top: govuk-spacing(1);
+      left: 0;
+    }
+
+    .govuk-footer__licence-description {
+      @include govuk-font($size: 16);
+    }
+  }
+}
+
 // Keep unclassed text (including the custom HMCTS header) in the GOV.UK typeface.
 body {
   @include govuk-font($size: 16);
