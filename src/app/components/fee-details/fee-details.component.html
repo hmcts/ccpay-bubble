@@ -188,6 +188,9 @@
 </div>
 
 <div class="govuk-button-group">
+  <button type="button" class="govuk-button govuk-button--secondary" (click)="goBack()">
+    Cancel
+  </button>
   <button *ngIf="validOldVersionArray.length === 0 && fee.current_version" class="govuk-button" type="submit" data-module="govuk-button" (click)="submitVolume()">
     Submit
   </button>
@@ -196,9 +199,6 @@
   </button>
   <button *ngIf="validOldVersionArray.length === 1 && !fee.current_version" class="govuk-button" type="submit" data-module="govuk-button" (click)="submitVolume()">
     Continue
-  </button>
-  <button type="button" class="govuk-button govuk-button--secondary" (click)="goBack()">
-    Cancel
   </button>
 </div>
 </form>
