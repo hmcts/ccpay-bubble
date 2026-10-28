@@ -6,6 +6,10 @@ function inflationFeeSelect(feeCode) {
   return { xpath: `//tr[td[normalize-space()="${feeCode}"]]//a[normalize-space()="Select"]` };
 }
 
+function formatJurisdictionId(jurisdiction) {
+  return jurisdiction.split('_').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join('_');
+}
+
 module.exports = {
   locators: {
     fee_search: { xpath: '//*[@id="fee-search"]' },
@@ -43,9 +47,9 @@ module.exports = {
     I.click('Search');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click('Jurisdiction 1');
-    I.click({ css: '#jurisdiction1-'.concat(jurisdiction1) });
+    I.click({ css: '#jurisdiction1-'.concat(formatJurisdictionId(jurisdiction1)) });
     I.click('Jurisdiction 2');
-    I.click({ css: '#jurisdiction2-'.concat(jurisdiction2) });
+    I.click({ css: '#jurisdiction2-'.concat(formatJurisdictionId(jurisdiction2)) });
     I.click('Apply filters');
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
@@ -68,9 +72,9 @@ module.exports = {
     I.click('Search');
     I.wait(CCPBConstants.tenSecondWaitTime);
     I.click('Jurisdiction 1');
-    I.click({ css: '#jurisdiction1-'.concat(jurisdiction1) });
+    I.click({ css: '#jurisdiction1-'.concat(formatJurisdictionId(jurisdiction1)) });
     I.click('Jurisdiction 2');
-    I.click({ css: '#jurisdiction2-'.concat(jurisdiction2) });
+    I.click({ css: '#jurisdiction2-'.concat(formatJurisdictionId(jurisdiction2)) });
     I.click('Apply filters');
     I.see('Jurisdiction 2');
     if (jurisdiction2 === 'family_court'){
