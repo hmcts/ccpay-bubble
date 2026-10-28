@@ -1,10 +1,9 @@
 <p class="govuk-body">Filter Results</p>
 
-<button type="button" class="govuk-button" data-module="govuk-button" (click)="applyFilter()">
-  Apply filters
-</button>
-
-<form [formGroup]="filterForm">
+<form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
+    <button type="submit" class="govuk-button" data-module="govuk-button">
+      Apply filters
+    </button>
     <div id="selectJurisdiction1" class="govuk-form-group">
       <button id="jurisdiction1Select" class="govuk-label govuk-!-margin-bottom-3 jurisdiction-parent" type="button" aria-controls="jurisdiction1-options" [attr.aria-expanded]="jurisdictionData.jurisdiction1.show" (click)="toggleJurisdiction(jurisdictionData.jurisdiction1)"><span class="govuk-!-font-size-16 govuk-!-margin-right-2 jurisdiction-parent__arrow" aria-hidden="true">{{ jurisdictionData.jurisdiction1.show ? '▼' : '▶' }}</span><span class="govuk-link jurisdiction-parent__text">Jurisdiction 1</span></button>
       <div id="jurisdiction1-options" [hidden]="!jurisdictionData.jurisdiction1.show">
