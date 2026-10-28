@@ -12,7 +12,7 @@ module.exports = {
     old_amount_select:  { xpath: '//input[@id="fee-version0"]' },
     new_amount_select:  { xpath: '//input[@id="fee-versions"]' },
     locator_calculatedRangedFee: { xpath: '//*[@id="calculatedRangedFee"]' },
-    locator_volume: { id: 'volumeAmount' },
+    locator_volume: { css: '.volume-amount-control' },
     search_for_fee_text: {xpath:'//*[@id="content"]//h1'},
     allocate_payment: {xpath:'//button[@class="button govuk-!-margin-right-1"]'},
     // help_with_fee: {xpath:'//*[text()=" Help with Fees (HWF) application declined "]//../input'},
@@ -43,9 +43,9 @@ module.exports = {
     I.click('Search');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click('Jurisdiction 1');
-    I.click({ css: '#'.concat(jurisdiction1) });
+    I.click({ css: '#jurisdiction1-'.concat(jurisdiction1) });
     I.click('Jurisdiction 2');
-    I.click({ css: '#'.concat(jurisdiction2) });
+    I.click({ css: '#jurisdiction2-'.concat(jurisdiction2) });
     I.click('Apply filters');
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
@@ -68,9 +68,9 @@ module.exports = {
     I.click('Search');
     I.wait(CCPBConstants.tenSecondWaitTime);
     I.click('Jurisdiction 1');
-    I.click({ css: '#'.concat(jurisdiction1) });
+    I.click({ css: '#jurisdiction1-'.concat(jurisdiction1) });
     I.click('Jurisdiction 2');
-    I.click({ css: '#'.concat(jurisdiction2) });
+    I.click({ css: '#jurisdiction2-'.concat(jurisdiction2) });
     I.click('Apply filters');
     I.see('Jurisdiction 2');
     if (jurisdiction2 === 'family_court'){

@@ -12,23 +12,24 @@ module.exports = {
     more_details_actions: { xpath: '//*[@class = "govuk-details__summary"]' },
     unallocated_payment_select_option: { xpath: '//ccpay-app-unprocessed-payments//tbody/tr[1]//input' },
     rc_reference: { xpath: '//*[contains(text() , "RC")]' },
-    view_details_for_status_paid: { xpath: '//ccpay-case-transactions/div/main/div/div[2]/table/tbody/tr/td[5]/a' },
+    view_details_for_status_paid: { xpath: '//ccpay-case-transactions//div[contains(@class, "paymentrequest")]//tbody/tr[td[normalize-space()="Paid"]]//a[normalize-space()="Review"]' },
     view_details_for_payments: { xpath: '//ccpay-service-request/div[5]/table/tbody/tr/td[1]/a' },
     // Case Transactions Page (Payments Values...)
     total_payments_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[1]' },
     unallocated_payments_text: { xpath: '//td[@class="govuk-table__cell case-transaction__color summary-table-font"]' },
     total_remissions_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[3]' },
     amount_due_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[4]' },
-    payments_review_button: { xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/table/tbody/tr/td[6]/a' },
+    over_payment_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[5]' },
+    payments_review_button: { xpath: '//ccpay-case-transactions//table[.//th[normalize-space()="Date allocated"]]//a[normalize-space()="Review"]' },
     disputed_status: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[1]' },
     disputed_amount: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[2]' },
     disputed_date: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[3]' },
     disputed_payment_reference: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[4]' },
     disputed_event: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[5]' },
-    disputed_closed_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[1]/td[6]/a' },
-    disputed_initiated_show_details: { xpath: '//*[@id="main-content"]/div/div[4]/div[2]/table/tbody/tr[2]/td[6]/a' },
+    disputed_closed_show_details: { xpath: '//h2[normalize-space()="Disputed payment history"]/following::table[1]/tbody/tr[1]/td[6]/a' },
+    disputed_initiated_show_details: { xpath: '//h2[normalize-space()="Disputed payment history"]/following::table[1]/tbody/tr[2]/td[6]/a' },
     // allocate_new_service_request: {xpath: '//*[contains(text(),"Allocate to new service request")]'},
-    allocate_new_service_request: {xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[3]/ccpay-app-unprocessed-payments/div/table/tbody/tr[1]/td[3]/div/button[1]'},
+    allocate_new_service_request: { xpath: '//ccpay-app-unprocessed-payments//button[contains(normalize-space(.), "new fee") or contains(normalize-space(.), "new service request")]' },
     notpaid_payment_status: { xpath: '//*[contains(text(),"Not paid")]' },
   },
 
@@ -457,15 +458,15 @@ module.exports = {
 
   async validateCaseTransactionsDetails(totalPayments, unallocatedPayments, totalRemissions, amountDue, overPayment) {
     I.see('Total payments');
-    I.seeTextEquals(`£${totalPayments}`, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[1]');
+    I.seeTextEquals(`£${totalPayments}`, this.locators.total_payments_text);
     I.see('Unallocated payments');
-    I.seeTextEquals(unallocatedPayments, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[2]');
+    I.seeTextEquals(unallocatedPayments, this.locators.unallocated_payments_text);
     I.see('Total remissions');
-    I.seeTextEquals(`£${totalRemissions}`, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[3]');
+    I.seeTextEquals(`£${totalRemissions}`, this.locators.total_remissions_text);
     I.see('Amount due');
-    I.seeTextEquals(`£${amountDue}`, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[4]');
+    I.seeTextEquals(`£${amountDue}`, this.locators.amount_due_text);
     I.see('Over payment');
-    I.seeTextEquals(`£${overPayment}`, '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[5]');
+    I.seeTextEquals(`£${overPayment}`, this.locators.over_payment_text);
   },
 
   async  getReceiptReference() {
