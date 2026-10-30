@@ -36,7 +36,7 @@ Scenario('Citizen Card payment with success transaction should have the correct 
     // Validate Case Transactions details
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
-    const caseAmountDue = await I.grabTextFrom('//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-case-transactions/div/main/div/div[1]/div/table/tbody/tr/td[4]');
+    const caseAmountDue = await I.grabTextFrom(CaseTransaction.locators.amount_due_text);
     // Need some refresh here to get the correct status of the payment in case transactions page
     if (caseAmountDue === '£300.00') {
       await I.click('(//*[text()[contains(.,"Review")]])[2]');

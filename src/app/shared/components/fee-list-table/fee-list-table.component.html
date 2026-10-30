@@ -1,29 +1,31 @@
-<fieldset class="form-group" *ngIf="fees">
-  <legend>
-    <h2 class="heading-small">Select fee</h2>
-    <span  class="error-message panel--error" *ngIf="showErrors && !isValid">Select a fee from the list</span>
-  </legend> 
+<div class="govuk-form-group" *ngIf="fees">
+  <fieldset class="govuk-fieldset" [attr.aria-describedby]="showErrors && !isValid ? 'fee-list-error' : null">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Select fee</legend>
+    <p id="fee-list-error" class="govuk-error-message panel--error" *ngIf="showErrors && !isValid"><span class="govuk-visually-hidden">Error:</span> Select a fee from the list</p>
   <div class="fee-list" [ngClass]="showErrors && !isValid ? 'fee-list--error': ''">
-    <table>
-      <thead>
-        <tr>
-          <th>Fee code</th>
-          <th>Fee description</th>
-          <th>Price</th>
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="col">Fee code</th>
+          <th class="govuk-table__header" scope="col">Fee description</th>
+          <th class="govuk-table__header" scope="col">Price</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let fee of fees">
-          <td>
-            <div class="multiple-choice">
-              <input [id]="fee" [name]="fee" type="radio" [value]="fee.code" (click)="selectFee(fee)" [checked]="savedFee && savedFee.code === fee.code ? true : false"/>
-              <label for="fee">{{ fee.code }}</label>
+        <tr class="govuk-table__row" *ngFor="let fee of fees; let i = index">
+          <td class="govuk-table__cell">
+            <div class="govuk-radios">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" [id]="'fee-' + i" name="selectedFee" type="radio" [value]="fee.code" (change)="selectFee(fee)" [checked]="savedFee && savedFee.code === fee.code"/>
+                <label class="govuk-label govuk-radios__label" [for]="'fee-' + i">{{ fee.code }}</label>
+              </div>
             </div>
           </td>
-          <td>{{ fee.description }}</td>
-          <td>{{ fee.display_amount }}</td>
+          <td class="govuk-table__cell">{{ fee.description }}</td>
+          <td class="govuk-table__cell">{{ fee.display_amount }}</td>
         </tr>
       </tbody>
     </table>
   </div>
-</fieldset>
+  </fieldset>
+</div>

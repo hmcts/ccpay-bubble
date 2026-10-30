@@ -1,54 +1,69 @@
-.bar-header {
-  a {
-    color: #ffffff;
-  }
-
-  .title {
-    padding: 0;
-    text-align: left;
-
-    a.content {
-      padding: 0;
-    }
-  }
-  li {
-    padding-top: 0;
-  }
+:host {
+  display: block;
+  flex: 0 1 45%;
+  width: 45%;
 }
 
-.service-title {
+.app-service-navigation {
+  width: 100%;
+  border: 0;
   color: #ffffff;
-  font-size: 24px;
+  background: transparent;
+  font-size: 18px;
+  line-height: 1.2;
 }
 
-.advanced-search {
-  display: inline-flex;
+.app-service-navigation .govuk-service-navigation__container {
+  justify-content: flex-end;
 }
 
-.advanced-search::after {
-  clear: both;
-  content: "";
-  display: table;
+.app-service-navigation .govuk-service-navigation__wrapper {
+  flex: 0 1 auto;
+  width: 100%;
 }
 
-.advanced-search input[type=search] {
-  float: left;
-  border: 3px solid black;
-  border-right: 0;
-  height: 30px;
-  padding: 0 2px;
+.app-service-navigation .govuk-service-navigation__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0;
+  line-height: 1.2;
 }
 
-.magnifier {
-  background: black;
-  cursor: pointer;
-  padding: 5px;
-  width: 20px;
-  height: 20px;
-  float: left;
-  border: 3px solid black;
+.app-service-navigation .govuk-service-navigation__item {
+  margin: 0;
+  padding: 2px 0 2px 10px;
+  border: 0;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-.logout-btn {
-  cursor: pointer;
+.app-service-navigation .govuk-service-navigation__link {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.app-service-navigation .govuk-service-navigation__link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+@media (max-width: 767px) {
+  :host {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .app-service-navigation .govuk-service-navigation__list {
+    justify-content: flex-start;
+  }
+
+  .app-service-navigation .govuk-service-navigation__item:first-child {
+    padding-left: 0;
+  }
 }

@@ -1,45 +1,24 @@
-<div id="skiplink-container">
-  <div>
-    <a href="#content" class="skiplink">Skip to main content</a>
-  </div>
-</div>
-
-<header role="banner" id="global-header" class="">
-  <div class="center-content">
-    <div class="bar-header">
-      <ul class="bar-header__list bar-header-left">
-        <li class="title">
-          <a href="/ccd-search?takePayment=true" title="Go to the GOV.UK homepage" class="content">
-            <span class="service-title" id="proposition-name">HMCTS PayBubble</span>
-          </a>
+<nav class="govuk-service-navigation app-service-navigation" aria-label="Primary navigation">
+  <div class="govuk-service-navigation__container">
+    <div class="govuk-service-navigation__wrapper">
+      <ul class="govuk-service-navigation__list">
+        <li class="govuk-service-navigation__item">
+          <a id="ccd-search-link" class="govuk-service-navigation__link" href="/ccd-search?takePayment=true&servicerequest=false">Case Transaction</a>
         </li>
-      </ul>
-
-      <ul class="bar-header__list bar-header-right" aria-label="Top Level Navigation">
-        <!-- <li *ngIf="showMVP">
-            <a id="fee-search-link" class="logout-btn" href="/fee-search">{{ 'Fee Search' }}</a>
-        </li> -->
-        <li>
-          <a id="ccd-search-link" class="logout-btn" href="/ccd-search?takePayment=true&servicerequest=false">{{ 'Case Transaction' }}</a>
-      </li>
-      <li>
-          <a id="ccd-payment-link" class="logout-btn" href="/payment-history?takePayment=false&servicerequest=false">{{ 'Payment history' }}</a>
-      </li>
-      <li>
-        <a id="ccd-payment-link" class="logout-btn" href="/service-requests?takePayment=false&servicerequest=true">{{ 'Service Requests' }}</a>
-    </li>
-    <!-- <li>
-      <a id="ccd-payment-link" class="logout-btn" href="/refund-list?takePayment=false&refundlist=true">{{ 'Refund List' }}</a>
-  </li> -->
-      <li *ngIf="isBulkscanningEnable">
-        <a class="ccd-reports-link" href="/payment-history/view?view=reports">{{ 'Reports' }}</a>
-      </li>
-        <li>{{ todaysDate | date:'dd MMM yyyy' }}</li>
-        <li>
-          <a class="logout-btn" href="/logout">{{ 'Logout' }}</a>
+        <li class="govuk-service-navigation__item">
+          <a id="ccd-payment-link" class="govuk-service-navigation__link" href="/payment-history?takePayment=false&servicerequest=false">Payment history</a>
         </li>
-
+        <li class="govuk-service-navigation__item">
+          <a id="service-requests-link" class="govuk-service-navigation__link" href="/service-requests?takePayment=false&servicerequest=true">Service Requests</a>
+        </li>
+        <li *ngIf="isBulkscanningEnable" class="govuk-service-navigation__item">
+          <a id="reports-link" class="govuk-service-navigation__link" href="/payment-history/view?view=reports">Reports</a>
+        </li>
+        <li class="govuk-service-navigation__item govuk-!-font-weight-bold">{{ todaysDate | date:'dd MMM yyyy' }}</li>
+        <li class="govuk-service-navigation__item">
+          <a class="govuk-service-navigation__link" href="/logout">Logout</a>
+        </li>
       </ul>
     </div>
   </div>
-</header>
+</nav>
