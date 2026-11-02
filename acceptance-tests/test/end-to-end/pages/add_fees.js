@@ -13,8 +13,8 @@ function formatJurisdictionId(jurisdiction) {
 module.exports = {
   locators: {
     fee_search: { xpath: '//*[@id="fee-search"]' },
-    old_amount_select:  { xpath: '//input[@id="fee-version0"]' },
-    new_amount_select:  { xpath: '//input[@id="fee-versions"]' },
+    old_amount_select:  { xpath: '//input[@id="fee-version-0"]' },
+    new_amount_select:  { xpath: '//input[@id="fee-current-version"]' },
     locator_calculatedRangedFee: { xpath: '//*[@id="calculatedRangedFee"]' },
     locator_volume: { css: '.volume-amount-control' },
     search_for_fee_text: {xpath:'//*[@id="content"]//h1'},
