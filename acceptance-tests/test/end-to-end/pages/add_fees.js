@@ -3,7 +3,7 @@ const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const { I } = inject();
 
 function inflationFeeSelect(feeCode) {
-  return { xpath: `//tr[td[normalize-space()="${feeCode}"]]//a[normalize-space()="Select"]` };
+  return { xpath: `//tr[td[normalize-space()="${feeCode}"]]//button[normalize-space()="Select"]` };
 }
 
 function formatJurisdictionId(jurisdiction) {
@@ -18,7 +18,7 @@ module.exports = {
     locator_calculatedRangedFee: { xpath: '//*[@id="calculatedRangedFee"]' },
     locator_volume: { css: '.volume-amount-control' },
     search_for_fee_text: {xpath:'//*[@id="content"]//h1'},
-    allocate_payment: {xpath:'//button[@class="button govuk-!-margin-right-1"]'},
+    allocate_payment: { xpath: '//button[normalize-space(.)="Allocate payment"]' },
     // help_with_fee: {xpath:'//*[text()=" Help with Fees (HWF) application declined "]//../input'},
     help_with_fee: {id:'otherDeduction'},
     // i_have_put_a_stop_on_case: {xpath:'//*[text()=" I have put a stop on the case and contacted the applicant requesting the balance of payment "]//../input'},

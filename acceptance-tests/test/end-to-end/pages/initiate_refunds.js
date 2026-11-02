@@ -679,7 +679,7 @@ module.exports = {
   },
 
   async verifyRefundsListPage(refundRef) {
-    const processRefund = `//mat-cell[contains(.,'${refundRef}')]/following-sibling::mat-cell/a[.='Process refund'][1]`;
+    const processRefund = `//mat-cell[contains(.,'${refundRef}')]/following-sibling::mat-cell//a[normalize-space(.)='Process refund'][1]`;
     const maxAttempts = 6;
 
     I.waitForText('Refund list', CCPBATConstants.tenSecondWaitTime);

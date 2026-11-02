@@ -12,7 +12,7 @@ module.exports = {
     more_details_actions: { xpath: '//*[@class = "govuk-details__summary"]' },
     unallocated_payment_select_option: { xpath: '//ccpay-app-unprocessed-payments//tbody/tr[1]//input' },
     rc_reference: { xpath: '//*[contains(text() , "RC")]' },
-    view_details_for_status_paid: { xpath: '//ccpay-case-transactions//div[contains(@class, "paymentrequest")]//tbody/tr[td[normalize-space()="Paid"]]//a[normalize-space()="Review"]' },
+    view_details_for_status_paid: { xpath: '//ccpay-case-transactions//div[contains(@class, "paymentrequest")]//tbody/tr[td[normalize-space()="Paid" or normalize-space()="Partially paid"]]//a[normalize-space()="Review"]' },
     view_details_for_payments: { xpath: '//ccpay-service-request//h3[normalize-space()="Payments"]/following-sibling::table[1]//a[normalize-space()="Review"]' },
     // Case Transactions Page (Payments Values...)
     total_payments_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[1]' },
