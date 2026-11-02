@@ -7,7 +7,7 @@ function inflationFeeSelect(feeCode) {
 }
 
 function formatJurisdictionId(jurisdiction) {
-  return jurisdiction.split('_').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join('_');
+  return jurisdiction.replace(/ /g, '_');
 }
 
 module.exports = {
