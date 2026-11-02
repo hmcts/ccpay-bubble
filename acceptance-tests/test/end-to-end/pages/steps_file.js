@@ -887,9 +887,9 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version-0\']');
     if(numOfElements) {
-      this.click('//input[@id=\'fee-versions\']');
+      this.click('//input[@id=\'fee-current-version\']');
       this.click('Continue');
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }
@@ -934,9 +934,9 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version-0\']');
     if(numOfElements) {
-      this.click('//input[@id=\'fee-versions\']');
+      this.click('//input[@id=\'fee-current-version\']');
       this.click('Continue');
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }
@@ -1045,9 +1045,9 @@ module.exports = () => actor({
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version-0\']');
     if(numOfElements) {
-      this.click('//input[@id=\'fee-versions\']');
+      this.click('//input[@id=\'fee-current-version\']');
       this.click('Continue');
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }

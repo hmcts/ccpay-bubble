@@ -28,12 +28,12 @@ module.exports = {
   },
 
   async submitFeeDetailsIfShown() {
-    const numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    const numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version-0\']');
     const feeDetailsCount = await I.grabNumberOfVisibleElements('//h1[normalize-space()="Fee details"]/following::th[normalize-space()="Fee code"]');
     const submitButton = { xpath: '//h1[normalize-space()="Fee details"]/following::button[@type="submit" and normalize-space()="Submit"]' };
     const submitButtonCount = await I.grabNumberOfVisibleElements(submitButton);
     if(numOfElements) {
-      await I.click('//input[@id=\'fee-version0\']');
+      await I.click('//input[@id=\'fee-version-0\']');
     }
     if((numOfElements || feeDetailsCount) && submitButtonCount) {
       await I.click(submitButton);
