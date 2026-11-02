@@ -5,6 +5,12 @@ const stringUtils = require('../helpers/string_utils');
 
 const { I } = inject();
 
+function paymentReferenceLink(paymentReference) {
+  return {
+    xpath: `//ccpay-case-transactions//table[.//th[normalize-space()="Payment reference"]]//a[normalize-space(.)="${paymentReference}"]`
+  };
+}
+
 module.exports = {
   locators: {
     case_title: { xpath: '//*[@class = "heading-medium"]' },
@@ -20,7 +26,6 @@ module.exports = {
     total_remissions_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[3]' },
     amount_due_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[4]' },
     over_payment_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[5]' },
-    payments_review_button: { xpath: '//ccpay-case-transactions//table[.//th[normalize-space()="Date allocated"]]//a[normalize-space()="Review"]' },
     disputed_status: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[1]' },
     disputed_amount: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[2]' },
     disputed_date: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[3]' },
@@ -194,7 +199,7 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     await I.see('Partially paid');
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.click(this.locators.payments_review_button);
+    I.click(paymentReferenceLink(paymentRCRef));
     I.wait(CCPBConstants.sevenSecondWaitTime);
     I.see('Initiated');
     I.see('Closed');
@@ -216,7 +221,7 @@ module.exports = {
     I.wait(CCPBConstants.tenSecondWaitTime);
     await I.retry(5).seeElement(this.locators.notpaid_payment_status);
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.click(this.locators.payments_review_button);
+    I.click(paymentReferenceLink(paymentRCRef));
     I.wait(CCPBConstants.sevenSecondWaitTime);
     I.see('Initiated');
     I.see('Closed');
@@ -252,7 +257,7 @@ module.exports = {
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.see('Paid');
     I.wait(CCPBConstants.fiveSecondWaitTime);
-    I.click(this.locators.payments_review_button);
+    I.click(paymentReferenceLink(paymentRCRef));
     I.wait(CCPBConstants.sevenSecondWaitTime);
     I.see('Initiated');
     I.see('Closed');
