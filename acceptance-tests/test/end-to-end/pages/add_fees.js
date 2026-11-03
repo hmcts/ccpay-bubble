@@ -13,7 +13,7 @@ function formatJurisdictionId(jurisdiction) {
 module.exports = {
   locators: {
     fee_search: { xpath: '//*[@id="fee-search"]' },
-    old_amount_select:  { xpath: '//input[@id="fee-version-0"]' },
+    old_amount_select:  { xpath: '//input[@id="fee-version-0" or @id="fee-version0"]' },
     new_amount_select:  { xpath: '//input[@id="fee-current-version"]' },
     locator_calculatedRangedFee: { xpath: '//*[@id="calculatedRangedFee"]' },
     locator_volume: { css: '.volume-amount-control' },
@@ -64,7 +64,7 @@ module.exports = {
     /* END: Comment this out when fee change options expire for inflation update. */
   },
 
-  async addFeesAmount(amount, jurisdiction1, jurisdiction2) {
+  async addFeesAmount(amount, jurisdiction1, jurisdiction2, matchJurisdictionIdSuffix = false) {
     I.see('Search for a fee');
     I.see('For example: Application or £10.00. You don\'t need to use the whole description or amount.');
     I.wait(CCPBConstants.fiveSecondWaitTime);
@@ -72,9 +72,15 @@ module.exports = {
     I.click('Search');
     I.wait(CCPBConstants.tenSecondWaitTime);
     I.click('Jurisdiction 1');
-    I.click({ css: '#jurisdiction1-'.concat(formatJurisdictionId(jurisdiction1)) });
+    const jurisdiction1Id = formatJurisdictionId(jurisdiction1);
+    I.click(matchJurisdictionIdSuffix
+      ? { css: `input[name="jurisdiction1"][id$="${jurisdiction1Id}" i]` }
+      : { css: `#jurisdiction1-${jurisdiction1Id}` });
     I.click('Jurisdiction 2');
-    I.click({ css: '#jurisdiction2-'.concat(formatJurisdictionId(jurisdiction2)) });
+    const jurisdiction2Id = formatJurisdictionId(jurisdiction2);
+    I.click(matchJurisdictionIdSuffix
+      ? { css: `input[name="jurisdiction2"][id$="${jurisdiction2Id}" i]` }
+      : { css: `#jurisdiction2-${jurisdiction2Id}` });
     I.click('Apply filters');
     I.see('Jurisdiction 2');
     if (jurisdiction2 === 'family_court'){

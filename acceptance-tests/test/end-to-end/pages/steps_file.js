@@ -61,8 +61,8 @@ module.exports = () => actor({
     this.wait(CCPBConstants.twoSecondWaitTime);
   },
 
-  async login(email, password, uri = '/') {
-    if (await restoreBrowserLoginSession(this, email, uri)) {
+  async login(email, password, uri = '/', forceFreshLogin = false) {
+    if (!forceFreshLogin && await restoreBrowserLoginSession(this, email, uri)) {
       return;
     }
 
@@ -1000,7 +1000,7 @@ module.exports = () => actor({
     this.see(ccdCaseNumberFormatted);
     this.click('Create service request');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await AddFees.addFeesAmount(feeAmount, jurisdiction1, jurisdiction2);
+    await AddFees.addFeesAmount(feeAmount, jurisdiction1, jurisdiction2, true);
     FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, feeCode, feeAmount, false);
     this.click('Take payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);

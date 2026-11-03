@@ -58,10 +58,10 @@ Scenario('Upfront remission added after failed Telephony Payment and allocate bu
   await miscUtils.multipleSearch(searchCase, I, ccdCaseNumberFormatted);
   await I.initiateAndCancelTheTelephonyPayment(ccdCaseNumberFormatted, feeCode, feeAmount, 'family', 'probate_registry');
   I.clearCookie();
-  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword);
+  await I.login(testConfig.TestProbateCaseWorkerUserName, testConfig.TestProbateCaseWorkerPassword, '/', true);
   await miscUtils.multipleSearch(searchCase, I, ccdCaseNumberFormatted);
   // Checking the payment status and updating to Failed, PciPal Call back works on Demo but it's slow sometimes
-  const paymentStatusCell = '//ccpay-service-request//h3[normalize-space()="Payments"]/following-sibling::table[1]//tbody/tr[1]/td[1]';
+  const paymentStatusCell = '//ccpay-case-transactions//span[normalize-space()="Payments"]/following-sibling::ccpay-app-unprocessed-payments/following-sibling::table[1]//tbody/tr[1]/td[1]';
   const paymentStatus = await I.grabTextFrom(paymentStatusCell);
   if (paymentStatus === 'Initiated')  {
     await I.click('(//*[text()[contains(.,"Review")]])[2]');
