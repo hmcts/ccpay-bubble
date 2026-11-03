@@ -20,7 +20,7 @@ module.exports = {
     total_remissions_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[3]' },
     amount_due_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[4]' },
     over_payment_text: { xpath: '//tr[@class="totalpayments govuk-table__row"]/td[5]' },
-    payments_review_button: { xpath: '//table[.//th[normalize-space()="Date allocated"]]//tbody/tr[td[normalize-space()="Success"]]//a[normalize-space()="Review"]' },
+    payments_review_button: { css: 'ccpay-case-transactions .govuk-grid__surplus-payments > div > table tbody tr td:last-child a' },
     disputed_status: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[1]' },
     disputed_amount: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[2]' },
     disputed_date: { xpath: '//h2[contains(text(), "Disputed payment history")]/../../div[2]/table/tbody/tr/td[3]' },
