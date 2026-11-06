@@ -104,13 +104,13 @@ Scenario('Normal ccd case cheque payment full allocation to existing service req
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   CaseTransaction.checkBulkCase(ccdCaseNumberFormatted, 'Case reference');
   CaseTransaction.checkUnallocatedPayments('1', dcnNumber, totalAmount, 'cheque');
-  I.seeElement({ xpath: '//button[contains(text() , "Allocate to existing service request") and contains(@class, "button--disabled")]' });
+  I.seeElement({ xpath: '//button[(contains(normalize-space(.), "existing service request") or contains(normalize-space(.), "existing fee")) and @disabled]' });
   I.click('Create service request');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   await AddFees.addFeesAmount(feeAmount, 'family', 'family_court');
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', feeAmount, false);
   I.click('Back');
-  I.seeElement({ xpath: '//button[contains(text() , "Allocate to new service request") and contains(@class, "button--disabled")]' });
+  I.seeElement({ xpath: '//button[(contains(normalize-space(.), "new service request") or contains(normalize-space(.), "new fee")) and @disabled]' });
   CaseTransaction.allocateToExistingServiceRequest(totalAmount);
   FeesSummary.verifyFeeSummaryBulkScan(ccdCaseNumberFormatted, 'FEE0002', feeAmount, true);
   I.wait(CCPBATConstants.fiveSecondWaitTime);
@@ -437,7 +437,7 @@ Scenario('Fully Paid Fee with Upfront Remission can not have upfront remission r
   I.click('Return to the case');
   I.wait(CCPBATConstants.fiveSecondWaitTime);
   I.waitForClickable({ xpath: '//button[contains(text() , "Allocate to existing service request")]' });
-  I.seeElement({ xpath: '//button[contains(text() , "Allocate to new service request") and contains(@class, "button--disabled")]' });
+  I.seeElement({ xpath: '//button[(contains(normalize-space(.), "new service request") or contains(normalize-space(.), "new fee")) and @disabled]' });
   CaseTransaction.allocateToExistingServiceRequest(feeAmount);
   FeesSummary.deductRemission();
   I.wait(CCPBATConstants.fiveSecondWaitTime);

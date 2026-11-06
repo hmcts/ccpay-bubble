@@ -11,4 +11,8 @@ hr { background: linear-gradient(to right, transparent, #bbb, transparent); bord
 
 .help-info { margin-top: 50px; }
 
-#footer { display: block; }
+#footer {
+  display: block;
+  border-top: 1px solid #b1b4b6;
+  background-color: #dee0e2;
+}

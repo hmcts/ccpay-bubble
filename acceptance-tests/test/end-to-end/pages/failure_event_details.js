@@ -12,7 +12,7 @@ const { I } = inject();
 module.exports = {
 
   locators: {
-    failure_events_page_back_button: { xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-payment-view/div/div[1]/ol/li/a' },
+    failure_events_page_back_button: { xpath: '//ccpay-payment-view//div[contains(@class, "payment-failure-alignment")]//a[contains(@class, "govuk-back-link") and normalize-space()="Back"]' },
   },
 
   async verifyFailureDetailsPage(paymentRcRef,failureRef, todayDate) {

@@ -23,8 +23,8 @@ module.exports = {
     reasons_drop_down: {xpath: '//select[@id=\'sort\']'},
     reasons_text: {xpath: '//input[@id=\'reason\']'},
 
-    users_drop_down_for_refunds_to_be_approved: {xpath: '//ccpay-refund-list[1]/div[3]//select[@id="sort"]'},
-    date_updated_for_refunds_to_be_approved_by_case_worker: {xpath: '//*[@id="content"]/div/app-payment-history/ccpay-payment-lib/ccpay-refund-list/div[3]/ccpay-table/div/div[3]/mat-table/mat-header-row/mat-header-cell[5]/div'},
+    users_drop_down_for_refunds_to_be_approved: {xpath: '//ccpay-refund-list//h2[normalize-space(.)="Refunds to be approved"]/following::ccpay-table[1]//label[starts-with(normalize-space(.), "Filter by caseworker")]/following-sibling::select[1]'},
+    date_updated_for_refunds_to_be_approved_by_case_worker: {xpath: '//ccpay-refund-list//h2[normalize-space(.)="Refunds to be approved"]/following::ccpay-table[1]//mat-header-cell[normalize-space(.)="Last updated"]'},
 
     users_drop_down_for_refunds_returned_to_case_worker: {xpath: '//div[5]//select[@id=\'sort\']'},
     date_updated_for_refunds_returned_to_case_worker: {xpath: '//body[1]/app-root[1]/div[1]/div[1]/app-payment-history[1]/ccpay-payment-lib[1]/ccpay-refund-list[1]/div[5]/ccpay-table[1]/div[1]/div[2]/mat-table[1]/mat-header-row[1]/mat-header-cell[5]/div[1]/button[1]'},
@@ -679,7 +679,8 @@ module.exports = {
   },
 
   async verifyRefundsListPage(refundRef) {
-    const processRefund = `//mat-cell[contains(.,'${refundRef}')]/following-sibling::mat-cell/a[.='Process refund'][1]`;
+    const approvalTable = '//ccpay-refund-list//h2[normalize-space(.)="Refunds to be approved"]/following::ccpay-table[1]';
+    const processRefund = `${approvalTable}//mat-row[.//mat-cell[normalize-space(.)="${refundRef}"]]//a[normalize-space(.)="Process refund"]`;
     const maxAttempts = 6;
 
     I.waitForText('Refund list', CCPBATConstants.tenSecondWaitTime);

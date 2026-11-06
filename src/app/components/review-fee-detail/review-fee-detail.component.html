@@ -1,48 +1,42 @@
 <div class="govuk-width-container" *ngIf="!payBubbleView">
-  <h2 class="heading-large">Payment details</h2>
+  <h2 class="govuk-heading-l">Payment details</h2>
 
-  <table>
+  <table class="govuk-table">
     <tbody>
     <tr class="section">
-      <td class="heading-small">CCD Case reference:</td>
-      <td>{{payModel.ccd_case_number}}</td>
+      <th class="govuk-table__header" scope="row">CCD Case reference:</th>
+      <td class="govuk-table__cell">{{payModel.ccd_case_number}}</td>
     </tr>
     <tr class="section">
-      <td class="heading-small">Fee code:</td>
-      <td>{{(fee) ? fee.code : ''}}</td>
+      <th class="govuk-table__header" scope="row">Fee code:</th>
+      <td class="govuk-table__cell">{{(fee) ? fee.code : ''}}</td>
     </tr>
     <tr class="section">
-      <td class="heading-small">Fee description:</td>
-      <td>{{(fee) ? fee.description : ''}}</td>
+      <th class="govuk-table__header" scope="row">Fee description:</th>
+      <td class="govuk-table__cell">{{(fee) ? fee.description : ''}}</td>
     </tr>
     <tr class="section">
-      <td class="heading-small">Price:</td>
-      <td>{{this.fee.calculated_amount | formatDisplayCurrency}}</td>
+      <th class="govuk-table__header" scope="row">Price:</th>
+      <td class="govuk-table__cell">{{this.fee.calculated_amount | formatDisplayCurrency}}</td>
     </tr>
     <tr class="section">
-      <td class="heading-small">Help with fees (HWF) code:</td>
-      <td>{{remissionModel.hwf_reference}}</td>
+      <th class="govuk-table__header" scope="row">Help with fees (HWF) code:</th>
+      <td class="govuk-table__cell">{{remissionModel.hwf_reference}}</td>
     </tr>
     <tr class="section">
-      <td class="heading-small">Amount left to pay:</td>
-      <td>{{this.payModel.amount | formatDisplayCurrency}}</td>
+      <th class="govuk-table__header" scope="row">Amount left to pay:</th>
+      <td class="govuk-table__cell">{{this.payModel.amount | formatDisplayCurrency}}</td>
     </tr>
     </tbody>
   </table>
 
-  <div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item">
-        <a href="javascript:void(0)" (click)="onGoBack()" class="govuk-back-link govuk-label">Back to Add fee details page</a>
-      </li>
-    </ol>
-  </div>
+  <a href="/addFeeDetail" (click)="onGoBack($event)" class="govuk-back-link">Back to Add fee details page</a>
 
-  <div class="form-group">
+  <div class="govuk-form-group">
     <div class="button-grid__button">
-      <div class="button button-view" type="submit" (click)="sendPayDetailsToPayhub()">
+      <button class="govuk-button button-view" type="button" (click)="sendPayDetailsToPayhub()">
         Confirm fees
-      </div>
+      </button>
     </div>
   </div>
 

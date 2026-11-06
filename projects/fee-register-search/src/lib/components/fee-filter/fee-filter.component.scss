@@ -1,13 +1,17 @@
 .jurisdiction-parent {
-  color: #2B8CC4;
-  text-decoration: underline;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--govuk-link-colour);
+  cursor: pointer;
+  text-align: left;
 }
 
-.arrow-rotate {
-  transform: rotate(90deg);
-  display: inline-block;
-}
-
-.govuk-button {
-  font-size: 1.8rem;
+.filter-clear-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--govuk-link-colour);
+  cursor: pointer;
 }

@@ -3,6 +3,10 @@
   text-indent: -1000px;
 }
 
+.govuk-table tbody .govuk-table__cell {
+  vertical-align: middle;
+}
+
 .govuk-pagination ::ng-deep .ngx-pagination {
   margin-top: 40px;
 }
@@ -14,20 +18,28 @@
 }
 
 .govuk-pagination ::ng-deep .ngx-pagination a {
-  color: #005ea5;
-  text-decoration: none;
+  color: var(--govuk-link-colour);
 }
 
 .govuk-pagination ::ng-deep .ngx-pagination .ellipsis a {
-  color: #0b0c0c;
+  color: var(--govuk-text-colour);
 }
 
 .govuk-pagination ::ng-deep .ngx-pagination a:hover {
   background: none;
 }
 
+.fee-select-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--govuk-link-colour);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .fee-discontinued-version-amount {
-  color: gray;
+  color: var(--govuk-secondary-text-colour);
   display: block;
   word-break: break-all;
 }

@@ -1,31 +1,30 @@
-// Path to assets for use with the file-url function
-// in the govuk frontend toolkit's url-helpers partial
-$path: '/public/images/';
+@use '../../../node_modules/govuk-frontend/dist/govuk' as * with (
+  $govuk-global-styles: true
+);
+@use './app/nav';
 
-@import '../../../node_modules/govuk-frontend/all.scss';
-@import '../../../node_modules/govuk_template_jinja/assets/stylesheets/govuk-template.css';
-@import '../../../node_modules/govuk_template_jinja/assets/stylesheets/fonts.css';
-@import '../../../node_modules/govuk-frontend/all';
+.app-footer__licence {
+  position: relative;
 
+  @include govuk-media-query($from: tablet) {
+    padding-left: 53px;
 
+    .govuk-footer__licence-logo {
+      position: absolute;
+      top: govuk-spacing(1);
+      left: 0;
+    }
+
+    .govuk-footer__licence-description {
+      @include govuk-font($size: 16);
+    }
+  }
+}
+
+// Keep unclassed text (including the custom HMCTS header) in the GOV.UK typeface.
 body {
-  background: white !important;
-}
-
-.govuk-grid-row {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.grey-button.button {
-  color: black;
-  background-color: #dee0e2;
-  &:active {
-    box-shadow: 0 0 0 #9aa0a2;
-  }
-  &:hover {
-    background-color: #c0c2c4;
-  }
+  @include govuk-font($size: 16);
+  color: var(--govuk-text-colour);
 }
 
 .nocase-message {

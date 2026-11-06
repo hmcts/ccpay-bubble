@@ -1,3 +1,7 @@
 p {
     border: 0ch;
 }
+
+.govuk-phase-banner__text .govuk-link {
+    cursor: pointer;
+}

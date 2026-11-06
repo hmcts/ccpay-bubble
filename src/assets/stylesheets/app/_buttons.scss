@@ -25,21 +25,21 @@
 
     button {
       border: 0;
-      color: $page-colour;
-      &:hover { border: 0; color: $page-colour; }
+      color: var(--govuk-inverse-text-colour);
+      &:hover { border: 0; color: var(--govuk-inverse-text-colour); }
     }
   }
 }
 
 .button-action {
-  background: $panel-colour;
-  color: $text-colour;
-  &:hover { background: $border-colour; color: $text-colour; }
-  &[disabled]:hover { background: $panel-colour; color: $text-colour; }
+  background: var(--govuk-surface-background-colour);
+  color: var(--govuk-text-colour);
+  &:hover { background: var(--govuk-border-colour); color: var(--govuk-text-colour); }
+  &[disabled]:hover { background: var(--govuk-surface-background-colour); color: var(--govuk-text-colour); }
 }
 
 .button-link {
-  background: $highlight-colour;
-  color: $text-colour;
-  &:hover { background: $panel-colour; color: $text-colour; }
+  background: var(--govuk-focus-colour);
+  color: var(--govuk-text-colour);
+  &:hover { background: var(--govuk-surface-background-colour); color: var(--govuk-text-colour); }
 }
