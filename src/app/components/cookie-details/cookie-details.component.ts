@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CookieTableComponent } from '../cookie-table/cookie-table.component';
 @Component({
   selector: 'app-cookie-details',
   standalone: false,
   templateUrl: './cookie-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./cookie-details.component.scss']
 
 })

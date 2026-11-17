@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Jurisdictions } from '../../models/Jurisdictions';
 import { FeeRegisterSearchService } from '../../services/fee-register-search/fee-register-search.service';
@@ -7,6 +7,7 @@ import { FeeRegisterSearchService } from '../../services/fee-register-search/fee
   selector: 'pay-fee-filter',
   standalone: false,
   templateUrl: './fee-filter.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./fee-filter.component.scss']
 })
 export class FeeFilterComponent implements OnInit {

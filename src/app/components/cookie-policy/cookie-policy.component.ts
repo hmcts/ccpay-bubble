@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import cookieManager from '@hmcts/cookie-manager';
 import { Location } from '@angular/common';
 
@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
   selector: 'app-cookie-policy',
   standalone: false,
   templateUrl: './cookie-policy.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./cookie-policy.component.scss']
 
 })

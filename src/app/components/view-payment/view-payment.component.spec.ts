@@ -1,7 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { of } from 'rxjs';
 import { ViewPaymentComponent } from './view-payment.component';
 
@@ -22,7 +22,7 @@ describe('View payment component', () => {
                 params: of({ ref: '1111-2222-3333-4444' })
             }
         },
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withXhr(), withInterceptorsFromDi())
     ]
 });
 

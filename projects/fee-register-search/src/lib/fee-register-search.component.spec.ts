@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 import { FeeRegisterSearchComponent } from './fee-register-search.component';
 import { FeeRegisterSearchService } from './services/fee-register-search/fee-register-search.service';
@@ -16,7 +16,7 @@ describe('FeeRegisterSearchComponent', () => {
     declarations: [FeeRegisterSearchComponent],
     schemas: [NO_ERRORS_SCHEMA],
     imports: [],
-    providers: [FeeRegisterSearchService, provideHttpClient(withInterceptorsFromDi())]
+    providers: [FeeRegisterSearchService, provideHttpClient(withXhr(), withInterceptorsFromDi())]
 })
     .compileComponents();
   }));

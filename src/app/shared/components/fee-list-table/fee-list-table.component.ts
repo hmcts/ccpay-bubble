@@ -1,10 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FeeModel } from 'src/app/models/FeeModel';
 
 @Component({
   selector: 'app-fee-list-table',
   standalone: false,
   templateUrl: './fee-list-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./fee-list-table.component.scss'],
 })
 export class FeeListTableComponent {

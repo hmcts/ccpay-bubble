@@ -1,11 +1,11 @@
-import { Component, Input, ViewEncapsulation, ViewChild } from '@angular/core';
-import { BulkScanService } from 'express/services/';
+import { Component, Input, ViewEncapsulation, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-phase-banner',
   standalone: false,
   templateUrl: './phase-banner.component.html',
   styleUrls: ['./phase-banner.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   encapsulation: ViewEncapsulation.None
 })
 export class PhaseBannerComponent {

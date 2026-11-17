@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { Router } from '@angular/router';
 import { FeeModel } from 'src/app/models/FeeModel';
@@ -8,6 +8,7 @@ import { SafeHtml } from '@angular/platform-browser';
   selector: 'app-review-fee-detail',
   standalone: false,
   templateUrl: './review-fee-detail.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./review-fee-detail.component.scss']
 })
 export class ReviewFeeDetailComponent {

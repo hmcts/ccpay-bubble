@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { IFee } from '../../interfaces';
 import { Jurisdictions } from '../../models/Jurisdictions';
 
@@ -6,6 +6,7 @@ import { Jurisdictions } from '../../models/Jurisdictions';
   selector: 'pay-fee-list',
   standalone:false,
   templateUrl: './fee-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./fee-list.component.scss']
 })
 export class FeeListComponent {

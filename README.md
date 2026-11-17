@@ -1,6 +1,6 @@
 # PayBubble Web
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.
+This project uses Angular 22.2, TypeScript 6.0 and RxJS 7.8.
 
 Please note this project uses yarn
 
@@ -8,7 +8,9 @@ Please note this project uses yarn
 
 Requires Node.js 22.23.4 (see `.nvmrc`).
 
-to install all the libraries into the node module run `yarn install` on the terminal
+Run `nvm use`, then `yarn install --immutable` to install dependencies from the lockfile.
+
+Supported Node.js versions match Angular 22: `^22.22.3 || ^24.15.0 || >=26.0.0`.
 
 ## Build
 
@@ -35,6 +37,14 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Running unit tests
 
 Run `yarn test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+To run only the Angular suites, use `yarn test:angular`. Chrome must be installed. The test environment explicitly uses the same Zone.js change detection as the application.
+
+## Angular 22 dependency compatibility
+
+The application and both bundled libraries use Angular 22. The bundled libraries' production packages use partial compilation.
+
+The published `@hmcts/ccpay-web-component@6.5.28` and `rpx-xui-translation` packages still declare Angular 20 peer dependencies. Their latest published releases do not yet declare Angular 22 support, so Yarn reports peer dependency warnings. The upgraded payment component is available in the sibling `ccpay-web-component` repository; publish that upgrade and update this application's package version when releasing the two repositories together.
 
 ## View payment - Web Component
 

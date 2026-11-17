@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs';
 import { FeeRegisterSearchService } from './services/fee-register-search/fee-register-search.service';
@@ -8,6 +8,7 @@ import { Jurisdictions } from './models/Jurisdictions';
 @Component({
   selector: 'pay-fee-register-search',
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './fee-register-search.component.html'
 })
 export class FeeRegisterSearchComponent implements OnInit {

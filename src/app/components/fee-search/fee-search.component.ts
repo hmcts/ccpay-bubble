@@ -1,6 +1,6 @@
 import { FeeDetailsComponent } from './../fee-details/fee-details.component';
 import { IVersion } from './../../../../projects/fee-register-search/src/lib/interfaces/IVersion';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFee } from '../../../../projects/fee-register-search/src/lib/interfaces';
@@ -10,6 +10,7 @@ import * as ls from 'local-storage';
   selector: 'app-fee-search',
   standalone: false,
   templateUrl: './fee-search.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./fee-search.component.scss']
 })
 export class FeeSearchComponent implements OnInit {

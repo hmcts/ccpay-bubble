@@ -1,5 +1,5 @@
 import {IVersion} from './../../../../projects/fee-register-search/src/lib/interfaces/IVersion';
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {IFee} from '../../../../projects/fee-register-search/src/lib/interfaces';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
@@ -7,6 +7,7 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
   selector: 'app-fee-details',
   standalone: false,
   templateUrl: './fee-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./fee-details.component.scss']
 })
 export class FeeDetailsComponent implements OnInit, OnChanges {
