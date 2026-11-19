@@ -4,7 +4,7 @@ import { TestBed, ComponentFixture} from '@angular/core/testing';
 import { FeeFilterComponent } from './fee-filter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FeeRegisterSearchService } from '../../services/fee-register-search/fee-register-search.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { Jurisdictions } from '../../models/Jurisdictions';
 import { MockFeeRegisterSearchService } from '../../mocks/mock-fee-register-search.service';
 
@@ -23,7 +23,7 @@ describe('Fee Filter component', () => {
         ReactiveFormsModule],
     providers: [
         { provide: FeeRegisterSearchService, useClass: MockFeeRegisterSearchService },
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withXhr(), withInterceptorsFromDi())
     ]
 });
 

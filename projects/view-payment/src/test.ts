@@ -2,6 +2,7 @@
 
 import 'zone.js';
 import 'zone.js/testing';
+import { NgModule, provideZoneChangeDetection } from '@angular/core';
 import { getTestBed } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,
@@ -10,8 +11,12 @@ import {
 
 declare const require: any;
 
+// Match the application's Zone.js change detection in every test module.
+@NgModule({ providers: [provideZoneChangeDetection()] })
+class ZoneTestModule {}
+
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
-  BrowserDynamicTestingModule,
+  [BrowserDynamicTestingModule, ZoneTestModule],
   platformBrowserDynamicTesting()
 );

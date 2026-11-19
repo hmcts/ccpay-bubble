@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { windowToken } from '../../../window';
 import cookieManager from '@hmcts/cookie-manager';
 
@@ -6,6 +6,7 @@ import cookieManager from '@hmcts/cookie-manager';
   selector: 'app-cookie-banner',
   standalone: false,
   templateUrl: './cookie-banner.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./cookie-banner.component.scss']
 })
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { ViewPaymentService } from './view-payment.service';
 import { IPayment } from './interfaces';
@@ -6,6 +6,7 @@ import { IPayment } from './interfaces';
 @Component({
   selector: 'ccpay-view-payment',
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './view-payment.component.html'
 })
 export class ViewPaymentComponent implements OnInit {

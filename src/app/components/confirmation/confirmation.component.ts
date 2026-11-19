@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 
@@ -6,6 +6,7 @@ import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-det
   selector: 'app-confirmation',
   standalone: false,
   templateUrl: './confirmation.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./confirmation.component.scss']
 })
 export class ConfirmationComponent {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CaseRefService } from '../../services/caseref/caseref.service';
@@ -10,6 +10,7 @@ import * as ls from 'local-storage';
   selector: 'app-ccd-search',
   standalone: false,
   templateUrl: './ccd-search.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./ccd-search.component.scss']
 })
 export class CcdSearchComponent implements OnInit {

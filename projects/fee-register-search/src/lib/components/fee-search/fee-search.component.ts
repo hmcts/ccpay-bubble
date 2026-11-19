@@ -1,10 +1,11 @@
-import { Component, Output, ViewChild, EventEmitter, ElementRef, OnInit } from '@angular/core';
+import { Component, Output, ViewChild, EventEmitter, ElementRef, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'pay-fee-search',
   standalone: false,
   templateUrl: './fee-search.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./fee-search.component.scss']
 })
 export class FeeSearchComponent implements OnInit {

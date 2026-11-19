@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { Router, NavigationEnd } from '@angular/router';
 import { PaymentGroupService } from './services/payment-group/payment-group.service';
@@ -8,6 +8,7 @@ import { DOCUMENT } from '@angular/common';
   selector: 'app-root',
   standalone: false,
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {

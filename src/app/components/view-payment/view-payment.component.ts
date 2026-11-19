@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/internal/Observable';
 @Component({
   selector: 'app-view-payment',
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './view-payment.component.html'
 })
 export class ViewPaymentComponent implements OnInit {

@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {provideHttpClient, withInterceptors, withInterceptorsFromDi} from '@angular/common/http';
+import {provideHttpClient, withInterceptors, withInterceptorsFromDi, withXhr} from '@angular/common/http';
 
 import {AppRoutingModule} from './routes/app-routing.module';
 import {AppComponent} from './app.component';
@@ -93,6 +93,7 @@ import {AccessibilityStatementComponent} from "./components/accessibility-statem
         ViewPaymentService,
         { provide: windowToken, useFactory: windowProvider },
         provideHttpClient(
+          withXhr(),
           environment.production
             ? withInterceptorsFromDi()
             : withInterceptors([authDevInterceptor])

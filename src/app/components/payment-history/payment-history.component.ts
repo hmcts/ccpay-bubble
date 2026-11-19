@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IdamDetails } from '../../services/idam-details/idam-details';
 import { PaymentGroupService } from '../../services/payment-group/payment-group.service';
@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
   selector: 'app-payment-history',
   standalone: false,
   templateUrl: './payment-history.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./payment-history.component.scss']
 })
 export class PaymentHistoryComponent implements OnInit {

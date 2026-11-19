@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AddFeeDetailService } from 'src/app/services/add-fee-detail/add-fee-detail.service';
 import { Router } from '@angular/router';
 import { PaybubbleHttpClient } from 'src/app/services/httpclient/paybubble.http.client';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ConfirmationComponent } from 'src/app/components/confirmation/confirmation.component';
 
 const routerMock = {
@@ -25,7 +25,7 @@ describe('ReviewFeeDetailComponent', () => {
         PaybubbleHttpClient,
         AddFeeDetailService,
         { provide: Router, useValue: routerMock },
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withXhr(), withInterceptorsFromDi())
     ]
 }).compileComponents();
   }));
