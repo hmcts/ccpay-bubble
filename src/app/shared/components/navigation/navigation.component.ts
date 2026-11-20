@@ -11,7 +11,7 @@ export class NavigationComponent implements AfterViewInit {
   @Input() isBulkscanningEnable: boolean;
   todaysDate = Date.now();
 
-  constructor(private elementRef: ElementRef<HTMLElement>) { }
+  constructor(private readonly elementRef: ElementRef<HTMLElement>) { }
 
   ngAfterViewInit() {
     createAll(ServiceNavigation, undefined, {
