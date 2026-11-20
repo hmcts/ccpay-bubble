@@ -1,9 +1,5 @@
-.advanced-search {
-  display: inline-flex;
-}
-
 .app-header {
-  background-color: #0b0c0c;
+  background-color: var(--govuk-brand-colour);
 }
 
 .app-header__container {
@@ -14,8 +10,6 @@
 }
 
 .app-generic-header {
-  flex: 0 0 55%;
-  width: 55%;
   background: transparent;
   border-bottom: 0;
 }
@@ -30,7 +24,6 @@
 
 .app-header__service-name {
   margin-right: 0;
-  color: #ffffff;
   font-family: Arial, sans-serif;
   font-size: 24px;
   font-weight: 700;
@@ -41,18 +34,4 @@
 .app-header__service-name:hover {
   border-bottom: 0;
   text-decoration: underline;
-}
-
-@media (max-width: 767px) {
-  .app-header__container {
-    align-items: flex-start;
-    flex-direction: column;
-    padding-top: 8px;
-    padding-bottom: 8px;
-  }
-
-  .app-generic-header {
-    flex-basis: auto;
-    width: 100%;
-  }
 }
