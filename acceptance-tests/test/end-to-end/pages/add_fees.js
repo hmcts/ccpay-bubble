@@ -3,18 +3,22 @@ const CCPBConstants = require('../tests/CCPBAcceptanceTestConstants');
 const { I } = inject();
 
 function inflationFeeSelect(feeCode) {
-  return { xpath: `//tr[td[normalize-space()="${feeCode}"]]//a[normalize-space()="Select"]` };
+  return { xpath: `//tr[td[normalize-space()="${feeCode}"]]//button[normalize-space()="Select"]` };
+}
+
+function formatJurisdictionId(jurisdiction) {
+  return jurisdiction.replace(/ /g, '_');
 }
 
 module.exports = {
   locators: {
     fee_search: { xpath: '//*[@id="fee-search"]' },
-    old_amount_select:  { xpath: '//input[@id="fee-version0"]' },
-    new_amount_select:  { xpath: '//input[@id="fee-versions"]' },
+    old_amount_select:  { xpath: '//input[@id="fee-version-0" or @id="fee-version0"]' },
+    new_amount_select:  { xpath: '//input[@id="fee-current-version"]' },
     locator_calculatedRangedFee: { xpath: '//*[@id="calculatedRangedFee"]' },
-    locator_volume: { id: 'volumeAmount' },
+    locator_volume: { css: '.volume-amount-control' },
     search_for_fee_text: {xpath:'//*[@id="content"]//h1'},
-    allocate_payment: {xpath:'//button[@class="button govuk-!-margin-right-1"]'},
+    allocate_payment: { xpath: '//button[normalize-space(.)="Allocate payment"]' },
     // help_with_fee: {xpath:'//*[text()=" Help with Fees (HWF) application declined "]//../input'},
     help_with_fee: {id:'otherDeduction'},
     // i_have_put_a_stop_on_case: {xpath:'//*[text()=" I have put a stop on the case and contacted the applicant requesting the balance of payment "]//../input'},
@@ -24,12 +28,12 @@ module.exports = {
   },
 
   async submitFeeDetailsIfShown() {
-    const numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    const numOfElements = await I.grabNumberOfVisibleElements('//input[@id=\'fee-version-0\']');
     const feeDetailsCount = await I.grabNumberOfVisibleElements('//h1[normalize-space()="Fee details"]/following::th[normalize-space()="Fee code"]');
     const submitButton = { xpath: '//h1[normalize-space()="Fee details"]/following::button[@type="submit" and normalize-space()="Submit"]' };
     const submitButtonCount = await I.grabNumberOfVisibleElements(submitButton);
     if(numOfElements) {
-      await I.click('//input[@id=\'fee-version0\']');
+      await I.click('//input[@id=\'fee-version-0\']');
     }
     if((numOfElements || feeDetailsCount) && submitButtonCount) {
       await I.click(submitButton);
@@ -43,9 +47,9 @@ module.exports = {
     I.click('Search');
     I.wait(CCPBConstants.fiveSecondWaitTime);
     I.click('Jurisdiction 1');
-    I.click({ css: '#'.concat(jurisdiction1) });
+    I.click({ css: '#jurisdiction1-'.concat(formatJurisdictionId(jurisdiction1)) });
     I.click('Jurisdiction 2');
-    I.click({ css: '#'.concat(jurisdiction2) });
+    I.click({ css: '#jurisdiction2-'.concat(formatJurisdictionId(jurisdiction2)) });
     I.click('Apply filters');
     I.click('Select');
     I.wait(CCPBConstants.fiveSecondWaitTime);
@@ -60,7 +64,7 @@ module.exports = {
     /* END: Comment this out when fee change options expire for inflation update. */
   },
 
-  async addFeesAmount(amount, jurisdiction1, jurisdiction2) {
+  async addFeesAmount(amount, jurisdiction1, jurisdiction2, matchJurisdictionIdSuffix = false) {
     I.see('Search for a fee');
     I.see('For example: Application or £10.00. You don\'t need to use the whole description or amount.');
     I.wait(CCPBConstants.fiveSecondWaitTime);
@@ -68,9 +72,15 @@ module.exports = {
     I.click('Search');
     I.wait(CCPBConstants.tenSecondWaitTime);
     I.click('Jurisdiction 1');
-    I.click({ css: '#'.concat(jurisdiction1) });
+    const jurisdiction1Id = formatJurisdictionId(jurisdiction1);
+    I.click(matchJurisdictionIdSuffix
+      ? { css: `input[name="jurisdiction1"][id$="${jurisdiction1Id}" i]` }
+      : { css: `#jurisdiction1-${jurisdiction1Id}` });
     I.click('Jurisdiction 2');
-    I.click({ css: '#'.concat(jurisdiction2) });
+    const jurisdiction2Id = formatJurisdictionId(jurisdiction2);
+    I.click(matchJurisdictionIdSuffix
+      ? { css: `input[name="jurisdiction2"][id$="${jurisdiction2Id}" i]` }
+      : { css: `#jurisdiction2-${jurisdiction2Id}` });
     I.click('Apply filters');
     I.see('Jurisdiction 2');
     if (jurisdiction2 === 'family_court'){

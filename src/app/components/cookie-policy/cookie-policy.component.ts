@@ -67,7 +67,8 @@ export class CookiePolicyComponent implements OnInit {
     return this.cookieDetails.filter(c => c.cat === category);
   }
 
-  backClicked() {
+  backClicked(event?: MouseEvent) {
+    event?.preventDefault();
     this._location.back();
   }
 }

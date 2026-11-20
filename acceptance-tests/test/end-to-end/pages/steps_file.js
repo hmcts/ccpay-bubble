@@ -61,8 +61,8 @@ module.exports = () => actor({
     this.wait(CCPBConstants.twoSecondWaitTime);
   },
 
-  async login(email, password, uri = '/') {
-    if (await restoreBrowserLoginSession(this, email, uri)) {
+  async login(email, password, uri = '/', forceFreshLogin = false) {
+    if (!forceFreshLogin && await restoreBrowserLoginSession(this, email, uri)) {
       return;
     }
 
@@ -455,12 +455,12 @@ module.exports = () => actor({
     this.click('Search');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click({ css: '#jurisdiction1Select' });
-    this.click({ css: '#family' });
+    this.click({ css: '#jurisdiction1-family' });
     this.click({ css: '#jurisdiction2Select' });
-    this.click({ css: '#probate_registry' });
+    this.click({ css: '#jurisdiction2-probate_registry' });
     this.click({ css: '[type="submit"]' });
     this.click({ css: '.column-two-thirds > pay-fee-list:nth-child(1) > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(3) > td:nth-child(4) > a:nth-child(1)' });
-    this.fillField({ css: '#volumeAmount' }, '100');
+    this.fillField({ css: '.volume-amount-control' }, '100');
     this.click({ css: '[type="submit"]' });
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.see('£1.50');
@@ -484,9 +484,9 @@ module.exports = () => actor({
     this.click('Search');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click({ css: '#jurisdiction1Select' });
-    this.click({ css: '#family' });
+    this.click({ css: '#jurisdiction1-family' });
     this.click({ css: '#jurisdiction2Select' });
-    this.click({ css: '#probate_registry' });
+    this.click({ css: '#jurisdiction2-probate_registry' });
     this.click({ css: '[type="submit"]' });
     this.click('Select');
     this.click({ css: 'div.govuk-radios__item:nth-child(2) > input:nth-child(1)' });
@@ -508,9 +508,9 @@ module.exports = () => actor({
     this.click('Search');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click({ css: '#jurisdiction1Select' });
-    this.click({ css: '#family' });
+    this.click({ css: '#jurisdiction1-family' });
     this.click({ css: '#jurisdiction2Select' });
-    this.click({ css: '#probate_registry' });
+    this.click({ css: '#jurisdiction2-probate_registry' });
     this.click({ css: '[type="submit"]' });
     this.click('Select');
     this.click({ css: 'div.govuk-radios__item:nth-child(2) > input:nth-child(1)' });
@@ -881,15 +881,15 @@ module.exports = () => actor({
     this.wait(CCPBConstants.fiveSecondWaitTime);
     await this.runAccessibilityTest();
     this.click('Jurisdiction 1');
-    this.click({ css: '#family' });
+    this.click({ css: '#jurisdiction1-family' });
     this.click('Jurisdiction 2');
-    this.click({ css: '#probate_registry' });
+    this.click({ css: '#jurisdiction2-probate_registry' });
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version-0\']');
     if(numOfElements) {
-      this.click('//input[@id=\'fee-versions\']');
+      this.click('//input[@id=\'fee-current-version\']');
       this.click('Continue');
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }
@@ -928,15 +928,15 @@ module.exports = () => actor({
     this.click('Search');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Jurisdiction 1');
-    this.click({ css: '#family' });
+    this.click({ css: '#jurisdiction1-family' });
     this.click('Jurisdiction 2');
-    this.click({ css: '#probate_registry' });
+    this.click({ css: '#jurisdiction2-probate_registry' });
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version-0\']');
     if(numOfElements) {
-      this.click('//input[@id=\'fee-versions\']');
+      this.click('//input[@id=\'fee-current-version\']');
       this.click('Continue');
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }
@@ -1000,7 +1000,7 @@ module.exports = () => actor({
     this.see(ccdCaseNumberFormatted);
     this.click('Create service request');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    await AddFees.addFeesAmount(feeAmount, jurisdiction1, jurisdiction2);
+    await AddFees.addFeesAmount(feeAmount, jurisdiction1, jurisdiction2, true);
     FeesSummary.verifyFeeSummaryTelephonyPayment(ccdCaseNumberFormatted, feeCode, feeAmount, false);
     this.click('Take payment');
     this.wait(CCPBConstants.fiveSecondWaitTime);
@@ -1039,15 +1039,15 @@ module.exports = () => actor({
     this.click('Search');
     this.wait(CCPBConstants.fiveSecondWaitTime);
     this.click('Jurisdiction 1');
-    this.click({ css: '#family' });
+    this.click({ css: '#jurisdiction1-family' });
     this.click('Jurisdiction 2');
-    this.click({ css: '#probate_registry' });
+    this.click({ css: '#jurisdiction2-probate_registry' });
     this.click('Apply filters');
     this.click('Select');
     this.wait(CCPBConstants.fiveSecondWaitTime);
-    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version0\']');
+    let numOfElements = await this.grabNumberOfVisibleElements('//input[@id=\'fee-version-0\']');
     if(numOfElements) {
-      this.click('//input[@id=\'fee-versions\']');
+      this.click('//input[@id=\'fee-current-version\']');
       this.click('Continue');
       this.wait(CCPBConstants.fiveSecondWaitTime);
     }

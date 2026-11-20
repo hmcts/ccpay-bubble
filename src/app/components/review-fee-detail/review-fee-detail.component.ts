@@ -70,7 +70,8 @@ export class ReviewFeeDetailComponent {
     this.router.navigate(['/service-failure']);
   }
 
-  onGoBack() {
+  onGoBack(event?: MouseEvent) {
+    event?.preventDefault();
     return this.router.navigate(['/addFeeDetail']);
   }
 }

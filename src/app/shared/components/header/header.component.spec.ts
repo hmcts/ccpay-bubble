@@ -1,8 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
-import { NavigationComponent } from '../navigation/navigation.component';
-import { WindowUtil } from 'src/app/services/window-util/window-util';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -10,8 +8,7 @@ describe('HeaderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderComponent, NavigationComponent ],
-      providers: [ WindowUtil ]
+      declarations: [ HeaderComponent ]
     })
     .compileComponents();
   }));
