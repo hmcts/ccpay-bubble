@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { ServiceNavigation } from 'govuk-frontend/dist/govuk/components/service-navigation/service-navigation.mjs';
+import { AfterViewInit, Component, ElementRef, Input } from '@angular/core';
+import { createAll, ServiceNavigation } from 'govuk-frontend';
 
 @Component({
   selector: 'app-navigation',
@@ -9,10 +9,16 @@ import { ServiceNavigation } from 'govuk-frontend/dist/govuk/components/service-
 })
 export class NavigationComponent implements AfterViewInit {
   @Input() isBulkscanningEnable: boolean;
-  @ViewChild('serviceNavigation', { static: true }) private serviceNavigation: ElementRef<HTMLElement>;
   todaysDate = Date.now();
 
+  constructor(private elementRef: ElementRef<HTMLElement>) { }
+
   ngAfterViewInit() {
-    new ServiceNavigation(this.serviceNavigation.nativeElement);
+    createAll(ServiceNavigation, undefined, {
+      scope: this.elementRef.nativeElement,
+      onError(error) {
+        throw error;
+      }
+    });
   }
 }
