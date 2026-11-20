@@ -4,8 +4,13 @@
 
 .app-header__container {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  align-items: baseline;
+  align-content: center;
+  gap: 5px 20px;
   min-height: 60px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   box-sizing: border-box;
 }
 
@@ -34,4 +39,10 @@
 .app-header__service-name:hover {
   border-bottom: 0;
   text-decoration: underline;
+}
+
+.app-header__date {
+  margin-left: auto;
+  color: var(--govuk-inverse-text-colour);
+  white-space: nowrap;
 }

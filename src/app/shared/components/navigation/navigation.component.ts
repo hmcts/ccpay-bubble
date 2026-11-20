@@ -9,7 +9,6 @@ import { createAll, ServiceNavigation } from 'govuk-frontend';
 })
 export class NavigationComponent implements AfterViewInit {
   @Input() isBulkscanningEnable: boolean;
-  todaysDate = Date.now();
 
   constructor(private readonly elementRef: ElementRef<HTMLElement>) { }
 
