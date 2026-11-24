@@ -9290,7 +9290,7 @@ __metadata:
     protractor: "npm:~7.0.0"
     pug: "npm:3.0.3"
     pugit: "npm:5.0.2"
-    rpx-xui-translation: "npm:^1.2.0"
+    rpx-xui-translation: "npm:1.2.20-angular-22-upgrade"
     rxjs: "npm:~7.8.2"
     rxjs-compat: "npm:^6.5.2"
     sass: "npm:^1.64.1"
@@ -11006,10 +11006,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dexie@npm:^3.2.2":
-  version: 3.2.7
-  resolution: "dexie@npm:3.2.7"
-  checksum: 10/e70dae162b1589ff02b98810d1cdc157be0e0f66710be28ab2477db4ccd5cc7364f8c681e3f21883c3835ea800f8100ec975b015fa3ac6cdcb5686d187b31043
+"dexie@npm:^4.4.4":
+  version: 4.4.7
+  resolution: "dexie@npm:4.4.7"
+  checksum: 10/e721f2e4979cd530c75dd4430cde8ca05213a6ca2b2b473e465d3935eddaca7c545a0c253749f2b3a4e2272489b18da2ad0e6457d5c84c62cf4423f5acf28f61
   languageName: node
   linkType: hard
 
@@ -16941,7 +16941,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^2.4.0":
+"luxon@npm:^2.5.2":
   version: 2.5.2
   resolution: "luxon@npm:2.5.2"
   checksum: 10/9090506a702dac0edefbe87ad29836a842721b2ae255974b410ca705766502173b773ddfd1c918b2e19041679e2659b811d23085f8b23e28be54f063e6c1237a
@@ -21390,17 +21390,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rpx-xui-translation@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "rpx-xui-translation@npm:1.2.0"
+"rpx-xui-translation@npm:1.2.20-angular-22-upgrade":
+  version: 1.2.20-angular-22-upgrade
+  resolution: "rpx-xui-translation@npm:1.2.20-angular-22-upgrade"
   dependencies:
-    dexie: "npm:^3.2.2"
-    luxon: "npm:^2.4.0"
+    dexie: "npm:^4.4.4"
+    luxon: "npm:^2.5.2"
     tslib: "npm:^2.0.0"
   peerDependencies:
-    "@angular/common": ^20.3.1
-    "@angular/core": ^20.3.1
-  checksum: 10/5eea929cc08f8d089adc64790201fbb24c248c29e8a9fcc5d35eac70c0e9f47bce211dec291eddfece69a8ba0ee5ffbcac3a3e1fb749a316a47f3b6fed48e7ec
+    "@angular/common": ^22.2.6
+    "@angular/core": ^22.2.6
+    rxjs: ^7.8.0
+  checksum: 10/68928817200cfbd8a8d847667b8fef2423282dcf11fd036a5c3c6f9272eabb354b70117c24f5891173996345b7ec93b5f589d75ce96fb66462df93dba397ef6a
   languageName: node
   linkType: hard
 

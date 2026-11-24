@@ -44,7 +44,9 @@ To run only the Angular suites, use `yarn test:angular`. Chrome must be installe
 
 The application and both bundled libraries use Angular 22. The bundled libraries' production packages use partial compilation.
 
-The published `@hmcts/ccpay-web-component@6.5.28` and `rpx-xui-translation` packages still declare Angular 20 peer dependencies. Their latest published releases do not yet declare Angular 22 support, so Yarn reports peer dependency warnings. The upgraded payment component is available in the sibling `ccpay-web-component` repository; publish that upgrade and update this application's package version when releasing the two repositories together.
+The translation package is pinned to the Angular 22 prerelease `rpx-xui-translation@1.2.20-angular-22-upgrade`.
+
+The published `@hmcts/ccpay-web-component@6.5.28` still declares Angular 20 peer dependencies, so Yarn reports compatibility warnings for that package. The upgraded payment component is available in the sibling `ccpay-web-component` repository; publish that upgrade and update this application's package version when releasing the two repositories together.
 
 ## View payment - Web Component
 

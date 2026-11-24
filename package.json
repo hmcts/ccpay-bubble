@@ -92,7 +92,7 @@
     "pa11y-reporter-html": "^1.0.0",
     "prismjs": "~1.30.0",
     "pug": "3.0.3",
-    "rpx-xui-translation": "^1.2.0",
+    "rpx-xui-translation": "1.2.20-angular-22-upgrade",
     "rxjs": "~7.8.2",
     "rxjs-compat": "^6.5.2",
     "superagent": "10.3.0",
