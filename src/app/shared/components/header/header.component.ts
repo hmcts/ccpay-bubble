@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -6,12 +6,6 @@ import { Component, OnInit, Input } from '@angular/core';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
-  @Input() isBSFlagEnable: boolean;
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class HeaderComponent {
+  readonly todaysDate = Date.now();
 }

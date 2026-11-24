@@ -1,5 +1,5 @@
-import { Component, OnInit , Input} from '@angular/core';
-import { WindowUtil } from 'src/app/services/window-util/window-util';
+import { AfterViewInit, Component, ElementRef, Input } from '@angular/core';
+import { createAll, ServiceNavigation } from 'govuk-frontend';
 
 @Component({
   selector: 'app-navigation',
@@ -7,14 +7,17 @@ import { WindowUtil } from 'src/app/services/window-util/window-util';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss']
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent implements AfterViewInit {
   @Input() isBulkscanningEnable: boolean;
-  todaysDate = Date.now();
-  showMVP = true;
 
-  constructor(private windowUtil: WindowUtil) { }
+  constructor(private readonly elementRef: ElementRef<HTMLElement>) { }
 
-  ngOnInit() {
-    this.showMVP = this.windowUtil.displayMVP();
+  ngAfterViewInit() {
+    createAll(ServiceNavigation, undefined, {
+      scope: this.elementRef.nativeElement,
+      onError(error) {
+        throw error;
+      }
+    });
   }
 }

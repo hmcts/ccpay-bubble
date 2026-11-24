@@ -1,12 +1,12 @@
-<table class="table" style="margin-bottom: 20px">
+<table class="govuk-table" style="margin-bottom: 20px">
   <tbody>
     <tr *ngIf="statusHistory.status">
-      <td class="bold" width="330px">Status</td>
-      <td>{{ statusHistory.status }}</td>
+      <th class="govuk-table__header" scope="row" width="330px">Status</th>
+      <td class="govuk-table__cell">{{ statusHistory.status }}</td>
     </tr>
     <tr *ngIf="statusHistory.date_created">
-      <td class="bold" width="330px">Date created</td>
-      <td>{{ statusHistory.date_created | date:'dd MMM yyyy hh:mm:ss' }}</td>
+      <th class="govuk-table__header" scope="row" width="330px">Date created</th>
+      <td class="govuk-table__cell">{{ statusHistory.date_created | date:'dd MMM yyyy hh:mm:ss' }}</td>
     </tr>
   </tbody>
 </table>

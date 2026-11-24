@@ -45,24 +45,23 @@ Scenario('Payment Failure for chargeback SR status Partially Paid',
 
     const paymentDetails = await apiUtils.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
-    const paymentRefResult = `${paymentDetails.paymentReference}`;
+    const paymentReference = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
-    console.log('**** The value of the paymentReference - ' + paymentRefResult);
-    const requestBody = await apiUtils.getPaymentDetailsPBA(ccdCaseNumber, paymentRefResult);
+    const requestBody = await apiUtils.getPaymentDetailsPBA(ccdCaseNumber, paymentReference);
     console.log("the payment rc ref and date and failure ref are - "
-      + paymentRefResult[0] + 'and' + paymentRefResult[2] + 'and' + paymentRefResult[1]);
+      + requestBody[0] + 'and' + requestBody[2] + 'and' + requestBody[1]);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.twentySecondWaitTime);
-    await CaseTransaction.verifyDisputedPaymentHistory(paymentRefResult[0], paymentRefResult[2]);
+    await CaseTransaction.verifyDisputedPaymentHistory(requestBody[0], requestBody[2]);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await FailureEventDetails.verifyFailureDetailsPage(paymentRefResult[0],
-      paymentRefResult[1], paymentRefResult[2]);
+    await FailureEventDetails.verifyFailureDetailsPage(requestBody[0],
+      requestBody[1], requestBody[2]);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     await CaseTransaction.verifyDisputedPaymentHistoryInitiated();
     I.wait(CCPBATConstants.fiveSecondWaitTime);
-    await FailureEventDetails.verifyFailureDetailsPageForInitiatedEvent(paymentRefResult[0],
-      paymentRefResult[1], paymentRefResult[2]);
+    await FailureEventDetails.verifyFailureDetailsPageForInitiatedEvent(requestBody[0],
+      requestBody[1], requestBody[2]);
   }).tag('@pipeline @nightly');
 
 Scenario('Payment Failure for chargeback SR status Not Paid',
@@ -70,16 +69,15 @@ Scenario('Payment Failure for chargeback SR status Not Paid',
 
     const paymentDetails = await apiUtils.createAPBAPayment(215, 'FEE0226', '3', 1);
     const ccdCaseNumber = `${paymentDetails.ccdCaseNumber}`;
-    const paymentRefResult = `${paymentDetails.paymentReference}`;
+    const paymentReference = `${paymentDetails.paymentReference}`;
     console.log('**** The value of the ccdCaseNumber - ' + ccdCaseNumber);
-    console.log('**** The value of the paymentReference - ' + paymentRefResult);
-    const requestBody = await apiUtils.getPaymentDetailsPBAForChargebackEvent(ccdCaseNumber, paymentRefResult);
+    const requestBody = await apiUtils.getPaymentDetailsPBAForChargebackEvent(ccdCaseNumber, paymentReference);
     console.log("the payment rc ref and date and failure ref are - "
-      + paymentRefResult[0] + 'and' + paymentRefResult[2] + 'and' + paymentRefResult[1]);
+      + requestBody[0] + 'and' + requestBody[2] + 'and' + requestBody[1]);
     await I.login(testConfig.TestRefundsRequestorUserName, testConfig.TestRefundsRequestorPassword);
     await miscUtils.multipleSearch(CaseSearch, I, ccdCaseNumber);
     I.wait(CCPBATConstants.twentySecondWaitTime);
-    await CaseTransaction.verifyDisputedPaymentHistoryEvent(paymentRefResult[0], paymentRefResult[2]);
+    await CaseTransaction.verifyDisputedPaymentHistoryEvent(requestBody[0], requestBody[2]);
     I.wait(CCPBATConstants.fiveSecondWaitTime);
     I.Logout();
   }).tag('@pipeline @nightly');

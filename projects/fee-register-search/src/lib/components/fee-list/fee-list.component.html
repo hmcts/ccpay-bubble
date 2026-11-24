@@ -1,18 +1,18 @@
-<table *ngIf="(fees | filterFees: searchFilter: jurisdictionsFilter).length >= 1">
-  <thead>
-    <tr>
-      <th>Jurisdiction 2</th>
-      <th>Fee Code</th>
-      <th>Description</th>
-      <th>Amount</th>
-      <th class="hide">Actions</th>
+<table class="govuk-table" *ngIf="(fees | filterFees: searchFilter: jurisdictionsFilter).length >= 1">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header" scope="col">Jurisdiction 2</th>
+      <th class="govuk-table__header" scope="col">Fee Code</th>
+      <th class="govuk-table__header" scope="col">Description</th>
+      <th class="govuk-table__header" scope="col">Amount</th>
+      <th class="govuk-table__header hide" scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let fee of fees | filterFees: searchFilter: jurisdictionsFilter | paginate: { itemsPerPage: 15, currentPage: p }">
-      <td>{{ capitalise(fee.jurisdiction2.name)}}</td>
-      <td>{{ fee.code }}</td>
-      <td>
+    <tr class="govuk-table__row" *ngFor="let fee of fees | filterFees: searchFilter: jurisdictionsFilter | paginate: { itemsPerPage: 15, currentPage: p }">
+      <td class="govuk-table__cell">{{ capitalise(fee.jurisdiction2.name)}}</td>
+      <td class="govuk-table__cell">{{ fee.code }}</td>
+      <td class="govuk-table__cell">
 
         <span *ngIf="!fee.current_version?.description || fee.current_version?.description === ''">
            {{fee?.discontinued_list[fee?.discontinued_list.length-1]?.description}}
@@ -21,7 +21,7 @@
           {{ fee.current_version?.description }}
        </span>
       </td>
-      <td class="fee-current-version-amount-field">
+      <td class="govuk-table__cell fee-current-version-amount-field">
         <span class="fee-current-version-amount" *ngIf="fee.current_version?.flat_amount?.amount">
         £{{ fee.current_version?.flat_amount?.amount | number:'.2' }}
         </span>
@@ -64,7 +64,7 @@
           </span>
         </span>
       </td>
-      <td><a (click)="selectFee(fee)">Select</a></td>
+      <td class="govuk-table__cell"><button class="govuk-link govuk-!-font-size-19 fee-select-link" type="button" (click)="selectFee(fee)">Select</button></td>
     </tr>
   </tbody>
 </table>

@@ -94,6 +94,8 @@ withPipeline("nodejs", product, component) {
   afterAlways('functionalTest:preview') {
     env.E2E_TESTS_FOR_ACCESSIBILITY = false
 
+    yarnBuilder.yarn('test:functional:report')
+
     publishHTML target: [
       allowMissing         : true,
       alwaysLinkToLastBuild: true,
@@ -110,6 +112,8 @@ withPipeline("nodejs", product, component) {
 
   afterAlways('functionalTest:aat') {
     env.E2E_TESTS_FOR_ACCESSIBILITY = false
+
+    yarnBuilder.yarn('test:functional:report')
 
     publishHTML target: [
       allowMissing         : true,
